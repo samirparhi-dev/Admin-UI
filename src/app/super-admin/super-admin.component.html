@@ -1,0 +1,53 @@
+<div class="col-xs-12 col-sm-12 b-t-2-w">
+    <div class="panel-body card p-a-0 bg-white ">
+        <div class="container-fluid p-a-0 overflow-y" style="height: 550px">
+            <div class=" b-t-2-w">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 ">
+                            <nav class="navbar navbar-default">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                                    </div>
+                                    <div id="navbar" class="navbar-collapse collapse">
+                                        <ul class="nav navbar-nav">
+                                            <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities<span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li style="cursor: pointer" (click)='show("1")'><a>Provider On Board</a></li>
+                                                    <li style="cursor: pointer" (click)='show("2")'><a>Block Provider</a></li>
+                                                    <li style="cursor: pointer" (click)='show("3")'><a>Call Gender Master</a></li>
+                                                    <li style="cursor: pointer" (click)='show("4")'><a>Qualification Master</a></li>
+                                                    <li style="cursor: pointer" (click)='show("5")'><a>Caste Master</a></li>
+                                                    <li style="cursor: pointer" (click)='show("6")'><a>Religion Master</a></li>
+                                                    <li style="cursor: pointer" (click)='show("7")'><a>State Master</a></li>
+                                                </ul>
+                                            </li>
+                                            <li style="cursor: pointer" (click)='show("8")'><a>Reports</a></li>
+                                            <li style="cursor: pointer" (click)='show("9")'><a>Configurations</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
+                            <div>
+                                <app-provider-on-board *ngSwitchCase="1"></app-provider-on-board>
+                                <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
+                                <app-create-gender *ngSwitchCase="3">three</app-create-gender>
+                                <app-create-qualification *ngSwitchCase="4">four</app-create-qualification>
+                                <app-create-caste *ngSwitchCase="5">five</app-create-caste>
+                                <app-create-religion *ngSwitchCase="6">six</app-create-religion>
+                                <app-create-state *ngSwitchCase="7">seven</app-create-state>
+                                <p *ngSwitchCase="8">eight</p>
+                                <p *ngSwitchCase="9">nine</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
