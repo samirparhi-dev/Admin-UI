@@ -113,6 +113,7 @@ import { CreateQualificationComponent } from './create-qualification/create-qual
 import { CreateCasteComponent } from './create-caste/create-caste.component';
 import { CreateReligionComponent } from './create-religion/create-religion.component';
 import { CreateStateComponent } from './create-state/create-state.component';
+import { NewServiceProviderSetupComponent } from './new-service-provider-setup/new-service-provider-setup.component';
 
 
 
@@ -133,7 +134,7 @@ import { CreateStateComponent } from './create-state/create-state.component';
     AdminUserComponent, AdminLanguageMasterComponent, AdminRoleMasterComponent,
     AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent,SetPasswordComponent, ProviderOnBoardComponent,
-    BlockServiceProviderComponent,AdminStateServiceComponent, CreateGenderComponent, CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent, CreateStateComponent
+    BlockServiceProviderComponent,AdminStateServiceComponent, CreateGenderComponent, CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent, CreateStateComponent, NewServiceProviderSetupComponent
   ],
   imports: [
     BrowserModule,
@@ -153,9 +154,13 @@ import { CreateStateComponent } from './create-state/create-state.component';
     MdButtonModule,
     RouterModule.forRoot( [
       {
-        path: 'resetPassword',
-        component: ResetComponent
+      path: 'NSPSC',
+    component: NewServiceProviderSetupComponent
       },
+    {
+      path: 'resetPassword',
+      component: ResetComponent
+    },
       {
         path: 'loginContentClass',
         component: loginContentClass
