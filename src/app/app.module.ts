@@ -1,32 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import
-{
-  MaterialModule,
-  MdMenuModule,
-} from '@angular/material';
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { MdDatepickerModule } from '@angular/material';
-import { MdInputModule } from '@angular/material';
-import { MdNativeDateModule } from '@angular/material';
-import {MdTooltipModule} from '@angular/material';
+import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
+  MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdRadioModule} from '@angular/material';
-import {MdSelectModule} from '@angular/material';
-import {MdButtonModule} from '@angular/material';
-
-
-
-
-
-
-
 
 
 import { AppComponent } from './app.component';
@@ -34,55 +16,33 @@ import { AppComponent } from './app.component';
 import { loginContentClass } from './login/login.component';
 import { ResetComponent } from './resetPassword/resetPassword.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { SetSecurityQuestionsComponent } from './set-security-questions/set-security-questions.component';
+// directives
 import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
-
-
-// dashboard components
-import { dashboardContentClass } from './dashboard/dashboard.component';
-
-import { DashboardRowHeaderComponent } from './dashboard-row-header/dashboardRowHeader.component';
-import { DashboardNavigationComponent } from './dashboard-navigation/dashboardNavigation.component';
-import { DashboardUserIdComponent } from './dashboard-user-id/dashboardUserId.component';
-import { ActivityThisWeekComponent } from './activity-this-week/activity-this-week.component';
-import { AlertsNotificationComponent } from './alerts-notifications/alerts-notifications.component';
-import { DailyTasksComponent } from './daily-tasks/daily-tasks.component';
-import { NewsInformationsComponent } from './news-informations/news-informations.component';
-import { RatingComponent } from './rating/rating.component';
-import { WeatherWarningsComponent } from './weather-warnings/weather-warnings.component';
-
 // multi role screen component
 import { MultiRoleScreenComponent } from './multi-role-screen/multi-role-screen.component';
-
-// innerpage components
-import { InnerpageComponent } from './innerpage/innerpage.component';
-
-
-import { CoCounsellingServicesComponent } from './co-counselling-services/co-counselling-services.component';
-import { CoFeedbackServicesComponent } from './co-feedback-services/co-feedback-services.component';
-import { CoInformationServicesComponent } from './co-information-services/co-information-services.component';
-import { CoReferralServicesComponent } from './co-referral-services/co-referral-services.component';
-import { BeneficiaryRegistrationComponent } from './beneficiary-registration/beneficiary-registration.component';
 import { ServiceRoleSelectionComponent } from './service-role-selection/service-role-selection.component';
-import { CoServicesComponent } from './co-services/co-services.component';
-import { UpdatesFromBeneficiaryComponent } from './updates-from-beneficiary/updates-from-beneficiary.component';
-import { ClosureComponent } from './closure/closure.component';
-import { SetSecurityQuestionsComponent } from './set-security-questions/set-security-questions.component';
-
-
-// material modules  
-
 // admin components
 import { SuperAdminComponent } from './super-admin/super-admin.component'
 import { AdminServiceProviderComponent } from './admin-service-provider/admin-service-provider.component';
-import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminLanguageMasterComponent } from './admin-language-master/admin-language-master.component';
 import { AdminRoleMasterComponent } from './admin-role-master/admin-role-master.component';
 import { AdminServiceMasterComponent } from './admin-service-master/admin-service-master.component';
 import { AdminScreenMasterComponent } from './admin-screen-master/admin-screen-master.component';
 import { AdminStateServiceComponent } from './admin-state-service/admin-state-service.component';
+import { ProviderOnBoardComponent } from './provider-on-board/provider-on-board.component';
+import { BlockServiceProviderComponent } from './block-service-provider/block-service-provider.component';
+import { CreateGenderComponent } from './create-gender/create-gender.component';
+import { CreateQualificationComponent } from './create-qualification/create-qualification.component';
+import { CreateCasteComponent } from './create-caste/create-caste.component';
+import { CreateReligionComponent } from './create-religion/create-religion.component';
+import { CreateStateComponent } from './create-state/create-state.component';
+import { NewServiceProviderSetupComponent } from './new-service-provider-setup/new-service-provider-setup.component';
+import { ProviderAdminRoleMasterComponent } from './provider-admin-role-master/provider-admin-role-master.component';
+
 // services
 import { loginService } from './services/loginService/login.service';
 import { RegisterService } from './services/register-services/register-service';
@@ -104,37 +64,18 @@ import { UpdateService } from "./services/update-services/update-service";
 import { CallServices } from "./services/callservices/callservice.service";
 import { ConfigService } from "./services/config/config.service";
 import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/Stateservice.service";
-
-
-import { ProviderOnBoardComponent } from './provider-on-board/provider-on-board.component';
-import { BlockServiceProviderComponent } from './block-service-provider/block-service-provider.component';
-import { CreateGenderComponent } from './create-gender/create-gender.component';
-import { CreateQualificationComponent } from './create-qualification/create-qualification.component';
-import { CreateCasteComponent } from './create-caste/create-caste.component';
-import { CreateReligionComponent } from './create-religion/create-religion.component';
-import { CreateStateComponent } from './create-state/create-state.component';
-import { NewServiceProviderSetupComponent } from './new-service-provider-setup/new-service-provider-setup.component';
-
-
-
+import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 
 @NgModule( {
   declarations: [
-    AppComponent, dashboardContentClass, loginContentClass,
-    ResetComponent, myPassword, InnerpageComponent, MultiRoleScreenComponent,
-    DashboardRowHeaderComponent, DashboardNavigationComponent,
-    DashboardUserIdComponent, ActivityThisWeekComponent,
-    AlertsNotificationComponent, DailyTasksComponent, NewsInformationsComponent,
-    RatingComponent, WeatherWarningsComponent, AdminServiceProviderComponent,
-    myName, myMobileNumber, myEmail, CoCounsellingServicesComponent,
-    CoFeedbackServicesComponent, CoInformationServicesComponent,
-    CoReferralServicesComponent, BeneficiaryRegistrationComponent,
-    ServiceRoleSelectionComponent, CoServicesComponent, 
-    UpdatesFromBeneficiaryComponent, ClosureComponent, SuperAdminComponent,
-    AdminUserComponent, AdminLanguageMasterComponent, AdminRoleMasterComponent,
-    AdminServiceMasterComponent, AdminScreenMasterComponent,
-    SetSecurityQuestionsComponent,SetPasswordComponent, ProviderOnBoardComponent,
-    BlockServiceProviderComponent,AdminStateServiceComponent, CreateGenderComponent, CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent, CreateStateComponent, NewServiceProviderSetupComponent
+    AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
+    AdminServiceProviderComponent,myName,myMobileNumber,myEmail,
+    ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
+    AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
+    SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
+    BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
+    CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
+    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent
   ],
   imports: [
     BrowserModule,
@@ -153,10 +94,6 @@ import { NewServiceProviderSetupComponent } from './new-service-provider-setup/n
     MdSelectModule,
     MdButtonModule,
     RouterModule.forRoot( [
-      {
-      path: 'NSPSC',
-    component: NewServiceProviderSetupComponent
-      },
     {
       path: 'resetPassword',
       component: ResetComponent
@@ -164,10 +101,6 @@ import { NewServiceProviderSetupComponent } from './new-service-provider-setup/n
       {
         path: 'loginContentClass',
         component: loginContentClass
-      },
-      {
-        path: 'InnerpageComponent',
-        component: InnerpageComponent
       },
       {
         path: 'setQuestions',
@@ -180,11 +113,6 @@ import { NewServiceProviderSetupComponent } from './new-service-provider-setup/n
           {
             path: '',
             component: ServiceRoleSelectionComponent,
-            outlet: 'postLogin_router'
-          },
-          {
-            path: 'dashboard',
-            component: dashboardContentClass,
             outlet: 'postLogin_router'
           },
           {
@@ -205,10 +133,10 @@ import { NewServiceProviderSetupComponent } from './new-service-provider-setup/n
       }
     ] ) ],
   providers: [ loginService, dataService, DashboardHttpServices, SPService,
-   RegisterService,UserService, LanguageService, RoleService,
-   ServicemasterService, ScreenService, HttpServices,UserBeneficiaryData,
-   LocationService, CoReferralService, CoFeedbackService, FeedbackTypes,
-   UpdateService, CallServices, ConfigService,StateServiceMapp ],
+   RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
+   ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
+   CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
+   StateServiceMapp, SuperAdmin_ServiceProvider_Service],
   bootstrap: [ AppComponent ]
 } )
 

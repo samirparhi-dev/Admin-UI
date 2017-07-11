@@ -25,6 +25,11 @@
                                             </li>
                                             <li style="cursor: pointer" (click)='show("8")'><a>Reports</a></li>
                                             <li style="cursor: pointer" (click)='show("9")'><a>Configurations</a></li>
+                                            <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities(Provider Admin)<span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li style="cursor: pointer" (click)='show("10")'><a>Role Master</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -43,6 +48,7 @@
                                 <app-create-state *ngSwitchCase="7">seven</app-create-state>
                                 <p *ngSwitchCase="8">eight</p>
                                 <p *ngSwitchCase="9">nine</p>
+                                <app-provider-admin-role-master *ngSwitchCase="10"></app-provider-admin-role-master>
                             </div>
                         </div>
                     </div>
