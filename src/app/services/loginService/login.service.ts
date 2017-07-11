@@ -39,7 +39,8 @@ export class loginService
 		// console.log("inside extractData:"+JSON.stringify(res.json()));
 		// let body = res.json();
 		//return body.data || {};
-		return res.json();
+		console.log('response in service', res);
+		return res.json().data;
 	};
 
 	private handleError ( error: Response | any )

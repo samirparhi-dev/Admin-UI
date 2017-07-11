@@ -6,7 +6,8 @@ import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
-  MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule
+  MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
+  MdGridListModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -93,6 +94,7 @@ import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/Adm
     MdRadioModule,
     MdSelectModule,
     MdButtonModule,
+    MdGridListModule,
     RouterModule.forRoot( [
     {
       path: 'resetPassword',
