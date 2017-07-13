@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-new-service-provider-setup',
@@ -30,9 +31,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 /** --ngModels*/
 
-  constructor() { }
+  constructor() { 
+	  this.UI_Services_Array = this.ServicesInSystem;}
 
   ngOnInit() {
+
+
   }
 
   show1: boolean = true;
@@ -139,18 +143,61 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   showTable: boolean = false;
 
+  ServicesInSystem:any= [
+	  {
+		  "id": "1",
+		  "name": "104"
+	  },
+	  {
+		  "id": "2",
+		  "name": "1097"
+	  },
+	  {
+		  "id": "3",
+		  "name": "MCTS"
+	  },
+	  {
+		  "id": "4",
+		  "name": "TM"
+	  },
+	  {
+		  "id": "5",
+		  "name": "MMU"
+	  }
+	];
+  UI_Services_Array: any ;
+
   services_in_state: any = [];
-  addServicesToState(service)
+  addServicesToState(service,index)
   {
-	  
-	  if (!this.services_in_state.includes(service))
+	  console.log(service, index);
+	  if (this.services_in_state.length<1)
 	  {
 		  this.services_in_state.push(service);
+		  this.UI_Services_Array.splice(index, 1);
+		  console.log("first time insertion in array");
+	  }
+	  else
+	  {
+		  var count = 0;
+		  for (var i = 0; i < this.services_in_state.length;i++)
+		  {
+			if (this.services_in_state[i].id===service.id)
+			{
+			  count = count + 1;
+			}
+		  }
+		  if (count < 1) {
+			  this.services_in_state.push(service);
+			  this.UI_Services_Array.splice(index, 1);
+			  console.log("Subsequent time insertion in array");
+		  }
 	  }
 	 
   }
   removeServicesFromState(index)
   {
+	  this.UI_Services_Array.push(this.services_in_state[index]);
 	  this.services_in_state.splice(index, 1);
   }
 
@@ -184,9 +231,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 				this.state_service_array.push(data_obj);
 			}
 		}
-		/** if blank array enter it as it is */
+		/** if blank array, enter obj as it is */
 		else{
 			this.state_service_array.push(data_obj);
+			console.log(this.state_service_array);
 
 		}
 
@@ -197,6 +245,29 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		this.state = "";
 		this.service = "";
 		this.showTable = true;
+		
+		this.UI_Services_Array = [
+			{
+				"id": "1",
+				"name": "104"
+			},
+			{
+				"id": "2",
+				"name": "1097"
+			},
+			{
+				"id": "3",
+				"name": "MCTS"
+			},
+			{
+				"id": "4",
+				"name": "TM"
+			},
+			{
+				"id": "5",
+				"name": "MMU"
+			}
+		];
   }
   remove_from_state_service_array(index){
 	  this.state_service_array.splice(index,1);
@@ -205,6 +276,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		  this.showTable = false;
 	  }
 
+  }
+
+  resetArray()
+  {
+	  this.state_service_array = [];
   }
 
 

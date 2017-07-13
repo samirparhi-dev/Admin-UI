@@ -7,11 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProviderAdminRoleMasterComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+		this.role = "";
+		this.description = ""; }
 
   ngOnInit() {
   }
 
+	showTable: boolean = false;
+	showRoleCreationForm: boolean = false;
+
+	role: any;
+	description: any;
   searchresultarray: any = [
   {
   	"role":"RO",
@@ -22,6 +29,15 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	"description": "Medical Officer"
   }];
 
+
+  findRoles(state, service)
+  {
+		this.showTable = true;
+  }
+	setRoleFormFlag(flag)
+	{
+		this.showRoleCreationForm = flag;
+	}
 
   objs: any = [];
 
@@ -48,36 +64,38 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   add_obj(role,desc)
   {
-	var result = this.validateRole(role);
+		var result = this.validateRole(role);
   	if(result)
   	{
-		let count = 0;
-		if(this.objs.length<1)
-		{	
-			let obj = {
-				"role": role,
-				"description": desc
-			};
-			this.objs.push(obj);
-
-		}
-		else
-		{
-			for (let i = 0; i < this.objs.length; i++) {
-				if (this.objs[i].role === role) {
-					count = count + 1;
-				}
-			}
-			if(count<1)
-			{
+			let count = 0;
+			if(this.objs.length<1)
+			{	
 				let obj = {
 					"role": role,
 					"description": desc
 				};
 				this.objs.push(obj);
+
+			}
+			else
+			{
+				for (let i = 0; i < this.objs.length; i++) {
+					if (this.objs[i].role === role) {
+						count = count + 1;
+					}
+				}
+				if(count<1)
+				{
+					let obj = {
+						"role": role,
+						"description": desc
+					};
+					this.objs.push(obj);
+				}
 			}
 		}
-	}
+		this.role = "";
+		this.description = "";
   }
 
   remove_obj(index)
@@ -91,8 +109,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	  {
 		  this.searchresultarray.push(this.objs[i]);
 	  }
-	  this.objs = [];
-  	
+
+	  this.objs = []; //empty the buffer array
+		this.setRoleFormFlag(false);
   }
 
 }

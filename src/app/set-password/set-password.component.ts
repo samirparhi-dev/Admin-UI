@@ -26,7 +26,7 @@ export class SetPasswordComponent implements OnInit {
 
   updatePassword(new_pwd) {
 	  if (new_pwd === this.confirmpwd) {
-			this.http_calls.postData(" http://10.152.3.152:1040/Common/user/setForgetPassword", 
+			this.http_calls.postData(" http://10.152.3.152:1040/CommonV1/user/setForgetPassword", 
 										{ "userName": this.uname, "password": new_pwd }
 									).subscribe(
 											(response: any) => this.successCallback(response),
