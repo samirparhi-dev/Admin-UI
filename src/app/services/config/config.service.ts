@@ -14,7 +14,9 @@ export class ConfigService
     private _commonBaseURL: String = "http://10.152.3.152:1040/CommonV1/";
     private _helpline1097BaseURL: String = "http://10.152.3.152:1040/helpline1097API/";
     private _helpline104BaseURL: String = "http://10.152.3.152:1040/helpline104API/";
-    
+
+    private adminBaseUrl: String = "http://10.152.3.152:1040/adminAPI1.0/";
+       
     getCommonBaseURL ()
     {
         return this._commonBaseURL;
@@ -25,5 +27,9 @@ export class ConfigService
     }
     get104BaseURL() {
         return this._helpline104BaseURL;
+    }
+    getAdminBaseUrl()
+    {
+        return this.adminBaseUrl;
     }
 };

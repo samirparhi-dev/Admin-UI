@@ -66,6 +66,7 @@ import { CallServices } from "./services/callservices/callservice.service";
 import { ConfigService } from "./services/config/config.service";
 import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/Stateservice.service";
 import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
+import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 
 @NgModule( {
   declarations: [
@@ -139,7 +140,7 @@ import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/Adm
    RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
    ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
    CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
-   StateServiceMapp, SuperAdmin_ServiceProvider_Service],
+    StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService],
   bootstrap: [ AppComponent ]
 } )
 
