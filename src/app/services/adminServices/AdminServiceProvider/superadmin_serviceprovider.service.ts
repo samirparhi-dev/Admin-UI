@@ -6,24 +6,31 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { ConfigService } from "../../config/config.service";
+
+
 
 @Injectable()
 export class SuperAdmin_ServiceProvider_Service {
 	// _baseURL = "";
 	// _createServiceProviderURL = this._baseURL + "user/userAuthenticate/";
-	
-	constructor(
-		private _http: Http
-	) { }
+	superadmin_base_url: any;
+	service_provider_setup_url: any;
+	constructor(private _http: Http, public ConfigService: ConfigService) { 
+		this.superadmin_base_url = this.ConfigService.getSuperAdminBaseUrl();
+		this.service_provider_setup_url = this.superadmin_base_url+"providerCreationAndMapping"
+
+	}
 
 	public createServiceProvider = function(serviceProviderRequestObject) {
-		return this._http.post("", serviceProviderRequestObject)
+		return this._http.post(this.service_provider_setup_url, serviceProviderRequestObject)
 			.map(this.extractData)
 			.catch(this.handleError);
 	};
 
 	private extractData(res: Response) {
-		return res.json();
+		console.log(res, "in SA service");
+		return res.json().data;
 	};
 
 	private handleError(error: Response | any) {

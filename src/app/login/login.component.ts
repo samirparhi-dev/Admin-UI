@@ -35,7 +35,17 @@ export class loginContentClass{
 
 		if (response.isAuthenticated === true && response.Status==="Active")
 		{
-			this.router.navigate(['/MultiRoleScreenComponent']);
+			// this.router.navigate(['/MultiRoleScreenComponent']);
+			for (let i = 0; i < response.Previlege.length; i++) {
+				if (response.Previlege[i].Role.includes("ProviderAdmin")) {
+					this.router.navigate(['MultiRoleScreenComponent', { outlets: { 'postLogin_router': ['superAdmin'] } }]);
+				}
+				else
+				{
+					this.router.navigate(['/MultiRoleScreenComponent']);
+				}
+
+			}
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
 			this.router.navigate(['/setQuestions']);

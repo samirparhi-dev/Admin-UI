@@ -28,6 +28,7 @@
                                             <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities(Provider Admin)<span class="caret"></span></a>
                                                 <ul class="dropdown-menu">
                                                     <li style="cursor: pointer" (click)='show("10")'><a>Role Master</a></li>
+                                                    <li style="cursor: pointer" (click)='show("11")'><a>Employee Master</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -41,14 +42,15 @@
                             <div>
                                 <app-provider-on-board *ngSwitchCase="1"></app-provider-on-board>
                                 <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
-                                <app-create-gender *ngSwitchCase="3">three</app-create-gender>
-                                <app-create-qualification *ngSwitchCase="4">four</app-create-qualification>
-                                <app-create-caste *ngSwitchCase="5">five</app-create-caste>
-                                <app-create-religion *ngSwitchCase="6">six</app-create-religion>
-                                <app-create-state *ngSwitchCase="7">seven</app-create-state>
+                                <app-create-gender *ngSwitchCase="3"></app-create-gender>
+                                <app-create-qualification *ngSwitchCase="4"></app-create-qualification>
+                                <app-create-caste *ngSwitchCase="5"></app-create-caste>
+                                <app-create-religion *ngSwitchCase="6"></app-create-religion>
+                                <app-create-state *ngSwitchCase="7"></app-create-state>
                                 <p *ngSwitchCase="8">eight</p>
                                 <p *ngSwitchCase="9">nine</p>
                                 <app-provider-admin-role-master *ngSwitchCase="10"></app-provider-admin-role-master>
+                                <app-employee-master *ngSwitchCase="11"></app-employee-master>
                             </div>
                         </div>
                     </div>

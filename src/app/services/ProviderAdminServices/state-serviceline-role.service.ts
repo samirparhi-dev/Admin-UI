@@ -23,6 +23,8 @@ export class ProviderAdminRoleService {
 	get_Service_Url: any;
 	find_Roles_By_State_Service_Url: any;
 	create_Roles_Url: any;
+	delete_Role_Url: any;
+	edit_Role_Url: any;
 
 	constructor(private http: Http,public basepaths:ConfigService) { 
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -31,6 +33,8 @@ export class ProviderAdminRoleService {
 		this.get_Service_Url = this.admin_Base_Url + "m/role/service";
 		this.find_Roles_By_State_Service_Url = this.admin_Base_Url + "m/role/search";
 		this.create_Roles_Url = this.admin_Base_Url + "m/role/addRole";
+		this.delete_Role_Url = this.admin_Base_Url + "m/role/deleteRole";
+		this.edit_Role_Url = this.admin_Base_Url + "m/role/editRole";
 	};
 
 	getStates(serviceProviderID) {
@@ -63,9 +67,26 @@ export class ProviderAdminRoleService {
 			.catch(this.handleError);
 	}
 
+	deleteRole(roleID)
+	{
+		return this.http.post("http://10.152.3.152:1040/adminAPIV1.0/m/role/deleteRole", { "roleID": roleID })
+			.map(this.handleSuccess)
+			.catch(this.handleError);
+	}
+
+	editRole(modified_Role_Object)
+	{
+		return this.http.post("http://10.152.3.152:1040/adminAPIV1.0/m/role/editRole", modified_Role_Object)
+			.map(this.handleSuccess)
+			.catch(this.handleError);
+	}
+
 	handleSuccess(response: Response) {
-		console.log(response,"in service.ts");
-		return response.json();
+		// console.log((response.json().data).json(), "in service.ts");
+		console.log(response,"---1");
+		console.log(response.json(), "---2");
+		console.log(response.json().data, "---3");
+		return response.json().data;
 	}
 
 	handleError(error: Response | any) {

@@ -58,13 +58,13 @@
                     <md-option value="All States" (click)="resetArray()">
                         All States
                     </md-option>
-                    <md-option value="Karnataka">
+                    <md-option value="1">
                         Karnataka
                     </md-option>
-                    <md-option value="Andhra Pradesh">
+                    <md-option value="2">
                         Andhra Pradesh
                     </md-option>
-                    <md-option value="Assam">
+                    <md-option value="3">
                         Assam
                     </md-option>
                 </md-select>
@@ -81,7 +81,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
                 <md-chip-list>
-                    <md-chip *ngFor="let s of services_in_state;let i=index" color="accent" selected="true">{{s.name}}
+                    <md-chip *ngFor="let s of services_in_state;let i=index" color="accent" selected="true">{{s}}
                         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer " (click)="removeServicesFromState(i) ">cancel</md-icon>
                     </md-chip>
                 </md-chip-list>
@@ -98,9 +98,13 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let state_service of state_service_array;let i=index " style="cursor:pointer ">
-                                <td>{{state_service.state}}</td>
+                                <td>{{state_service.stateId}}</td>
                                 <!-- <td>{{state_service.services.toString()}}</td> -->
-                                <td><ul class="list-unstyled"><li *ngFor="let role of state_service.services">{{role.name}}</li></ul></td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        <li *ngFor="let service of state_service.services">{{service}}</li>
+                                    </ul>
+                                </td>
                                 <td>
                                     <md-icon class="mat-icon material-icons " role="img " aria-hidden="true " style="cursor: pointer " (click)="remove_from_state_service_array(i) ">cancel</md-icon>
                                 </td>
@@ -119,6 +123,13 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show3 ">
             <form>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
+                        <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
+                            <md-option *ngFor="let titl of titles" value="{{titl.id}}">
+                                {{titl.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
                         <md-input-container style="width: 100% ">
                             <input mdInput placeholder="First Name " [(ngModel)]="firstname " name="provider_admin_name ">
@@ -134,18 +145,36 @@
                             <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name ">
                         </md-input-container>
                     </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15 ">
+                        <md-select placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="gender">
+                            <md-option *ngFor="let gen of genders" value="{{gen.id}}">
+                                {{gen.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <md-input-container class="width100">
+                            <input mdInput [mdDatepicker]="picker" name="dob" placeholder="Date of Birth" [(ngModel)]="dob">
+                            <button mdSuffix [mdDatepickerToggle]="picker"></button>
+                        </md-input-container>
+                        <md-datepicker #picker></md-datepicker>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <md-input-container class="width100">
+                            <input mdInput [mdDatepicker]="picker1" name="doj" placeholder="Date of Joining" [(ngModel)]="doj">
+                            <button mdSuffix [mdDatepickerToggle]="picker1"></button>
+                        </md-input-container>
+                        <md-datepicker #picker1></md-datepicker>
+                    </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
                         <md-input-container style="width: 100% ">
-                            <input mdInput placeholder="Username " [(ngModel)]="username " name="username ">
+                            <input mdInput placeholder="PhoneNumber " [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
                         </md-input-container>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
-                        <md-input-container style="width: 100% ">
-                            <input mdInput placeholder="Password " [(ngModel)]="password " name="password ">
-                        </md-input-container>
-                    </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
                         <md-input-container style="width: 100% ">
                             <input mdInput placeholder="EmailID " [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID ">
@@ -153,10 +182,15 @@
                     </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
                         <md-input-container style="width: 100% ">
-                            <input mdInput placeholder="PhoneNumber " [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
+                            <input mdInput placeholder="Username " [(ngModel)]="username " name="username ">
                         </md-input-container>
                     </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+                        <md-input-container style="width: 100% ">
+                            <input mdInput placeholder="Password " [(ngModel)]="password " name="password ">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
                         <button md-raised-button (click)="finalSubmit() ">Create and Save</button>
                     </div>
                 </div>

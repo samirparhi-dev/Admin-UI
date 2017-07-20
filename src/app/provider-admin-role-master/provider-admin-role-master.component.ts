@@ -60,9 +60,42 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 		
 	}
 
+	deleteRole(roleID)
+	{
+		let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
+		if(confirmation)
+		{
+			this.ProviderAdminRoleService.deleteRole(roleID).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));	
+		}
+		
+	}
+
+	editRole(roleObj)
+	{
+		let obj = { 
+		"roleID": roleObj.roleID,
+		"roleName": "KOOOO",
+		"roleDesc": "KnockOutx4",
+		"providerServiceMapID": roleObj.providerServiceMapID,
+		"createdBy": "djbravo",
+		"createdDate": "2017-07-17T00:00:00.000Z"
+		}
+
+
+		alert(JSON.stringify(roleObj));
+		this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));
+
+	}
+
+	edit_delete_RolesSuccessHandeler(response)
+	{
+		console.log(response, "edit/delete response");
+		this.findRoles("1", "6");
+	}
+
 	successhandeler(response)
 	{
-		console.log(response,"in component.ts");
+		console.log(response.stateID,"in component.ts");
 		return response;
 	}
 
@@ -76,7 +109,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	createRolesSuccessHandeler(response) {
 		console.log(response, "in create role success in component.ts");
 		this.finalResponse = response;
-		if (this.finalResponse === "data Save SuccessFully")
+		if (this.finalResponse[0].roleID)
 		{
 			this.objs = []; //empty the buffer array
 			this.setRoleFormFlag(false);

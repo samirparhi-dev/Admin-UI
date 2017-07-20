@@ -9,6 +9,7 @@ import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
   MdGridListModule, MdCardModule
 } from '@angular/material';
+import { Md2Module } from 'md2';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -67,6 +68,8 @@ import { ConfigService } from "./services/config/config.service";
 import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/Stateservice.service";
 import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
+import { EmployeeMasterComponent } from './employee-master/employee-master.component';
+import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
 
 @NgModule( {
   declarations: [
@@ -77,7 +80,7 @@ import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state
     SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
     BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
     CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent
+    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +100,7 @@ import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state
     MdButtonModule,
     MdGridListModule,
     MdCardModule,
+    Md2Module,
     RouterModule.forRoot( [
     {
       path: 'resetPassword',
