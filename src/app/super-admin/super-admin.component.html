@@ -27,6 +27,7 @@
                                             <li style="cursor: pointer" (click)='show("9")'><a>Configurations</a></li>
                                             <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities(Provider Admin)<span class="caret"></span></a>
                                                 <ul class="dropdown-menu">
+                                                    <li style="cursor: pointer" (click)='show("12")'><a>Job Location-ServiceLine Mapping Master</a></li>
                                                     <li style="cursor: pointer" (click)='show("10")'><a>Role Master</a></li>
                                                     <li style="cursor: pointer" (click)='show("11")'><a>Employee Master</a></li>
                                                 </ul>
@@ -51,6 +52,7 @@
                                 <p *ngSwitchCase="9">nine</p>
                                 <app-provider-admin-role-master *ngSwitchCase="10"></app-provider-admin-role-master>
                                 <app-employee-master *ngSwitchCase="11"></app-employee-master>
+                                <app-location-serviceline-mapping *ngSwitchCase="12"></app-location-serviceline-mapping>
                             </div>
                         </div>
                     </div>

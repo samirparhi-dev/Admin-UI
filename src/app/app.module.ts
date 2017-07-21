@@ -70,6 +70,7 @@ import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/Adm
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 import { EmployeeMasterComponent } from './employee-master/employee-master.component';
 import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
+import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
 
 @NgModule( {
   declarations: [
@@ -80,7 +81,7 @@ import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/
     SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
     BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
     CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent
+    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent, LocationServicelineMappingComponent
   ],
   imports: [
     BrowserModule,
