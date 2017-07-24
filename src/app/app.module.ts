@@ -44,6 +44,10 @@ import { CreateReligionComponent } from './create-religion/create-religion.compo
 import { CreateStateComponent } from './create-state/create-state.component';
 import { NewServiceProviderSetupComponent } from './new-service-provider-setup/new-service-provider-setup.component';
 import { ProviderAdminRoleMasterComponent } from './provider-admin-role-master/provider-admin-role-master.component';
+import { EmployeeMasterComponent } from './employee-master/employee-master.component';
+import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
+import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
+import { ProviderAdminComponent } from './provider-admin/provider-admin.component';
 
 // services
 import { loginService } from './services/loginService/login.service';
@@ -68,84 +72,89 @@ import { ConfigService } from "./services/config/config.service";
 import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/Stateservice.service";
 import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
-import { EmployeeMasterComponent } from './employee-master/employee-master.component';
-import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
-import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
+import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
+
 
 @NgModule( {
   declarations: [
-    AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
-    AdminServiceProviderComponent,myName,myMobileNumber,myEmail,
-    ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
-    AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
-    SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
-    BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
-    CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-    CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent, LocationServicelineMappingComponent
+  AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
+  AdminServiceProviderComponent,myName,myMobileNumber,myEmail,
+  ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
+  AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
+  SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
+  BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
+  CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
+  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent, LocationServicelineMappingComponent, ProviderAdminComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    MaterialModule,
-    MdMenuModule,
-    MdDatepickerModule,
-    MdNativeDateModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    MdInputModule,
-    MdTooltipModule,
-    BrowserAnimationsModule,
-    MdRadioModule,
-    MdSelectModule,
-    MdButtonModule,
-    MdGridListModule,
-    MdCardModule,
-    Md2Module,
-    RouterModule.forRoot( [
+  BrowserModule,
+  FormsModule,
+  HttpModule,
+  MaterialModule,
+  MdMenuModule,
+  MdDatepickerModule,
+  MdNativeDateModule,
+  ReactiveFormsModule,
+  NgxPaginationModule,
+  MdInputModule,
+  MdTooltipModule,
+  BrowserAnimationsModule,
+  MdRadioModule,
+  MdSelectModule,
+  MdButtonModule,
+  MdGridListModule,
+  MdCardModule,
+  Md2Module,
+  RouterModule.forRoot( [
+  {
+    path: 'resetPassword',
+    component: ResetComponent
+  },
+  {
+    path: 'loginContentClass',
+    component: loginContentClass
+  },
+  {
+    path: 'setQuestions',
+    component: SetSecurityQuestionsComponent
+  },
+  {
+    path: 'MultiRoleScreenComponent',
+    component: MultiRoleScreenComponent,
+    children: [
     {
-      path: 'resetPassword',
-      component: ResetComponent
+      path: '',
+      component: ServiceRoleSelectionComponent,
+      outlet: 'postLogin_router'
     },
-      {
-        path: 'loginContentClass',
-        component: loginContentClass
-      },
-      {
-        path: 'setQuestions',
-        component: SetSecurityQuestionsComponent
-      },
-      {
-        path: 'MultiRoleScreenComponent',
-        component: MultiRoleScreenComponent,
-        children: [
-          {
-            path: '',
-            component: ServiceRoleSelectionComponent,
-            outlet: 'postLogin_router'
-          },
-          {
-            path: 'superAdmin',
-            component: SuperAdminComponent,
-            outlet: 'postLogin_router'
-          }
-        ]
-      },
-      {
-        path: 'setPassword',
-        component: SetPasswordComponent
-      },
-      {
-        path: '',
-        redirectTo: '/loginContentClass',
-        pathMatch: 'full'
-      }
-    ] ) ],
+    {
+      path: 'superAdmin',
+      component: SuperAdminComponent,
+      outlet: 'postLogin_router'
+    },
+    {
+      path: 'providerAdmin',
+      component: ProviderAdminComponent,
+      outlet: 'postLogin_router'
+    }
+    ]
+  },
+  {
+    path: 'setPassword',
+    component: SetPasswordComponent
+  },
+  {
+    path: '',
+    redirectTo: '/loginContentClass',
+    pathMatch: 'full'
+  }
+  ] ) ],
   providers: [ loginService, dataService, DashboardHttpServices, SPService,
-   RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
-   ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
-   CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
-    StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService],
+  RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
+  ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
+  CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
+  StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
+  LocationServicelineMapping],
   bootstrap: [ AppComponent ]
 } )
 

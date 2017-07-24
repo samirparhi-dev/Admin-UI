@@ -14,17 +14,13 @@
                     <ul class="nav navbar-nav">
                       <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                          <li style="cursor: pointer" (click)='show("1")'><a>Provider On Board</a></li>
-                          <li style="cursor: pointer" (click)='show("2")'><a>Block Provider</a></li>
-                          <li style="cursor: pointer" (click)='show("3")'><a>Call Gender Master</a></li>
-                          <li style="cursor: pointer" (click)='show("4")'><a>Qualification Master</a></li>
-                          <li style="cursor: pointer" (click)='show("5")'><a>Caste Master</a></li>
-                          <li style="cursor: pointer" (click)='show("6")'><a>Religion Master</a></li>
-                          <li style="cursor: pointer" (click)='show("7")'><a>State Master</a></li>
+                          <li style="cursor: pointer" (click)='show("1")'><a>Job Location-ServiceLine Mapping Master</a></li>
+                          <li style="cursor: pointer" (click)='show("2")'><a>Role Master</a></li>
+                          <li style="cursor: pointer" (click)='show("3")'><a>Employee Master</a></li>
                         </ul>
                       </li>
-                      <li style="cursor: pointer" (click)='show("8")'><a>Reports</a></li>
-                      <li style="cursor: pointer" (click)='show("9")'><a>Configurations</a></li>
+                      <li style="cursor: pointer" (click)='show("4")'><a>Reports</a></li>
+                      <li style="cursor: pointer" (click)='show("5")'><a>Configurations</a></li>
                     </ul>
                   </div>
                 </div>
@@ -34,15 +30,11 @@
           <div class="row">
             <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
               <div>
-                <app-provider-on-board *ngSwitchCase="1"></app-provider-on-board>
-                <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
-                <app-create-gender *ngSwitchCase="3"></app-create-gender>
-                <app-create-qualification *ngSwitchCase="4"></app-create-qualification>
-                <app-create-caste *ngSwitchCase="5"></app-create-caste>
-                <app-create-religion *ngSwitchCase="6"></app-create-religion>
-                <app-create-state *ngSwitchCase="7"></app-create-state>
-                <p *ngSwitchCase="8">Reports</p>
-                <p *ngSwitchCase="9">Configurations</p>
+                <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
+                <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
+                <app-employee-master *ngSwitchCase="3"></app-employee-master>
+                <p *ngSwitchCase="4">Reports</p>
+                <p *ngSwitchCase="5">Configurations</p>
               </div>
             </div>
           </div>
