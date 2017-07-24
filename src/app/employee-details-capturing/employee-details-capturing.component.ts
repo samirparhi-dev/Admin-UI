@@ -20,11 +20,22 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 	empID:any;
 
 	// accordian 2
+	type:any;
+	qualification:any;
+	duration:any;
+	passingYear:any;
 
-	
 	// accordian 3
 
-	constructor() { }
+// arrays
+
+	Qualifications: any;
+	languages: any;
+
+
+	constructor() {
+	this.Qualifications=[];
+	this.languages= [];	}
 
 	ngOnInit() {
 
@@ -39,5 +50,25 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 				} 
 			});
 		});
+	}
+
+	resetQualificationFields()
+	{
+		this.type="";
+		this.qualification="";
+		this.duration="";
+		this.passingYear="";
+	}
+
+	addQualification(obj)
+	{
+		this.Qualifications.push(obj);
+		this.resetQualificationFields();
+
+	}
+
+	deleteQualification(index)
+	{
+		this.Qualifications.splice(index, 1);
 	}
 }
