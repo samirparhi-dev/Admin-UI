@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateGenderComponent implements OnInit {
 
+	newGender: any;
   constructor() { }
 
   ngOnInit() {

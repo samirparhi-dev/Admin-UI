@@ -353,6 +353,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			this.show1 = true;
 			this.show2 = false;
 			this.show3 = false;
+			this.resetNGmodules();
 		}
 	}
 

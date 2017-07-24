@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateQualificationComponent implements OnInit {
 
+	newQualification: any;
   constructor() { }
 
   ngOnInit() {

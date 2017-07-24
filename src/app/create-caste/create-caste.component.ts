@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateCasteComponent implements OnInit {
 
+	newCaste: any;
   constructor() { }
 
   ngOnInit() {

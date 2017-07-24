@@ -12,6 +12,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 	serviceProviderID: any;
 
+	state: any;
+	service: any;
+	
+
 	// arrays
 	states: any;
 	services: any;

@@ -7,6 +7,22 @@ declare var jQuery:any;
 	styleUrls: ['./employee-details-capturing.component.css']
 })
 export class EmployeeDetailsCapturingComponent implements OnInit {
+// ngModels
+
+	// accordian 1
+	title:any;
+	firstname:any;
+	lastname:any;
+	gender:any;
+	dob:any;
+	phoneNo:any;
+	emailID:any;
+	empID:any;
+
+	// accordian 2
+
+	
+	// accordian 3
 
 	constructor() { }
 

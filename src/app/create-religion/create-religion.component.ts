@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateReligionComponent implements OnInit {
 
+	newReligion: any;
   constructor() { }
 
   ngOnInit() {

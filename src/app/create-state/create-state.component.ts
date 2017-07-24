@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateStateComponent implements OnInit {
 
+	newState: any;
   constructor() { }
 
   ngOnInit() {

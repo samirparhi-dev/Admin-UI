@@ -7,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationServicelineMappingComponent implements OnInit {
 
+
+  state:any;
+  district:any;
+  office_address1:any;
+  office_address2:any;
+  OfficeID:any;
+  serviceLine:any;
+
   constructor() { }
 
   ngOnInit() {

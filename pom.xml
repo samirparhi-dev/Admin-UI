@@ -8,9 +8,9 @@
     -->
 	<modelVersion>4.0.0</modelVersion>
     <groupId>com.iemr.common</groupId>
-    <artifactId>demo</artifactId>
-    <version>3.0</version>
-    <name>demo</name>
+    <artifactId>admin</artifactId>
+    <version>1.0</version>
+    <name>admin</name>
     <packaging>war</packaging>
 
     <!-- we could create individual properties similar to variables -->
