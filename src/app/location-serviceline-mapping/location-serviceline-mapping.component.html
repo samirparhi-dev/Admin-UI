@@ -1,66 +1,89 @@
 <md-card>
-    <div class="row" style="height: 400px">
+  <div class="row" style="height: 400px" *ngIf="!showTable">
     <form #f="ngForm">
-    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" *ngFor="let item of states">
-                        <md-option value="1">
-                            Karnataka
-                        </md-option>
-                        <md-option value="2">
-                            Andhra Pradesh
-                        </md-option>
-                        <md-option value="3">
-                            Assam
-                        </md-option>
-                    </md-select>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="district" name="district">
-                        <md-option value="1">
-                            District 1
-                        </md-option>
-                        <md-option value="2">
-                            District 2
-                        </md-option>
-                        <md-option value="3">
-                            District 3
-                        </md-option>
-                    </md-select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <md-input-container style="width: 100% ">
-                        <input mdInput placeholder="Office Address Line 1" [(ngModel)]="office_address1" name="office_address1">
-                    </md-input-container>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <md-input-container style="width: 100% ">
-                        <input mdInput placeholder="Office Address Line 2" [(ngModel)]="office_address2 " name="office_address2 ">
-                    </md-input-container>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <md-input-container style="width: 100% ">
-                        <input mdInput placeholder="OfficeID" [(ngModel)]="OfficeID " name="OfficeID ">
-                    </md-input-container>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-     <md2-select [(ngModel)]="serviceLine" [multiple]="true" name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'">
-                        <md2-option [value]="1">104</md2-option>
-                        <md2-option [value]="2">1097</md2-option>
-                        <md2-option [value]="3">MCTS</md2-option>
-                    </md2-select>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <button class="pull-right" md-raised-button (click)="saveVal(f.value)">SAVE</button>
-                </div>
-            </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getDistricts(serviceProviderID,state);getServiceLines(serviceProviderID,state)">
+              <md-option *ngFor="let item of states" value="{{item.stateID}}">
+                {{item.stateName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="district" name="district">
+              <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+                {{item.districtName}}
+              </md-option>
+            </md-select>
+          </div>
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-input-container style="width: 100% ">
+              <input mdInput placeholder="Office Address Line 1" [(ngModel)]="office_address1" name="office_address1">
+            </md-input-container>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-input-container style="width: 100% ">
+              <input mdInput placeholder="Office Address Line 2" [(ngModel)]="office_address2 " name="office_address2 ">
+            </md-input-container>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-input-container style="width: 100% ">
+              <input mdInput placeholder="OfficeID" [(ngModel)]="OfficeID " name="OfficeID ">
+            </md-input-container>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md2-select [(ngModel)]="serviceLine" [multiple]="true" name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'">
+              <md2-option *ngFor="let sl of servicelines" [value]="sl.serviceID">{{sl.serviceName}}</md2-option>
+            </md2-select>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+            <button class="pull-right" md-raised-button (click)="saveOfficeAddress(f.value)">SAVE</button>
+            <button md-raised-button (click)="changeTableFlag(true)">CANCEL</button>
+          </div>
+        </div>
+      </div>
     </form>
-        
+  </div>
+  <!-- table starts -->
+  <div class="row" style="height: 400px" *ngIf="showTable">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+      <table [md2Data]="workLocations" #md2="md2DataTable" class="table">
+        <thead>
+          <tr>
+            <th>Provider-Service Map ID</th>
+            <th>Provider-Service-Address Map ID</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Address</th>
+            <th>Abbreviation</th>
+            <th>CreatedBy</th>
+            <th>CreatedOn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loc of workLocations">
+            <td>{{loc.providerServiceMapID}}</td>
+            <td>{{loc.pSAddMapID}}</td>
+            <td>state not in response</td>
+            <td>{{loc.districtID}}</td>
+            <td>{{loc.address}}</td>
+            <td> abbr not in response</td>
+            <td>{{loc.createdBy}}</td>
+            <td>{{loc.createdDate}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
+            <button class="pull-right" md-raised-button (click)="changeTableFlag(false)">Add Work Location</button>
+        </div>
+    </div>
+  </div>
 </md-card>

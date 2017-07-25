@@ -24,6 +24,7 @@ import { ConfigService } from "../config/config.service";
 					getDistricts_url: any;
 					getServiceLines_url: any;
 
+					getWorkLocations_url: any;
 					add_WorkLocation_url: any;
 					edit_WorkLocation_url: any;
 					delete_WorkLocation_url: any;
@@ -36,12 +37,14 @@ import { ConfigService } from "../config/config.service";
 						this.getStates_url = this.providerAdmin_Base_Url + "m/location/state";
 						this.getDistricts_url = this.providerAdmin_Base_Url + "m/location/findDistrict";
 						this.getServiceLines_url = this.providerAdmin_Base_Url + "m/location/service";
+						this.getWorkLocations_url = this.providerAdmin_Base_Url + "m/location/getAlllocation";
 						this.add_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/addLocation";
 						this.edit_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/editLocation";
 						this.delete_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/deleteLocation";
 					};
 
 					getStates(serviceProviderID) {
+						console.log("h",serviceProviderID);
 						return this.http.post(this.getStates_url, { "serviceProviderID": serviceProviderID })
 						.map(this.handleSuccess)
 						.catch(this.handleError);
@@ -59,9 +62,16 @@ import { ConfigService } from "../config/config.service";
 						.catch(this.handleError);
 					}
 
-					addWorkLocation()
+					getWorkLocations()
 					{
-						return this.http.post("", {})
+						return this.http.post(this.getWorkLocations_url, {})
+							.map(this.handleSuccess)
+							.catch(this.handleError);
+					}
+
+					addWorkLocation(requestObject)
+					{
+						return this.http.post(this.add_WorkLocation_url, requestObject)
 						.map(this.handleSuccess)
 						.catch(this.handleError);
 					}
