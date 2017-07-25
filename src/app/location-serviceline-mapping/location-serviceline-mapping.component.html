@@ -67,7 +67,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let loc of workLocations">
+          <tr *ngFor="let loc of workLocations| paginate: {id:'workLocations', itemsPerPage: 8, currentPage: b}">
             <td>{{loc.providerServiceMapID}}</td>
             <td>{{loc.pSAddMapID}}</td>
             <td>state not in response</td>
@@ -77,6 +77,7 @@
             <td>{{loc.createdBy}}</td>
             <td>{{loc.createdDate}}</td>
           </tr>
+           <pagination-controls (pageChange)="b = $event" id="workLocations"></pagination-controls>
         </tbody>
       </table>
     </div>
