@@ -27,6 +27,16 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
 	// accordian 3
 
+	// accordian 4
+
+
+	// accordian 5
+	adhaarNo: any;
+
+	// accordian 6
+	username: any;
+	password: any;
+
 // arrays
 
 	Qualifications: any;

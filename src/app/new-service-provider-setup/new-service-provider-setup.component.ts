@@ -44,7 +44,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	genders: any;
 
 	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service) { 
-		this.UI_Services_Array = this.ServicesInSystem;
 		this.titles = [
 		{
 			"id":"1",
@@ -190,41 +189,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	}
 	];
 
-	UI_Services_Array: any ;
-
-	services_in_state: any = [];
-	addServicesToState(service,index)
-	{
-		console.log(service, index);
-		if (this.services_in_state.length<1)
-		{
-			this.services_in_state.push(service.id);
-			this.UI_Services_Array.splice(index, 1);
-			console.log("first time insertion in array");
-		}
-		else
-		{
-			var count = 0;
-			for (var i = 0; i < this.services_in_state.length;i++)
-			{
-				if (this.services_in_state[i]===service.id)
-				{
-					count = count + 1;
-				}
-			}
-			if (count < 1) {
-				this.services_in_state.push(service.id);
-				this.UI_Services_Array.splice(index, 1);
-				console.log("Subsequent time insertion in array");
-			}
-		}
-
-	}
-	removeServicesFromState(index)
-	{
-		this.UI_Services_Array.push(this.services_in_state[index]);
-		this.services_in_state.splice(index, 1);
-	}
+	
 
 	state_service_array: any = [];
 	add_2_state_service_array(state,services)
@@ -246,19 +211,26 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		{
 			let count = 0;
 			for (var i = 0; i < this.state_service_array.length; i++) {
-				if (this.state_service_array[i].state === state) {
+				if (this.state_service_array[i].stateId === data_obj.stateId) {
 					count = count + 1;
 				}
 			}
 			/** counter will not increase if an obj for that state is not there*/
 			if(count===0)
 			{
-				this.state_service_array.push(data_obj);
+				if (data_obj.stateId != "")
+				{
+					this.state_service_array.push(data_obj);
+				}
+				
 			}
 		}
 		/** if blank array, enter obj as it is */
 		else{
-			this.state_service_array.push(data_obj);
+			if (data_obj.stateId != "") {
+				this.state_service_array.push(data_obj);
+			}
+			
 			console.log(this.state_service_array);
 
 		}
@@ -266,33 +238,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 		/** once data is pushed in the table array..do the following */
 
-		this.services_in_state = [];
 		this.state = "";
 		this.service = "";
 		this.showTable = true;
 		
-		this.UI_Services_Array = [
-		{
-			"id": "1",
-			"name": "104"
-		},
-		{
-			"id": "2",
-			"name": "1097"
-		},
-		{
-			"id": "3",
-			"name": "MCTS"
-		},
-		{
-			"id": "4",
-			"name": "TM"
-		},
-		{
-			"id": "5",
-			"name": "MMU"
-		}
-		];
 	}
 	remove_from_state_service_array(index){
 		this.state_service_array.splice(index,1);

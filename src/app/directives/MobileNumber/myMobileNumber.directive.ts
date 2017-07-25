@@ -33,18 +33,18 @@ export class myMobileNumber {
 		var result = this.mobileNumberValidator(ev.target.value);
 		if(result==1)
 		{
-			ev.target.nextSibling.nextElementSibling.innerHTML = "Valid Number";
-			ev.target.style.border = "2px solid green";
+			// ev.target.nextSibling.nextElementSibling.innerHTML = "Valid Number";
+			// ev.target.style.border = "2px solid green";
 		}
 		if(result==0)
 		{
-			ev.target.nextSibling.nextElementSibling.innerHTML = "mobile number should be a 10 digit number";
-			ev.target.style.border = "2px solid yellow";
+			// ev.target.nextSibling.nextElementSibling.innerHTML = "mobile number should be a 10 digit number";
+			// ev.target.style.border = "2px solid yellow";
 		}
 		if(result==-1)
 		{
-			ev.target.nextSibling.nextElementSibling.innerHTML="Enter only numbers";
-			ev.target.style.border = "2px solid red";
+			// ev.target.nextSibling.nextElementSibling.innerHTML="Enter only numbers";
+			// ev.target.style.border = "2px solid red";
 		}
 		
 	}
