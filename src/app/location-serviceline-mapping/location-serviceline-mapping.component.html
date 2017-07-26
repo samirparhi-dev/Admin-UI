@@ -1,5 +1,5 @@
 <md-card>
-  <div class="row" style="height: 400px" *ngIf="!showTable">
+  <div class="row" style="height: 420px" *ngIf="!showTable">
     <form #f="ngForm">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -42,7 +42,6 @@
             </md2-select>
           </div>
           <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
             <button class="pull-right" md-raised-button (click)="saveOfficeAddress(f.value)">SAVE</button>
             <button md-raised-button (click)="changeTableFlag(true)">CANCEL</button>
           </div>
@@ -51,7 +50,7 @@
     </form>
   </div>
   <!-- table starts -->
-  <div class="row" style="height: 400px" *ngIf="showTable">
+  <div class="row" style="height: 420px" *ngIf="showTable">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
       <table [md2Data]="workLocations" #md2="md2DataTable" class="table">
         <thead>
@@ -62,29 +61,32 @@
             <th>District</th>
             <th>Address</th>
             <th>Abbreviation</th>
-            <th>CreatedBy</th>
-            <th>CreatedOn</th>
+            <th>Service Line Running</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let loc of workLocations| paginate: {id:'workLocations', itemsPerPage: 8, currentPage: b}">
-            <td>{{loc.providerServiceMapID}}</td>
+            <td>{{loc.ProviderServiceMapID}}</td>
             <td>{{loc.pSAddMapID}}</td>
-            <td>state not in response</td>
-            <td>{{loc.districtID}}</td>
-            <td>{{loc.address}}</td>
+            <td>{{loc.stateName}}</td>
+            <td>{{loc.DistrictName}}</td>
+            <td>{{loc.Address}}</td>
             <td> abbr not in response</td>
-            <td>{{loc.createdBy}}</td>
-            <td>{{loc.createdDate}}</td>
+            <td>{{loc.serviceName}}</td>
+            <td>
+             <!--  <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" >edit</md-icon> -->
+              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteWorkLocation(loc.pSAddMapID)">delete</md-icon>
+            </td>
           </tr>
-           <pagination-controls (pageChange)="b = $event" id="workLocations"></pagination-controls>
+          <pagination-controls (pageChange)="b = $event" id="workLocations"></pagination-controls>
         </tbody>
       </table>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-            <button class="pull-right" md-raised-button (click)="changeTableFlag(false)">Add Work Location</button>
-        </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
+        <button class="pull-right" md-raised-button (click)="changeTableFlag(false)">Add Work Location</button>
+      </div>
     </div>
   </div>
 </md-card>

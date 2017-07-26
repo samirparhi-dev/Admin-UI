@@ -37,26 +37,28 @@ export class loginContentClass{
 	{
 		console.log(response);
 		this.dataSettingService.Userdata = response;
-		this.dataSettingService.userPriveliges = response.Previlege;
+		this.dataSettingService.userPriveliges = response.previledge;
 		this.dataSettingService.uid = response.userID;
 		this.dataSettingService.uname=this.userID;
-		console.log("array" + response.Previlege);
+		console.log("array" + response.previledge);
 
-		if (response.isAuthenticated === true && response.Status==="Active")
+		if (response.isAuthenticated === true && response.userStatus === 2)
 		{
 			// this.router.navigate(['/MultiRoleScreenComponent']);
-			for (let i = 0; i < response.Previlege.length; i++) {
-				if (response.Previlege[i].Role.includes("ProviderAdmin")) {
-					this.router.navigate(['MultiRoleScreenComponent', { outlets: { 'postLogin_router': ['providerAdmin'] } }]);
-				}
-				else
-				{
-					this.router.navigate(['/MultiRoleScreenComponent']);
-				}
+			for (let i = 0; i < response.previledge.length; i++) {
 
+				for (let j = 0; j < response.previledge[i].roles.length;j++)
+				{
+					if (response.previledge[i].roles[j].roleName === "ProviderAdmin") {
+						this.router.navigate(['MultiRoleScreenComponent', { outlets: { 'postLogin_router': ['providerAdmin'] } }]);
+					}
+					else {
+						this.router.navigate(['/MultiRoleScreenComponent']);
+					}
+				}
 			}
 		}
-		if (response.isAuthenticated === true && response.Status === "New") {
+		if (response.isAuthenticated === true && response.userStatus === 1) {
 			this.router.navigate(['/setQuestions']);
 		}
 	};

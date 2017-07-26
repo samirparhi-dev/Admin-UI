@@ -13,6 +13,8 @@ export class loginService
 	_baseURL = this._config.getCommonBaseURL();
 	_userAuthURL = this._baseURL + "user/userAuthenticate/";
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
+
+	newlogin = "http://10.152.3.152:1040/CommonNewV1/user/userAuthenticateNew";
 	constructor(
 		private _http: Http,
 		private _config: ConfigService
@@ -20,7 +22,7 @@ export class loginService
 
 	public authenticateUser = function ( uname: any, pwd: any )
 	{
-		return this._http.post( this._userAuthURL, { 'userName': uname, 'password': pwd } )
+		return this._http.post(this.newlogin, { 'userName': uname, 'password': pwd })
 			.map( this.extractData )
 			.catch( this.handleError );
 	};

@@ -14,6 +14,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 	state: any;
 	service: any;
+
+
+	toBeEditedRoleObj: any;
 	
 
 	// arrays
@@ -27,6 +30,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 	// flags
 	showRoleCreationForm: boolean = false;
+	setEditSubmitButton: boolean = false;
 
 	constructor(public ProviderAdminRoleService: ProviderAdminRoleService) {
 		this.role = "";
@@ -76,25 +80,37 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 	editRole(roleObj)
 	{
-		let obj = { 
-		"roleID": roleObj.roleID,
-		"roleName": "KOOOO",
-		"roleDesc": "KnockOutx4",
-		"providerServiceMapID": roleObj.providerServiceMapID,
-		"createdBy": "djbravo",
-		"createdDate": "2017-07-17T00:00:00.000Z"
+		this.setRoleFormFlag(true);
+		this.role = roleObj.roleName;
+		this.description = roleObj.roleDesc;
+		this.setEditSubmitButton = true;
+
+		this.toBeEditedRoleObj = roleObj;
+	}
+
+	saveEditChanges()
+	{
+		let obj = {
+			"roleID": this.toBeEditedRoleObj.roleID,
+			"roleName": this.role,
+			"roleDesc": this.description,
+			"providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+			"createdBy": "Diamond Khanna",
+			"createdDate": "2017-07-25T00:00:00.000Z"
 		}
 
-
-		alert(JSON.stringify(roleObj));
+		// console.log(JSON.stringify(this.toBeEditedRoleObj));
 		this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));
-
 	}
 
 	edit_delete_RolesSuccessHandeler(response)
 	{
 		console.log(response, "edit/delete response");
+		this.showRoleCreationForm=false;
+		this.setEditSubmitButton=false;
 		this.findRoles("1", "6");
+		this.role = "";
+		this.description = "";
 	}
 
 	successhandeler(response)
