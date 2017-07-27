@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
+import { dataService } from '../services/dataService/data.service';
+
 
 @Component({
   selector: 'app-provider-admin-role-master',
@@ -28,16 +30,23 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	finalResponse: any;
 
 
+	STATE_ID: any;
+	SERVICE_ID: any;
+
+
 	// flags
 	showRoleCreationForm: boolean = false;
 	setEditSubmitButton: boolean = false;
+	showAddButtonFlag: boolean = false;
 
-	constructor(public ProviderAdminRoleService: ProviderAdminRoleService) {
+	constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
+				public commonDataService: dataService) 
+	{
 		this.role = "";
 		this.description = "";
 
 		// provide service provider ID, (As of now hardcoded, but to be fetched from login response)
-		this.serviceProviderID = "1";
+		this.serviceProviderID = (commonDataService.service_providerID).toString();
 
 		// array initialization
 		this.states = [];
@@ -57,6 +66,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	}
 
 	findRoles(stateID, serviceID) {
+		this.STATE_ID = stateID;
+		this.SERVICE_ID = serviceID;
+
 		console.log(this.serviceProviderID, stateID,serviceID);
 		this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
 	
@@ -108,7 +120,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 		console.log(response, "edit/delete response");
 		this.showRoleCreationForm=false;
 		this.setEditSubmitButton=false;
-		this.findRoles("1", "6");
+		this.findRoles(this.STATE_ID, this.SERVICE_ID);
 		this.role = "";
 		this.description = "";
 	}
@@ -122,6 +134,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	fetchRoleSuccessHandeler(response)
 	{
 		console.log(response, "in fetch role success in component.ts");
+		this.showAddButtonFlag = true;
 		return response;
 
 	}
@@ -133,7 +146,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 		{
 			this.objs = []; //empty the buffer array
 			this.setRoleFormFlag(false);
-			this.findRoles("1","6");
+			this.findRoles(this.STATE_ID, this.SERVICE_ID);
 		}
 		
 	}

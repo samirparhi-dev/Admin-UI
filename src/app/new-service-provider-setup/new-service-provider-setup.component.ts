@@ -35,6 +35,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	providerAdmin_EmailID:any="";
 	providerAdmin_PhoneNumber:any="";
 
+
+	countryID: any;
+
 	/** --ngModels*/
 
 
@@ -42,6 +45,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 	titles: any;
 	genders: any;
+
+	states: any;
+	servicelines:any;
 
 	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service) { 
 		this.titles = [
@@ -63,12 +69,21 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			"name": "Female"
 		}];
 
+		this.countryID = 1;
+
 	};
 
 
 	ngOnInit() {
 
+		this.super_admin_service.getAllStates(this.countryID).subscribe((response:Response)=>this.states=this.successhandeler(response));
+		this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
+	}
 
+	successhandeler(response)
+	{
+		console.log(response, "**");
+		return response;
 	}
 
 	resetNGmodules()
@@ -166,28 +181,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 	showTable: boolean = false;
 
-	ServicesInSystem:any= [
-	{
-		"id": "1",
-		"name": "104"
-	},
-	{
-		"id": "2",
-		"name": "1097"
-	},
-	{
-		"id": "3",
-		"name": "MCTS"
-	},
-	{
-		"id": "4",
-		"name": "TM"
-	},
-	{
-		"id": "5",
-		"name": "MMU"
-	}
-	];
+	
 
 	
 
@@ -196,7 +190,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	{
 		let data_obj={
 			"stateId": state,
-			"services": services
+			"services": services.map(String)
 		}
 		/** NOTE
 		if services are already mentioned for that state in that transaction,

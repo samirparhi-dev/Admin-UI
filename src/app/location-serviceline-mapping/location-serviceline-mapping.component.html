@@ -72,11 +72,11 @@
             <td>{{loc.stateName}}</td>
             <td>{{loc.DistrictName}}</td>
             <td>{{loc.Address}}</td>
-            <td> abbr not in response</td>
+            <td> {{loc.locationName}}</td>
             <td>{{loc.serviceName}}</td>
             <td>
-             <!--  <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" >edit</md-icon> -->
-              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteWorkLocation(loc.pSAddMapID)">delete</md-icon>
+              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.Deleted" (click)="editOfficeAddress(loc)" >edit</md-icon>
+              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.Deleted" (click)="deleteOfficeAddress(loc.pSAddMapID)">delete</md-icon>
             </td>
           </tr>
           <pagination-controls (pageChange)="b = $event" id="workLocations"></pagination-controls>

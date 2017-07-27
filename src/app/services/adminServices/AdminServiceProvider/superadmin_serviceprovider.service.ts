@@ -15,11 +15,35 @@ export class SuperAdmin_ServiceProvider_Service {
 	// _baseURL = "";
 	// _createServiceProviderURL = this._baseURL + "user/userAuthenticate/";
 	superadmin_base_url: any;
+	commonbaseurl: any;
 	service_provider_setup_url: any;
-	constructor(private _http: Http, public ConfigService: ConfigService) { 
-		this.superadmin_base_url = this.ConfigService.getSuperAdminBaseUrl();
-		this.service_provider_setup_url = this.superadmin_base_url+"providerCreationAndMapping"
+	getAllStatesUrl: any;
+	getAllServiceLinesUrl: any;
+	providerAdminBaseUrl: any;
 
+	constructor(private _http: Http, public ConfigService: ConfigService)
+	 { 
+		this.superadmin_base_url = this.ConfigService.getSuperAdminBaseUrl();
+		this.providerAdminBaseUrl = this.ConfigService.getAdminBaseUrl();
+		this.commonbaseurl = this.ConfigService.getCommonBaseURL();
+
+		this.service_provider_setup_url = this.superadmin_base_url+"providerCreationAndMapping"
+		this.getAllStatesUrl = this.commonbaseurl + "location/states/";
+		this.getAllServiceLinesUrl = this.providerAdminBaseUrl + "getServiceline";
+
+	}
+
+	getAllStates(countryID:any)
+	{
+		return this._http.get(this.getAllStatesUrl + countryID)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getAllServiceLines() {
+		return this._http.post(this.getAllServiceLinesUrl,{})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
 	public createServiceProvider = function(serviceProviderRequestObject) {

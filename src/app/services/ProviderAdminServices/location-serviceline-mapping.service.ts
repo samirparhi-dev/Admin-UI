@@ -76,14 +76,14 @@ import { ConfigService } from "../config/config.service";
 						.catch(this.handleError);
 					}
 
-					editWorkLocation() {
-						return this.http.post("", {})
+					editWorkLocation(requestObject) {
+						return this.http.post(this.edit_WorkLocation_url, requestObject)
 						.map(this.handleSuccess)
 						.catch(this.handleError);
 					}
 
-					deleteWorkLocation() {
-						return this.http.post("", {})
+					deleteWorkLocation(provider_state_address_mapID) {
+						return this.http.post(this.delete_WorkLocation_url, { "pSAddMapID": provider_state_address_mapID })
 						.map(this.handleSuccess)
 						.catch(this.handleError);
 					}

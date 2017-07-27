@@ -39,6 +39,7 @@ export class loginContentClass{
 		this.dataSettingService.Userdata = response;
 		this.dataSettingService.userPriveliges = response.previledge;
 		this.dataSettingService.uid = response.userID;
+		this.dataSettingService.service_providerID = response.provider[0].providerID;
 		this.dataSettingService.uname=this.userID;
 		console.log("array" + response.previledge);
 

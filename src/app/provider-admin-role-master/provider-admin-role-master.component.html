@@ -32,7 +32,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>S.No</th>
+                            <!-- <th>S.No</th> -->
                             <th>RoleID</th>
                             <th>Role</th>
                             <th>Description</th>
@@ -41,8 +41,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let role of searchresultarray| paginate: {id:'rolesearch', itemsPerPage: 3, currentPage: b};let i=index ">
-                            <td>{{i+1}}</td>
+                        <tr *ngFor="let role of searchresultarray| paginate: {id:'rolesearch', itemsPerPage: 3, currentPage: b}">
+                            <!-- <td>{{i+1}}</td> -->
                             <td>{{role.roleID}}</td>
                             <td>{{role.roleName}}</td>
                             <td>{{role.roleDesc}}</td>
@@ -55,7 +55,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchresultarray.length>0">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchresultarray.length>=0 && showAddButtonFlag">
             <button md-raised-button (click)="setRoleFormFlag(true)">Add Roles</button>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showRoleCreationForm">
