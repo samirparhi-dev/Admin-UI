@@ -7,7 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
-  MdGridListModule, MdCardModule
+  MdGridListModule, MdCardModule, MdDialogModule,MdCheckboxModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -48,6 +48,7 @@ import { EmployeeMasterComponent } from './employee-master/employee-master.compo
 import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
 import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { ProviderAdminComponent } from './provider-admin/provider-admin.component';
+import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 
 // services
 import { loginService } from './services/loginService/login.service';
@@ -73,6 +74,7 @@ import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/
 import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
+import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
 
 
 @NgModule( {
@@ -84,8 +86,11 @@ import { LocationServicelineMapping } from "./services/ProviderAdminServices/loc
   SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
   BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent, LocationServicelineMappingComponent, ProviderAdminComponent
+  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
+  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal
   ],
+
   imports: [
   BrowserModule,
   FormsModule,
@@ -105,6 +110,8 @@ import { LocationServicelineMapping } from "./services/ProviderAdminServices/loc
   MdGridListModule,
   MdCardModule,
   Md2Module,
+  MdDialogModule,
+  MdCheckboxModule,
   RouterModule.forRoot( [
   {
     path: 'resetPassword',
@@ -149,12 +156,20 @@ import { LocationServicelineMapping } from "./services/ProviderAdminServices/loc
     pathMatch: 'full'
   }
   ] ) ],
-  providers: [ loginService, dataService, DashboardHttpServices, SPService,
+
+  providers: [ 
+  loginService, dataService, DashboardHttpServices, SPService,
   RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
   CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
   StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-  LocationServicelineMapping],
+  LocationServicelineMapping,EmployeeMasterService
+  ],
+
+  entryComponents: [ 
+    EditLocationModal
+   ],
+
   bootstrap: [ AppComponent ]
 } )
 

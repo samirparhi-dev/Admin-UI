@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
+
 declare var jQuery:any;
 
 @Component({
@@ -6,36 +8,16 @@ declare var jQuery:any;
 	templateUrl: './employee-details-capturing.component.html',
 	styleUrls: ['./employee-details-capturing.component.css']
 })
+
+
 export class EmployeeDetailsCapturingComponent implements OnInit {
+
+
 // ngModels
 
-	// accordian 1
-	title:any;
-	firstname:any;
-	lastname:any;
-	gender:any;
-	dob:any;
-	phoneNo:any;
-	emailID:any;
-	empID:any;
-
-	// accordian 2
-	type:any;
-	qualification:any;
-	duration:any;
-	passingYear:any;
-
-	// accordian 3
-
-	// accordian 4
-
-
-	// accordian 5
-	adhaarNo: any;
-
-	// accordian 6
-	username: any;
-	password: any;
+	index: any;
+	
+	
 
 // arrays
 
@@ -43,42 +25,40 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 	languages: any;
 
 
-	constructor() {
+	constructor(public EmployeeMasterService:EmployeeMasterService) {
 	this.Qualifications=[];
-	this.languages= [];	}
+	this.languages= [];
+	this.index = 0;
+
+	}
 
 	ngOnInit() {
-
-		jQuery('.accordion').each(function() {
-			jQuery(this).click(function() {
-				jQuery(this).toggleClass("active");
-				var panel = this.nextElementSibling;
-				if (panel.style.maxHeight) {
-					panel.style.maxHeight = null;
-				} else {
-					panel.style.maxHeight = panel.scrollHeight + "px";
-				} 
-			});
-		});
+		jQuery("#UD0").css("font-size", "130%");
 	}
 
-	resetQualificationFields()
+	MOVE2NEXT(value)
 	{
-		this.type="";
-		this.qualification="";
-		this.duration="";
-		this.passingYear="";
+		this.index = value;
+
+		jQuery("#UD"+value).css("font-size", "130%");
+			
+		for (let i = 0; i < 6;i++)
+		{
+			if(i===value)
+			{
+				continue;
+			}
+			else{
+
+				jQuery("#UD"+i).css("font-size", "13px");
+			}
+		}
+	
 	}
 
-	addQualification(obj)
-	{
-		this.Qualifications.push(obj);
-		this.resetQualificationFields();
+	
 
-	}
+	
 
-	deleteQualification(index)
-	{
-		this.Qualifications.splice(index, 1);
-	}
+	
 }

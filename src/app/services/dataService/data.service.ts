@@ -21,6 +21,7 @@ export class dataService
 	callData: any = {};
 
 	service_providerID: any;
+	provider_serviceMapID:any;
 };
 
 

@@ -13,6 +13,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	description: any;
 
 	serviceProviderID: any;
+	provider_service_mapID: any;
 
 	state: any;
 	service: any;
@@ -46,7 +47,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 		this.description = "";
 
 		// provide service provider ID, (As of now hardcoded, but to be fetched from login response)
-		this.serviceProviderID = (commonDataService.service_providerID).toString();
+		this.serviceProviderID = (this.commonDataService.service_providerID).toString();
 
 		// array initialization
 		this.states = [];
@@ -62,7 +63,18 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 	getServices(stateID) {
 		console.log(this.serviceProviderID,stateID);
-		this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).subscribe(response => this.services = this.successhandeler(response));
+		this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).subscribe(response => this.servicesSuccesshandeler(response));
+	}
+
+	setProviderServiceMapID(ProviderServiceMapID)
+	{
+		this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
+	}
+
+	servicesSuccesshandeler(response)
+	{
+		this.services = response;
+
 	}
 
 	findRoles(stateID, serviceID) {
@@ -174,8 +186,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 					"roleName": role,
 					"roleDesc": desc,
 					"createdBy":"diamond",
-					"createdDate":"2017-07-14",
-					"providerServiceMapID": "1"
+					"createdDate":"2017-07-28",
+					"providerServiceMapID": this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
 				};
 				this.objs.push(obj);
 
@@ -194,7 +206,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 						"roleDesc": desc,
 						"createdBy": "diamond",
 						"createdDate": new Date(),
-						"providerServiceMapID": "1"
+						"providerServiceMapID": this.commonDataService.provider_serviceMapID   //this needs to be fed dynmically!!!
 					};
 					this.objs.push(obj);
 				}

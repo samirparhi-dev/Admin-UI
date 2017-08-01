@@ -44,7 +44,6 @@ import { ConfigService } from "../config/config.service";
 					};
 
 					getStates(serviceProviderID) {
-						console.log("h",serviceProviderID);
 						return this.http.post(this.getStates_url, { "serviceProviderID": serviceProviderID })
 						.map(this.handleSuccess)
 						.catch(this.handleError);
@@ -62,9 +61,9 @@ import { ConfigService } from "../config/config.service";
 						.catch(this.handleError);
 					}
 
-					getWorkLocations()
+					getWorkLocations(reqObj)
 					{
-						return this.http.post(this.getWorkLocations_url, {})
+						return this.http.post(this.getWorkLocations_url, reqObj)
 							.map(this.handleSuccess)
 							.catch(this.handleError);
 					}

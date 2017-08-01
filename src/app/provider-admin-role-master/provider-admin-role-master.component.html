@@ -12,8 +12,8 @@
                 </md-select>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service">
-                    <md-option *ngFor="let ser of services" value="{{ser.serviceID}}">
+                <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" >
+                    <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
                         {{ser.serviceName}}
                     </md-option>
                 </md-select>
