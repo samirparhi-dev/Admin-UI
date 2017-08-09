@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 declare var jQuery: any;
 
 import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
@@ -9,6 +9,8 @@ import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/Ad
 	styleUrls: ['./new-service-provider-setup.component.css']
 })
 export class NewServiceProviderSetupComponent implements OnInit {
+	@Input() current_language: any;
+	currentlanguage: any;
 
 	/** ngModels*/
 
@@ -71,6 +73,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 		this.countryID = 1;
 
+		this.currentlanguage = {};
+
 	};
 
 
@@ -78,6 +82,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 		this.super_admin_service.getAllStates(this.countryID).subscribe((response:Response)=>this.states=this.successhandeler(response));
 		this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
+	}
+
+	ngOnChanges() {
+		this.setLanguage(this.current_language);
+	}
+
+	setLanguage(language) {
+		this.currentlanguage = language;
+		console.log(language, "language");
 	}
 
 	successhandeler(response)

@@ -16,12 +16,16 @@ export class dataService
 	uname: any;
 	benData: any;
 
+	role: any;
 
 	beneficiaryData: any = {};
 	callData: any = {};
 
 	service_providerID: any;
 	provider_serviceMapID:any;
+
+
+	currentLanguage: any;
 };
 
 

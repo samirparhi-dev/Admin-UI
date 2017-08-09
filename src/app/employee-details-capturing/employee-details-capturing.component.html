@@ -26,25 +26,30 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
-            <md-option value="1">
-              mr
+            <md-option *ngFor="let item of allTitles" value="{{item.titleID}}">
+              {{item.titleName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="First Name " [(ngModel)]="firstname " name="provider_admin_name ">
+            <input mdInput placeholder="First Name " [(ngModel)]="firstname " name="employee_firstname ">
           </md-input-container>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name ">
+            <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="employee_middlename ">
+          </md-input-container>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="employee_lastname ">
           </md-input-container>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="gender">
-            <md-option value="1">
-              male
+            <md-option *ngFor="let item of allGenders" value="{{item.genderID}}">
+              {{item.genderName}}
             </md-option>
           </md-select>
         </div>
@@ -57,7 +62,7 @@
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="mob " [(ngModel)]="phoneNo " name="mob ">
+            <input mdInput placeholder="Mobile Number " [(ngModel)]="mobileNumber " name="mobileNumber ">
           </md-input-container>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -67,10 +72,10 @@
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="EmployeeID " [(ngModel)]="empID " name="empID ">
+            <input mdInput placeholder="EmployeeID " [(ngModel)]="employeeID " name="employeeID ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(1)">Save and Next</button>
         </div>
       </div>
@@ -82,17 +87,14 @@
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Type*" [style.width]="'100%'" [(ngModel)]="type" name="type">
-            <md-option value="1">
-              Graduation
-            </md-option>
-            <md-option value="2">
-              Post Graduation
+          <md-select placeholder="Qualification Type *" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType">
+            <md-option *ngFor="let item of allQualificationTypes" value="{{item.educationID}}">
+              {{item.educationType}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Qualification*" [style.width]="'100%'" [(ngModel)]="qualification" name="qualification">
+          <md-select placeholder="Qualification *" [style.width]="'100%'" [(ngModel)]="qualification" name="qualification">
             <md-option value="1">
               Btech
             </md-option>
@@ -126,16 +128,18 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4  m-t-15">
           <md2-select [(ngModel)]="languages" [multiple]="true" name="languages" placeholder="Languages" [style.width]="'100%'">
-            <md2-option [value]="1">English</md2-option>
-            <md2-option [value]="2">Hindi</md2-option>
-            <md2-option [value]="3">Kannada</md2-option>
+            <md2-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md2-option>
           </md2-select>
         </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 m-t-15">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <md2-autocomplete [items]="allLanguages" [(ngModel)]="preferredlanguage" item-text="languageName" item-value="languageID" placeholder="preferred language" [style.width]="'100%'">
+          </md2-autocomplete>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 table-responsive" *ngIf="languages.length>0">
           <table [md2Data]="languages" #md2="md2DataTable" class="table">
             <thead>
@@ -152,7 +156,7 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
     </div>
   </md-card>
 </div>
@@ -167,44 +171,38 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <md-input-container style="width: 100% ">
-                <input mdInput placeholder="AddressLine1 " [(ngModel)]="permanentAddressLine1 " name="AddressLine1 ">
+                <input mdInput placeholder="AddressLine1 " [(ngModel)]="permanentAddressLine1 " name="permanentAddressLine1 ">
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <md-input-container style="width: 100% ">
-                <input mdInput placeholder="AddressLine2 " [(ngModel)]="permanentAddressLine2 " name="AddressLine2 ">
+                <input mdInput placeholder="AddressLine2 " [(ngModel)]="permanentAddressLine2 " name="permanentAddressLine2 ">
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
-              <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="permanentstate" name="state">
-                <md-option value="1">
-                  Karnataka
-                </md-option>
-                <md-option value="2">
-                  AP
+              <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="permanentState" name="permanentState" (change)="getDistricts(permanentState)">
+                <md-option *ngFor="let item of allStates" value="{{item.stateID}}">
+                  {{item.stateName}}
                 </md-option>
               </md-select>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="permanentdistrict" name="district">
-                <md-option value="1">
-                  Bhelgawi
-                </md-option>
-                <md-option value="2">
-                  Chittoor
+              <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="permanentDistrict" name="permanentDistrict">
+                <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+                  {{item.districtName}}
                 </md-option>
               </md-select>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
               <md-input-container style="width: 100%" myMobileNumber>
-                <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="permanentpincode " name="pincode ">
+                <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="permanentPincode " name="permanentPincode ">
               </md-input-container>
             </div>
           </div>
           <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-50">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <md-checkbox>Is the Current Address of Employee, same as the Permanent Address?</md-checkbox>
+                <md-checkbox color="primary" (change)="addressCheck($event)">Is the Current Address of Employee, same as the Permanent Address?</md-checkbox>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
                 <button md-raised-button (click)="MOVE2NEXT(4)">Save and Next</button>
@@ -217,98 +215,34 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <md-input-container style="width: 100% ">
-                <input mdInput placeholder="AddressLine1 " [(ngModel)]="currentAddressLine1 " name="AddressLine1 ">
+                <input mdInput placeholder="AddressLine1 " [(ngModel)]="currentAddressLine1 " name="currentAddressLine1 ">
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <md-input-container style="width: 100% ">
-                <input mdInput placeholder="AddressLine2 " [(ngModel)]="currentAddressLine2 " name="AddressLine2 ">
+                <input mdInput placeholder="AddressLine2 " [(ngModel)]="currentAddressLine2 " name="currentAddressLine2 ">
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
-              <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentstate" name="state">
-                <md-option value="1">
-                  Karnataka
-                </md-option>
-                <md-option value="2">
-                  AP
+              <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentState" name="currentState">
+                <md-option *ngFor="let item of allStates" value="{{item.stateID}}">
+                  {{item.stateName}}
                 </md-option>
               </md-select>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentdistrict" name="district">
-                <md-option value="1">
-                  Bhelgawi
-                </md-option>
-                <md-option value="2">
-                  Chittoor
+              <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentDistrict" name="currentDistrict">
+                <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+                  {{item.districtName}}
                 </md-option>
               </md-select>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
               <md-input-container style="width: 100%" myMobileNumber>
-                <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="currentpincode " name="pincode ">
+                <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="currentPincode " name="currentPincode ">
               </md-input-container>
             </div>
           </div>
-          <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <h5><b>Office Address</b></h5>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
-              <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officestate" name="state">
-                <md-option value="1">
-                  Karnataka
-                </md-option>
-                <md-option value="2">
-                  AP
-                </md-option>
-              </md-select>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficedistrict" name="district">
-                <md-option value="1">
-                  chitoor
-                </md-option>
-                <md-option value="2">
-                  belgawdi
-                </md-option>
-              </md-select>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="Agent's Office" [style.width]="'100%'" [(ngModel)]="agent_office" name="office">
-                <md-option value="1">
-                  BDC1
-                </md-option>
-                <md-option value="2">
-                  BDC2
-                </md-option>
-              </md-select>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline">
-                <md-option value="1">
-                  104
-                </md-option>
-                <md-option value="2">
-                  1097
-                </md-option>
-              </md-select>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <md-select placeholder="Agent's Role" [style.width]="'100%'" [(ngModel)]="agent_role" name="office">
-                <md-option value="1">
-                  HAO
-                </md-option>
-                <md-option value="2">
-                  MO
-                </md-option>
-              </md-select>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
-              <button md-raised-button class="pull-right" (click)="MOVE2NEXT(4)">Save and Next</button>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -324,27 +258,22 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officestate" name="state">
-            <md-option value="1">
-              Karnataka
-            </md-option>
-            <md-option value="2">
-              AP
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState)">
+            <md-option *ngFor="let item of serviceproviderAllStates" value="{{item.stateID}}">
+              {{item.stateName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficedistrict" name="district">
-            <md-option value="1">
-              chitoor
+          <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficeDistrict" name="district">
+            <md-option *ngFor="let item of serviceproviderDistricts" value="{{item.districtID}}">
+              {{item.districtName}}
             </md-option>
-            <md-option value="2">
-              belgawdi
-            </md-option>
+            
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Agent's Office" [style.width]="'100%'" [(ngModel)]="agent_office" name="office">
+          <md-select placeholder="Agent's Office" [style.width]="'100%'" [(ngModel)]="agent_officeName" name="agent_officeName">
             <md-option value="1">
               BDC1
             </md-option>
@@ -364,7 +293,7 @@
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
-          <md-select placeholder="Agent's Role" [style.width]="'100%'" [(ngModel)]="agent_role" name="office">
+          <md-select placeholder="Agent's Role" [style.width]="'100%'" [(ngModel)]="agent_role" name="agent_role">
             <md-option value="1">
               HAO
             </md-option>
@@ -384,12 +313,29 @@
   <md-card>
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+          <md-select placeholder="ID Type" [style.width]="'100%'" [(ngModel)]="ID_Type" name="ID_Type">
+            <md-option *ngFor="let item of allIDTypes" value="{{item.identityType}}">
+              {{item.identityType}}
+            </md-option>
+          </md-select>
+        </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Adhaar Number " [(ngModel)]="adhaarNo" name="adhaarNo ">
+            <input mdInput placeholder="Value" [(ngModel)]="ID_Value" name="ID_Value ">
           </md-input-container>
         </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 m-t-15">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+          <button md-raised-button class="pull-left" (click)="AddIDs(ID_Type,ID_Value)">Add</button>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+          <md-chip-list>
+            <md-chip color="primary" selected="true" style="cursor: pointer" *ngFor="let item of govtIDs,let i=index" style="">{{item.IDtype}}
+              <md-icon class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="RemoveID(i)">remove</md-icon>
+            </md-chip>
+          </md-chip-list>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(6)">Save and Next</button>
         </div>
       </div>
@@ -411,7 +357,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <button md-raised-button class="pull-right">Submit</button>
+          <button md-raised-button class="pull-right" (click)="createEmployee()">Submit</button>
         </div>
       </div>
     </div>

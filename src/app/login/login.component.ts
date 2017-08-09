@@ -22,8 +22,14 @@ export class loginContentClass{
 		if(userId==="SUPERADMIN" && password==="SUPERADMIN")
 		{
 			this.dataSettingService.Userdata = { "userName": "Super Admin" };
-			this.router.navigate(['MultiRoleScreenComponent', { outlets: { 'postLogin_router': ['superAdmin'] } }]);
+			this.dataSettingService.role = "SUPERADMIN";
+			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
+		// if (userId === "padmin" && password === "padmin") {
+		// 	this.dataSettingService.Userdata = { "userName": "Diamond Khanna" };
+		// 	this.dataSettingService.role = "PROVIDERADMIN";
+		// 	this.router.navigate(['/MultiRoleScreenComponent']);
+		// }
 		else
 		{
 			this.loginservice.authenticateUser(userId, password).subscribe(
@@ -51,7 +57,8 @@ export class loginContentClass{
 				for (let j = 0; j < response.previledge[i].roles.length;j++)
 				{
 					if (response.previledge[i].roles[j].roleName === "ProviderAdmin") {
-						this.router.navigate(['MultiRoleScreenComponent', { outlets: { 'postLogin_router': ['providerAdmin'] } }]);
+						this.router.navigate(['/MultiRoleScreenComponent']);
+						this.dataSettingService.role = "PROVIDERADMIN";
 					}
 					else {
 						this.router.navigate(['/MultiRoleScreenComponent']);

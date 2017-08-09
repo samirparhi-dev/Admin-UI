@@ -1,37 +1,60 @@
-<md-card *ngIf="!showAccordianFlag">
-  <div class="row" >
+<md-card *ngIf="!createEmployeeFlag">
+  <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
         <!-- blank -->
       </div>
-      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md2-autocomplete [items]="items1" item-text="role" item-value="value" [(ngModel)]="one" (change)="selected(one,two,three)" placeholder="Role">
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <!-- <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="employee_middlename ">
+          </md-input-container> -->
+          <md2-autocomplete [items]="states" item-text="stateName" item-value="stateID" [(ngModel)]="state_filter" (change)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter);getServices(state_filter)" placeholder="State">
           </md2-autocomplete>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md2-autocomplete [items]="items2" item-text="name" item-value="value" [(ngModel)]="two" (change)="selected(one,two,three)" placeholder="Employee Name">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <!-- <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="employee_middlename ">
+          </md-input-container> -->
+          <md2-autocomplete [items]="services" item-text="serviceName" item-value="serviceID" [(ngModel)]="service_filter" (change)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter);getRoles(state_filter,service_filter)" placeholder="Service Line">
           </md2-autocomplete>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md2-autocomplete [items]="items3" item-text="id" item-value="value" [(ngModel)]="three" (change)="selected(one,two,three)" placeholder="Employee ID">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <md2-autocomplete [items]="roles" item-text="roleName" item-value="roleID" [(ngModel)]="role_filter" (change)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter)" placeholder="Role">
           </md2-autocomplete>
+          <!-- <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="employee_middlename ">
+          </md-input-container> -->
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 3px">
+          <!-- <md2-autocomplete [items]="names" item-text="name" item-value="value" [(ngModel)]="employee_name_filter" (change)="selected(one,two,three)" placeholder="Employee Name">
+          </md2-autocomplete> -->
+          <md-input-container style="width: 100% ">
+          <input mdInput placeholder="Employee Name" [(ngModel)]="name_filter" name="employee_middlename" (blur)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter)">
+          </md-input-container>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 3px">
+          <!-- <md2-autocomplete [items]="items3" item-text="id" item-value="value" [(ngModel)]="three" (change)="selected(one,two,three)" placeholder="Employee ID">
+          </md2-autocomplete> -->
+          <md-input-container style="width: 100% ">
+          <input mdInput placeholder="Employee ID" [(ngModel)]="employee_id_filter" name="employee_middlename" (blur)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter)">
+          </md-input-container>
         </div>
       </div>
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
         <!-- blank -->
       </div>
     </div>
   </div>
 </md-card>
-<md-card *ngIf="!showAccordianFlag" class="m-t-10" style="height: 315px">
-  <div class="row" >
+<md-card *ngIf="!createEmployeeFlag" class="m-t-10" style="height: 315px">
+  <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
       <table [md2Data]="tableitems" #md2="md2DataTable" class="table">
         <thead>
           <tr>
-            <th md2SortBy="service">Service</th>
             <th md2SortBy="state">State</th>
+            <th md2SortBy="service">Service</th>
             <th md2SortBy="role">Role</th>
             <th md2SortBy="empName">Employee Name</th>
             <th md2SortBy="empID">Employee ID</th>
@@ -40,28 +63,28 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of tableitems| paginate: {id:'emp', itemsPerPage: 3, currentPage: b}">
-            <td>{{item.service}}</td>
-            <td>{{item.state}}</td>
-            <td>{{item.role}}</td>
-            <td>{{item.empName}}</td>
-            <td>{{item.empID}}</td>
+            <td>{{item.pSMStateName}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.roleName}}</td>
+            <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
+            <td>{{item.userID}}</td>
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
-              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">delete</md-icon>
+              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.userID)">delete</md-icon>
             </td>
           </tr>
-          <pagination-controls (pageChange)="b = $event" id="emp" *ngIf="tableitems.length>3"></pagination-controls>
+          <!-- *ngIf="tableitems.length>3" -->
+          <pagination-controls (pageChange)="b = $event" id="emp" ></pagination-controls>
         </tbody>
       </table>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-        <button md-raised-button style="width: 100%" (click)="changeFlagValue(true)">Create New Employee</button>
+        <button md-raised-button color="primary" style="width: 100%" (click)="changeFlagValue(true)">Create New Employee</button>
       </div>
     </div>
   </div>
 </md-card>
-
-<div class="row" *ngIf="showAccordianFlag">
+<div class="row" *ngIf="createEmployeeFlag">
   <app-employee-details-capturing></app-employee-details-capturing>
 </div>

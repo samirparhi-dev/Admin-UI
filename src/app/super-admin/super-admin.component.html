@@ -12,19 +12,28 @@
                   </div>
                   <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                      <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                          <li style="cursor: pointer" (click)='show("1")'><a>Provider On Board</a></li>
-                          <li style="cursor: pointer" (click)='show("2")'><a>Block Provider</a></li>
-                          <li style="cursor: pointer" (click)='show("3")'><a>Call Gender Master</a></li>
-                          <li style="cursor: pointer" (click)='show("4")'><a>Qualification Master</a></li>
-                          <li style="cursor: pointer" (click)='show("5")'><a>Caste Master</a></li>
-                          <li style="cursor: pointer" (click)='show("6")'><a>Religion Master</a></li>
-                          <li style="cursor: pointer" (click)='show("7")'><a>State Master</a></li>
+                      <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
+                      <!-- Activities -->
+                      {{currentlanguage.activities}}
+                      <span class="caret"></span></a>
+                        <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined" >
+                          <li style="cursor: pointer" (click)='show("1")' ><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
+                          <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
+                          <li style="cursor: pointer" (click)='show("3")'><a>{{currentlanguage.activity_dropdown.gender_master}}</a></li>
+                          <li style="cursor: pointer" (click)='show("4")'><a>{{currentlanguage.activity_dropdown.qualification_master}}</a></li>
+                          <li style="cursor: pointer" (click)='show("5")'><a>{{currentlanguage.activity_dropdown.caste_master}}</a></li>
+                          <li style="cursor: pointer" (click)='show("6")'><a>{{currentlanguage.activity_dropdown.religion_master}}</a></li>
+                          <li style="cursor: pointer" (click)='show("7")'><a>{{currentlanguage.activity_dropdown.state_master}}</a></li>
                         </ul>
                       </li>
-                      <li style="cursor: pointer" (click)='show("8")'><a>Reports</a></li>
-                      <li style="cursor: pointer" (click)='show("9")'><a>Configurations</a></li>
+                      <li style="cursor: pointer" (click)='show("8")'><a>
+                      {{currentlanguage.reports}}
+                      <!-- Reports -->
+                      </a></li>
+                      <li style="cursor: pointer" (click)='show("9")'><a>
+                      {{currentlanguage.configurations}}
+                      <!-- Configurations -->
+                      </a></li>
                     </ul>
                   </div>
                 </div>
@@ -34,7 +43,8 @@
           <div class="row">
             <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
               <div>
-                <app-provider-on-board *ngSwitchCase="1"></app-provider-on-board>
+                <!-- <app-provider-on-board ></app-provider-on-board> -->
+                <app-new-service-provider-setup *ngSwitchCase="1" [current_language]="currentlanguage"></app-new-service-provider-setup>
                 <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
                 <app-create-gender *ngSwitchCase="3"></app-create-gender>
                 <app-create-qualification *ngSwitchCase="4"></app-create-qualification>

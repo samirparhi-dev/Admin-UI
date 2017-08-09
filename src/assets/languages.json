@@ -1,0 +1,113 @@
+{
+	"english":{
+		"welcome":"Welcome",
+		"activities":"Activities",
+		"activity_dropdown":{
+			"provider_on_board":"Create New Provider",
+			"block_provider":"Block A Provider",
+			"gender_master":"Create New Gender",
+			"qualification_master":"Create New Qualification",
+			"caste_master":"Create New Caste",
+			"religion_master":"Create New Religion",
+			"state_master":"Create New State"
+		},
+		"provider_name":"Provider Name",
+		"valid_till":"Valid Till",
+		"contact_person":"Contact Person",
+		"contact_number":"Contact Number",
+		"emailID":"Email ID",
+		"address1":"Address 1",
+		"address2":"Address 2",
+		"reports":"Reports",
+		"configurations":"Configurations"
+	},
+	"hindi":{
+		"welcome":"स्वागत हे",
+		"activities":"क्रियाएँ",
+		"activity_dropdown":{
+			"provider_on_board":"प्रदाता बनाएं",
+			"block_provider":"ब्लॉक प्रदाता",
+			"gender_master":"नया लिंग बनाएं",
+			"qualification_master":"नई योग्यता बनाएं",
+			"caste_master":"नई जाति बनाओ",
+			"religion_master":"नया धर्म बनाएं",
+			"state_master":"नया राज्य बनाएं"
+		},
+		"provider_name":"प्रदाता का नाम",
+		"valid_till":"वैधता की तारीख",
+		"contact_person":"संपर्क करने के लिए व्यक्ति",
+		"contact_number":"संपर्क करने के लिए फोन नंबर",
+		"emailID":"ईमेल आईडी",
+		"address1":"पता 1",
+		"address2":"पता 2",
+		"reports":"रिपोर्ट",
+		"configurations":"विन्यास"
+	},
+	"punjabi":{
+		"welcome":"ਸੁਆਗਤ ਹੈ",
+		"activities":"ਗਤੀਵਿਧੀਆਂ",
+		"activity_dropdown":{
+			"provider_on_board":"प्रदाता बनाएं",
+			"block_provider":"ब्लॉक प्रदाता",
+			"gender_master":"नया लिंग बनाएं",
+			"qualification_master":"नई योग्यता बनाएं",
+			"caste_master":"नई जाति बनाओ",
+			"religion_master":"नया धर्म बनाएं",
+			"state_master":"नया राज्य बनाएं"
+		},
+		"provider_name":"ਪ੍ਰਦਾਤਾ ਦਾ ਨਾਮ",
+		"valid_till":"ਵੈਧਤਾ ਦੀ ਤਾਰੀਖ",
+		"contact_person":"ਸੰਪਰਕ ਕਰਨ ਵਾਲਾ ਵਿਅਕਤੀ",
+		"contact_number":"ਸੰਪਰਕ ਕਰਨ ਲਈ ਫ਼ੋਨ ਨੰਬਰ",
+		"emailID":"ਈਮੇਲ ਆਈ.ਡੀ.",
+		"address1":"ਪਤਾ 1",
+		"address2":"ਪਤਾ 2",
+		"reports":"ਰਿਪੋਰਟ",
+		"configurations":"ਸੰਰਚਨਾਵਾਂ"
+	},
+	"kannada":{
+		"welcome":"ಸ್ವಾಗತ",
+		"activities":"ಚಟುವಟಿಕೆಗಳು",
+		"activity_dropdown":{
+			"provider_on_board":"ಒದಗಿಸುವವರನ್ನು ರಚಿಸಿ",
+			"block_provider":"ಒದಗಿಸುವವರನ್ನು ನಿರ್ಬಂಧಿಸಿ",
+			"gender_master":"ಹೊಸ ಲಿಂಗ ರಚಿಸಿ",
+			"qualification_master":"ಹೊಸ ಅರ್ಹತೆಯನ್ನು ರಚಿಸಿ",
+			"caste_master":"ಹೊಸ ಜಾತಿಯನ್ನು ರಚಿಸಿ",
+			"religion_master":"ಹೊಸ ಧರ್ಮವನ್ನು ರಚಿಸಿ",
+			"state_master":"ಹೊಸ ರಾಜ್ಯವನ್ನು ರಚಿಸಿ"
+		},
+		"provider_name":"ಒದಗಿಸುವವರ ಹೆಸರು",
+		"valid_till":"ಮಾನ್ಯತೆಯ ದಿನಾಂಕ",
+		"contact_person":"ಸಂಪರ್ಕ ವ್ಯಕ್ತಿಯ ಹೆಸರು",
+		"contact_number":"ಸಂಪರ್ಕಿಸಲು ಫೋನ್ ಸಂಖ್ಯೆ",
+		"emailID":"ಇಮೇಲ್ ಐಡಿ",
+		"address1":"ವಿಳಾಸ 1",
+		"address2":"ವಿಳಾಸ 2",
+		"reports":"ವರದಿ",
+		"configurations":"ಸಂರಚನೆಗಳನ್ನು"
+	},
+	"telugu":{
+		"welcome":"స్వాగత",
+		"activities":"చర్యలు",
+		"activity_dropdown":{
+			"provider_on_board":"प्रदाता बनाएं",
+			"block_provider":"ब्लॉक प्रदाता",
+			"gender_master":"नया लिंग बनाएं",
+			"qualification_master":"नई योग्यता बनाएं",
+			"caste_master":"नई जाति बनाओ",
+			"religion_master":"नया धर्म बनाएं",
+			"state_master":"नया राज्य बनाएं"
+		},
+		"provider_name":"Provider Name",
+		"valid_till":"Valid Till",
+		"contact_person":"Contact Person",
+		"contact_number":"Contact Number",
+		"emailID":"Email ID",
+		"address1":"Address 1",
+		"address2":"Address 2",
+		"reports":"నివేదికలు",
+		"configurations":"ఆకృతీకరణలు"
+	}
+}
+
