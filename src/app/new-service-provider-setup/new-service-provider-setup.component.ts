@@ -291,8 +291,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			"dob": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"doj": new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"maritalStatusID": "",
-			"aadharNo": "",
-			"panNo": "",
+			"aadharNo": "778866554433",
+			"panNo": "112233112211",
 			"qualificationID": "",
 			"emrContactPersion": "",
 			"emrConctactNo": "",
@@ -322,6 +322,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		}
 	}
 
+	checkProviderNameAvailability(service_provider_name)
+	{
+		this.super_admin_service.checkProviderNameAvailability(service_provider_name).subscribe(response=>this.checkProviderNameAvailibilityHandeler(response));
+	}
+
+	checkProviderNameAvailibilityHandeler(response)
+	{
+		console.log(response,"provider name availability");
+	}
 
 	checkUsernameExists(username) {
 		this.EmployeeMasterService.checkUsernameExists(username).subscribe((response: Response) => this.checkUsernameSuccessHandeler(response));

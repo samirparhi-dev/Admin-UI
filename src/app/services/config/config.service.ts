@@ -23,7 +23,7 @@ export class ConfigService
     // private adminBaseUrl: String = "http://10.208.92.215:1040/adminAPIV1.0/";
      private adminBaseUrl: String ="http://10.152.3.99:8080/adminAPIV1.0/";
     // private superadminBaseURL: String = "http://10.208.92.215:1040/adminAPIV1.0/";
-     private superadminBaseURL: String = "http://10.152.3.99:8080/adminAPIV1.0.0/";
+     private superadminBaseURL: String = "http://10.152.3.99:8080/adminAPIV1.0/";
        
     getCommonBaseURL ()
     {

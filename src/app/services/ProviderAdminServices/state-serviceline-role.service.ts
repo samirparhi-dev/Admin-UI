@@ -26,6 +26,8 @@ export class ProviderAdminRoleService {
 	delete_Role_Url: any;
 	edit_Role_Url: any;
 
+	getFeaturesUrl:any;
+
 	constructor(private http: Http,public basepaths:ConfigService) { 
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 		console.log(this.admin_Base_Url);
@@ -35,6 +37,7 @@ export class ProviderAdminRoleService {
 		this.create_Roles_Url = this.admin_Base_Url + "m/role/addRole";
 		this.delete_Role_Url = this.admin_Base_Url + "m/role/deleteRole";
 		this.edit_Role_Url = this.admin_Base_Url + "m/role/editRole";
+		this.getFeaturesUrl=this.admin_Base_Url+"m/searchFeature";
 	};
 
 	getStates(serviceProviderID) {
@@ -48,6 +51,13 @@ export class ProviderAdminRoleService {
 													  "stateID": stateID
 													}).map(this.handleSuccess)
 													.catch(this.handleError);
+	}
+
+	getFeature(serviceProviderMapID)
+	{
+		return this.http.post(this.getFeaturesUrl, { "providerServiceMapId" :serviceProviderMapID})
+		.map(this.handleSuccess)
+		.catch(this.handleError);
 	}
 
 	getRoles(serviceProviderID, stateID,serviceID) {
@@ -83,9 +93,9 @@ export class ProviderAdminRoleService {
 
 	handleSuccess(response: Response) {
 		// console.log((response.json().data).json(), "in service.ts");
-		console.log(response,"---1");
-		console.log(response.json(), "---2");
-		console.log(response.json().data, "---3");
+		// console.log(response,"---1");
+		// console.log(response.json(), "---2");
+		console.log(response.json().data, "role service file success response");
 		return response.json().data;
 	}
 
