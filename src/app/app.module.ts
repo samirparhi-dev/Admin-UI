@@ -7,7 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
-  MdGridListModule, MdCardModule, MdDialogModule,MdCheckboxModule
+  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -49,6 +49,7 @@ import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/
 import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { ProviderAdminComponent } from './provider-admin/provider-admin.component';
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
+import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
 
 // services
 import { loginService } from './services/loginService/login.service';
@@ -88,7 +89,7 @@ import { EmployeeMasterService } from "./services/ProviderAdminServices/employee
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal
   ],
 
   imports: [
@@ -112,6 +113,7 @@ import { EmployeeMasterService } from "./services/ProviderAdminServices/employee
   Md2Module,
   MdDialogModule,
   MdCheckboxModule,
+  MdSliderModule,
   RouterModule.forRoot( [
   {
     path: 'resetPassword',
@@ -167,7 +169,8 @@ import { EmployeeMasterService } from "./services/ProviderAdminServices/employee
   ],
 
   entryComponents: [ 
-    EditLocationModal
+    EditLocationModal,
+    EditEmployeeDetailsModal
    ],
 
   bootstrap: [ AppComponent ]

@@ -69,14 +69,14 @@ export class ProviderAdminRoleService {
 
 	deleteRole(roleID)
 	{
-		return this.http.post("http://10.152.3.152:1040/adminAPIV1.0/m/role/deleteRole", { "roleID": roleID })
+		return this.http.post(this.delete_Role_Url, { "roleID": roleID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
 	editRole(modified_Role_Object)
 	{
-		return this.http.post("http://10.152.3.152:1040/adminAPIV1.0/m/role/editRole", modified_Role_Object)
+		return this.http.post(this.edit_Role_Url, modified_Role_Object)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

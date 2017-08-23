@@ -8,7 +8,7 @@
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
           <md-chip-list>
             <md-chip id="UD0" color="primary" selected="true" (click)="MOVE2NEXT(0)" style="cursor: pointer">DEMOGRAPHICS</md-chip>
-            <md-chip id="UD1" color="primary" selected="true" (click)="MOVE2NEXT(1)" style="cursor: pointer">QUALIFICATION</md-chip>
+            <md-chip id="UD1" color="primary" selected="true" (click)="MOVE2NEXT(1)" style="cursor: pointer">OTHER DETAILS</md-chip>
             <md-chip id="UD2" color="primary" selected="true" (click)="MOVE2NEXT(2)" style="cursor: pointer">LANGUAGE</md-chip>
             <md-chip id="UD3" color="primary" selected="true" (click)="MOVE2NEXT(3)" style="cursor: pointer">ADDRESS</md-chip>
             <md-chip id="UD4" color="primary" selected="true" (click)="MOVE2NEXT(4)" style="cursor: pointer">WORK PLACE</md-chip>
@@ -88,34 +88,56 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="Qualification Type *" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType">
-            <md-option *ngFor="let item of allQualificationTypes" value="{{item.educationID}}">
-              {{item.educationType}}
+            <md-option *ngFor="let item of allQualificationTypes" value="{{item.qualificationID}}">
+              {{item.name}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Father Name " [(ngModel)]="father_name " name="father_name ">
+          </md-input-container>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Mother Name " [(ngModel)]="mother_name " name="mother_name ">
+          </md-input-container>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+          <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="marital_status">
+            <md-option *ngFor="let item of marital_status_array" value="{{item.maritalStatusID}}">
+              {{item.status}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Qualification *" [style.width]="'100%'" [(ngModel)]="qualification" name="qualification">
-            <md-option value="1">
-              Btech
-            </md-option>
-            <md-option value="2">
-              Mtech
+          <md-select placeholder="Religion" [style.width]="'100%'" [(ngModel)]="religion" name="religion">
+            <!-- <md-option *ngFor="let item of allQualificationTypes" value="{{item.educationID}}">
+              {{item.educationType}}
+            </md-option> -->
+            <md-option value="1">religion1</md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+          <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community">
+            <md-option *ngFor="let item of communities" value="{{item.communityID}}">
+              {{item.communityType}}
             </md-option>
           </md-select>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container class="width100">
             <input mdInput [mdDatepicker]="picker1" name="passingYear" placeholder="Year of Passing" [(ngModel)]="passingYear">
             <button mdSuffix [mdDatepickerToggle]="picker1"></button>
           </md-input-container>
           <md-datepicker #picker1></md-datepicker>
-        </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        </div> -->
+        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input type="number" mdInput placeholder="Duration " [(ngModel)]="duration " name="duration ">
           </md-input-container>
-        </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 m-t-15">
+        </div> -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(2)">Save and Next</button>
         </div>
       </div>
@@ -127,15 +149,32 @@
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4  m-t-15">
-          <md2-select [(ngModel)]="languages" [multiple]="true" name="languages" placeholder="Languages" [style.width]="'100%'">
+          <md2-select [(ngModel)]="languages" [multiple]="true" name="languages" placeholder="Languages" [style.width]="'100%'" (change)="selected_languages=languages">
             <md2-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md2-option>
           </md2-select>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md2-autocomplete [items]="allLanguages" [(ngModel)]="preferredlanguage" item-text="languageName" item-value="languageID" placeholder="preferred language" [style.width]="'100%'">
-          </md2-autocomplete>
+        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Preffered Language" [(ngModel)]="preferredlanguage" name="preferredlanguage" disabled>
+          </md-input-container>
+        </div> -->
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" *ngFor="let l of selected_languages; let k=index" style="">
+          <!--  <md2-autocomplete [items]="allLanguages" [(ngModel)]="preferredlanguage" item-text="languageName" item-value="languageID" placeholder="preferred language" [style.width]="'100%'">
+          </md2-autocomplete> -->
+          <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4 m-t-10">
+            <label>{{allLanguages[l-1].languageName}}</label>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4 m-t-10">
+            <md-slider [max]="10" [min]="1" [step]="1" [thumb-label]="true" [(ngModel)]="dummy_allLanguages[l-1].k" (change)="updateSliderData(dummy_allLanguages[l-1].k,k)">
+            </md-slider>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <md-input-container style="width: 100% ">
+              <input mdInput #dummy [(ngModel)]="dummy_allLanguages[l-1].k" disabled>
+            </md-input-container>
+          </div>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
         </div>
       </div>
@@ -258,7 +297,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState)">
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState);getServices(officeState)">
             <md-option *ngFor="let item of serviceproviderAllStates" value="{{item.stateID}}">
               {{item.stateName}}
             </md-option>
@@ -269,38 +308,32 @@
             <md-option *ngFor="let item of serviceproviderDistricts" value="{{item.districtID}}">
               {{item.districtName}}
             </md-option>
-            
           </md-select>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Agent's Office" [style.width]="'100%'" [(ngModel)]="agent_officeName" name="agent_officeName">
-            <md-option value="1">
-              BDC1
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
+          <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline" (change)="getOffices(officeState,agent_serviceline);getRoles(officeState,agent_serviceline)">
+            <md-option *ngFor=" let service of serviceproviderAllServices " value="{{service.serviceID}}" (click)="setProviderServiceMapID(service.providerServiceMapID)">
+              {{service.serviceName}}
             </md-option>
-            <md-option value="2">
-              BDC2
+          </md-select>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15 ">
+          <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName">
+            <md-option *ngFor="let office of serviceproviderAllOfficesInState" value="{{office.pSAddMapID}}" >
+              {{office.locationName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
-          <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline">
-            <md-option value="1">
-              104
+          <!-- <md-select placeholder="Agent's Role " [style.width]=" '100%' " [(ngModel)]="agent_role " name="agent_role ">
+            <md-option *ngFor="let role of serviceproviderAllRoles " value="{{role.roleID}} ">
+              {{role.roleName}}
             </md-option>
-            <md-option value="2">
-              1097
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
-          <md-select placeholder="Agent's Role" [style.width]="'100%'" [(ngModel)]="agent_role" name="agent_role">
-            <md-option value="1">
-              HAO
-            </md-option>
-            <md-option value="2">
-              MO
-            </md-option>
-          </md-select>
+          </md-select> -->
+          <md2-select [(ngModel)]="agent_role " [multiple]="true " name="agent_role " placeholder="Agent 's Roles" [style.width]="'100% '">
+            <md2-option *ngFor="let role of serviceproviderAllRoles" value="{{role.roleID}}">
+              {{role.roleName}}</md2-option>
+          </md2-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(5)">Save and Next</button>
@@ -313,8 +346,8 @@
   <md-card>
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="ID Type" [style.width]="'100%'" [(ngModel)]="ID_Type" name="ID_Type">
+       <!--  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+          <md-select placeholder="ID Type" [style.width]="'100% '" [(ngModel)]="ID_Type" name="ID_Type">
             <md-option *ngFor="let item of allIDTypes" value="{{item.identityType}}">
               {{item.identityType}}
             </md-option>
@@ -334,6 +367,16 @@
               <md-icon class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="RemoveID(i)">remove</md-icon>
             </md-chip>
           </md-chip-list>
+        </div> -->
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Aadhaar Card Number" [(ngModel)]="adhaar_no" name="adhaar_no ">
+          </md-input-container>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="PAN Card Number" [(ngModel)]="pan_no" name="pan_no ">
+          </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(6)">Save and Next</button>
@@ -348,16 +391,24 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Username " [(ngModel)]="username" name="username ">
+            <input mdInput placeholder="Username " [(ngModel)]="username" name="username " (blur)="checkUsernameExists(username)">
           </md-input-container>
+          <md-hint *ngIf="showHint">
+          {{username_status}}
+          </md-hint>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Password " [(ngModel)]="password" name="password ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-          <button md-raised-button class="pull-right" (click)="createEmployee()">Submit</button>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <md-input-container style="width: 100% ">
+            <input mdInput placeholder="Agent ID " [(ngModel)]="agentID" name="agentID ">
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+          <button md-raised-button class="pull-right" disabled="{{username_dependent_flag}}" (click)="createEmployee()">Submit</button>
         </div>
       </div>
     </div>

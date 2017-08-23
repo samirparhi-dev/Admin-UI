@@ -41,22 +41,24 @@ export class loginContentClass{
 
 	successCallback(response:any)
 	{
+
 		console.log(response);
 		this.dataSettingService.Userdata = response;
-		this.dataSettingService.userPriveliges = response.previledge;
+		this.dataSettingService.userPriveliges = response.previlegeObj;
 		this.dataSettingService.uid = response.userID;
-		this.dataSettingService.service_providerID = response.provider[0].providerID;
+		// this.dataSettingService.service_providerID = response.provider[0].providerID;
 		this.dataSettingService.uname=this.userID;
-		console.log("array" + response.previledge);
+		console.log("array" + response.Previlege);
 
-		if (response.isAuthenticated === true && response.userStatus === 2)
+		if (response.isAuthenticated === true && response.Status === "Active")
 		{
+			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response=>this.getServiceProviderMapIDSuccessHandeler(response));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
-			for (let i = 0; i < response.previledge.length; i++) {
+			for (let i = 0; i < response.Previlege.length; i++) {
 
-				for (let j = 0; j < response.previledge[i].roles.length;j++)
+				for (let j = 0; j < response.Previlege[i].Role.length; j++)
 				{
-					if (response.previledge[i].roles[j].roleName === "ProviderAdmin") {
+					if (response.Previlege[i].Role[j] === "ProviderAdmin") {
 						this.router.navigate(['/MultiRoleScreenComponent']);
 						this.dataSettingService.role = "PROVIDERADMIN";
 					}
@@ -66,7 +68,7 @@ export class loginContentClass{
 				}
 			}
 		}
-		if (response.isAuthenticated === true && response.userStatus === 1) {
+		if (response.isAuthenticated === true && response.Status === "New") {
 			this.router.navigate(['/setQuestions']);
 		}
 	};
@@ -87,6 +89,13 @@ export class loginContentClass{
 			this.dynamictype = 'text';
 
 		}
+	}
+
+
+	getServiceProviderMapIDSuccessHandeler(response)
+	{
+		console.log("service provider map id",response);
+		this.dataSettingService.service_providerID = response.serviceProviderID;
 	}
 	
 	

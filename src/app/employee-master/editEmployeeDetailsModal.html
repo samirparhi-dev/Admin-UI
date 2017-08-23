@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <h4 class="modal-title">Edit Employee Details</h4>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <button md-button class="pull-right" [md-dialog-close]="true">
+        <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
+      </button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="First Name" [(ngModel)]="m_firstname">
+      </md-input-container>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Last Name" [(ngModel)]="m_lastname">
+      </md-input-container>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Address 1"[(ngModel)]="m_address1">
+      </md-input-container>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Address 2" [(ngModel)]="m_address2">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button md-raised-button (click)="update()" style="width: 100%">
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>

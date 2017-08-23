@@ -28,6 +28,7 @@ import { ConfigService } from "../config/config.service";
 
         // data filling helper-api urls
         getRegistrationDataUrl:any;
+        get_Service_Url: any;
 
         getAllQualificationsUrl: any;  // mbbs,btech,mtech   as of now not there/neither wanted acc to ppl
 
@@ -38,11 +39,14 @@ import { ConfigService } from "../config/config.service";
         getAllServiceLinesInWorkLocationUrl: any;
         getAllRolesInServiceLine: any;
 
+        checkUsernameUrl: any;
+
+
 
 
         // search ka samaan
         getServicesUrl:any;
-    find_Roles_Url:any;
+        find_Roles_Url:any;
 
        
 
@@ -60,9 +64,13 @@ import { ConfigService } from "../config/config.service";
           this.getRegistrationDataUrl = this.common_Base_Url + "beneficiary/getRegistrationData";
           this.getAllDistrictsInStateUrl = this.common_Base_Url + "location/districts/";
           this.getAllStatesOfServiceProviderUrl = this.providerAdmin_Base_Url + "m/location/state";
-          // this.getAllWorkLocationsInStateUrl = "";
+          this.get_Service_Url = this.providerAdmin_Base_Url + "m/role/service";
+          this.getAllQualificationsUrl = this.providerAdmin_Base_Url + "m/Qualification";
+          this.getAllWorkLocationsInStateUrl = this.providerAdmin_Base_Url + "m/location/getAlllocation";
           // this.getAllServiceLinesInWorkLocationUrl = "";
           this.getAllRolesInServiceLine = this.providerAdmin_Base_Url + "m/role/search";
+
+          this.checkUsernameUrl = this.providerAdmin_Base_Url + "m/FindEmployeeByName";
 
           // newcontent for search
           this.getServicesUrl = this.providerAdmin_Base_Url + "m/role/service";
@@ -77,6 +85,13 @@ import { ConfigService } from "../config/config.service";
             .catch(this.handleError);
         }
 
+        checkUsernameExists(username)
+        {
+          return this.http.post(this.checkUsernameUrl, {"userName": username})
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+        }
+
         getDistricts(stateID)
         {
           return this.http.get(this.getAllDistrictsInStateUrl + stateID)
@@ -84,7 +99,11 @@ import { ConfigService } from "../config/config.service";
             .catch(this.handleError);
         }
 
-
+        getQualifications() {
+      return this.http.post(this.getAllQualificationsUrl, {})
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+      }
 
         // worklocation specific
         getStatesOfServiceProvider(serviceProviderID)
@@ -94,9 +113,15 @@ import { ConfigService } from "../config/config.service";
           .catch(this.handleError);
         }
 
-        getWorkLocationsInState()
+        getServicesOfServiceProvider(serviceProviderID,stateID) {
+          return this.http.post(this.get_Service_Url, { "serviceProviderID": serviceProviderID,"stateID":stateID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+        }
+
+        getWorkLocationsInState(serviceProviderID,stateID,serviceID)
         {
-          return this.http.post(this.getAllWorkLocationsInStateUrl, { })
+          return this.http.post(this.getAllWorkLocationsInStateUrl, { "serviceProviderID": serviceProviderID, "stateID": stateID,"serviceID":serviceID})
             .map(this.handleSuccess)
             .catch(this.handleError);
         }
@@ -172,6 +197,8 @@ import { ConfigService } from "../config/config.service";
             .catch(this.handleError);
         }     
         // CRUD ends
+
+
 
         handleSuccess(response: Response) {
             console.log(response.json().data, "--- in employee master SERVICE");

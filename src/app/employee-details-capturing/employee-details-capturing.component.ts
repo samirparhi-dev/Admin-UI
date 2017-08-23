@@ -16,7 +16,12 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
 index: any;
 serviceProviderID:any;
-	countryID: any;
+providerServiceMapID: any;
+countryID: any;
+
+username_status: any;
+	showHint: boolean;
+	username_dependent_flag:boolean;
 
 /*demographics*/
 title:any;
@@ -35,18 +40,26 @@ allGenders:any=[];
 
 /*qualification*/
 qualificationType:any;
-qualification:any;
-passingYear:any;
-duration:any;
+father_name:any;
+mother_name:any;
+marital_status:any;
+religion: any;
+community: any;
+
 
 allQualificationTypes:any=[];
-allQualifications:any=[];
+communities: any = [];
+marital_status_array: any = [];
+religions:any=[];
+// allQualifications:any=[];
 
 /*language*/
 languages:any;
-preferredLanguage:any;
+// preferredlanguage: any;
 allLanguages: any=[];
-
+dummy_allLanguages: any = [];// just for visual tricks
+selected_languages: any = [];
+language_weightage: any = [];
 
 /*address*/
 permanentAddressLine1:any;
@@ -61,6 +74,8 @@ currentState:any;
 currentDistrict:any;
 currentPincode:any;
 
+isPermanent: any;
+
 allStates: any = [];
 districts: any = [];
 
@@ -74,17 +89,23 @@ agent_role:any;
 	serviceproviderAllStates: any = [];
 	serviceproviderDistricts: any = [];
 	serviceproviderAllOfficesInState: any = [];
-	serviceproviderAllServicesInOffice: any = [];
+	serviceproviderAllRoles: any = [];
+	serviceproviderAllServices: any = [];
 
 /*unique IDs*/
-ID_Type:any;
-ID_Value:any;
 
-	allIDTypes: any = [];
+// ID_Type:any;
+// ID_Value:any;
+
+// allIDTypes: any = [];     not used as of now
+	adhaar_no:any;
+	pan_no:any;
+
 
 /*credentials*/
 username: any;
 password: any;
+agentID: any;
 
 // arrays
 
@@ -96,8 +117,11 @@ password: any;
 	this.languages= [];
 	this.index = 0;
 
-	this.serviceProviderID = this.commonDataService.service_providerID;
-	this.countryID = 1;
+	this.serviceProviderID =this.commonDataService.service_providerID;
+	this.countryID = 1; // hardcoded as country is INDIA
+
+	this.showHint = false;
+	this.username_dependent_flag=true;
 
 	}
 
@@ -106,6 +130,23 @@ password: any;
 
 		this.EmployeeMasterService.getCommonRegistrationData().subscribe((response:Response)=>this.commonRegistrationDataSuccessHandeler(response));
 		this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe((response: Response) => this.getStatesOfServiceProviderSuccessHandeler(response));
+		this.EmployeeMasterService.getQualifications().subscribe((response: Response) => this.getQualificationsHandeler(response));
+	}
+
+	getServices(stateID)
+	{
+		this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID,stateID).subscribe((response: Response) => this.getServicesOfServiceProviderSuccessHandeler(response));
+
+	}
+
+	getOffices(stateID,serviceID) {
+		this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, stateID, serviceID).subscribe((response: Response) => this.getWorkLocationsInStateSuccessHandeler(response));
+
+	}
+
+	getRoles(stateID, serviceID) {
+		this.EmployeeMasterService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response: Response) => this.getRolesSuccessHandeler(response));
+
 	}
 
 	commonRegistrationDataSuccessHandeler(response)
@@ -114,11 +155,19 @@ password: any;
 		this.allTitles = response.m_Title;
 		this.allGenders = response.m_genders;
 
-		this.allQualificationTypes = response.i_BeneficiaryEducation;
 		this.allLanguages = response.m_language;
+		this.dummy_allLanguages = response.m_language;
 		this.allStates = response.states;
-		this.allIDTypes = response.govtIdentityTypes;
+		// this.allIDTypes = response.govtIdentityTypes;
+		this.communities = response.m_communities;
+		this.marital_status_array = response.m_maritalStatuses;
 
+	}
+
+	getQualificationsHandeler(response)
+	{
+		console.log(response, "qualifications");
+		this.allQualificationTypes = response;
 	}
 
 	createEmployeeSuccessHandeler(response)
@@ -143,6 +192,24 @@ password: any;
 		this.serviceproviderAllStates = response;
 	}
 
+	getServicesOfServiceProviderSuccessHandeler(response)
+	{
+		console.log("all services",response);
+		this.serviceproviderAllServices = response;
+	}
+
+	getWorkLocationsInStateSuccessHandeler(response)
+	{
+		console.log("all offices", response);
+		this.serviceproviderAllOfficesInState = response;
+	}
+
+	getRolesSuccessHandeler(response)
+	{
+		console.log("all roles", response);
+		this.serviceproviderAllRoles = response;
+	}
+
 	
 
 	addressCheck(value)
@@ -155,6 +222,8 @@ password: any;
 			this.currentState = this.permanentState;
 			this.currentDistrict = this.permanentDistrict;
 			this.currentPincode = this.permanentPincode;
+
+			this.isPermanent = "1";
 		}
 		else
 		{
@@ -163,6 +232,7 @@ password: any;
 			this.currentState = "";
 			this.currentDistrict = "";
 			this.currentPincode = "";
+			this.isPermanent = "0";
 		}
 	}
 
@@ -172,7 +242,7 @@ password: any;
 
 		jQuery("#UD"+value).css("font-size", "130%");
 			
-		for (let i = 0; i < 6;i++)
+		for (let i = 0; i <= 6;i++)
 		{
 			if(i===value)
 			{
@@ -185,6 +255,11 @@ password: any;
 		}
 	}
 
+	setProviderServiceMapID(psmID)
+	{
+		this.providerServiceMapID = psmID;
+	}
+
 	getDistricts(stateID)
 	{
 		this.EmployeeMasterService.getDistricts(stateID).subscribe((response:Response)=>this.getDistrictsSuccessHandeler(response));
@@ -194,44 +269,84 @@ password: any;
 		this.EmployeeMasterService.getDistricts(stateID).subscribe((response: Response) => this.getOfficeDistrictsSuccessHandeler(response));
 	}
 
-
-
-	AddIDs(type,value)
+	sliderarray: any = [];
+	updateSliderData(data,index)
 	{
+		
+		let index_exists= false;
 		let obj={
-			'IDtype':type,
-			'IDvalue':value
+			"language_index":index,
+			"value": data
+		}
+		if(this.sliderarray.length===0)
+		{
+			this.sliderarray.push(obj);
+		}
+		else
+		{
+			for (let i = 0; i < this.sliderarray.length;i++)
+			{
+				if(this.sliderarray[i].language_index===index)
+				{
+					this.sliderarray[i].value = data;
+					index_exists = true;
+				}
+				
+			}
+			if(index_exists===false)
+			{
+				this.sliderarray.push(obj);
+			}
 		}
 
-		if (this.govtIDs.length===0)
-		{
-			this.govtIDs.push(obj);
-			this.ID_Type = "";
-			this.ID_Value = "";
-		}else
-		{
-			let count = 0;
-			for (let i = 0; i < this.govtIDs.length;i++)
-			{
-				if (type === this.govtIDs[i].IDtype)
-				{
-					count = count + 1;
-				}
-			}
-			if(count===0)
-			{
-				this.govtIDs.push(obj);
-				this.ID_Type = "";
-				this.ID_Value = "";
-			}
+		// assigning weightage array
+		for (let i = 0; i < this.sliderarray.length; i++) {
+			this.language_weightage.push(this.sliderarray[i].value);
 		}
+
+		//to  check highly proficient language.....not the most proficient language would be at the end of array
+
+		this.sliderarray.sort(function(a, b) { return a.value - b.value });
 		
 	}
 
-	RemoveID(index)
-	{
-		this.govtIDs.splice(index,1);
-	}
+
+	// AddIDs(type,value)
+	// {
+	// 	let obj={
+	// 		'IDtype':type,
+	// 		'IDvalue':value
+	// 	}
+
+	// 	if (this.govtIDs.length===0)
+	// 	{
+	// 		this.govtIDs.push(obj);
+	// 		this.ID_Type = "";
+	// 		this.ID_Value = "";
+	// 	}else
+	// 	{
+	// 		let count = 0;
+	// 		for (let i = 0; i < this.govtIDs.length;i++)
+	// 		{
+	// 			if (type === this.govtIDs[i].IDtype)
+	// 			{
+	// 				count = count + 1;
+	// 			}
+	// 		}
+	// 		if(count===0)
+	// 		{
+	// 			this.govtIDs.push(obj);
+	// 			this.ID_Type = "";
+	// 			this.ID_Value = "";
+	// 		}
+	// 	}
+		
+	// }
+
+	// RemoveID(index)
+	// {
+	// 	this.govtIDs.splice(index,1);
+	// }
 
 
 	createEmployee()
@@ -243,15 +358,14 @@ password: any;
 			"middleName": this.middlename,
 			"lastName": this.lastname,
 			"genderID": this.gender,
-			"maritalStatusID": 2,
-			"aadhaarNo": "999999999999",
-			"pAN": "888888888888",
+			"maritalStatusID": this.marital_status,
+			"aadhaarNo": this.adhaar_no,
+			"pAN": this.pan_no,
 			"dOB": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"dOJ": "2017-08-02T00:00:00.000Z",
-			// "qualificationID": this.qualificationType,
-			"qualificationID":1,
+			"qualificationID":this.qualificationType,
 			"userName": this.username,
-			"agentID": "w758937534",
+			"agentID": this.agentID,
 			"emailID": this.emailID,
 			"statusID": 1,  // because its a new user 
 			// "emergencyContactPerson": "Ish Gandotra",
@@ -264,8 +378,8 @@ password: any;
 			"password": this.password,
 			"agentPassword": "8069",
 			// "createdDate": "2017-08-01T00:00:00.000Z",
-			// "fathersName": "ML Kundra",
-			// "mothersName": "Sudarshan Kundra",
+			"fathersName": this.father_name,
+			"mothersName": this.mother_name,
 			"addressLine1": this.permanentAddressLine1,
 			"addressLine2": this.permanentAddressLine2,
 			// "addressLine3": "xzli",
@@ -273,18 +387,18 @@ password: any;
 			// "addressLine5": "abc2",
 			"cityID": "1",
 			"stateID": this.permanentState,
-			"communityID": "1",
-			"religionID": "1",
+			"communityID": this.community,
+			"religionID":  this.religion,
 			"countryID": this.countryID,
 			"pinCode": this.permanentPincode,
-			"isPresent": "0",
-			"isPermanent": "1",
+			"isPresent": "1",  // by default it will remain 1 , if checked, then permanent will also be 1
+			"isPermanent": this.isPermanent,
 			"languageID": this.languages,
-			"weightage": [10, 20],
-			"roleID": [1,2,3],
+			"weightage": this.language_weightage,
+			"roleID": this.agent_role,
 			"serviceProviderID": this.serviceProviderID,
-			"providerServiceMapID": "1",
-			"workingLocationID": "1"
+			"providerServiceMapID": this.providerServiceMapID,
+			"workingLocationID": this.agent_officeName
 		}
 
 		this.EmployeeMasterService.createEmployee(request_object).subscribe((response:Response)=>this.createEmployeeSuccessHandeler(response));
@@ -292,7 +406,31 @@ password: any;
 	
 	
 
+	checkUsernameExists(username)
+	{
+		this.EmployeeMasterService.checkUsernameExists(username).subscribe((response: Response) => this.checkUsernameSuccessHandeler(response));
+	}
 
+	checkUsernameSuccessHandeler(response)
+	{
+		console.log(this.username, "uname");
+		console.log("username existance status", response);
+		if (response === "userexist")
+		{
+			this.username_status = "Username Exists !! Choose A Different 'Username' Please!";
+			this.showHint=true;
+			this.username_dependent_flag = true;
+		}
+		if (response === "usernotexist")
+		{
+			if (this.username != "" && (this.username != undefined && this.username != null))
+			{
+				this.showHint = false;
+				this.username_dependent_flag = false;
+			}
+			
+		}
+	}
 	
 
 	

@@ -65,19 +65,26 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <button md-raised-button (click)="setRoleFormFlag(false)">Back</button>
         </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Role" [(ngModel)]="role" name="role">
                 </md-input-container>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
                 </md-input-container>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" *ngIf="!setEditSubmitButton">
+             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <md-select placeholder="Feature" [style.width]="'100%'" [(ngModel)]="feature" >
+                    <md-option *ngFor="let feature of features" value="{{feature.featureName}}" >
+                        {{feature.featureName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="!setEditSubmitButton">
                 <button md-mini-fab>
-                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(role,description)">add</md-icon>
+                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(role,description,feature)">add</md-icon>
                 </button>
             </div>
         </div>

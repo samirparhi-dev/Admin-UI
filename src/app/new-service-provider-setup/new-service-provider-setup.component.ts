@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 declare var jQuery: any;
 
 import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
+import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
+
 
 @Component({
 	selector: 'app-new-service-provider-setup',
@@ -11,6 +13,10 @@ import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/Ad
 export class NewServiceProviderSetupComponent implements OnInit {
 	@Input() current_language: any;
 	currentlanguage: any;
+
+	username_status: any;
+	showHint: boolean;
+	username_dependent_flag: boolean;
 
 	/** ngModels*/
 
@@ -51,7 +57,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	states: any;
 	servicelines:any;
 
-	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service) { 
+	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) { 
 		this.titles = [
 		{
 			"id":"1",
@@ -74,6 +80,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		this.countryID = 1;
 
 		this.currentlanguage = {};
+
+		this.showHint = false;
+	this.username_dependent_flag=true;
 
 	};
 
@@ -131,23 +140,23 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	show3: boolean = false;
 
 	request_object: any = {
-		"ServiceProviderName": "",
+		"serviceProviderName": "",
 
-		"StateId": null,
-		"LogoFileName": "",
-		"LogoFilePath": "",
-		"PrimaryContactName": "",
-		"PrimaryContactNo": "",
-		"PrimaryContactEmailID": "",
-		"PrimaryContactAddress": "",
+		"stateId": null,
+		"logoFileName": "",
+		"logoFilePath": "",
+		"primaryContactName": "",
+		"primaryContactNo": "",
+		"primaryContactEmailID": "",
+		"primaryContactAddress": "",
 
-		"SecondaryContactName": "",
-		"SecondaryContactNo": "",
-		"SecondaryContactEmailID": "",
-		"SecondaryContactAddress": "",
+		"secondaryContactName": "",
+		"secondaryContactNo": "",
+		"secondaryContactEmailID": "",
+		"secondaryContactAddress": "",
 
 
-		"CreatedBy": "",
+		"createdBy": "",
 
 		"stateAndServiceMapList": [],
 		"providerAdminDetails": []
@@ -290,11 +299,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			"statusID": "1"
 		}
 
-		this.request_object.CreatedBy="kaakaJi"
+		this.request_object.createdBy="kaakaJi"
 		
 
 		this.request_object.providerAdminDetails.push(provider_admin_details_obj);
-		console.log(this.request_object);
+		console.log(JSON.stringify(this.request_object));
 
 		this.super_admin_service.createServiceProvider(this.request_object).subscribe((response:Response) =>this.successHandeler(response));
 
@@ -310,6 +319,28 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			this.show2 = false;
 			this.show3 = false;
 			this.resetNGmodules();
+		}
+	}
+
+
+	checkUsernameExists(username) {
+		this.EmployeeMasterService.checkUsernameExists(username).subscribe((response: Response) => this.checkUsernameSuccessHandeler(response));
+	}
+
+	checkUsernameSuccessHandeler(response) {
+		console.log(this.username, "uname");
+		console.log("username existance status", response);
+		if (response === "userexist") {
+			this.username_status = "Username Exists !! Choose A Different 'Username' Please!";
+			this.showHint = true;
+			this.username_dependent_flag = true;
+		}
+		if (response === "usernotexist") {
+			if (this.username != "" && (this.username != undefined && this.username != null)) {
+				this.showHint = false;
+				this.username_dependent_flag = false;
+			}
+
 		}
 	}
 

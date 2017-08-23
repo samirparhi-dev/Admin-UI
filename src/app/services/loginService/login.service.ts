@@ -13,12 +13,17 @@ export class loginService
 	_baseURL = this._config.getCommonBaseURL();
 	_userAuthURL = this._baseURL + "user/userAuthenticate/";
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
-
-	newlogin = "http://10.152.3.152:1040/CommonNewV1/user/userAuthenticateNew";
+	admin_base_path: any;
+	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
+	newlogin = "http://10.152.3.99:8080/CommonV1/user/userAuthenticate";
+	getServiceProviderID_url: any; 
 	constructor(
 		private _http: Http,
 		private _config: ConfigService
-	) { }
+	) {
+		this.admin_base_path = this._config.getAdminBaseUrl();
+		this.getServiceProviderID_url = this.admin_base_path + "getServiceProviderid";
+	}
 
 	public authenticateUser = function ( uname: any, pwd: any )
 	{
@@ -35,6 +40,12 @@ export class loginService
 			.catch( this.handleError );
 	};
 
+	getServiceProviderID(providerServiceMapID)
+	{
+		return this._http.post(this.getServiceProviderID_url, { 'providerServiceMapID': providerServiceMapID })
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
 
 	private extractData ( res: Response )
 	{

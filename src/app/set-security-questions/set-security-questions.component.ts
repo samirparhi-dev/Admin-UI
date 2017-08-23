@@ -27,7 +27,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
   
   ngOnInit() {
 
-    this.http_calls.getData("http://10.152.3.152:1040/CommonV1/user/getsecurityquetions").subscribe(
+    this.http_calls.getData("http://10.152.3.99:8080/CommonV1/user/getsecurityquetions").subscribe(
       (response: any) => this.handleSuccess(response),
       (error: any) => this.handleError(error));
 
@@ -123,7 +123,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
 			// alert("the data set is :" + this.dataObj);
 			console.log(this.selectedQuestions);	
 
-      this.http_calls.postData("http://10.152.3.152:1040/CommonV1/user/saveUserSecurityQuesAns", this.dataArray).subscribe(
+      this.http_calls.postData("http://10.152.3.99:8080/CommonV1/user/saveUserSecurityQuesAns", this.dataArray).subscribe(
         (response: any) => this.handleQuestionSaveSuccess(response),
         (error: any) => this.handleQuestionSaveError(error));
 			
@@ -157,7 +157,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
   	{
 
 	 
-    this.http_calls.postData(" http://10.152.3.152:1040/CommonV1/user/setForgetPassword", { "userName": this.uname,"password":new_pwd }).
+      this.http_calls.postData(" http://10.152.3.99:8080/CommonV1/user/setForgetPassword", { "userName": this.uname, "password": new_pwd }).
       subscribe(
       (response: any) => this.successCallback(response),
       (error: any) => this.errorCallback(error));

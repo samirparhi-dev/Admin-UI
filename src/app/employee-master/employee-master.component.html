@@ -69,8 +69,8 @@
             <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
             <td>{{item.userID}}</td>
             <td>
-              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
-              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.userID)">delete</md-icon>
+              <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
+              <md-icon mdTooltip="delete" *ngIf="!item.deleted"  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.userID)">delete</md-icon>
             </td>
           </tr>
           <!-- *ngIf="tableitems.length>3" -->
@@ -86,5 +86,5 @@
   </div>
 </md-card>
 <div class="row" *ngIf="createEmployeeFlag">
-  <app-employee-details-capturing></app-employee-details-capturing>
+  <app-employee-details-capturing ></app-employee-details-capturing>
 </div>

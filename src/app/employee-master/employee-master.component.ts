@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
 import { dataService } from '../services/dataService/data.service';
+
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
+
 
 @Component({
 	selector: 'app-employee-master',
@@ -10,6 +14,7 @@ import { dataService } from '../services/dataService/data.service';
 export class EmployeeMasterComponent implements OnInit {
 
 	serviceProviderID: any;
+	transfer_obj: any;
 	// ngmodel
 	state_filter:any;
 	service_filter:any;
@@ -29,57 +34,11 @@ export class EmployeeMasterComponent implements OnInit {
 
 
 	constructor(public EmployeeMasterService: EmployeeMasterService,
-				public CommonDataService: dataService) {
-		this.serviceProviderID = this.CommonDataService.service_providerID;
-		// this.one = "";
-		// this.two = "";
-		// this.three = "";
-
-		// this.items1 = ["RO","CO","MO","HAO","SIO","PD","ADMIN"];
-		// this.items2 = ["Diamond","AKhilesh","Kumar","Pradeep","Prateek","Pankush"];
-		// this.items3 = ["11123","11124","11125","22134","23221"];
-
-		// this.tableitems = [
-		// {
-		// 	"service": "104",
-		// 	"state": "Karnataka",
-		// 	"role": "RO",
-		// 	"empName": "Diamond Khanna",
-		// 	"empID": 1
-		// },
-		// {
-		// 	"service": "104",
-		// 	"state": "Karnataka",
-		// 	"role": "HAO",
-		// 	"empName": "Prateek Kumar",
-		// 	"empID": 2
-		// },
-		// {
-		// 	"service": "MCTS",
-		// 	"state": "Karnataka",
-		// 	"role": "Admin",
-		// 	"empName": "Sabya",
-		// 	"empID": 3
-		// },
-		// {
-		// 	"service": "1097",
-		// 	"state": "Assam",
-		// 	"role": "CO",
-		// 	"empName": "Kuldeep Dhar",
-		// 	"empID": 4
-		// },
-		// {
-		// 	"service": "104",
-		// 	"state": "Assam",
-		// 	"role": "SIO",
-		// 	"empName": "Pradeep",
-		// 	"empID": 19
-		// }
-		// ];
-
-
+				public CommonDataService: dataService,
+				public dialog: MdDialog) {
+		this.serviceProviderID =this.CommonDataService.service_providerID;
+		
 		this.createEmployeeFlag = false;
-
 
 	}
 
@@ -110,7 +69,7 @@ export class EmployeeMasterComponent implements OnInit {
 
 			request_obj.roleID=null;			
 		}
-		if (request_obj.userName === undefined) {
+		if (request_obj.userName === undefined ) {
 
 			request_obj.userName=null;
 		}
@@ -118,7 +77,7 @@ export class EmployeeMasterComponent implements OnInit {
 		{
 			request_obj.userName = "%" + request_obj.userName + "%";
 		}
-		if (request_obj.userID === undefined) {
+		if (request_obj.userID === undefined || request_obj.userID === "") {
 
 			request_obj.userID=null;
 		}
@@ -149,6 +108,27 @@ export class EmployeeMasterComponent implements OnInit {
 		}
 	}
 
+	editeUser(toBeEditedObject) {
+		let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
+		if (confirmation) {
+			console.log(JSON.stringify(toBeEditedObject));	
+
+			let dialog_Ref = this.dialog.open(EditEmployeeDetailsModal, {
+				height: '500px',
+				width: '800px',
+				data: toBeEditedObject
+			});
+
+			dialog_Ref.afterClosed().subscribe(result => {
+				console.log(`Dialog result: ${result}`);
+				if (result === "success") {
+					this.searchEmployee(this.state_filter, this.service_filter, this.role_filter, this.name_filter, this.employee_id_filter);
+				}
+
+			});
+		}
+	}
+
 	getStatesOfServiceProviderSuccessHandeler(response)
 	{
 		console.log(response, "states of provider");
@@ -174,7 +154,160 @@ export class EmployeeMasterComponent implements OnInit {
 
 	userDeleteHandeler(response) {
 		console.log(response, "user delete successfully");
+		this.searchEmployee(null,null,null,null,null);
 	}
 
 
+
 }
+
+
+
+
+@Component({
+	selector: 'editEmployeeDetailsModalWindow',
+	templateUrl: './editEmployeeDetailsModal.html',
+})
+export class EditEmployeeDetailsModal{
+	// modal windows ngmodels 
+	m_firstname:any;
+	m_lastname:any;
+	m_address1:any;
+	m_address2:any;
+
+	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+		public EmployeeMasterService: EmployeeMasterService,
+		public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>) { }
+
+	ngOnInit() {
+		this.m_firstname = this.data.firstName;
+		this.m_lastname = this.data.lastName;
+		this.m_address1 = this.data.userAddressLine1;
+		this.m_address2 = this.data.userAddressLine2;
+		console.log(this.data, "modal content");
+	}
+
+
+	update() {
+		let edit_req_obj = {
+			"userID": this.data.userID,
+			"titleID": this.data.titleID,
+			"firstName": this.m_firstname,
+            "middleName":this.data.middleName,
+			"lastName": this.m_lastname,
+			"genderID": this.data.genderID,
+			"maritalStatusID": this.data.maritalStatusID,
+			"aadhaarNo": this.data.aadhaarNo,
+			"pAN": this.data.pAN,
+			"dOB": "2017 - 02 - 22T00: 00:00.000Z", // new Date((this.data.dOB) - 1 * (this.data.dOB.getTimezoneOffset() * 60 * 1000)).toJSON(),
+
+            "dOJ": "2017 - 09 - 22T00: 00:00.000Z",
+			"qualificationID": this.data.qualificationID,
+			"userName": this.data.userName,
+			"agentID": this.data.agentID,
+			"emailID": this.data.emailID,
+			"statusID": this.data.statusID,
+			"emergencyContactPerson": this.data.emergencyContactPerson,
+			"emergencyContactNo": this.data.emergencyContactNo,
+			"titleName": this.data.titleName,
+			"status": this.data.userStatus,
+			"qualificationName": this.data.qualification,
+            "createdBy" : "Diamond Khanna",
+            "modifiedBy" : "Diamond Khanna",
+			"password": this.data.password,
+			"agentPassword": this.data.agentPassword,
+			"createdDate": "2017 - 08 - 11T00: 00:00.000Z",
+			"fathersName": this.data.fathersName,
+            "mothersName": this.data.mothersName,
+			"addressLine1": this.m_address1,
+			"addressLine2": this.m_address2,
+			"addressLine3": this.data.userAddressLine3,
+			"addressLine4": this.data.userAddressLine4,
+			"addressLine5": this.data.userAddressLine5,
+			"cityID": this.data.userCityID,
+			"stateID": this.data.userStateID,
+			"communityID": this.data.communityID,
+			"religionID": this.data.religionID,
+			"countryID": this.data.userCountryID,
+			"pinCode": this.data.pinCode,
+            "isPresent" :"0",
+            "isPermanent" : "1",
+			"oldLanguageID": "1",
+			"newLanguageID": "3",
+			"oldRoleId": 4,
+			"newRoleId": 2,
+            // "weightage" : 20,
+			// "roleID": this.data.roleID,
+			"serviceProviderID": this.data.serviceProviderID,
+			"providerServiceMapID": this.data.providerServiceMapID,
+            "workingLocationID" : this.data.workingLocationID,
+}
+
+		let robj = {
+			"userID": this.data.userID,
+			"titleID": 1,
+			"firstName": this.m_firstname,
+			"middleName": "Kumar",
+			"lastName": this.m_lastname,
+			"genderID": 1,
+			"maritalStatusID": 1,
+			"aadhaarNo": "1234567890",
+			"pAN": "1234567890",
+			"dOB": "2017-02-22T00:00:00.000Z",
+			"dOJ": "2017-02-22T00:00:00.000Z",
+			"qualificationID": 1,
+			"userName": "neer",
+			"agentID": "w758937534",
+			"emailID": "neer@xml.com",
+			"statusID": 2,
+			"emergencyContactPerson": "Azim prem zi",
+			"emergencyContactNo": "8976543210",
+			"titleName": "M",
+			"status": "Active",
+			"qualificationName": "Graduate",
+			"createdBy": "Rajeev",
+			"modifiedBy": "rajeev",
+			"password": "123445",
+			"agentPassword": "8069",
+			"createdDate": "2017-02-22T00:00:00.000Z",
+			"fathersName": "Raaa",
+			"mothersName": "Paaa",
+			"addressLine1": "xyzzzzzzz",
+			"addressLine2": "abc",
+			"addressLine3": "xzli",
+			"addressLine4": "abc1",
+			"addressLine5": "abc2",
+			"cityID": "1",
+			"stateID": "1",
+			"communityID": "1",
+			"religionID": "1",
+			"countryID": "1",
+			"pinCode": "12334",
+			"isPresent": "0",
+			"isPermanent": "1",
+			"oldLanguageID": "1",
+			"newLanguageID": "1",
+			"oldRoleId": 2,
+			"newRoleId": 2,
+			"serviceProviderID": "1",
+			"providerServiceMapID": "1",
+			"workingLocationID": "1"
+		}
+
+
+		console.log(robj, "edit rwq obj in modal");
+
+		this.EmployeeMasterService.editEmployee(robj)
+			.subscribe((response: Response) => this.editEmployeeDetailsSuccessHandeler(response));
+
+	}
+
+	editEmployeeDetailsSuccessHandeler(response) {
+		console.log('edited', response);
+		this.dialog_Ref.close("success");
+	}
+
+
+
+}
+

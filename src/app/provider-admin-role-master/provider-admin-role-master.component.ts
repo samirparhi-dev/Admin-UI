@@ -34,6 +34,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	STATE_ID: any;
 	SERVICE_ID: any;
 
+	features: any = [{ "featureName": "RO" }, { "featureName": "HAO" }, { "featureName": "MO" }, { "featureName": "CO" }, { "featureName": "SIO" }];
+
 
 	// flags
 	showRoleCreationForm: boolean = false;
@@ -47,7 +49,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 		this.description = "";
 
 		// provide service provider ID, (As of now hardcoded, but to be fetched from login response)
-		this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+		this.serviceProviderID =(this.commonDataService.service_providerID).toString();
 
 		// array initialization
 		this.states = [];
@@ -164,17 +166,12 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 	}
 
 
-
-  
-
-
-  
   setRoleFormFlag(flag)
   {
 	this.showRoleCreationForm = flag;
   }
 
-  add_obj(role,desc)
+  add_obj(role,desc,feature)
   {
 	var result = this.validateRole(role);
   	if(result)
@@ -185,6 +182,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 				let obj = {
 					"roleName": role,
 					"roleDesc": desc,
+					"feature":feature,
 					"createdBy":"diamond",
 					"createdDate":"2017-07-28",
 					"providerServiceMapID": this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!

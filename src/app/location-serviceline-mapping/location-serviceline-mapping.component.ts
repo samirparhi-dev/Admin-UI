@@ -47,7 +47,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     public commonDataService: dataService,
     public dialog: MdDialog) 
   {
-    this.serviceProviderID = commonDataService.service_providerID; //pass this value dynamically
+    this.serviceProviderID = this.commonDataService.service_providerID; //pass this value dynamically
     this.states = [];
     this.districts = [];
     this.servicelines = [];
