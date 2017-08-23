@@ -340,6 +340,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
 				this.showHint = false;
 				this.username_dependent_flag = false;
 			}
+			else
+			{
+				this.showHint = true;
+				this.username_dependent_flag = true;
+				this.username_status = "Username can't be blank";
+			}
 
 		}
 	}
