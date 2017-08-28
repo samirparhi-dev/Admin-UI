@@ -17,10 +17,12 @@
                           <li style="cursor: pointer" (click)='show("1")'><a>Job Location-ServiceLine Mapping Master</a></li>
                           <li style="cursor: pointer" (click)='show("2")'><a>Role Master</a></li>
                           <li style="cursor: pointer" (click)='show("3")'><a>Employee Master</a></li>
+                          <li style="cursor: pointer" (click)='show("4")'><a>Call Disposition Type Master</a></li>
+                          <li style="cursor: pointer" (click)='show("5")'><a>Category Subcategory Provisioning</a></li>
                         </ul>
                       </li>
-                      <li style="cursor: pointer" (click)='show("4")'><a>Reports</a></li>
-                      <li style="cursor: pointer" (click)='show("5")'><a>Configurations</a></li>
+                      <li style="cursor: pointer" (click)='show("6")'><a>Reports</a></li>
+                      <li style="cursor: pointer" (click)='show("7")'><a>Configurations</a></li>
                     </ul>
                   </div>
                 </div>
@@ -33,8 +35,10 @@
                 <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
                 <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
                 <app-employee-master *ngSwitchCase="3"></app-employee-master>
-                <p *ngSwitchCase="4">Reports</p>
-                <p *ngSwitchCase="5">Configurations</p>
+                <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
+                <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
+                <p *ngSwitchCase="6">Reports</p>
+                <p *ngSwitchCase="7">Configurations</p>
               </div>
             </div>
           </div>

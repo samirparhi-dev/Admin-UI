@@ -76,6 +76,9 @@ import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/Adm
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
 import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
+import { CallDispositionTypeMasterComponent } from './call-disposition-type-master/call-disposition-type-master.component';
+import { CategorySubcategoryProvisioningComponent } from './category-subcategory-provisioning/category-subcategory-provisioning.component';
+import { DrugMasterComponent } from './drug-master/drug-master.component';
 
 
 @NgModule( {
@@ -89,7 +92,7 @@ import { EmployeeMasterService } from "./services/ProviderAdminServices/employee
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent
   ],
 
   imports: [
