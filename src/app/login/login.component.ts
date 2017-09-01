@@ -48,7 +48,7 @@ export class loginContentClass{
 		this.dataSettingService.uid = response.userID;
 		// this.dataSettingService.service_providerID = response.provider[0].providerID;
 		this.dataSettingService.uname=this.userID;
-		console.log("array" + response.Previlege);
+		console.log("array", response.previlegeObj);
 
 		if (response.isAuthenticated === true && response.Status === "Active")
 		{
@@ -95,7 +95,13 @@ export class loginContentClass{
 	getServiceProviderMapIDSuccessHandeler(response)
 	{
 		console.log("service provider map id",response);
-		this.dataSettingService.service_providerID = response.serviceProviderID;
+		if (response != undefined) {
+			this.dataSettingService.service_providerID = response.serviceProviderID;
+		}
+		else
+		{
+			alert("Service Provider MAP ID is not fetched, undefined");
+		}
 	}
 	
 	

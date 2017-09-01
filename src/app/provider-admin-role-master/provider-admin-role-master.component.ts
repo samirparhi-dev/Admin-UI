@@ -14,7 +14,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     feature:any;
 
     serviceProviderID: any;
-    provider_service_mapID: any=1;  // has to be dynamic, as of now hardcoded
+    provider_service_mapID: any=3;  // has to be dynamic, as of now hardcoded
 
     state: any;
     service: any;

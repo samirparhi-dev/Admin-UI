@@ -48,6 +48,11 @@ import { EmployeeMasterComponent } from './employee-master/employee-master.compo
 import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/employee-details-capturing.component';
 import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { ProviderAdminComponent } from './provider-admin/provider-admin.component';
+import { CallDispositionTypeMasterComponent } from './call-disposition-type-master/call-disposition-type-master.component';
+import { CategorySubcategoryProvisioningComponent } from './category-subcategory-provisioning/category-subcategory-provisioning.component';
+import { DrugMasterComponent } from './drug-master/drug-master.component';
+
+
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
 
@@ -76,9 +81,7 @@ import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/Adm
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
 import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
-import { CallDispositionTypeMasterComponent } from './call-disposition-type-master/call-disposition-type-master.component';
-import { CategorySubcategoryProvisioningComponent } from './category-subcategory-provisioning/category-subcategory-provisioning.component';
-import { DrugMasterComponent } from './drug-master/drug-master.component';
+import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltype-subtype-master-service.service";
 
 
 @NgModule( {
@@ -168,7 +171,7 @@ import { DrugMasterComponent } from './drug-master/drug-master.component';
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
   CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
   StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-  LocationServicelineMapping,EmployeeMasterService
+    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService
   ],
 
   entryComponents: [ 

@@ -125,18 +125,6 @@
             </md-option>
           </md-select>
         </div>
-        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md-input-container class="width100">
-            <input mdInput [mdDatepicker]="picker1" name="passingYear" placeholder="Year of Passing" [(ngModel)]="passingYear">
-            <button mdSuffix [mdDatepickerToggle]="picker1"></button>
-          </md-input-container>
-          <md-datepicker #picker1></md-datepicker>
-        </div> -->
-        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md-input-container style="width: 100% ">
-            <input type="number" mdInput placeholder="Duration " [(ngModel)]="duration " name="duration ">
-          </md-input-container>
-        </div> -->
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(2)">Save and Next</button>
         </div>
@@ -153,14 +141,7 @@
             <md2-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md2-option>
           </md2-select>
         </div>
-        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
-          <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Preffered Language" [(ngModel)]="preferredlanguage" name="preferredlanguage" disabled>
-          </md-input-container>
-        </div> -->
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" *ngFor="let l of selected_languages; let k=index" style="">
-          <!--  <md2-autocomplete [items]="allLanguages" [(ngModel)]="preferredlanguage" item-text="languageName" item-value="languageID" placeholder="preferred language" [style.width]="'100%'">
-          </md2-autocomplete> -->
           <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4 m-t-10">
             <label>{{allLanguages[l-1].languageName}}</label>
           </div>
@@ -178,24 +159,6 @@
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
         </div>
       </div>
-      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 table-responsive" *ngIf="languages.length>0">
-          <table [md2Data]="languages" #md2="md2DataTable" class="table">
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th md2SortBy="state">Language</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let lang of languages;let j=index" style="">
-                <td>{{j+1}}</td>
-                <td>{{lang}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> -->
     </div>
   </md-card>
 </div>
@@ -288,7 +251,102 @@
   </md-card>
 </div>
 <div class="container-fluid m-t-10" id="work_place" *ngIf="index===4">
-  <md-card>
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-card>
+        <div class="row" style="height: 315px">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <h5><b>Office Address</b></h5>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
+                <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState);getServices(officeState)">
+                  <md-option *ngFor="let item of serviceproviderAllStates" value="{{item.stateID}}">
+                    {{item.stateName}}
+                  </md-option>
+                </md-select>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-30">
+                <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficeDistrict" name="district">
+                  <md-option *ngFor="let item of serviceproviderDistricts" value="{{item.districtID}}">
+                    {{item.districtName}}
+                  </md-option>
+                </md-select>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-30">
+                <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline" (change)="getOffices(officeState,agent_serviceline);getRoles(officeState,agent_serviceline)">
+                  <md-option *ngFor=" let service of serviceproviderAllServices " value="{{service.serviceID}}" (click)="setProviderServiceMapID(service.providerServiceMapID)">
+                    {{service.serviceName}}
+                  </md-option>
+                </md-select>
+              </div>
+              <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-30">
+                <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName">
+                  <md-option *ngFor="let office of serviceproviderAllOfficesInState" value="{{office.pSAddMapID}}">
+                    {{office.locationName}}
+                  </md-option>
+                </md-select>
+              </div>
+              <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-30">
+                <md-select [(ngModel)]="agent_role" multiple name="agent_role " placeholder="Agent 's Roles" [style.width]="'100% '">
+                  <md-option *ngFor="let role of serviceproviderAllRoles" value="{{role.roleID}}">
+                    {{role.roleName}}</md-option>
+                </md-select>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 m-t-25">
+                <button md-mini-fab class="pull-right" color="primary" (click)="pushPrivelege()">
+                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </md-card>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <md-card>
+        <div class="row" style="height: 315px">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <h5><b>Priveleges</b></h5>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 250px">
+              <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+                <thead>
+                  <tr>
+                    <th>Office</th>
+                    <th>Service Line</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of md2.data;let idx=index" style="">
+                    <td>{{i.workingLocationID}}</td>
+                    <td>{{i.providerServiceMapID}}</td>
+                    <td>{{i.roleID}}</td>
+                    <td><md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removePrivelege(idx)">delete</md-icon></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4">
+                      <md2-pagination></md2-pagination>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <button md-raised-button class="pull-right" *ngIf="data.length!=0" (click)="MOVE2NEXT(5)">Save and Next</button>
+            </div>
+          </div>
+        </div>
+      </md-card>
+    </div>
+  </div>
+  <!-- <md-card>
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -325,11 +383,6 @@
           </md-select>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-25">
-          <!-- <md-select placeholder="Agent's Role " [style.width]=" '100%' " [(ngModel)]="agent_role " name="agent_role ">
-            <md-option *ngFor="let role of serviceproviderAllRoles " value="{{role.roleID}} ">
-              {{role.roleName}}
-            </md-option>
-          </md-select> -->
           <md2-select [(ngModel)]="agent_role " [multiple]="true " name="agent_role " placeholder="Agent 's Roles" [style.width]="'100% '">
             <md2-option *ngFor="let role of serviceproviderAllRoles" value="{{role.roleID}}">
               {{role.roleName}}</md2-option>
@@ -340,13 +393,13 @@
         </div>
       </div>
     </div>
-  </md-card>
+  </md-card> -->
 </div>
 <div class="container-fluid m-t-10" id="UniqueIds" *ngIf="index===5">
   <md-card>
     <div class="row" style="height: 315px">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-       <!--  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
+        <!--  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="ID Type" [style.width]="'100% '" [(ngModel)]="ID_Type" name="ID_Type">
             <md-option *ngFor="let item of allIDTypes" value="{{item.identityType}}">
               {{item.identityType}}
@@ -394,7 +447,7 @@
             <input mdInput placeholder="Username " [(ngModel)]="username" name="username " (blur)="checkUsernameExists(username)">
           </md-input-container>
           <md-hint *ngIf="showHint">
-          {{username_status}}
+            {{username_status}}
           </md-hint>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

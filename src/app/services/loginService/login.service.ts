@@ -27,7 +27,7 @@ export class loginService
 
 	public authenticateUser = function ( uname: any, pwd: any )
 	{
-		return this._http.post(this.newlogin, { 'userName': uname, 'password': pwd })
+		return this._http.post(this.newlogin, { 'userName': uname.toLowerCase(), 'password': pwd })
 			.map( this.extractData )
 			.catch( this.handleError );
 	};
@@ -35,7 +35,7 @@ export class loginService
 	getSecurityQuestions ( uname: any ): Observable<any>
 	{
 
-		return this._http.post( this._forgotPasswordURL, { 'userName': uname } )
+		return this._http.post(this._forgotPasswordURL, { 'userName': uname.toLowerCase() })
 			.map( this.extractData )
 			.catch( this.handleError );
 	};

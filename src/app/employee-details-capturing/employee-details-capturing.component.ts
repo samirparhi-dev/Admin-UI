@@ -18,6 +18,7 @@ index: any;
 serviceProviderID:any;
 providerServiceMapID: any;
 countryID: any;
+	data: any = [];
 
 username_status: any;
 	showHint: boolean;
@@ -173,6 +174,7 @@ agentID: any;
 	createEmployeeSuccessHandeler(response)
 	{
 		console.log(response, "employee created successfully");
+		alert("Employee Created Successfully!");
 	}
 
 	getDistrictsSuccessHandeler(response)
@@ -311,6 +313,23 @@ agentID: any;
 	}
 
 
+	pushPrivelege()
+	{
+		let obj={
+			"roleID":this.agent_role,
+			"providerServiceMapID": this.providerServiceMapID,
+			"workingLocationID":this.agent_officeName
+		}
+
+		this.data.push(obj);
+	}
+
+	removePrivelege(index)
+	{
+		this.data.splice(index, 1);
+	}
+
+
 	// AddIDs(type,value)
 	// {
 	// 	let obj={
@@ -376,7 +395,7 @@ agentID: any;
 			"createdBy": "DI352929",
 			"modifiedBy": "DiamondKhanna",
 			"password": this.password,
-			"agentPassword": "8069",
+			"agentPassword": this.password,
 			// "createdDate": "2017-08-01T00:00:00.000Z",
 			"fathersName": this.father_name,
 			"mothersName": this.mother_name,
@@ -395,12 +414,13 @@ agentID: any;
 			"isPermanent": this.isPermanent,
 			"languageID": this.languages,
 			"weightage": this.language_weightage,
-			"roleID": this.agent_role,
-			"serviceProviderID": this.serviceProviderID,
-			"providerServiceMapID": this.providerServiceMapID,
-			"workingLocationID": this.agent_officeName
+			"previleges":this.data
+			// "roleID": this.agent_role,
+			// "serviceProviderID": this.serviceProviderID,
+			// "providerServiceMapID": this.providerServiceMapID,
+			// "workingLocationID": this.agent_officeName
 		}
-
+		console.log("create employee request Object:", request_object);
 		this.EmployeeMasterService.createEmployee(request_object).subscribe((response:Response)=>this.createEmployeeSuccessHandeler(response));
 	}
 	

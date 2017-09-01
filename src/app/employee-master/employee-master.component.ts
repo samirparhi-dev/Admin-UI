@@ -251,13 +251,13 @@ export class EditEmployeeDetailsModal{
 			"lastName": this.m_lastname,
 			"genderID": 1,
 			"maritalStatusID": 1,
-			"aadhaarNo": "1234567890",
-			"pAN": "1234567890",
+			"aadhaarNo": this.data.aadhaarNo,
+			"pAN": this.data.pAN,
 			"dOB": "2017-02-22T00:00:00.000Z",
 			"dOJ": "2017-02-22T00:00:00.000Z",
 			"qualificationID": 1,
-			"userName": "neer",
-			"agentID": "w758937534",
+			"userName": this.data.userName,
+			"agentID": "0987",
 			"emailID": "neer@xml.com",
 			"statusID": 2,
 			"emergencyContactPerson": "Azim prem zi",
@@ -267,7 +267,7 @@ export class EditEmployeeDetailsModal{
 			"qualificationName": "Graduate",
 			"createdBy": "Rajeev",
 			"modifiedBy": "rajeev",
-			"password": "123445",
+			"password": this.data.password,
 			"agentPassword": "8069",
 			"createdDate": "2017-02-22T00:00:00.000Z",
 			"fathersName": "Raaa",
@@ -278,7 +278,7 @@ export class EditEmployeeDetailsModal{
 			"addressLine4": "abc1",
 			"addressLine5": "abc2",
 			"cityID": "1",
-			"stateID": "1",
+			"stateID": this.data.userStateID,
 			"communityID": "1",
 			"religionID": "1",
 			"countryID": "1",
@@ -289,9 +289,9 @@ export class EditEmployeeDetailsModal{
 			"newLanguageID": "1",
 			"oldRoleId": 2,
 			"newRoleId": 2,
-			"serviceProviderID": "1",
-			"providerServiceMapID": "1",
-			"workingLocationID": "1"
+			"serviceProviderID": this.data.serviceProviderID,
+			"providerServiceMapID": this.data.providerServiceMapID,
+			"workingLocationID": this.data.workingLocationID
 		}
 
 

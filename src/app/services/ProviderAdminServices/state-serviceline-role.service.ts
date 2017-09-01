@@ -31,7 +31,7 @@ export class ProviderAdminRoleService {
 	constructor(private http: Http,public basepaths:ConfigService) { 
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 		console.log(this.admin_Base_Url);
-		this.get_State_Url = this.admin_Base_Url + "m/role/state ";
+		this.get_State_Url = this.admin_Base_Url + "m/role/state";
 		this.get_Service_Url = this.admin_Base_Url + "m/role/service";
 		this.find_Roles_By_State_Service_Url = this.admin_Base_Url + "m/role/search";
 		this.create_Roles_Url = this.admin_Base_Url + "m/role/addRole";

@@ -1,3 +1,31 @@
-<p>
-  drug-master works!
-</p>
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center" >
+        <button md-raised-button color="primary" style="width: 170px" (click)="show(1)">Drug Group Master</button>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center" >
+        <button md-raised-button color="primary" style="width: 170px" (click)="show(2)">Drug Master</button>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center" >
+        <button md-raised-button color="primary" style="width: 170px" (click)="show(3)">Drug Group Mapping</button>
+      </div>
+    </div>
+  </div>
+</md-card>
+<md-card class="m-t-10" style="height: 370px">
+  <div class="row">
+  <!-- screen one -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==1">
+      
+    </div>
+  <!-- screen two -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==2">
+  
+    </div>
+  <!-- screen three -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==3">
+      
+    </div>
+  </div>
+</md-card>

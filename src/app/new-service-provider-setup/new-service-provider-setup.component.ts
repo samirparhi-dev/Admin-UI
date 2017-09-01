@@ -42,6 +42,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	password:any="";
 	providerAdmin_EmailID:any="";
 	providerAdmin_PhoneNumber:any="";
+	aadhaar_number: any = "";
+	pan_number: any = "";
 
 
 	countryID: any;
@@ -58,31 +60,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
 	servicelines:any;
 
 	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) { 
-		this.titles = [
-		{
-			"id":"1",
-			"name":"Mr"
-		},
-		{
-			"id": "2",
-			"name": "Ms"
-		}];
-		this.genders = [
-		{
-			"id": "1",
-			"name": "Male"
-		},
-		{
-			"id": "2",
-			"name": "Female"
-		}];
 
 		this.countryID = 1;
 
 		this.currentlanguage = {};
 
 		this.showHint = false;
-	this.username_dependent_flag=true;
+		this.username_dependent_flag=true;
 
 	};
 
@@ -91,10 +75,18 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 		this.super_admin_service.getAllStates(this.countryID).subscribe((response:Response)=>this.states=this.successhandeler(response));
 		this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
+		this.super_admin_service.getCommonRegistrationData().subscribe(response=>this.reg_data_successhandeler(response));
 	}
 
 	ngOnChanges() {
 		this.setLanguage(this.current_language);
+	}
+
+	reg_data_successhandeler(response)
+	{
+		console.log("common registration",response);
+		this.titles=response.m_Title
+		this.genders=response.m_genders
 	}
 
 	setLanguage(language) {
@@ -156,32 +148,46 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		"secondaryContactAddress": "",
 
 
-		"createdBy": "",
+		"createdBy": "Diamond_Khanna",
 
 		"stateAndServiceMapList": [],
 		"providerAdminDetails": []
 	}
 
 
-	show(val:number)
+	show(val:number,action:string)
 	{
-		if(val==2)
+		if(val==1 && action==="back")
+		{
+			this.show1 = true;
+			this.show2 = false;
+			this.show3 = false;
+		}
+
+		if(val==2 && action==="save")
 		{
 			this.show1= false;
 			this.show2= true;
 			this.show3= false;
 
 
-			this.request_object.ServiceProviderName = this.serviceProviderName;
+			this.request_object.serviceProviderName = this.serviceProviderName.toLowerCase();
 			// this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
-			this.request_object.PrimaryContactName = this.contactPerson;
-			this.request_object.PrimaryContactNo = this.contactNumber;
-			this.request_object.PrimaryContactEmailID = this.emailID;
-			this.request_object.PrimaryContactAddress = this.address1+","+this.address2;
+			this.request_object.primaryContactName = this.contactPerson;
+			this.request_object.primaryContactNo = this.contactNumber;
+			this.request_object.primaryContactEmailID = this.emailID;
+			this.request_object.primaryContactAddress = this.address1+","+this.address2;
 
 
 		}
-		if(val==3)
+
+		if (val == 2 && action === "back") {
+			this.show1 = false;
+			this.show2 = true;
+			this.show3 = false;
+		}
+
+		if(val==3 && action==="save")
 		{
 			this.show1= false;
 			this.show2= false;
@@ -284,15 +290,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			"lastName": this.lastname,
 			"emailID": this.providerAdmin_EmailID,
 			"mobileNo": this.providerAdmin_PhoneNumber,
-			"userName": this.username,
+			"userName": this.username.toLowerCase(),
 			"password": this.password,
 			"titleID": this.title,
 			"genderID": this.gender,
 			"dob": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"doj": new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"maritalStatusID": "",
-			"aadharNo": "778866554433",
-			"panNo": "112233112211",
+			"aadharNo": this.aadhaar_number,
+			"panNo": this.pan_number,
 			"qualificationID": "",
 			"emrContactPersion": "",
 			"emrConctactNo": "",
@@ -315,6 +321,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		console.log(response, "in TS, the response after having sent req for creating service provider");
 		if(response==="true")
 		{
+			alert("PROVIDER CREATED SUCCESSFULLY");
 			this.show1 = true;
 			this.show2 = false;
 			this.show3 = false;

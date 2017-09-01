@@ -23,6 +23,8 @@ export class SuperAdmin_ServiceProvider_Service {
 	getAllServiceLinesUrl: any;
 
 	checkProviderNameAvailabilityUrl:any;
+
+	getRegistrationDataUrl: any;
 	
 
 	constructor(private _http: Http, public ConfigService: ConfigService)
@@ -37,6 +39,14 @@ export class SuperAdmin_ServiceProvider_Service {
 
 		this.checkProviderNameAvailabilityUrl=this.providerAdminBaseUrl+"checkProvider";
 
+		this.getRegistrationDataUrl = this.commonbaseurl + "beneficiary/getRegistrationData";
+
+	}
+
+	getCommonRegistrationData() {
+		return this._http.post(this.getRegistrationDataUrl, {})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
 	checkProviderNameAvailability(provider_name)
