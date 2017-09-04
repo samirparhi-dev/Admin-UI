@@ -14,17 +14,17 @@
   </div>
 </md-card>
 <md-card class="m-t-10" style="height: 370px">
-  <div class="row">
+  <div class="row"  [ngSwitch]="Activity_Number">
   <!-- screen one -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==1">
-      
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngSwitchCase="1">
+        <app-drug-group></app-drug-group>
     </div>
   <!-- screen two -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==2">
-  
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngSwitchCase="2">
+        <app-drug-list></app-drug-list>
     </div>
   <!-- screen three -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="val==3">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngSwitchCase="3">
       
     </div>
   </div>
