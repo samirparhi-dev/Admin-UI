@@ -10,14 +10,30 @@ import { BlockProvider } from "../services/adminServices/AdminServiceProvider/bl
 export class BlockServiceProviderComponent implements OnInit {
 
 	data: any = [];
+	list_variable: any = 1;
 	constructor(public block_provider:BlockProvider) { }
 
 	ngOnInit() {
-		this.block_provider.getAllProviders().subscribe(response => this.successhandeler(response));
+		this.getData(1);
 	}
 
-	successhandeler(response)
+	getData(value)
 	{
+		if(value==1)
+		{
+			this.block_provider.getAllProviders().subscribe(response => this.successhandeler(response));
+		}
+		if(value==2)
+		{
+			this.data = [];
+		}
+		if(value==3)
+		{
+			this.data = [];
+		}
+	}
+
+	successhandeler(response) {
 		this.data = response;
 	}
 

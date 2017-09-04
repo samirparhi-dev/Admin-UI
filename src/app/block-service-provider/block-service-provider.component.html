@@ -168,14 +168,23 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <label>BLOCK PROVIDER</label>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 400px">
-      <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+      <md-radio-group [(ngModel)]="list_variable">
+        <md-radio-button value="1" (click)="getData(1)">Provider Level List</md-radio-button>
+        <md-radio-button class="m-l-20" value="2" (click)="getData(2)">State Level List</md-radio-button>
+        <md-radio-button class="m-l-20" value="3" (click)="getData(3)">Service Line Level List</md-radio-button>
+      </md-radio-group>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" style="height: 330px">
+      <table *ngIf="list_variable==1" class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
         <thead>
           <tr>
             <th>Provider ID</th>
             <th>Provider Name</th>
             <th>SPOC</th>
-            <th >Contact Number</th>
+            <th>Contact Number</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -184,11 +193,98 @@
             <td>{{i.serviceProviderName}}</td>
             <td>{{i.primaryContactName}}</td>
             <td>{{i.primaryContactNo}}</td>
+            <td>
+              <div class="circle10x10 bg-color-red border-radius-50"></div>
+             <!--  <div class="circle10x10 bg-color-orange border-radius-50"></div>
+              <div class="circle10x10 bg-color-yellow border-radius-50"></div>
+              <div class="circle10x10 bg-color-green border-radius-50"></div> -->
+            </td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">block</md-icon>
+            </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <table *ngIf="list_variable==2" class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
+        <thead>
+          <tr>
+            <th>Provider ID</th>
+            <th>Provider Name</th>
+            <th>State</th>
+            <th>SPOC</th>
+            <th>Contact Number</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of md2.data">
+            <td>{{i.serviceProviderId}}</td>
+            <td>{{i.serviceProviderName}}</td>
+            <td>state</td>
+            <td>{{i.primaryContactName}}</td>
+            <td>{{i.primaryContactNo}}</td>
+            <td>
+              <div class="circle10x10 bg-color-red border-radius-50"></div>
+             <!--  <div class="circle10x10 bg-color-orange border-radius-50"></div>
+              <div class="circle10x10 bg-color-yellow border-radius-50"></div>
+              <div class="circle10x10 bg-color-green border-radius-50"></div> -->
+            </td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">block</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <table *ngIf="list_variable==3" class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
+        <thead>
+          <tr>
+            <th>Provider ID</th>
+            <th>Provider Name</th>
+            <th>State</th>
+            <th>ServiceLine</th>
+            <th>SPOC</th>
+            <th>Contact Number</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of md2.data">
+            <td>{{i.serviceProviderId}}</td>
+            <td>{{i.serviceProviderName}}</td>
+            <td>state</td>
+            <td>serviceline</td>
+            <td>{{i.primaryContactName}}</td>
+            <td>{{i.primaryContactNo}}</td>
+            <td>
+              <div class="circle10x10 bg-color-red border-radius-50"></div>
+             <!--  <div class="circle10x10 bg-color-orange border-radius-50"></div>
+              <div class="circle10x10 bg-color-yellow border-radius-50"></div>
+              <div class="circle10x10 bg-color-green border-radius-50"></div> -->
+            </td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">block</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
               <md2-pagination></md2-pagination>
             </td>
           </tr>

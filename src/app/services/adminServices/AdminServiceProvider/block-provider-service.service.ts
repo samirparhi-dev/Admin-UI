@@ -14,26 +14,61 @@ import { ConfigService } from "../../config/config.service";
 export class BlockProvider {
 
 	admin_base_url: any;
+
 	getAllProviderUrl: any;
+	getStateLevelBlockList_Url: any;
+	getServiceLineLevelBlockList_Url: any;
+
+	block_unblock_provider_url: any;
+	block_unblock_state_url: any;
+	block_unblock_serviceline_url: any;
 	
 	constructor(private _http: Http, public ConfigService: ConfigService) {
 		this.admin_base_url=this.ConfigService.getAdminBaseUrl();
 
 		this.getAllProviderUrl = this.admin_base_url + "getAllProvider";
+		this.getStateLevelBlockList_Url="";
+		this.getServiceLineLevelBlockList_Url="";
+
+		this.block_unblock_provider_url="";
+		this.block_unblock_state_url="";
+		this.block_unblock_serviceline_url="";
+
 	}
 
 	getAllProviders()
 	{
-		return this._http.post(this.getAllProviderUrl, {}).map(this.handleSuccess).catch(this.handleError);
+		return this._http.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
 	}
 
-	handleSuccess(response: Response)
+	getStateLevelBlockList()
+	{
+		return this._http.post(this.getStateLevelBlockList_Url, {}).map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	getServiceLineLevelBlockList() {
+		return this._http.post(this.getServiceLineLevelBlockList_Url, {}).map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	block_unblock_provider() {
+		return this._http.post(this.block_unblock_provider_url, {}).map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	block_unblock_state() {
+		return this._http.post(this.block_unblock_state_url, {}).map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	block_unblock_serviceline() {
+		return this._http.post(this.block_unblock_serviceline_url, {}).map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	success_handeler(response: Response)
 	{
 		console.log(response.json().data, "--- in Block-Provider Service");
 		return response.json().data;
 	}
 
-	handleError(error: Response | any)
+	error_handeler(error: Response | any)
 	{
 		let errMsg: string;
 		if (error instanceof Response) {
