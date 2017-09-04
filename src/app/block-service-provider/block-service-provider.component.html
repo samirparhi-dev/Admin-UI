@@ -165,14 +165,17 @@
 </div> -->
 <md-card>
   <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <label>BLOCK PROVIDER</label>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 400px">
       <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
         <thead>
           <tr>
-            <th md2SortBy="name">Name</th>
-            <th md2SortBy="email">Email</th>
-            <th md2SortBy="age">Age</th>
-            <th md2SortBy="city">City</th>
+            <th>Provider ID</th>
+            <th>Provider Name</th>
+            <th>SPOC</th>
+            <th >Contact Number</th>
           </tr>
         </thead>
         <tbody>

@@ -73,10 +73,12 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     setProviderServiceMapID(ProviderServiceMapID)
     {
         this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
+        console.log("psmid", ProviderServiceMapID);
     }
 
     servicesSuccesshandeler(response)
     {
+        this.service = "";
         this.services = response;
 
     }
@@ -181,6 +183,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     add_obj(role,desc,feature)
     {
+
         var result = this.validateRole(role);
         if(result)
         {
@@ -196,6 +199,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     "providerServiceMapID": this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
                 };
                 this.objs.push(obj);
+                console.log(obj, "obj pushed");
 
             }
             else
@@ -215,6 +219,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                         "providerServiceMapID": this.commonDataService.provider_serviceMapID   //this needs to be fed dynmically!!!
                     };
                     this.objs.push(obj);
+                    console.log(obj,"obj pushed");
                 }
             }
         }
