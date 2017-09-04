@@ -82,6 +82,8 @@ import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state
 import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
 import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
 import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltype-subtype-master-service.service";
+import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
+
 
 
 @NgModule( {
@@ -171,7 +173,7 @@ import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltyp
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
   CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
   StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService
+    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider
   ],
 
   entryComponents: [ 
