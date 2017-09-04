@@ -29,7 +29,7 @@ export class BlockProvider {
 
 	handleSuccess(response: Response)
 	{
-		console.log(response.json().data, "--- in block-provider service");
+		console.log(response.json().data, "--- in Block-Provider Service");
 		return response.json().data;
 	}
 
