@@ -51,6 +51,8 @@ import { ProviderAdminComponent } from './provider-admin/provider-admin.componen
 import { CallDispositionTypeMasterComponent } from './call-disposition-type-master/call-disposition-type-master.component';
 import { CategorySubcategoryProvisioningComponent } from './category-subcategory-provisioning/category-subcategory-provisioning.component';
 import { DrugMasterComponent } from './drug-master/drug-master.component';
+import { DrugGroupComponent } from './drug-group/drug-group.component';
+import { DrugListComponent } from './drug-list/drug-list.component';
 
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
@@ -96,7 +98,7 @@ import { BlockProvider } from "./services/adminServices/AdminServiceProvider/blo
   BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
-  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,
+  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,
     LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent
   ],
 

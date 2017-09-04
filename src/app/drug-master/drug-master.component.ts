@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DrugMasterComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+   }
 
   ngOnInit() {
   }
 
+  Activity_Number: any;
+
+  show(value) {
+	  this.Activity_Number = value;
+  }
+
+  
 }
