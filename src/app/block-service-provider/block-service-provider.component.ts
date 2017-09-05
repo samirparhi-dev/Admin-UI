@@ -10,6 +10,8 @@ import { BlockProvider } from "../services/adminServices/AdminServiceProvider/bl
 export class BlockServiceProviderComponent implements OnInit {
 
 	data: any = [];
+	showBlock: boolean = false;
+	showUnblock: boolean = false;
 
 	service_provider_array: any = [];
 	states_array: any = [];
@@ -143,29 +145,193 @@ export class BlockServiceProviderComponent implements OnInit {
 
 
 	getStatusOnProviderLevel(service_provider) {
-		this.block_provider.getProviderLevelStatus(service_provider).subscribe(response => this.data= this.generic_successhandeler(response));
+		this.block_provider.getProviderLevelStatus(service_provider).subscribe(response => this.successhandeler1(response));
 
 	}
 
 	getStatusOnProviderServiceLevel(service_provider, serviceline) {
-		this.block_provider.getProvider_ServiceLineLevelStatus(service_provider, serviceline).subscribe(response =>this.data= this.generic_successhandeler(response));
+		this.block_provider.getProvider_ServiceLineLevelStatus(service_provider, serviceline).subscribe(response => this.successhandeler2(response));
 
 	}
 
 	getStatusOnProviderStateLevel(service_provider, state) {
-		this.block_provider.getProvider_StateLevelStatus(service_provider, state).subscribe(response =>this.data= this.generic_successhandeler(response));
+		this.block_provider.getProvider_StateLevelStatus(service_provider, state).subscribe(response =>this.successhandeler3(response));
 
 	}
 
 	getStatusOnProviderStateServiceLevel(service_provider, state, serviceline) {
-		this.block_provider.getProvider_State_ServiceLineLevelStatus(service_provider, state, serviceline).subscribe(response =>this.data= this.generic_successhandeler(response));
+		this.block_provider.getProvider_State_ServiceLineLevelStatus(service_provider, state, serviceline).subscribe(response =>this.successhandeler4(response));
 
 	}
 
-	generic_successhandeler(response)
+	successhandeler1(response)
 	{
 		console.log(response, "RESPONSE");
-		return response;
+		this.data= response;
+		if (this.data[0].statusID==1)
+		{
+			this.showBlock = true;
+			this.showUnblock = false;
+		}
+		if (this.data[0].statusID == 2) {
+			this.showBlock = false;
+			this.showUnblock = true;
+		}
+	}
+
+	successhandeler2(response) {
+		console.log(response, "RESPONSE");
+		this.data= response;
+		if (this.data[0].statusID == 1) {
+			this.showBlock = true;
+			this.showUnblock = false;
+		}
+		if (this.data[0].statusID == 2) {
+			this.showBlock = false;
+			this.showUnblock = true;
+		}
+	}
+
+	successhandeler3(response) {
+		console.log(response, "RESPONSE");
+		this.data= response;
+		if (this.data[0].statusID == 1) {
+			this.showBlock = true;
+			this.showUnblock = false;
+		}
+		if (this.data[0].statusID == 2) {
+			this.showBlock = false;
+			this.showUnblock = true;
+		}
+	}
+
+	successhandeler4(response) {
+		console.log(response, "RESPONSE");
+		this.data= response;
+		if (this.data[0].statusID == 1) {
+			this.showBlock = true;
+			this.showUnblock = false;
+		}
+		if (this.data[0].statusID == 2) {
+			this.showBlock = false;
+			this.showUnblock = true;
+		}
+	}
+
+	// blocking
+
+	blockProvider()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 2; // needs to be 3, but as of now being sent as 2 for checking as no val in table
+		this.block_provider.block_unblock_provider(serviceProviderID, statusID).subscribe(response => this.block_unblock_providerSuccessHandeler(response));
+
+	}
+
+	unblockProvider()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 1;
+		this.block_provider.block_unblock_provider(serviceProviderID, statusID).subscribe(response => this.block_unblock_providerSuccessHandeler(response));
+	}
+
+	block_unblock_providerSuccessHandeler(response)
+	{
+		console.log("b u provider success handeler", response);
+		if (response[0].updatedStatusID==2)
+		{
+			this.getStatusOnProviderLevel(response[0].serviceProviderID);
+		}
+		if (response[0].updatedStatusID == 1) {
+			this.getStatusOnProviderLevel(response[0].serviceProviderID);
+		}
+	}
+
+	blockState()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 2;
+		let stateID = this.data[0].stateID;
+		this.block_provider.block_unblock_state(serviceProviderID,stateID, statusID).subscribe(response => this.block_unblock_stateSuccessHandeler(response));
+
+	}
+
+	unblockState()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 1;
+		let stateID = this.data[0].stateID;
+		this.block_provider.block_unblock_state(serviceProviderID,stateID, statusID).subscribe(response => this.block_unblock_stateSuccessHandeler(response));
+
+	}
+
+	block_unblock_stateSuccessHandeler(response)
+	{
+		console.log("b u state success handeler", response);
+		if (response[0].updatedStatusID == 2) {
+			this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
+		}
+		if (response[0].updatedStatusID == 1) {
+			this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
+		}
+	}
+
+	blockService()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 2;
+		let serviceID = this.data[0].serviceID;
+		this.block_provider.block_unblock_serviceline(serviceProviderID,serviceID, statusID).subscribe(response => this.block_unblock_serviceSuccessHandeler(response));
+
+	}
+
+	unblockService()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let statusID = 1;
+		let serviceID = this.data[0].serviceID;
+		this.block_provider.block_unblock_serviceline(serviceProviderID,serviceID, statusID).subscribe(response => this.block_unblock_serviceSuccessHandeler(response));
+
+	}
+
+	block_unblock_serviceSuccessHandeler(response) {
+		console.log("b u service success handeler", response);
+		if (response[0].updatedStatusID == 2) {
+			this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
+		}
+		if (response[0].updatedStatusID == 1) {
+			this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
+		}
+	}
+
+	blockServiceOfState()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let serviceID = this.data[0].serviceID;
+		let stateID = this.data[0].stateID;
+		let statusID = 2;
+		this.block_provider.block_unblock_serviceOfState(serviceProviderID, stateID, serviceID, statusID).subscribe(response => this.block_unblock_serviceOfStateSuccessHandeler(response));
+
+	}
+
+	unblockServiceOfState()
+	{
+		let serviceProviderID = this.data[0].serviceProviderID;
+		let serviceID = this.data[0].serviceID;
+		let stateID = this.data[0].stateID;
+		let statusID = 1;
+		this.block_provider.block_unblock_serviceOfState(serviceProviderID,stateID,serviceID, statusID).subscribe(response => this.block_unblock_serviceOfStateSuccessHandeler(response));
+
+	}
+
+	block_unblock_serviceOfStateSuccessHandeler(response) {
+		console.log("b u service of state success handeler", response);
+		if (response.updatedStatusID == 2) {
+			this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
+		}
+		if (response.updatedStatusID == 1) {
+			this.getStatusOnProviderStateServiceLevel(response.serviceProviderID,response.stateID, response.serviceID);
+		}
 	}
 	
 

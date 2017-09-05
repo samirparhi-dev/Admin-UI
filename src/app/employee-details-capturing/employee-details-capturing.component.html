@@ -59,23 +59,23 @@
             <button mdSuffix md-datepicker-toggle="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-           <md2-datepicker name="dob" placeholder="Date of Birth" [(ngModel)]="dob"></md2-datepicker>
+           <md2-datepicker [style.width]="'100%'" name="dob" placeholder="Date of Birth" [(ngModel)]="dob"></md2-datepicker>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15" myMobileNumber>
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Mobile Number " [(ngModel)]="mobileNumber " name="mobileNumber ">
+            <input mdInput placeholder="Mobile Number" maxlength="10" [(ngModel)]="mobileNumber " name="mobileNumber ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15" >
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="EmailID " [(ngModel)]="emailID " name="emailID ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="EmployeeID " [(ngModel)]="employeeID " name="employeeID ">
           </md-input-container>
-        </div>
+        </div> -->
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(1)">Save and Next</button>
         </div>
@@ -310,7 +310,7 @@
         <div class="row" style="height: 315px">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <h5><b>Priveleges</b></h5>
+              <h5><b>Privileges</b></h5>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 250px">
               <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
@@ -423,8 +423,8 @@
           </md-chip-list>
         </div> -->
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
-          <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Aadhaar Card Number" [(ngModel)]="adhaar_no" name="adhaar_no ">
+          <md-input-container style="width: 100% " myMobileNumber>
+            <input mdInput placeholder="Aadhaar Card Number" maxlength="12" [(ngModel)]="adhaar_no" name="adhaar_no ">
           </md-input-container>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">

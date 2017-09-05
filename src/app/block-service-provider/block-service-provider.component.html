@@ -202,9 +202,9 @@
           <thead>
             <tr>
               <th>PSMID</th>
-              <th>Provider</th>
+              <th>Provider Name</th>
               <th>State</th>
-              <th>Service</th>
+              <th>Service Line</th>
               <th>Status</th>
               <!-- <th>Actions</th> -->
             </tr>
@@ -212,9 +212,9 @@
           <tbody>
             <tr *ngFor="let i of md2.data">
               <td>{{i.providerServiceMapID}}</td>
-              <td>{{i.serviceProviderID}}</td>
-              <td>{{i.stateID}}</td>
-              <td>{{i.serviceID}}</td>
+              <td>{{i.serviceProviderName}}</td>
+              <td>{{i.stateName}}</td>
+              <td>{{i.serviceName}}</td>
               <!-- <td>
                 <div class="circle10x10 bg-color-red border-radius-50"></div>
                  <div class="circle10x10 bg-color-orange border-radius-50"></div>
@@ -224,7 +224,7 @@
              <!--  <td>
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">block</md-icon>
               </td> -->
-              <td>{{i.statusID}}</td>
+              <td>{{i.status}}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -233,14 +233,27 @@
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
-            <tr *ngIf="case_one">BLOCK PROVIDER? <button>BLOCK</button></tr>
-            <tr *ngIf="case_one">UNBLOCK PROVIDER? <button>UNBLOCK</button></tr>
-            <tr *ngIf="case_two">BLOCK STATE? <button>BLOCK</button></tr>
-            <tr *ngIf="case_two">UNBLOCK STATE? <button>UNBLOCK</button></tr>
-            <tr *ngIf="case_three">BLOCK SERVICELINE? <button>BLOCK</button></tr>
-            <tr *ngIf="case_three">UNBLOCK SERVICELINE? <button>UNBLOCK</button></tr>
-            <tr *ngIf="case_four && data[0].statusID==1">BLOCK SPECIFIC SERVICE OF A STATE? <button>BLOCK</button></tr>
-            <tr *ngIf="case_four && data[0].statusID==3">UNBLOCK SPECIFIC SERVICE OF A STATE?? <button>UNBLOCK</button></tr>
+            <tr *ngIf="case_one ">
+                <td colspan="3" *ngIf="showBlock">BLOCK PROVIDER? <button (click)="blockProvider()">BLOCK</button></td>
+                <td colspan="3" *ngIf="showUnblock">UNBLOCK PROVIDER? <button (click)="unblockProvider()">UNBLOCK</button></td>
+            </tr>
+            <!-- <tr *ngIf="case_one "></tr> -->
+            <tr *ngIf="case_two ">
+                <td colspan="3" *ngIf="showBlock">BLOCK STATE? <button (click)="blockState()">BLOCK</button></td>
+                <td colspan="3" *ngIf="showUnblock">UNBLOCK STATE? <button (click)="unblockState()">UNBLOCK</button></td>
+            </tr>
+            <!-- <tr *ngIf="case_two "></tr> -->
+            <tr *ngIf="case_three ">
+                <td colspan="3" *ngIf="showBlock">BLOCK SERVICELINE? <button (click)="blockService()">BLOCK</button></td>
+                <td colspan="3" *ngIf="showUnblock">UNBLOCK SERVICELINE? <button (click)="unblockService()">UNBLOCK</button></td>
+
+            </tr>
+            <!-- <tr *ngIf="case_three "></tr> -->
+            <tr *ngIf="case_four ">
+                <td colspan="3" *ngIf="showBlock">BLOCK SPECIFIC SERVICE OF A STATE? <button (click)="blockServiceOfState()">BLOCK</button></td>
+                <td colspan="3" *ngIf="showUnblock">UNBLOCK SPECIFIC SERVICE OF A STATE?? <button (click)="unblockServiceOfState()">UNBLOCK</button></td>
+            </tr>
+            <!-- <tr *ngIf="case_four "></tr> -->
           </tfoot>
         </table>
       </div>

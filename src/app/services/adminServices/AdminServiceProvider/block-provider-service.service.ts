@@ -28,6 +28,7 @@ export class BlockProvider {
 	block_unblock_provider_url: any;
 	block_unblock_state_url: any;
 	block_unblock_serviceline_url: any;
+	block_unblock_serviceOfState_url: any;
 	
 	constructor(private _http: Http, public ConfigService: ConfigService) {
 		this.admin_base_url=this.ConfigService.getAdminBaseUrl();
@@ -44,9 +45,10 @@ export class BlockProvider {
 		this.getProvider_State_ServiceLineLevelStatus_Url = this.admin_base_url + "getProviderStatusByService";
 
 		// blocking apis
-		this.block_unblock_provider_url="";
-		this.block_unblock_state_url="";
-		this.block_unblock_serviceline_url="";
+		this.block_unblock_provider_url = this.admin_base_url + "blockProvider";
+		this.block_unblock_state_url = this.admin_base_url + "blockProviderByState";
+		this.block_unblock_serviceline_url = this.admin_base_url + "blockProviderByServiceId";
+		this.block_unblock_serviceOfState_url = this.admin_base_url + "blockProviderByService";
 
 	}
 
@@ -112,19 +114,43 @@ export class BlockProvider {
 
 
 	// blocking unblocking apis
-	block_unblock_provider() {
-		return this._http.post(this.block_unblock_provider_url, {})
+	block_unblock_provider(serviceProviderID, statusID) {
+		return this._http.post(this.block_unblock_provider_url, {
+			"serviceProviderID": serviceProviderID,
+			"statusID": statusID
+		})
 		.map(this.success_handeler).catch(this.error_handeler);
 	}
 
-	block_unblock_state() {
-		return this._http.post(this.block_unblock_state_url, {})
+	block_unblock_state(serviceProviderID,stateID, statusID) {
+		return this._http.post(this.block_unblock_state_url, {
+			"serviceProviderID": serviceProviderID,
+
+			"stateID": stateID,
+			"statusID": statusID
+
+		})
 		.map(this.success_handeler).catch(this.error_handeler);
 	}
 
-	block_unblock_serviceline() {
-		return this._http.post(this.block_unblock_serviceline_url, {})
-		.map(this.success_handeler).catch(this.error_handeler);
+	block_unblock_serviceline(serviceProviderID,serviceID, statusID) {
+		return this._http.post(this.block_unblock_serviceline_url, {
+			"serviceProviderID": serviceProviderID,
+			"statusID": statusID,
+			"serviceID": serviceID
+		}
+		)
+			.map(this.success_handeler).catch(this.error_handeler);
+	}
+
+	block_unblock_serviceOfState(serviceProviderID,stateID,serviceID,statusID) {
+		return this._http.post(this.block_unblock_serviceOfState_url, {
+			"serviceProviderID": serviceProviderID,
+			"statusID": statusID,
+			"stateID": stateID,
+			"serviceID": serviceID
+		})
+			.map(this.success_handeler).catch(this.error_handeler);
 	}
 
 	success_handeler(response: Response)
