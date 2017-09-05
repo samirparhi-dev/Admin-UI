@@ -10,11 +10,12 @@
           </md-input-container>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-input-container class="width100">
+          <!-- <md-input-container class="width100">
             <input mdInput [mdDatepicker]="picker" name="valid_till" placeholder="{{currentlanguage.valid_till}}" [(ngModel)]="validTill" required="true">
             <button mdSuffix []="picker"></button>
           </md-input-container>
-          <md-datepicker #picker></md-datepicker>
+          <md-datepicker #picker></md-datepicker> -->
+          <md2-datepicker placeholder="{{currentlanguage.valid_till}}" [(ngModel)]="validTill" required="true" name="valid_till" ></md2-datepicker>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-input-container class="width100">
@@ -42,12 +43,13 @@
             <input mdInput placeholder="{{currentlanguage.address2}}" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-10">
-          <button [disabled]="!service_provider_form.form.valid" class="pull-right" md-raised-button (click)="show(2,'save')">Next</button>
-        </div>
+        
         <!-- </div> -->
         <!-- </div> -->
       </form>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-10">
+          <button [disabled]="!service_provider_form.form.valid" class="pull-right" md-raised-button (click)="show(2,'save')">Next</button>
+        </div>
     </div>
     <!-- ############  Service Provider State-Service Screen   ############# -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show2">
@@ -141,18 +143,20 @@
             </md-select>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <md-input-container class="width100">
+           <!--  <md-input-container class="width100">
               <input mdInput [mdDatepicker]="picker" name="dob" placeholder="Date of Birth" [(ngModel)]="dob" required="true">
               <button mdSuffix md-datepicker-toggle="picker"></button>
             </md-input-container>
-            <md-datepicker #picker></md-datepicker>
+            <md-datepicker #picker></md-datepicker> -->
+            <md2-datepicker name="dob" placeholder="Date of Birth" [(ngModel)]="dob" required="true" ></md2-datepicker>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <md-input-container class="width100">
+            <!-- <md-input-container class="width100">
               <input mdInput [mdDatepicker]="picker1" name="doj" placeholder="Date of Joining" [(ngModel)]="doj" required="true">
               <button mdSuffix md-datepicker-toggle="picker1"></button>
             </md-input-container>
-            <md-datepicker #picker1></md-datepicker>
+            <md-datepicker #picker1></md-datepicker> -->
+            <md2-datepicker name="doj" placeholder="Date of Joining" [(ngModel)]="doj" required="true" ></md2-datepicker>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
             <md-input-container style="width: 100% ">

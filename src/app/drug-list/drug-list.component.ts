@@ -15,6 +15,7 @@ export class DrugListComponent implements OnInit {
   provider_states:any;
   provider_services:any;
   service_provider_id:any;
+  showDrugGroups: boolean = false;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService) { 

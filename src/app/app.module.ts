@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -29,12 +30,10 @@ import { MultiRoleScreenComponent } from './multi-role-screen/multi-role-screen.
 import { ServiceRoleSelectionComponent } from './service-role-selection/service-role-selection.component';
 // admin components
 import { SuperAdminComponent } from './super-admin/super-admin.component'
-import { AdminServiceProviderComponent } from './admin-service-provider/admin-service-provider.component';
 import { AdminLanguageMasterComponent } from './admin-language-master/admin-language-master.component';
 import { AdminRoleMasterComponent } from './admin-role-master/admin-role-master.component';
 import { AdminServiceMasterComponent } from './admin-service-master/admin-service-master.component';
 import { AdminScreenMasterComponent } from './admin-screen-master/admin-screen-master.component';
-import { AdminStateServiceComponent } from './admin-state-service/admin-state-service.component';
 import { ProviderOnBoardComponent } from './provider-on-board/provider-on-board.component';
 import { BlockServiceProviderComponent } from './block-service-provider/block-service-provider.component';
 import { CreateGenderComponent } from './create-gender/create-gender.component';
@@ -60,11 +59,8 @@ import { EditEmployeeDetailsModal } from './employee-master/employee-master.comp
 
 // services
 import { loginService } from './services/loginService/login.service';
-import { RegisterService } from './services/register-services/register-service';
 import { dataService } from './services/dataService/data.service';
 import { DashboardHttpServices } from './http-service/http-service.service';
-import { SPService } from './services/adminServices/AdminServiceProvider/admin_service_provider.service';
-import { UserService } from './services/adminServices/AdminUser/user.service';
 import { LanguageService } from './services/adminServices/AdminLanguage/language.service';
 import { RoleService } from './services/adminServices/AdminRole/Role.service';
 import { ServicemasterService } from './services/adminServices/AdminService/servicemaster.service';
@@ -72,13 +68,9 @@ import { ScreenService } from './services/adminServices/AdminScreen/screen.servi
 import { HttpServices } from './services/http-services/http_services.service';
 import { UserBeneficiaryData } from './services/common/userbeneficiarydata.service'
 import { LocationService } from "./services/common/location.service";
-import { CoReferralService } from "./services/coService/co_referral.service";
-import { CoFeedbackService } from "./services/coService/co_feedback.service";
 import { FeedbackTypes } from "./services/common/feedbacktypes.service";
-import { UpdateService } from "./services/update-services/update-service";
 import { CallServices } from "./services/callservices/callservice.service";
 import { ConfigService } from "./services/config/config.service";
-import { StateServiceMapp } from "./services/adminServices/AdminServiceProvider/Stateservice.service";
 import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
 import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
@@ -91,11 +83,11 @@ import { BlockProvider } from "./services/adminServices/AdminServiceProvider/blo
 @NgModule( {
   declarations: [
   AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
-  AdminServiceProviderComponent,myName,myMobileNumber,myEmail,
+  myName,myMobileNumber,myEmail,
   ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
   AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
   SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
-  BlockServiceProviderComponent,AdminStateServiceComponent,CreateGenderComponent,
+  BlockServiceProviderComponent,CreateGenderComponent,
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,
@@ -170,12 +162,10 @@ import { BlockProvider } from "./services/adminServices/AdminServiceProvider/blo
   ] ) ],
 
   providers: [ 
-  loginService, dataService, DashboardHttpServices, SPService,
-  RegisterService,UserService, LanguageService, RoleService,ServicemasterService,
-  ScreenService, HttpServices,UserBeneficiaryData,LocationService, CoReferralService,
-  CoFeedbackService, FeedbackTypes,UpdateService, CallServices, ConfigService,
-  StateServiceMapp, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider
+  loginService, dataService, DashboardHttpServices, RoleService,ServicemasterService,
+  ScreenService, HttpServices,UserBeneficiaryData,LocationService, FeedbackTypes,
+  CallServices, ConfigService,SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
+  LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider
   ],
 
   entryComponents: [ 
