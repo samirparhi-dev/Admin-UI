@@ -26,12 +26,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	request_array: any;
 	request_object: any;
 
+	temporarySubtypeArray: any = [];
+
 	// arrays
 	data: any;
 	provider_states: any = [];
 	provider_services: any = [];
 
-	temporarySubtypeArray: any = [];
+	
 
 	// flags
 	showTable: boolean;
@@ -55,7 +57,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.request_object={
 			"callGroupType": "",
 			"callType1": [],
-			"providerServiceMapID": "",
+			
 			// "callTypeDesc": "call type desc 1",
 			// "fitToBlock": "1",
 			// "fitForFollowup": "1",
@@ -96,10 +98,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	pushCallSubType(call_subtype, fitToBlock, fitForFollowup)
 	{
 		let obj={
-			"call_subtype":call_subtype,
-			"fitToBlock": fitToBlock,
-			"fitForFollowup":fitForFollowup,
-			"call_description": call_subtype
+			"calltype": call_subtype,
+			"providerServiceMapID":this.providerServiceMapID,
+			"callTypeDesc1":[call_subtype],
+			"fitToBlock1": [fitToBlock],
+			"fitForFollowup1": [fitForFollowup]
 		}
 		console.log('dummy obj', obj);
 
@@ -147,16 +150,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.request_object = {
 			"callGroupType": this.callType,
 			"callType1": this.temporarySubtypeArray,
-			"providerServiceMapID": this.providerServiceMapID,
-			// "callTypeDesc": "call type desc 1",
-			// "fitToBlock": "1",
-			// "fitForFollowup": "1",
 			"createdBy": "Diamond Khanna"
 		}
 		this.request_array.push(this.request_object);
 		console.log(this.request_array, "requested array");
-		this.hideForm();
-
+		this.callTypeSubtypeService.saveCallTypeSubtype(this.request_array).subscribe(response=>this.saveCallTypeSubTypeSuccessHandeler(response));
 	}
 
 	
@@ -167,6 +165,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 
+
+
 	// successhandelers
 
 	getStatesSuccessHandeler(response)
@@ -175,6 +175,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	getServicesSuccessHandeler(response) {
+		this.service = "";
 		this.provider_services = response;
 	}
 
@@ -184,6 +185,21 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.data = response;
 
 		this.showTable = true;
+	}
+
+	saveCallTypeSubTypeSuccessHandeler(response)
+	{
+		console.log(response, "save call type sub type success");
+		this.hideForm(); // going back to table view
+		
+		// resetting the ngmodels  
+		this.reset();
+		this.callType = "";
+		this.request_array = [];
+
+		
+		this.get_calltype_subtype_history(); // refreshing the table contents
+
 	}
 
 
