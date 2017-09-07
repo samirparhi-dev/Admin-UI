@@ -4,12 +4,12 @@ import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
 
 @Component({
-  selector: 'app-drug-list',
-  templateUrl: './drug-list.component.html'
+  selector: 'app-drug-mapping',
+  templateUrl: './drug-mapping.component.html'
 })
-export class DrugListComponent implements OnInit {
+export class DrugMappingComponent implements OnInit {
 
-  showDrugs:any = true;
+  showMappings:any = true;
   availableDrugs:any =[];
   data:any;
   providerServiceMapID:any;
@@ -26,13 +26,13 @@ export class DrugListComponent implements OnInit {
 
   ngOnInit() {
     this.getStates();
-    this.getAvailableDrugs();
+    this.getAvailableMappings();
   }
 
   stateSelection(stateID){
     this.getServices(stateID);
   }
-  getAvailableDrugs(){
+  getAvailableMappings(){
     this.drugMasterService.getDrugsList().subscribe(response => this.getDrugsSuccessHandeler(response));
   }
 
@@ -72,7 +72,7 @@ export class DrugListComponent implements OnInit {
   
 
   showForm(){
-    this.showDrugs = false;
+    this.showMappings = false;
   }
 
   drugObj:any ;
@@ -82,7 +82,7 @@ export class DrugListComponent implements OnInit {
   //   'providerServiceMapID':'',
   //   'createdBy':''
 	// };
-  drugList:any= [];
+  drugMapping:any= [];
   addDrugToList(values){
     this.drugObj = {};
     this.drugObj.drugName = values.drugName;
@@ -96,20 +96,20 @@ export class DrugListComponent implements OnInit {
     
     this.drugObj.createdBy = "System";
 
-    this.drugList.push(this.drugObj);
-    console.log(this.drugList);
+    this.drugMapping.push(this.drugObj);
+    console.log(this.drugMapping);
   }
 
   storedrug(){
-    console.log(this.drugList);
-    let obj = {"drugMasters":this.drugList};
+    console.log(this.drugMapping);
+    let obj = {"drugMasters":this.drugMapping};
     this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
    successHandler(response){
-    this.drugList =  [];
+    this.drugMapping =  [];
     alert("drugs saved");
-    this.getAvailableDrugs();
+    this.getAvailableMappings();
   }
 
   dataObj:any ={};
@@ -126,33 +126,18 @@ export class DrugListComponent implements OnInit {
   }
 
   updateHandler(response){
-    alert("updated successfully");
-  }
-
-  drugID:any;
-  drugName:any;
-  drugDesc:any;
-  remarks:any;
-
-  editDrugData(drug){
-    this.drugID = drug.drugID;
-    this.drugName = drug.drugName
-    this.drugDesc = drug.drugDesc;
-    this.remarks = drug.remarks;
-    this.editable = true;
+    alert(response);
   }
 
   updateDrugData(drug){
     this.dataObj ={};
-    this.dataObj.drugID = drug.drugID;
     this.dataObj.drugName = drug.drugName;
     this.dataObj.drugDesc = drug.drugDesc;
     this.dataObj.remarks = drug.remarks;
     this.dataObj.providerServiceMapID = drug.providerServiceMapID;
     this.dataObj.modifiedBy = "Admin";
-    this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response));
-    this.editable = false;
-    this.getAvailableDrugs();
+    this.drugMasterService.updateDrugDataURL(this.dataObj).subscribe(response => this.updateHandler(response));
+
   }
 
 }

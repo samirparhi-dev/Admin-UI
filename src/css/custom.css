@@ -1308,6 +1308,15 @@ overflow-x: initial;
  background:#14508c !important;
 }
 
+.activateBtn{
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.error_text {
+  color: red;
+}
+
 .btn:before {
   content: "";  
   position: absolute;
@@ -1676,6 +1685,9 @@ background:yellow;
 .bg-color-green{
 background:green;  
 }
+
+
+
  @media (max-width: 317px) {
     
   

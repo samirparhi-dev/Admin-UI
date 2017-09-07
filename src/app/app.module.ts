@@ -52,7 +52,7 @@ import { CategorySubcategoryProvisioningComponent } from './category-subcategory
 import { DrugMasterComponent } from './drug-master/drug-master.component';
 import { DrugGroupComponent } from './drug-group/drug-group.component';
 import { DrugListComponent } from './drug-list/drug-list.component';
-
+import { DrugMappingComponent } from './drug-mapping/drug-mapping.component';
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
@@ -77,7 +77,7 @@ import { LocationServicelineMapping } from "./services/ProviderAdminServices/loc
 import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
 import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
-
+import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
 
 
 @NgModule( {
@@ -90,7 +90,7 @@ import { BlockProvider } from "./services/adminServices/AdminServiceProvider/blo
   BlockServiceProviderComponent,CreateGenderComponent,
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
-  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,
+  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,DrugMappingComponent,
     LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent
   ],
 
@@ -165,7 +165,8 @@ import { BlockProvider } from "./services/adminServices/AdminServiceProvider/blo
   loginService, dataService, DashboardHttpServices, RoleService,ServicemasterService,
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, FeedbackTypes,
   CallServices, ConfigService,SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-  LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider
+  LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
+  DrugMasterService
   ],
 
   entryComponents: [ 
