@@ -21,13 +21,15 @@ export class CallTypeSubtypeService {
   get_Service_Url: any;
 
   get_CallTypeSubType_Url: any;
+  save_CallTypeSubType_Url: any;
 
   constructor(private http: Http, public basepaths: ConfigService) {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + "m/role/state";
     this.get_Service_Url = this.admin_Base_Url + "m/role/service";
     this.get_CallTypeSubType_Url = this.admin_Base_Url + "m/getCalltypedata";
-
+    this.save_CallTypeSubType_Url = this.admin_Base_Url + "m/saveCalltypedata";
+    
    };
 
    getStates(serviceProviderID) {
@@ -51,6 +53,12 @@ export class CallTypeSubtypeService {
      return this.http.post(this.get_CallTypeSubType_Url, {
        "providerServiceMapID": serviceProviderMapID
      }).map(this.handleSuccess)
+       .catch(this.handleError);
+   }
+
+   saveCallTypeSubtype(request_obj)
+   {
+     return this.http.post(this.save_CallTypeSubType_Url, request_obj).map(this.handleSuccess)
        .catch(this.handleError);
    }
 
