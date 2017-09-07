@@ -1,4 +1,4 @@
-<div *ngIf="showDrugs && !editable">
+<div *ngIf="showMappings">
   <h4>Available Drugs</h4>
   <table class="table ">
     <thead>
@@ -11,13 +11,14 @@
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
-        <td>{{drug.providerServiceMapID}}</td>
-        <td>{{drug.drugName}}</td>
-        <td>{{drug.drugDesc}}</td>
-        <td>{{drug.remarks}}</td>
+        <td><input [disabled]="!editable" value="{{drug.providerServiceMapID}}"></td>
+        <td><input [disabled]="!editable" value="{{drug.drugName}}"></td>
+        <td><input [disabled]="!editable" value="{{drug.drugDesc}}"></td>
+        <td><input [disabled]="!editable" value="{{drug.remarks}}"></td>
         <td *ngIf="drug.deleted=='0'"> <button class="btn" (click)="updateDrugStatus(drug)">DeActivate</button></td>
         <td *ngIf="drug.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugStatus(drug)">Activate</button></td>
-        <td> <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button></td>
+        <td *ngIf="!editable"> <button class="btn activateBtn" (click)="editable = true;">Edit</button></td>
+        <td *ngIf="editable"> <button class="btn activateBtn" (click)="updateDrugData(drug)">update</button></td>
       </tr>
       <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
     </tbody>
@@ -26,14 +27,10 @@
     <button class="btn pull-right " (click)="showForm()">Add Drug </button>
   </div>
 </div>
-<div *ngIf="editable">
-
-</div>
-<div *ngIf="!showDrugs || editable">
+<div *ngIf="!showMappings">
   <h4>Create Drug Form</h4>
   <form #drugForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-       <input mdInput [hidden] [(ngModel)]="drugID" name="drugID" >
       <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
         <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
           {{item.stateName}}
@@ -65,11 +62,8 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-      <button *ngIf="!editable" [disabled]=" !drugN.valid || !drugD.valid || !stateVal.valid" class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
+      <button [disabled]=" !drugN.valid || !drugD.valid || !stateVal.valid" class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-      <button *ngIf="editable"  class="btn pull-right " (click)="updateDrugData(drugForm.value);drugForm.reset()  ">
-        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon>
       </button>
     </div>
   </form>
@@ -97,6 +91,6 @@
     </table>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="showDrugs = true;editable=false;">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
+   <button class="btn pull-left" (click)="showMappings = true">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
   </div>
 </div>
