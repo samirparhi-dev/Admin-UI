@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
+import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
 
 @Component({
   selector: 'app-drug-group',
@@ -9,32 +10,39 @@ import { dataService } from '../services/dataService/data.service';
 export class DrugGroupComponent implements OnInit {
 
   showDrugGroups:any = true;
-  availableDrugGroups:any =[];
+  availableDrugGroups:any = [];
   data:any;
   providerServiceMapID:any;
   provider_states:any;
   provider_services:any;
   service_provider_id:any;
+  showPaginationControls:any = true;
+  editable:any = false;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
-              public commonDataService: dataService) { 
+              public commonDataService: dataService,
+              public drugMasterService:DrugMasterService) { 
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
    }
 
   ngOnInit() {
+    this.getAvailableDrugs();
     this.getStates();
    
   }
 
   stateSelection(stateID){
-    debugger;
     this.getServices(stateID);
   }
   getAvailableDrugs(){
-    
+    this.drugMasterService.getDrugGroups().subscribe(response => this.getDrugGroupsSuccessHandeler(response));
   }
 
+  getDrugGroupsSuccessHandeler(response){
+    this.availableDrugGroups = response;
+    console.log(this.availableDrugGroups);
+  }
   getServices(stateID)
 	{
 		this.providerAdminRoleService.getServices(this.service_provider_id,stateID).subscribe(response => this.getServicesSuccessHandeler(response));
@@ -53,18 +61,15 @@ export class DrugGroupComponent implements OnInit {
 		this.provider_services = response;
     for(let provider_service of this.provider_services){
       if("104"==provider_service.serviceName){
-         this.providerServiceMapID = this.provider_services.providerServiceMapID;
+         this.providerServiceMapID = provider_service.providerServiceMapID;
       }
     } 
 	}
-
-  
 
   responseHandler(response){
     this.data = response;
   }
   
-
   showForm(){
     this.showDrugGroups = false;
   }
@@ -78,10 +83,17 @@ export class DrugGroupComponent implements OnInit {
 	// };
   drugGroupList:any= [];
   addDrugGroupToList(values){
+    debugger;
     this.drugGroupObj = {};
     this.drugGroupObj.drugGroup = values.drugGroup;
     this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
-    this.drugGroupObj.providerServiceMapID = this.providerServiceMapID;
+
+    for(let provider_service of this.provider_services){
+      if("104"==provider_service.serviceName){
+         this.drugGroupObj.providerServiceMapID =  provider_service.providerServiceMapID;
+      }
+    } 
+    
     this.drugGroupObj.createdBy = "System";
 
     this.drugGroupList.push(this.drugGroupObj);
@@ -90,6 +102,54 @@ export class DrugGroupComponent implements OnInit {
 
   storeDrugGroup(){
     console.log(this.drugGroupList);
+
+    let obj = {"drugGroups":this.drugGroupList};
+    this.drugMasterService.saveDrugGroups(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
+
+  successHandler(response){
+    this.drugGroupList =  [];
+    alert("drug group saved");
+    this.getAvailableDrugs();
+  }
+  dataObj:any ={};
+  updateDrugGroupStatus(drugGroup){
+   
+    this.dataObj ={};
+    this.dataObj.drugGroupID = drugGroup.drugGroupID;
+    this.dataObj.deleted = !drugGroup.deleted;
+    this.dataObj.modifiedBy = "Admin";
+    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateHandler(response));
+     drugGroup.deleted = !drugGroup.deleted;
+     
+  }
+
+  updateHandler(response){
+    alert(response);
+  }
+
+  drugGroupID:any;
+  drugGroup:any;
+  drugGroupDesc:any;
+
+  editDrugGroup(drug){
+    this.drugGroupID = drug.drugGroupID;
+    this.drugGroup = drug.drugGroup
+    this.drugGroupDesc = drug.drugGroupDesc;
+    this.editable = true;
+  }
+
+  updateDrugGroup(drugGroup){
+    this.dataObj ={};
+    this.dataObj.drugGroupID = drugGroup.drugGroupID;
+    this.dataObj.drugGroup = drugGroup.drugGroup;
+    this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc;
+    this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
+    this.dataObj.modifiedBy = "Admin";
+    this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => this.updateHandler(response));
+    this.editable = false;
+    this.getAvailableDrugs();
+  }
+
 
 }
