@@ -25,15 +25,16 @@ export class DrugMasterService {
      
      getDrugsListURL:any;
      getDrugGroupsURL:any;
+     getDrugMappingsURL:any;
 
      updateDrugStatusURL:any;
 
      updateDrugDataURL:any;
      updateDrugGroupURL:any;
+     updateDrugMappingsURL:any;
 
      constructor(private http: Http,public basepaths:ConfigService) { 
           this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
-        // this.providerAdmin_Base_Url = "http://localhost:8080/";
           this.saveDrugGroupsURL = this.providerAdmin_Base_Url + "m/saveDrugGroup";
           this.saveDrugsURL = this.providerAdmin_Base_Url + "m/saveDrug";
           this.mapDrugGroupURL = this.providerAdmin_Base_Url + "m/mapDrugWithGroup";
@@ -42,6 +43,8 @@ export class DrugMasterService {
           this.updateDrugStatusURL = this.providerAdmin_Base_Url + "m/updateDrugStatus";
           this.updateDrugDataURL = this.providerAdmin_Base_Url + "m/updateDrugMaster";
           this.updateDrugGroupURL = this.providerAdmin_Base_Url + "m/updateDrugGroup";
+          this.getDrugMappingsURL = this.providerAdmin_Base_Url + "m/getDrugGroupMappings";
+          this.updateDrugMappingsURL = this.providerAdmin_Base_Url + "m/updateDrugMapping";
                     
     };
 
@@ -76,6 +79,13 @@ export class DrugMasterService {
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
+
+    getDrugMappings(){
+        return this.http.post(this.getDrugMappingsURL, {})
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+    }
+
     updateDrugStatus(data){
         return this.http.post(this.updateDrugStatusURL, data)
         .map(this.handleSuccess)
@@ -90,6 +100,12 @@ export class DrugMasterService {
 
     updateDrugData(data){
         return this.http.post(this.updateDrugDataURL, data)
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+    }
+
+    updateDrugMappings(data){
+        return this.http.post(this.updateDrugMappingsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }

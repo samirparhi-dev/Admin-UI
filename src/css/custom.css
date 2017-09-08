@@ -1312,6 +1312,9 @@ overflow-x: initial;
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
+.hide_underline .mat-input-underline {
+  display: none;
+}
 
 .error_text {
   color: red;

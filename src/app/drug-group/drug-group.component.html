@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drugGroup of availableDrugGroups | paginate: {id:'searchResult', itemsPerPage: 3, currentPage: b}" >
-        <td>{{drugGroup.providerServiceMapID}}</td>
+        <td>{{drugGroup.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drugGroup.drugGroup}}</td>
         <td>{{drugGroup.drugGroupDesc}}</td>
         <td *ngIf="drugGroup.deleted=='0'"> <button class="btn" (click)="updateDrugGroupStatus(drugGroup)">DeActivate</button></td>
@@ -27,10 +27,10 @@
 <div *ngIf="!showDrugGroups || editable">
   <h4>Create Drug Goup Form</h4>
   <form #drugGroupForm="ngForm">
-    <input mdInput [hidden] [(ngModel)]="drugGroupID" name="drugGroupID" >
+    <input mdInput style="display:none;" [(ngModel)]="drugGroupID" name="drugGroupID" >
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
       <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
+        <md-option *ngFor="let item of provider_states" [value]="item.stateID">
           {{item.stateName}}
         </md-option>
       </md-select>
@@ -74,7 +74,7 @@
       </thead>
       <tbody>
         <tr style="cursor: pointer" *ngFor="let drugGroup of drugGroupList | paginate: {id:'groupsList', itemsPerPage: 3, currentPage: b}">
-          <td>{{drugGroup.providerServiceMapID}}</td>
+          <td>{{drugGroup.stateName}}</td>
           <td>{{drugGroup.drugGroup}}</td>
           <td>{{drugGroup.drugGroupDesc}}</td>
         </tr>
