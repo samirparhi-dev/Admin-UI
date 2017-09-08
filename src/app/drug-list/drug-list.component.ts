@@ -91,6 +91,7 @@ export class DrugListComponent implements OnInit {
      for(let provider_service of this.provider_services){
       if("104"==provider_service.serviceName){
          this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
+         this.drugObj.stateName = provider_service.stateName;
       }
     } 
     
@@ -133,12 +134,14 @@ export class DrugListComponent implements OnInit {
   drugName:any;
   drugDesc:any;
   remarks:any;
-
+  stateID:any;
+  
   editDrugData(drug){
     this.drugID = drug.drugID;
     this.drugName = drug.drugName
     this.drugDesc = drug.drugDesc;
     this.remarks = drug.remarks;
+    this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
   }
 

@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
-        <td>{{drug.providerServiceMapID}}</td>
+        <td>{{drug.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drug.drugName}}</td>
         <td>{{drug.drugDesc}}</td>
         <td>{{drug.remarks}}</td>
@@ -33,9 +33,9 @@
   <h4>Create Drug Form</h4>
   <form #drugForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-       <input mdInput [hidden] [(ngModel)]="drugID" name="drugID" >
+       <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID" >
       <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
+        <md-option *ngFor="let item of provider_states" [value]="item.stateID">
           {{item.stateName}}
         </md-option>
       </md-select>
@@ -85,7 +85,7 @@
       </thead>
       <tbody>
         <tr style="cursor: pointer" *ngFor="let drug of drugList">
-          <td>{{drug.providerServiceMapID}}</td>
+          <td>{{drug.stateName}}</td>
           <td>{{drug.drugName}}</td>
           <td>{{drug.drugDesc}}</td>
           <td>{{drug.remarks}}</td>

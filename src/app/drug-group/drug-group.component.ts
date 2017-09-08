@@ -91,6 +91,7 @@ export class DrugGroupComponent implements OnInit {
     for(let provider_service of this.provider_services){
       if("104"==provider_service.serviceName){
          this.drugGroupObj.providerServiceMapID =  provider_service.providerServiceMapID;
+         this.drugGroupObj.stateName = provider_service.stateName;
       }
     } 
     
@@ -125,17 +126,19 @@ export class DrugGroupComponent implements OnInit {
   }
 
   updateHandler(response){
-    alert(response);
+    alert("updated successfully");
   }
 
   drugGroupID:any;
   drugGroup:any;
   drugGroupDesc:any;
-
+  stateID:any;
+  
   editDrugGroup(drug){
     this.drugGroupID = drug.drugGroupID;
     this.drugGroup = drug.drugGroup
     this.drugGroupDesc = drug.drugGroupDesc;
+    this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
   }
 
@@ -150,6 +153,5 @@ export class DrugGroupComponent implements OnInit {
     this.editable = false;
     this.getAvailableDrugs();
   }
-
 
 }
