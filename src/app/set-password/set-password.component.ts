@@ -2,52 +2,64 @@ import { Component, OnInit } from '@angular/core';
 import { HttpServices } from '../services/http-services/http_services.service';
 import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
+import { ConfigService } from '../services/config/config.service';
 
 
 
 
-@Component({
-  selector: 'app-set-password',
-  templateUrl: './set-password.component.html',
-  styleUrls: ['./set-password.component.css']
-})
-export class SetPasswordComponent implements OnInit {
+@Component( {
+	selector: 'app-set-password',
+	templateUrl: './set-password.component.html',
+	styleUrls: [ './set-password.component.css' ]
+} )
+export class SetPasswordComponent implements OnInit
+{
 
-	constructor(public http_calls: HttpServices, public getUserData: dataService, public router: Router) { }
+	constructor(
+		public http_calls: HttpServices,
+		public getUserData: dataService,
+		private configService: ConfigService,
+		public router: Router ) { }
 
-  ngOnInit() {
-  }
+	ngOnInit ()
+	{
+	}
 
-  newpwd: any;
-  confirmpwd: any;
+	newpwd: any;
+	confirmpwd: any;
 
-  uname: any = this.getUserData.uname;
+	uname: any = this.getUserData.uname;
 
 
-  updatePassword(new_pwd) {
-	  if (new_pwd === this.confirmpwd) {
-		  this.http_calls.postData("http://10.152.3.99:8080/CommonV1/user/setForgetPassword", 
-										{ "userName": this.uname, "password": new_pwd }
-									).subscribe(
-											(response: any) => this.successCallback(response),
-											(error: any) => this.errorCallback(error)
-												);
-		
-		alert("password is changed for user " + this.uname + " wd new pwd as : " + new_pwd);
-	  }
-	  else {
-		  alert("password dsnt match");
-	  }
-  }
+	updatePassword ( new_pwd )
+	{
+		if ( new_pwd === this.confirmpwd )
+		{
+			this.http_calls.postData( this.configService.getCommonBaseURL() + "user/setForgetPassword",
+				{ "userName": this.uname, "password": new_pwd }
+			).subscribe(
+				( response: any ) => this.successCallback( response ),
+				( error: any ) => this.errorCallback( error )
+				);
 
-  successCallback(response) {
+			alert( "password is changed for user " + this.uname + " wd new pwd as : " + new_pwd );
+		}
+		else
+		{
+			alert( "password dsnt match" );
+		}
+	}
 
-	  console.log(response);
-	  this.router.navigate(['/loginContentClass']);
-  }
-  errorCallback(response) {
-	  console.log(response);
-  }
+	successCallback ( response )
+	{
+
+		console.log( response );
+		this.router.navigate( [ '/loginContentClass' ] );
+	}
+	errorCallback ( response )
+	{
+		console.log( response );
+	}
 
 
 }

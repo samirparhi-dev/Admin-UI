@@ -4,7 +4,7 @@
 dist
 tmp
 out-tsc
-target
+target/
 
 # dependencies
 /node_modules
@@ -41,3 +41,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#Config
+config.service.ts
+config.json
+*.properties
+

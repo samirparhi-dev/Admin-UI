@@ -15,19 +15,20 @@ export class loginService
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
 	admin_base_path: any;
 	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
-	newlogin = "http://10.152.3.99:8080/CommonV1/user/userAuthenticate";
-	getServiceProviderID_url: any; 
+	newlogin = this._baseURL + "user/userAuthenticate";
+	getServiceProviderID_url: any;
 	constructor(
 		private _http: Http,
 		private _config: ConfigService
-	) {
+	)
+	{
 		this.admin_base_path = this._config.getAdminBaseUrl();
 		this.getServiceProviderID_url = this.admin_base_path + "getServiceProviderid";
 	}
 
 	public authenticateUser = function ( uname: any, pwd: any )
 	{
-		return this._http.post(this.newlogin, { 'userName': uname.toLowerCase(), 'password': pwd })
+		return this._http.post( this.newlogin, { 'userName': uname.toLowerCase(), 'password': pwd } )
 			.map( this.extractData )
 			.catch( this.handleError );
 	};
@@ -35,16 +36,16 @@ export class loginService
 	getSecurityQuestions ( uname: any ): Observable<any>
 	{
 
-		return this._http.post(this._forgotPasswordURL, { 'userName': uname.toLowerCase() })
+		return this._http.post( this._forgotPasswordURL, { 'userName': uname.toLowerCase() } )
 			.map( this.extractData )
 			.catch( this.handleError );
 	};
 
-	getServiceProviderID(providerServiceMapID)
+	getServiceProviderID ( providerServiceMapID )
 	{
-		return this._http.post(this.getServiceProviderID_url, { 'providerServiceMapID': providerServiceMapID })
-			.map(this.extractData)
-			.catch(this.handleError);
+		return this._http.post( this.getServiceProviderID_url, { 'providerServiceMapID': providerServiceMapID } )
+			.map( this.extractData )
+			.catch( this.handleError );
 	}
 
 	private extractData ( res: Response )
@@ -52,7 +53,7 @@ export class loginService
 		// console.log("inside extractData:"+JSON.stringify(res.json()));
 		// let body = res.json();
 		//return body.data || {};
-		console.log('response in service', res);
+		console.log( 'response in service', res );
 		return res.json().data;
 	};
 

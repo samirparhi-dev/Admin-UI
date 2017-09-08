@@ -44,7 +44,6 @@
             <td>{{i.callType}}</td>
             <td>{{i.fitToBlock}}</td>
             <td>{{i.fitForFollowup}}</td>
-            
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">delete</md-icon>
@@ -82,18 +81,18 @@
         </md-input-container>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-20" *ngIf='callType==="Invalid Call"'>
-      <label>Fit To Block</label>
+        <label>Fit To Block</label>
         <md-radio-group [(ngModel)]="fitToBlock">
-  <md-radio-button value="1">YES</md-radio-button>
-  <md-radio-button value="0">NO</md-radio-button>
-</md-radio-group>
+          <md-radio-button value="1">YES</md-radio-button>
+          <md-radio-button value="0">NO</md-radio-button>
+        </md-radio-group>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-20" *ngIf='callType==="Valid Call"'>
-       <label>Fit For FollowUp</label>
-       <md-radio-group [(ngModel)]="fitForFollowup">
-  <md-radio-button value="1">YES</md-radio-button>
-  <md-radio-button value="0">NO</md-radio-button>
-</md-radio-group>
+        <label>Fit For FollowUp</label>
+        <md-radio-group [(ngModel)]="fitForFollowup">
+          <md-radio-button value="1">YES</md-radio-button>
+          <md-radio-button value="0">NO</md-radio-button>
+        </md-radio-group>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-10">
         <button md-mini-fab color="primary" (click)="pushCallSubType(callSubType,fitToBlock,fitForFollowup)">
@@ -114,7 +113,7 @@
           </md-chip-list>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <div class="col-lg-6"> 
+          <div class="col-lg-6">
             <md-chip-list>
               <md-chip color="accent" selected="true">block:{{item.fitToBlock1[0]}}</md-chip>
             </md-chip-list>
@@ -124,7 +123,6 @@
               <md-chip color="accent" selected="true">followup:{{item.fitForFollowup1[0]}}</md-chip>
             </md-chip-list>
           </div>
-         
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <button md-mini-fab color="primary" (click)="removeFromCallSubType(i)">
