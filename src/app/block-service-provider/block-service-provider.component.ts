@@ -23,6 +23,7 @@ export class BlockServiceProviderComponent implements OnInit {
 	state:any;
 	serviceline:any;
 
+	// flags
 	showTable: boolean;
 	case_one: boolean;
 	case_two: boolean;
@@ -39,7 +40,7 @@ export class BlockServiceProviderComponent implements OnInit {
 		this.case_two=false;
 		this.case_three=false;
 		this.case_four=false;
-	 }
+	}
 
 	ngOnInit() {
 		this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
@@ -168,53 +169,138 @@ export class BlockServiceProviderComponent implements OnInit {
 	{
 		console.log(response, "RESPONSE");
 		this.data= response;
-		if (this.data[0].statusID==1)
+
+		if(this.data.length>0)
 		{
-			this.showBlock = true;
-			this.showUnblock = false;
+			let blocked = 0;
+			let unblocked = 0;
+			for (let i = 0; i < this.data.length; i++) {
+				if (this.data[i].statusID == 1) {
+					unblocked = unblocked + 1;
+				}
+			}
+			if (unblocked>0 && unblocked <= this.data.length)
+			{
+				this.showBlock = true;
+				this.showUnblock = false;
+			}
+			if (unblocked==0) {
+				this.showBlock = false;
+				this.showUnblock = true;
+			}
 		}
-		if (this.data[0].statusID == 2) {
-			this.showBlock = false;
-			this.showUnblock = true;
+		else
+		{
+			console.log("array blank");
 		}
+		
+		// if (this.data[0].statusID==1)
+		// {
+		// 	this.showBlock = true;
+		// 	this.showUnblock = false;
+		// }
+		// if (this.data[0].statusID == 2) {
+		// 	this.showBlock = false;
+		// 	this.showUnblock = true;
+		// }
 	}
 
 	successhandeler2(response) {
 		console.log(response, "RESPONSE");
 		this.data= response;
-		if (this.data[0].statusID == 1) {
-			this.showBlock = true;
-			this.showUnblock = false;
+		// if (this.data[0].statusID == 1) {
+		// 	this.showBlock = true;
+		// 	this.showUnblock = false;
+		// }
+		// if (this.data[0].statusID == 2) {
+		// 	this.showBlock = false;
+		// 	this.showUnblock = true;
+		// }
+		if (this.data.length > 0) {
+			let blocked = 0;
+			let unblocked = 0;
+			for (let i = 0; i < this.data.length; i++) {
+				if (this.data[i].statusID == 1) {
+					unblocked = unblocked + 1;
+				}
+			}
+			if (unblocked > 0 && unblocked <= this.data.length) {
+				this.showBlock = true;
+				this.showUnblock = false;
+			}
+			if (unblocked == 0) {
+				this.showBlock = false;
+				this.showUnblock = true;
+			}
 		}
-		if (this.data[0].statusID == 2) {
-			this.showBlock = false;
-			this.showUnblock = true;
+		else {
+			console.log("array blank");
 		}
 	}
 
 	successhandeler3(response) {
 		console.log(response, "RESPONSE");
 		this.data= response;
-		if (this.data[0].statusID == 1) {
-			this.showBlock = true;
-			this.showUnblock = false;
+		// if (this.data[0].statusID == 1) {
+		// 	this.showBlock = true;
+		// 	this.showUnblock = false;
+		// }
+		// if (this.data[0].statusID == 2) {
+		// 	this.showBlock = false;
+		// 	this.showUnblock = true;
+		// }
+		if (this.data.length > 0) {
+			let blocked = 0;
+			let unblocked = 0;
+			for (let i = 0; i < this.data.length; i++) {
+				if (this.data[i].statusID == 1) {
+					unblocked = unblocked + 1;
+				}
+			}
+			if (unblocked > 0 && unblocked <= this.data.length) {
+				this.showBlock = true;
+				this.showUnblock = false;
+			}
+			if (unblocked == 0) {
+				this.showBlock = false;
+				this.showUnblock = true;
+			}
 		}
-		if (this.data[0].statusID == 2) {
-			this.showBlock = false;
-			this.showUnblock = true;
+		else {
+			console.log("array blank");
 		}
 	}
 
 	successhandeler4(response) {
 		console.log(response, "RESPONSE");
 		this.data= response;
-		if (this.data[0].statusID == 1) {
-			this.showBlock = true;
-			this.showUnblock = false;
+		// if (this.data[0].statusID == 1) {
+		// 	this.showBlock = true;
+		// 	this.showUnblock = false;
+		// }
+		// if (this.data[0].statusID == 2) {
+		// 	this.showBlock = false;
+		// 	this.showUnblock = true;
+		// }
+		if (this.data.length > 0) {
+			let blocked = 0;
+			let unblocked = 0;
+			for (let i = 0; i < this.data.length; i++) {
+				if (this.data[i].statusID == 1) {
+					unblocked = unblocked + 1;
+				}
+			}
+			if (unblocked > 0 && unblocked <= this.data.length) {
+				this.showBlock = true;
+				this.showUnblock = false;
+			}
+			if (unblocked == 0) {
+				this.showBlock = false;
+				this.showUnblock = true;
+			}
 		}
-		if (this.data[0].statusID == 2) {
-			this.showBlock = false;
-			this.showUnblock = true;
+		else {
+			console.log("array blank");
 		}
 	}
 
@@ -461,4 +547,4 @@ export class BlockServiceProviderComponent implements OnInit {
 
 
 
-  
+	  
