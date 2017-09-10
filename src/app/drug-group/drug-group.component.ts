@@ -83,7 +83,6 @@ export class DrugGroupComponent implements OnInit {
 	// };
   drugGroupList:any= [];
   addDrugGroupToList(values){
-    debugger;
     this.drugGroupObj = {};
     this.drugGroupObj.drugGroup = values.drugGroup;
     this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
