@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CategorySubcategoryService } from "../services/ProviderAdminServices/category-subcategory-master-service.service";
+import { dataService } from '../services/dataService/data.service';
 
 @Component({
 	selector: 'app-category-subcategory-provisioning',
@@ -7,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategorySubcategoryProvisioningComponent implements OnInit {
 
+	serviceproviderID: any;
 	// ngmodels
 	state:any;
 	service:any;
@@ -19,13 +22,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 	showTable: boolean;
 
 
-	constructor() {
+
+	request_object: any;
+
+
+	constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService) {
 		this.api_choice = "0";
 		this.Add_Category_Subcategory_flag = true;
 		this.showTable = true;
+
+		this.serviceproviderID = this.commonDataService.service_providerID;
+
 	}
 
-	ngOnInit() { }
+	ngOnInit() {
+		
+	 }
 
 	hideTable()
 	{

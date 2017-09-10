@@ -78,6 +78,8 @@ import { EmployeeMasterService } from "./services/ProviderAdminServices/employee
 import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
 import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
+import { CategorySubcategoryService } from "./services/ProviderAdminServices/category-subcategory-master-service.service";
+
 
 
 @NgModule( {
@@ -166,7 +168,7 @@ import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, FeedbackTypes,
   CallServices, ConfigService,SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
   LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
-  DrugMasterService
+    DrugMasterService, CategorySubcategoryService
   ],
 
   entryComponents: [ 
