@@ -18,8 +18,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	callType: any;
 	callSubType: any;
-	fitToBlock: any="0";
-	fitForFollowup: any="0";
+	fitToBlock: boolean=false;
+	fitForFollowup: boolean=false;
 
 
 	// api related 
@@ -91,8 +91,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	{
 		this.callSubType = "";
 		this.temporarySubtypeArray = [];
-		this.fitToBlock= "0";
-		this.fitForFollowup= "0";
+		this.fitToBlock=false;
+		this.fitForFollowup= false;
 	}
 
 	pushCallSubType(call_subtype, fitToBlock, fitForFollowup)
@@ -135,8 +135,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		// resetting fields
 		this.callSubType = "";
-		this.fitToBlock = "0";
-		this.fitForFollowup = "0";
+		this.fitToBlock = false;
+		this.fitForFollowup = false;
 
 	}
 

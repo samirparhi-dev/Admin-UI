@@ -104,7 +104,7 @@ export class DrugMappingComponent implements OnInit {
   drugMapping:any= [];
   drugIdList:any = [];
   addDrugToList(values){  
-        debugger;
+
     for(let drugIds of values.drugIdList){
       this.drugObj = {};
       this.drugObj.drugGroupID = values.drugGroupID.split("-")[0];
@@ -163,7 +163,7 @@ export class DrugMappingComponent implements OnInit {
   stateID:any;
 
   editDrugMapping(drug){
-    debugger;
+
     this.drugMapID = drug.drugMapID;
     this.drugGroupID = drug.drugGroupID;
     this.drugGroupName = drug.drugGroupName;

@@ -146,6 +146,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 		"secondaryContactNo": "",
 		"secondaryContactEmailID": "",
 		"secondaryContactAddress": "",
+		"statusID": "1",
 
 
 		"createdBy": "Diamond_Khanna",

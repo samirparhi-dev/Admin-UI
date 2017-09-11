@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 
 
 @Injectable()
+
 export class ConfigService
 {
     private _commonBaseURL: String = "http://14.142.214.242:8080/CommonV1/";
@@ -14,25 +15,22 @@ export class ConfigService
     private _helpline104BaseURL: String = "http://14.142.214.242:8080/helpline104API/";
     private adminBaseUrl: String = "http://14.142.214.242:8080/adminAPIV1.0/";
     private superadminBaseURL: String = "http://14.142.214.242:8080/adminAPIV1.0/";
+    
 
-    getCommonBaseURL ()
-    {
+
+    getCommonBaseURL() {
         return this._commonBaseURL;
     }
-    get1097BaseURL ()
-    {
+    get1097BaseURL() {
         return this._helpline1097BaseURL;
     }
-    get104BaseURL ()
-    {
+    get104BaseURL() {
         return this._helpline104BaseURL;
     }
-    getAdminBaseUrl ()
-    {
+    getAdminBaseUrl() {
         return this.adminBaseUrl;
     }
-    getSuperAdminBaseUrl ()
-    {
+    getSuperAdminBaseUrl() {
         return this.superadminBaseURL;
     }
 };
