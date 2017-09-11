@@ -18,7 +18,7 @@ export class DrugGroupComponent implements OnInit {
   service_provider_id:any;
   showPaginationControls:any = true;
   editable:any = false;
-
+  availableDrugGroupNames:any = [];
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public drugMasterService:DrugMasterService) { 
@@ -42,6 +42,9 @@ export class DrugGroupComponent implements OnInit {
   getDrugGroupsSuccessHandeler(response){
     this.availableDrugGroups = response;
     console.log(this.availableDrugGroups);
+    for(let availableDrugGroup of this.availableDrugGroups){
+      this.availableDrugGroupNames.push(availableDrugGroup.drugGroup);
+    }
   }
   getServices(stateID)
 	{
@@ -120,13 +123,13 @@ export class DrugGroupComponent implements OnInit {
     this.dataObj.drugGroupID = drugGroup.drugGroupID;
     this.dataObj.deleted = !drugGroup.deleted;
     this.dataObj.modifiedBy = "Admin";
-    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateHandler(response));
+    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
      drugGroup.deleted = !drugGroup.deleted;
      
   }
 
-  updateHandler(response){
-    alert("updated successfully");
+  updateStatusHandler(response){
+    alert("Drug Status Changed");
   }
 
   drugGroupID:any;
@@ -150,8 +153,19 @@ export class DrugGroupComponent implements OnInit {
     this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
     this.dataObj.modifiedBy = "Admin";
     this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => this.updateHandler(response));
+    
+  }
+
+  updateHandler(response){
     this.editable = false;
+    alert("updated successfully");
     this.getAvailableDrugs();
+  }
+
+  groupNameExist :any = false;
+  checkExistance(drugGroup){
+    this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup);
+    console.log(this.groupNameExist);
   }
 
 }

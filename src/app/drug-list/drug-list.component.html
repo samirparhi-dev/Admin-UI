@@ -45,9 +45,10 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Enter Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel">
-        <md-hint [hidden]=drugN.valid>
-          <span class="error_text" *ngIf="!drugN.required  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
+        <input mdInput required placeholder="Enter Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)">
+        <md-hint>
+          <span class="error_text" *ngIf="!drugN.valid  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
+          <span class="error_text" *ngIf="drugNameExist">Drug Already Exists</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -65,7 +66,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-      <button *ngIf="!editable" [disabled]=" !drugN.valid || !drugD.valid || !stateVal.valid" class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
+      <button *ngIf="!editable" [disabled]=" !drugN.valid || drugNameExist || !drugD.valid || !stateVal.valid" class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
       <button *ngIf="editable"  class="btn pull-right " (click)="updateDrugData(drugForm.value);drugForm.reset()  ">
