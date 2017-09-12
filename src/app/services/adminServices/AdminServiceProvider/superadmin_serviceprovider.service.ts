@@ -73,10 +73,14 @@ export class SuperAdmin_ServiceProvider_Service {
 
 	public createServiceProvider = function(serviceProviderRequestObject) {
 		return this._http.post(this.service_provider_setup_url, serviceProviderRequestObject)
-			.map(this.extractData)
+			.map(this.extractCustomData)
 			.catch(this.handleError);
 	};
 
+	private extractCustomData(res: Response) {
+		console.log(res, "in SA service");
+		return res.json().data.response;
+	};
 	private extractData(res: Response) {
 		console.log(res, "in SA service");
 		return res.json().data;
