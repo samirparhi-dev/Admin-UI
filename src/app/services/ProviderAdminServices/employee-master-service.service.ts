@@ -47,6 +47,7 @@ export class EmployeeMasterService {
   // search ka samaan
   getServicesUrl: any;
   find_Roles_Url: any;
+  checkID: any;
 
 
 
@@ -75,6 +76,8 @@ export class EmployeeMasterService {
     // newcontent for search
     this.getServicesUrl = this.providerAdmin_Base_Url + "m/role/service";
     this.find_Roles_Url = this.providerAdmin_Base_Url + "m/role/search";
+    this.checkID = this.providerAdmin_Base_Url + "m/FindEmployeeDetails";
+
 
   };
 
@@ -126,6 +129,21 @@ export class EmployeeMasterService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
+
+  validateAdhaar(idNumber: any) {
+    return this.http.post(this.checkID, { 'aadhaarNo': idNumber })
+      .map(this.handleCustomSuccess)
+      .catch(this.handleError);
+  }
+
+
+  validatePan(idNumber: any) {
+    return this.http.post(this.checkID, { 'pAN': idNumber })
+      .map(this.handleCustomSuccess)
+      .catch(this.handleError);
+  }
+
+
 
   getRolesInServiceLine(serviceProviderID, stateID, serviceID) {
     return this.http.post(this.getAllRolesInServiceLine,
