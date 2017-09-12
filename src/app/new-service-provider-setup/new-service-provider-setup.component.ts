@@ -15,6 +15,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   username_status: any;
   showHint: boolean;
   username_dependent_flag: boolean;
+  isExistAdhaar: boolean = false;
 
   /** ngModels*/
 
@@ -42,7 +43,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   providerAdmin_PhoneNumber: any = '';
   aadhaar_number: any = '';
   pan_number: any = '';
-
+  idMessage: string;
   patternAadhaar: any = /^\d{4}\d{4}\d{4}$/;
   patternPan: any = /^[A-Za-z0-9]{10}$/;
   countryID: any;
@@ -55,6 +56,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   passwordPattern: any;
   maxJoining: any;
   maxBirth: any;
+  isExistPan: boolean = false;
   // arrays
   titles: any;
   genders: any;
@@ -260,15 +262,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
       let count = 0;
       for (let i = 0; i < this.state_service_array.length; i++) {
         if (this.state_service_array[i].stateId === data_obj.stateId) {
-          if (this.state_service_array[i].services.length === data_obj.services.length) {
-            for (let j = 0; j < this.state_service_array[i].services.length; j++) {
-              if (this.state_service_array[i].services[j].serviceName === data_obj.services[j].serviceName) {
-                count = count + 1;
-              }
-
-            }
+          debugger;
+          data_obj.services = data_obj.services.filter(val => !(this.state_service_array[i].services.includes(val)));
+          if (data_obj.services.length === 0) {
+            count = count + 1;
           }
-
+          // else {
+          //   count = count + 1;
+          //   this.state_service_array[i].services.push(data_obj.services);
+          // }
         }
       }
       /** counter will not increase if an obj for that state is not there*/
@@ -276,7 +278,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
         if (data_obj.stateId != '') {
           this.state_service_array.push(data_obj);
         }
-
       }
     }
     /** if blank array, enter obj as it is */
@@ -394,6 +395,26 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
     }
   }
+  checkAdhaarSuccessHandler(response) {
+    debugger;
+    if (response === "true") {
+      this.isExistAdhaar = true;
+      this.idMessage = 'Adhaar Number Already Exists';
+    } else {
+      this.isExistAdhaar = false;
+      this.idMessage = '';
+    }
+  }
+  checkPanSuccessHandler(response) {
+    if (response === "true") {
+      this.isExistPan = true;
+      this.idMessage = 'Pan Number Already Exists';
+    }
+    else {
+      this.isExistPan = false;
+      this.idMessage = '';
+    }
+  }
   // to check whether the object are same 
   isEquivalent(a: any, b: any) {
     // Create arrays of property names
@@ -419,6 +440,22 @@ export class NewServiceProviderSetupComponent implements OnInit {
     // If we made it this far, objects
     // are considered equivalent
     return true;
+  }
+  checkAdhaar() {
+    this.EmployeeMasterService.validateAdhaar(this.aadhaar_number)
+      .subscribe((response: any) => {
+        this.checkAdhaarSuccessHandler(response);
+      }, (err) => {
+
+      });
+  }
+  checkPan() {
+    this.EmployeeMasterService.validatePan(this.pan_number)
+      .subscribe((response: Response) => {
+        this.checkPanSuccessHandler(response);
+      }, (err) => {
+
+      });
   }
   clearFullForm() {
     jQuery('#providerForm').trigger('reset');
