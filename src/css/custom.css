@@ -602,7 +602,7 @@ color:#545454;
 }
 
 .m-t-20 {
-    margin-top: 20px;
+    margin-top: 20px !important;
 }
 
 .m-t-19 {
@@ -1612,7 +1612,10 @@ height: 345px !important;
 .overflow-y{
   overflow-y: auto;
 }
+.errorText {
 
+  color: red;
+}
 .animation-nav {
   margin-bottom: 4px;
   background: #fff;
