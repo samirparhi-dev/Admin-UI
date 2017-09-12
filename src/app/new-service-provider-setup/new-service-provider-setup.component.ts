@@ -106,7 +106,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.maxJoining = this.today;
     this.dob = this.today.getFullYear() - 20;
     this.maxBirth = this.today.getFullYear() - 20;
-    this.emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
     this.passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
     this.super_admin_service.getAllStates(this.countryID).subscribe((response: Response) => this.states = this.successhandeler(response));
