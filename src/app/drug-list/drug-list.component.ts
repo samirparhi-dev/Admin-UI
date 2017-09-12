@@ -17,6 +17,8 @@ export class DrugListComponent implements OnInit {
   provider_services:any;
   service_provider_id:any;
   editable:any = false;
+  availableDrugNames:any = [];
+
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public drugMasterService:DrugMasterService) { 
@@ -39,6 +41,9 @@ export class DrugListComponent implements OnInit {
   getDrugsSuccessHandeler(response){
     this.availableDrugs = response;
     console.log(this.availableDrugs);
+    for(let availableDrug of this.availableDrugs){
+      this.availableDrugNames.push(availableDrug.drugName);
+    }
   }
 
   getServices(stateID)
@@ -120,14 +125,13 @@ export class DrugListComponent implements OnInit {
     this.dataObj.drugID = drug.drugID;
     this.dataObj.deleted = !drug.deleted;
     this.dataObj.modifiedBy = "Admin";
-    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateHandler(response));
+    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
     
     drug.deleted = !drug.deleted;
 
   }
-
-  updateHandler(response){
-    alert("updated successfully");
+  updateStatusHandler(response){
+    alert("Drug Status Changed");
   }
 
   drugID:any;
@@ -154,8 +158,20 @@ export class DrugListComponent implements OnInit {
     this.dataObj.providerServiceMapID = drug.providerServiceMapID;
     this.dataObj.modifiedBy = "Admin";
     this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response));
+    
+  }
+
+  updateHandler(response){
     this.editable = false;
+    alert("updated successfully");
     this.getAvailableDrugs();
   }
+
+  drugNameExist :any = false;
+  checkExistance(drugName){
+    this.drugNameExist = this.availableDrugNames.includes(drugName);
+    console.log(this.drugNameExist);
+  }
+
 
 }

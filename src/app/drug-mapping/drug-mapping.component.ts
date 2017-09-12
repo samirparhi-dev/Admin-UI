@@ -85,8 +85,6 @@ export class DrugMappingComponent implements OnInit {
     } 
 	}
 
-  
-
   responseHandler(response){
     this.data = response;
   }
@@ -133,7 +131,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugMasterService.mapDrugGroups(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
-   successHandler(response){
+  successHandler(response){
     this.drugMapping =  [];
     alert("drugs saved");
     this.getAvailableMappings();
@@ -152,10 +150,10 @@ export class DrugMappingComponent implements OnInit {
 
   }
 
-  updateHandler(response){
-     alert("updated successfully");
+  updateStatusHandler(response){
+    alert("Drug Status Changed");
   }
-
+  
   drugMapID:any;
   drugGroupID:any;
   drugGroupName:any;
@@ -186,8 +184,13 @@ export class DrugMappingComponent implements OnInit {
     this.dataObj.providerServiceMapID = drugMapping.providerServiceMapID;
     this.dataObj.modifiedBy = "Admin";
     this.drugMasterService.updateDrugMappings(this.dataObj).subscribe(response => this.updateHandler(response));
-    this.editable = false;
-    this.getAvailableDrugs();
+    
+  }
+
+  updateHandler(response){
+     alert("updated successfully");
+     this.editable = false;
+     this.getAvailableDrugs();
   }
 
 }
