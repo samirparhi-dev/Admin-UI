@@ -17,20 +17,20 @@ export class myEmail {
 		}
 	}
 
-	@HostListener('keyup', ['$event']) onKeyUp(ev: any) {
+	// @HostListener('keyup', ['$event']) onKeyUp(ev: any) {
 
-		var result = this.emailValidator(ev.target.value);
-		if (result == 1) {
-			ev.target.nextSibling.nextElementSibling.innerHTML = "Valid email";
-			ev.target.style.border = "2px solid green";
-		}
+	// 	var result = this.emailValidator(ev.target.value);
+	// 	if (result == 1) {
+	// 		ev.target.nextSibling.nextElementSibling.innerHTML = "Valid email";
+	// 	//	ev.target.style.border = "2px solid green";
+	// 	}
 
-		if (result == -1) {
-			ev.target.nextSibling.nextElementSibling.innerHTML = "invalid email";
-			ev.target.style.border = "2px solid red";
-		}
+	// 	if (result == -1) {
+	// 		ev.target.nextSibling.nextElementSibling.innerHTML = "invalid email";
+	// 	//	ev.target.style.border = "2px solid red";
+	// 	}
 
-	}
+	// }
 
 
 

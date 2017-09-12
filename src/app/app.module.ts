@@ -25,6 +25,8 @@ import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
+import { myAddress } from './directives/address/myAddress.directive';
+
 // multi role screen component
 import { MultiRoleScreenComponent } from './multi-role-screen/multi-role-screen.component';
 import { ServiceRoleSelectionComponent } from './service-role-selection/service-role-selection.component';
@@ -85,7 +87,7 @@ import { CategorySubcategoryService } from "./services/ProviderAdminServices/cat
 @NgModule( {
   declarations: [
   AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
-  myName,myMobileNumber,myEmail,
+  myName,myMobileNumber,myEmail,myAddress,
   ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
   AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
   SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,

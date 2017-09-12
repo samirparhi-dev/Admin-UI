@@ -58,7 +58,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 	states: any;
 	servicelines:any;
-
+	today : Date;
+	minDate : Date;
+	emailPattern: any;
+	userNamePattern: any;
+	passwordPattern: any;
+	maxJoining: any;
+	maxBirth: any;
 	constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) { 
 
 		this.countryID = 1;
@@ -72,7 +78,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
 	ngOnInit() {
-
+		this.today = new Date();
+		this.validTill = this.today;
+		this.minDate = this.today;
+		this.doj = this.today;
+		this.maxJoining = this.today;
+		this.dob = this.today.getFullYear() - 20;
+		this.maxBirth = this.today.getFullYear() - 20;
+		this.emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+		this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
+		this.passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 		this.super_admin_service.getAllStates(this.countryID).subscribe((response:Response)=>this.states=this.successhandeler(response));
 		this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
 		this.super_admin_service.getCommonRegistrationData().subscribe(response=>this.reg_data_successhandeler(response));
@@ -299,16 +314,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			"doj": new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"maritalStatusID": "",
 			"aadharNo": this.aadhaar_number,
-			"panNo": this.pan_number,
-			"qualificationID": "",
-			"emrContactPersion": "",
-			"emrConctactNo": "",
+			"pAN": this.pan_number,
+			// "qualificationID": "",
+			// "emrContactPersion": "",
+			// "emrConctactNo": "",
 			"statusID": "1"
 		}
 
 		this.request_object.createdBy="kaakaJi"
 		
-
+		debugger;
 		this.request_object.providerAdminDetails.push(provider_admin_details_obj);
 		console.log(JSON.stringify(this.request_object));
 
@@ -346,13 +361,14 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 	checkUsernameSuccessHandeler(response) {
 		console.log(this.username, "uname");
-		console.log("username existance status", response);
-		if (response === "userexist") {
-			this.username_status = "Username Exists !! Choose A Different 'Username' Please!";
+		console.log("username existance status", response.response);
+		if (response.response == "userexist") {
+			debugger;
+			this.username_status = "Username Exists!!";
 			this.showHint = true;
 			this.username_dependent_flag = true;
 		}
-		if (response === "usernotexist") {
+		if (response.response === "usernotexist") {
 			if (this.username != "" && (this.username != undefined && this.username != null)) {
 				this.showHint = false;
 				this.username_dependent_flag = false;
@@ -361,10 +377,21 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			{
 				this.showHint = true;
 				this.username_dependent_flag = true;
-				this.username_status = "Username can't be blank";
+				this.username_status = "Please enter usename";
 			}
 
 		}
+	}
+	clearFullForm() {
+		jQuery('#providerForm').trigger("reset");
+		jQuery('#detailedForm').trigger("reset");
+		this.state_service_array = [];
+		this.show1 = true;
+		this.show3 = false;
+		this.validTill = this.today;
+		this.doj = this.today;
+		this.dob = this.today.getFullYear() - 20;
+		this.showTable = false;
 	}
 
 }
