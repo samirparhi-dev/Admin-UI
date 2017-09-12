@@ -262,7 +262,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
       let count = 0;
       for (let i = 0; i < this.state_service_array.length; i++) {
         if (this.state_service_array[i].stateId === data_obj.stateId) {
-          debugger;
           data_obj.services = data_obj.services.filter(val => !(this.state_service_array[i].services.includes(val)));
           if (data_obj.services.length === 0) {
             count = count + 1;
@@ -396,7 +395,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
     }
   }
   checkAdhaarSuccessHandler(response) {
-    debugger;
     if (response === "true") {
       this.isExistAdhaar = true;
       this.idMessage = 'Adhaar Number Already Exists';
