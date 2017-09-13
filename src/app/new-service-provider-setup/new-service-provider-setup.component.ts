@@ -225,6 +225,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   state_service_array: any = [];
   add_2_state_service_array(state, services) {
+    debugger;
     let data_obj = {
       'stateId': state.stateID,
       'stateName': state.stateName,

@@ -27,7 +27,7 @@
             name="valid_till"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-input-container class="width100" myName>
+          <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="{{currentlanguage.contact_person}}" name="contact_person" [(ngModel)]="contactPerson">
           </md-input-container>
         </div>
@@ -71,7 +71,7 @@
       <!-- <div class="row"> -->
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
         <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
-          <md-option *ngFor="let item of states" value="{{item.stateID}}">
+          <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
         </md-select>
@@ -101,11 +101,11 @@
             </thead>
             <tbody>
               <tr *ngFor="let state_service of state_service_array;let i=index " style="cursor:pointer ">
-                <td>{{state_service.stateId}}</td>
+                <td>{{state_service.stateName}}</td>
                 <!-- <td>{{state_service.services.toString()}}</td> -->
                 <td>
                   <ul class="list-unstyled">
-                    <li *ngFor="let service of state_service.services">{{service.toString()}}</li>
+                    <li *ngFor="let service of state_service.services">{{service.serviceName}}</li>
                   </ul>
                 </td>
                 <td>
@@ -183,8 +183,8 @@
           <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [max]="maxJoining" required="true"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-          <md-input-container style="width: 100% ">
-            <input mdInput placeholder="PhoneNumber " [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
+          <md-input-container style="width: 100% " myMobileNumber>
+            <input mdInput placeholder="PhoneNumber"  minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
