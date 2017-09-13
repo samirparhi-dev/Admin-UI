@@ -30,11 +30,11 @@ firstname:any;
 middlename: any;
 lastname:any;
 gender:any;
-dob:any;
+dob: any;
 mobileNumber:any;
 emailID:any;
 employeeID:any;
-
+today = new Date();
 allTitles:any=[];
 allGenders:any=[];
 
@@ -74,7 +74,7 @@ currentAddressLine2:any;
 currentState:any;
 currentDistrict:any;
 currentPincode:any;
-
+emailPattern: any;
 isPermanent: any;
 
 allStates: any = [];
@@ -128,10 +128,13 @@ agentID: any;
 
 	ngOnInit() {
 		jQuery("#UD0").css("font-size", "130%");
-
+		this.dob = new Date();
+    	this.dob.setFullYear(this.today.getFullYear() - 20);
 		this.EmployeeMasterService.getCommonRegistrationData().subscribe((response:Response)=>this.commonRegistrationDataSuccessHandeler(response));
 		this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe((response: Response) => this.getStatesOfServiceProviderSuccessHandeler(response));
 		this.EmployeeMasterService.getQualifications().subscribe((response: Response) => this.getQualificationsHandeler(response));
+	    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
 	}
 
 	getServices(stateID)
@@ -380,7 +383,7 @@ agentID: any;
 			"maritalStatusID": this.marital_status,
 			"aadhaarNo": this.adhaar_no,
 			"pAN": this.pan_no,
-			"dOB": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
+			//"dOB": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
 			"dOJ": "2017-08-02T00:00:00.000Z",
 			"qualificationID":this.qualificationType,
 			"userName": this.username,

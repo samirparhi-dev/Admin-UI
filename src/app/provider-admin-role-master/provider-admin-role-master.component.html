@@ -4,7 +4,7 @@
         <label><h4>ROLE MASTER</h4></label>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="showAddButtonFlag">
     <form #stateService="ngForm">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess>
@@ -20,7 +20,7 @@
                 </md-option>
             </md-select>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="showAddButtonFlag" >
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3"  >
             <button md-mini-fab (click)="findRoles(state,service)" color="primary" >
                 <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
             </button>
@@ -60,8 +60,8 @@
                     </table>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)"  [disabled]="!stateService.form.valid">Add Roles</button>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(searchresultarray.length > 0) && showAddButtonFlag ">
+              <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
           </div>
       </div>
       <div *ngIf="showRoleCreationForm">
@@ -84,7 +84,6 @@
                 </md-select>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10" >
-            <button md-raised-button color="primary" (click)="add_obj(role,description,feature)">+</button>
             <button md-mini-fab color="primary">
                     <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(role,description,feature)">add</md-icon>
                 </button>
@@ -118,7 +117,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                 <button md-raised-button color="primary" class="pull-left" (click)="setRoleFormFlag(false)">Back</button>
-                <button md-raised-button color="primary" class="pull-right"  (click)="finalsave()" *ngIf="!setEditSubmitButton && (objs.length !=0)" [disabled]="servicess.value?'false':'true'">Save</button>
+                <button md-raised-button color="primary" class="pull-right"  (click)="finalsave()" *ngIf="!setEditSubmitButton && (objs.length !=0)">Save</button>
                 <button md-raised-button color="primary" class="pull-right" *ngIf="setEditSubmitButton && (objs.length !=0)" (click)="saveEditChanges()">Save Modifications</button>
             </div>
         </div>
