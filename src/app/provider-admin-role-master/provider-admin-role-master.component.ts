@@ -41,7 +41,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     // flags
     showRoleCreationForm: boolean = false;
     setEditSubmitButton: boolean = false;
-    showAddButtonFlag: boolean = false;
+    showAddButtonFlag: boolean = true;
 
     constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
                 public commonDataService: dataService) 
@@ -63,6 +63,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     ngOnInit() {
         this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response=>this.states=this.successhandeler(response));
         this.ProviderAdminRoleService.getFeature(this.provider_service_mapID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
+     //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
     }
 
     getServices(stateID) {
@@ -115,7 +116,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     editRole(roleObj)
-    {
+    {debugger;
         this.setRoleFormFlag(true);
         this.role = roleObj.roleName;
         this.description = roleObj.roleDesc;
@@ -156,6 +157,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     fetchRoleSuccessHandeler(response)
     {
+        
         console.log(response, "in fetch role success in component.ts");
         this.showAddButtonFlag = true;
         return response;
@@ -177,16 +179,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     setRoleFormFlag(flag)
     {
+        this.setEditSubmitButton = false;
         this.showRoleCreationForm = flag;
         this.showAddButtonFlag=!flag;
     }
 
     add_obj(role,desc,feature)
     {
-
         var result = this.validateRole(role);
         if(result)
-        {
+        {    
             let count = 0;
             if(this.objs.length<1)
             {   
@@ -200,7 +202,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                 };
                 this.objs.push(obj);
                 console.log(obj, "obj pushed");
-
             }
             else
             {
@@ -242,6 +243,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         else {
             return true;
         }
+      
     }
 
     remove_obj(index)
