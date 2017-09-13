@@ -897,11 +897,8 @@ color:#545454;
 }
 
 .m-r-10 {
-<<<<<<< HEAD
    margin-right: 10px!important;
-=======
-  margin-right: 10px;
->>>>>>> c842bd00df45145de67008be00be73b4873f4ad9
+
 }
 
 .m-r-15 {
@@ -978,13 +975,12 @@ em {
   /*border-bottom:1px solid #fff;*/
 }
 
-<<<<<<< HEAD
+
 .t-a-c {
     text-align: center;
-=======
+  }
 .agentLi li {
   color: #666;
->>>>>>> c842bd00df45145de67008be00be73b4873f4ad9
 }
 
 .footer {
