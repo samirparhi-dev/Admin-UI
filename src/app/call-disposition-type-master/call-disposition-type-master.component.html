@@ -15,15 +15,15 @@
           </md-option>
         </md-select>
       </div>
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
         <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
         </button>
       </div>
     </div>
   </div>
-</md-card>
-<md-card class="m-t-10" *ngIf="showTable">
+
+<div class="m-t-30" *ngIf="showTable">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
       <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
@@ -61,47 +61,50 @@
       <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New CallType/SubType</button>
     </div>
   </div>
-</md-card>
-<md-card class="m-t-10" *ngIf="showForm">
+</div>
+<div class="m-t-10" *ngIf="showForm">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
-        <md-select placeholder="Call Type" [style.width]="'100%'" [(ngModel)]="callType" (change)="reset()">
+        <!--<md-select placeholder="Call Type" [style.width]="'100%'" [(ngModel)]="callType" (change)="reset()">
           <md-option value="Valid Call">
             Valid Call
           </md-option>
           <md-option value="Invalid Call">
             Invalid Call
           </md-option>
-        </md-select>
+        </md-select>-->
+        <md-input-container class="p-t-7" style="width: 100% ">
+          <input mdInput placeholder="Call Type" [(ngModel)]="callType " name="callType">
+        </md-input-container>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-input-container style="width: 100% ">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
+        <md-input-container class="p-t-7" style="width: 100% ">
           <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType">
         </md-input-container>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-20" *ngIf='callType==="Invalid Call"'>
-        <label>Fit To Block</label>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+        <label class="f-s-n-b">Fit To Block</label>
         <md-radio-group [(ngModel)]="fitToBlock">
           <md-radio-button [value]="true">YES</md-radio-button>
           <md-radio-button [value]="false">NO</md-radio-button>
         </md-radio-group>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-20" *ngIf='callType==="Valid Call"'>
-        <label>Fit For FollowUp</label>
-        <md-radio-group [(ngModel)]="fitForFollowup">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+        <label class="f-s-n-b">Fit For FollowUp</label>
+        <md-radio-group [(ngModel)]="!fitToBlock">
           <md-radio-button [value]="true">YES</md-radio-button>
           <md-radio-button [value]="false">NO</md-radio-button>
         </md-radio-group>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-10">
-        <button md-mini-fab color="primary" (click)="pushCallSubType(callSubType,fitToBlock,fitForFollowup)">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15 width10">
+        <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div *ngFor="let item of temporarySubtypeArray;let i=index" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div *ngFor="let item of temporarySubtypeArray;let i=index" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-chip-list>
             <md-chip color="accent" selected="true">{{callType}}</md-chip>
@@ -130,9 +133,10 @@
           </button>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
       </div>
     </div>
+  </div>
   </div>
 </md-card>
