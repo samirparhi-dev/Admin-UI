@@ -473,5 +473,19 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.dob = this.today.getFullYear() - 20;
     this.showTable = false;
   }
-
+  clearProviderForm() {
+    // jQuery('#providerForm').trigger('reset');
+    jQuery('#detailedForm').trigger('reset');
+    // this.state_service_array = [];
+    // this.show1 = true;
+    // this.show3 = false;
+    this.today = new Date();
+    this.dob = this.today;
+    this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.doj = new Date();
+  }
+  clearDetailedForm() {
+    jQuery('#providerForm').trigger('reset');
+    this.validTill = new Date();
+  }
 }
