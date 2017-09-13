@@ -53,8 +53,9 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.servicelines = [];
     this.workLocations = [];
 
-    this.showTable = false;
+    this.showTable = true;
     this.showForm = false;
+    this.findLocations();
   }
 
   ngOnInit() {
@@ -68,13 +69,14 @@ export class LocationServicelineMappingComponent implements OnInit {
     if (flag_val === true) {
       let confirmation = confirm("Do you really want to cancel and go back to main screen?");
       if (confirmation) {
-        this.showTable = !flag_val;
+        // this.showTable = flag_val;
         this.showForm = !flag_val;
         this.resetFields();
+        this.findLocations();
       }
     }
     else {
-      this.showTable = flag_val;
+      // this.showTable = !flag_val;
       this.showForm = !flag_val;
     }
 
@@ -92,8 +94,6 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     this.search_state="";
     this.search_serviceline="";
-
-    
   }
 
   getDistricts(serviceProviderID, stateID) {
@@ -111,7 +111,9 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   findLocations()
   {
-    let reqOBJ = { "serviceProviderID":this.serviceProviderID, "stateID": this.search_state, "serviceID": this.search_serviceline };
+    let reqOBJ = { "serviceProviderID":this.serviceProviderID };
+    reqOBJ["stateID"] = this.search_state? this.search_state:'';
+    reqOBJ["serviceID"] = this.search_serviceline? this.search_serviceline:'';
     console.log(reqOBJ);
     this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
       (response: Response) => this.findLocationsSuccesshandeler(response)
@@ -195,7 +197,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   findLocationsSuccesshandeler(response) {
     console.log(response, "get locations success");
     this.workLocations = response;
-    this.showTable = true;
+    // this.showTable = true;
   }
 
   getDistrictsSuccessHandeler(response)
@@ -216,8 +218,10 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   saveOfficeSuccessHandeler(response) {
     console.log('saved', response);
-    this.showTable = false;
+    // this.showTable = false;
     this.showForm = false;
+    this.resetFields();
+    this.findLocations();
   }
 
   deleteOfficeSuccessHandeler(response) {
