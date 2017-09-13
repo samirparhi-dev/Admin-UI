@@ -1,34 +1,39 @@
-<md-card class="example-card">
+<md-card>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+        <label><h4>ROLE MASTER</h4></label>
+    </div>
+
     <div class="row">
-        <!-- <div class="panel-body card bg-white"> -->
+    <form #stateService="ngForm">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess>
+                <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+                    {{stat.stateName}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess>
+                <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
+                    {{ser.serviceName}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="showAddButtonFlag" >
+            <button md-mini-fab (click)="findRoles(state,service)" color="primary" >
+                <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
+            </button>
+        </div>
+        </form>
+    </div>
+
+
+
+
+    <div class="row"  *ngIf="showAddButtonFlag">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)">
-                    <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
-                        {{stat.stateName}}
-                    </md-option>
-                </md-select>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" >
-                    <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
-                        {{ser.serviceName}}
-                    </md-option>
-                </md-select>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <button md-mini-fab (click)="findRoles(state,service)">
-                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
-                </button>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchresultarray.length>0 && showAddButtonFlag ">
-            <hr>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchresultarray.length>0 && showAddButtonFlag">
-            <div class="table-responsive ">
+            <div class="table-responsive m-t-10">
                 <table class="table">
                     <thead>
                         <tr>
@@ -48,76 +53,74 @@
                             <td>{{role.roleDesc}}</td>
                             <!-- <td>{{role.deleted}}</td> -->
                             <td><md-icon mdTooltip="edit"  *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRole(role)">edit</md-icon>
-                            <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon></td>
-                        </tr>
-                        <pagination-controls (pageChange)="b = $event" id="rolesearch"></pagination-controls>
-                    </tbody>
-                </table>
+                                <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon></td>
+                            </tr>
+                            <pagination-controls (pageChange)="b = $event" id="rolesearch"></pagination-controls>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchresultarray.length>=0 && showAddButtonFlag">
-            <button md-raised-button (click)="setRoleFormFlag(true)">Add Roles</button>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showRoleCreationForm">
-            <hr>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showRoleCreationForm">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button md-raised-button (click)="setRoleFormFlag(false)">Back</button>
-        </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)"  [disabled]="!stateService.form.valid">Add Roles</button>
+          </div>
+      </div>
+      <div *ngIf="showRoleCreationForm">
+          <div class="row" >
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Role" [(ngModel)]="role" name="role">
                 </md-input-container>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
                 </md-input-container>
             </div>
-             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
-                <md-select placeholder="Feature" [style.width]="'100%'" [(ngModel)]="feature">
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                <md-select placeholder="Feature" class="m-t--10" [style.width]="'100%'" [(ngModel)]="feature">
                     <md-option *ngFor="let item of features" value="{{item.screenID}}">
                         {{item.screenName}},description:{{item.screenDesc}}
                     </md-option>
                 </md-select>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-10" *ngIf="!setEditSubmitButton">
-                <button md-mini-fab>
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10" >
+            <button md-raised-button color="primary" (click)="add_obj(role,description,feature)">+</button>
+            <button md-mini-fab color="primary">
                     <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(role,description,feature)">add</md-icon>
                 </button>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(showRoleCreationForm) && (objs.length !=0)">
-            <div *ngFor="let obj of objs;let i=index" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <md-chip-list>
+
+        <div  class="row" *ngIf="(objs.length !=0)">
+            <div *ngFor="let obj of objs; let i=index" style="">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <md-chip-list >
                         <md-chip color="accent" selected="true">{{obj.roleName}}</md-chip>
                     </md-chip-list>
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <md-chip-list>
                         <md-chip color="accent" selected="true">{{obj.roleDesc}}</md-chip>
                     </md-chip-list>
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <md-chip-list>
                         <md-chip color="accent" selected="true">{{obj.feature}}</md-chip>
                     </md-chip-list>
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <button md-mini-fab>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <button md-mini-fab >
                         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(i)">remove</md-icon>
                     </button>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button md-raised-button *ngIf="!setEditSubmitButton" (click)="finalsave()">Save</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <button md-raised-button color="primary" class="pull-left" (click)="setRoleFormFlag(false)">Back</button>
+                <button md-raised-button color="primary" class="pull-right"  (click)="finalsave()" *ngIf="!setEditSubmitButton && (objs.length !=0)" [disabled]="servicess.value?'false':'true'">Save</button>
+                <button md-raised-button color="primary" class="pull-right" *ngIf="setEditSubmitButton && (objs.length !=0)" (click)="saveEditChanges()">Save Modifications</button>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="setEditSubmitButton">
-                <button md-raised-button  (click)="saveEditChanges()">Save Modifications</button>
-            </div>
-        <!-- </div> -->
     </div>
 </md-card>
