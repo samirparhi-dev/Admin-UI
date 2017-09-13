@@ -72,6 +72,7 @@ export class SuperAdmin_ServiceProvider_Service {
 	}
 
 	public createServiceProvider = function(serviceProviderRequestObject) {
+
 		return this._http.post(this.service_provider_setup_url, serviceProviderRequestObject)
 			.map(this.extractCustomData)
 			.catch(this.handleError);

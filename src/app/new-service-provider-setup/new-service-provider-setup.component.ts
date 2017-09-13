@@ -41,8 +41,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
   password: any = '';
   providerAdmin_EmailID: any = '';
   providerAdmin_PhoneNumber: any = '';
-  aadhaar_number: any = '';
-  pan_number: any = '';
+  aadhaar_number: any;
+  pan_number: any;
   idMessage: string;
   patternAadhaar: any = /^\d{4}\d{4}\d{4}$/;
   patternPan: any = /^[A-Za-z0-9]{10}$/;
@@ -104,8 +104,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.minDate = this.today;
     this.doj = this.today;
     this.maxJoining = this.today;
-    this.dob = this.today.getFullYear() - 20;
-    this.maxBirth = this.today.getFullYear() - 20;
+    this.dob = new Date();
+    this.dob.setFullYear(this.today.getFullYear() - 20);
+    console.log(this.dob);
+    this.maxBirth = new Date();
+    this.maxBirth.setFullYear(this.today.getFullYear() - 20);
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
     this.passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
@@ -313,26 +316,29 @@ export class NewServiceProviderSetupComponent implements OnInit {
   // section 3
 
   finalSubmit() {
-    let provider_admin_details_obj = {
-      'firstName': this.firstname,
-      'middleName': this.middlename,
-      'lastName': this.lastname,
-      'emailID': this.providerAdmin_EmailID,
-      'mobileNo': this.providerAdmin_PhoneNumber,
-      'userName': this.username.toLowerCase(),
-      'password': this.password,
-      'titleID': this.title,
-      'genderID': this.gender,
-      'dob': new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
-      'doj': new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON(),
-      'maritalStatusID': '',
-      'aadharNo': this.aadhaar_number,
-      'panNo': this.pan_number,
-      'qualificationID': '',
-      'emrContactPersion': '',
-      'emrConctactNo': '',
-      'statusID': '1'
+    console.log(this.dob);
+    let provider_admin_details_obj = {};
+    provider_admin_details_obj['firstName'] = this.firstname;
+    provider_admin_details_obj['middleName'] = this.middlename;
+    provider_admin_details_obj['lastName'] = this.lastname;
+    provider_admin_details_obj['emailID'] = this.providerAdmin_EmailID;
+    provider_admin_details_obj['mobileNo'] = this.providerAdmin_PhoneNumber;
+    provider_admin_details_obj['userName'] = this.username.toLowerCase();
+    provider_admin_details_obj['password'] = this.password;
+    provider_admin_details_obj['titleID'] = this.title;
+    provider_admin_details_obj['genderID'] = this.gender;
+    provider_admin_details_obj['dob'] = new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON();
+    provider_admin_details_obj['doj'] = new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON();
+    provider_admin_details_obj['maritalStatusID'] = '';
+    if (this.aadhaar_number) {
+      provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
+    provider_admin_details_obj['panNo'] = this.pan_number ? this.pan_number : '';
+    provider_admin_details_obj['qualificationID'] = '';
+    provider_admin_details_obj['emrContactPersion'] = '';
+    provider_admin_details_obj['emrConctactNo'] = '';
+    provider_admin_details_obj['statusID'] = '1';
+
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
       return {
         'stateId': item.stateId.toString(), 'services': item.services.map(function (serviceItem) {
@@ -356,7 +362,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
-      this.resetNGmodules();
+      this.clearFullForm();
     }
   }
 
@@ -461,6 +467,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.state_service_array = [];
     this.show1 = true;
     this.show3 = false;
+    this.today = new Date();
     this.validTill = this.today;
     this.doj = this.today;
     this.dob = this.today.getFullYear() - 20;

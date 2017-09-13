@@ -41,7 +41,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100">
-            <input mdInput placeholder="{{currentlanguage.emailID}}" [pattern]="emailPattern" name="email" [(ngModel)]="emailID" #validEmail="ngModel">
+            <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID" #validEmail="ngModel">
             <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
             </md-hint>
           </md-input-container>
@@ -243,7 +243,7 @@
           <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
               <input type="button" md-raised-button name="Save" (click)="show(2,'back')" value="Back" /> -->
           <button class="pull-right" type="button" name="Save" [disabled]="!paFORM.form.valid || username_dependent_flag || userName.hasError('pattern') || pass.hasError('passwordPattern') || validEmail.hasError('pattern')"
-            md-raised-button (click)="finalSubmit() ">Save & Create</button>
+            md-raised-button (click)="finalSubmit(); ">Save & Create</button>
           <button md-raised-button type="button" name="Save" (click)="show(2,'back')">Back</button>
         </div>
       </form>
