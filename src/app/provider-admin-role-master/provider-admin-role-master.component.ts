@@ -91,7 +91,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     findRoles(stateID, serviceID) {
-        debugger;
         this.STATE_ID = stateID;
         this.SERVICE_ID = serviceID;
 
@@ -119,7 +118,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     editRole(roleObj)
-    {debugger;
+    {
         this.setRoleFormFlag(true);
         this.role = roleObj.roleName;
         this.description = roleObj.roleDesc;
@@ -161,7 +160,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     fetchRoleSuccessHandeler(response)
     {
-        debugger;
+        
         console.log(response, "in fetch role success in component.ts");
         this.showAddButtonFlag = true;
         response = response.filter(function(obj){
