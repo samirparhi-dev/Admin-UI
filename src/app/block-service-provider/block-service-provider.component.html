@@ -197,9 +197,11 @@
         </button>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 320px">
+      </div>
+      </form>
+      <div class="row" *ngIf="showTable">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <table class="table table-striped table-hover" *ngIf="showTable" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+          <table class="table table-striped table-hover"  [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
             <thead>
               <tr>
                 <!-- <th>PSMID</th> -->
@@ -310,7 +312,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
               <md-input-container style="width: 100%" class="p-t-8">
-                <input mdInput required placeholder="Reason" [(ngModel)]="reason" name="reason" #reasonRef="ngModel">
+                <input mdInput  placeholder="Reason" [(ngModel)]="reason" name="reason" #reasonRef="ngModel">
                 <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
@@ -326,7 +328,7 @@
               <label>SERVICELINE LEVEL PROVISION</label>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-              <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status">
+              <md-select  #statusR="ngModel" name="status" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status" required>
                 <md-option *ngFor="let item of status_array" [value]="item.statusID">
                   {{item.status}}
                 </md-option>
@@ -337,14 +339,14 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
               <md-input-container style="width: 100%" class="p-t-8">
-                <input mdInput required placeholder="Reason" [(ngModel)]="reason" name="reason" #reasonRef="ngModel">
+                <input mdInput placeholder="Reason" [(ngModel)]="reason" name="reason" #reasonR="ngModel" required>
                 <!-- <md-hint *ngIf="!reasonRef.valid">
                   <span class="error_text" *ngIf="!reasonRef.valid && (reasonRef.dirty || reasonRef.touched)">Reason is required</span>
                 </md-hint> -->
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
-              <button md-raised-button color="primary" class="p-t-20" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockServiceOfState()">Submit</button>
+              <button md-raised-button color="primary" class="p-t-20" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Submit</button>
             </div>
           </div>
           <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="showUnblock">
@@ -385,6 +387,4 @@
 
         </div>
       </div>
-    </div>
-  </form>
 </md-card>

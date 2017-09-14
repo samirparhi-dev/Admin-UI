@@ -178,6 +178,17 @@ agentID: any;
 	{
 		console.log(response, "employee created successfully");
 		alert("Employee Created Successfully!");
+		jQuery('#credentialsForm').trigger('reset');
+		jQuery('#uniquieID').trigger('reset');
+		jQuery('#addrsForm').trigger('reset');
+		jQuery('#demographicForm').trigger('reset');
+		jQuery('#otherDetails').trigger('reset');
+		jQuery('#workplaceForm').trigger('reset');
+		jQuery('#languagesForm').trigger('reset');
+		this.dob = new Date();
+		this.dob.setFullYear(this.today.getFullYear() - 20);
+		this.data =[];
+		this.MOVE2NEXT(0);
 	}
 
 	getDistrictsSuccessHandeler(response)

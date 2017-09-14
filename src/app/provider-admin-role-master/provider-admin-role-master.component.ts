@@ -96,7 +96,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.SERVICE_ID = serviceID;
 
         console.log(this.serviceProviderID, stateID,serviceID);
-        this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
+        this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
+            this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+        });
 
     }
 
@@ -143,6 +145,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     edit_delete_RolesSuccessHandeler(response)
     {
+        debugger;
         console.log(response, "edit/delete response");
         this.showRoleCreationForm=false;
         this.setEditSubmitButton=false;
@@ -161,8 +164,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         debugger;
         console.log(response, "in fetch role success in component.ts");
         this.showAddButtonFlag = true;
+        response = response.filter(function(obj){
+            return obj.deleted!=true;
+        })
         return response;
-
     }
 
     createRolesSuccessHandeler(response) {

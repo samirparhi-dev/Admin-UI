@@ -20,10 +20,10 @@
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="Demographic_Details" *ngIf="index===0">
+<div class="container-fluid m-t-10" id="Demographic_Details" [hidden]="index!=0">
   <md-card>
     <div class="row" >
-      <form #demographicsForm="ngForm">    
+      <form #demographicsForm="ngForm" id="demographicForm">    
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
             <md-option *ngFor="let item of allTitles" value="{{item.titleID}}">
@@ -89,10 +89,10 @@
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="Qualification_Details" *ngIf="index===1">
+<div class="container-fluid m-t-10" id="Qualification_Details" [hidden]="index!=1">
   <md-card>
     <div class="row" >
-      <form>
+      <form id="otherDetails">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-select placeholder="Qualification Type *" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType">
             <md-option *ngFor="let item of allQualificationTypes" value="{{item.qualificationID}}">
@@ -110,7 +110,7 @@
             <input mdInput placeholder="Mother Name " maxlength="25" [(ngModel)]="mother_name " name="mother_name ">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15">
           <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="marital_status">
             <md-option *ngFor="let item of marital_status_array" value="{{item.maritalStatusID}}">
               {{item.status}}
@@ -139,40 +139,40 @@
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="Language" *ngIf="index===2">
+<div class="container-fluid m-t-10" id="Language" [hidden]="index!=2">
   <md-card>
     <div class="row">
-     
+     <form id="languagesForm">
         <div class="col-xs-12 col-sm6 col-md-3 col-lg-3 ">
           <md-select [(ngModel)]="languages" multiple name="languages" placeholder="Languages" [style.width]="'100%'" (change)="selected_languages=languages">
             <md-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md-option>
           </md-select>
         </div>
-        <div class="col-xs-12 col-sm6 col-md-3 col-lg-3" *ngFor="let l of selected_languages; let k=index" style="">
-          <div class="col-xs-12 col-sm6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngFor="let l of selected_languages; let k=index" style="">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <label>{{allLanguages[l-1].languageName}}</label>
           </div>
-          <div class="col-xs-12 col-sm6 col-md-3 col-lg-3">
-            <md-slider [max]="10" [min]="1" [step]="1" [thumb-label]="true" [(ngModel)]="dummy_allLanguages[l-1].k" (change)="updateSliderData(dummy_allLanguages[l-1].k,k)">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <md-slider [max]="10" [min]="1" [step]="1" [thumb-label]="true" [(ngModel)]="dummy_allLanguages[l-1].k" (change)="updateSliderData(dummy_allLanguages[l-1].k,k)" name="allLanguages">
             </md-slider>
           </div>
-          <div class="col-xs-12 col-sm6 col-md-3 col-lg-3">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <md-input-container style="width: 100% ">
-              <input mdInput #dummy [(ngModel)]="dummy_allLanguages[l-1].k" disabled>
+              <input mdInput #dummy [(ngModel)]="dummy_allLanguages[l-1].k" disabled name="dummy">
             </md-input-container>
           </div>
         </div>
-        <div class="col-xs-12 col-sm6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
         </div>
-    
+      </form>
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="Address" *ngIf="index===3">
+<div class="container-fluid m-t-10" id="Address" [hidden]="index!=3">
   <md-card>
     <div class="row" >
-      <form #addressForm="ngForm">
+      <form #addressForm="ngForm" id="addrsForm">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -258,12 +258,12 @@
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="work_place" *ngIf="index===4">
+<div class="container-fluid m-t-10" id="work_place" [hidden]="index!=4">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <md-card>
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <form id="workplaceForm">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <h5><b>Office Address</b></h5>
             </div>
@@ -308,7 +308,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </md-card>
     </div>
@@ -403,10 +403,10 @@
     </div>
   </md-card> -->
 </div>
-<div class="container-fluid m-t-10" id="UniqueIds" *ngIf="index===5">
+<div class="container-fluid m-t-10" id="UniqueIds" [hidden]="index!=5">
   <md-card>
-    <div class="row" style="height: 315px">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row" >
+      <form id="uniquieID">
         <!--  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="ID Type" [style.width]="'100% '" [(ngModel)]="ID_Type" name="ID_Type">
             <md-option *ngFor="let item of allIDTypes" value="{{item.identityType}}">
@@ -429,12 +429,12 @@
             </md-chip>
           </md-chip-list>
         </div> -->
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
           <md-input-container style="width: 100% " myMobileNumber>
             <input mdInput placeholder="Aadhaar Card Number" maxlength="12" [(ngModel)]="adhaar_no" name="adhaar_no ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="PAN Card Number" [(ngModel)]="pan_no" name="pan_no ">
           </md-input-container>
@@ -442,15 +442,15 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
           <button md-raised-button class="pull-right" (click)="MOVE2NEXT(6)">Save and Next</button>
         </div>
-      </div>
+      </form>
     </div>
   </md-card>
 </div>
-<div class="container-fluid m-t-10" id="Credentials" *ngIf="index===6">
+<div class="container-fluid m-t-10" id="Credentials" [hidden]="index!=6">
   <md-card>
-    <div class="row" style="height: 315px">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="row">
+      <form id="credentialsForm">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Username " [(ngModel)]="username" name="username " (blur)="checkUsernameExists(username)">
           </md-input-container>
@@ -458,12 +458,12 @@
             {{username_status}}
           </md-hint>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Password " [(ngModel)]="password" name="password ">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Agent ID " [(ngModel)]="agentID" name="agentID ">
           </md-input-container>
@@ -471,7 +471,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
           <button md-raised-button class="pull-right" disabled="{{username_dependent_flag}}" (click)="createEmployee()">Submit</button>
         </div>
-      </div>
+        </form>
     </div>
   </md-card>
 </div>
