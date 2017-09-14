@@ -30,6 +30,8 @@ export class BlockProvider {
   block_unblock_serviceline_url: any;
   block_unblock_serviceOfState_url: any;
 
+  saveSubService: any;
+
   constructor(private _http: Http, public ConfigService: ConfigService) {
     this.admin_base_url = this.ConfigService.getAdminBaseUrl();
     this.getAllStatus_URL = this.admin_base_url + 'getStatus';
@@ -49,7 +51,7 @@ export class BlockProvider {
     this.block_unblock_state_url = this.admin_base_url + 'blockProviderByState';
     this.block_unblock_serviceline_url = this.admin_base_url + 'blockProviderByServiceId';
     this.block_unblock_serviceOfState_url = this.admin_base_url + 'blockProviderByService';
-
+    this.saveSubService = this.admin_base_url + 'm/saveSubserviceData'
   }
 
   // all the status of Provider 
@@ -159,6 +161,10 @@ export class BlockProvider {
       'reason': reason
     })
       .map(this.success_handeler).catch(this.error_handeler);
+  }
+  save_SubService(subServiceObj: any) {
+    return this._http.post(this.saveSubService, subServiceObj).map(this.success_handeler)
+      .catch(this.error_handeler);
   }
 
   success_handeler(response: Response) {

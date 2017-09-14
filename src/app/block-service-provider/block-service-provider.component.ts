@@ -279,7 +279,6 @@ export class BlockServiceProviderComponent implements OnInit {
   // blocking
 
   blockProvider() {
-    debugger;
     let serviceProviderID = this.data[0].serviceProviderID;
     let statusID = this.status;
     let reason = this.reason;// needs to be 3, but as of now being sent as 2 for checking as no val in table

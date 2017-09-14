@@ -83,6 +83,7 @@ import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltyp
 import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
 import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
 import { CategorySubcategoryService } from "./services/ProviderAdminServices/category-subcategory-master-service.service";
+import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 
 
 
@@ -97,7 +98,7 @@ import { CategorySubcategoryService } from "./services/ProviderAdminServices/cat
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,DrugMappingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent
   ],
 
   imports: [
