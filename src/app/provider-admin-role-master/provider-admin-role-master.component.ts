@@ -158,7 +158,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     edit_delete_RolesSuccessHandeler(response)
     {
-  
+
         console.log(response, "edit/delete response");
         this.showRoleCreationForm=false;
         this.setEditSubmitButton=false;

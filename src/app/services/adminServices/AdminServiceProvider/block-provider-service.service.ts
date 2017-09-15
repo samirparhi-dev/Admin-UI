@@ -31,6 +31,7 @@ export class BlockProvider {
   block_unblock_serviceOfState_url: any;
 
   saveSubService: any;
+  getAllSubService_URL: any;
 
   constructor(private _http: Http, public ConfigService: ConfigService) {
     this.admin_base_url = this.ConfigService.getAdminBaseUrl();
@@ -51,7 +52,8 @@ export class BlockProvider {
     this.block_unblock_state_url = this.admin_base_url + 'blockProviderByState';
     this.block_unblock_serviceline_url = this.admin_base_url + 'blockProviderByServiceId';
     this.block_unblock_serviceOfState_url = this.admin_base_url + 'blockProviderByService';
-    this.saveSubService = this.admin_base_url + 'm/saveSubserviceData'
+    this.saveSubService = this.admin_base_url + 'm/saveSubserviceData';
+    this.getAllSubService_URL = this.admin_base_url + 'm/FindSubSerive ';
   }
 
   // all the status of Provider 
@@ -62,7 +64,10 @@ export class BlockProvider {
   getAllProviders() {
     return this._http.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
   }
-
+  getAllSubService(serviceProviderMapID) {
+    return this._http.post(this.getAllSubService_URL, { 'providerServiceMapID': serviceProviderMapID })
+      .map(this.success_handeler).catch(this.error_handeler);
+  }
   getStates(serviceProviderID) {
     return this._http.post(this.getAllStatesOfProvider_Url, { 'serviceProviderID': serviceProviderID })
       .map(this.success_handeler)

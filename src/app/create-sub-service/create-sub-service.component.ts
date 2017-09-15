@@ -12,6 +12,7 @@ export class CreateSubServiceComponent implements OnInit {
   services_array: any = [];
   serviceProviders: any = [];
   states = [];
+  data: any = [];
   // ngModels
   serviceObj: any;
   subService: any;
@@ -19,6 +20,7 @@ export class CreateSubServiceComponent implements OnInit {
   showTable: boolean = false;
   serviceProvider: any;
   state: any;
+
 
 
   constructor(private sub_service: BlockProvider) { }
@@ -54,6 +56,7 @@ export class CreateSubServiceComponent implements OnInit {
     const array = [];
     let obj = {};
     obj['providerServiceMapID'] = service.providerServiceMapID;
+    obj['serviceID'] = service.serviceID;
     obj['subServiceDetails'] = [
       { 'subServiceName': subServices, 'subServiceDesc': subServiceDesc }
     ];
@@ -62,8 +65,12 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
         alert('Added Sucessfully');
-      }
-      else {
+        this.sub_service.getAllSubService(service.providerServiceMapID).subscribe((res) => {
+          this.showSubService(res, service.serviceName);
+        }, (err) => {
+
+        })
+      } else {
         alert('Something went wrong');
       }
     }, (err) => {
@@ -105,6 +112,16 @@ export class CreateSubServiceComponent implements OnInit {
     // this.serviceObj = '';
     // this.showTable = true;
 
+  }
+  showSubService(response: any, serviceName) {
+    this.showTable = true;
+    this.data = response.map(function (element) {
+      element.serviceName = serviceName
+      return element;
+    });
+    // this.data = response.map(function (item) {
+    //   item.serviceName = serviceName;
+    // });
   }
 
 
