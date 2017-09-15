@@ -19,6 +19,7 @@
                         <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined" >
                           <li style="cursor: pointer" (click)='show("1")' ><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
                           <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
+                          <li style="cursor: pointer" (click)='show("10")'><a>Update Provider</a></li>
                           <li style="cursor: pointer" (click)='show("3")'><a>Create Sub Service</a></li>
 
 
@@ -51,6 +52,7 @@
                 <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
                 <app-create-sub-service *ngSwitchCase="3"></app-create-sub-service>
                 <!-- <app-create-gender *ngSwitchCase="3"></app-create-gender> -->
+                <app-update-service-provider *ngSwitchCase="10"></app-update-service-provider>
                 <app-create-qualification *ngSwitchCase="4"></app-create-qualification>
                 <app-create-caste *ngSwitchCase="5"></app-create-caste>
                 <app-create-religion *ngSwitchCase="6"></app-create-religion>

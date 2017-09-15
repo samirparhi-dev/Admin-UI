@@ -60,6 +60,8 @@ import { DrugMappingComponent } from './drug-mapping/drug-mapping.component';
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
+import { UpdateServiceProviderComponent } from './update-service-provider/update-service-provider.component';
+
 
 // services
 import { loginService } from './services/loginService/login.service';
@@ -96,7 +98,7 @@ import { CreateSubServiceComponent } from './create-sub-service/create-sub-servi
   SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
   BlockServiceProviderComponent,CreateGenderComponent,
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
+  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,UpdateServiceProviderComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,DrugMappingComponent,
     LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent
   ],

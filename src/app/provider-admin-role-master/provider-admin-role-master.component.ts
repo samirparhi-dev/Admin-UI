@@ -19,7 +19,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     state: any;
     service: any;
 
-
     toBeEditedRoleObj: any;
     
 
@@ -30,14 +29,14 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     objs: any = [];
     finalResponse: any;
-
-
+    disableSelection: boolean = false;
+    selectedRole : any;
     STATE_ID: any;
     SERVICE_ID: any;
 
     features: any = [];
 
-
+    hideAdd: boolean = false;
     // flags
     showRoleCreationForm: boolean = false;
     setEditSubmitButton: boolean = false;
@@ -89,20 +88,32 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         console.log("features",response);
         this.features=response;
     }
-
+    correctInput: boolean = false;
+    showAddButton : boolean = false;;
     findRoles(stateID, serviceID) {
         this.STATE_ID = stateID;
         this.SERVICE_ID = serviceID;
-
+       
         console.log(this.serviceProviderID, stateID,serviceID);
         this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
             this.searchresultarray = this.fetchRoleSuccessHandeler(response);
         });
 
+        if(serviceID == "" || serviceID == undefined) {
+            this.correctInput = false;
+         debugger;
+        }
+        else {
+            this.correctInput = true;
+               this.showAddButton = true;
+          debugger;
+        }
+     
     }
 
     finalsave() {
         console.log(this.objs);
+
         this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
         
     }
@@ -119,16 +130,20 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     editRole(roleObj)
     {
+
         this.setRoleFormFlag(true);
         this.role = roleObj.roleName;
+        this.selectedRole = roleObj.roleName;
         this.description = roleObj.roleDesc;
         this.setEditSubmitButton = true;
-
         this.toBeEditedRoleObj = roleObj;
+        this.hideAdd = false;
+ 
     }
 
     saveEditChanges()
     {
+      
         let obj = {
             "roleID": this.toBeEditedRoleObj.roleID,
             "roleName": this.role,
@@ -137,33 +152,41 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             "createdBy": "Diamond Khanna",
             "createdDate": "2017-07-25T00:00:00.000Z"
         }
-
-        // console.log(JSON.stringify(this.toBeEditedRoleObj));
+      
         this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));
     }
 
     edit_delete_RolesSuccessHandeler(response)
     {
-        debugger;
+  
         console.log(response, "edit/delete response");
         this.showRoleCreationForm=false;
         this.setEditSubmitButton=false;
         this.findRoles(this.STATE_ID, this.SERVICE_ID);
         this.role = "";
         this.description = "";
+        this.objs= [];
+         this.selectedRole = undefined;
     }
 
     successhandeler(response)
     {
         return response;
     }
-
+    noRecordFound: boolean = false;
     fetchRoleSuccessHandeler(response)
     {
         
         console.log(response, "in fetch role success in component.ts");
+        if(response.length == 0){
+            this.noRecordFound = true;
+        }
+        else {
+            this.noRecordFound = false;
+        }
         this.showAddButtonFlag = true;
         response = response.filter(function(obj){
+            debugger;
             return obj.deleted!=true;
         })
         return response;
@@ -184,9 +207,18 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     setRoleFormFlag(flag)
     {
+        this.hideAdd = true;
         this.setEditSubmitButton = false;
         this.showRoleCreationForm = flag;
-        this.showAddButtonFlag=!flag;
+        this.showAddButtonFlag= !flag;
+        this.disableSelection = flag;
+        if (!flag) {
+            this.role = "";
+            this.description = "";
+            this.feature="";
+            this.selectedRole = undefined;
+        }
+        
     }
 
     add_obj(role,desc,feature)
@@ -233,22 +265,34 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.description = "";
         this.feature="";
     }
-
+    othersExist: boolean = false;
     validateRole(role) {
-        var count = 0;
-        for (let i = 0; i < this.searchresultarray.length; i++) {
-            if (this.searchresultarray[i].roleName === role) {
-                count = count + 1;
-            }
-        }
-        console.log(count);
-        if (count > 0) {
-            return false;
+        if(this.selectedRole!=undefined && this.selectedRole.toUpperCase() === role.toUpperCase()) {
+           
+            this.othersExist = false;
         }
         else {
-            return true;
+            var count = 0;
+            for (let i = 0; i < this.searchresultarray.length; i++) {
+                console.log((this.searchresultarray[i].roleName).toUpperCase());
+                if ((this.searchresultarray[i].roleName).toUpperCase() === role.toUpperCase()) {
+                    count = count + 1;
+                }
+            }
+            console.log(count);
+            if (count > 0) {
+                this.othersExist = true;
+                return false;
+            }
+            else {
+                this.othersExist = false;
+                return true;
+            }
         }
-      
+
+
+
+
     }
 
     remove_obj(index)

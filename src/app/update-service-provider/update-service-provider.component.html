@@ -1,0 +1,74 @@
+<md-card>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+			<label><h4>UPDATE PROVIDER</h4></label>
+		</div>
+		<div class="col-xs-12 col-sm-12" *ngIf="searchPage">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+					<md-select placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="providerSelected" (change)="selectedProvider(providerSelected)">
+						<md-option *ngFor="let provider of allProviders" [value]="provider.serviceProviderId">
+							{{provider.serviceProviderName}}
+						</md-option>
+					</md-select>
+				</div>
+			</div>
+			<div class="row" *ngIf="showProvider">
+				<div class="table-responsive ">
+					<table class="table"  [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
+						<thead>
+							<tr>
+								<th>Provider ID</th>
+								<th>State</th>
+								<th>ServiceLine</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let providerInfo of md2.data">
+								<td>{{providerInfo.serviceProviderID}}</td>
+								<td>{{providerInfo.stateName}}</td>
+								<td>{{providerInfo.serviceName}}</td>
+								<td>{{providerInfo.status}}</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3">
+									<md2-pagination></md2-pagination>
+								</td>
+								<td colspan="1"> 
+									<button color="primary" type="button" name="Save" md-raised-button class=" pull-right " (click)="addOrModify()">Add Provider Service</button>   
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12" *ngIf="!searchPage">
+			<div class="row">
+				<form #modifyForm="ngForm">
+					<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+						<md-select placeholder="State" [style.width]="'100%'" name="state" [(ngModel)]="state" (change)="getValidServicelines(state)">
+							<md-option *ngFor="let state of states" [value]="state.stateID">
+								{{state.stateName}}
+							</md-option>
+						</md-select>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+						<md-select multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required #sLine="ngModel">
+							<md-option *ngFor="let service of servicelines" [value]="service.serviceID">
+								{{service.serviceName}}
+							</md-option>
+						</md-select>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 m-t-5">
+						<button color="primary" type="button" name="back" md-raised-button class="pull-left " (click)="back()">Back</button>
+						<button color="primary" type="button" name="modify" [disabled]="sLine.errors" md-raised-button class="pull-right " (click)="modifyProvider(modifyForm.value)">Add service Provider</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</md-card> 
