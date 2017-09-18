@@ -67,7 +67,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
         alert('Added Sucessfully');
-        this.sub_service.getAllSubService(service.serviceID).subscribe((res) => {
+        this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           this.showSubService(res, service.serviceName);
         }, (err) => {
 
@@ -132,6 +132,7 @@ export class CreateSubServiceComponent implements OnInit {
     })
   }
   showSubService(response: any, serviceName) {
+
     this.showTable = true;
     this.data = response.map(function (element) {
       element.serviceName = serviceName
