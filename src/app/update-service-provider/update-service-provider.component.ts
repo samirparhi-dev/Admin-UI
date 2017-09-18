@@ -102,6 +102,5 @@ export class UpdateServiceProviderComponent implements OnInit {
   	this.state="";
   	this.serviceline="";
   	this.servicelines = [];
-  	debugger;
   }
 }

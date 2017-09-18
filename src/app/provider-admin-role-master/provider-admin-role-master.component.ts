@@ -101,12 +101,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
         if(serviceID == "" || serviceID == undefined) {
             this.correctInput = false;
-         debugger;
         }
         else {
             this.correctInput = true;
                this.showAddButton = true;
-          debugger;
+
         }
      
     }
@@ -186,7 +185,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         }
         this.showAddButtonFlag = true;
         response = response.filter(function(obj){
-            debugger;
             return obj.deleted!=true;
         })
         return response;

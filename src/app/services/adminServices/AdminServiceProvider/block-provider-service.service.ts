@@ -56,7 +56,7 @@ export class BlockProvider {
     this.getAllSubService_URL = this.admin_base_url + 'm/FindSubSerive ';
   }
 
-  // all the status of Provider 
+  // all the status of Provider
   getAllStatus() {
     return this._http.post(this.getAllStatus_URL, {}).map(this.success_handeler).catch(this.error_handeler);
   }
@@ -64,8 +64,8 @@ export class BlockProvider {
   getAllProviders() {
     return this._http.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
   }
-  getAllSubService(serviceProviderMapID) {
-    return this._http.post(this.getAllSubService_URL, { 'providerServiceMapID': serviceProviderMapID })
+  getAllSubService(serviceID) {
+    return this._http.post(this.getAllSubService_URL, { 'serviceID': serviceID })
       .map(this.success_handeler).catch(this.error_handeler);
   }
   getStates(serviceProviderID) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
-
+import { dataService } from './../services/dataService/data.service';
 @Component({
   selector: 'app-create-sub-service',
   templateUrl: './create-sub-service.component.html',
@@ -18,14 +18,16 @@ export class CreateSubServiceComponent implements OnInit {
   subService: any;
   subServiceDesc: any;
   showTable: boolean = false;
+  subServiceAvailable: boolean = false;
   serviceProvider: any;
   state: any;
 
 
 
-  constructor(private sub_service: BlockProvider) { }
+  constructor(private sub_service: BlockProvider, private commonData: dataService) { }
 
   ngOnInit() {
+    this.subServiceAvailable = false;
     this.sub_service.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
   }
   getAllProvidersSuccesshandeler(response) {
@@ -54,18 +56,18 @@ export class CreateSubServiceComponent implements OnInit {
   }
   add(providerServiceMapID, state, service, subServices, subServiceDesc) {
     const array = [];
-    let obj = {};
+    const obj = {};
     obj['providerServiceMapID'] = service.providerServiceMapID;
     obj['serviceID'] = service.serviceID;
     obj['subServiceDetails'] = [
-      { 'subServiceName': subServices, 'subServiceDesc': subServiceDesc }
+      { 'subServiceName': subServices.subServiceName, 'subServiceDesc': subServiceDesc }
     ];
     obj['createdBy'] = 'neeraj';
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
         alert('Added Sucessfully');
-        this.sub_service.getAllSubService(service.providerServiceMapID).subscribe((res) => {
+        this.sub_service.getAllSubService(service.serviceID).subscribe((res) => {
           this.showSubService(res, service.serviceName);
         }, (err) => {
 
@@ -112,6 +114,22 @@ export class CreateSubServiceComponent implements OnInit {
     // this.serviceObj = '';
     // this.showTable = true;
 
+  }
+  getSubServices(service) {
+    this.sub_service.getAllSubService(service.serviceID).subscribe((res) => {
+      if (res) {
+        if (res.length === 0) {
+          this.subServiceAvailable = true;
+        }
+        else {
+          this.subServices = res;
+          this.subServiceAvailable = false;
+        }
+      }
+      this.subServices = res;
+    }, (err) => {
+
+    })
   }
   showSubService(response: any, serviceName) {
     this.showTable = true;
