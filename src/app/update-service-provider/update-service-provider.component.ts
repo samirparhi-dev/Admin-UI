@@ -104,29 +104,31 @@ export class UpdateServiceProviderComponent implements OnInit {
   modifyProvider(value) {
 
     let obj = {
-      "serviceProviderID": this.providerSelected,
-      "stateID": value.state,
-      "createdBy": "SUPERADMIN",
-      "serviceID1": value.serviceLine,
-      "statusID": 1
+      'serviceProviderID': this.providerSelected,
+      'stateID': value.state,
+      'createdBy': 'SUPERADMIN',
+      'serviceID1': value.serviceLine,
+      'statusID': 1
     }
     console.log(obj);
     this.super_admin_service.addProviderStateAndServiceLines(obj).subscribe(response => this.servicelineAddedSuccesshandler(response));
 
   }
   servicelineAddedSuccesshandler(response) {
-    alert("state & service added for this provider");
+    alert('state & service added for this provider');
     this.super_admin_service.getProviderStatus(this.provider).subscribe(response => this.providerInfo_handler(response));
     this.searchPage = true;
-    this.state = "";
-    this.serviceline = "";
+    this.state = '';
+    this.serviceline = '';
     this.servicelines = [];
   }
-  edit() {
+  edit(providerID: any) {
     const dialogRef = this.dialog.open(EditProviderDetailsComponent, {
       height: '75%',
       width: '75%',
-      data: '',
+      data: this.allProviders.filter(function (item) {
+        return item.serviceProviderId === providerID
+      })
     });
     dialogRef.afterClosed().subscribe(result => {
     });

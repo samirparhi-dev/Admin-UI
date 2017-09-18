@@ -11,6 +11,66 @@
     </div>
   </h2>
   <md-dialog-content>
-
+    <div class="container-fluid">
+      <div class="row">
+        <form #form="ngForm" autocomplete="off">
+          <div class="row"> </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="pull-left">Primary Details</label>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Name" [(ngModel)]="primaryName" name="primaryName">
+              </md-input-container>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Email" [(ngModel)]="primaryEmail" name="primaryEmail">
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Phone Number" [(ngModel)]="primaryNo" name="primaryNo">
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Address" [(ngModel)]="primaryAddress" name="prinamryAdress">
+              </md-input-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="pull-left">Secondary Details</label>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Name" [(ngModel)]="secondaryName" name="secondaryName">
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Email" [(ngModel)]="secondaryEmail" name="secondaryEmail">
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Phone Number" [(ngModel)]="secondaryNo" name="secondaryNo">
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% ">
+                <input required mdInput placeholder="Address" [(ngModel)]="secondaryAddress" name="secondaryAddress">
+              </md-input-container>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
+            <button md-raised-button color="primary" [disabled]="!form.valid" class="pull-right" (click)="Edit(form.value)">Edit
+              </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </md-dialog-content>
 </div>
