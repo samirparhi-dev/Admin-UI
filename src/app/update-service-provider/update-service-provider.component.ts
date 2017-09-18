@@ -18,6 +18,7 @@ export class UpdateServiceProviderComponent implements OnInit {
 	servicelines:any = [];
 	state:any;
 	serviceline: any;
+  provider: any;
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service) { }
 
   ngOnInit() {
@@ -32,9 +33,11 @@ export class UpdateServiceProviderComponent implements OnInit {
   }
   selectedProvider(provider) {
   	this.showProvider = true;
+    this.provider = provider;
   	this.super_admin_service.getProviderStatus(provider).subscribe(response => this.providerInfo_handler(response));
   }
   providerInfo_handler(response) {
+    console.log(response);
   		this.data = response;
   }
   addOrModify() {
@@ -97,10 +100,27 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   }
   modifyProvider(value){
-  	alert("need to integrate with update API ");
-  	this.searchPage = true;
-  	this.state="";
-  	this.serviceline="";
-  	this.servicelines = [];
+
+    let obj =    {
+      "serviceProviderID" : this.providerSelected,
+      "stateID" : value.state,
+      "createdBy" : "SUPERADMIN",
+      "serviceID1" : value.serviceLine,
+      "statusID" : 1
+    }
+    console.log(obj);
+    this.super_admin_service.addProviderStateAndServiceLines(obj).subscribe(response =>  this.servicelineAddedSuccesshandler(response));
+
+  }
+  servicelineAddedSuccesshandler(response) {
+    alert("state & service added for this provider");
+    this.super_admin_service.getProviderStatus(this.provider).subscribe(response => this.providerInfo_handler(response));
+    this.searchPage = true;
+    this.state="";
+    this.serviceline="";
+    this.servicelines = [];
+  }
+  edit() {
+    alert("work in progress");
   }
 }
