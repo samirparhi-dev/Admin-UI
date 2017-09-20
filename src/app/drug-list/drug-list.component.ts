@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 
 @Component({
   selector: 'app-drug-list',
@@ -18,16 +19,19 @@ export class DrugListComponent implements OnInit {
   service_provider_id:any;
   editable:any = false;
   availableDrugNames:any = [];
+  serviceID104:any;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
-              public drugMasterService:DrugMasterService) { 
+              public drugMasterService:DrugMasterService,
+              private alertMessage: ConfirmationDialogsService) { 
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
+    this.serviceID104 = this.commonDataService.serviceID104;
    }
 
   ngOnInit() {
-    this.getStates();
+    this.getStatesByServiceID();
     this.getAvailableDrugs();
   }
 
@@ -40,7 +44,7 @@ export class DrugListComponent implements OnInit {
 
   getDrugsSuccessHandeler(response){
     this.availableDrugs = response;
-    console.log(this.availableDrugs);
+
     for(let availableDrug of this.availableDrugs){
       this.availableDrugNames.push(availableDrug.drugName);
     }
@@ -55,6 +59,10 @@ export class DrugListComponent implements OnInit {
     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
   }
   
+  getStatesByServiceID(){
+    this.drugMasterService.getStatesByServiceID(this.serviceID104,this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
+  }
+
   getStatesSuccessHandeler(response)
 	{
 		this.provider_states = response;
@@ -103,18 +111,17 @@ export class DrugListComponent implements OnInit {
     this.drugObj.createdBy = "System";
 
     this.drugList.push(this.drugObj);
-    console.log(this.drugList);
+
   }
 
   storedrug(){
-    console.log(this.drugList);
     let obj = {"drugMasters":this.drugList};
     this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
    successHandler(response){
     this.drugList =  [];
-    alert("drugs saved");
+    this.alertMessage.alert("drugs saved");
     this.getAvailableDrugs();
   }
 
@@ -131,7 +138,7 @@ export class DrugListComponent implements OnInit {
 
   }
   updateStatusHandler(response){
-    alert("Drug Status Changed");
+    console.log("Drug Status Changed");
   }
 
   drugID:any;
@@ -163,14 +170,13 @@ export class DrugListComponent implements OnInit {
 
   updateHandler(response){
     this.editable = false;
-    alert("updated successfully");
+    this.alertMessage.alert("updated successfully");
     this.getAvailableDrugs();
   }
 
   drugNameExist :any = false;
   checkExistance(drugName){
     this.drugNameExist = this.availableDrugNames.includes(drugName);
-    console.log(this.drugNameExist);
   }
 
 

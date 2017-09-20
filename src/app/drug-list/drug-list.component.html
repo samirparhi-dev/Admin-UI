@@ -3,14 +3,16 @@
   <table class="table ">
     <thead>
       <tr>
-        <th>Provider State</th>
+        <th>S No.</th>
+        <th>State</th>
         <th>Drug Name</th>
-        <th>Drug Description</th>
+        <th>Description</th>
         <th>Remarks</th>
       </tr>
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
+        <td>{{availableDrugs.indexOf(drug)+1}}</td>
         <td>{{drug.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drug.drugName}}</td>
         <td>{{drug.drugDesc}}</td>
@@ -19,9 +21,9 @@
         <td *ngIf="drug.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugStatus(drug)">Activate</button></td>
         <td> <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button></td>
       </tr>
-      <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
   <div>
     <button class="btn pull-right " (click)="showForm()">Add Drug </button>
   </div>
@@ -45,7 +47,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Enter Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)">
+        <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)">
         <md-hint>
           <span class="error_text" *ngIf="!drugN.valid  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
           <span class="error_text" *ngIf="drugNameExist">Drug Already Exists</span>
@@ -54,7 +56,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Enter Drug Description" [(ngModel)]="drugDesc" name="drugDesc"  #drugD="ngModel">
+        <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc"  #drugD="ngModel">
         <md-hint [hidden]=drugD.valid>
           <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Description</span>
         </md-hint>
@@ -62,7 +64,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
       <md-input-container  [style.width]="'100%'">
-        <input mdInput placeholder="Enter Remarks" [(ngModel)]="remarks" name="remarks">
+        <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
@@ -78,24 +80,24 @@
     <table class="table ">
       <thead>
         <tr>
-          <th>Provider State</th>
+          <th>S No.</th>
+          <th>State</th>
           <th>Drug Name</th>
-          <th>Drug Description</th>
+          <th>Description</th>
           <th>Remarks</th>
         </tr>
       </thead>
       <tbody>
-        <tr style="cursor: pointer" *ngFor="let drug of drugList">
+        <tr style="cursor: pointer" *ngFor="let drug of drugList | paginate: {id:'drugsResult', itemsPerPage: 3, currentPage: b}">
+          <td>{{drugList.indexOf(drug)+1}}</td>
           <td>{{drug.stateName}}</td>
           <td>{{drug.drugName}}</td>
           <td>{{drug.drugDesc}}</td>
           <td>{{drug.remarks}}</td>
         </tr>
-        <pagination-controls *ngIf="showPaginationControls" (pageChange)="b = $event"></pagination-controls>
       </tbody>
-      <tfoot>
-      </tfoot>
     </table>
+    <pagination-controls (pageChange)="b = $event" id="drugsResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
    <button class="btn pull-left" (click)="showDrugs = true;editable=false;">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>

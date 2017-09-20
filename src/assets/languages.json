@@ -9,7 +9,8 @@
       "qualification_master": "Create New Qualification",
       "caste_master": "Create New Caste",
       "religion_master": "Create New Religion",
-      "state_master": "Create New State"
+      "state_master": "Create New State",
+      "zone_master":"Zone Master"
     },
     "provider_name": "Provider Name",
     "valid_till": "Valid Till",

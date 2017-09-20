@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 
 @Component({
   selector: 'app-drug-group',
@@ -19,16 +20,20 @@ export class DrugGroupComponent implements OnInit {
   showPaginationControls:any = true;
   editable:any = false;
   availableDrugGroupNames:any = [];
+  serviceID104:any;
+
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
-              public drugMasterService:DrugMasterService) { 
+              public drugMasterService:DrugMasterService,
+              private alertMessage: ConfirmationDialogsService) { 
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
+    this.serviceID104 = this.commonDataService.serviceID104;
    }
 
   ngOnInit() {
     this.getAvailableDrugs();
-    this.getStates();
+    this.getStatesByServiceID();
    
   }
 
@@ -41,7 +46,6 @@ export class DrugGroupComponent implements OnInit {
 
   getDrugGroupsSuccessHandeler(response){
     this.availableDrugGroups = response;
-    console.log(this.availableDrugGroups);
     for(let availableDrugGroup of this.availableDrugGroups){
       this.availableDrugGroupNames.push(availableDrugGroup.drugGroup);
     }
@@ -53,6 +57,10 @@ export class DrugGroupComponent implements OnInit {
 
   getStates(){
     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
+  }
+
+  getStatesByServiceID(){
+    this.drugMasterService.getStatesByServiceID(this.serviceID104,this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
   }
   
   getStatesSuccessHandeler(response)
@@ -86,33 +94,33 @@ export class DrugGroupComponent implements OnInit {
 	// };
   drugGroupList:any= [];
   addDrugGroupToList(values){
-    this.drugGroupObj = {};
-    this.drugGroupObj.drugGroup = values.drugGroup;
-    this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
-
     for(let provider_service of this.provider_services){
       if("104"==provider_service.serviceName){
+        this.drugGroupObj = {};
+        this.drugGroupObj.drugGroup = values.drugGroup;
+        this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
+
          this.drugGroupObj.providerServiceMapID =  provider_service.providerServiceMapID;
          this.drugGroupObj.stateName = provider_service.stateName;
-      }
-    } 
-    
-    this.drugGroupObj.createdBy = "System";
 
-    this.drugGroupList.push(this.drugGroupObj);
-    console.log(this.drugGroupList);
+        this.drugGroupObj.createdBy = "System";
+
+        this.drugGroupList.push(this.drugGroupObj);
+     }
+    } 
+    if(this.drugGroupList.length<=0){
+        this.alertMessage.alert("No Service available with the state selected");
+    }
   }
 
   storeDrugGroup(){
-    console.log(this.drugGroupList);
-
     let obj = {"drugGroups":this.drugGroupList};
     this.drugMasterService.saveDrugGroups(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
   successHandler(response){
     this.drugGroupList =  [];
-    alert("drug group saved");
+    this.alertMessage.alert("Drug group saved");
     this.getAvailableDrugs();
   }
   dataObj:any ={};
@@ -128,7 +136,7 @@ export class DrugGroupComponent implements OnInit {
   }
 
   updateStatusHandler(response){
-    alert("Drug Status Changed");
+    console.log("Drug Status Changed");
   }
 
   drugGroupID:any;
@@ -157,14 +165,19 @@ export class DrugGroupComponent implements OnInit {
 
   updateHandler(response){
     this.editable = false;
-    alert("updated successfully");
+    this.alertMessage.alert("updated successfully");
     this.getAvailableDrugs();
   }
 
   groupNameExist :any = false;
   checkExistance(drugGroup){
     this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup);
-    console.log(this.groupNameExist);
   }
+  clearEdit(){
+    this.showDrugGroups = true;
+    this.editable=false;
+    this.groupNameExist=false;
+  }
+  
 
 }

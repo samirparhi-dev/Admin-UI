@@ -1,0 +1,24 @@
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center" >
+        <button md-raised-button color="primary" style="width: 170px" (click)="show(1)">Zone Master</button>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center" >
+        <button md-raised-button color="primary" style="width: 170px" (click)="show(2)">Zone District Mapping</button>
+      </div>
+    </div>
+  </div>
+</md-card>
+<md-card class="m-t-10" style="height: 370px">
+  <div class="row"  [ngSwitch]="Activity_Number">
+  <!-- screen one -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngSwitchCase="1">
+        <app-zone></app-zone>
+    </div>
+  <!-- screen two -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngSwitchCase="2">
+        <app-zone-district-mapping></app-zone-district-mapping>
+    </div>
+  </div>
+</md-card>

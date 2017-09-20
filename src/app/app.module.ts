@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -29,6 +29,11 @@ import { myAddress } from './directives/address/myAddress.directive';
 
 import { myProviderName } from './directives/name/myName.directive';
 
+import { InterceptedHttp } from './http.interceptor'
+import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
+import { httpFactory } from './http.factory';
+import { LoaderComponent } from './loader/loader.component';
+import { LoaderService } from './services/common/loader.service';
 // multi role screen component
 import { MultiRoleScreenComponent } from './multi-role-screen/multi-role-screen.component';
 import { ServiceRoleSelectionComponent } from './service-role-selection/service-role-selection.component';
@@ -57,6 +62,12 @@ import { DrugMasterComponent } from './drug-master/drug-master.component';
 import { DrugGroupComponent } from './drug-group/drug-group.component';
 import { DrugListComponent } from './drug-list/drug-list.component';
 import { DrugMappingComponent } from './drug-mapping/drug-mapping.component';
+import { ZoneMasterComponent } from './zone-master/zone-master.component';
+import { ZoneComponent } from './zone-list/zone.component';
+import { ZoneDistrictMappingComponent } from './zone-district-mapping/zone-district-mapping.component';
+import { ParkingPlaceComponent } from './parking-place-master/parking-place-master.component';
+import { ServicePointComponent } from './service-point-master/service-point.component';
+import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
@@ -83,7 +94,9 @@ import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltyp
 import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
 import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
 import { CategorySubcategoryService } from "./services/ProviderAdminServices/category-subcategory-master-service.service";
-
+import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
+import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
+import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
 
 
 @NgModule( {
@@ -97,7 +110,9 @@ import { CategorySubcategoryService } from "./services/ProviderAdminServices/cat
   CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
   CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
   EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,DrugMappingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent, DrugMasterComponent
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent,
+    DrugMasterComponent,ZoneMasterComponent,ZoneComponent,ZoneDistrictMappingComponent,ParkingPlaceComponent,ServicePointComponent,
+    CommonDialogComponent
   ],
 
   imports: [
@@ -172,12 +187,18 @@ import { CategorySubcategoryService } from "./services/ProviderAdminServices/cat
   ScreenService, HttpServices,UserBeneficiaryData,LocationService, FeedbackTypes,
   CallServices, ConfigService,SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
   LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
-    DrugMasterService, CategorySubcategoryService
+    DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService,ServicePointMasterService,
+    ConfirmationDialogsService, LoaderService, {
+      provide: InterceptedHttp,
+      useFactory: httpFactory,
+      deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
+    }
   ],
 
   entryComponents: [ 
     EditLocationModal,
-    EditEmployeeDetailsModal
+    EditEmployeeDetailsModal,
+    CommonDialogComponent
    ],
 
   bootstrap: [ AppComponent ]

@@ -1,0 +1,166 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div *ngIf="showParkingPlaces" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Search Parking Places</h4>
+                <form #searForm="ngForm">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID);getParkingPlaces(searchStateID,searchDistrictID)"
+                            #stateVal="ngModel">
+                            <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+                                {{state.stateName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID" #districtV="ngModel" (change)="getParkingPlaces(searchStateID,searchDistrictID)">
+                            <md-option *ngFor="let district of districts" [value]="district.districtID">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <button class="btn">
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
+                    </button>
+                </form>
+            </div>
+        <!--</div>
+    </div>
+</md-card>
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+            <div *ngIf="showParkingPlaces" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Available parking places</h4>
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>State</th>
+                            <th>District</th>
+                            <th>Sub District</th>
+                            <th>Parking Place</th>
+                            <th>Description</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: pointer" *ngFor="let parkingPlace of availableParkingPlaces | paginate: {id:'parkingPlaceListResult', itemsPerPage: 3, currentPage: b} ">
+                            <td>{{availableParkingPlaces.indexOf(parkingPlace)+1}} </td>
+                            <td>{{parkingPlace.stateName}}</td>
+                            <td>{{parkingPlace.districtName}}</td>
+                            <td>{{parkingPlace.blockName}}</td>
+                            <td>{{parkingPlace.parkingPlaceName}}</td>
+                            <td>{{parkingPlace.parkingPlaceDesc}}</td>
+                            <td>{{parkingPlace.areaHQAddress}}</td>
+                            <td *ngIf="parkingPlace.deleted=='0'"> <button class="btn" (click)="updateParkingPlaceStatus(parkingPlace)">DeActivate</button></td>
+                            <td *ngIf="parkingPlace.deleted=='1'"> <button class="btn activateBtn" (click)="updateParkingPlaceStatus(parkingPlace)">Activate</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="b = $event" id="parkingPlaceListResult"></pagination-controls>
+                <div>
+                    <button class="btn pull-right " (click)="showForm()">Add Parking Place </button>
+                </div>
+            </div>
+           
+
+            <div *ngIf="!showParkingPlaces">
+                <h4>Create Parking Place </h4>
+                <form #parkingPlaceForm="ngForm">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID);getDistricts(stateID)"
+                            #stateVal="ngModel">
+                            <md-option *ngFor="let item of provider_states" [value]="item.stateID">
+                                {{item.stateName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=stateVal.valid>
+                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select State</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel"
+                            (change)="GetTaluks(districtID.split('-')[0])">
+                            <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=districtV.valid>
+                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select District</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="talukID" name="talukID" (change)="GetBranches(talukID.split('-')[0])">
+                            <md-option *ngFor="let taluk of taluks" value="{{taluk.blockID}}-{{taluk.blockName}}">
+                                {{taluk.blockName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput required placeholder="Parking Place Name " [(ngModel)]="parkingPlaceName" name="parkingPlaceName" #parkingPlaceN="ngModel"
+                                (blur)="checkExistance(parkingPlaceName)">
+                            <md-hint>
+                                <span class="error_text" *ngIf="!parkingPlaceN.valid  && ( parkingPlaceN.dirty || parkingPlaceN.touched)">Please enter parking Place Name</span>
+                                <span class="error_text" *ngIf="parkingPlaceN.valid && parkingPlaceNameExist">Parking Place Already Exists</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Description" [(ngModel)]="parkingPlaceDesc" name="parkingPlaceDesc">
+                        </md-input-container>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+                        <md-input-container [style.width]="'100%'">
+                            <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #parkingPlaceAddress="ngModel">
+                            <md-hint [hidden]=parkingPlaceAddress.valid>
+                                <span class="error_text" *ngIf="!parkingPlaceAddress.required  && ( parkingPlaceAddress.dirty || parkingPlaceAddress.touched)">Please enter Parking Place Description</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+                        <button *ngIf="!editable" [disabled]=" !parkingPlaceN.valid || parkingPlaceNameExist || !parkingPlaceAddress.valid || !stateVal.valid || !districtV.valid"
+                            class="btn pull-right " (click)="addParkingPlaceToList(parkingPlaceForm.value);parkingPlaceForm.reset()  ">
+                            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                        </button>
+                    </div>
+                </form>
+                <div *ngIf="parkingPlaceList.length>0">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Sub District</th>
+                                <th>Parking Place</th>
+                                <th>Description</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor: pointer" *ngFor="let parkingPlace of parkingPlaceList | paginate: {id:'parkingPlaceResult', itemsPerPage: 3, currentPage: b}">
+                                <td>{{parkingPlaceList.indexOf(parkingPlace)+1}}</td>
+                                <td>{{parkingPlace.stateName}}</td>
+                                <td>{{parkingPlace.districtName}}</td>
+                                <td>{{parkingPlace.blockName}}</td>
+                                <td>{{parkingPlace.parkingPlaceName}}</td>
+                                <td>{{parkingPlace.parkingPlaceDesc}}</td>
+                                <td>{{parkingPlace.areaHQAddress}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="b = $event" id="parkingPlaceResult"></pagination-controls>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button class="btn pull-left" (click)="showList()">Back</button> <button *ngIf="parkingPlaceList.length>0"
+                        class="btn pull-right " (click)="storeParkingPlaces()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

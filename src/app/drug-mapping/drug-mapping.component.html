@@ -3,7 +3,8 @@
   <table class="table ">
     <thead>
       <tr>
-        <th>Provider State</th>
+        <th>S No.</th>
+        <th>State</th>
         <th>Drug Group Name</th>
         <th>Drug Name</th>
         <th>Remarks</th>
@@ -11,6 +12,7 @@
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drugMapping of availableDrugMappings | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
+        <td>{{availableDrugMappings.indexOf(drugMapping)+1}}</td>
         <td>{{drugMapping.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drugMapping.drugGroupName}}</td>
         <td>{{drugMapping.drugName}}</td>
@@ -19,9 +21,9 @@
         <td *ngIf="drugMapping.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugMappingStatus(drugMapping)">Activate</button></td>
         <!--<td> <button class="btn activateBtn" (click)="editDrugMapping(drugMapping)">Edit</button></td>-->
       </tr>
-      <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
   <div>
     <button class="btn pull-right " (click)="showForm()">Create Drug Mapping </button>
   </div>
@@ -52,22 +54,19 @@
       </md-hint>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-            <input mdInput style="display:none" >
-            <md-select multiple [style.width]="'100%'" name="drugIdList" placeholder="please choose Drugs" [(ngModel)]="drugIdList" #drug="ngModel" required>
-                <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
-            </md-select>
-            <md-hint [hidden]=drug.valid>
-              <span class="error_text" *ngIf="!drug.required  && ( drug.dirty || drug.touched)">Please choose Drugs</span>
-            </md-hint>
-        </md-input-container>
+        <md-select multiple [style.width]="'100%'" name="drugIdList" placeholder="Please Choose Drugs" [(ngModel)]="drugIdList" #drug="ngModel" required>
+            <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
+        </md-select>
+        <md-hint [hidden]=drug.valid>
+          <span class="error_text" *ngIf="!drug.required  && ( drug.dirty || drug.touched)">Please choose Drugs</span>
+        </md-hint>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
       <md-input-container  [style.width]="'100%'">
-        <input mdInput placeholder="Enter Remarks" [(ngModel)]="remarks" name="remarks">
+        <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <button *ngIf="!editable" class="btn pull-right " (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
@@ -80,24 +79,24 @@
     <table class="table ">
       <thead>
         <tr>
-          <th>Provider State</th>
+          <th>S No.</th>
+          <th>State</th>
           <th>Drug Group Name</th>
           <th>Drug Name</th>
           <th>Remarks</th>
         </tr>
       </thead>
       <tbody>
-        <tr style="cursor: pointer" *ngFor="let drug of drugMapping">
+        <tr style="cursor: pointer" *ngFor="let drug of drugMapping  | paginate: {id:'drugMappingListResult', itemsPerPage: 3, currentPage: b}">
+          <td>{{drugMapping.indexOf(drug)+1}}</td>
           <td>{{drug.stateName}}</td>
           <td>{{drug.drugGroupName}}</td>
           <td>{{drug.drugName}}</td>
           <td>{{drug.remarks}}</td>
         </tr>
-        <pagination-controls *ngIf="showPaginationControls" (pageChange)="b = $event"></pagination-controls>
       </tbody>
-      <tfoot>
-      </tfoot>
     </table>
+    <pagination-controls (pageChange)="b = $event" id="drugMappingListResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
    <button class="btn pull-left" (click)="showMappings = true;editable=false;">Back</button> <button *ngIf="drugMapping.length>0" class="btn pull-right " (click)="storedrugMappings()">Submit</button>
