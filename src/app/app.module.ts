@@ -120,10 +120,11 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
     CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
     CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent, UpdateServiceProviderComponent,
     EmployeeMasterComponent, EmployeeDetailsCapturingComponent, DrugGroupComponent, DrugListComponent, DrugMappingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent,
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
+    CallDispositionTypeMasterComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
-    ZoneMasterComponent,ZoneComponent,ZoneDistrictMappingComponent,ParkingPlaceComponent,ServicePointComponent,
-     CommonDialogComponent
+    ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
+    CommonDialogComponent,LoaderComponent
 
   ],
 
@@ -199,7 +200,7 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
     ScreenService, HttpServices, UserBeneficiaryData, LocationService, FeedbackTypes,
     CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
     LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
-    DrugMasterService, CategorySubcategoryService,ZoneMasterService, ParkingPlaceMasterService,ServicePointMasterService,
+    DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService, ServicePointMasterService,
     ConfirmationDialogsService, LoaderService, {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -210,9 +211,9 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
   entryComponents: [
     EditLocationModal,
     EditEmployeeDetailsModal,
-	EditProviderDetailsComponent,
+    EditProviderDetailsComponent,
     CommonDialogComponent
-   ],
+  ],
 
   bootstrap: [AppComponent]
 })

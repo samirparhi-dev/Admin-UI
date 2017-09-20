@@ -44,6 +44,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
     this.serviceproviderID = this.commonDataService.service_providerID;
+    // this.providerServiceMapID = this.commonDataService.provider_serviceMapID;
     this.createdBy = this.commonDataService.uname;
 
   }
@@ -162,21 +163,21 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.resetFields();
     }
   }
-  finalsave() {
+  finalsave(service) {
     if (this.api_choice === "0") {
-      this.addNewCategory();
+      this.addNewCategory(service);
     }
     else {
       this.addExistCategory();
     }
   }
 
-  addNewCategory() {
+  addNewCategory(providerServiceMapID) {
     const categoryObj = {};
     categoryObj['categoryName'] = this.category_name
     categoryObj['categoryDesc'] = this.categorydesc;
     categoryObj['subServiceID'] = this.sub_service;
-    categoryObj['providerServiceMapID'] = this.serviceproviderID;
+    categoryObj['providerServiceMapID'] = providerServiceMapID;
 
     categoryObj['subcatArray'] = this.serviceList.map(function (item) {
       return {
@@ -194,6 +195,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.searchForm = true;
         this.serviceList.length = 0;
         this.showTable = true;
+        this.getDetails(this.sub_service, providerServiceMapID);
       }, (err) => {
 
       });
@@ -266,7 +268,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.subcategory = '';
     this.description = '';
     this.filepath = '';
+    this.category_ID = '';
     this.serviceList = [];
+    this.cateDisabled = 'false';
+
   }
 
 }
