@@ -6,12 +6,13 @@ import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import {MdDatepickerModule,MdInputModule,MdNativeDateModule,MdTooltipModule,
+import {
+  MdDatepickerModule, MdInputModule, MdNativeDateModule, MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
   MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
@@ -71,6 +72,8 @@ import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
+import { UpdateServiceProviderComponent } from './update-service-provider/update-service-provider.component';
+
 
 // services
 import { loginService } from './services/loginService/login.service';
@@ -94,100 +97,109 @@ import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltyp
 import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
 import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
 import { CategorySubcategoryService } from "./services/ProviderAdminServices/category-subcategory-master-service.service";
+
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
 
+import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
+import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
 
-@NgModule( {
+
+
+
+@NgModule({
   declarations: [
-  AppComponent,loginContentClass,ResetComponent,myPassword,MultiRoleScreenComponent,
-  myName,myMobileNumber,myEmail,myAddress,myProviderName,
-  ServiceRoleSelectionComponent,SuperAdminComponent,AdminLanguageMasterComponent,
-  AdminRoleMasterComponent,AdminServiceMasterComponent,AdminScreenMasterComponent,
-  SetSecurityQuestionsComponent,SetPasswordComponent,ProviderOnBoardComponent,
-  BlockServiceProviderComponent,CreateGenderComponent,
-  CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-  CreateStateComponent,NewServiceProviderSetupComponent,ProviderAdminRoleMasterComponent,
-  EmployeeMasterComponent, EmployeeDetailsCapturingComponent,DrugGroupComponent,DrugListComponent,DrugMappingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent, CategorySubcategoryProvisioningComponent,
-    DrugMasterComponent,ZoneMasterComponent,ZoneComponent,ZoneDistrictMappingComponent,ParkingPlaceComponent,ServicePointComponent,
-    CommonDialogComponent
+
+    AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
+    myName, myMobileNumber, myEmail, myAddress, myProviderName,
+    ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
+    AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
+    SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,
+    BlockServiceProviderComponent, CreateGenderComponent,
+    CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
+    CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent, UpdateServiceProviderComponent,
+    EmployeeMasterComponent, EmployeeDetailsCapturingComponent, DrugGroupComponent, DrugListComponent, DrugMappingComponent,
+    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal, CallDispositionTypeMasterComponent,
+    CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
+    ZoneMasterComponent,ZoneComponent,ZoneDistrictMappingComponent,ParkingPlaceComponent,ServicePointComponent,
+     CommonDialogComponent
+
   ],
 
   imports: [
-  BrowserModule,
-  FormsModule,
-  HttpModule,
-  MaterialModule,
-  MdMenuModule,
-  MdDatepickerModule,
-  MdNativeDateModule,
-  ReactiveFormsModule,
-  NgxPaginationModule,
-  MdInputModule,
-  MdTooltipModule,
-  BrowserAnimationsModule,
-  MdRadioModule,
-  MdSelectModule,
-  MdButtonModule,
-  MdGridListModule,
-  MdCardModule,
-  Md2Module,
-  MdDialogModule,
-  MdCheckboxModule,
-  MdSliderModule,
-  RouterModule.forRoot( [
-  {
-    path: 'resetPassword',
-    component: ResetComponent
-  },
-  {
-    path: 'loginContentClass',
-    component: loginContentClass
-  },
-  {
-    path: 'setQuestions',
-    component: SetSecurityQuestionsComponent
-  },
-  {
-    path: 'MultiRoleScreenComponent',
-    component: MultiRoleScreenComponent,
-    children: [
-    {
-      path: '',
-      component: ServiceRoleSelectionComponent,
-      outlet: 'postLogin_router'
-    },
-    {
-      path: 'superAdmin',
-      component: SuperAdminComponent,
-      outlet: 'postLogin_router'
-    },
-    {
-      path: 'providerAdmin',
-      component: ProviderAdminComponent,
-      outlet: 'postLogin_router'
-    }
-    ]
-  },
-  {
-    path: 'setPassword',
-    component: SetPasswordComponent
-  },
-  {
-    path: '',
-    redirectTo: '/loginContentClass',
-    pathMatch: 'full'
-  }
-  ] ) ],
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    MaterialModule,
+    MdMenuModule,
+    MdDatepickerModule,
+    MdNativeDateModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    MdInputModule,
+    MdTooltipModule,
+    BrowserAnimationsModule,
+    MdRadioModule,
+    MdSelectModule,
+    MdButtonModule,
+    MdGridListModule,
+    MdCardModule,
+    Md2Module,
+    MdDialogModule,
+    MdCheckboxModule,
+    MdSliderModule,
+    RouterModule.forRoot([
+      {
+        path: 'resetPassword',
+        component: ResetComponent
+      },
+      {
+        path: 'loginContentClass',
+        component: loginContentClass
+      },
+      {
+        path: 'setQuestions',
+        component: SetSecurityQuestionsComponent
+      },
+      {
+        path: 'MultiRoleScreenComponent',
+        component: MultiRoleScreenComponent,
+        children: [
+          {
+            path: '',
+            component: ServiceRoleSelectionComponent,
+            outlet: 'postLogin_router'
+          },
+          {
+            path: 'superAdmin',
+            component: SuperAdminComponent,
+            outlet: 'postLogin_router'
+          },
+          {
+            path: 'providerAdmin',
+            component: ProviderAdminComponent,
+            outlet: 'postLogin_router'
+          }
+        ]
+      },
+      {
+        path: 'setPassword',
+        component: SetPasswordComponent
+      },
+      {
+        path: '',
+        redirectTo: '/loginContentClass',
+        pathMatch: 'full'
+      }
+    ])],
 
-  providers: [ 
-  loginService, dataService, DashboardHttpServices, RoleService,ServicemasterService,
-  ScreenService, HttpServices,UserBeneficiaryData,LocationService, FeedbackTypes,
-  CallServices, ConfigService,SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-  LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
-    DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService,ServicePointMasterService,
+  providers: [
+    loginService, dataService, DashboardHttpServices, RoleService, ServicemasterService,
+    ScreenService, HttpServices, UserBeneficiaryData, LocationService, FeedbackTypes,
+    CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
+    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
+    DrugMasterService, CategorySubcategoryService,ZoneMasterService, ParkingPlaceMasterService,ServicePointMasterService,
     ConfirmationDialogsService, LoaderService, {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -195,13 +207,14 @@ import { ServicePointMasterService } from './services/ProviderAdminServices/serv
     }
   ],
 
-  entryComponents: [ 
+  entryComponents: [
     EditLocationModal,
     EditEmployeeDetailsModal,
+	EditProviderDetailsComponent,
     CommonDialogComponent
    ],
 
-  bootstrap: [ AppComponent ]
-} )
+  bootstrap: [AppComponent]
+})
 
 export class AppModule { }

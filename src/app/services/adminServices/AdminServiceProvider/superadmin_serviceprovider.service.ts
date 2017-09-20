@@ -25,8 +25,9 @@ export class SuperAdmin_ServiceProvider_Service {
 	checkProviderNameAvailabilityUrl:any;
 
 	getRegistrationDataUrl: any;
-	
-
+	getAllProviderUrl: any;
+	getProviderInfoUrl:any;
+	addProviderStateAndServiceLinesUrl: any;
 	constructor(private _http: Http, public ConfigService: ConfigService)
 	 { 
 		this.superadmin_base_url = this.ConfigService.getSuperAdminBaseUrl();
@@ -40,7 +41,9 @@ export class SuperAdmin_ServiceProvider_Service {
 		this.checkProviderNameAvailabilityUrl=this.providerAdminBaseUrl+"checkProvider";
 
 		this.getRegistrationDataUrl = this.commonbaseurl + "beneficiary/getRegistrationData";
-
+		this.getAllProviderUrl = this.providerAdminBaseUrl + "getAllProvider";
+		this.getProviderInfoUrl = this.providerAdminBaseUrl + "getProviderStatus";
+		this.addProviderStateAndServiceLinesUrl = this.providerAdminBaseUrl + "addProviderStateAndServiceLines";
 	}
 
 	getCommonRegistrationData() {
@@ -70,7 +73,26 @@ export class SuperAdmin_ServiceProvider_Service {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+	getAllProvider() {
+		return this._http.post(this.getAllProviderUrl, {})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+	getProviderStatus(provider) {
+		return this._http.post(this.getProviderInfoUrl,{
+			"serviceProviderID" : provider
+		})
+		.map(this.extractData)
+		.catch(this.handleError);
 
+	}
+	addProviderStateAndServiceLines(obj) {
+		console.log(obj);
+		return this._http.post(this.addProviderStateAndServiceLinesUrl,obj)
+		.map(this.extractData)
+		.catch(this.handleError);
+
+	}
 	public createServiceProvider = function(serviceProviderRequestObject) {
 
 		return this._http.post(this.service_provider_setup_url, serviceProviderRequestObject)

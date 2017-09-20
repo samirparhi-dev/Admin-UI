@@ -95,14 +95,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.fitForFollowup= false;
 	}
 
-	pushCallSubType(call_subtype, fitToBlock, fitForFollowup)
+	pushCallSubType(call_type, call_subtype, fitToBlock)
 	{
 		let obj={
 			"calltype": call_subtype,
 			"providerServiceMapID":this.providerServiceMapID,
 			"callTypeDesc1":[call_subtype],
 			"fitToBlock1": [fitToBlock],
-			"fitForFollowup1": [fitForFollowup]
+			"fitForFollowup1": [!fitToBlock]
 		}
 		console.log('dummy obj', obj);
 
@@ -136,7 +136,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		// resetting fields
 		this.callSubType = "";
 		this.fitToBlock = false;
-		this.fitForFollowup = false;
+		// this.fitForFollowup = false;
 
 	}
 

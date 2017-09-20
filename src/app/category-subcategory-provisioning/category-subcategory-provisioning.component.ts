@@ -266,7 +266,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.subcategory = '';
     this.description = '';
     this.filepath = '';
-    this.serviceList.length = 0;
+    this.serviceList = [];
   }
 
 }

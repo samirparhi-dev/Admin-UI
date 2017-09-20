@@ -1,0 +1,92 @@
+<md-card>
+  <div class="row">
+    <label class="pull-left">CREATE SUB SERVICES</label>
+    <form #form="ngForm" autocomplete="off">
+      <div class="row"> </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider"
+            (change)="getStates(serviceProvider)">
+            <md-option *ngFor="let serviceProviderObj of serviceProviders" [value]="serviceProviderObj">
+              {{serviceProviderObj.serviceProviderName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(serviceProvider,state)">
+            <md-option *ngFor="let stateObj of states" [value]="stateObj">
+              {{stateObj.stateName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <md-select required name="services" placeholder="Services" [style.width]="'100%'" [(ngModel)]="serviceObj" (change)="getSubServices($event.value)">
+            <md-option *ngFor="let service of services" [value]="service">
+              {{service.serviceName}}
+            </md-option>
+          </md-select>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-4 col-md-8 col-lg-8  m-t-20" *ngIf="subServiceAvailable">
+          <label class="errorText">No Sub Service Available Please Select Different Service </label> 
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4  m-t-20" *ngIf="!subServiceAvailable">
+          <md-select required name="subService" placeholder="Sub Services" [style.width]="'100%'" [(ngModel)]="subService">
+            <md-option *ngFor="let subService of subServices" [value]="subService">
+              {{subService.subServiceName}}
+            </md-option>
+          </md-select>
+          <!-- <md-input-container style="width: 100% ">
+            <input required mdInput placeholder="Sub Service Name" [(ngModel)]="subService" name="subService">
+          </md-input-container> -->
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 m-t-25" *ngIf="!subServiceAvailable">
+          <md-input-container style="width: 100% ">
+            <input required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc">
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
+          <button md-raised-button color="primary" [disabled]="!form.valid" class="pull-right" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc);form.reset()">Save
+      </button>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
+      <button color="primary" class="pull-right" md-mini-fab (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">
+        <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div> -->
+      </div>
+      <div class="row"></div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTable ">
+        <label>Sub Service Details</label>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+            <thead>
+              <tr>
+                <!-- <th>Service</th> -->
+                <th>Service Name</th>
+                <th>Sub Services Name</th>
+                <th>Sub Service Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let service_subservice of md2.data;" style="cursor:pointer ">
+                <td width=30%>{{service_subservice.serviceName}}</td>
+                <td width=30%>{{service_subservice.subServiceName}}</td>
+                <td width=30%>{{service_subservice.subServiceDesc}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <md2-pagination></md2-pagination>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</md-card>

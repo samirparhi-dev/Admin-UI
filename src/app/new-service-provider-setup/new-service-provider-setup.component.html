@@ -1,7 +1,7 @@
 <md-card class="example-card" *ngIf="currentlanguage!=undefined">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
-      <label><h4>CREATE PROVIDER</h4></label>
+    <div class="pull-left">
+      <label>CREATE PROVIDER</label>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [hidden]="!show1">
       <form #service_provider_form="ngForm" autocomplete="off" id="providerForm">
@@ -41,7 +41,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100">
-            <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID" #validEmail="ngModel">
+            <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID"
+              #validEmail="ngModel">
             <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
             </md-hint>
           </md-input-container>
@@ -56,13 +57,21 @@
             <input mdInput placeholder="{{currentlanguage.address2}}" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
-        
+
         <!-- </div> -->
         <!-- </div> -->
       </form>
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
-        <button [disabled]="!service_provider_form.form.valid || validEmail.hasError('pattern')" class="pull-right" md-raised-button
-          (click)="show(2,'save')">Next</button>
+        <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <button color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Cancel</button>
+        </span>
+        <!-- <button class="pull-right" color="primary" type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button> -->
+        <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
+                  <input type="button" md-raised-button name="Save" (click)="show(2,'back')" value="Back" /> -->
+        <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <button color="primary" [disabled]="!service_provider_form.form.valid || validEmail.hasError('pattern')" class="pull-right"
+            md-raised-button (click)="show(2,'save')">Next</button>
+        </span>
       </div>
     </div>
     <!-- ############  Service Provider State-Service Screen   ############# -->
@@ -84,11 +93,13 @@
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 ">
-        <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black" (click)="add_2_state_service_array(state,service)">add</md-icon>
+        <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black"
+          (click)="add_2_state_service_array(state,service)">add</md-icon>
       </div>
       <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 ">
-        <button class="pull-right" md-raised-button (click)="show(1,'back')">Back</button>
+        <button color="primary" class="pull-right" md-raised-button (click)="show(1,'back')">Back</button>
       </div>
+      <div class="row"> </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="showTable ">
         <div class="table-responsive ">
           <table class="table ">
@@ -116,7 +127,7 @@
           </table>
         </div>
         <div>
-          <button md-raised-button class="pull-right " (click)="show(3,'save') ">Save</button>
+          <button color="primary" md-raised-button class="pull-right " (click)="show(3,'save') ">Save</button>
         </div>
       </div>
       <!-- </div> -->
@@ -127,7 +138,7 @@
       <form #paFORM="ngForm" autocomplete="off" id="detailedForm">
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <button type="button" class="pull-right" md-raised-button (click)="clearFullForm()">Clear to Initial Stage </button>
+          <button type="button" color="primary" class="pull-right" md-raised-button (click)="show(2,'back')">Back </button>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
@@ -184,7 +195,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myMobileNumber>
-            <input mdInput placeholder="PhoneNumber"  minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
+            <input mdInput placeholder="PhoneNumber" minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber ">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
@@ -239,12 +250,18 @@
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-9 col-lg-9 m-t-15">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15 pull-right">
+          <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <button color="primary"  type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button>
+            </span>
+          <!-- <button class="pull-right" color="primary" type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button> -->
           <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
               <input type="button" md-raised-button name="Save" (click)="show(2,'back')" value="Back" /> -->
-          <button class="pull-right" type="button" name="Save" [disabled]="!paFORM.form.valid || username_dependent_flag || userName.hasError('pattern') || pass.hasError('passwordPattern') || validEmail.hasError('pattern')"
-            md-raised-button (click)="finalSubmit(); ">Save & Create</button>
-          <button md-raised-button type="button" name="Save" (click)="show(2,'back')">Back</button>
+          <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <button color="primary" class="pull-right" type="button" name="Save" [disabled]="!paFORM.form.valid || username_dependent_flag || userName.hasError('pattern') || pass.hasError('passwordPattern') || validEmail.hasError('pattern')"
+                md-raised-button (click)="finalSubmit(); ">Save & Create</button>
+            </span>
+          <!-- <button md-raised-button type="button" name="Save" >Back</button> -->
         </div>
       </form>
     </div>
