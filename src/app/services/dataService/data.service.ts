@@ -23,7 +23,8 @@ export class dataService
 
 	service_providerID: any;
 	provider_serviceMapID:any;
-
+	serviceID104:any = 3;
+	serviceIDMMU:any = 2;
 
 	currentLanguage: any;
 };

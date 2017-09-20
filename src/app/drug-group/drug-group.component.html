@@ -3,13 +3,15 @@
   <table class="table ">
     <thead>
       <tr>
-        <th>Provider State</th>
+        <th>S No.</th>
+        <th>State</th>
         <th>Drug Group</th>
-        <th>Drug Description</th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drugGroup of availableDrugGroups | paginate: {id:'searchResult', itemsPerPage: 3, currentPage: b}" >
+        <td>{{availableDrugGroups.indexOf(drugGroup)+1}}</td>
         <td>{{drugGroup.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drugGroup.drugGroup}}</td>
         <td>{{drugGroup.drugGroupDesc}}</td>
@@ -17,9 +19,9 @@
         <td *ngIf="drugGroup.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugGroupStatus(drugGroup)">Activate</button></td>
         <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td>
       </tr>
-      <pagination-controls (pageChange)="b = $event" id="searchResult"></pagination-controls>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="b = $event" id="searchResult"></pagination-controls>
   <div>
     <button class="btn pull-right " (click)="showForm()">Add Drug Group</button>
   </div>
@@ -40,7 +42,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Enter Drug Group " [(ngModel)]="drugGroup" name="drugGroup" #drugG="ngModel" (blur)="checkExistance(drugGroup)">
+        <input mdInput required placeholder="Drug Group " [(ngModel)]="drugGroup" name="drugGroup" #drugG="ngModel" (blur)="checkExistance(drugGroup)">
         <md-hint>
           <span class="error_text" *ngIf="!drugG.valid  && ( drugG.dirty || drugG.touched)">Please enter drug Group Name</span>
           <span class="error_text" *ngIf="groupNameExist">Drug Group Already Exists</span>
@@ -49,7 +51,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Enter Drug Group Description" [(ngModel)]="drugGroupDesc" name="drugGroupDesc"  #drugD="ngModel">
+        <input mdInput required placeholder="Drug Group Description" [(ngModel)]="drugGroupDesc" name="drugGroupDesc"  #drugD="ngModel">
         <md-hint [hidden]=drugD.valid>
           <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Group Description</span>
         </md-hint>
@@ -68,22 +70,24 @@
     <table class="table ">
       <thead>
         <tr>
-          <th>Provider State</th>
+          <th>S No.</th>
+          <th>State</th>
           <th>Drug Group</th>
-          <th>Drug Description</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
         <tr style="cursor: pointer" *ngFor="let drugGroup of drugGroupList | paginate: {id:'groupsList', itemsPerPage: 3, currentPage: b}">
+          <td>{{drugGroupList.indexOf(drugGroup)+1}}</td>
           <td>{{drugGroup.stateName}}</td>
           <td>{{drugGroup.drugGroup}}</td>
           <td>{{drugGroup.drugGroupDesc}}</td>
         </tr>
-        <pagination-controls (pageChange)="b = $event" id="groupsList"></pagination-controls>
       </tbody>
     </table>
+    <pagination-controls (pageChange)="b = $event" id="groupsList"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="showDrugGroups = true;editable=false;">Back</button> <button *ngIf="drugGroupList.length>0" class="btn pull-right " (click)="storeDrugGroup()">Submit</button>
+   <button class="btn pull-left" (click)="clearEdit()">Back</button> <button *ngIf="drugGroupList.length>0" class="btn pull-right " (click)="storeDrugGroup()">Submit</button>
   </div>
 </div>

@@ -6,14 +6,6 @@ import 'rxjs/add/operator/map';
 
 import { ConfigService } from "../config/config.service";
 
-
-
-/**
- * Author: Diamond Khanna ( 352929 )
- * Date: 24-07-2017
- * Objective: # A service which would handle the creation of employees and their
-               role provisioning
-                */
 @Injectable()
 export class DrugMasterService {
      providerAdmin_Base_Url: any;
@@ -33,6 +25,8 @@ export class DrugMasterService {
      updateDrugGroupURL:any;
      updateDrugMappingsURL:any;
 
+     _getStateListBYServiceIDURL:any;
+
      constructor(private http: Http,public basepaths:ConfigService) { 
           this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
           this.saveDrugGroupsURL = this.providerAdmin_Base_Url + "m/saveDrugGroup";
@@ -45,6 +39,8 @@ export class DrugMasterService {
           this.updateDrugGroupURL = this.providerAdmin_Base_Url + "m/updateDrugGroup";
           this.getDrugMappingsURL = this.providerAdmin_Base_Url + "m/getDrugGroupMappings";
           this.updateDrugMappingsURL = this.providerAdmin_Base_Url + "m/updateDrugMapping";
+
+          this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + "m/location/getStatesByServiceID";
                     
     };
 
@@ -109,6 +105,12 @@ export class DrugMasterService {
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
+
+    getStatesByServiceID(serviceID,serviceProviderID) {
+		return this.http.post(this._getStateListBYServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
+			.map(this.handleSuccess)
+			.catch(this.handleError);
+	}
 
     handleSuccess(response: Response) {
         console.log(response.json().data, "--- in employee master SERVICE");

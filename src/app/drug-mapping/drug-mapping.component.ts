@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
-
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 @Component({
   selector: 'app-drug-mapping',
   templateUrl: './drug-mapping.component.html'
@@ -19,15 +19,20 @@ export class DrugMappingComponent implements OnInit {
   provider_services:any;
   service_provider_id:any;
   editable:any = false;
+  serviceID104:any;
+
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
-              public drugMasterService:DrugMasterService) { 
+              public drugMasterService:DrugMasterService,
+              private alertMessage: ConfirmationDialogsService) { 
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
+    this.serviceID104 = this.commonDataService.serviceID104;
+
    }
 
   ngOnInit() {
-    this.getStates();
+    this.getStatesByServiceID();
     this.getAvailableMappings();
     this.getAvailableDrugGroups();
     this.getAvailableDrugs();
@@ -42,7 +47,6 @@ export class DrugMappingComponent implements OnInit {
 
   getDrugMappingsSuccessHandeler(response){
     this.availableDrugMappings = response;
-    console.log(this.availableDrugMappings);
   }
 
   getAvailableDrugGroups(){
@@ -50,7 +54,6 @@ export class DrugMappingComponent implements OnInit {
   }
   getDrugGroupsSuccessHandeler(response){
     this.availableDrugGroups = response;
-    console.log(this.availableDrugGroups);
   }
 
   getAvailableDrugs(){
@@ -59,7 +62,6 @@ export class DrugMappingComponent implements OnInit {
 
   getDrugsSuccessHandeler(response){
     this.availableDrugs = response;
-    console.log(this.availableDrugs);
   }
 
   getServices(stateID)
@@ -70,6 +72,11 @@ export class DrugMappingComponent implements OnInit {
   getStates(){
     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
   }
+
+  getStatesByServiceID(){
+    this.drugMasterService.getStatesByServiceID(this.serviceID104,this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
+  }
+  
   
   getStatesSuccessHandeler(response)
 	{
@@ -122,18 +129,16 @@ export class DrugMappingComponent implements OnInit {
       this.drugObj.createdBy = "System";
       this.drugMapping.push(this.drugObj);
     }
-    console.log(this.drugMapping);
   }
 
   storedrugMappings(){
-    console.log(this.drugMapping);
     let obj = {"drugMappings":this.drugMapping};
     this.drugMasterService.mapDrugGroups(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
   successHandler(response){
     this.drugMapping =  [];
-    alert("drugs saved");
+    this.alertMessage.alert("drugs saved");
     this.getAvailableMappings();
   }
 
@@ -151,7 +156,7 @@ export class DrugMappingComponent implements OnInit {
   }
 
   updateStatusHandler(response){
-    alert("Drug Status Changed");
+    console.log("Drug Status Changed");
   }
   
   drugMapID:any;
@@ -188,7 +193,7 @@ export class DrugMappingComponent implements OnInit {
   }
 
   updateHandler(response){
-     alert("updated successfully");
+     this.alertMessage.alert("updated successfully");
      this.editable = false;
      this.getAvailableDrugs();
   }
