@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
+import { EmployeeMasterService } from '../services/ProviderAdminServices/employee-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 
 
@@ -297,7 +297,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       this.language_weightage.push(this.sliderarray[i].value);
     }
 
-    //to  check highly proficient language.....not the most proficient language would be at the end of array
+    // to  check highly proficient language.....not the most proficient language would be at the end of array
 
     this.sliderarray.sort(function (a, b) { return a.value - b.value });
 
@@ -368,7 +368,6 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'maritalStatusID': this.marital_status,
       'aadhaarNo': this.adhaar_no,
       'pAN': this.pan_no,
-      //"dOB": new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON(),
       'dOJ': '2017-08-02T00:00:00.000Z',
       'qualificationID': this.qualificationType,
       'userName': this.username,
@@ -376,7 +375,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'emailID': this.emailID,
       'statusID': 1,  // because its a new user 
       // "emergencyContactPerson": "Ish Gandotra",
-      // "emergencyContactNo": "9023650041",
+      'emergencyContactNo': '9023650041',
       // "titleName": "Mrs",
       // "status": "New",
       // "qualificationName": "PostGraduate",
@@ -408,8 +407,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       // "providerServiceMapID": this.providerServiceMapID,
       // "workingLocationID": this.agent_officeName
     }
-    console.log('create employee request Object:', request_object);
-    this.EmployeeMasterService.createEmployee(request_object).subscribe((response: Response) => this.createEmployeeSuccessHandeler(response));
+    // console.log('create employee request Object:', JSON.stringify(request_object));
+    this.EmployeeMasterService.createEmployee(JSON.stringify(request_object)).subscribe((response: Response) => this.createEmployeeSuccessHandeler(response));
   }
 
 

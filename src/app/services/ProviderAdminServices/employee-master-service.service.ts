@@ -177,12 +177,10 @@ export class EmployeeMasterService {
 
   }
 
-
-
   // CRUD begins
   createEmployee(requestObject) {
     console.log(requestObject, "request obj in service")
-    return this.http.post(this.createEmployeeUrl, requestObject)
+    return this.http.post(this.createEmployeeUrl, JSON.parse(requestObject))
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
