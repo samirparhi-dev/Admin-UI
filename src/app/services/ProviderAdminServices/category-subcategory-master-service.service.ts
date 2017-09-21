@@ -40,34 +40,34 @@ export class CategorySubcategoryService {
 
 		this.getStates_url = this.providerAdmin_Base_Url + "m/location/state";
 		this.getServiceLines_url = this.providerAdmin_Base_Url + "m/location/service";
-		this.getSubService_url = this.providerAdmin_Base_Url + "m/FindSubSerive";
+		this.getSubService_url = this.providerAdmin_Base_Url + "m/getSubSerive";
 		this.getCategoryBySubService_url = this.providerAdmin_Base_Url + "m/getCategoryBySubServiceID";
 		this.saveCategory_url = this.providerAdmin_Base_Url + "m/saveCategory";
 		this.deleteCategory_url = this.providerAdmin_Base_Url + "m/deleteCategory";
-		this.getCategory_url = this.providerAdmin_Base_Url + "m/getCategory";
-		this.saveExistCategory_url = this.providerAdmin_Base_Url + "m/saveCategoryUseExist";
+		this.getCategory_url = this.providerAdmin_Base_Url + 'm/getCategory';
+		this.saveExistCategory_url = this.providerAdmin_Base_Url + 'm/saveCategoryUseExist';
 	};
 
 	getStates(serviceProviderID) {
-		return this.http.post(this.getStates_url, { "serviceProviderID": serviceProviderID })
+		return this.http.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
 
 	getServiceLines(serviceProviderID, stateID) {
-		return this.http.post(this.getServiceLines_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
+		return this.http.post(this.getServiceLines_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
 	getSubService(serviceProviderMapID) {
-		return this.http.post(this.getSubService_url, { "providerServiceMapID": serviceProviderMapID })
+		return this.http.post(this.getSubService_url, { 'providerServiceMapID': serviceProviderMapID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 	getCategorybySubService(serviceProviderMapID, subServiceID) {
-		return this.http.post(this.getCategoryBySubService_url, { "providerServiceMapID": serviceProviderMapID, 'subServiceID': subServiceID })
+		return this.http.post(this.getCategoryBySubService_url, { 'providerServiceMapID': serviceProviderMapID, 'subServiceID': subServiceID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
@@ -92,7 +92,7 @@ export class CategorySubcategoryService {
 			.catch(this.handleError);
 	}
 	handleSuccess(response: Response) {
-		console.log(response.json().data, "--- in location-serviceline-mapping service");
+		console.log(response.json().data, '--- in location-serviceline-mapping service');
 		return response.json().data;
 	}
 
