@@ -29,7 +29,7 @@
           <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
             <thead>
               <tr>
-                <th>ID</th>
+                <!--<th>ID</th>-->
                 <th>Call Type</th>
                 <th>Call Subtype </th>
                 <th>Blocking Required</th>
@@ -39,7 +39,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let i of md2.data">
-                <td>{{i.callTypeID}}</td>
+                <!--<td>{{i.callTypeID}}</td>-->
                 <td>{{i.callGroupType}}</td>
                 <td>{{i.callType}}</td>
                 <td>{{i.fitToBlock}}</td>
@@ -85,20 +85,20 @@
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
             <label class="f-s-n-b">Fit To Block</label>
-            <md-radio-group [(ngModel)]="fitToBlock">
+            <md-radio-group [(ngModel)]="fitToBlock" (change)="fitForFollowup=!fitToBlock">
               <md-radio-button [value]="true">YES</md-radio-button>
               <md-radio-button [value]="false">NO</md-radio-button>
             </md-radio-group>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
             <label class="f-s-n-b">Fit For FollowUp</label>
-            <md-radio-group [(ngModel)]="!fitToBlock">
+            <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitToBlock=!fitForFollowup">
               <md-radio-button [value]="true">YES</md-radio-button>
               <md-radio-button [value]="false">NO</md-radio-button>
             </md-radio-group>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15 width10">
-            <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock)">
+            <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callSubType,fitToBlock,fitForFollowup)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
           </div>
@@ -118,12 +118,12 @@
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
               <div class="col-lg-6">
                 <md-chip-list>
-                  <md-chip color="accent" selected="true">block:{{item.fitToBlock1[0]}}</md-chip>
+                  <md-chip color="accent" selected="true">block:{{item.fitToBlock1[0]==true?'yes':'no'}}</md-chip>
                 </md-chip-list>
               </div>
               <div class="col-lg-6">
                 <md-chip-list>
-                  <md-chip color="accent" selected="true">followup:{{item.fitForFollowup1[0]}}</md-chip>
+                  <md-chip color="accent" selected="true">followup:{{item.fitForFollowup1[0]==true?'yes':'no'}}</md-chip>
                 </md-chip-list>
               </div>
             </div>
