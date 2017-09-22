@@ -50,14 +50,18 @@ export class DrugMappingComponent implements OnInit {
   }
 
   getAvailableDrugGroups(){
-    this.drugMasterService.getDrugGroups().subscribe(response => this.getDrugGroupsSuccessHandeler(response));
+    this.drugObj = {};
+    this.drugObj.deleted = false;
+    this.drugMasterService.getDrugGroups(this.drugObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response));
   }
   getDrugGroupsSuccessHandeler(response){
     this.availableDrugGroups = response;
   }
 
   getAvailableDrugs(){
-    this.drugMasterService.getDrugsList().subscribe(response => this.getDrugsSuccessHandeler(response));
+    this.drugObj = {};
+    this.drugObj.deleted = false;
+    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response));
   }
 
   getDrugsSuccessHandeler(response){
@@ -138,7 +142,7 @@ export class DrugMappingComponent implements OnInit {
 
   successHandler(response){
     this.drugMapping =  [];
-    this.alertMessage.alert("drugs saved");
+    this.alertMessage.alert("Drug Mappings stored successfully");
     this.getAvailableMappings();
   }
 
@@ -149,53 +153,53 @@ export class DrugMappingComponent implements OnInit {
     this.dataObj.drugMapID = drugMapping.drugMapID;
     this.dataObj.deleted = !drugMapping.deleted;
     this.dataObj.modifiedBy = "Admin";
-    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateHandler(response));
+    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
     
     drugMapping.deleted = !drugMapping.deleted;
 
   }
 
   updateStatusHandler(response){
-    console.log("Drug Status Changed");
+    console.log("Drug Mapping status changed");
   }
   
-  drugMapID:any;
-  drugGroupID:any;
-  drugGroupName:any;
-  drugId:any;
-  drugName:any;
-  remarks:any;
-  stateID:any;
+  // drugMapID:any;
+  // drugGroupID:any;
+  // drugGroupName:any;
+  // drugId:any;
+  // drugName:any;
+  // remarks:any;
+  // stateID:any;
 
-  editDrugMapping(drug){
+  // editDrugMapping(drug){
 
-    this.drugMapID = drug.drugMapID;
-    this.drugGroupID = drug.drugGroupID;
-    this.drugGroupName = drug.drugGroupName;
-    this.drugId = drug.drugId;
-    this.drugName = drug.drugName;
-    this.remarks = drug.remarks;
-    this.stateID = drug.m_providerServiceMapping.state.stateID;
-    this.editable = true;
-  }
+  //   this.drugMapID = drug.drugMapID;
+  //   this.drugGroupID = drug.drugGroupID;
+  //   this.drugGroupName = drug.drugGroupName;
+  //   this.drugId = drug.drugId;
+  //   this.drugName = drug.drugName;
+  //   this.remarks = drug.remarks;
+  //   this.stateID = drug.m_providerServiceMapping.state.stateID;
+  //   this.editable = true;
+  // }
 
-  updateDrugMapping(drugMapping){
-    this.dataObj ={};
-    this.dataObj.drugGroupID = drugMapping.drugGroupID.split("-")[0];
-    this.dataObj.drugGroupName = drugMapping.drugGroupID.split("-")[1];
-    this.dataObj.drugId = drugMapping.drugIdList.split("-")[0];
-    this.dataObj.drugName = drugMapping.drugIdList.split("-")[1];
-    this.dataObj.remarks = drugMapping.remarks;
-    this.dataObj.providerServiceMapID = drugMapping.providerServiceMapID;
-    this.dataObj.modifiedBy = "Admin";
-    this.drugMasterService.updateDrugMappings(this.dataObj).subscribe(response => this.updateHandler(response));
+  // updateDrugMapping(drugMapping){
+  //   this.dataObj ={};
+  //   this.dataObj.drugGroupID = drugMapping.drugGroupID.split("-")[0];
+  //   this.dataObj.drugGroupName = drugMapping.drugGroupID.split("-")[1];
+  //   this.dataObj.drugId = drugMapping.drugIdList.split("-")[0];
+  //   this.dataObj.drugName = drugMapping.drugIdList.split("-")[1];
+  //   this.dataObj.remarks = drugMapping.remarks;
+  //   this.dataObj.providerServiceMapID = drugMapping.providerServiceMapID;
+  //   this.dataObj.modifiedBy = "Admin";
+  //   this.drugMasterService.updateDrugMappings(this.dataObj).subscribe(response => this.updateHandler(response));
     
-  }
+  // }
 
-  updateHandler(response){
-     this.alertMessage.alert("updated successfully");
-     this.editable = false;
-     this.getAvailableDrugs();
-  }
+  // updateHandler(response){
+  //    this.alertMessage.alert("updated successfully");
+  //    this.editable = false;
+  //    this.getAvailableDrugs();
+  // }
 
 }

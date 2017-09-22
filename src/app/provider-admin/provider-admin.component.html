@@ -13,7 +13,7 @@
                   <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                       <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu multi-level">
                           <li style="cursor: pointer" (click)='show("1")'><a>Job Location-ServiceLine Mapping Master</a></li>
                           <li style="cursor: pointer" (click)='show("2")'><a>Role Master</a></li>
                           <li style="cursor: pointer" (click)='show("3")'><a>Employee Master</a></li>
@@ -21,15 +21,30 @@
                           <li style="cursor: pointer" (click)='show("5")'><a>Category Subcategory Provisioning</a></li>
                           <li style="cursor: pointer" (click)='show("6")'><a>Drug Master</a></li>
                       
+                          <li class="dropdown-submenu">
+                            <a tabindex="-1">OutReach Master</a>
+                            <ul class="dropdown-menu">
+                              <li style="cursor: pointer" (click)='show("7")'><a>Zone Master</a></li>
+                              <li style="cursor: pointer" (click)='show("8")'><a>Parking Place Master</a></li>
+                              <li style="cursor: pointer" (click)='show("9")'><a>Service Point Master</a></li>
+                            </ul>
+                          </li>
 
-                          <li style="cursor: pointer" (click)='show("7")'><a>Zone Master</a></li>
-                          <li style="cursor: pointer" (click)='show("8")'><a>Parking Place Master</a></li>
-                          <li style="cursor: pointer" (click)='show("9")'><a>Service Point Master</a></li>
 
                         </ul>
                       </li>
                       <li style="cursor: pointer" (click)='show("10")'><a>Reports</a></li>
-                      <li style="cursor: pointer" (click)='show("11")'><a>Configurations</a></li>
+                      <li class="dropdown"> 
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">configurations<span class="caret"></span></a>
+                        <ul class="dropdown-menu multi-level">
+                          <li class="dropdown-submenu">
+                            <a tabindex="-1" >OutReach Master</a>
+                            <ul class="dropdown-menu">
+                              <li style="cursor: pointer" (click)='show("11")'><a>Service Point Village Mapping</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -49,7 +64,7 @@
                 <app-parking-place *ngSwitchCase="8"></app-parking-place>
                 <app-service-point *ngSwitchCase="9"></app-service-point>
                 <p *ngSwitchCase="10">Reports</p>
-                <p *ngSwitchCase="11">Configurations</p>
+                <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
               </div>
             </div>
           </div>

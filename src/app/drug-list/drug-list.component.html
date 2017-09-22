@@ -32,7 +32,7 @@
 
 </div>
 <div *ngIf="!showDrugs || editable">
-  <h4>Create Drug Form</h4>
+  <h4>Create Drug</h4>
   <form #drugForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
        <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID" >
@@ -100,6 +100,6 @@
     <pagination-controls (pageChange)="b = $event" id="drugsResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="showDrugs = true;editable=false;">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
+   <button class="btn pull-left" (click)="clearEdit()">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
   </div>
 </div>

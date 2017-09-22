@@ -64,14 +64,14 @@ export class DrugMasterService {
         .catch(this.handleError);
     }
 
-    getDrugsList(){
-        return this.http.post(this.getDrugsListURL, {})
+    getDrugsList(data){
+        return this.http.post(this.getDrugsListURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
-    getDrugGroups(){
-        return this.http.post(this.getDrugGroupsURL, {})
+    getDrugGroups(data){
+        return this.http.post(this.getDrugGroupsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }

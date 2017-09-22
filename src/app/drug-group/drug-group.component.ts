@@ -40,8 +40,9 @@ export class DrugGroupComponent implements OnInit {
   stateSelection(stateID){
     this.getServices(stateID);
   }
+
   getAvailableDrugs(){
-    this.drugMasterService.getDrugGroups().subscribe(response => this.getDrugGroupsSuccessHandeler(response));
+    this.drugMasterService.getDrugGroups({}).subscribe(response => this.getDrugGroupsSuccessHandeler(response));
   }
 
   getDrugGroupsSuccessHandeler(response){
@@ -120,7 +121,7 @@ export class DrugGroupComponent implements OnInit {
 
   successHandler(response){
     this.drugGroupList =  [];
-    this.alertMessage.alert("Drug group saved");
+    this.alertMessage.alert("Drug Groups stored successfully");
     this.getAvailableDrugs();
   }
   dataObj:any ={};
@@ -136,7 +137,7 @@ export class DrugGroupComponent implements OnInit {
   }
 
   updateStatusHandler(response){
-    console.log("Drug Status Changed");
+    console.log("Drug Group status changed");
   }
 
   drugGroupID:any;
@@ -144,6 +145,12 @@ export class DrugGroupComponent implements OnInit {
   drugGroupDesc:any;
   stateID:any;
   
+  initializeObj() {
+        this.drugGroupID = "";
+        this.drugGroup = "";
+        this.drugGroupDesc = "";
+        this.stateID = "";
+    }
   editDrugGroup(drug){
     this.drugGroupID = drug.drugGroupID;
     this.drugGroup = drug.drugGroup
@@ -174,6 +181,7 @@ export class DrugGroupComponent implements OnInit {
     this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup);
   }
   clearEdit(){
+    this.initializeObj();
     this.showDrugGroups = true;
     this.editable=false;
     this.groupNameExist=false;

@@ -35,8 +35,8 @@ export class ZoneComponent implements OnInit {
     }
     ngOnInit() {
         this.getAvailableZones();
-        //this.getStates();
-        this.getServiceLines();
+        this.getStates();
+        //this.getServiceLines();
     }
 
     stateSelection(stateID) {
@@ -68,9 +68,7 @@ export class ZoneComponent implements OnInit {
         this.zoneMasterService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
-        console.log(response, "districts retrieved");
         this.districts = response;
-        console.log("districts ")
         console.log(this.districts)
     }
     taluks: any = [];
@@ -80,8 +78,6 @@ export class ZoneComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
-        console.log("taluks ");
-        console.log(this.taluks);
     }
 
     branches: any = [];
@@ -91,8 +87,6 @@ export class ZoneComponent implements OnInit {
     }
     SetBranches(response: any) {
         this.branches = response;
-        console.log("blocks ");
-        console.log(this.branches);
     }
 
 
@@ -106,7 +100,7 @@ export class ZoneComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.zoneMasterService.getZones().subscribe(response => this.getZonesSuccessHandler(response));
+        this.zoneMasterService.getZones({}).subscribe(response => this.getZonesSuccessHandler(response));
     }
 
 
@@ -129,30 +123,32 @@ export class ZoneComponent implements OnInit {
        // for(let services of values.serviceID){
             this.zoneObj = {};
             this.zoneObj.countryID = this.countryID;
-            this.zoneObj.stateID = values.stateID.split("-")[0];;
             this.zoneObj.zoneName = values.zoneName;
             this.zoneObj.zoneDesc = values.zoneDesc;
+            if(values.stateID!=undefined){
+                this.zoneObj.stateID = values.stateID.split("-")[0];
+                this.zoneObj.stateName = values.stateID.split("-")[1];
+            }
             if(values.districtID!=undefined){
                 this.zoneObj.districtID = values.districtID.split("-")[0];
                 this.zoneObj.districtName = values.districtID.split("-")[1];
             }
-            if(values.talukID!=undefined){
+            if(values.talukID!=undefined && values.talukID!=""){
                 this.zoneObj.districtBlockID = values.talukID.split("-")[0];
                 this.zoneObj.blockName = values.talukID.split("-")[1];
             }
-            if(values.branchID!=undefined){
+            if(values.branchID!=undefined && values.branchID!=""){
                 this.zoneObj.districtBranchID = values.branchID.split("-")[0];
                 this.zoneObj.villageName = values.branchID.split("-")[1];
             }
-
+            if(values.serviceID!=undefined){
+                this.zoneObj.providerServiceMapID = values.serviceID.split("-")[1];
+            }
             this.zoneObj.zoneHQAddress = values.zoneHQAddress;
-            this.zoneObj.providerServiceMapID = values.stateID.split("-")[1];
-            this.zoneObj.stateName = values.stateID.split("-")[2];
 
             this.zoneObj.createdBy = "System";
 
             this.zoneList.push(this.zoneObj);
-            console.log(this.zoneList);
         //}
     }
 
@@ -164,7 +160,7 @@ export class ZoneComponent implements OnInit {
 
     successHandler(response) {
         this.zoneList = [];
-        this.alertMessage.alert("zones saved");
+        this.alertMessage.alert("Zone stored successfully");
         this.getAvailableZones();
     }
 
@@ -181,7 +177,7 @@ export class ZoneComponent implements OnInit {
 
     }
     updateStatusHandler(response) {
-        console.log("Zone Status Changed");
+        console.log("Zone status changed");
     }
 
     zoneID: any;
@@ -210,16 +206,20 @@ export class ZoneComponent implements OnInit {
         this.zoneName = zone.zoneName
         this.zoneDesc = zone.zoneDesc;
         this.zoneHQAddress = zone.zoneHQAddress;
-        this.stateID = zone.stateID+ "-" +zone.providerServiceMapID +"-"+ zone.stateName;
+        this.stateID = zone.stateID+"-"+ zone.stateName;
         this.districtID = zone.districtID + "-" + zone.districtName;
-        this.talukID = zone.districtBlockID + "-" + zone.blockName;
-        this.branchID = zone.districtBranchID + "-" + zone.villageName;
-        this.serviceID = zone.m_providerServiceMapping.m_serviceMaster.serviceID ;
+        if(zone.districtBlockID!=undefined){
+            this.talukID = zone.districtBlockID + "-" + zone.blockName;
+        }
+        if(zone.districtBranchID!=undefined){
+            this.branchID = zone.districtBranchID + "-" + zone.villageName;
+        }
+        this.serviceID = zone.m_providerServiceMapping.m_serviceMaster.serviceID+"-"+zone.providerServiceMapID;
         this.getDistricts(zone.stateID);
         this.GetTaluks(zone.districtID);
         this.GetBranches(zone.districtBlockID);
-        this.getServiceLines();
-        this.getStatesByServiceID(zone.m_providerServiceMapping.m_serviceMaster.serviceID);
+        this.getStates();
+        this.getServices(zone.stateID);
 
         this.editable = true;
     }
@@ -253,11 +253,11 @@ export class ZoneComponent implements OnInit {
         this.editable = false;
         this.alertMessage.alert("updated successfully");
         this.getAvailableZones();
-        this.initializeObj();
+        //this.initializeObj();
     }
 
     clearEdit() {
-        this.initializeObj();
+        //this.initializeObj();
         this.showZones = true;
         this.editable = false;
     }

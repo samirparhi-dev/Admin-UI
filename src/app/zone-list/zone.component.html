@@ -8,7 +8,7 @@
             <th>Zone Description</th>
             <th>Service</th>
             <th>State</th>
-            <th>Head Quarters Address</th>
+            <th>Address</th>
       </tr>
     </thead>
     <tbody>
@@ -41,20 +41,9 @@
   <h4>Create Zone </h4>
   <form #zoneForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-select  required  placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID"  #serviceVal="ngModel" (change)="getStatesByServiceID(serviceID)">
-        <md-option *ngFor="let item of provider_services" [value]="item.serviceID">
-          {{item.serviceName}}
-        </md-option>
-      </md-select>
-      <md-hint [hidden]=serviceVal.valid>
-        <span class="error_text" *ngIf="!serviceVal.required  && ( serviceVal.dirty || serviceVal.touched)">Please select Service Line</span>
-      </md-hint>
-    </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
        <input mdInput style="display:none;" [(ngModel)]="zoneID" name="zoneID" >
-      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getDistricts(stateID.split('-')[0])" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.providerServiceMapID}}-{{item.stateName}}">
+      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0])" #stateVal="ngModel">
+        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
           {{item.stateName}}
         </md-option>
       </md-select>
@@ -63,23 +52,34 @@
       </md-hint>
     </div>
     
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-select  required  placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID"  #serviceVal="ngModel" >
+        <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}-{{item.providerServiceMapID}}">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+      <md-hint [hidden]=serviceVal.valid>
+        <span class="error_text" *ngIf="!serviceVal.required  && ( serviceVal.dirty || serviceVal.touched)">Please select Service Line</span>
+      </md-hint>
+    </div>
+   
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Zone Name " [(ngModel)]="zoneName" name="zoneName"  #zoneN="ngModel" (blur)="checkExistance(zoneName)">
+        <input mdInput required placeholder="Zone Name" [(ngModel)]="zoneName" name="zoneName"  #zoneN="ngModel" (blur)="checkExistance(zoneName)">
         <md-hint>
-          <span class="error_text" *ngIf="!zoneN.valid  && ( zoneN.dirty || zoneN.touched)">Please enter zone Name</span>
-          <span class="error_text" *ngIf="zoneN.valid && zoneNameExist">Zone Already Exists</span>
+          <span class="error_text" *ngIf="!zoneN.valid  && ( zoneN.dirty || zoneN.touched)">Please enter Zone Name</span>
+          <span class="error_text" *ngIf="zoneN.valid && zoneNameExist">Zone already exists</span>
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Zone Description" [(ngModel)]="zoneDesc" name="zoneDesc">
+        <input mdInput placeholder="Description" [(ngModel)]="zoneDesc" name="zoneDesc">
       </md-input-container>
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-select required placeholder="select District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="GetTaluks(districtID.split('-')[0])" >
+      <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="GetTaluks(districtID.split('-')[0])" >
         <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
           {{district.districtName}}
         </md-option>
@@ -109,12 +109,13 @@
       <md-input-container  [style.width]="'100%'">
         <input required mdInput placeholder="Address" [(ngModel)]="zoneHQAddress" name="zoneHQAddress"  #zoneAddress="ngModel">
         <md-hint [hidden]=zoneAddress.valid>
-          <span class="error_text" *ngIf="!zoneAddress.required  && ( zoneAddress.dirty || zoneAddress.touched)">Please enter Zone Description</span>
+          <span class="error_text" *ngIf="!zoneAddress.required  && ( zoneAddress.dirty || zoneAddress.touched)">Please enter Zone Address</span>
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 pull-right">
-      <button *ngIf="!editable" [disabled]=" !zoneN.valid || zoneNameExist || !zoneAddress.valid || !stateVal.valid || !serviceVal.valid || !districtV.valid" class="btn pull-right " (click)="addZoneToList(zoneForm.value);zoneForm.reset()  ">
+      <button *ngIf="!editable" [disabled]=" !zoneN.valid || zoneNameExist || !zoneAddress.valid || !stateVal.valid || !serviceVal.valid || !districtV.valid" class="btn pull-right " 
+      (click)="addZoneToList(zoneForm.value);zoneForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
       <button *ngIf="editable"  class="btn pull-right " (click)="updateZoneData(zoneForm.value);zoneForm.reset()  ">
@@ -130,7 +131,7 @@
             <th>Zone</th>
             <th>Zone Description</th>
             <th>State</th>
-            <th>Head Quarters Address</th>
+            <th>Address</th>
         </tr>
       </thead>
       <tbody>
@@ -150,6 +151,6 @@
     <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="clearEdit()">Back</button> <button *ngIf="zoneList.length>0" class="btn pull-right " (click)="storezone()">Submit</button>
+   <button class="btn pull-left" (click)="zoneForm.reset();clearEdit()">Back</button> <button *ngIf="zoneList.length>0" class="btn pull-right " (click)="storezone()">Submit</button>
   </div>
 </div>

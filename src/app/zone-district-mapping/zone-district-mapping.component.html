@@ -32,8 +32,18 @@
   <h4>Map Zone with District</h4>
   <form #zoneDistrictMappingForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-      <md-select required placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID"  #serviceVal="ngModel" (change)="getStatesByServiceID(serviceID)">
-        <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}">
+      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0]);" #stateVal="ngModel">
+        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+      <md-hint [hidden]=stateVal.valid>
+        <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
+      </md-hint>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+      <md-select required placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID"  #serviceVal="ngModel">
+        <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}-{{item.providerServiceMapID}}">
           {{item.serviceName}}
         </md-option>
       </md-select>
@@ -43,17 +53,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-      <md-select required placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getDistricts(stateID.split('-')[0]);" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.providerServiceMapID}}-{{item.stateName}}">
-          {{item.stateName}}
-        </md-option>
-      </md-select>
-      <md-hint [hidden]=stateVal.valid>
-        <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
-      </md-hint>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-      <md-select required placeholder="Select Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel"  (change)="checkExistance(stateID,zoneID)">
+      <md-select required placeholder="Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel"  (change)="checkExistance(serviceID,zoneID)">
         <md-option *ngFor="let zone of availableZones" value="{{zone.zoneID}}-{{zone.zoneName}}">
           {{zone.zoneName}}
         </md-option>
@@ -63,7 +63,7 @@
       </md-hint>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <md-select multiple [style.width]="'100%'" name="districtIdList" placeholder="Please choose Districts" [(ngModel)]="districtIdList" #districtF="ngModel" required>
+        <md-select multiple [style.width]="'100%'" name="districtIdList" placeholder="Districts" [(ngModel)]="districtIdList" #districtF="ngModel" required>
             <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">{{district.districtName}}</md-option>
         </md-select>
         <md-hint [hidden]=districtF.valid>
@@ -102,6 +102,6 @@
     <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="showMappings = true;editable=false;">Back</button> <button *ngIf="zoneDistrictMappingList.length>0" class="btn pull-right " (click)="storezoneMappings()">Submit</button>
+   <button class="btn pull-left" (click)="zoneDistrictMappingForm.reset();clearEdit()">Back</button> <button *ngIf="zoneDistrictMappingList.length>0" class="btn pull-right " (click)="storezoneMappings()">Submit</button>
   </div>
 </div>
