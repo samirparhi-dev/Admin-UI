@@ -48,7 +48,7 @@ export class EmployeeMasterService {
   getServicesUrl: any;
   find_Roles_Url: any;
   checkID: any;
-
+  deleteRoleUrl : any;
 
 
 
@@ -59,7 +59,8 @@ export class EmployeeMasterService {
 
     this.createEmployeeUrl = this.providerAdmin_Base_Url + "m/AddEmployee";
     this.editEmployeeUrl = this.providerAdmin_Base_Url + "m/editEmployee";
-    this.deleteEmployeeUrl = this.providerAdmin_Base_Url + "m/deleteEmployee";
+    //this.deleteEmployeeUrl = this.providerAdmin_Base_Url + "m/deleteEmployee";
+    this.deleteRoleUrl = this.providerAdmin_Base_Url + "/m/deleteEmployeeRole"
     this.getEmployeeUrl = this.providerAdmin_Base_Url + "m/SearchEmployeeFilter";
 
     this.getRegistrationDataUrl = this.common_Base_Url + "beneficiary/getRegistrationData";
@@ -191,8 +192,8 @@ export class EmployeeMasterService {
       .catch(this.handleError);
   }
 
-  deleteEmployee(userID) {
-    return this.http.post(this.deleteEmployeeUrl, { "userID": userID })
+  deleteEmployeeRole(usrMapID) {
+    return this.http.post(this.deleteRoleUrl, { "uSRMappingID": usrMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }

@@ -136,23 +136,24 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       .subscribe((response: Response) => this.getStatesOfServiceProviderSuccessHandeler(response));
     this.EmployeeMasterService.getQualifications().subscribe((response: Response) => this.getQualificationsHandeler(response));
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-
+        this.data = [];
+    this.previleges = [];
   }
 
-  getServices(stateID) {
-    this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, stateID)
+  getServices(value) {
+    this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, value.stateID)
       .subscribe((response: Response) => this.getServicesOfServiceProviderSuccessHandeler(response));
 
   }
 
-  getOffices(stateID, serviceID) {
-    this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, stateID, serviceID)
+  getOffices(value1, value2) {
+    this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe((response: Response) => this.getWorkLocationsInStateSuccessHandeler(response));
 
   }
 
-  getRoles(stateID, serviceID) {
-    this.EmployeeMasterService.getRoles(this.serviceProviderID, stateID, serviceID)
+  getRoles(value1, value2) {
+    this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe((response: Response) => this.getRolesSuccessHandeler(response));
 
   }
@@ -175,7 +176,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(response, 'qualifications');
     this.allQualificationTypes = response;
   }
-
+  hide : boolean = true;
   createEmployeeSuccessHandeler(response) {
     console.log(response, 'employee created successfully');
     alert('Employee Created Successfully!');
@@ -189,7 +190,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.data = [];
+    this.previleges = [];
     this.MOVE2NEXT(0);
+    this.hide = false;
   }
 
   getDistrictsSuccessHandeler(response) {
@@ -264,8 +267,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
   }
 
-  getOfficeDistricts(stateID) {
-    this.EmployeeMasterService.getDistricts(stateID).subscribe((response: Response) => this.getOfficeDistrictsSuccessHandeler(response));
+  getOfficeDistricts(value) {
+    this.EmployeeMasterService.getDistricts(value.stateID).subscribe((response: Response) => this.getOfficeDistrictsSuccessHandeler(response));
   }
 
 
@@ -303,19 +306,58 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   }
 
+  previleges : any = [];
+  pushPrivelege(value) {
 
-  pushPrivelege() {
-    let obj = {
-      'roleID': this.agent_role,
-      'providerServiceMapID': this.providerServiceMapID,
-      'workingLocationID': this.agent_officeName
+  //   if(this.previleges.length == 0)
+  //   {
+  //     this.addToTable(value);
+  //   }
+  //   else {
+  //     for(var i=0; i<this.previleges.length; i++) {
+  //       if(this.previleges[i].providerServiceMapID == value.agent_serviceline.providerServiceMapID) {
+  //         for(var j=0; this.previleges[i].agent_role.length; j++) {
+
+  //         }
+  //       }
+  //       else {
+  //           this.addToTable(value);
+  //       }
+  //     }
+  //   }
+
+  // }
+
+  // addToTable(value) {
+
+    let roleNames = "";
+    let roleIds = [];
+    for(var i=0 ; i <value.agent_role.length; i++) {
+      roleNames += value.agent_role[i].roleName+ ", ";
+      roleIds.push(value.agent_role[i].roleID);
     }
 
+    let obj = {
+      'roleName': roleNames,
+      'state' : value.state.stateName,
+      'serviceLineName': value.agent_serviceline.serviceName,
+      'workingLocationName': value.agent_officeName.locationName
+    }
+    let previlege ={
+      "roleID" : roleIds,
+      "providerServiceMapID" : value.agent_serviceline.providerServiceMapID,
+      "workingLocationID" : value.agent_officeName.pSAddMapID
+    }
     this.data.push(obj);
+    this.previleges.push(previlege);
+
   }
 
   removePrivelege(index) {
     this.data.splice(index, 1);
+    this.previleges.splice(index,1);
+    console.log(this.data);
+    console.log(this.previleges);
   }
 
 
@@ -358,6 +400,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
 
   createEmployee() {
+    console.log(this.previleges);
+    debugger;
     let request_object = {
 
       'titleID': this.title,
@@ -401,7 +445,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'isPermanent': this.isPermanent,
       'languageID': this.languages,
       'weightage': this.language_weightage,
-      'previleges': this.data
+      'previleges': this.previleges
       // "roleID": this.agent_role,
       // "serviceProviderID": this.serviceProviderID,
       // "providerServiceMapID": this.providerServiceMapID,
