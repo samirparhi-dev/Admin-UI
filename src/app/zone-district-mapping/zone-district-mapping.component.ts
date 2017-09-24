@@ -34,8 +34,8 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
     ngOnInit() {
         this.getAvailableZoneDistrictMappings();
-        //this.getStates();
-        this.getServiceLines();
+        this.getStates();
+        //this.getServiceLines();
         this.getAvailableZones();
     }
 
@@ -82,7 +82,9 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.zoneMasterService.getZones().subscribe(response => this.getZonesSuccessHandler(response));
+        this.dataObj = {};
+        this.dataObj.deleted = false;
+        this.zoneMasterService.getZones(this.dataObj).subscribe(response => this.getZonesSuccessHandler(response));
     }
 
     getZonesSuccessHandler(response) {
@@ -101,7 +103,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
 	}
     getDistrictsSuccessHandeler(response)
 	{
-		console.log(response, "districts retrieved");
 		this.districts = response;
 	}
 
@@ -145,18 +146,18 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 //         this.zoneDistrictMappingObj.stateName = provider_service.stateName;
                 //     }
                 // } 
-                this.zoneDistrictMappingObj.providerServiceMapID = values.stateID.split("-")[1];
-                this.zoneDistrictMappingObj.stateName = values.stateID.split("-")[2];
+                this.zoneDistrictMappingObj.providerServiceMapID = values.serviceID.split("-")[1];
+                this.zoneDistrictMappingObj.stateName = values.stateID.split("-")[1];
                 this.zoneDistrictMappingObj.createdBy = "System";
 
                 this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
                 console.log(this.zoneDistrictMappingList);
             }else{
-                console.log("already mapped with this district's");
+                console.log("already mapped with these districts");
             }
          }
          if(this.zoneDistrictMappingList.length<=0){
-            this.alertMessage.alert("Zones Mapped Successfully");
+            this.alertMessage.alert("Zone District Mapping stored successfully");
          }
     }
 
@@ -168,7 +169,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     successHandler(response){
         this.zoneDistrictMappingList =  [];
-        this.alertMessage.alert("zones saved");
+        this.alertMessage.alert("Zone District Mapping stored successfully");
         this.getAvailableZoneDistrictMappings();
     }
 
@@ -185,20 +186,20 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     }
     updateStatusHandler(response) {
-        console.log("zoneMapping Status Changed");
+        console.log("Zone District Mapping status changed");
     }
 
     mappedDistricts:any = [];
     districtIdList:any = [];
     existingDistricts:any = [];
-    checkExistance(stateID,zoneID){
+    checkExistance(serviceID,zoneID){
         this.mappedDistricts = [];
         this.districtIdList = [];
         this.existingDistricts = [];
         //this.mappedDistricts = this.districts;
         let providerServiceMapID = "";
-        if(stateID!=undefined){
-            providerServiceMapID = stateID.split("-")[1];
+        if(serviceID!=undefined){
+            providerServiceMapID = serviceID.split("-")[1];
         }
         if(zoneID!=undefined){
             zoneID = zoneID.split("-")[0];
@@ -206,15 +207,12 @@ export class ZoneDistrictMappingComponent implements OnInit {
         
         for(let zoneDistrictMappings of this.availableZoneDistrictMappings){
             if(zoneDistrictMappings.providerServiceMapID == providerServiceMapID && zoneDistrictMappings.zoneID == zoneID){
-                if(this.mappedDistricts.indexOf(zoneDistrictMappings.districtID)==-1){
-                    // finding exsting zone mappings with districts
-                    this.mappedDistricts.push(zoneDistrictMappings);
-                   // this.mappedDistricts.push(zoneDistrictMappings.districtID);
-                   if(!zoneDistrictMappings.deleted){
-                        this.existingDistricts.push(zoneDistrictMappings.districtID+"-"+zoneDistrictMappings.districtName);
-                   }
-                }
-                    
+                // finding exsting zone mappings with districts
+                this.mappedDistricts.push(zoneDistrictMappings);
+                // this.mappedDistricts.push(zoneDistrictMappings.districtID);
+                if(!zoneDistrictMappings.deleted){
+                    this.existingDistricts.push(zoneDistrictMappings.districtID+"-"+zoneDistrictMappings.districtName);
+                }   
             }
         }
         
@@ -222,6 +220,11 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.districtIdList = this.existingDistricts;
         console.log(this.districtIdList);
        
+    }
+
+    clearEdit(){
+        this.showMappings = true;
+        this.editable=false;
     }
 
 }

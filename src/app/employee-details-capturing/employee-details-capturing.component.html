@@ -1,4 +1,5 @@
-<div class="container-fluid">
+<div *ngIf="hide">
+<div class="container-fluid" >
   <md-card>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -23,7 +24,7 @@
 <div class="container-fluid m-t-10" id="Demographic_Details" [hidden]="index!=0">
   <md-card>
     <div class="row">
-      <form #demographicsForm="ngForm" id="demographicForm">
+      <form #demographicsForm="ngForm" id="demographicForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
             <md-option *ngFor="let item of allTitles" value="{{item.titleID}}">
@@ -39,12 +40,12 @@
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myName>
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="employee_middlename ">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myName>
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="employee_lastname " required minlength="2" maxlength="25"
               #lName="ngModel">
@@ -94,7 +95,7 @@
 <div class="container-fluid m-t-10" id="Qualification_Details" [hidden]="index!=1">
   <md-card>
     <div class="row">
-      <form id="otherDetails">
+      <form id="otherDetails" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-select placeholder="Qualification Type *" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType">
             <md-option *ngFor="let item of allQualificationTypes" value="{{item.qualificationID}}">
@@ -144,7 +145,7 @@
 <div class="container-fluid m-t-10" id="Language" [hidden]="index!=2">
   <md-card>
     <div class="row">
-      <form id="languagesForm">
+      <form id="languagesForm" autocomplete="off">
         <div class="col-xs-12 col-sm6 col-md-3 col-lg-3 ">
           <md-select [(ngModel)]="languages" multiple name="languages" placeholder="Languages" [style.width]="'100%'" (change)="selected_languages=languages">
             <md-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md-option>
@@ -175,7 +176,7 @@
 <div class="container-fluid m-t-10" id="Address" [hidden]="index!=3">
   <md-card>
     <div class="row">
-      <form #addressForm="ngForm" id="addrsForm">
+      <form #addressForm="ngForm" id="addrsForm" autocomplete="off">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -268,21 +269,21 @@
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <md-card>
         <div class="row">
-          <form id="workplaceForm">
+          <form id="workplaceForm" #workplace_form="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <h5><b>Office Address</b></h5>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
                 <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState);getServices(officeState)">
-                  <md-option *ngFor="let item of serviceproviderAllStates" value="{{item.stateID}}">
-                    {{item.stateName}}
+                  <md-option *ngFor="let state of serviceproviderAllStates" [value]="state">
+                    {{state.stateName}}
                   </md-option>
                 </md-select>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
                 <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficeDistrict" name="district">
-                  <md-option *ngFor="let item of serviceproviderDistricts" value="{{item.districtID}}">
+                  <md-option *ngFor="let item of serviceproviderDistricts" [value]="item">
                     {{item.districtName}}
                   </md-option>
                 </md-select>
@@ -290,26 +291,26 @@
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
                 <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline"
                   (change)="getOffices(officeState,agent_serviceline);getRoles(officeState,agent_serviceline)">
-                  <md-option *ngFor=" let service of serviceproviderAllServices " value="{{service.serviceID}}" (click)="setProviderServiceMapID(service.providerServiceMapID)">
+                  <md-option *ngFor=" let service of serviceproviderAllServices " [value]="service" (click)="setProviderServiceMapID(service.providerServiceMapID)">
                     {{service.serviceName}}
                   </md-option>
                 </md-select>
               </div>
               <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-25">
                 <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName">
-                  <md-option *ngFor="let office of serviceproviderAllOfficesInState" value="{{office.pSAddMapID}}">
+                  <md-option *ngFor="let office of serviceproviderAllOfficesInState" [value]="office">
                     {{office.locationName}}
                   </md-option>
                 </md-select>
               </div>
               <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-25">
-                <md-select [(ngModel)]="agent_role" multiple name="agent_role " placeholder="Agent 's Roles" [style.width]="'100% '">
-                  <md-option *ngFor="let role of serviceproviderAllRoles" value="{{role.roleID}}">
+                <md-select [(ngModel)]="agent_role" multiple name="agent_role" placeholder="Agent 's Roles" [style.width]="'100% '">
+                  <md-option *ngFor="let role of serviceproviderAllRoles" [value]="role">
                     {{role.roleName}}</md-option>
                 </md-select>
               </div>
               <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 m-t-20">
-                <button md-mini-fab class="pull-right" color="primary" (click)="pushPrivelege()">
+                <button md-mini-fab class="pull-right" color="primary" (click)="pushPrivelege(workplace_form.value)">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                 </button>
               </div>
@@ -330,6 +331,7 @@
                 <thead>
                   <tr>
                     <th>Office</th>
+                    <th>State</th>
                     <th>Service Line</th>
                     <th>Roles</th>
                     <th>Actions</th>
@@ -337,9 +339,10 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let i of md2.data;let idx=index" style="">
-                    <td>{{i.workingLocationID}}</td>
-                    <td>{{i.providerServiceMapID}}</td>
-                    <td>{{i.roleID}}</td>
+                    <td>{{i.workingLocationName}}</td>
+                    <td>{{i.state}}</td>
+                    <td>{{i.serviceLineName}}</td>
+                    <td>{{i.roleName}}</td>
                     <td>
                       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                         (click)="removePrivelege(idx)">delete</md-icon>
@@ -415,7 +418,7 @@
 <div class="container-fluid m-t-10" id="UniqueIds" [hidden]="index!=5">
   <md-card>
     <div class="row">
-      <form id="uniquieID">
+      <form id="uniquieID" autocomplete="off">
         <!--  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
           <md-select placeholder="ID Type" [style.width]="'100% '" [(ngModel)]="ID_Type" name="ID_Type">
             <md-option *ngFor="let item of allIDTypes" value="{{item.identityType}}">
@@ -458,7 +461,7 @@
 <div class="container-fluid m-t-10" id="Credentials" [hidden]="index!=6">
   <md-card>
     <div class="row">
-      <form id="credentialsForm">
+      <form id="credentialsForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Username " [(ngModel)]="username" name="username " (blur)="checkUsernameExists(username)">
@@ -483,4 +486,8 @@
       </form>
     </div>
   </md-card>
+</div>
+</div>
+<div *ngIf="!hide">
+  <app-employee-master></app-employee-master>
 </div>

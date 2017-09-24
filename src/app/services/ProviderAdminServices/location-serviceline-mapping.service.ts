@@ -28,7 +28,7 @@ import { ConfigService } from "../config/config.service";
 					add_WorkLocation_url: any;
 					edit_WorkLocation_url: any;
 					delete_WorkLocation_url: any;
-
+					getWorkLocationsOnState_url : any
 
 
 					constructor(private http: Http,public basepaths:ConfigService) { 
@@ -41,6 +41,7 @@ import { ConfigService } from "../config/config.service";
 						this.add_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/addLocation";
 						this.edit_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/editLocation";
 						this.delete_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/deleteLocation";
+						this.getWorkLocationsOnState_url = this.providerAdmin_Base_Url + "/m/location/getLocationByStateId";
 					};
 
 					getStates(serviceProviderID) {
@@ -66,6 +67,11 @@ import { ConfigService } from "../config/config.service";
 						return this.http.post(this.getWorkLocations_url, reqObj)
 							.map(this.handleSuccess)
 							.catch(this.handleError);
+					}
+					getWorkLocationsOnState(reqObj) {
+						return this.http.post(this.getWorkLocationsOnState_url, reqObj)
+						.map(this.handleSuccess)
+						.catch(this.handleError);
 					}
 
 					addWorkLocation(requestObject)

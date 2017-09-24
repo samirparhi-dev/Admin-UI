@@ -20,14 +20,14 @@
             </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <button class="m-t-10" md-mini-fab color="primary" (click)="findLocations()">
+          <button class="m-t-10" md-mini-fab color="primary" (click)="findLocations(search_state,search_serviceline)">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
           </button>
         </div>
     </div>
     <!-- table area -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive m-t-30" *ngIf="showTable">
-      <table [md2Data]="workLocations" #md2="md2DataTable" class="table" [rowsPerPage]="6">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive m-t-10" *ngIf="showTable">
+      <table [md2Data]="workLocations" #md2="md2DataTable" class="table" [rowsPerPage]="4">
         <thead>
           <tr>
             <!--<th>Provider-Service Map ID</th>-->
@@ -41,6 +41,9 @@
           </tr>
         </thead>
         <tbody>
+        <tr *ngIf="md2.data.length==0" align="center">
+          NO RECORD FOUND
+        </tr>
           <tr *ngFor="let loc of md2.data">
             <!--<td>{{loc.providerServiceMapID}}</td>-->
             <!--<td>{{loc.pSAddMapID}}</td>-->
@@ -64,7 +67,7 @@
         </tfoot>
       </table>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTable">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
         <button class="pull-right" md-raised-button color="primary" (click)="changeTableFlag(false)">Add Work Location</button>
       </div>
@@ -72,8 +75,8 @@
   </div>
   <!--new location form starts -->
   <div class="row" *ngIf="showForm">
-    <h4 class="width100 t-a-c m-b-20 f-s-b">Add Work Location</h4>
-    <form #f="ngForm">
+    <h4 class="width100 t-a-c  f-s-b">Add Work Location</h4>
+    <form #f="ngForm" id="locationForm" autocomplete="off">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -146,9 +149,9 @@
             </md2-select>-->
             <md-input-container class="hide_underline" [style.width]="'100%'">
                   <input mdInput style="display:none" >
-                  <md2-select [(ngModel)]="providerServiceMapIDs" [multiple]="true" name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'" #serviceLine="ngModel" required>
-                    <md2-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID">{{sl.serviceName}}</md2-option>
-                  </md2-select>
+                  <md-select [(ngModel)]="providerServiceMapIDs" multiple name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'" #serviceLine="ngModel" required>
+                    <md-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID">{{sl.serviceName}}</md-option>
+                  </md-select>
                   <md-hint *ngIf="serviceLine.errors && serviceLine.touched">
                       <span class="error_text">Select Service Line</span>
                   </md-hint>

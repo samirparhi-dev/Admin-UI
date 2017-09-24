@@ -29,7 +29,7 @@
   </div>
 </div>
 <div *ngIf="!showMappings || editable">
-  <h4>Map Drug with Group</h4>
+  <h4>Map Drug with DrugGroup</h4>
   <form #drugMappingForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
@@ -55,7 +55,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-select multiple [style.width]="'100%'" name="drugIdList" placeholder="Please Choose Drugs" [(ngModel)]="drugIdList" #drug="ngModel" required>
-            <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
+            <md-option *ngFor="let drugs of availableDrugs"  value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
         </md-select>
         <md-hint [hidden]=drug.valid>
           <span class="error_text" *ngIf="!drug.required  && ( drug.dirty || drug.touched)">Please choose Drugs</span>
@@ -70,9 +70,9 @@
       <button *ngIf="!editable" class="btn pull-right " (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
-      <button *ngIf="editable"  class="btn pull-right " (click)="updateDrugMapping(drugMappingForm.value);drugMappingForm.reset()  ">
+      <!--<button *ngIf="editable"  class="btn pull-right " (click)="updateDrugMapping(drugMappingForm.value);drugMappingForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon>
-      </button>
+      </button>-->
     </div>
   </form>
   <div *ngIf="drugMapping.length>0">

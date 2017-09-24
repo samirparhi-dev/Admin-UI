@@ -39,7 +39,7 @@ export class DrugListComponent implements OnInit {
     this.getServices(stateID);
   }
   getAvailableDrugs(){
-    this.drugMasterService.getDrugsList().subscribe(response => this.getDrugsSuccessHandeler(response));
+    this.drugMasterService.getDrugsList({}).subscribe(response => this.getDrugsSuccessHandeler(response));
   }
 
   getDrugsSuccessHandeler(response){
@@ -121,7 +121,7 @@ export class DrugListComponent implements OnInit {
 
    successHandler(response){
     this.drugList =  [];
-    this.alertMessage.alert("drugs saved");
+    this.alertMessage.alert("Drugs stored successfully");
     this.getAvailableDrugs();
   }
 
@@ -138,7 +138,7 @@ export class DrugListComponent implements OnInit {
 
   }
   updateStatusHandler(response){
-    console.log("Drug Status Changed");
+    console.log("Drug status changed");
   }
 
   drugID:any;
@@ -146,7 +146,13 @@ export class DrugListComponent implements OnInit {
   drugDesc:any;
   remarks:any;
   stateID:any;
-  
+  initializeObj() {
+        this.drugID = "";
+        this.drugName = "";
+        this.drugDesc = "";
+        this.remarks = "";
+        this.stateID = "";
+    }
   editDrugData(drug){
     this.drugID = drug.drugID;
     this.drugName = drug.drugName
@@ -179,5 +185,11 @@ export class DrugListComponent implements OnInit {
     this.drugNameExist = this.availableDrugNames.includes(drugName);
   }
 
+  clearEdit(){
+    this.initializeObj();
+    this.showDrugs = true;
+    this.editable=false;
+    this.drugNameExist=false;
+  }
 
 }

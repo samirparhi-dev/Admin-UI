@@ -101,10 +101,11 @@ export class EmployeeMasterComponent implements OnInit {
 		this.EmployeeMasterService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response: Response) => this.rolesSuccesshandeler(response));
 	}
 
-	deleteUser(employeeID) {
-		let confirmation = confirm("do you want to delete the user with employeeID as " + employeeID + "???");
+	deleteUser(usrMapingId) {
+		debugger;
+		let confirmation = confirm("do you want to delete this role ???");
 		if (confirmation) {
-			this.EmployeeMasterService.deleteEmployee(employeeID).subscribe((response: Response) => this.userDeleteHandeler(response));
+			this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe((response: Response) => this.userDeleteHandeler(response));
 		}
 	}
 
@@ -148,13 +149,16 @@ export class EmployeeMasterComponent implements OnInit {
 
 	getEmployeesSuccessHandeler(response)
 	{
+		debugger;
 		console.log(response,"employees fetched as per condition");
-		this.tableitems = response;
+		this.tableitems = response.filter(function(obj){
+            return obj.uSRMDeleted==false && obj.roleName != 'ProviderAdmin';
+        });
 	}
 
 	userDeleteHandeler(response) {
 		console.log(response, "user delete successfully");
-		this.searchEmployee(null,null,null,null,null);
+		this.searchEmployee(this.state_filter, this.service_filter, this.role_filter, this.name_filter, this.employee_id_filter);
 	}
 
 

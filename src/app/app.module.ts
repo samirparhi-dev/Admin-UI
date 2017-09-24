@@ -68,6 +68,8 @@ import { ZoneComponent } from './zone-list/zone.component';
 import { ZoneDistrictMappingComponent } from './zone-district-mapping/zone-district-mapping.component';
 import { ParkingPlaceComponent } from './parking-place-master/parking-place-master.component';
 import { ServicePointComponent } from './service-point-master/service-point.component';
+import { ServicePointVillageMapComponent } from './service-point-village-mapping/service-point-village-mapping.component';
+
 import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
@@ -101,6 +103,7 @@ import { CategorySubcategoryService } from "./services/ProviderAdminServices/cat
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
+import { ServicePointVillageMapService } from './services/ProviderAdminServices/service-point-village-map.service';
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
@@ -124,7 +127,7 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
     CallDispositionTypeMasterComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent,LoaderComponent
+    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent
 
   ],
 
@@ -205,7 +208,8 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
       provide: InterceptedHttp,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
-    }
+    },
+    ServicePointVillageMapService
   ],
 
   entryComponents: [

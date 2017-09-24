@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 import { ConfigService } from "../config/config.service";
 
 @Injectable()
-export class ZoneMasterService {
+export class ServicePointVillageMapService {
      headers = new Headers( { 'Content-Type': 'application/json' } );
      options = new RequestOptions( { headers: this.headers } );
 
@@ -15,107 +15,89 @@ export class ZoneMasterService {
      common_Base_Url:any;
 
      //CRUD
-     saveZonesURL:any;
-     getZonesURL:any;
+     saveServicePointVillageMapsURL:any;
+     getServicePointVillageMapsURL:any;
+     updateServicePointVillageMapStatusURL:any;
+     getServicePointsURL:any;
+     getParkingPlacesURL:any;
 
-     saveZoneDistrictMappingURL:any;
-     getZoneDistrictMappingURL:any;
-
-     _getStateListByServiceIDURL:any;
+     _getStateListBYServiceIDURL:any;
      _getStateListURL:any;
+     _getServiceLineURL:any;
      _getDistrictListURL:any;
      _getTalukListURL:any;
      _getBlockListURL:any;
      _getBranchListURL:any;
-     _getServiceLinesURL:any;
-
-     updateZOneStatusURL:any;
-     updateZOneDistrictMappingURL:any;
-     updateZoneDataURL:any;
 
      constructor(private http: Http,public basepaths:ConfigService) { 
           this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
           this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
-          //this.providerAdmin_Base_Url = "http://localhost:9000/";
-          this.saveZonesURL = this.providerAdmin_Base_Url + "zonemaster/save/zone";
-          this.getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
+          this.saveServicePointVillageMapsURL =  this.providerAdmin_Base_Url + "servicePointMaster/create/servicePointVillageMaps";
+          this.getServicePointVillageMapsURL =  this.providerAdmin_Base_Url + "servicePointMaster/get/servicePointVillageMaps";
+          this.updateServicePointVillageMapStatusURL =  this.providerAdmin_Base_Url + "servicePointMaster/remove/servicePointVillageMap";
+          this.getServicePointsURL = this.providerAdmin_Base_Url + "servicePointMaster/get/servicePoints";
+          this.getParkingPlacesURL = this.providerAdmin_Base_Url + "parkingPlaceMaster/get/parkingPlaces";
 
-          this.saveZoneDistrictMappingURL = this.providerAdmin_Base_Url + "zonemaster/save/zoneDistrictMapping";
-          this.getZoneDistrictMappingURL = this.providerAdmin_Base_Url + "zonemaster/get/zoneDistrictMappings";
-
-          this.updateZOneStatusURL = this.providerAdmin_Base_Url + "zonemaster/remove/zone";
-          this.updateZOneDistrictMappingURL = this.providerAdmin_Base_Url + "zonemaster/remove/zoneDistrictMapping";
-          
-          this.updateZoneDataURL = this.providerAdmin_Base_Url + "zonemaster/update/zoneData";
-
-          this._getStateListByServiceIDURL = this.providerAdmin_Base_Url + "m/location/getStatesByServiceID";
+          this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + "m/location/getStatesByServiceID";
           this._getStateListURL = this.common_Base_Url + "location/states/";
+          this._getServiceLineURL = this.providerAdmin_Base_Url + "m/role/service";
           this._getDistrictListURL = this.common_Base_Url + "location/districts/";
           this._getTalukListURL = this.common_Base_Url + "location/taluks/";
           this._getBlockListURL = this.common_Base_Url + "location/districtblocks/";
           this._getBranchListURL = this.common_Base_Url + "location/village/";
-          this._getServiceLinesURL = this.providerAdmin_Base_Url + "getServiceline";
-                    
-    };
+     }
 
-    saveZones(data){
-         return this.http.post(this.saveZonesURL, data)
+     saveServicePointVillageMaps(data){
+        return this.http.post(this.saveServicePointVillageMapsURL, data)
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+     }
+
+      getServicePointVillageMaps(data){
+        return this.http.post(this.getServicePointVillageMapsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
-    getZones(data){
-        return this.http.post(this.getZonesURL, data)
+     updateServicePointVillageMapStatus(data){
+        return this.http.post(this.updateServicePointVillageMapStatusURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
-     saveZoneDistrictMappings(data){
-         return this.http.post(this.saveZoneDistrictMappingURL, data)
+    getServicePoints(data){
+         return this.http.post(this.getServicePointsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
-    }
-
-    getZoneDistrictMappings(){
-        return this.http.post(this.getZoneDistrictMappingURL, {})
+     }
+    getParkingPlaces(data){
+         return this.http.post(this.getParkingPlacesURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
-    }
+     }
 
-    updateZoneStatus(data){
-        return this.http.post(this.updateZOneStatusURL, data)
-        .map(this.handleSuccess)
-        .catch(this.handleError);
-    }
-
-    updateZoneMappingStatus(data){
-        return this.http.post(this.updateZOneDistrictMappingURL, data)
-        .map(this.handleSuccess)
-        .catch(this.handleError);
-    }
-
-    updateZoneData(data){
-        return this.http.post(this.updateZoneDataURL, data)
-        .map(this.handleSuccess)
-        .catch(this.handleError);
-    }
-
-    getServiceLines(){
-        return this.http.post(this._getServiceLinesURL, {})
-			.map(this.handleSuccess)
-			.catch(this.handleError);
-    }
 
     getStatesByServiceID(serviceID,serviceProviderID) {
-		return this.http.post(this._getStateListByServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
+		return this.http.post(this._getStateListBYServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
+    getStates(serviceProviderID) {
+		return this.http.post(this._getStateListURL, { "serviceProviderID": serviceProviderID })
+			.map(this.handleSuccess)
+			.catch(this.handleError);
+	}
 
+	getServices(serviceProviderID,stateID) {
+		return this.http.post(this._getServiceLineURL, { "serviceProviderID": serviceProviderID,
+													  "stateID": stateID
+													}).map(this.handleSuccess)
+													.catch(this.handleError);
+	}
 
-    getDistricts ( stateId: number )
+     getDistricts ( stateId: number )
     {
         return this.http.get( this._getDistrictListURL + stateId, this.options )
             .map( this.handleSuccess )
@@ -161,5 +143,4 @@ export class ZoneMasterService {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
-
 }

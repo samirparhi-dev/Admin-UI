@@ -174,7 +174,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
     updateStatusHandler(response) {
-        console.log("parkingPlace Status Changed");
+        console.log("Parking Place status changed");
     }
 
     showList(){

@@ -22,6 +22,7 @@ export class ServicePointComponent implements OnInit {
     countryID: any;
     searchStateID:any;
     searchDistrictID:any;
+    searchParkingPlaceID:any;
     serviceID:any;
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -39,7 +40,7 @@ export class ServicePointComponent implements OnInit {
         this.districts =[];
     }
     ngOnInit() {
-        this.getServicePoints(null,null);
+        this.getServicePoints(null,null,null);
         //this.getStates();
         this.getStatesByServiceID();
     }
@@ -55,12 +56,21 @@ export class ServicePointComponent implements OnInit {
     availableParkingPlaces:any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        for(let availableParkingPlaces of this.availableParkingPlaces){
+            if(availableParkingPlaces.deleted){
+                const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
+                if (index !== -1) {
+                    this.availableParkingPlaces.splice(index, 1);
+                } 
+            }     
+        }  
     }
 
-    getServicePoints(stateID,districtID){
+    getServicePoints(stateID,districtID,parkingPlaceID){
         this.servicePointObj = {};
         this.servicePointObj.stateID = stateID;
         this.servicePointObj.districtID = districtID;
+        this.servicePointObj.parkingPlaceID = parkingPlaceID;
         this.servicePointMasterService.getServicePoints(this.servicePointObj).subscribe(response => this.getServicePointSuccessHandler(response));
 
     }
@@ -120,7 +130,7 @@ export class ServicePointComponent implements OnInit {
 
     servicePointSuccessHandler(response){
         this.servicePointList = [];
-        this.alertMessage.alert("Service Point stored successfully");
+        this.alertMessage.alert("Service Points stored successfully");
     }
 
     stateSelection(stateID) {
@@ -151,8 +161,6 @@ export class ServicePointComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
-        console.log("districts ")
-        console.log(this.districts)
     }
     taluks: any = [];
     GetTaluks(districtID: number) {
@@ -161,8 +169,6 @@ export class ServicePointComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
-        console.log("taluks ");
-        console.log(this.taluks);
     }
 
     branches: any = [];
@@ -172,8 +178,6 @@ export class ServicePointComponent implements OnInit {
     }
     SetBranches(response: any) {
         this.branches = response;
-        console.log("blocks ");
-        console.log(this.branches);
     }
 
 
@@ -202,13 +206,14 @@ export class ServicePointComponent implements OnInit {
 
     }
     updateStatusHandler(response) {
-        console.log("servicePoint Status Changed");
+        console.log("Service Point status changed");
     }
 
     showList(){
         this.searchStateID ="";
         this.searchDistrictID ="";
-        this.getServicePoints(null,null);
+        this.searchParkingPlaceID = "";
+        this.getServicePoints(null,null,null);
         this.showServicePoints=true;
     }
 

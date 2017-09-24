@@ -4,6 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 
 import { MdDialog, MdDialogRef} from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+declare var jQuery: any;
 
 
 
@@ -40,7 +41,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   dummyIndexArray: any;
 
   // flags
-  showTable: boolean;
+  showTable: boolean = false;
   showForm: boolean;
 
   constructor(public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
@@ -53,9 +54,9 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.servicelines = [];
     this.workLocations = [];
 
-    this.showTable = true;
+    
     this.showForm = false;
-    this.findLocations();
+   // this.findLocations();
   }
 
   ngOnInit() {
@@ -67,13 +68,13 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   changeTableFlag(flag_val) {
     if (flag_val === true) {
-      let confirmation = confirm("Do you really want to cancel and go back to main screen?");
-      if (confirmation) {
+      // let confirmation = confirm("Do you really want to cancel and go back to main screen?");
+      // if (confirmation) {
         // this.showTable = flag_val;
         this.showForm = !flag_val;
-        this.resetFields();
+       // this.resetFields();
         this.findLocations();
-      }
+    //  }
     }
     else {
       // this.showTable = !flag_val;
@@ -82,19 +83,19 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   }
 
-  resetFields() {
-    // ngmodels
-    this.state = "";
-    this.district = "";
-    this.office_address1 = "";
-    this.office_address2 = "";
-    this.OfficeID = "";
-    this.providerServiceMapIDs = "";
+  // resetFields() {
+  //   // ngmodels
+  //   this.state = "";
+  //   this.district = "";
+  //   this.office_address1 = "";
+  //   this.office_address2 = "";
+  //   this.OfficeID = "";
+  //   this.providerServiceMapIDs = "";
 
 
-    this.search_state="";
-    this.search_serviceline="";
-  }
+  //   this.search_state="";
+  //   this.search_serviceline="";
+  // }
 
   getDistricts(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getDistricts(serviceProviderID, stateID)
@@ -114,14 +115,28 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   findLocations()
   {
-    let reqOBJ = { "serviceProviderID":this.serviceProviderID };
-    reqOBJ["stateID"] = this.search_state? this.search_state:'';
-    reqOBJ["serviceID"] = this.search_serviceline? this.search_serviceline:'';
-    console.log(reqOBJ);
-    this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
-      (response: Response) => this.findLocationsSuccesshandeler(response)
-     );
 
+    let reqOBJ = { "serviceProviderID":this.serviceProviderID };
+    if(this.search_serviceline != "")
+    {
+      reqOBJ["stateID"] = this.search_state? this.search_state:'';
+      reqOBJ["serviceID"] = this.search_serviceline? this.search_serviceline:'';
+      console.log(reqOBJ);
+
+      this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
+        (response: Response) => this.findLocationsSuccesshandeler(response)
+        );
+    }
+    else {
+      reqOBJ["stateID"] = this.search_state? this.search_state:'';
+      console.log(reqOBJ);
+
+      this.provider_admin_location_serviceline_mapping.getWorkLocationsOnState(reqOBJ).subscribe(
+        (response: Response) => this.findLocationsSuccesshandeler(response)
+        );
+
+    }
+    this.showTable = true;
   }
 
   saveOfficeAddress(requestObject) {
@@ -220,10 +235,12 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   saveOfficeSuccessHandeler(response) {
+    alert("location successfully created");
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
-    this.resetFields();
+  //  this.resetFields();
+    jQuery('#locationForm').trigger("reset");
     this.findLocations();
   }
 
