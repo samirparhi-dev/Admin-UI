@@ -64,25 +64,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   show2: boolean = false;
   show3: boolean = false;
 
-  request_object: any = {
-    'serviceProviderName': '',
-    'stateId': null,
-    'logoFileName': '',
-    'logoFilePath': '',
-    'primaryContactName': '',
-    'primaryContactNo': '',
-    'primaryContactEmailID': '',
-    'primaryContactAddress': '',
-    'secondaryContactName': '',
-    'secondaryContactNo': '',
-    'secondaryContactEmailID': '',
-    'secondaryContactAddress': '',
-    'statusID': '1',
-    'createdBy': 'Diamond_Khanna',
-
-    'stateAndServiceMapList': [],
-    'providerAdminDetails': []
-  }
+  request_object: any = {}
 
 
 
@@ -115,12 +97,33 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.super_admin_service.getAllStates(this.countryID).subscribe((response: Response) => this.states = this.successhandeler(response));
     this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
     this.super_admin_service.getCommonRegistrationData().subscribe(response => this.reg_data_successhandeler(response));
+    this.requestObject();
   }
 
   ngOnChanges() {
     this.setLanguage(this.current_language);
   }
+  requestObject() {
+    this.request_object = {
+      'serviceProviderName': '',
+      'stateId': null,
+      'logoFileName': '',
+      'logoFilePath': '',
+      'primaryContactName': '',
+      'primaryContactNo': '',
+      'primaryContactEmailID': '',
+      'primaryContactAddress': '',
+      'secondaryContactName': '',
+      'secondaryContactNo': '',
+      'secondaryContactEmailID': '',
+      'secondaryContactAddress': '',
+      'statusID': '1',
+      'createdBy': 'Diamond_Khanna',
 
+      'stateAndServiceMapList': [],
+      'providerAdminDetails': []
+    }
+  }
   reg_data_successhandeler(response) {
     console.log('common registration', response);
     this.titles = response.m_Title
@@ -178,13 +181,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show3 = false;
 
 
-      this.request_object.serviceProviderName = this.serviceProviderName.toLowerCase();
+      this.request_object.serviceProviderName = this.serviceProviderName;
       // this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
       this.request_object.primaryContactName = this.contactPerson;
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
-      this.request_object.primaryContactAddress = this.address1 + ',' + this.address2;
-
+      this.request_object.primaryContactAddress = this.address1+ ',' + this.address2;
 
     }
 
@@ -327,6 +329,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['password'] = this.password;
     provider_admin_details_obj['titleID'] = this.title;
     provider_admin_details_obj['genderID'] = this.gender;
+    this.dob;
+    this.address1;
     provider_admin_details_obj['dob'] = new Date((this.dob) - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)).toJSON();
     provider_admin_details_obj['doj'] = new Date((this.doj) - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)).toJSON();
     provider_admin_details_obj['maritalStatusID'] = '';
@@ -340,6 +344,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['statusID'] = '1';
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
+        console.log(item);
       return {
         'stateId': item.stateId.toString(), 'services': item.services.map(function (serviceItem) {
           return serviceItem.serviceID.toString();
@@ -363,6 +368,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show2 = false;
       this.show3 = false;
       this.clearFullForm();
+      this.requestObject();
     }
   }
 
@@ -470,8 +476,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.today = new Date();
     this.validTill = this.today;
     this.doj = this.today;
-    this.dob = this.today.getFullYear() - 20;
+    this.dob = new Date();
+    this.dob.setFullYear(this.today.getFullYear() - 20);
     this.showTable = false;
+    this.address1="";
+    this.address2="";
+    this.contactPerson="";
+    this.middlename="";
+    this.providerAdmin_PhoneNumber="";
+    this.providerAdmin_EmailID="";
+
   }
   clearProviderForm() {
     // jQuery('#providerForm').trigger('reset');
