@@ -107,6 +107,7 @@ import { ServicePointVillageMapService } from './services/ProviderAdminServices/
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
+import { SeverityTypeComponent } from './severity-type/severity-type.component';
 
 
 
@@ -127,7 +128,7 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
     CallDispositionTypeMasterComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent
+    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent
 
   ],
 
