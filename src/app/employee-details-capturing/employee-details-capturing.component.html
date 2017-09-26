@@ -147,7 +147,7 @@
     <div class="row">
       <form id="languagesForm" autocomplete="off">
         <div class="col-xs-12 col-sm6 col-md-3 col-lg-3 ">
-          <md-select [(ngModel)]="languages" multiple name="languages" placeholder="Languages" [style.width]="'100%'" (change)="selected_languages=languages">
+          <md-select [(ngModel)]="languages" multiple name="languages" placeholder="Languages" [style.width]="'100%'" (change)="selected_languages=languages" required>
             <md-option *ngFor="let item of allLanguages" [value]="item.languageID">{{item.languageName}}</md-option>
           </md-select>
         </div>
@@ -167,7 +167,7 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <button md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
+          <button [disabled]="disableLanguageSubmit" md-raised-button class="pull-right" (click)="MOVE2NEXT(3)">Save and Next</button>
         </div>
       </form>
     </div>

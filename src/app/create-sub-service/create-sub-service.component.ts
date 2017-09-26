@@ -19,9 +19,10 @@ export class CreateSubServiceComponent implements OnInit {
   subServiceDesc: any;
   showTable: boolean = false;
   subServiceAvailable: boolean = false;
+  allServicesAdded: boolean = false;
   serviceProvider: any;
   state: any;
-
+  dummmy:any=[];
 
 
   constructor(private sub_service: BlockProvider, private commonData: dataService) { }
@@ -29,6 +30,9 @@ export class CreateSubServiceComponent implements OnInit {
   ngOnInit() {
     this.subServiceAvailable = false;
     this.sub_service.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
+
+
+
   }
   getAllProvidersSuccesshandeler(response) {
     this.serviceProviders = response;
@@ -51,7 +55,15 @@ export class CreateSubServiceComponent implements OnInit {
 
     this.services = response;
   }
-  getProviderMapID(serviceProviderObj, serviceObj, stateObj) {
+  getExistingSubService(service) {
+    this.sub_service.getSubServiceDetails(service.providerServiceMapID)
+      .subscribe(response => this.existingSubServiceHandler(response))
+  }
+  existingSubService:any=[];
+  existingSubServiceHandler(response) {
+    this.existingSubService=[];
+    this.existingSubService = response;
+    this.getSubServices(this.serviceObj);
 
   }
   add(providerServiceMapID, state, service, subServices, subServiceDesc) {
@@ -116,17 +128,36 @@ export class CreateSubServiceComponent implements OnInit {
 
   }
   getSubServices(service) {
+    this.allServicesAdded = false;
+    this.subServices=[];
     this.sub_service.getAllSubService(service.serviceID).subscribe((res) => {
       if (res) {
         if (res.length === 0) {
           this.subServiceAvailable = true;
         }
         else {
-          this.subServices = res;
+
+          let tempService = {};
+          let temp: boolean;
+          for (var i = 0; i < res.length; i++) {
+            temp = true;
+            for (var a = 0; a < this.existingSubService.length; a++) {
+              if (res[i].subServiceName === this.existingSubService[a].subServiceName) {
+                temp = false;
+              }
+            }
+            if (temp) {
+              tempService = res[i];
+              this.subServices.push(tempService);
+              tempService = {};
+            }
+          }
           this.subServiceAvailable = false;
+          if(this.subServices.length==0) {
+            this.allServicesAdded = true;
+          }
         }
       }
-      this.subServices = res;
     }, (err) => {
 
     })

@@ -271,9 +271,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getDistricts(value.stateID).subscribe((response: Response) => this.getOfficeDistrictsSuccessHandeler(response));
   }
 
-
+  disableLanguageSubmit:boolean =true;
   updateSliderData(data, index) {
-
     let index_exists = false;
     let obj = {
       'language_index': index,
@@ -303,7 +302,16 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     // to  check highly proficient language.....not the most proficient language would be at the end of array
 
     this.sliderarray.sort(function (a, b) { return a.value - b.value });
-
+    console.log(this.sliderarray);
+    this.disableLanguageSubmit = true;
+     this.disableLanguageSubmit = this.sliderarray.forEach(function(obj){
+              if(obj.value > 0) {
+              
+               return false;
+            
+              }
+    });
+    console.log(this.disableLanguageSubmit);
   }
 
   previleges : any = [];
