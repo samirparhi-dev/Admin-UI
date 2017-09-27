@@ -34,6 +34,7 @@ export class BlockProvider {
   getAllSubService_URL: any;
   getSubServiceDetails_URL: any;
   editProvider_URL: any;
+  deleteSubserviceUrl: any;
 
   constructor(private _http: Http, public ConfigService: ConfigService) {
     this.admin_base_url = this.ConfigService.getAdminBaseUrl();
@@ -58,6 +59,7 @@ export class BlockProvider {
     this.getAllSubService_URL = this.admin_base_url + 'm/FindSubSerive';
     this.getSubServiceDetails_URL = this.admin_base_url + 'm/getSubSerive';
     this.editProvider_URL = this.admin_base_url + 'updateProvider';
+    this.deleteSubserviceUrl = this.admin_base_url + '/m/deleteSubSerive';
   }
 
   // all the status of Provider
@@ -180,6 +182,14 @@ export class BlockProvider {
       "providerServiceMapID": providerServiceMapID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
+  }
+  
+  deleteSubService(sebserviceId: any) {
+    debugger;
+    return this._http.post(this.deleteSubserviceUrl, {
+      "subServiceID": sebserviceId
+    }).map(this.success_handeler)
+    .catch(this.error_handeler);
   }
   editProvider(serviceProviderObj: any) {
     return this._http.post(this.editProvider_URL, serviceProviderObj).map(this.success_handeler)

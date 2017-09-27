@@ -49,7 +49,7 @@
               <tr *ngFor="let sub of md2.data">
                 <td>{{sub.subServiceName}}</td>
                 <td>{{sub.subServiceDesc}}</td>
-                <td><md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" >delete</md-icon></td>
+                <td><md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubService(sub.subServiceID)">delete</md-icon></td>
               </tr>
             </tbody>
           <tfoot>
