@@ -248,6 +248,9 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log('deleted', response);
     this.findLocations();
   }
+  clear() {
+    this.search_serviceline = "";
+  }
   
 }
 

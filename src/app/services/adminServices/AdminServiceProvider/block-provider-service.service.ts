@@ -177,7 +177,7 @@ export class BlockProvider {
   }
   getSubServiceDetails(providerServiceMapID: any) {
     return this._http.post(this.getSubServiceDetails_URL, {
-      'providerServiceMapID': providerServiceMapID
+      "providerServiceMapID": providerServiceMapID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }

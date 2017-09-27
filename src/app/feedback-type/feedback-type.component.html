@@ -1,7 +1,7 @@
 <md-card>
 	<div class="row">
-		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Severity Type (Work in progress)</h4>
-		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Severity Type (Work in progress)</h4>
+		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Feedback Type (Work in progress)</h4>
+		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Feedback Type (Work in progress)</h4>
 		<form>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess>
@@ -12,13 +12,13 @@
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess>
-					<md-option *ngFor="let ser of services" value="{{ser}}">
+					<md-option *ngFor="let ser of services" value="{{ser.serviceID}}">
 						{{ser.serviceName}}
 					</md-option>
 				</md-select>
 			</div>
-			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage " >
-				<button md-mini-fab (click)="findSeverity(service)" color="primary" >
+			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage" >
+				<button md-mini-fab (click)="findSeverity(stateId,service)" color="primary" >
 					<md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
 				</button>
 			</div>
@@ -56,7 +56,7 @@
 								<md2-pagination></md2-pagination>
 							</td>
 							<td colspan="2" >
-								<button *ngIf="search" md-raised-button color="primary" class="pull-right" (click)="addSeverity()">Add Severity</button>
+								<button md-raised-button color="primary" class="pull-right" (click)="addSeverity()">Add Feedback</button>
 							</td>
 						</tr>
 					</tfoot>
@@ -68,7 +68,7 @@
 			<form >
 				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 					<md-input-container [style.width]="'100%'">
-						<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" >
+						<input mdInput placeholder="Feedback" name="feebback" [(ngModel)]="feebback" >
 					</md-input-container>
 				</div>
 				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">

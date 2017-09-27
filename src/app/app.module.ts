@@ -104,10 +104,12 @@ import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
 import { ServicePointVillageMapService } from './services/ProviderAdminServices/service-point-village-map.service';
+import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
 import { SeverityTypeComponent } from './severity-type/severity-type.component';
+import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
 
 
 
@@ -128,7 +130,7 @@ import { SeverityTypeComponent } from './severity-type/severity-type.component';
     CallDispositionTypeMasterComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent
+    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent
 
   ],
 
@@ -205,7 +207,7 @@ import { SeverityTypeComponent } from './severity-type/severity-type.component';
     CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
     LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
     DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService, ServicePointMasterService,
-    ConfirmationDialogsService, LoaderService, {
+    ConfirmationDialogsService, LoaderService,SeverityTypeService, {
       provide: InterceptedHttp,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
