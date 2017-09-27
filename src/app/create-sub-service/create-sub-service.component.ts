@@ -36,8 +36,6 @@ export class CreateSubServiceComponent implements OnInit {
     this.subServiceAvailable = false;
     this.sub_service.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
 
-
-
   }
   getAllProvidersSuccesshandeler(response) {
     this.serviceProviders = response;
@@ -88,7 +86,7 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.populateTable(response))
   }
   populateTable(response) {
-
+    debugger;
     this.data = response;
   }
   getExistingSubService(service) {
@@ -226,6 +224,19 @@ export class CreateSubServiceComponent implements OnInit {
     this.searchForm = flag;
     jQuery('#addingForm').trigger('reset');
   }
-
+  deleteSubService(subserviceID) {
+ 
+        this.sub_service.deleteSubService(subserviceID).subscribe(response => {
+      this.deletedSuccessHandler(response)
+    })
+  }
+  deletedSuccessHandler(res){
+     this.data;
+     console.log(res);
+     debugger;
+     this.data = this.data.filter(function (obj) {
+               return obj.subServiceID != res.subServiceID;
+     })
+  }
 
 }
