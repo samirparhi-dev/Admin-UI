@@ -86,7 +86,8 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.populateTable(response))
   }
   populateTable(response) {
-    debugger;
+
+    this.showTable = true;
     this.data = response;
   }
   getExistingSubService(service) {
