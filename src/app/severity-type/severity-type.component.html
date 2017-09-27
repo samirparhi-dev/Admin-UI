@@ -1,7 +1,7 @@
 <md-card>
 	<div class="row">
-		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Severity Type (Work in progress)</h4>
-		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Severity Type (Work in progress)</h4>
+		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Severity Type </h4>
+		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Severity Type </h4>
 		<form>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess>
@@ -12,51 +12,48 @@
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess>
-					<md-option *ngFor="let ser of services" value="{{ser}}">
+					<md-option *ngFor="let ser of services" value="{{ser}}" (click)="findSeverity(ser)">
 						{{ser.serviceName}}
 					</md-option>
 				</md-select>
 			</div>
-			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage " >
-				<button md-mini-fab (click)="findSeverity(service)" color="primary" >
+<!-- 			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage " >
+				<button md-mini-fab  color="primary" >
 					<md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
 				</button>
-			</div>
+			</div> -->
 		</form>
 	</div>
 	<div class="row" *ngIf="firstPage">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive m-t-10">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+			<div class="table-responsive m-t-10" *ngIf="search">
 				<table class="table table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4" >
 					<thead>
 						<tr>
-							<!-- <th>S.No</th> -->
-							<th>RoleID</th>
-							<th>Role</th>
-							<th>Description</th>
-							<!-- <th>Deleted</th> -->
+							<th>Severity Name</th>
+							<th>Severity Description</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr >
-							NO RECORD FOUND!!
+							<tr *ngIf="md2.data.length == 0">
+								NO RECORD FOUND
+							</tr>
+						<tr *ngFor="let sev of md2.data">
+							<td>{{sev.severityTypeName}}</td>
+							<td>dcds</td>
+
+							<td>asdaasd</td>
 						</tr>
-		<!-- 				<tr>
-						<td>cda</td>
-						<td>dcds</td>
-						<td>dda</td>
-						<td>asdaasd</td>
-						</tr> -->
 						
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="2" align="center">
+							<td colspan="2">
 								<md2-pagination></md2-pagination>
 							</td>
 							<td colspan="2" >
-								<button *ngIf="search" md-raised-button color="primary" class="pull-right" (click)="addSeverity()">Add Severity</button>
+								<button md-raised-button color="primary" class="pull-right" (click)="showAddScreen()">Add Severity</button>
 							</td>
 						</tr>
 					</tfoot>
@@ -65,10 +62,11 @@
 			</div>
 		</div>
 		<div class="row m-t-10" *ngIf="!firstPage">
-			<form >
+			<form class="row" #severityAdding="ngForm">
 				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 					<md-input-container [style.width]="'100%'">
-						<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" >
+						<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" required>
+						<md-hint class="error_text" *ngIf="alreadyExist">Severity already exist</md-hint>
 					</md-input-container>
 				</div>
 				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
@@ -78,13 +76,33 @@
 				</div>
 				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 					<button md-mini-fab  color="primary">
-						<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"(click)="add()">add</md-icon>
+						<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"(click)="add(severityAdding.value)">add</md-icon>
 					</button>
 				</div>
+				</form>
+        <div  class="row" *ngIf="(severityArray.length !=0)">
+            <div *ngFor="let obj of severityArray; let i=index" style="">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <md-chip-list >
+                        <md-chip color="accent" selected="true">{{obj.severityTypeName}}</md-chip>
+                    </md-chip-list>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <md-chip-list>
+                        <md-chip color="accent" selected="true">{{obj.severityDesc}}</md-chip>
+                    </md-chip-list>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <button md-mini-fab >
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">remove</md-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<button md-raised-button color="primary" class="pull-left" type="button" (click)="handlingFlag(true)">Back</button>	
-					<button md-raised-button color="primary" class="pull-right" type="button" (click)="finalSubmit()">Submit</button>	
+					<button *ngIf="severityArray.length>0" md-raised-button color="primary" class="pull-right" type="button" (click)="finalSubmit()">Submit</button>	
 				</div>
-			</form>
+		
 		</div>
 </md-card>

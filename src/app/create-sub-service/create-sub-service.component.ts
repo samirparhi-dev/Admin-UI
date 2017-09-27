@@ -88,6 +88,7 @@ export class CreateSubServiceComponent implements OnInit {
   populateTable(response) {
 
     this.showTable = true;
+
     this.data = response;
   }
   getExistingSubService(service) {

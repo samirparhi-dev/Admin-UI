@@ -20,6 +20,8 @@ export class SeverityTypeComponent implements OnInit {
   severity: any;
   data: any = [];
   search:boolean = false;
+  alreadyExist: boolean = false;
+  providerServiceMapID: any;
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
     public severityTypeService: SeverityTypeService) { }
 
@@ -31,7 +33,7 @@ export class SeverityTypeComponent implements OnInit {
   	return response;
   }
   getServices(state) {
-    this.search = true;
+    this.search = false;
     this.service="";
   	this.ProviderAdminRoleService.getServices(this.serviceProviderID, state).subscribe(response => this.servicesSuccesshandeler(response));
   }
@@ -42,20 +44,70 @@ export class SeverityTypeComponent implements OnInit {
   	});
   }
   findSeverity(serObj) {
+    console.log(serObj);
+    this.data=[];
+    this.providerServiceMapID = serObj.providerServiceMapID;
+     this.search = true;
     this.severityTypeService.getSeverity(serObj.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
 
   }
   getSeveritysuccesshandler(response) {
-    debugger;
-    this.data = response
+        this.data = response
   }
-  addSeverity() {
+  showAddScreen() {
   	this.handlingFlag(false);
   }
-  add() {
+  addSeverity(severity) {
+    for (var i=0; i<this.data.length; i++) {
+          if (this.data[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
+              this.alreadyExist = true;
+          }
+          else{
+            this.alreadyExist = false;
+          }
+     }
 
+  }
+  severityArray: any =[];
+  add(values) {
+    if(!this.alreadyExist) {
+      let obj = {
+        "severityTypeName" : values.severity,
+        "severityDesc" : values.description,
+        "providerServiceMapID" : this.providerServiceMapID,
+        "createdBy" : "Admin"
+      }
+      let temp : boolean;
+      if(this.severityArray.length == 0) {
+        this.severityArray.push(obj);
+      }
+      
+      else {
+        for (var i=0; i<this.severityArray.length; i++) { 
+          temp = true;
+          if(this.severityArray[i].severityTypeName.toLowerCase() == obj.severityTypeName.toLowerCase()) {
+            temp = false;
+          }
+        }
+        if(temp){
+          this.severityArray.push(obj);
+        }
+      }
+    }
   }
   handlingFlag(flag) {
   	this.firstPage = flag;
+  }
+  removeObj(i) {
+    this.severityArray.splice(i, 1);
+  }
+  finalSubmit() {
+        this.severityTypeService.addSeverity(this.severityArray).subscribe(response=>this.createdSuccessHandler(response));
+  }
+  createdSuccessHandler(res){
+    alert("severity added successfully");
+    this.handlingFlag(true);
+    this.findSeverity(res[0]);
+    this.severityArray= [];
   }
 }
