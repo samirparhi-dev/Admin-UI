@@ -12,15 +12,16 @@ export class SeverityTypeService {
 
   admin_Base_Url: any;
   get_State_Url: any;
-
+  addSeverityUrl: any;
 
   constructor(private http: Http, public basepaths: ConfigService) {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + "/m/getServerity";
+    this.addSeverityUrl = this.admin_Base_Url + "/m/saveServerity ";
    };
 
    getSeverity(providerServiceMapID) {
-     return this.http.post(this.get_State_Url, { "providerServiceMapID": 720 })
+     return this.http.post(this.get_State_Url, { "providerServiceMapID": providerServiceMapID })
        .map(this.handleSuccess)
        .catch(this.handleError);
    }
@@ -29,7 +30,11 @@ export class SeverityTypeService {
      console.log(response.json(), "calltype-subtype service file success response");
      return response.json().data;
    }
-
+   addSeverity(array) {
+     return this.http.post(this.addSeverityUrl, array)
+       .map(this.handleSuccess)
+       .catch(this.handleError);
+   }
    handleError(error: Response | any) {
      let errMsg: string;
      if (error instanceof Response) {
