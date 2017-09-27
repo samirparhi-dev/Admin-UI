@@ -51,6 +51,17 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getSuccess(response: any) {
     this.status_array = response;
+    let index = 0;
+    for (let i = 0; i < this.status_array.length;i++)
+    {
+      if(this.status_array[i].status==="New")
+      {
+        index = i;
+        break;
+      }
+    }
+
+    this.status_array.splice(index, 1);
   }
 
   getStates(serviceProviderID) {
@@ -104,10 +115,11 @@ export class BlockServiceProviderComponent implements OnInit {
   // Get STATUS function 
 
   getStatus(service_provider, state, serviceline) {
+    debugger;
     this.showTable = true;
     this.show_card = true;
 
-    if (service_provider != '' && service_provider != null && state === '' && serviceline === '') {
+    if (service_provider != '' && service_provider != null && (state === '' || state === undefined) && (serviceline === '' || serviceline === undefined )) {
       this.case_one = true;
       this.case_two = false;
       this.case_three = false;
@@ -115,7 +127,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
       this.getStatusOnProviderLevel(service_provider);
     }
-    if (service_provider != '' && service_provider != null && state != '' && state != null && serviceline === '') {
+    if (service_provider != '' && service_provider != null && state != '' && state != null && (serviceline === '' || serviceline === undefined)) {
       this.case_one = false;
       this.case_two = true;
       this.case_three = false;
