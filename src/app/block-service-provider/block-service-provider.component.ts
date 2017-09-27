@@ -115,7 +115,7 @@ export class BlockServiceProviderComponent implements OnInit {
   // Get STATUS function 
 
   getStatus(service_provider, state, serviceline) {
-    debugger;
+    
     this.showTable = true;
     this.show_card = true;
 
