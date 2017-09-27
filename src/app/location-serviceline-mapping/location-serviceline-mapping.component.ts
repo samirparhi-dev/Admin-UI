@@ -107,6 +107,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       .subscribe((response: Response) => this.servicesSuccesshandeler(response));
   }
   getServiceLinesfromSearch(serviceProviderID, stateID){
+    
     this.search_serviceline = "";
     this.getServiceLines(serviceProviderID, stateID);
   }

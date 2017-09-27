@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { dataService } from './../services/dataService/data.service';
+declare var jQuery: any;
 @Component({
   selector: 'app-create-sub-service',
   templateUrl: './create-sub-service.component.html',
@@ -23,8 +24,12 @@ export class CreateSubServiceComponent implements OnInit {
   serviceProvider: any;
   state: any;
   dummmy:any=[];
-
-
+  searchServiceProvider : any;
+  searchState : any ;
+  searchServiceObj: any;
+  searchForm: boolean = true;
+  statesSearched: any= [];
+  servicesSearched: any= [];
   constructor(private sub_service: BlockProvider, private commonData: dataService) { }
 
   ngOnInit() {
@@ -36,6 +41,29 @@ export class CreateSubServiceComponent implements OnInit {
   }
   getAllProvidersSuccesshandeler(response) {
     this.serviceProviders = response;
+  }
+  getAllStates(serviceProviderID) {
+    this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
+      this.getAllStatesSuccesshandeler(response);
+    });
+  }
+
+  getAllStatesSuccesshandeler(response) {
+   
+    this.statesSearched = response;
+    // if(this.added){
+    //   this.searchState = this.state;
+    //   debugger;
+    // }
+  }
+  getAllServicesInState(serviceProviderObj, stateObj) {
+    this.sub_service.getServicesInState(serviceProviderObj.serviceProviderId, stateObj.stateID)
+      .subscribe(response => this.getAllServicesInStatesSuccess(response));
+  }
+
+  getAllServicesInStatesSuccess(response) {
+
+    this.servicesSearched = response;
   }
   getStates(serviceProviderID) {
     this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
@@ -55,13 +83,23 @@ export class CreateSubServiceComponent implements OnInit {
 
     this.services = response;
   }
+  getExistingOnSearch(service) {
+    this.sub_service.getSubServiceDetails(service.providerServiceMapID)
+      .subscribe(response => this.populateTable(response))
+  }
+  populateTable(response) {
+    this.showTable = true;
+    this.data = response;
+  }
   getExistingSubService(service) {
     this.sub_service.getSubServiceDetails(service.providerServiceMapID)
       .subscribe(response => this.existingSubServiceHandler(response))
   }
+
   existingSubService:any=[];
   existingSubServiceHandler(response) {
     this.existingSubService=[];
+    
     this.existingSubService = response;
     this.getSubServices(this.serviceObj);
 
@@ -162,16 +200,31 @@ export class CreateSubServiceComponent implements OnInit {
 
     })
   }
+  added: boolean = false;
   showSubService(response: any, serviceName) {
+    
+    this.added = true;
+    this.getAllStates(this.serviceProvider);
+    this.searchServiceProvider = this.serviceProvider;
+    this.getAllServicesInState(this.serviceProvider,this.state);
+    this.searchState = this.state;
+    this.searchServiceObj = this.serviceObj;
+    this.getExistingOnSearch(this.serviceObj);
+    this.addSubService(true);
 
-    this.showTable = true;
-    this.data = response.map(function (element) {
-      element.serviceName = serviceName
-      return element;
-    });
+    debugger;
+    // this.showTable = true;
+    // this.data = response.map(function (element) {
+    //   element.serviceName = serviceName
+    //   return element;
+    // });
     // this.data = response.map(function (item) {
     //   item.serviceName = serviceName;
     // });
+  }
+  addSubService(flag) {
+    this.searchForm = flag;
+    jQuery('#addingForm').trigger('reset');
   }
 
 
