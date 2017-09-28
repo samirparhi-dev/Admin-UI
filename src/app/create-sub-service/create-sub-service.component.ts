@@ -23,13 +23,14 @@ export class CreateSubServiceComponent implements OnInit {
   allServicesAdded: boolean = false;
   serviceProvider: any;
   state: any;
-  dummmy:any=[];
-  searchServiceProvider : any;
-  searchState : any ;
+  dummmy: any = [];
+  searchServiceProvider: any;
+  searchState: any;
   searchServiceObj: any;
   searchForm: boolean = true;
-  statesSearched: any= [];
-  servicesSearched: any= [];
+  statesSearched: any = [];
+  servicesSearched: any = [];
+  existingSubService: any = [];
   constructor(private sub_service: BlockProvider, private commonData: dataService) { }
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class CreateSubServiceComponent implements OnInit {
   }
 
   getAllStatesSuccesshandeler(response) {
-   
+
     this.statesSearched = response;
     // if(this.added){
     //   this.searchState = this.state;
@@ -78,7 +79,6 @@ export class CreateSubServiceComponent implements OnInit {
   }
 
   getServicesInStatesSuccesshandeler(response) {
-
     this.services = response;
   }
   getExistingOnSearch(service) {
@@ -96,10 +96,10 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.existingSubServiceHandler(response))
   }
 
-  existingSubService:any=[];
+
   existingSubServiceHandler(response) {
-    this.existingSubService=[];
-    
+    debugger;
+    this.existingSubService = [];
     this.existingSubService = response;
     this.getSubServices(this.serviceObj);
 
@@ -119,6 +119,7 @@ export class CreateSubServiceComponent implements OnInit {
         alert('Added Sucessfully');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           this.showSubService(res, service.serviceName);
+          this.clearFields();
         }, (err) => {
 
         })
@@ -167,7 +168,7 @@ export class CreateSubServiceComponent implements OnInit {
   }
   getSubServices(service) {
     this.allServicesAdded = false;
-    this.subServices=[];
+    this.subServices = [];
     this.sub_service.getAllSubService(service.serviceID).subscribe((res) => {
       if (res) {
         if (res.length === 0) {
@@ -191,7 +192,7 @@ export class CreateSubServiceComponent implements OnInit {
             }
           }
           this.subServiceAvailable = false;
-          if(this.subServices.length==0) {
+          if (this.subServices.length == 0) {
             this.allServicesAdded = true;
           }
         }
@@ -202,17 +203,15 @@ export class CreateSubServiceComponent implements OnInit {
   }
   added: boolean = false;
   showSubService(response: any, serviceName) {
-    
+
     this.added = true;
     this.getAllStates(this.serviceProvider);
     this.searchServiceProvider = this.serviceProvider;
-    this.getAllServicesInState(this.serviceProvider,this.state);
+    this.getAllServicesInState(this.serviceProvider, this.state);
     this.searchState = this.state;
     this.searchServiceObj = this.serviceObj;
     this.getExistingOnSearch(this.serviceObj);
-    this.addSubService(true);
-
-    debugger;
+    // this.addSubService(true);
     // this.showTable = true;
     // this.data = response.map(function (element) {
     //   element.serviceName = serviceName
@@ -227,18 +226,20 @@ export class CreateSubServiceComponent implements OnInit {
     jQuery('#addingForm').trigger('reset');
   }
   deleteSubService(subserviceID) {
- 
-        this.sub_service.deleteSubService(subserviceID).subscribe(response => {
+
+    this.sub_service.deleteSubService(subserviceID).subscribe(response => {
       this.deletedSuccessHandler(response)
     })
   }
-  deletedSuccessHandler(res){
-     this.data;
-     console.log(res);
-     debugger;
-     this.data = this.data.filter(function (obj) {
-               return obj.subServiceID != res.subServiceID;
-     })
+  clearFields() {
+    this.subServiceDesc = '';
+    this.getExistingSubService(this.serviceObj);
+  }
+  deletedSuccessHandler(res) {
+    this.data;
+    this.data = this.data.filter(function (obj) {
+      return obj.subServiceID != res.subServiceID;
+    })
   }
 
 }
