@@ -39,7 +39,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   providerServiceMapID_request_array: any;
   dummyIndexArray: any;
-
+  officeArray: any = [];
   // flags
   showTable: boolean = false;
   showForm: boolean;
@@ -252,6 +252,38 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
   clear() {
     this.search_serviceline = "";
+    this.search_state = "";
+    this.showTable = false;
+    this.workLocations = [];
+
+  }
+  servicelineSelected(obj) {
+    this.OfficeID = "";
+    this.officeNameExist =false;
+    this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(obj)
+      .subscribe((response: Response) => this.currentServicesSuccess(response));
+  }
+  currentServicesSuccess(res) {
+    debugger;
+     this.officeArray = res;
+  }
+   officeNameExist: boolean = false;
+   msg: any;
+  checkOfficeName(value) {
+    console.log(this.officeArray)
+    for(var i=0; i<this.officeArray.length; i++) {
+       let a = this.officeArray[i].locationName;
+      console.log(this.officeArray[i].locationName);
+     
+      if(a == value) {
+        this.officeNameExist = true;
+        this.msg = "OfficeName exist for "+this.officeArray[i].serviceName+", deselect "+this.officeArray[i].serviceName;
+        console.log(this.msg, "@@@@@@@@@@@");
+      }
+      else {
+        this.officeNameExist = false;
+      }
+    }
   }
   
 }
