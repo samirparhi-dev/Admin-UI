@@ -42,7 +42,7 @@ export class CategorySubcategoryService {
 		this.getServiceLines_url = this.providerAdmin_Base_Url + "m/location/service";
 		this.getSubService_url = this.providerAdmin_Base_Url + "m/getSubSerive";
 		this.getCategoryBySubService_url = this.providerAdmin_Base_Url + "m/getCategoryBySubServiceID";
-		this.saveCategory_url = this.providerAdmin_Base_Url + "m/saveCategory";
+		this.saveCategory_url = this.providerAdmin_Base_Url + "m/createCategory";
 		this.deleteCategory_url = this.providerAdmin_Base_Url + "m/deleteCategory";
 		this.getCategory_url = this.providerAdmin_Base_Url + 'm/getCategory';
 		this.saveExistCategory_url = this.providerAdmin_Base_Url + 'm/saveCategoryUseExist';

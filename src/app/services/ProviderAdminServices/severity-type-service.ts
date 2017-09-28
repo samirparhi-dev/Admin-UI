@@ -36,8 +36,7 @@ export class SeverityTypeService {
        .map(this.handleSuccess)
        .catch(this.handleError);
    }
-   deleteSeverity(id) {
-     debugger;
+   deleteSeverity(id) { 
           return this.http.post(this.deleteSeverityUrl,{ "severityID" : id })
        .map(this.handleSuccess)
        .catch(this.handleError);

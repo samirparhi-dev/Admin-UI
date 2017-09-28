@@ -394,7 +394,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(response.response, 'provider name availability');
     if(response.response == "provider_name_exists") {
       this.providerNameExist = true;
-      debugger;
     }
     else {
       this.providerNameExist = false;

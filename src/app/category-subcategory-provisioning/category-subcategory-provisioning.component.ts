@@ -37,6 +37,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   cateDisabled: string = 'false';
   createdBy: any;
   category_ID: any;
+  serviceSubCatList: any = [];
   private items: Array<any>;
 
   constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService) {
@@ -108,7 +109,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   addNewCategoryRow() {
-    debugger;
+
     let obj = {};
     obj['categoryName'] = this.category_name;
     obj['categoryDesc'] = this.categorydesc;
@@ -119,6 +120,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
     if (this.serviceList.length > 0) {
       this.serviceList.push(obj);
+      this.serviceList = this.filterArray(this.serviceList);
     } else {
       this.serviceList.push(obj);
     }
@@ -136,24 +138,27 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     // this.subcategory = '';
     // this.description = '';
     // this.filepath = '';
+    this.category_name = '';
+    this.categorydesc = '';
   }
   addExistCategoryRow() {
+    debugger
     let obj = {};
     obj['subServiceID'] = this.sub_service.subServiceID;
     obj['subServiceName'] = this.sub_service.subServiceName;
     obj['providerServiceMapID'] = this.service;
     obj['categoryName'] = this.category_ID.categoryName;
+    obj['categoryID'] = this.category_ID.categoryID;
     obj['subCategoryName'] = this.subcategory;
     obj['desc'] = this.description;
-    this.serviceList.push(obj);
-    if (this.serviceList.length > 0) {
-      this.category_ID = this.serviceList[this.serviceList.length - 1].categoryName;
-      this.cateDisabled = 'true';
-    } else {
-      this.cateDisabled = 'false';
-    }
-    this.subcategory = '';
-    this.description = '';
+    this.serviceSubCatList.push(obj);
+    // if (this.serviceSubCatList.length > 0) {
+    //   this.category_ID = this.serviceSubCatList[this.serviceSubCatList.length - 1].categoryName;
+    // } else {
+    //   this.cateDisabled = 'false';
+    // }
+    // this.subcategory = '';
+    // this.description = '';
   }
   deleteRow(index) {
     this.serviceList.pop(index);
@@ -183,7 +188,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   addNewCategory(providerServiceMapID) {
-    debugger;
+
     let categoryObj = [];
     categoryObj = this.serviceList.map(function (item) {
       return {
@@ -205,18 +210,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
     this.CategorySubcategoryService.saveCategory(categoryObj)
       .subscribe((response) => {
-        if (response.length > 0) {
-          alert('Successfully Created');
+        if (response) {
+          if (response.length > 0) {
+            alert('Successfully Created');
+            // this.searchForm = true;
+            this.serviceList.length = 0;
+            // this.showTable = true;
+            // this.api_choice = 1;
+            // this.changeRequestObject("1");
+            this.getDetails(this.sub_service, providerServiceMapID);
+          }
         }
-        this.searchForm = true;
-        this.serviceList.length = 0;
-        this.showTable = true;
-        this.cateDisabled = 'false';
-        this.getDetails(this.sub_service, providerServiceMapID);
       }, (err) => {
 
       });
   }
+
   addExistCategory() {
 
     const categoryObj = {};
@@ -289,6 +298,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.category_ID = '';
     this.cateDisabled = 'false';
 
+  }
+  filterArray(array: any) {
+    const o = {};
+    return array = array
+      .filter((thing, index, self) => self
+        .findIndex((t) => { return t.categoryName === thing.categoryName && t.subServiceID === thing.subServiceID; }) === index)
   }
 
 }

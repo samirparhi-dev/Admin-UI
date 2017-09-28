@@ -409,7 +409,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   createEmployee() {
     console.log(this.previleges);
-    debugger;
+
     let request_object = {
 
       'titleID': this.title,

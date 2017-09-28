@@ -89,9 +89,8 @@ export class EditProviderDetailsComponent implements OnInit {
     providerObj['secondaryContactEmailID'] = item.secondaryEmail;
     providerObj['secondaryContactNo'] = item.secondaryNo;
     providerObj['secondaryContactAddress'] = item.secondaryAddress;
-    debugger;
     this.provider_services.editProvider(providerObj).subscribe((res) => {
-      debugger;
+
       alert('Updated Successfully');
       this.array.push(res);
       // this.setProviderDetails(this.array);
@@ -121,7 +120,6 @@ export class EditProviderDetailsComponent implements OnInit {
     console.log(response.response, 'provider name availability');
     if(response.response == "provider_name_exists") {
       this.providerNameExist = true;
-      debugger;
     }
     else {
       this.providerNameExist = false;

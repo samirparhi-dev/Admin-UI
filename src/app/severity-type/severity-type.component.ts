@@ -52,7 +52,6 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   getSeveritysuccesshandler(response) {
-    debugger;
         this.data = response
   }
   showAddScreen() {

@@ -98,7 +98,7 @@ export class CreateSubServiceComponent implements OnInit {
 
 
   existingSubServiceHandler(response) {
-    debugger;
+
     this.existingSubService = [];
     this.existingSubService = response;
     this.getSubServices(this.serviceObj);
