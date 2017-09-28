@@ -194,6 +194,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.searchForm = true;
         this.serviceList.length = 0;
         this.showTable = true;
+        this.cateDisabled = 'false';
         this.getDetails(this.sub_service, providerServiceMapID);
       }, (err) => {
 
