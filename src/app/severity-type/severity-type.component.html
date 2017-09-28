@@ -42,7 +42,10 @@
 							<tr *ngFor="let sev of md2.data">
 								<td>{{sev.severityTypeName}}</td>
 								<td>{{sev.severityDesc}}</td>
-								<td><md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon></td>
+								<td>
+						<!-- 			<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(sev)">edit</md-icon> -->
+									<md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon>
+									</td>
 						</tr>
 					</tbody>
 					<tfoot>

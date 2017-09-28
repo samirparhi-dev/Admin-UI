@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
 import { SeverityTypeService } from "../services/ProviderAdminServices/severity-type-service";
-
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-severity-type',
   templateUrl: './severity-type.component.html',
@@ -23,7 +24,7 @@ export class SeverityTypeComponent implements OnInit {
   alreadyExist: boolean = false;
   providerServiceMapID: any;
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
-    public severityTypeService: SeverityTypeService) { }
+    public severityTypeService: SeverityTypeService, public dialog: MdDialog) { }
 
   ngOnInit() {
   	this.serviceProviderID =(this.commonDataService.service_providerID).toString();
@@ -120,4 +121,26 @@ export class SeverityTypeComponent implements OnInit {
   deleteSuccessHandler(res) {
     alert("deleted successfully");
   }
+  editeUser(obj) {
+    debugger;
+              let dialogReff = this.dialog.open(EditSeverityModalComponent, {
+              height: '180px',
+              width: '420px',
+              disableClose: false,
+              data: obj
+            });
+  }
+}
+
+@Component({
+  selector: 'edit-severity-component',
+  templateUrl: './edit-severity-component-modal.html',
+})
+export class EditSeverityModalComponent {
+
+  constructor( @Inject(MD_DIALOG_DATA) public data: any,
+    public dialog: MdDialog,
+    public dialogReff: MdDialogRef<EditSeverityModalComponent>,
+    ) { }
+
 }
