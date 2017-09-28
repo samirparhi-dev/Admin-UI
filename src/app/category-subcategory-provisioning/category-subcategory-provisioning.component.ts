@@ -166,8 +166,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   finalsave(service) {
     if (this.api_choice === "0") {
       this.addNewCategory(service);
-    }
-    else {
+    } else {
       this.addExistCategory();
     }
   }
@@ -195,6 +194,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.searchForm = true;
         this.serviceList.length = 0;
         this.showTable = true;
+        this.cateDisabled = 'false';
         this.getDetails(this.sub_service, providerServiceMapID);
       }, (err) => {
 
@@ -228,6 +228,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.searchForm = true;
     this.serviceList.length = 0;
     this.showTable = true;
+    this.cateDisabled = 'false';
 
   }
   getCategory(subServiceID: any) {
@@ -269,7 +270,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.description = '';
     this.filepath = '';
     this.category_ID = '';
-    this.serviceList = [];
     this.cateDisabled = 'false';
 
   }
