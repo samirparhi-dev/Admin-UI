@@ -63,9 +63,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
   show1: boolean = true;
   show2: boolean = false;
   show3: boolean = false;
-
+  providerNameExist : boolean = false;
   request_object: any = {}
-
+  providerListArray:any=[];
 
 
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) {
@@ -98,6 +98,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
     this.super_admin_service.getCommonRegistrationData().subscribe(response => this.reg_data_successhandeler(response));
     this.requestObject();
+    this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
+
   }
 
   ngOnChanges() {
@@ -373,12 +375,30 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
   checkProviderNameAvailability(service_provider_name) {
+
     this.super_admin_service.checkProviderNameAvailability(service_provider_name)
       .subscribe(response => this.checkProviderNameAvailibilityHandeler(response));
+    // for(var i=0; i<this.providerListArray.length; i++) {
+    //   if(this.providerListArray[i].serviceProviderName.toLowerCase() === service_provider_name.toLowerCase()){
+    //       this.providerNameExist = true;
+    //       debugger;
+    //   }
+    //   else  {
+    //     this.providerNameExist = false;
+    //   }
+    // }
+
   }
 
   checkProviderNameAvailibilityHandeler(response) {
-    console.log(response, 'provider name availability');
+    console.log(response.response, 'provider name availability');
+    if(response.response == "provider_name_exists") {
+      this.providerNameExist = true;
+      debugger;
+    }
+    else {
+      this.providerNameExist = false;
+    }
   }
 
   checkUsernameExists(username) {
@@ -501,5 +521,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
   clearDetailedForm() {
     jQuery('#providerForm').trigger('reset');
     this.validTill = new Date();
+  }
+
+  providerData_successHandler(res) {
+    this.providerListArray = res;
   }
 }
