@@ -110,7 +110,7 @@ import { CreateSubServiceComponent } from './create-sub-service/create-sub-servi
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
 import { SeverityTypeComponent } from './severity-type/severity-type.component';
 import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
-
+import { EditSeverityModalComponent } from './severity-type/severity-type.component';
 
 
 
@@ -127,7 +127,7 @@ import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
     CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent, UpdateServiceProviderComponent,
     EmployeeMasterComponent, EmployeeDetailsCapturingComponent, DrugGroupComponent, DrugListComponent, DrugMappingComponent,
     LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
-    CallDispositionTypeMasterComponent,
+    CallDispositionTypeMasterComponent, EditSeverityModalComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent
@@ -219,7 +219,8 @@ import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
     EditLocationModal,
     EditEmployeeDetailsModal,
     EditProviderDetailsComponent,
-    CommonDialogComponent
+    CommonDialogComponent,
+    EditSeverityModalComponent
   ],
 
   bootstrap: [AppComponent]

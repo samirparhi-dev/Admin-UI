@@ -92,6 +92,11 @@ export class BlockServiceProviderComponent implements OnInit {
     this.data = [];
     this.states_array = [];
     this.services_array = [];
+    this.showTable = false;
+    this.case_one = false;
+    this.case_two = false;
+    this.case_three = false;
+    this.case_four = false;
   }
 
   getAllProvidersSuccesshandeler(response) {

@@ -110,6 +110,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     
     this.search_serviceline = "";
     this.getServiceLines(serviceProviderID, stateID);
+    this.findLocations();
   }
 
 //  CRUD functionalities
