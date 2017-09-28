@@ -3,7 +3,7 @@
     "welcome": "Welcome",
     "activities": "Activities",
     "activity_dropdown": {
-      "provider_on_board": "Create New Provider",
+      "provider_on_board": "Provider on board",
       "block_provider": "View Provider",
       "gender_master": "Create New Gender",
       "qualification_master": "Create New Qualification",
@@ -12,7 +12,7 @@
       "state_master": "Create New State",
       "zone_master":"Zone Master"
     },
-    "provider_name": "Provider Name",
+    "provider_name": "Provider/Company Name",
     "valid_till": "Valid Till",
     "contact_person": "Contact Person",
     "contact_number": "Contact Number",

@@ -39,13 +39,11 @@
 							<tr *ngIf="md2.data.length == 0">
 								NO RECORD FOUND
 							</tr>
-						<tr *ngFor="let sev of md2.data">
-							<td>{{sev.severityTypeName}}</td>
-							<td>dcds</td>
-
-							<td>asdaasd</td>
+							<tr *ngFor="let sev of md2.data">
+								<td>{{sev.severityTypeName}}</td>
+								<td>{{sev.severityDesc}}</td>
+								<td><md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon></td>
 						</tr>
-						
 					</tbody>
 					<tfoot>
 						<tr>

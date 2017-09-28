@@ -21,7 +21,7 @@
 					<table class="table"  [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
 						<thead>
 							<tr>
-								<th>Provider ID</th>
+								<!-- <th>Provider ID</th> -->
 								<th>State</th>
 								<th>ServiceLine</th>
 								<th>Status</th>
@@ -32,7 +32,7 @@
 								NO RECORD FOUND FOR THIS PROVIDER
 							</tr>
 							<tr *ngFor="let providerInfo of md2.data">
-								<td width=25%>{{providerInfo.serviceProviderID}}</td>
+								<!-- <td width=25%>{{providerInfo.serviceProviderID}}</td> -->
 								<td width=25%>{{providerInfo.stateName}}</td>
 								<td width=25%>{{providerInfo.serviceName}}</td>
 								<td width=25%>{{providerInfo.status}}</td>
