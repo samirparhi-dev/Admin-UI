@@ -131,6 +131,9 @@ export class UpdateServiceProviderComponent implements OnInit {
       })
     });
     dialogRef.afterClosed().subscribe(result => {
+          this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
+
+
     });
 
   }

@@ -20,23 +20,40 @@
               <label class="pull-left">Primary Details</label>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
-              <md-input-container style="width: 100% ">
-                <input required mdInput placeholder="Name" [(ngModel)]="primaryName" name="primaryName">
+              <md-input-container style="width: 100% " myName>
+                <input required mdInput placeholder="Name" [(ngModel)]="providerName" name="providerName" #name="ngModel" minlength="2" maxlength="25"> 
+                <md-hint *ngIf="name.touched"> 
+                  <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
+                  <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
+                </md-hint>
+              </md-input-container>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+              <md-input-container style="width: 100% " myProviderName>
+                <input required mdInput placeholder="Name" [(ngModel)]="primaryName" name="primaryName" #namee="ngModel" minlength="2" maxlength="25"> 
+              <md-hint *ngIf="name.touched"> 
+                <span class="errorText" [hidden]="!namee.errors">Enter atleast 2 characters</span>
+              
+              </md-hint>
               </md-input-container>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
               <md-input-container style="width: 100% ">
-                <input required mdInput placeholder="Email" [(ngModel)]="primaryEmail" name="primaryEmail">
+                <input required mdInput placeholder="Email" [(ngModel)]="primaryEmail" [pattern]="emailPattern" name="primaryEmail" #validEmail="ngModel">
+              <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
+            </md-hint>
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" myMobileNumber>
+              <md-input-container style="width: 100% ">
+              <input required mdInput placeholder="Phone Number" [(ngModel)]="primaryNo" name="primaryNo" #number="ngModel" minlength="10" maxlength="10">
+                <md-hint class="errorText" *ngIf="number.errors && number.touched">Enter 10 digit mobile number
+                </md-hint>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
               <md-input-container style="width: 100% ">
-                <input required mdInput placeholder="Phone Number" [(ngModel)]="primaryNo" name="primaryNo">
-              </md-input-container>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-              <md-input-container style="width: 100% ">
-                <input required mdInput placeholder="Address" [(ngModel)]="primaryAddress" name="prinamryAdress">
+                <input mdInput placeholder="Address" [(ngModel)]="primaryAddress" name="prinamryAdress">
               </md-input-container>
             </div>
           </div>
@@ -66,7 +83,7 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
-            <button md-raised-button color="primary" [disabled]="!form.valid" class="pull-right" (click)="Edit(form.value)">Edit
+            <button md-raised-button color="primary" [disabled]="!form.valid || providerNameExist" class="pull-right" (click)="Edit(form.value)">Save
               </button>
           </div>
         </form>
