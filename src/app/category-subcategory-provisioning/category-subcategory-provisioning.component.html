@@ -114,7 +114,7 @@
 
           <md-select [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'" placeholder="Category" required>
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let category of categories" [value]="category.categoryID">{{category.categoryName}}</md-option>
+            <md-option *ngFor="let category of categories" [value]="category">{{category.categoryName}}</md-option>
           </md-select>
           <!-- <md-hint [hidden]="categoryRef.valid || categoryRef.pristine">
             <span class=" error_text" [hidden]="!categoryRef.hasError('required')">Category is required</span>
@@ -155,20 +155,13 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && Add_Category_Subcategory_flag">
         <table class="table">
           <thead>
-            <tr *ngIf="!Add_Category_Subcategory_flag">
+            <tr>
               <th>Sub Service</th>
               <th>Category Name</th>
               <th>Caegory Desc</th>
-              <th>Action</th>
-            </tr>
-            <tr *ngIf="Add_Category_Subcategory_flag">
-              <th>Sub Service</th>
-              <th>Category Name</th>
-              <th>Sub Category</th>
-              <th>Sub Desc</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -176,9 +169,7 @@
             <tr style="cursor: pointer" *ngFor="let service of serviceList | paginate: {id:'serviceList', itemsPerPage: 3, currentPage: b};let i=index">
               <td>{{service.subServiceName}}</td>
               <td>{{service.categoryName}}</td>
-              <td *ngIf="!Add_Category_Subcategory_flag">{{service.categoryDesc}}</td>
-              <td *ngIf="Add_Category_Subcategory_flag">{{service.subCategoryName}}</td>
-              <td *ngIf="Add_Category_Subcategory_flag">{{service.desc}}</td>
+              <td>{{service.categoryDesc}}</td>
               <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
             </tr>
             <tr>
@@ -188,6 +179,34 @@
             </tr>
           </tbody>
         </table>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && !Add_Category_Subcategory_flag">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sub Service</th>
+                <th>Category </th>
+                <th>Sub Category</th>
+                <th>Category Desc</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="cursor: pointer" *ngFor="let service of serviceList | paginate: {id:'serviceList', itemsPerPage: 3, currentPage: b};let i=index">
+                <td>{{service.subServiceName}}</td>
+                <td>{{service.categoryName}}</td>
+                <td>{{service.subCategoryName}}</td>
+                <td>{{service.desc}}</td>
+                <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <pagination-controls (pageChange)="b = $event" id="serviceList"></pagination-controls>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
           <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);form.reset()">Save</button>
           <!-- show the buffer array here ; reset it along with the fileds if api-type changes -->

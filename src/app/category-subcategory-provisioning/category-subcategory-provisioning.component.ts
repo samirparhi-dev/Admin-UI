@@ -139,7 +139,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
   addExistCategoryRow() {
     let obj = {};
-    obj['categoryName'] = this.category_ID;
+    obj['subServiceID'] = this.sub_service.subServiceID;
+    obj['subServiceName'] = this.sub_service.subServiceName;
+    obj['providerServiceMapID'] = this.service;
+    obj['categoryName'] = this.category_ID.categoryName;
     obj['subCategoryName'] = this.subcategory;
     obj['desc'] = this.description;
     this.serviceList.push(obj);
@@ -180,8 +183,18 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   addNewCategory(providerServiceMapID) {
-    const categoryObj = {};
+    debugger;
+    let categoryObj = [];
+    categoryObj = this.serviceList.map(function (item) {
+      return {
 
+        'categoryName': item.categoryName,
+        'categoryDesc': item.categoryDesc,
+        'subServiceID': item.subServiceID,
+        'providerServiceMapID': item.providerServiceMapID,
+        'createdBy': item.createdBy
+      }
+    })
     // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
     //   return {
     //     'subCategoryName': item.subCategoryName,
@@ -207,7 +220,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   addExistCategory() {
 
     const categoryObj = {};
-    categoryObj['categoryID'] = this.category_ID;
+    categoryObj['categoryID'] = this.category_ID.categoryID;
     categoryObj['subcatArray'] = this.serviceList.map(function (item) {
       return {
         'subCategoryName': item.subCategoryName,
