@@ -52,6 +52,7 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   getSeveritysuccesshandler(response) {
+    debugger;
         this.data = response
   }
   showAddScreen() {
@@ -109,5 +110,15 @@ export class SeverityTypeComponent implements OnInit {
     this.handlingFlag(true);
     this.findSeverity(res[0]);
     this.severityArray= [];
+    this.severity = "";
+    this.description = "";
+
+  }
+  //severityID
+  deleteSeverity(id) {
+       this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+  }
+  deleteSuccessHandler(res) {
+    alert("deleted successfully");
   }
 }

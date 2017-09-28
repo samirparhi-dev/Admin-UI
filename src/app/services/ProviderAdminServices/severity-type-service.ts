@@ -13,11 +13,12 @@ export class SeverityTypeService {
   admin_Base_Url: any;
   get_State_Url: any;
   addSeverityUrl: any;
-
+  deleteSeverityUrl: any;
   constructor(private http: Http, public basepaths: ConfigService) {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + "/m/getServerity";
     this.addSeverityUrl = this.admin_Base_Url + "/m/saveServerity ";
+    this.deleteSeverityUrl = this.admin_Base_Url + "/m/deleteServerity";
    };
 
    getSeverity(providerServiceMapID) {
@@ -32,6 +33,12 @@ export class SeverityTypeService {
    }
    addSeverity(array) {
      return this.http.post(this.addSeverityUrl, array)
+       .map(this.handleSuccess)
+       .catch(this.handleError);
+   }
+   deleteSeverity(id) {
+     debugger;
+          return this.http.post(this.deleteSeverityUrl,{ "severityID" : id })
        .map(this.handleSuccess)
        .catch(this.handleError);
    }

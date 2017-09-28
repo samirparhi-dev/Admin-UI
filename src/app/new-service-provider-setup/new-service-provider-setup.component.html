@@ -1,9 +1,10 @@
 <md-card class="example-card" *ngIf="currentlanguage!=undefined">
   <div class="row">
-    <div class="pull-left">
-      <label>CREATE PROVIDER</label>
-    </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [hidden]="!show1">
+        <div class="row">
+      <label class="pull-left">Create Provider - Provider Information</label>
+    </div>
       <form #service_provider_form="ngForm" autocomplete="off" id="providerForm">
         <!-- <div class="panel-body card "> -->
         <!-- <div class="row"> -->
@@ -11,7 +12,7 @@
 
           <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="{{currentlanguage.provider_name}}" [(ngModel)]="serviceProviderName" name="provider_name" required="true"
-              minlength="2" maxlength="25" #name="ngModel" (keyup)="checkProviderNameAvailability(serviceProviderName)">
+              minlength="2" maxlength="50" #name="ngModel" (keyup)="checkProviderNameAvailability(serviceProviderName)">
               <md-hint *ngIf="name.touched"> 
                 <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
                 <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
@@ -28,8 +29,8 @@
             name="valid_till"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-input-container class="width100" myProviderName>
-            <input mdInput placeholder="{{currentlanguage.contact_person}}" name="contact_person" [(ngModel)]="contactPerson">
+          <md-input-container class="width100" myProviderName >
+            <input mdInput placeholder="{{currentlanguage.contact_person}}" maxlength="50" name="contact_person" [(ngModel)]="contactPerson">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -50,12 +51,12 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address1}}" name="address1" [(ngModel)]="address1">
+            <input mdInput placeholder="{{currentlanguage.address1}}"  maxlength="100" name="address1" [(ngModel)]="address1">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address2}}" name="address2" [(ngModel)]="address2">
+            <input mdInput placeholder="{{currentlanguage.address2}}"  maxlength="100" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
 
@@ -79,6 +80,9 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show2">
       <!-- <div class="panel-body card "> -->
       <!-- <div class="row"> -->
+          <div class="row">
+      <label class="pull-left">Create Provider - Serviceline Mapping</label>
+    </div>
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
         <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
           <md-option *ngFor="let item of states" [value]="item">
@@ -128,7 +132,7 @@
           </table>
         </div>
         <div>
-          <button color="primary" md-raised-button class="pull-right " (click)="show(3,'save') ">Save</button>
+          <button color="primary" md-raised-button class="pull-right " (click)="show(3,'save') ">Next</button>
         </div>
       </div>
       <!-- </div> -->
@@ -136,6 +140,9 @@
     </div>
     <!-- #######  Service Provider Admin Creation Screen   ########### -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show3 ">
+        <div class="row">
+      <label class="pull-left">Create Provider - Contact Person Information</label>
+    </div>
       <form #paFORM="ngForm" autocomplete="off" id="detailedForm">
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -150,19 +157,19 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myName>
-            <input mdInput placeholder="First Name " [(ngModel)]="firstname " name="provider_admin_name " required="true" #fName="ngModel">
+            <input mdInput placeholder="First Name " maxlength="50" minlength="2"[(ngModel)]="firstname " name="provider_admin_name " required="true" #fName="ngModel">
             <md-hint class="errorText" *ngIf="fName.errors && fName.touched">Enter atleast 2 characters
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% " myName>
-            <input mdInput placeholder="Middle Name " [(ngModel)]="middlename " name="middle_name ">
+            <input mdInput placeholder="Middle Name " maxlength="50" [(ngModel)]="middlename " name="middle_name ">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myName>
-            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel">
+            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel" maxlength="50" minlength="2">
             <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 2 characters
             </md-hint>
           </md-input-container>
