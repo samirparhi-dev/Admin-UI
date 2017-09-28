@@ -183,13 +183,12 @@ export class BlockProvider {
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }
-  
+
   deleteSubService(sebserviceId: any) {
-    debugger;
     return this._http.post(this.deleteSubserviceUrl, {
       "subServiceID": sebserviceId
     }).map(this.success_handeler)
-    .catch(this.error_handeler);
+      .catch(this.error_handeler);
   }
   editProvider(serviceProviderObj: any) {
     return this._http.post(this.editProvider_URL, serviceProviderObj).map(this.success_handeler)

@@ -101,7 +101,7 @@
           <label class="errorText">No Sub Service Available Please Select Different Service </label> 
         </div>
         <div class="col-xs-12 col-sm-4 col-md-8 col-lg-8  m-t-20" *ngIf="allServicesAdded">
-          <label class="errorText">All services already added </label> 
+          <label class="errorText">All services Mapped </label> 
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4  m-t-20" *ngIf="!subServiceAvailable && !allServicesAdded">
           <md-select required name="subService" placeholder="Sub Services" [style.width]="'100%'" [(ngModel)]="subService">

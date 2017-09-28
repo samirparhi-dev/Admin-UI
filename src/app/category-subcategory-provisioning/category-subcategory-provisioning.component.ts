@@ -99,40 +99,52 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
   addNew(rowNumber: any) {
 
-    if (this.api_choice === "0") {
+    if (this.api_choice === '0') {
       this.addNewCategoryRow();
-    }
-    else {
+    } else {
       this.addExistCategoryRow();
     }
 
 
   }
   addNewCategoryRow() {
+    debugger;
     let obj = {};
     obj['categoryName'] = this.category_name;
     obj['categoryDesc'] = this.categorydesc;
-    obj['subCategoryName'] = this.subcategory;
-    obj['desc'] = this.description;
-    obj['filePath'] = this.filepath;
-    this.serviceList.push(obj);
+    obj['subServiceID'] = this.sub_service.subServiceID;
+    obj['subServiceName'] = this.sub_service.subServiceName;
+    obj['providerServiceMapID'] = this.service;
+    obj['createdBy'] = this.createdBy;
+
     if (this.serviceList.length > 0) {
-      this.category_name = this.serviceList[this.serviceList.length - 1].categoryName;
-      this.categorydesc = this.serviceList[this.serviceList.length - 1].categoryDesc;
-      this.cateDisabled = 'true';
+      this.serviceList.push(obj);
     } else {
-      this.cateDisabled = 'false';
+      this.serviceList.push(obj);
     }
-    this.subcategory = '';
-    this.description = '';
-    this.filepath = '';
+    // obj['subCategoryName'] = this.subcategory;
+    // obj['desc'] = this.description;
+    // obj['filePath'] = this.filepath;
+
+    // if (this.serviceList.length > 0) {
+    //   this.category_name = this.serviceList[this.serviceList.length - 1].categoryName;
+    //   this.categorydesc = this.serviceList[this.serviceList.length - 1].categoryDesc;
+    //   this.cateDisabled = 'true';
+    // } else {
+    //   this.cateDisabled = 'false';
+    // }
+    // this.subcategory = '';
+    // this.description = '';
+    // this.filepath = '';
   }
   addExistCategoryRow() {
     let obj = {};
-    obj['categoryName'] = this.category_ID;
+    obj['subServiceID'] = this.sub_service.subServiceID;
+    obj['subServiceName'] = this.sub_service.subServiceName;
+    obj['providerServiceMapID'] = this.service;
+    obj['categoryName'] = this.category_ID.categoryName;
     obj['subCategoryName'] = this.subcategory;
     obj['desc'] = this.description;
-    obj['filePath'] = this.filepath;
     this.serviceList.push(obj);
     if (this.serviceList.length > 0) {
       this.category_ID = this.serviceList[this.serviceList.length - 1].categoryName;
@@ -142,11 +154,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     this.subcategory = '';
     this.description = '';
-    this.filepath = '';
   }
   deleteRow(index) {
     this.serviceList.pop(index);
-    if (this.serviceList.length == 0) {
+    if (this.serviceList.length === 0) {
       this.cateDisabled = 'false';
       this.category_name = '';
       this.categorydesc = '';
@@ -155,12 +166,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   changeRequestObject(flag_value) {
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
-      this.resetFields();
+      // this.resetFields();
 
     }
     if (flag_value === "1") {
       this.Add_Category_Subcategory_flag = false;
-      this.resetFields();
+      // this.resetFields();
     }
   }
   finalsave(service) {
@@ -172,20 +183,26 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   addNewCategory(providerServiceMapID) {
-    const categoryObj = {};
-    categoryObj['categoryName'] = this.category_name
-    categoryObj['categoryDesc'] = this.categorydesc;
-    categoryObj['subServiceID'] = this.sub_service;
-    categoryObj['providerServiceMapID'] = providerServiceMapID;
-
-    categoryObj['subcatArray'] = this.serviceList.map(function (item) {
+    debugger;
+    let categoryObj = [];
+    categoryObj = this.serviceList.map(function (item) {
       return {
-        'subCategoryName': item.subCategoryName,
-        'subCategoryDesc': item.desc,
-        'subCatFilePath': item.filePath
+
+        'categoryName': item.categoryName,
+        'categoryDesc': item.categoryDesc,
+        'subServiceID': item.subServiceID,
+        'providerServiceMapID': item.providerServiceMapID,
+        'createdBy': item.createdBy
       }
     })
-    categoryObj['createdBy'] = this.createdBy;
+    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
+    //   return {
+    //     'subCategoryName': item.subCategoryName,
+    //     'subCategoryDesc': item.desc,
+    //     'subCatFilePath': item.filePath
+    //   }
+    // })
+
     this.CategorySubcategoryService.saveCategory(categoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
@@ -203,7 +220,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   addExistCategory() {
 
     const categoryObj = {};
-    categoryObj['categoryID'] = this.category_ID;
+    categoryObj['categoryID'] = this.category_ID.categoryID;
     categoryObj['subcatArray'] = this.serviceList.map(function (item) {
       return {
         'subCategoryName': item.subCategoryName,

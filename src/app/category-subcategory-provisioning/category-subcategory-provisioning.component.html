@@ -75,7 +75,7 @@
     <form #form="ngForm">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <md-radio-group [(ngModel)]="api_choice" name="apiChoice" (change)="changeRequestObject(api_choice)">
-          <md-radio-button color="primary" value="0">Add Category And Its SubCategory</md-radio-button>
+          <md-radio-button color="primary" value="0">Add Category</md-radio-button>
           <md-radio-button color="primary" value="1">Add Subcategory</md-radio-button>
         </md-radio-group>
         <!-- <a class="pull-right" (click)="back();form.reset()">Back</a> -->
@@ -92,7 +92,7 @@
           </md-hint> -->
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
+          <md-select required [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
             <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline)" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
           </md-select>
@@ -101,10 +101,10 @@
           </md-hint> -->
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService" (change)="getCategory($event.value)"
+          <md-select [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService" (change)="getCategory($event.value.subServiceID)"
             required>
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let subservice of subServices" [value]="subservice.subServiceID">{{subservice.subServiceName}}</md-option>
+            <md-option *ngFor="let subservice of subServices" [value]="subservice">{{subservice.subServiceName}}</md-option>
           </md-select>
           <!-- <md-hint [hidden]="subServiceRef.valid || subServiceRef.pristine">
             <span class=" error_text" [hidden]="!subServiceRef.hasError('required')">Subservice is required</span>
@@ -112,10 +112,9 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
 
-          <md-select [disabled]="cateDisabled" [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'" placeholder="Category"
-            required>
+          <md-select [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'" placeholder="Category" required>
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let category of categories" [value]="category.categoryID">{{category.categoryName}}</md-option>
+            <md-option *ngFor="let category of categories" [value]="category">{{category.categoryName}}</md-option>
           </md-select>
           <!-- <md-hint [hidden]="categoryRef.valid || categoryRef.pristine">
             <span class=" error_text" [hidden]="!categoryRef.hasError('required')">Category is required</span>
@@ -125,8 +124,7 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-5" *ngIf="Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
-            <input #categoryRef="ngModel" mdInput [disabled]="cateDisabled" placeholder="Category Name" [(ngModel)]="category_name "
-              name="category_name" required>
+            <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
             <md-hint [hidden]="categoryRef.valid || categoryRef.pristine">
               <span class=" error_text" [hidden]="!categoryRef.hasError('required')">Category is required</span>
             </md-hint>
@@ -137,7 +135,7 @@
             <input mdInput [disabled]="cateDisabled" placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc">
           </md-input-container>
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20" *ngIf="!Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="SubCategory Name" [(ngModel)]="subcategory" name="subcategory">
             <!-- <md-hint [hidden]="subCategoryRef.valid || subCategoryRef.pristine">
@@ -145,42 +143,33 @@
             </md-hint> -->
           </md-input-container>
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20" *ngIf="!Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
           </md-input-container>
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2  m-t-20">
-          <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Filepath" [(ngModel)]="filepath" name="filepath">
-          </md-input-container>
-        </div>
         <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 m-t-20">
-          <button md-mini-fab class="pull-right" color="primary" name="subServiceName">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="addNew(i)">add</md-icon>
+          <button [disabled]="!form.valid" md-mini-fab class="pull-right" color="primary" name="subServiceName">
+            <md-icon   mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="addNew(i)">add</md-icon>
           </button>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && Add_Category_Subcategory_flag">
         <table class="table">
           <thead>
             <tr>
+              <th>Sub Service</th>
               <th>Category Name</th>
-              <th>Category Desc</th>
-              <th>SubCategory</th>
-              <th>Description</th>
-              <th>FilePath</th>
+              <th>Caegory Desc</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr style="cursor: pointer" *ngFor="let service of serviceList | paginate: {id:'serviceList', itemsPerPage: 3, currentPage: b};let i=index">
+              <td>{{service.subServiceName}}</td>
               <td>{{service.categoryName}}</td>
               <td>{{service.categoryDesc}}</td>
-              <td>{{service.subCategoryName}}</td>
-              <td>{{service.desc}}</td>
-              <td>{{service.filePath}}</td>
               <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
             </tr>
             <tr>
@@ -190,6 +179,34 @@
             </tr>
           </tbody>
         </table>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && !Add_Category_Subcategory_flag">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sub Service</th>
+                <th>Category </th>
+                <th>Sub Category</th>
+                <th>Category Desc</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="cursor: pointer" *ngFor="let service of serviceList | paginate: {id:'serviceList', itemsPerPage: 3, currentPage: b};let i=index">
+                <td>{{service.subServiceName}}</td>
+                <td>{{service.categoryName}}</td>
+                <td>{{service.subCategoryName}}</td>
+                <td>{{service.desc}}</td>
+                <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <pagination-controls (pageChange)="b = $event" id="serviceList"></pagination-controls>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
           <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);form.reset()">Save</button>
           <!-- show the buffer array here ; reset it along with the fileds if api-type changes -->
