@@ -5,6 +5,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <h4><b>Employee Creation</b></h4>
+                    <button md-raised-button class="" (click)="goBackToView()">Cancel</button>
         </div>
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
           <md-chip-list>
@@ -274,21 +275,21 @@
               <h5><b>Office Address</b></h5>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-20">
                 <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="officeState" name="state" (change)="getOfficeDistricts(officeState);getServices(officeState)">
                   <md-option *ngFor="let state of serviceproviderAllStates" [value]="state">
                     {{state.stateName}}
                   </md-option>
                 </md-select>
               </div>
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25">
                 <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="oficeDistrict" name="district">
                   <md-option *ngFor="let item of serviceproviderDistricts" [value]="item">
                     {{item.districtName}}
                   </md-option>
                 </md-select>
               </div>
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25">
                 <md-select placeholder="Agent's ServiceLine" [style.width]="'100%'" [(ngModel)]="agent_serviceline" name="agent_serviceline"
                   (change)="getOffices(officeState,agent_serviceline);getRoles(officeState,agent_serviceline)">
                   <md-option *ngFor=" let service of serviceproviderAllServices " [value]="service" (click)="setProviderServiceMapID(service.providerServiceMapID)">
@@ -296,20 +297,20 @@
                   </md-option>
                 </md-select>
               </div>
-              <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-25">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="hideOffRole">
                 <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName">
                   <md-option *ngFor="let office of serviceproviderAllOfficesInState" [value]="office">
                     {{office.locationName}}
                   </md-option>
                 </md-select>
               </div>
-              <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 m-t-25">
-                <md-select [(ngModel)]="agent_role" multiple name="agent_role" placeholder="Agent 's Roles" [style.width]="'100% '">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="hideOffRole">
+                <md-select [(ngModel)]="agent_role" multiple name="agent_role" placeholder="Agent 's Roles" [style.width]="'100% '" (change)="roleSelected(agent_role)">
                   <md-option *ngFor="let role of serviceproviderAllRoles" [value]="role">
                     {{role.roleName}}</md-option>
                 </md-select>
               </div>
-              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 m-t-20">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-20" *ngIf="showAdd">
                 <button md-mini-fab class="pull-right" color="primary" (click)="pushPrivelege(workplace_form.value)">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                 </button>
@@ -351,16 +352,19 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="4">
+                    <td colspan="3">
                       <md2-pagination></md2-pagination>
+                    </td>
+                    <td colspan="2">
+                      <button md-raised-button class="pull-right" *ngIf="data.length!=0" (click)="MOVE2NEXT(5)">Save and Next</button>
                     </td>
                   </tr>
                 </tfoot>
               </table>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<!--             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <button md-raised-button class="pull-right" *ngIf="data.length!=0" (click)="MOVE2NEXT(5)">Save and Next</button>
-            </div>
+            </div> -->
           </div>
         </div>
       </md-card>

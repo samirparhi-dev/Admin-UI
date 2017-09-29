@@ -37,7 +37,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   today = new Date();
   allTitles: any = [];
   allGenders: any = [];
-
+  hideOffRole : boolean = false;
 
   /*qualification*/
   qualificationType: any;
@@ -110,7 +110,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   // arrays
 
-
+  showAdd: boolean = false;
   govtIDs: any = [];
 
 
@@ -147,6 +147,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
 
   getOffices(value1, value2) {
+
     this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe((response: Response) => this.getWorkLocationsInStateSuccessHandeler(response));
 
@@ -155,6 +156,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   getRoles(value1, value2) {
     this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe((response: Response) => this.getRolesSuccessHandeler(response));
+      this.hideOffRole = true;
 
   }
 
@@ -194,7 +196,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.MOVE2NEXT(0);
     this.hide = false;
   }
-
+  goBackToView() {
+    this.hide = false;
+  }
   getDistrictsSuccessHandeler(response) {
     console.log(response, 'districts retrieved');
     this.districts = response;
@@ -203,6 +207,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   getOfficeDistrictsSuccessHandeler(response) {
     console.log(response, 'office districts');
     this.serviceproviderDistricts = response;
+    this.formResetForNewEntry();
   }
 
   getStatesOfServiceProviderSuccessHandeler(response) {
@@ -317,27 +322,47 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   previleges : any = [];
   pushPrivelege(value) {
 
-  //   if(this.previleges.length == 0)
-  //   {
-  //     this.addToTable(value);
-  //   }
-  //   else {
-  //     for(var i=0; i<this.previleges.length; i++) {
-  //       if(this.previleges[i].providerServiceMapID == value.agent_serviceline.providerServiceMapID) {
-  //         for(var j=0; this.previleges[i].agent_role.length; j++) {
-
-  //         }
-  //       }
-  //       else {
-  //           this.addToTable(value);
-  //       }
-  //     }
-  //   }
-
-  // }
-
-  // addToTable(value) {
-
+    console.log(this.previleges);
+    console.log(value);
+    let temp;
+    let flag;
+    if(this.previleges.length == 0)
+    {
+      this.addToTable(value);
+      flag = false;
+    }
+    else {
+      flag = true;
+      let mapIdMatched = false;
+      for(var i=0; i<this.previleges.length; i++) {
+        temp = false;
+        if(this.previleges[i].providerServiceMapID == value.agent_serviceline.providerServiceMapID) {
+          temp = true;
+          flag  = false;
+          mapIdMatched = true;
+        }
+        if(temp){
+          for(var j=0; j<this.previleges[i].roleID.length; j++) {
+            //console.log(this.previleges[i].roleID);
+            for(var z=0; z<value.agent_role.length; z++) {
+             // console.log(value.agent_role[z].roleID);
+              if(value.agent_role[z].roleID == this.previleges[i].roleID[j]) {
+                value.agent_role.splice(z,1);
+                console.log(value);
+              }
+            }
+          }
+        }
+      }
+      if(value.agent_role.length > 0 && mapIdMatched) {
+        this.addToTable(value);
+      }
+    }
+    if(flag) {
+      this.addToTable(value);
+    }
+  }
+  addToTable(value) {
     let roleNames = "";
     let roleIds = [];
     for(var i=0 ; i <value.agent_role.length; i++) {
@@ -359,6 +384,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.data.push(obj);
     this.previleges.push(previlege);
 
+    this.formResetForNewEntry();
+    this.officeState = "";
+
   }
 
   removePrivelege(index) {
@@ -367,7 +395,20 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(this.data);
     console.log(this.previleges);
   }
-
+  roleSelected(value) {
+    if(value.length > 0) {
+      this.showAdd = true;
+    }
+    else {
+      this.showAdd = false;
+    }
+  }
+  formResetForNewEntry() {
+    this.hideOffRole = false;
+    this.showAdd = false;
+    this.agent_role = "";
+    this.agent_serviceline = "";
+  }
 
   // AddIDs(type,value)
   // {
