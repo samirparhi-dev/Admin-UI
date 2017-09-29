@@ -270,15 +270,14 @@ export class LocationServicelineMappingComponent implements OnInit {
    officeNameExist: boolean = false;
    msg: any;
   checkOfficeName(value) {
-    console.log(this.officeArray)
+
     for(var i=0; i<this.officeArray.length; i++) {
        let a = this.officeArray[i].locationName;
-      console.log(this.officeArray[i].locationName);
      
-      if(a == value) {
+      if(a.toLowerCase() == value.toLowerCase()) {
         this.officeNameExist = true;
         this.msg = "OfficeName exist for "+this.officeArray[i].serviceName+", deselect "+this.officeArray[i].serviceName;
-        console.log(this.msg, "@@@@@@@@@@@");
+ 
       }
       else {
         this.officeNameExist = false;

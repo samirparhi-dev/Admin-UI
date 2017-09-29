@@ -29,7 +29,7 @@ import { myEmail } from './directives/email/myEmail.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 
 import { myProviderName } from './directives/name/myName.directive';
-
+import { PAN } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
 import { httpFactory } from './http.factory';
@@ -118,7 +118,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName, myMobileNumber, myEmail, myAddress, myProviderName,
+    myName, myMobileNumber, myEmail, myAddress, myProviderName, PAN,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,

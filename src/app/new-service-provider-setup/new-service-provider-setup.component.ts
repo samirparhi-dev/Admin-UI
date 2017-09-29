@@ -221,7 +221,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
   // section 2
+  showService(){
+    this.showServiceline = true;
 
+  }
 
 
   showTable: boolean = false;
@@ -229,9 +232,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
 
-
+  showServiceline: boolean = false;
   state_service_array: any = [];
   add_2_state_service_array(state, services) {
+    this.showServiceline = false;
     let data_obj = {
       'stateId': state.stateID,
       'stateName': state.stateName,
@@ -408,7 +412,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(this.username, 'uname');
     console.log('username existance status', response);
     if (response === 'userexist') {
-      this.username_status = 'Username Exists !! Choose A Different \'Username\' Please!';
+      this.username_status = 'User Login ID Exists!! Type Different Please!';
       this.showHint = true;
       this.username_dependent_flag = true;
     }

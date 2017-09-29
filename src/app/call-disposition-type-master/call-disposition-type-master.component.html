@@ -1,25 +1,29 @@
 <md-card>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+        
+         <h4 class="width100 t-a-c  f-s-b">Call Disposition</h4>   
+    </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+          <md-select [disabled]="disableSelect" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
             <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
               {{item.stateName}}
             </md-option>
           </md-select>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+          <md-select [disabled]="disableSelect" placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" required >
             <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
               {{item.serviceName}}
             </md-option>
           </md-select>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
+<!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
           <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
         </button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -38,6 +42,9 @@
               </tr>
             </thead>
             <tbody>
+              <tr *ngIf="data.length == 0 ">
+                NO RECORD FOUND
+              </tr>
               <tr *ngFor="let i of md2.data">
                 <!--<td>{{i.callTypeID}}</td>-->
                 <td>{{i.callGroupType}}</td>
@@ -45,20 +52,26 @@
                 <td>{{i.fitToBlock}}</td>
                 <td>{{i.fitForFollowup}}</td>
                 <td>
-                  <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
-                  <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">delete</md-icon>
+                -
+<!--                   <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
+                  <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">delete</md-icon> -->
                 </td>
               </tr>
             </tbody>
             <tfoot>
-              <tr colspan="6">
-                <md2-pagination></md2-pagination>
+              <tr>
+                <td  colspan="3">
+                  <md2-pagination></md2-pagination>
+                </td>
+                <td  colspan="2">
+                  <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
+                </td>
               </tr>
             </tfoot>
           </table>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New CallType/SubType</button>
+
         </div>
       </div>
     </div>
@@ -135,6 +148,7 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
             <button class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
+            <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
           </div>
         </div>
       </div>
