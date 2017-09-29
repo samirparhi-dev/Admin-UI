@@ -86,7 +86,7 @@ export class LocationServicelineMapping {
 		.catch(this.handleError);
 	}
 	getWorklocationOnProviderArray(ProvidepMapIDArray){
-		debugger;
+	
 				return this.http.post(this.getOfficesUrl, { "providerServiceMapID": ProvidepMapIDArray })
 		.map(this.handleSuccess)
 		.catch(this.handleError);

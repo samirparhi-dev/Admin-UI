@@ -73,12 +73,15 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	setProviderServiceMapID(providerServiceMapID){
 		this.providerServiceMapID = providerServiceMapID;
-	}
+		this.get_calltype_subtype_history();
 
-	hideTable()
-	{
-		this.showTable = false;
-		this.showForm = true;
+	}
+	disableSelect: boolean = false;
+	hideTable(flag)
+	{	
+		this.disableSelect = flag;
+		this.showTable = !flag;
+		this.showForm = flag;
 	}
 
 	hideForm()
@@ -190,7 +193,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	saveCallTypeSubTypeSuccessHandeler(response)
 	{
 		console.log(response, "save call type sub type success");
-		this.hideForm(); // going back to table view
+		this.hideTable(false) // going back to table view
 		
 		// resetting the ngmodels  
 		this.reset();

@@ -91,7 +91,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(this.dob);
     this.maxBirth = new Date();
     this.maxBirth.setFullYear(this.today.getFullYear() - 20);
-    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
     this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
     this.passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
     this.super_admin_service.getAllStates(this.countryID).subscribe((response: Response) => this.states = this.successhandeler(response));
@@ -184,7 +184,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
       this.request_object.serviceProviderName = this.serviceProviderName;
-      // this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
+      this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
       this.request_object.primaryContactName = this.contactPerson;
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
@@ -221,7 +221,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
   // section 2
+  showService(){
+    this.showServiceline = true;
 
+  }
 
 
   showTable: boolean = false;
@@ -229,9 +232,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
 
-
+  showServiceline: boolean = false;
   state_service_array: any = [];
   add_2_state_service_array(state, services) {
+    this.showServiceline = false;
     let data_obj = {
       'stateId': state.stateID,
       'stateName': state.stateName,
@@ -408,7 +412,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(this.username, 'uname');
     console.log('username existance status', response);
     if (response === 'userexist') {
-      this.username_status = 'Username Exists !! Choose A Different \'Username\' Please!';
+      this.username_status = 'User Login ID Exists!! Type Different Please!';
       this.showHint = true;
       this.username_dependent_flag = true;
     }

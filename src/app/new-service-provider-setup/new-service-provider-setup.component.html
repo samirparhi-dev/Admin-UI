@@ -51,12 +51,12 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address1}}"  maxlength="100" name="address1" [(ngModel)]="address1">
+            <input mdInput placeholder="{{currentlanguage.address1}}"  maxlength="300" name="address1" [(ngModel)]="address1">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address2}}"  maxlength="100" name="address2" [(ngModel)]="address2">
+            <input mdInput placeholder="{{currentlanguage.address2}}"  maxlength="300" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
 
@@ -65,7 +65,7 @@
       </form>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10">
        
-          <button class="pull-left" color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Cancel</button>
+          <button class="pull-left" color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Clear</button>
       
         <!-- <button class="pull-right" color="primary" type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button> -->
         <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
@@ -84,14 +84,14 @@
       <label class="pull-left">Create Provider - Serviceline Mapping</label>
     </div>
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="showService()" required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
         </md-select>
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-        <md-select [(ngModel)]="service" multiple name="service" placeholder="Serviceline" [style.width]="'100%'">
+      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" *ngIf="showServiceline">
+        <md-select [(ngModel)]="service" multiple name="service" placeholder="Servicelines" [style.width]="'100%'" required>
 
           <md-option *ngFor="let serviceLine of servicelines" [value]="serviceLine">{{serviceLine.serviceName}}
           </md-option>
@@ -208,17 +208,17 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID ">
-            <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
+            <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID "  #validEmail2="ngModel">
+            <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Enter valid email
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% " myAddress>
-            <input mdInput placeholder="Username " [(ngModel)]="username " [pattern]="userNamePattern" name="username " required="true"
+            <input mdInput placeholder="User Login ID " [(ngModel)]="username " [pattern]="userNamePattern" name="username " required="true" maxlength="12" 
               (keyup)="checkUsernameExists(username)" #userName="ngModel">
             <md-hint class="errorText">
-              <span [hidden]="!userName.hasError('pattern')">Enter valid one(can't end or start with special characters)</span>
+              <span [hidden]="!userName.hasError('pattern')">Enter valid one(can't end or start with special characters,min:3)</span>
               <span *ngIf="showHint && userName.touched">{{username_status}}</span>
             </md-hint>
 
@@ -226,14 +226,14 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel">
+            <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel" maxlength="12">
             <md-hint class="errorText">
               <span [hidden]="!pass.hasError('pattern')">Enter valid regular expression(min:8,max:12)</span>
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-input-container style="width: 100% ">
+          <md-input-container style="width: 100% " myMobileNumber>
             <input mdInput placeholder="Aadhaar Number" [pattern]="patternAadhaar" maxlength="12" [(ngModel)]="aadhaar_number" name="aadhaar"
               #adhaarNo="ngModel" (blur)="checkAdhaar()">
             <md-hint [hidden]="adhaarNo.valid || adhaarNo.pristine">
@@ -245,7 +245,7 @@
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" PAN>
           <md-input-container style="width: 100%">
             <input mdInput placeholder="Pan Number" maxlength="10" [pattern]="patternPan" [(ngModel)]="pan_number " name="pan" #panNo="ngModel"
               (blur)="checkPan()">
@@ -266,7 +266,7 @@
           <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
               <input type="button" md-raised-button name="Save" (click)="show(2,'back')" value="Back" /> -->
           <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-              <button color="primary" class="pull-right" type="button" name="Save" [disabled]="!paFORM.form.valid || username_dependent_flag || userName.hasError('pattern') || pass.hasError('passwordPattern') || validEmail.hasError('pattern')"
+              <button color="primary" class="pull-right" type="button" name="Save" [disabled]="!paFORM.form.valid || username_dependent_flag || userName.hasError('pattern') || pass.hasError('passwordPattern') || validEmail2.hasError('pattern')"
                 md-raised-button (click)="finalSubmit(); ">Save & Create</button>
             </span>
           <!-- <button md-raised-button type="button" name="Save" >Back</button> -->
