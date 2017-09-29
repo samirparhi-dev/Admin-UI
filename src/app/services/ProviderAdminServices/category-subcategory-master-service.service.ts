@@ -43,7 +43,7 @@ export class CategorySubcategoryService {
 		this.getSubService_url = this.providerAdmin_Base_Url + "m/getSubSerive";
 		this.getCategoryBySubService_url = this.providerAdmin_Base_Url + "m/getCategoryBySubServiceID";
 		this.saveCategory_url = this.providerAdmin_Base_Url + "m/createCategory";
-		this.deleteCategory_url = this.providerAdmin_Base_Url + "m/deleteCategory";
+		this.deleteCategory_url = this.providerAdmin_Base_Url + "m/deleteCategory1";
 		this.getCategory_url = this.providerAdmin_Base_Url + 'm/getCategory';
 		this.saveExistCategory_url = this.providerAdmin_Base_Url + 'm/saveCategoryUseExist';
 	};
@@ -87,7 +87,7 @@ export class CategorySubcategoryService {
 			.catch(this.handleError);
 	}
 	deleteCategory(id: any) {
-		return this.http.post(this.deleteCategory_url, { 'subCategoryID': id })
+		return this.http.post(this.deleteCategory_url, { 'categoryID': id })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

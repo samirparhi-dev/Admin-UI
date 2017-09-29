@@ -39,6 +39,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   category_ID: any;
   serviceSubCatList: any = [];
   private items: Array<any>;
+  hideButton: boolean = false;
 
   constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService) {
     this.api_choice = '0';
@@ -217,7 +218,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             this.serviceList.length = 0;
             // this.showTable = true;
             // this.api_choice = 1;
-            // this.changeRequestObject("1");
+            // this.changeRequestObject(this.api_choice); 
             this.getDetails(this.sub_service, providerServiceMapID);
           }
         }
@@ -257,7 +258,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.cateDisabled = 'false';
 
   }
-  getCategory(subServiceID: any) {
+  getCategory(providerserviceMapId: any, subServiceID: any) {
     this.CategorySubcategoryService.getCategory(subServiceID)
       .subscribe((response) => {
         if (response) {
