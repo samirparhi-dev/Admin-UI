@@ -184,7 +184,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
       this.request_object.serviceProviderName = this.serviceProviderName;
-      // this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
+      this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
       this.request_object.primaryContactName = this.contactPerson;
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;

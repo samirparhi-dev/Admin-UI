@@ -40,7 +40,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     // flags
     showRoleCreationForm: boolean = false;
     setEditSubmitButton: boolean = false;
-    showAddButtonFlag: boolean = true;
+    showAddButtonFlag: boolean = false;
 
     constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
                 public commonDataService: dataService) 
@@ -80,6 +80,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     {
         this.service = "";
         this.services = response;
+        this.showAddButtonFlag = false;
 
     }
 
@@ -91,6 +92,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     correctInput: boolean = false;
     showAddButton : boolean = false;;
     findRoles(stateID, serviceID) {
+        this.showAddButtonFlag = true;
         this.STATE_ID = stateID;
         this.SERVICE_ID = serviceID;
        
@@ -183,7 +185,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         else {
             this.noRecordFound = false;
         }
-        this.showAddButtonFlag = true;
+        // this.showAddButtonFlag = true;
         response = response.filter(function(obj){
             return obj.deleted!=true;
         })
