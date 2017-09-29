@@ -91,7 +91,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(this.dob);
     this.maxBirth = new Date();
     this.maxBirth.setFullYear(this.today.getFullYear() - 20);
-    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
     this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
     this.passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
     this.super_admin_service.getAllStates(this.countryID).subscribe((response: Response) => this.states = this.successhandeler(response));

@@ -1148,7 +1148,9 @@ em {
   width: 100px;
   height: 100px;
 }
-
+.md2-datepicker-arrow {
+    display: none;
+  }
 .form-group-custome::after,
 .form-group-custome::before {
   background: none !important;

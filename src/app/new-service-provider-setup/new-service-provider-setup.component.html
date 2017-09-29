@@ -51,12 +51,12 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address1}}"  maxlength="100" name="address1" [(ngModel)]="address1">
+            <input mdInput placeholder="{{currentlanguage.address1}}"  maxlength="300" name="address1" [(ngModel)]="address1">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address2}}"  maxlength="100" name="address2" [(ngModel)]="address2">
+            <input mdInput placeholder="{{currentlanguage.address2}}"  maxlength="300" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
 
@@ -65,7 +65,7 @@
       </form>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10">
        
-          <button class="pull-left" color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Cancel</button>
+          <button class="pull-left" color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Clear</button>
       
         <!-- <button class="pull-right" color="primary" type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button> -->
         <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
@@ -91,7 +91,7 @@
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" *ngIf="showServiceline">
-        <md-select [(ngModel)]="service" multiple name="service" placeholder="Serviceline" [style.width]="'100%'" required>
+        <md-select [(ngModel)]="service" multiple name="service" placeholder="Servicelines" [style.width]="'100%'" required>
 
           <md-option *ngFor="let serviceLine of servicelines" [value]="serviceLine">{{serviceLine.serviceName}}
           </md-option>
