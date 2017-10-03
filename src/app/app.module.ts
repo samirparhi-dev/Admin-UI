@@ -69,6 +69,9 @@ import { ZoneDistrictMappingComponent } from './zone-district-mapping/zone-distr
 import { ParkingPlaceComponent } from './parking-place-master/parking-place-master.component';
 import { ServicePointComponent } from './service-point-master/service-point.component';
 import { ServicePointVillageMapComponent } from './service-point-village-mapping/service-point-village-mapping.component';
+import { VanComponent } from './van-master/van-master.component';
+import { VanTypeComponent } from './van-type-master/van-type-master.component';
+import { VanServicePointMappingComponent } from './van-service-point-mapping/van-service-point-mapping.component';
 
 import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
@@ -104,6 +107,10 @@ import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
 import { ServicePointVillageMapService } from './services/ProviderAdminServices/service-point-village-map.service';
+import { VanMasterService } from './services/ProviderAdminServices/van-master-service.service';
+import { VanTypeMasterService } from './services/ProviderAdminServices/van-type-master.service';
+import { VanServicePointMappingService } from './services/ProviderAdminServices/van-service-point-mapping.service';
+
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
@@ -130,7 +137,8 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     CallDispositionTypeMasterComponent, EditSeverityModalComponent,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent
+    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
+    VanComponent,VanTypeComponent,VanServicePointMappingComponent
 
   ],
 
@@ -212,7 +220,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService
+    ServicePointVillageMapService,VanMasterService,VanTypeMasterService,VanServicePointMappingService
   ],
 
   entryComponents: [

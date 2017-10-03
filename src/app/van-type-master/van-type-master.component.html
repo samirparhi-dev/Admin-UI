@@ -1,0 +1,97 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div *ngIf="showVanTypes" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Available Van Types</h4>
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <!--<th>State</th>-->
+                            <th>Van Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: pointer" *ngFor="let vanType of availableVanTypes | paginate: {id:'vanTypeListResult', itemsPerPage: 3, currentPage: b} ">
+                            <td>{{availableVanTypes.indexOf(vanType)+1}} </td>
+                            <!--<td>{{vanType.stateName}}</td>-->
+                            <td>{{vanType.vanType}}</td>
+                            <td>{{vanType.vanTypeDesc}}</td>
+                            <td *ngIf="vanType.deleted=='0'"> <button class="btn" (click)="updateVanTypeStatus(vanType)">DeActivate</button></td>
+                            <td *ngIf="vanType.deleted=='1'"> <button class="btn activateBtn" (click)="updateVanTypeStatus(vanType)">Activate</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="b = $event" id="vanTypeListResult"></pagination-controls>
+                <div>
+                    <button class="btn pull-right " (click)="showForm()">Add Van Type </button>
+                </div>
+            </div>
+           
+
+            <div *ngIf="!showVanTypes">
+                <h4>Create Van Type </h4>
+                <form #vanTypeForm="ngForm">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0])"
+                            #stateVal="ngModel">
+                            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+                                {{item.stateName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=stateVal.valid>
+                            <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput required placeholder="Van Type" [(ngModel)]="vanType" name="vanType" #vanTypeN="ngModel"
+                                (blur)="checkExistance(vanType)">
+                            <md-hint>
+                                <span class="error_text" *ngIf="!vanTypeN.valid  && ( vanTypeN.dirty || vanTypeN.touched)">Please enter Van Type Name</span>
+                                <span class="error_text" *ngIf="vanTypeN.valid && vanTypeNameExist">Van Type already exists</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Description" [(ngModel)]="vanTypeDesc" name="vanTypeDesc">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+                        <button *ngIf="!editable" [disabled]=" !vanTypeN.valid || vanTypeNameExist || !stateVal.valid"
+                            class="btn pull-right " (click)="addVanTypeToList(vanTypeForm.value);vanTypeForm.reset()  ">
+                            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                        </button>
+                    </div>
+                </form>
+                <div *ngIf="vanTypeList.length>0">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>State</th>
+                                <th>Van Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor: pointer" *ngFor="let vanType of vanTypeList | paginate: {id:'vanTypeResult', itemsPerPage: 3, currentPage: b}">
+                                <td>{{vanTypeList.indexOf(vanType)+1}}</td>
+                                <td>{{vanType.stateName}}</td>
+                                <td>{{vanType.vanType}}</td>
+                                <td>{{vanType.vanTypeDesc}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="b = $event" id="vanTypeResult"></pagination-controls>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button class="btn pull-left" (click)="vanTypeForm.reset();showList()">Back</button> <button *ngIf="vanTypeList.length>0"
+                        class="btn pull-right " (click)="storeVanTypes()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

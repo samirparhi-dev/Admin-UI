@@ -60,7 +60,7 @@
                             <td>{{servicePoint.parkingPlaceName}}</td>
                             <td>{{servicePoint.servicePointName}}</td>
                             <td>{{servicePoint.servicePointDesc}}</td>
-                            <td>{{servicePoint.areaHQAddress}}</td>
+                            <td>{{servicePoint.servicePointHQAddress}}</td>
                             <td *ngIf="servicePoint.deleted=='0'"> <button class="btn" (click)="updateServicePointStatus(servicePoint)">DeActivate</button></td>
                             <td *ngIf="servicePoint.deleted=='1'"> <button class="btn activateBtn" (click)="updateServicePointStatus(servicePoint)">Activate</button></td>
                         </tr>
@@ -141,7 +141,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                        <button *ngIf="!editable" [disabled]=" !servicePointN.valid || servicePointNameExist || !servicePointAddress.valid || !stateVal.valid || !districtV.valid || parkingPID.valid"
+                        <button *ngIf="!editable" [disabled]=" !servicePointN.valid || servicePointNameExist || !servicePointAddress.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
                             class="btn pull-right " (click)="addServicePointToList(servicePointForm.value);servicePointForm.reset()  ">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>
@@ -170,7 +170,7 @@
                                 <td>{{servicePoint.parkingPlaceName}}</td>
                                 <td>{{servicePoint.servicePointName}}</td>
                                 <td>{{servicePoint.servicePointDesc}}</td>
-                                <td>{{servicePoint.areaHQAddress}}</td>
+                                <td>{{servicePoint.servicePointHQAddress}}</td>
                             </tr>
                         </tbody>
                     </table>

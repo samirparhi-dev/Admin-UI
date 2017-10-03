@@ -1,0 +1,180 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div *ngIf="showVans  && !editable" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Search Vans</h4>
+                <form #searForm="ngForm">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID);getVans(searchStateID,searchDistrictID)">
+                            <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+                                {{state.stateName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID" (change)="getParkingPlaces(searchStateID,searchDistrictID);getVans(searchStateID,searchDistrictID)">
+                            <md-option *ngFor="let district of districts" [value]="district.districtID">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID" (change)="getVans(searchStateID,searchDistrictID,searchParkingPlaceID)">
+                            <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
+                                {{parkingPlace.parkingPlaceName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <button class="btn">
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
+                    </button>
+                </form>
+            </div>
+        <!--</div>
+    </div>
+</md-card>
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+            <div *ngIf="showVans  && !editable" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Available Vans</h4>
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>State</th>
+                            <th>District</th>
+                            <th>Parking Place</th>
+                            <th>Van</th>
+                            <th>Vehicle No.</th>
+                            <th>Van Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: pointer" *ngFor="let van of availableVans | paginate: {id:'vanListResult', itemsPerPage: 3, currentPage: b} ">
+                            <td>{{availableVans.indexOf(van)+1}} </td>
+                            <td>{{van.stateName}}</td>
+                            <td>{{van.districtName}}</td>
+                            <td>{{van.parkingPlaceName}}</td>
+                            <td>{{van.vanName}}</td>
+                            <td>{{van.vehicalNo}}</td>
+                            <td>{{van.vanType}}</td>
+                            <td *ngIf="van.deleted=='0'"> <button class="btn" (click)="updateVanStatus(van)">DeActivate</button></td>
+                            <td *ngIf="van.deleted=='1'"> <button class="btn activateBtn" (click)="updateVanStatus(van)">Activate</button></td>
+                            <td> <button class="btn activateBtn" (click)="editVanData(van)">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="b = $event" id="vanListResult"></pagination-controls>
+                <div>
+                    <button class="btn pull-right " (click)="showForm()">Add Van </button>
+                </div>
+            </div>
+
+            <div *ngIf="!showVans || editable">
+                <h4>Create Van </h4>
+                <form #vanForm="ngForm">
+                    <input mdInput style="display:none;" [(ngModel)]="vanID" name="vanID" > 
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0]);"
+                            #stateVal="ngModel">
+                            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+                                {{item.stateName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=stateVal.valid>
+                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select State</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel"
+                            (change)="GetTaluks(districtID.split('-')[0]);getParkingPlaces(stateID.split('-')[0],districtID.split('-')[0]);">
+                            <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=districtV.valid>
+                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select District</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="parkingPlaceID" name="parkingPlaceID" #parkingPID="ngModel"> 
+                            <md-option *ngFor="let parkingPlace of availableParkingPlaces" value="{{parkingPlace.parkingPlaceID}}-{{parkingPlace.parkingPlaceName}}">
+                                {{parkingPlace.parkingPlaceName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=parkingPID.valid>
+                            <span class="error_text" *ngIf="!parkingPID.required  && ( parkingPID.dirty || parkingPID.touched)">Please select Parking Place</span>
+                        </md-hint>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput required placeholder="Van Name " [(ngModel)]="vanName" name="vanName" #vanN="ngModel"
+                                (blur)="checkExistance(vanName)">
+                            <md-hint>
+                                <span class="error_text" *ngIf="!vanN.valid  && ( vanN.dirty || vanN.touched)">Please enter Van Name</span>
+                                <span class="error_text" *ngIf="vanN.valid && vanNameExist">Van already exists</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <md-select required placeholder="Van Type" [style.width]="'100%'" [(ngModel)]="vanTypeID" name="vanTypeID" #vanTID="ngModel"> 
+                            <md-option *ngFor="let vanType of availableVanTypes" value="{{vanType.vanTypeID}}-{{vanType.vanType}}">
+                                {{vanType.vanType}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=vanTID.valid>
+                            <span class="error_text" *ngIf="!vanTID.required  && ( vanTID.dirty || vanTID.touched)">Please select Van Type</span>
+                        </md-hint>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+                        <button *ngIf="!editable" [disabled]=" !vanN.valid || vanNameExist || !vanTID.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
+                            class="btn pull-right " (click)="addVanToList(vanForm.value);vanForm.reset()  ">
+                            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                        </button>
+                        <button *ngIf="editable"  class="btn pull-right " (click)="updateVanData(vanForm.value);vanForm.reset()  ">
+                            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon>
+                        </button>
+                    </div>
+                </form>
+                <div *ngIf="vanList.length>0">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Parking Place</th>
+                                <th>Van</th>
+                                <th>Vehicle No.</th>
+                                <th>Van Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor: pointer" *ngFor="let van of vanList | paginate: {id:'vanResult', itemsPerPage: 3, currentPage: b}">
+                                <td>{{vanList.indexOf(van)+1}}</td>
+                                <td>{{van.stateName}}</td>
+                                <td>{{van.districtName}}</td>
+                                <td>{{van.parkingPlaceName}}</td>
+                                <td>{{van.vanName}}</td>
+                                <td>{{van.vehicalNo}}</td>
+                                <td>{{van.vanType}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="b = $event" id="vanResult"></pagination-controls>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button class="btn pull-left" (click)="vanForm.reset();showList()">Back</button> <button *ngIf="vanList.length>0"
+                        class="btn pull-right " (click)="storeVans()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

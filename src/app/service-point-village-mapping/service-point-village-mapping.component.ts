@@ -23,7 +23,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     searchStateID:any;
     searchDistrictID:any;
     serviceID:any;
-
+    createdBy:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointVillageMapService: ServicePointVillageMapService,
@@ -32,6 +32,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
+        this.createdBy = this.commonDataService.uname;
     }
 
     showForm() {
@@ -122,7 +123,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             
             this.dataObj = {};
             this.dataObj.servicePointVillageMapID = mappedVillage.servicePointVillageMapID;
-            this.dataObj.modifiedBy = "Admin";
+            this.dataObj.modifiedBy = this.createdBy;
             if(villageIds.indexOf(mappedVillage.districtBranchID.toString())==-1){
                 this.dataObj.deleted =  true;
                 this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
@@ -169,7 +170,7 @@ export class ServicePointVillageMapComponent implements OnInit {
                     
                     this.servicePointVillageMapObj.providerServiceMapID = this.providerServiceMapID;
                         
-                    this.servicePointVillageMapObj.createdBy = "Admin";
+                    this.servicePointVillageMapObj.createdBy = this.createdBy;
 
                     this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
             }      
@@ -257,7 +258,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.dataObj = {};
         this.dataObj.servicePointVillageMapID = servicePointvillageMap.servicePointVillageMapID;
         this.dataObj.deleted = !servicePointvillageMap.deleted;
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
         servicePointvillageMap.deleted = !servicePointvillageMap.deleted;

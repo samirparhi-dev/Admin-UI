@@ -20,7 +20,7 @@ export class DrugMappingComponent implements OnInit {
   service_provider_id:any;
   editable:any = false;
   serviceID104:any;
-
+  createdBy:any;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public drugMasterService:DrugMasterService,
@@ -28,6 +28,7 @@ export class DrugMappingComponent implements OnInit {
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
     this.serviceID104 = this.commonDataService.serviceID104;
+    this.createdBy = this.commonDataService.uname;
 
    }
 
@@ -42,7 +43,10 @@ export class DrugMappingComponent implements OnInit {
     this.getServices(stateID);
   }
   getAvailableMappings(){
-    this.drugMasterService.getDrugMappings().subscribe(response => this.getDrugMappingsSuccessHandeler(response));
+    this.drugObj = {};
+    this.drugObj.serviceProviderID = this.service_provider_id;
+    this.drugObj.serviceID = this.serviceID104;
+    this.drugMasterService.getDrugMappings(this.drugObj).subscribe(response => this.getDrugMappingsSuccessHandeler(response));
   }
 
   getDrugMappingsSuccessHandeler(response){
@@ -52,6 +56,7 @@ export class DrugMappingComponent implements OnInit {
   getAvailableDrugGroups(){
     this.drugObj = {};
     this.drugObj.deleted = false;
+    this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugGroups(this.drugObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response));
   }
   getDrugGroupsSuccessHandeler(response){
@@ -61,6 +66,7 @@ export class DrugMappingComponent implements OnInit {
   getAvailableDrugs(){
     this.drugObj = {};
     this.drugObj.deleted = false;
+    this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response));
   }
 
@@ -114,25 +120,55 @@ export class DrugMappingComponent implements OnInit {
 	// };
   drugMapping:any= [];
   drugIdList:any = [];
+  mappedDrugIDs:any = [];
   addDrugToList(values){  
+    debugger;
+    let drugIdList = [];
+    for(let drugs of values.drugIdList){
+        drugIdList.push(drugs.split("-")[0]);
+    }
+
+     //find drug deselected from the list , and Remove drugGroup mapping with that drug
+    for(let mappedDrug of this.mappedDrugs){
+        this.mappedDrugIDs.push(mappedDrug.drugId); // fetching mapped drugID's
+        
+        this.dataObj = {};
+        this.dataObj.drugMapID = mappedDrug.drugMapID;
+        this.dataObj.modifiedBy = this.createdBy;
+        if(drugIdList.indexOf(mappedDrug.drugId.toString())==-1){
+            this.dataObj.deleted =  true;
+            this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        }else if(mappedDrug.deleted){
+            this.dataObj.deleted =  false;
+            this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        }
+    }
 
     for(let drugIds of values.drugIdList){
-      this.drugObj = {};
-      this.drugObj.drugGroupID = values.drugGroupID.split("-")[0];
-      this.drugObj.drugGroupName = values.drugGroupID.split("-")[1];
-      this.drugObj.drugId = drugIds.split("-")[0];
-      this.drugObj.drugName = drugIds.split("-")[1];
-      this.drugObj.remarks =  values.remarks;
-      for(let provider_service of this.provider_services){
-        if("104"==provider_service.serviceName){
-          this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
-          this.drugObj.stateName = provider_service.stateName;
-        }
-      } 
+       let drugId = drugIds.split("-")[0];
+             //make a map of drug group with Drug, If the drugId not in the mappedDrugIDs( already mapped drugID's)
+            if(this.mappedDrugIDs.indexOf(parseInt(drugId))==-1){
 
-      this.drugObj.createdBy = "System";
-      this.drugMapping.push(this.drugObj);
+              this.drugObj = {};
+              this.drugObj.drugGroupID = values.drugGroupID.split("-")[0];
+              this.drugObj.drugGroupName = values.drugGroupID.split("-")[1];
+              this.drugObj.drugId = drugIds.split("-")[0];
+              this.drugObj.drugName = drugIds.split("-")[1];
+              this.drugObj.remarks =  values.remarks;
+              // for(let provider_service of this.provider_services){
+              //   if("104"==provider_service.serviceName){
+                  this.drugObj.providerServiceMapID =  this.providerServiceMapID;
+                  this.drugObj.stateName = values.stateID.split("-")[1];
+              //   }
+              // } 
+
+              this.drugObj.createdBy = this.createdBy;
+              this.drugMapping.push(this.drugObj);
+            }else{
+                console.log("already mapped with these drugs");
+            }
     }
+
   }
 
   storedrugMappings(){
@@ -152,7 +188,7 @@ export class DrugMappingComponent implements OnInit {
     this.dataObj ={};
     this.dataObj.drugMapID = drugMapping.drugMapID;
     this.dataObj.deleted = !drugMapping.deleted;
-    this.dataObj.modifiedBy = "Admin";
+    this.dataObj.modifiedBy = this.createdBy;
     this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
     
     drugMapping.deleted = !drugMapping.deleted;
@@ -162,44 +198,36 @@ export class DrugMappingComponent implements OnInit {
   updateStatusHandler(response){
     console.log("Drug Mapping status changed");
   }
+
+  clearEdit(){
+    this.showMappings = true;
+    this.editable=false;
+  }
+
+    mappedDrugs:any = [];
+    existingDrugs:any = [];
+    checkExistance(stateID,drugGroupID){
+        this.mappedDrugs = [];
+        this.drugIdList = [];
+        this.existingDrugs = [];
+        if(drugGroupID!=undefined){
+            drugGroupID = drugGroupID.split("-")[0];
+        }
+
+        for(let availableDrugMapping of this.availableDrugMappings){
+            if(availableDrugMapping.providerServiceMapID == this.providerServiceMapID && availableDrugMapping.drugGroupID == drugGroupID){
+                // finding exsting drug group mappings with drugs
+                this.mappedDrugs.push(availableDrugMapping);
+                if(!availableDrugMapping.deleted){
+                    this.existingDrugs.push(availableDrugMapping.drugId+"-"+availableDrugMapping.drugName);
+                }   
+            }
+        }
+        
+        console.log(this.mappedDrugs);
+        this.drugIdList = this.existingDrugs;
+        console.log(this.drugIdList);
+       
+    }
   
-  // drugMapID:any;
-  // drugGroupID:any;
-  // drugGroupName:any;
-  // drugId:any;
-  // drugName:any;
-  // remarks:any;
-  // stateID:any;
-
-  // editDrugMapping(drug){
-
-  //   this.drugMapID = drug.drugMapID;
-  //   this.drugGroupID = drug.drugGroupID;
-  //   this.drugGroupName = drug.drugGroupName;
-  //   this.drugId = drug.drugId;
-  //   this.drugName = drug.drugName;
-  //   this.remarks = drug.remarks;
-  //   this.stateID = drug.m_providerServiceMapping.state.stateID;
-  //   this.editable = true;
-  // }
-
-  // updateDrugMapping(drugMapping){
-  //   this.dataObj ={};
-  //   this.dataObj.drugGroupID = drugMapping.drugGroupID.split("-")[0];
-  //   this.dataObj.drugGroupName = drugMapping.drugGroupID.split("-")[1];
-  //   this.dataObj.drugId = drugMapping.drugIdList.split("-")[0];
-  //   this.dataObj.drugName = drugMapping.drugIdList.split("-")[1];
-  //   this.dataObj.remarks = drugMapping.remarks;
-  //   this.dataObj.providerServiceMapID = drugMapping.providerServiceMapID;
-  //   this.dataObj.modifiedBy = "Admin";
-  //   this.drugMasterService.updateDrugMappings(this.dataObj).subscribe(response => this.updateHandler(response));
-    
-  // }
-
-  // updateHandler(response){
-  //    this.alertMessage.alert("updated successfully");
-  //    this.editable = false;
-  //    this.getAvailableDrugs();
-  // }
-
 }

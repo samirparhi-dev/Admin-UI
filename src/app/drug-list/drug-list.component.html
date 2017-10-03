@@ -4,7 +4,6 @@
     <thead>
       <tr>
         <th>S No.</th>
-        <th>State</th>
         <th>Drug Name</th>
         <th>Description</th>
         <th>Remarks</th>
@@ -13,7 +12,6 @@
     <tbody>
       <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
         <td>{{availableDrugs.indexOf(drug)+1}}</td>
-        <td>{{drug.m_providerServiceMapping.state.stateName}}</td>
         <td>{{drug.drugName}}</td>
         <td>{{drug.drugDesc}}</td>
         <td>{{drug.remarks}}</td>
@@ -34,20 +32,10 @@
 <div *ngIf="!showDrugs || editable">
   <h4>Create Drug</h4>
   <form #drugForm="ngForm">
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-       <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID" >
-      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" [value]="item.stateID">
-          {{item.stateName}}
-        </md-option>
-      </md-select>
-      <md-hint [hidden]=stateVal.valid>
-        <span class="error_text" *ngIf="!drugN.required  && ( drugN.dirty || drugN.touched)">Please select State</span>
-      </md-hint>
-    </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+      <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID" >
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)">
+        <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)" minlength="1" maxlength="30">
         <md-hint>
           <span class="error_text" *ngIf="!drugN.valid  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
           <span class="error_text" *ngIf="drugNameExist">Drug Already Exists</span>
@@ -56,7 +44,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc"  #drugD="ngModel">
+        <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc"  #drugD="ngModel" minlength="1" maxlength="100">
         <md-hint [hidden]=drugD.valid>
           <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Description</span>
         </md-hint>
@@ -68,7 +56,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-      <button *ngIf="!editable" [disabled]=" !drugN.valid || drugNameExist || !drugD.valid || !stateVal.valid" class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
+      <button *ngIf="!editable" [disabled]=" !drugN.valid || drugNameExist || !drugD.valid " class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
       <button *ngIf="editable"  class="btn pull-right " (click)="updateDrugData(drugForm.value);drugForm.reset()  ">
@@ -81,7 +69,6 @@
       <thead>
         <tr>
           <th>S No.</th>
-          <th>State</th>
           <th>Drug Name</th>
           <th>Description</th>
           <th>Remarks</th>
@@ -90,7 +77,6 @@
       <tbody>
         <tr style="cursor: pointer" *ngFor="let drug of drugList | paginate: {id:'drugsResult', itemsPerPage: 3, currentPage: b}">
           <td>{{drugList.indexOf(drug)+1}}</td>
-          <td>{{drug.stateName}}</td>
           <td>{{drug.drugName}}</td>
           <td>{{drug.drugDesc}}</td>
           <td>{{drug.remarks}}</td>
