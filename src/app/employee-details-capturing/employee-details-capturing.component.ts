@@ -38,7 +38,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   allTitles: any = [];
   allGenders: any = [];
   hideOffRole : boolean = false;
-
+  designation : any;
   /*qualification*/
   qualificationType: any;
   father_name: any;
@@ -112,7 +112,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   showAdd: boolean = false;
   govtIDs: any = [];
-
+  allDesignations : any = [];
 
   constructor(public EmployeeMasterService: EmployeeMasterService, public commonDataService: dataService) {
     this.languages = [];
@@ -138,6 +138,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         this.data = [];
     this.previleges = [];
+    this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));
   }
 
   getServices(value) {
@@ -152,7 +153,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       .subscribe((response: Response) => this.getWorkLocationsInStateSuccessHandeler(response));
 
   }
-
+  allDesignationsSuccess(res) {
+      console.log(res,"2222");
+      this.allDesignations = res;
+  }
   getRoles(value1, value2) {
     this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe((response: Response) => this.getRolesSuccessHandeler(response));
@@ -468,6 +472,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'emailID': this.emailID,
       'statusID': 1,  // because its a new user 
       // "emergencyContactPerson": "Ish Gandotra",
+      'designation' : this.designation,
       'emergencyContactNo': '9023650041',
       // "titleName": "Mrs",
       // "status": "New",
@@ -487,7 +492,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'cityID': '1',
       'stateID': this.permanentState,
       'communityID': this.community,
-      'religionID': this.religion,
+      //'religionID': this.religion,
       'countryID': this.countryID,
       'pinCode': this.permanentPincode,
       'isPresent': '1',  // by default it will remain 1 , if checked, then permanent will also be 1

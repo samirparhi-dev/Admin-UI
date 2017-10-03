@@ -49,7 +49,7 @@ export class EmployeeMasterService {
   find_Roles_Url: any;
   checkID: any;
   deleteRoleUrl : any;
-
+  getDesignationsUrl : any;
 
 
 
@@ -78,7 +78,7 @@ export class EmployeeMasterService {
     this.getServicesUrl = this.providerAdmin_Base_Url + "m/role/service";
     this.find_Roles_Url = this.providerAdmin_Base_Url + "m/role/search";
     this.checkID = this.providerAdmin_Base_Url + "m/FindEmployeeDetails";
-
+    this.getDesignationsUrl = this.providerAdmin_Base_Url + "/m/getDesignation"; 
 
   };
 
@@ -203,13 +203,18 @@ export class EmployeeMasterService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  // CRUD ends
+  
 
   handleCustomSuccess(response: Response) {
     console.log(response.json().data, "--- in employee master SERVICE");
     return response.json().data.response;
   }
 
+   getDesignations() {
+    return this.http.post(this.getDesignationsUrl, {})
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
   handleSuccess(response: Response) {
     console.log(response.json().data, "--- in employee master SERVICE");
     return response.json().data;
