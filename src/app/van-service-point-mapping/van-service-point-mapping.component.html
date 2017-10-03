@@ -1,0 +1,121 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div *ngIf="showVanServicePointMappings  && !editable" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Van - Service Point Mapping</h4>
+                <form #searForm="ngForm">
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID" 
+                        (change)="getDistricts(searchStateID);getServices(searchStateID)">
+                            <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+                                {{state.stateName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID" 
+                        (change)="getParkingPlaces(searchStateID,searchDistrictID);">
+                            <md-option *ngFor="let district of districts" [value]="district.districtID">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <md-select placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID">
+                            <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
+                                {{parkingPlace.parkingPlaceName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <md-select placeholder="Van Type" [style.width]="'100%'" [(ngModel)]="vanTypeID" name="vanTypeID" 
+                        (change)="getVans(searchStateID,searchDistrictID,searchParkingPlaceID,vanTypeID);">
+                            <md-option *ngFor="let vanType of availableVanTypes" [value]="vanType.vanTypeID">
+                                {{vanType.vanType}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <md-select required placeholder="Van" [style.width]="'100%'" [(ngModel)]="vanID" name="vanID" #vanVal="ngModel"
+                        (change)="getVanServicePointMappings(searchStateID,searchDistrictID,searchParkingPlaceID);">
+                            <md-option *ngFor="let van of availableVans" [value]="van.vanID" (change)="selectedVan(van)">
+                                {{van.vanName}}
+                            </md-option>
+                        </md-select>
+                        <md-hint [hidden]=vanVal.valid>
+                            <span class="error_text" *ngIf="!vanVal.required  && ( vanVal.dirty || vanVal.touched)">Please select Van </span>
+                        </md-hint>
+                    </div>
+                    <!--<div>
+                        <label>{{vanID.split("-")[1]}}</label>
+                    </div>-->
+
+                    <!--<button class="btn">
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
+                    </button>-->
+                </form>
+            </div>
+
+            <!--<div *ngIf="showVanServicePointMappings  && !editable" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Available Vans</h4>
+                <form #mappingForm="ngForm">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>select</th>
+                                <th>servicePoint</th>
+                                <th>Morning</th>
+                                <th>Evening</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor: pointer" *ngFor="let vanServicePointMappings of availableVanServicePointMappings | paginate: {id:'servicePointListResult', itemsPerPage: 3, currentPage: b} ">
+                                <td>{{availableVanServicePointMappings.indexOf(vanServicePointMappings)+1}} </td>
+                                <td [ngModel]><md-checkbox color="primary"></md-checkbox></td>
+                                <td>{{vanServicePointMappings.servicePointName}}</td>
+                                <td><md-checkbox color="primary" [checked]="(vanServicePointMappings.vanSession=='1' || vanServicePointMappings.vanSession=='3')"></md-checkbox></td>
+                                <td><md-checkbox color="primary" [checked]="(vanServicePointMappings.vanSession=='2' || vanServicePointMappings.vanSession=='3')"></md-checkbox></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="b = $event" id="servicePointListResult"></pagination-controls>
+                    <div>
+                        <button class="btn pull-right " (click)="showForm()"> Save </button>
+                    </div>
+                </form>
+            </div>-->
+
+            <form class="c-b p-t-30" [formGroup]="MappingForm" >
+                <div class="form-group row" *ngIf="availableVanServicePointMappings.length!=0">
+                    <table class="table m-l-15">
+                        <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Service Point</th>
+                            <th>Morning</th>
+                            <th>Evening</th>
+                        </tr>
+                        </thead>
+                        <tbody formArrayName="mappings" *ngFor="let mapping of MappingForm.get('mappings').controls  | paginate: {id:'servicePointListResult', itemsPerPage: 3, currentPage: b}">
+                        <tr [formGroupName]="this.MappingForm.get('mappings').controls.indexOf(mapping)">
+                            <td>
+                                <input mdInput required formControlName="vanID" value="vanID" [hidden]="true">
+                                {{this.MappingForm.get('mappings').controls.indexOf(mapping)+1}}     
+                            </td>
+                            <td><input mdInput formControlName="servicePointID" value="mapping.controls.servicePointID.value" [hidden]="true">{{mapping.controls.servicePointName.value}}</td>
+                            <td><md-checkbox color="primary" formControlName="vanSession1" [checked]="mapping.controls.vanSession1.value"></md-checkbox></td>
+                            <td><md-checkbox color="primary" formControlName="vanSession2" [checked]="mapping.controls.vanSession2.value"></md-checkbox></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="b = $event" id="servicePointListResult"></pagination-controls>
+                </div>
+            </form>
+            
+
+        </div>
+        <button md-button *ngIf="availableVanServicePointMappings.length!=0" md-raised-button class="btn btn-primary m-l-15 pull-right"
+             [disabled]="vanID==undefined" (click)="storeVanServicePointMapping();">Add Mapping</button>
+    </div>
+</md-card>

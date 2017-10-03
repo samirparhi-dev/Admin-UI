@@ -32,8 +32,8 @@
   <h4>Map Drug with DrugGroup</h4>
   <form #drugMappingForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID)" #stateVal="ngModel">
-        <md-option *ngFor="let item of provider_states" [value]="item.stateID">
+      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0])" #stateVal="ngModel">
+        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
           {{item.stateName}}
         </md-option>
       </md-select>
@@ -42,10 +42,10 @@
       </md-hint>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-select required placeholder="DrugGroup" [style.width]="'100%'" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel">
+      <md-select required placeholder="DrugGroup" [style.width]="'100%'" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel"
+      (change)="checkExistance(stateID,drugGroupID)">
         <md-option *ngFor="let drugGroups of availableDrugGroups" value="{{drugGroups.drugGroupID}}-{{drugGroups.drugGroup}}">
           {{drugGroups.drugGroup}}
-          <input mdInput style="display:none;" [(ngModel)]="drugGroupName" name="drugGroupName" value="{{drugGroups.drugGroup}}">
         </md-option>
          
       </md-select>
@@ -99,6 +99,6 @@
     <pagination-controls (pageChange)="b = $event" id="drugMappingListResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="showMappings = true;editable=false;">Back</button> <button *ngIf="drugMapping.length>0" class="btn pull-right " (click)="storedrugMappings()">Submit</button>
+   <button class="btn pull-left" (click)="clearEdit();drugMappingForm.reset()">Back</button> <button *ngIf="drugMapping.length>0" class="btn pull-right " (click)="storedrugMappings()">Submit</button>
   </div>
 </div>

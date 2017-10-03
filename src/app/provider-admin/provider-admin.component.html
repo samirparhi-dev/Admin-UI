@@ -29,6 +29,8 @@
                               <li style="cursor: pointer" (click)='show("7")'><a>Zone Master</a></li>
                               <li style="cursor: pointer" (click)='show("8")'><a>Parking Place Master</a></li>
                               <li style="cursor: pointer" (click)='show("9")'><a>Service Point Master</a></li>
+                              <li style="cursor: pointer" (click)='show("14")'><a>Van Master</a></li>
+                              <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
                             </ul>
                           </li>
 
@@ -43,6 +45,7 @@
                             <a tabindex="-1" >OutReach Configrations</a>
                             <ul class="dropdown-menu">
                               <li style="cursor: pointer" (click)='show("11")'><a>Service Point Village Mapping</a></li>
+                              <li style="cursor: pointer" (click)='show("16")'><a>Van Service point Mapping</a></li>
                             </ul>
                           </li>
                         </ul>
@@ -67,8 +70,11 @@
                 <app-zone-master *ngSwitchCase="7"></app-zone-master>
                 <app-parking-place *ngSwitchCase="8"></app-parking-place>
                 <app-service-point *ngSwitchCase="9"></app-service-point>
+                <app-van-master *ngSwitchCase="14"></app-van-master>
+                <app-van-type *ngSwitchCase="15"></app-van-type>
                 <p *ngSwitchCase="10">Reports</p>
                 <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
+                <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
               </div>
             </div>
           </div>

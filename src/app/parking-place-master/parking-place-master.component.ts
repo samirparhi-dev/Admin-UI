@@ -23,7 +23,7 @@ export class ParkingPlaceComponent implements OnInit {
     searchStateID:any;
     searchDistrictID:any;
     serviceID:any;
-
+    createdBy:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public parkingPlaceMasterService: ParkingPlaceMasterService,
@@ -32,6 +32,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID =  this.commonDataService.serviceIDMMU;
+        this.createdBy = this.commonDataService.uname;
     }
 
     showForm() {
@@ -67,7 +68,7 @@ export class ParkingPlaceComponent implements OnInit {
                 this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
                 this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
                 this.parkingPlaceObj.countryID = this.countryID;
-                this.parkingPlaceObj.stateID = values.stateID;
+               
                 if(values.districtID!=undefined){
                     this.parkingPlaceObj.districtID = values.districtID.split("-")[0];
                     this.parkingPlaceObj.districtName = values.districtID.split("-")[1];
@@ -79,9 +80,12 @@ export class ParkingPlaceComponent implements OnInit {
                 this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
 
                 this.parkingPlaceObj.providerServiceMapID = provider_service.providerServiceMapID;
-                this.parkingPlaceObj.stateName = provider_service.stateName;
+                if(values.stateID!=undefined){
+                    this.parkingPlaceObj.stateID = values.stateID.split("-")[0];
+                    this.parkingPlaceObj.stateName = values.stateID.split("-")[1];
+                }
                     
-                this.parkingPlaceObj.createdBy = "Admin";
+                this.parkingPlaceObj.createdBy = this.createdBy;
 
                 this.parkingPlaceList.push(this.parkingPlaceObj);
             }
@@ -167,7 +171,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.dataObj = {};
         this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.dataObj.deleted = !parkingPlace.deleted;
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.parkingPlaceMasterService.updateParkingPlaceStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
         parkingPlace.deleted = !parkingPlace.deleted;

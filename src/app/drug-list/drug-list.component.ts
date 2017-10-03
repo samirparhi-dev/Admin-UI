@@ -20,7 +20,7 @@ export class DrugListComponent implements OnInit {
   editable:any = false;
   availableDrugNames:any = [];
   serviceID104:any;
-
+  createdBy:any;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public drugMasterService:DrugMasterService,
@@ -28,6 +28,7 @@ export class DrugListComponent implements OnInit {
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
     this.serviceID104 = this.commonDataService.serviceID104;
+    this.createdBy = this.commonDataService.uname;
    }
 
   ngOnInit() {
@@ -39,7 +40,9 @@ export class DrugListComponent implements OnInit {
     this.getServices(stateID);
   }
   getAvailableDrugs(){
-    this.drugMasterService.getDrugsList({}).subscribe(response => this.getDrugsSuccessHandeler(response));
+    this.drugObj = {};
+    this.drugObj.serviceProviderID = this.service_provider_id;
+    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response));
   }
 
   getDrugsSuccessHandeler(response){
@@ -101,14 +104,14 @@ export class DrugListComponent implements OnInit {
     this.drugObj.drugName = values.drugName;
     this.drugObj.drugDesc = values.drugDesc;
     this.drugObj.remarks =  values.remarks;
-     for(let provider_service of this.provider_services){
-      if("104"==provider_service.serviceName){
-         this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
-         this.drugObj.stateName = provider_service.stateName;
-      }
-    } 
-    
-    this.drugObj.createdBy = "System";
+    //  for(let provider_service of this.provider_services){
+    //   if("104"==provider_service.serviceName){
+    //      this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
+    //      this.drugObj.stateName = provider_service.stateName;
+    //   }
+    // } 
+    this.drugObj.serviceProviderID =  this.service_provider_id;
+    this.drugObj.createdBy = this.createdBy;
 
     this.drugList.push(this.drugObj);
 
@@ -131,7 +134,7 @@ export class DrugListComponent implements OnInit {
     this.dataObj ={};
     this.dataObj.drugID = drug.drugID;
     this.dataObj.deleted = !drug.deleted;
-    this.dataObj.modifiedBy = "Admin";
+    this.dataObj.modifiedBy = this.createdBy;
     this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
     
     drug.deleted = !drug.deleted;
@@ -158,7 +161,7 @@ export class DrugListComponent implements OnInit {
     this.drugName = drug.drugName
     this.drugDesc = drug.drugDesc;
     this.remarks = drug.remarks;
-    this.stateID = drug.m_providerServiceMapping.state.stateID;
+    //this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
   }
 
@@ -169,7 +172,7 @@ export class DrugListComponent implements OnInit {
     this.dataObj.drugDesc = drug.drugDesc;
     this.dataObj.remarks = drug.remarks;
     this.dataObj.providerServiceMapID = drug.providerServiceMapID;
-    this.dataObj.modifiedBy = "Admin";
+    this.dataObj.modifiedBy = this.createdBy;
     this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response));
     
   }
