@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CategorySubcategoryService } from "../services/ProviderAdminServices/category-subcategory-master-service.service";
+import { CategorySubcategoryService } from '../services/ProviderAdminServices/category-subcategory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 
 @Component({
   selector: 'app-category-subcategory-provisioning',
@@ -41,7 +42,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   private items: Array<any>;
   hideButton: boolean = false;
 
-  constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService) {
+  constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService
+    , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
@@ -85,6 +87,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getDetails(subServiceID: any, providerServiceMapID: any) {
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMapID, subServiceID)
       .subscribe((response) => {
+        debugger;
         this.data = response;
       }, (err) => {
 
@@ -213,12 +216,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
-            alert('Successfully Created');
+            this.messageBox.alert('Successfully Created');
             // this.searchForm = true;
             this.serviceList.length = 0;
             // this.showTable = true;
             // this.api_choice = 1;
-            // this.changeRequestObject(this.api_choice); 
+            // this.changeRequestObject(this.api_choice);
             this.getDetails(this.sub_service, providerServiceMapID);
           }
         }
@@ -242,7 +245,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.saveExistCategory(categoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
-          alert('Successfully Created');
+          this.messageBox.alert('Successfully Created');
         }
         this.searchForm = true;
         this.serviceList.length = 0;
@@ -259,9 +262,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   getCategory(providerserviceMapId: any, subServiceID: any) {
-    this.CategorySubcategoryService.getCategory(subServiceID)
+    this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
       .subscribe((response) => {
         if (response) {
+          debugger;
           this.categories = response;
         }
       }, (err) => {
@@ -272,14 +276,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   deleteCategory(id: any) {
-    this.CategorySubcategoryService.deleteCategory(id)
-      .subscribe((response) => {
-        if (response) {
-          this.filterTable(response);
-        }
-      }, (err) => {
+    this.messageBox.confirm('Are you sure want to delete?').subscribe((res) => {
+      if (res) {
+        this.CategorySubcategoryService.deleteCategory(id)
+          .subscribe((response) => {
+            if (response) {
+              debugger;
+              this.getDetails(response.subServiceID, response.providerServiceMapID);
+            }
+          }, (err) => {
 
-      });
+          });
+      }
+    }, (err) => { });
+
   }
 
   filterTable(response: any) {

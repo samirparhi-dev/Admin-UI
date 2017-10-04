@@ -47,10 +47,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let i of md2.data">
-            <td width=10%>{{i.categoryID}}</td>
-            <td>{{i.subServiceName}}</td>
-            <td>{{i.categoryName}}</td>
-            <td>{{i.subCategoryName}}</td>
+            <td width=10%>{{i?.categoryID}}</td>
+            <td>{{i?.subServiceName}}</td>
+            <td>{{i?.categoryName}}</td>
+            <td>{{i?.subCategoryName}}</td>
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon>
               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon>
@@ -66,8 +66,8 @@
         </tfoot>
       </table>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="hideButton">
-      <button class="pull-right" md-raised-button color="primary" (click)="hideTable()" >Add New Category/Subcategory</button>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
     </div>
   </div>
 </md-card>

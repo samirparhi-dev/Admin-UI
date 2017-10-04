@@ -73,6 +73,7 @@ import { ServicePointVillageMapComponent } from './service-point-village-mapping
 import { VanComponent } from './van-master/van-master.component';
 import { VanTypeComponent } from './van-type-master/van-type-master.component';
 import { VanServicePointMappingComponent } from './van-service-point-mapping/van-service-point-mapping.component';
+import { EmployeeParkingPlaceMappingComponent } from './employee-parking-place-mapping/employee-parking-place-mapping.component';
 
 import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
@@ -111,6 +112,7 @@ import { ServicePointVillageMapService } from './services/ProviderAdminServices/
 import { VanMasterService } from './services/ProviderAdminServices/van-master-service.service';
 import { VanTypeMasterService } from './services/ProviderAdminServices/van-type-master.service';
 import { VanServicePointMappingService } from './services/ProviderAdminServices/van-service-point-mapping.service';
+import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
 
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
 
@@ -139,7 +141,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent,VanTypeComponent,VanServicePointMappingComponent
+    VanComponent,VanTypeComponent,VanServicePointMappingComponent,EmployeeParkingPlaceMappingComponent
 
   ],
 
@@ -221,7 +223,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService,VanMasterService,VanTypeMasterService,VanServicePointMappingService
+    ServicePointVillageMapService,VanMasterService,VanTypeMasterService,VanServicePointMappingService,EmployeeParkingPlaceMappingService
   ],
 
   entryComponents: [
