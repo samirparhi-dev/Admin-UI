@@ -19,6 +19,7 @@ export class VanComponent implements OnInit {
     service_provider_id: any;
     editable: any = false;
     availableVanNames: any = [];
+    availableVehicleNos:any = [];
     countryID: any;
     searchStateID:any;
     searchDistrictID:any;
@@ -91,6 +92,7 @@ export class VanComponent implements OnInit {
         this.availableVans = response;
         for (let availableVan of this.availableVans) {
             this.availableVanNames.push(availableVan.vanName);
+            this.availableVehicleNos.push(availableVan.vehicalNo);
         }
     }
 
@@ -228,6 +230,12 @@ export class VanComponent implements OnInit {
     checkExistance(vanName) {
         this.vanNameExist = this.availableVanNames.includes(vanName);
         console.log(this.vanNameExist);
+    }
+
+    vehicleExist: any = false;
+    checkVehicleExistance(vehicleNo) {
+        this.vehicleExist = this.availableVehicleNos.includes(vehicleNo);
+        console.log(this.vehicleExist);
     }
 
     vanID: any;

@@ -120,7 +120,12 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <md-input-container [style.width]="'100%'">
-                            <input mdInput placeholder="vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo">
+                            <input mdInput required placeholder="vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo"  #vehicleN="ngModel"
+                            (blur)="checkVehicleExistance(vehicalNo)">
+                            <md-hint>
+                                <span class="error_text" *ngIf="!vehicleN.valid  && ( vehicleN.dirty || vehicleN.touched)">Please enter Vehicle No.</span>
+                                <span class="error_text" *ngIf="vehicleN.valid && vehicleExist">Vehicle already exists</span>
+                            </md-hint>
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -134,7 +139,7 @@
                         </md-hint>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                        <button *ngIf="!editable" [disabled]=" !vanN.valid || vanNameExist || !vanTID.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
+                        <button *ngIf="!editable" [disabled]=" !vanN.valid || !vehicleN.valid || vehicleExist || vanNameExist || !vanTID.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
                             class="btn pull-right " (click)="addVanToList(vanForm.value);vanForm.reset()  ">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>

@@ -25,7 +25,7 @@
                           <li style="cursor: pointer" (click)='show("6")'><a>Drug Master</a></li>
 
                           <li class="dropdown-submenu">
-                            <a tabindex="-1">OutReach Master</a>
+                            <a tabindex="-1">Outreach Master</a>
                             <ul class="dropdown-menu">
                               <li style="cursor: pointer" (click)='show("7")'><a>Zone Master</a></li>
                               <li style="cursor: pointer" (click)='show("8")'><a>Parking Place Master</a></li>
@@ -40,13 +40,14 @@
                       </li>
                       <li style="cursor: pointer" (click)='show("10")'><a>Reports</a></li>
                       <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">configurations<span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurations<span class="caret"></span></a>
                         <ul class="dropdown-menu multi-level">
                           <li class="dropdown-submenu">
-                            <a tabindex="-1">OutReach Configrations</a>
+                            <a tabindex="-1">Outreach Configrations</a>
                             <ul class="dropdown-menu">
                               <li style="cursor: pointer" (click)='show("11")'><a>Service Point Village Mapping</a></li>
-                              <li style="cursor: pointer" (click)='show("16")'><a>Van Service point Mapping</a></li>
+                              <li style="cursor: pointer" (click)='show("16")'><a>Van Service Point Mapping</a></li>
+                              <li style="cursor: pointer" (click)='show("17")'><a>User Parking Place Mapping</a></li>
                             </ul>
                           </li>
                         </ul>
@@ -76,6 +77,7 @@
                 <p *ngSwitchCase="10">Reports</p>
                 <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
                 <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
+                <app-employee-parking-place-mapping *ngSwitchCase="17"></app-employee-parking-place-mapping>
               </div>
             </div>
           </div>
