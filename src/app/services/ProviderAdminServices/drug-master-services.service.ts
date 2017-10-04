@@ -76,8 +76,8 @@ export class DrugMasterService {
         .catch(this.handleError);
     }
 
-    getDrugMappings(){
-        return this.http.post(this.getDrugMappingsURL, {})
+    getDrugMappings(data){
+        return this.http.post(this.getDrugMappingsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }

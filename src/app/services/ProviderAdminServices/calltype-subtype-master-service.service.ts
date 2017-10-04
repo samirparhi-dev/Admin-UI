@@ -28,7 +28,7 @@ export class CallTypeSubtypeService {
     this.get_State_Url = this.admin_Base_Url + "m/role/state";
     this.get_Service_Url = this.admin_Base_Url + "m/role/service";
     this.get_CallTypeSubType_Url = this.admin_Base_Url + "m/getCalltypedata";
-    this.save_CallTypeSubType_Url = this.admin_Base_Url + "m/saveCalltypedata";
+    this.save_CallTypeSubType_Url = this.admin_Base_Url + "m/createCalltypedata";
     
    };
 

@@ -303,7 +303,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
     /** once data is pushed in the table array..do the following */
 
-    this.state = '';
+    jQuery('#addServiceLines').trigger("reset");
     this.service = '';
     this.showTable = true;
 

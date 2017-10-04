@@ -24,7 +24,7 @@ export class ServicePointComponent implements OnInit {
     searchDistrictID:any;
     searchParkingPlaceID:any;
     serviceID:any;
-
+    createdBy:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,
@@ -33,6 +33,7 @@ export class ServicePointComponent implements OnInit {
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
+        this.createdBy = this.commonDataService.uname;
     }
 
     showForm() {
@@ -105,14 +106,14 @@ export class ServicePointComponent implements OnInit {
                     this.servicePointObj.districtBlockID = values.talukID.split("-")[0];
                     this.servicePointObj.blockName = values.talukID.split("-")[1];
                 }
-                this.servicePointObj.areaHQAddress = values.areaHQAddress;
+                this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
                 if(values.parkingPlaceID!=undefined){
                     this.servicePointObj.parkingPlaceID = values.parkingPlaceID.split("-")[0];;
                     this.servicePointObj.parkingPlaceName = values.parkingPlaceID.split("-")[1];;
                 }
                 this.servicePointObj.providerServiceMapID = provider_service.providerServiceMapID;
                     
-                this.servicePointObj.createdBy = "Admin";
+                this.servicePointObj.createdBy = this.createdBy;
 
                 this.servicePointList.push(this.servicePointObj);
             }
@@ -199,7 +200,7 @@ export class ServicePointComponent implements OnInit {
         this.dataObj = {};
         this.dataObj.servicePointID = servicePoint.servicePointID;
         this.dataObj.deleted = !servicePoint.deleted;
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.servicePointMasterService.updateServicePointStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
         servicePoint.deleted = !servicePoint.deleted;
@@ -207,7 +208,7 @@ export class ServicePointComponent implements OnInit {
     }
     updateStatusHandler(response) {
         console.log("Service Point status changed");
-    }
+    } 
 
     showList(){
         this.searchStateID ="";

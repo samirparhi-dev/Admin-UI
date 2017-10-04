@@ -69,9 +69,9 @@
                 <h4>Create Parking Place </h4>
                 <form #parkingPlaceForm="ngForm">
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID);getDistricts(stateID)"
+                        <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0])"
                             #stateVal="ngModel">
-                            <md-option *ngFor="let item of provider_states" [value]="item.stateID">
+                            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
                                 {{item.stateName}}
                             </md-option>
                         </md-select>
@@ -91,15 +91,15 @@
                         </md-hint>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-select required placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="talukID" name="talukID" 
-                        (change)="GetBranches(talukID.split('-')[0])" #talukV="ngModel">
+                        <md-select  placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="talukID" name="talukID" 
+                        (change)="GetBranches(talukID.split('-')[0])" >
                             <md-option *ngFor="let taluk of taluks" value="{{taluk.blockID}}-{{taluk.blockName}}">
                                 {{taluk.blockName}}
                             </md-option>
                         </md-select>
-                        <md-hint [hidden]=talukV.valid>
+                        <!--<md-hint [hidden]=talukV.valid>
                             <span class="error_text" *ngIf="!talukV.required  && ( talukV.dirty || talukV.touched)">Please select Taluk/Sub District</span>
-                        </md-hint>
+                        </md-hint>-->
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <md-input-container [style.width]="'100%'">
@@ -127,7 +127,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                        <button *ngIf="!editable" [disabled]=" !parkingPlaceN.valid || parkingPlaceNameExist || !parkingPlaceAddress.valid || !stateVal.valid || !districtV.valid || !talukV.valid"
+                        <button *ngIf="!editable" [disabled]=" !parkingPlaceN.valid || parkingPlaceNameExist || !parkingPlaceAddress.valid || !stateVal.valid || !districtV.valid "
                             class="btn pull-right " (click)="addParkingPlaceToList(parkingPlaceForm.value);parkingPlaceForm.reset()  ">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>

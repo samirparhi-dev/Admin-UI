@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CallTypeSubtypeService } from "../services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { dataService } from '../services/dataService/data.service';
+declare var jQuery: any;
 
 
 @Component({
@@ -38,7 +39,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	// flags
 	showTable: boolean;
 	showForm: boolean;
-
+	showCallType : boolean = false;
+	tempCorrespondingSubCallType : any = [];
+	subCallTypeExist : boolean = false;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService,
 				public commonDataService: dataService) {
@@ -68,6 +71,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	// data getters and setters for the component
 	getServices(stateID)
 	{
+		this.showTable = false;
 		this.callTypeSubtypeService.getServices(this.service_provider_id,stateID).subscribe(response => this.getServicesSuccessHandeler(response));
 	}
 
@@ -77,11 +81,19 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	}
 	disableSelect: boolean = false;
-	hideTable(flag)
-	{	
+	hideTable(flag) {	
+
 		this.disableSelect = flag;
 		this.showTable = !flag;
 		this.showForm = flag;
+		// if (flag) {
+		// 	jQuery("#addingSubTypes").trigger("reset");
+		// 	debugger;
+		// }
+		this.callType = "";
+		this.callSubType = "";
+		this.subCallTypeExist = false;
+		this.temporarySubtypeArray = [];
 	}
 
 	hideForm()
@@ -98,45 +110,48 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.fitForFollowup= false;
 	}
 
-	pushCallSubType(call_subtype, fitToBlock, fitForFollowup)
+	pushCallSubType(callType,call_subtype, fitToBlock, fitForFollowup)
 	{
 		let obj={
-			"calltype": call_subtype,
+			"callGroupType": callType,
+			"callType": call_subtype,
 			"providerServiceMapID":this.providerServiceMapID,
-			"callTypeDesc1":[call_subtype],
-			"fitToBlock1": [fitToBlock],
-			"fitForFollowup1": [fitForFollowup]
+			"callTypeDesc": call_subtype,
+			"fitToBlock": fitToBlock,
+			"fitForFollowup": fitForFollowup,
+			"createdBy": "Diamond Khanna"
 		}
 		console.log('dummy obj', obj);
 
-		if(this.temporarySubtypeArray.length==0)
-		{
-			this.temporarySubtypeArray.push(obj);
-			console.log("value pushed1");
-		}
-		else
-		{
-			let count = 0;
-			for (let i = 0; i < this.temporarySubtypeArray.length;i++)
-			{
-				if (this.temporarySubtypeArray[i].call_subtype === call_subtype)
-				{
-					count = count + 1;
-					console.log(count, "count");
-				}
-			}
-			if(count<1)
-			{
-				this.temporarySubtypeArray.push(obj);
-				console.log("value pushed2");
-			}
-			else{
-				alert("value exists in buffer array");
-			}
-		}
+		// if(this.temporarySubtypeArray.length==0)
+		// {
+		// 	this.temporarySubtypeArray.push(obj);
+		// 	console.log("value pushed1");
+		// }
+		// else
+		// {
+		// 	let count = 0;
+		// 	for (let i = 0; i < this.temporarySubtypeArray.length;i++)
+		// 	{
+		// 		if (this.temporarySubtypeArray[i].call_subtype === call_subtype)
+		// 		{
+		// 			count = count + 1;
+		// 			console.log(count, "count");
+		// 		}
+		// 	}
+		// 	if(count<1)
+		// 	{
+		//		this.temporarySubtypeArray.push(obj);
+		// 		console.log("value pushed2");
+		// 	}
+		// 	else{
+		// 		alert("value exists in buffer array");
+		// 	}
+		// }
 
 
 		// resetting fields
+		this.temporarySubtypeArray.push(obj);
 		this.callSubType = "";
 		this.fitToBlock = false;
 		this.fitForFollowup = false;
@@ -146,24 +161,26 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	removeFromCallSubType(index)
 	{
 		this.temporarySubtypeArray.splice(index, 1);
+		console.log(this.temporarySubtypeArray);
 	}
 
 	save()
 	{
-		this.request_object = {
-			"callGroupType": this.callType,
-			"callType1": this.temporarySubtypeArray,
-			"createdBy": "Diamond Khanna"
-		}
-		this.request_array.push(this.request_object);
-		console.log(this.request_array, "requested array");
-		this.callTypeSubtypeService.saveCallTypeSubtype(this.request_array).subscribe(response=>this.saveCallTypeSubTypeSuccessHandeler(response));
+		// this.request_object = {
+		// 	"callGroupType": this.callType,
+		// 	"callType1": this.temporarySubtypeArray,
+		// 	"createdBy": "Diamond Khanna"
+		// }
+		// this.request_array.push(this.request_object);
+		// console.log(this.request_array, "requested array");
+		this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray).subscribe(response=>this.saveCallTypeSubTypeSuccessHandeler(response));
 	}
 
 	
 	// CRUD
 	get_calltype_subtype_history()
 	{
+		this.showTable = true;
 		this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID).subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response));
 	}
 
@@ -178,8 +195,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	getServicesSuccessHandeler(response) {
+	
 		this.service = "";
-		this.provider_services = response;
+		this.provider_services = response.filter(function(obj){
+				return obj.serviceID == 1 || obj.serviceID == 3;
+		});
 	}
 
 	getCallTypeSubTypeSuccessHandeler(response)
@@ -187,7 +207,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		console.log("call type subtype history", response);
 		this.data = response;
 
-		this.showTable = true;
+		
 	}
 
 	saveCallTypeSubTypeSuccessHandeler(response)
@@ -205,6 +225,55 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	}
 
-
-
+	callTypeSelected(callType) {
+		this.tempCorrespondingSubCallType = [];
+		this.callSubType = "";
+		this.showCallType = true;
+		this.tempCorrespondingSubCallType = this.data.filter(function(obj){
+				return obj.callGroupType == callType;
+		});
+		console.log(this.data);
+		console.log(this.tempCorrespondingSubCallType);
+	}
+	callSubTypes(value) {
+		
+		let a:boolean=false;
+		let b:boolean=false;
+		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
+			if(value.toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+				this.subCallTypeExist = true;
+				debugger;
+				a = true;
+				break;
+			}
+			else {
+				 a = false;
+			}
+		}
+		for(var i=0; i<this.temporarySubtypeArray.length; i++) {
+			if(value.toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
+				this.subCallTypeExist = true;
+				debugger;
+				b = true;
+				break;
+			}
+			else {
+				 b = false;
+			}
+		}
+		if(a == false && b == false) {
+			debugger;
+			this.subCallTypeExist = false;
+		}
+	}
+	fitToBlocks(flag) {
+		if(flag) {
+			this.fitForFollowup = false;
+		}
+	}
+	fitForFollowups(flag) {
+		if(flag) {
+			this.fitToBlock = false;
+		}
+	}
 }

@@ -20,13 +20,14 @@ export class ZoneDistrictMappingComponent implements OnInit {
   editable:any = false;
   availableZones:any = [];
   districts:any = [];
-
+  createdBy:any;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public zoneMasterService:ZoneMasterService,
               private alertMessage: ConfirmationDialogsService) { 
     this.data = [];
     this.service_provider_id =this.commonDataService.service_providerID;
+    this.createdBy = this.commonDataService.uname;
    }
 
   showForm(){
@@ -121,7 +122,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
             
             this.dataObj = {};
             this.dataObj.zoneDistrictMapID = mappedDistrict.zoneDistrictMapID;
-            this.dataObj.modifiedBy = "Admin";
+            this.dataObj.modifiedBy = this.createdBy;
             if(districtIds.indexOf(mappedDistrict.districtID.toString())==-1){
                 this.dataObj.deleted =  true;
                 this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
@@ -148,7 +149,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 // } 
                 this.zoneDistrictMappingObj.providerServiceMapID = values.serviceID.split("-")[1];
                 this.zoneDistrictMappingObj.stateName = values.stateID.split("-")[1];
-                this.zoneDistrictMappingObj.createdBy = "System";
+                this.zoneDistrictMappingObj.createdBy = this.createdBy;
 
                 this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
                 console.log(this.zoneDistrictMappingList);
@@ -179,7 +180,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.dataObj = {};
         this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
         this.dataObj.deleted = !zoneMapping.deleted;
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
         zoneMapping.deleted = !zoneMapping.deleted;

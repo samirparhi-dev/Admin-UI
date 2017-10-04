@@ -264,7 +264,6 @@ export class LocationServicelineMappingComponent implements OnInit {
       .subscribe((response: Response) => this.currentServicesSuccess(response));
   }
   currentServicesSuccess(res) {
-    debugger;
      this.officeArray = res;
   }
    officeNameExist: boolean = false;
@@ -273,15 +272,14 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     for(var i=0; i<this.officeArray.length; i++) {
        let a = this.officeArray[i].locationName;
-     
-      if(a.toLowerCase() == value.toLowerCase()) {
-        this.officeNameExist = true;
-        this.msg = "OfficeName exist for "+this.officeArray[i].serviceName+", deselect "+this.officeArray[i].serviceName;
- 
-      }
-      else {
-        this.officeNameExist = false;
-      }
+       if(a.toLowerCase() == value.toLowerCase()) {
+         this.officeNameExist = true;
+         this.msg = "OfficeName exist for "+this.officeArray[i].serviceName+", deselect "+this.officeArray[i].serviceName;
+         break;
+       }
+       else {
+         this.officeNameExist = false;
+       }
     }
   }
   

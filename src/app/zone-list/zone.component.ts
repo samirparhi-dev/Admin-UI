@@ -20,7 +20,7 @@ export class ZoneComponent implements OnInit {
     editable: any = false;
     availableZoneNames: any = [];
     countryID: any;
-
+    createdBy:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public zoneMasterService: ZoneMasterService,
@@ -28,6 +28,7 @@ export class ZoneComponent implements OnInit {
         this.data = [];
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
+        this.createdBy = this.commonDataService.uname;
     }
 
     showForm() {
@@ -146,7 +147,7 @@ export class ZoneComponent implements OnInit {
             }
             this.zoneObj.zoneHQAddress = values.zoneHQAddress;
 
-            this.zoneObj.createdBy = "System";
+            this.zoneObj.createdBy = this.createdBy;
 
             this.zoneList.push(this.zoneObj);
         //}
@@ -170,7 +171,7 @@ export class ZoneComponent implements OnInit {
         this.dataObj = {};
         this.dataObj.zoneID = zone.zoneID;
         this.dataObj.deleted = !zone.deleted;
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.zoneMasterService.updateZoneStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
         zone.deleted = !zone.deleted;
@@ -244,7 +245,7 @@ export class ZoneComponent implements OnInit {
         if(zone.branchID!=undefined){
             this.dataObj.districtBranchID = zone.branchID.split("-")[0];
         }
-        this.dataObj.modifiedBy = "Admin";
+        this.dataObj.modifiedBy = this.createdBy;
         this.zoneMasterService.updateZoneData(this.dataObj).subscribe(response => this.updateHandler(response));
 
     }
