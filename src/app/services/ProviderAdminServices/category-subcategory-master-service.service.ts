@@ -81,8 +81,8 @@ export class CategorySubcategoryService {
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
-	getCategory(id: any) {
-		return this.http.post(this.getCategory_url, { 'subServiceID': id })
+	getCategory(serviceProviderMapID: any, id: any) {
+		return this.http.post(this.getCategory_url, { 'providerServiceMapID': serviceProviderMapID, 'subServiceID': id })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

@@ -8,7 +8,8 @@
               <nav class="navbar navbar-default">
                 <div class="container-fluid">
                   <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                      aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
                   </div>
                   <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -20,9 +21,9 @@
                           <li style="cursor: pointer" (click)='show("4")'><a>Call Disposition Type Master</a></li>
                           <li style="cursor: pointer" (click)='show("5")'><a>Category Subcategory Provisioning</a></li>
                           <li style="cursor: pointer" (click)='show("12")'><a>Severity Type</a></li>
-     <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
+                          <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
                           <li style="cursor: pointer" (click)='show("6")'><a>Drug Master</a></li>
-                      
+
                           <li class="dropdown-submenu">
                             <a tabindex="-1">OutReach Master</a>
                             <ul class="dropdown-menu">
@@ -36,11 +37,11 @@
                         </ul>
                       </li>
                       <li style="cursor: pointer" (click)='show("10")'><a>Reports</a></li>
-                      <li class="dropdown"> 
+                      <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">configurations<span class="caret"></span></a>
                         <ul class="dropdown-menu multi-level">
                           <li class="dropdown-submenu">
-                            <a tabindex="-1" >OutReach Configrations</a>
+                            <a tabindex="-1">OutReach Configrations</a>
                             <ul class="dropdown-menu">
                               <li style="cursor: pointer" (click)='show("11")'><a>Service Point Village Mapping</a></li>
                             </ul>
@@ -77,3 +78,17 @@
     </div>
   </div>
 </div>
+<footer class="footer">
+  <div class="row" style="height: 20px">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+      <span class="footer-text">Powered by: WIPRO</span>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+      <p class="footer-text t-a-c">2017
+        <md-icon color="" class="copyright_icon" style="font-size: 15px">copyright</md-icon> PSMRI</p>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+      <!--<button md-raised-button type="button" color="primary" class="footer-height pull-right czenrix-bar" *ngIf="!barMinimized" (click)="toggleBar()">CZentrix</button>-->
+    </div>
+  </div>
+</footer>

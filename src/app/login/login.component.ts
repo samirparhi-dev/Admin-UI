@@ -5,22 +5,21 @@ import { Router } from '@angular/router';
 
 
 @Component({
-	selector:'login-component',
+	selector: 'login-component',
 	templateUrl: './login.html',
 	styles: ['body{ background:red !important; }']
 })
 
-export class loginContentClass{
+export class loginContentClass {
 	model: any = {};
 	userID: any;
 	password: any;
-	
-	constructor(public loginservice: loginService,public router:Router,public dataSettingService:dataService) { };
+	public loginResult: string;
+	constructor(public loginservice: loginService, public router: Router, public dataSettingService: dataService) { };
 
 	login(userId: any, password: any) {
 		console.log(userId, password);
-		if(userId==="SUPERADMIN" && password==="SUPERADMIN")
-		{
+		if (userId === "SUPERADMIN" && password === "SUPERADMIN") {
 			this.dataSettingService.Userdata = { "userName": "Super Admin" };
 			this.dataSettingService.role = "SUPERADMIN";
 			this.router.navigate(['/MultiRoleScreenComponent']);
@@ -30,34 +29,30 @@ export class loginContentClass{
 		// 	this.dataSettingService.role = "PROVIDERADMIN";
 		// 	this.router.navigate(['/MultiRoleScreenComponent']);
 		// }
-		else
-		{
+		else {
 			this.loginservice.authenticateUser(userId, password).subscribe(
 				(response: any) => this.successCallback(response),
 				(error: any) => this.errorCallback(error));
 		}
-		
+
 	};
 
-	successCallback(response:any)
-	{
+	successCallback(response: any) {
 
 		console.log(response);
 		this.dataSettingService.Userdata = response;
 		this.dataSettingService.userPriveliges = response.previlegeObj;
 		this.dataSettingService.uid = response.userID;
 		// this.dataSettingService.service_providerID = response.provider[0].providerID;
-		this.dataSettingService.uname=this.userID;
+		this.dataSettingService.uname = this.userID;
 		console.log("array", response.previlegeObj);
 
-		if (response.isAuthenticated === true && response.Status === "Active")
-		{
-			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response=>this.getServiceProviderMapIDSuccessHandeler(response));
+		if (response.isAuthenticated === true && response.Status === "Active") {
+			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {
 
-				for (let j = 0; j < response.Previlege[i].Role.length; j++)
-				{
+				for (let j = 0; j < response.Previlege[i].Role.length; j++) {
 					if (response.Previlege[i].Role[j] === "ProviderAdmin") {
 						this.router.navigate(['/MultiRoleScreenComponent']);
 						this.dataSettingService.role = "PROVIDERADMIN";
@@ -72,8 +67,13 @@ export class loginContentClass{
 			this.router.navigate(['/setQuestions']);
 		}
 	};
-	errorCallback(error: any) 
-	{
+	errorCallback(error: any) {
+		if (error.status) {
+			this.loginResult = error.errorMessage;
+		} else {
+			this.loginResult = 'Internal issue please try after some time';
+		}
+		// this.loading = false;
 		console.log(error);
 	};
 
@@ -92,17 +92,15 @@ export class loginContentClass{
 	}
 
 
-	getServiceProviderMapIDSuccessHandeler(response)
-	{
-		console.log("service provider map id",response);
+	getServiceProviderMapIDSuccessHandeler(response) {
+		console.log("service provider map id", response);
 		if (response != undefined) {
 			this.dataSettingService.service_providerID = response.serviceProviderID;
 		}
-		else
-		{
+		else {
 			alert("Service Provider MAP ID is not fetched, undefined");
 		}
 	}
-	
-	
+
+
 }

@@ -10,7 +10,7 @@ export class ConfirmationDialogsService {
     constructor(private dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     }
 
-    public confirm(title: string, message: string,
+    public confirm(message: string,
         btnOkText: string = 'Ok', btnCancelText: string = 'Cancel'): Observable<boolean> {
         let dialogRef: MdDialogRef<CommonDialogComponent>;
         const config = new MdDialogConfig();
@@ -19,7 +19,7 @@ export class ConfirmationDialogsService {
             width: '30%',
             disableClose: false
         });
-        dialogRef.componentInstance.title = title;
+        // dialogRef.componentInstance.title = title;
         dialogRef.componentInstance.message = message;
         dialogRef.componentInstance.btnOkText = btnOkText;
         dialogRef.componentInstance.btnCancelText = btnCancelText;
