@@ -26,8 +26,9 @@ import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
-import { myAddress } from './directives/address/myAddress.directive';
+import { myUserName } from './directives/address/myAddress.directive';
 
+import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
@@ -125,7 +126,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName, myMobileNumber, myEmail, myAddress, myProviderName, PAN,
+    myName, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,

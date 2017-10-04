@@ -66,7 +66,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   providerNameExist : boolean = false;
   request_object: any = {}
   providerListArray:any=[];
-
+  showAdd: boolean = false;
 
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) {
     this.countryID = 1;
@@ -215,13 +215,24 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
   // section 1
+  selectedService(value) {
 
+    debugger;
+    if (value.length > 0) {
+      this.showAdd = true;
+    }
+    else  {
+      this.showAdd = false;
+    }
+  }
 
 
 
 
   // section 2
   showService(){
+    this.service = "";
+    this.showAdd = false;
     this.showServiceline = true;
 
   }
@@ -306,6 +317,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     jQuery('#addServiceLines').trigger("reset");
     this.service = '';
     this.showTable = true;
+    this.showAdd = false;
 
   }
   remove_from_state_service_array(index) {
