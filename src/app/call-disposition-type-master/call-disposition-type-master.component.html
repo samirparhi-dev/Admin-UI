@@ -1,7 +1,7 @@
 <md-card>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
         
-         <h4 class="width100 t-a-c  f-s-b">Call Disposition</h4>   
+         <h4 class="width100 f-s-b">Call Disposition</h4>   
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -78,7 +78,8 @@
     <div class="m-t-10" *ngIf="showForm">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
+        <form #callTypeSubCallType="ngForm" autocomplete="off" id="addingSubTypes">
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15">
             <!--<md-select placeholder="Call Type" [style.width]="'100%'" [(ngModel)]="callType" (change)="reset()">
           <md-option value="Valid Call">
             Valid Call
@@ -87,56 +88,63 @@
             Invalid Call
           </md-option>
         </md-select>-->
-            <md-input-container class="p-t-7" style="width: 100% ">
-              <input mdInput placeholder="Call Type" [(ngModel)]="callType " name="callType">
+          <md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType " name="callType" required (change)="callTypeSelected(callType)">
+              <md-option value="Valid">Valid</md-option>
+              <md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
+              <md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15" [hidden]="!showCallType">
+            <md-input-container class="p-t-7" style="width: 100% " >
+              <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
+              <md-hint class="errorText" *ngIf="subCallTypeExist">
+                  This sub call type exist for this service & call Type
+              </md-hint>
             </md-input-container>
           </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15">
-            <md-input-container class="p-t-7" style="width: 100% ">
-              <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType">
-            </md-input-container>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+          </form>
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
             <label class="f-s-n-b">Fit To Block</label>
-            <md-radio-group [(ngModel)]="fitToBlock" (change)="fitForFollowup=!fitToBlock">
-              <md-radio-button [value]="true">YES</md-radio-button>
-              <md-radio-button [value]="false">NO</md-radio-button>
+            <md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)">
+              <md-radio-button  color="primary"  [value]="true">YES</md-radio-button>
+              <md-radio-button  color="primary"  [value]="false">NO</md-radio-button>
             </md-radio-group>
           </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
             <label class="f-s-n-b">Fit For FollowUp</label>
-            <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitToBlock=!fitForFollowup">
-              <md-radio-button [value]="true">YES</md-radio-button>
-              <md-radio-button [value]="false">NO</md-radio-button>
+            <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
+              <md-radio-button color="primary" [value]="true">YES</md-radio-button>
+              <md-radio-button color="primary" [value]="false">NO</md-radio-button>
             </md-radio-group>
           </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-15 width10">
-            <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callSubType,fitToBlock,fitForFollowup)">
-          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-        </button>
+
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15 width10" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">
+            <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock,fitForFollowup)">
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+            </button>
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div *ngFor="let item of temporarySubtypeArray;let i=index" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
               <md-chip-list>
-                <md-chip color="accent" selected="true">{{callType}}</md-chip>
+                <md-chip color="accent" selected="true">{{item.callGroupType}}</md-chip>
               </md-chip-list>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
               <md-chip-list>
-                <md-chip color="accent" selected="true">{{item.calltype}}</md-chip>
+                <md-chip color="accent" selected="true">{{item.callType}}</md-chip>
               </md-chip-list>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
               <div class="col-lg-6">
                 <md-chip-list>
-                  <md-chip color="accent" selected="true">block:{{item.fitToBlock1[0]==true?'yes':'no'}}</md-chip>
+                  <md-chip color="accent" selected="true">Block:{{item.fitToBlock}}</md-chip>
                 </md-chip-list>
               </div>
               <div class="col-lg-6">
                 <md-chip-list>
-                  <md-chip color="accent" selected="true">followup:{{item.fitForFollowup1[0]==true?'yes':'no'}}</md-chip>
+                  <md-chip color="accent" selected="true">Followup:{{item.fitForFollowup}}</md-chip>
                 </md-chip-list>
               </div>
             </div>
@@ -147,7 +155,7 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-            <button class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
+            <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
             <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
           </div>
         </div>

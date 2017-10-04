@@ -1,7 +1,7 @@
 <md-card>
 	<div class="row">
-		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Severity Type </h4>
-		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Severity Type </h4>
+		<h4  *ngIf="firstPage" class="width100  m-b-20 f-s-b">Severity Type </h4>
+		<h4  *ngIf="!firstPage" class="width100  m-b-20 f-s-b">Add Severity Type </h4>
 		<form>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess>

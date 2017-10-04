@@ -80,11 +80,12 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show2">
       <!-- <div class="panel-body card "> -->
       <!-- <div class="row"> -->
-          <div class="row">
-      <label class="pull-left">Create Provider - Serviceline Mapping</label>
-    </div>
+      <form id="addServiceLines">
+      <div class="row">
+        <label class="pull-left">Create Provider - Serviceline Mapping</label>
+      </div>
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="showService()" required>
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="showService()" required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
@@ -97,10 +98,12 @@
           </md-option>
         </md-select>
       </div>
+        </form>
       <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 ">
         <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black"
           (click)="add_2_state_service_array(state,service)">add</md-icon>
       </div>
+    
       <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 ">
         <button color="primary" class="pull-right" md-raised-button (click)="show(1,'back')">Back</button>
       </div>

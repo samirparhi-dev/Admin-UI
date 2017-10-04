@@ -28,7 +28,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <md-input-container myAddress style="width: 100%">
-          <input mdInput placeholder="Address" name="address" [(ngModel)]="address" #addressValue="ngModel" required>
+          <input mdInput placeholder="Address" name="address" [(ngModel)]="address"  disabled="true" #addressValue="ngModel" required>
           <md-hint *ngIf="addressValue.errors && addressValue.touched">
             <span class="error_text">Address is required</span>
           </md-hint>
