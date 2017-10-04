@@ -87,7 +87,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getDetails(subServiceID: any, providerServiceMapID: any) {
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMapID, subServiceID)
       .subscribe((response) => {
-        debugger;
         this.data = response;
       }, (err) => {
 
