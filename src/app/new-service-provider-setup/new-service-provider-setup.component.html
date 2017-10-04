@@ -99,12 +99,12 @@
         </md-select>
       </div>
         </form>
-      <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 " *ngIf="showAdd">
+      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 " *ngIf="showAdd">
         <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black"
           (click)="add_2_state_service_array(state,service)">add</md-icon>
       </div>
     
-      <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 ">
+      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 pull-right">
         <button color="primary" class="pull-right" md-raised-button (click)="show(1,'back')">Back</button>
       </div>
       <div class="row"> </div>
@@ -231,7 +231,7 @@
           <md-input-container style="width: 100% " >
             <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel" maxlength="12">
             <md-hint class="errorText">
-              <span [hidden]="!pass.hasError('pattern')">Enter valid regular expression(min:8,max:12)</span>
+              <span [hidden]="!pass.hasError('pattern')">Enter valid(min:8,max:12,alphanumeric with 1 special character)</span>
             </md-hint>
           </md-input-container>
         </div>

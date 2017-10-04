@@ -52,9 +52,9 @@
                 <td>{{i.fitToBlock}}</td>
                 <td>{{i.fitForFollowup}}</td>
                 <td>
-                -
-<!--                   <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
-                  <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">delete</md-icon> -->
+               
+<!--                   <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon> -->
+                  <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon>
                 </td>
               </tr>
             </tbody>
