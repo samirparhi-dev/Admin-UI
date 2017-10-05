@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-
+import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from "../config/config.service";
 
 
@@ -28,7 +28,7 @@ export class ProviderAdminRoleService {
 
 	getFeaturesUrl:any;
 
-	constructor(private http: Http,public basepaths:ConfigService) { 
+	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 		console.log(this.admin_Base_Url);
 		this.get_State_Url = this.admin_Base_Url + "m/role/state";
@@ -61,7 +61,7 @@ export class ProviderAdminRoleService {
 	}
 
 	getRoles(serviceProviderID, stateID,serviceID) {
-		return this.http.post(this.find_Roles_By_State_Service_Url,
+		return this.httpIntercept.post(this.find_Roles_By_State_Service_Url,
 		{
 			"serviceProviderID": serviceProviderID,
 			"stateID": stateID,
@@ -72,21 +72,21 @@ export class ProviderAdminRoleService {
 	}
 
 	createRoles(roles_array) {
-		return this.http.post(this.create_Roles_Url, roles_array)
+		return this.httpIntercept.post(this.create_Roles_Url, roles_array)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
 	deleteRole(roleID)
 	{
-		return this.http.post(this.delete_Role_Url, { "roleID": roleID })
+		return this.httpIntercept.post(this.delete_Role_Url, { "roleID": roleID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
 	editRole(modified_Role_Object)
 	{
-		return this.http.post(this.edit_Role_Url, modified_Role_Object)
+		return this.httpIntercept.post(this.edit_Role_Url, modified_Role_Object)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

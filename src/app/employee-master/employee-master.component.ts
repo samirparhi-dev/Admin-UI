@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
 import { dataService } from '../services/dataService/data.service';
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
@@ -35,7 +35,8 @@ export class EmployeeMasterComponent implements OnInit {
 
 	constructor(public EmployeeMasterService: EmployeeMasterService,
 				public CommonDataService: dataService,
-				public dialog: MdDialog) {
+				public dialog: MdDialog,
+				private alertService: ConfirmationDialogsService) {
 		this.serviceProviderID =this.CommonDataService.service_providerID;
 		
 		this.createEmployeeFlag = false;
@@ -102,15 +103,22 @@ export class EmployeeMasterComponent implements OnInit {
 	}
 
 	deleteUser(usrMapingId) {
-		let confirmation = confirm("do you want to delete this role ???");
-		if (confirmation) {
+		debugger;
+		// let confirmation = confirm("do you want to delete this role ???");
+		this.alertService.confirm("Are you sure you want to delete this role ?").subscribe((res)=>{
+			if (res) {
 			this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe((response: Response) => this.userDeleteHandeler(response));
-		}
+			}
+		},
+		(err)=>{
+			console.log(err);
+		})
 	}
 
 	editeUser(toBeEditedObject) {
-		let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
-		if (confirmation) {
+		// let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
+		this.alertService.confirm("Do you want to edit the user with employeeID as " + toBeEditedObject.userID + "?").subscribe((res)=>{
+			if (res) {
 			console.log(JSON.stringify(toBeEditedObject));	
 
 			let dialog_Ref = this.dialog.open(EditEmployeeDetailsModal, {
@@ -127,6 +135,10 @@ export class EmployeeMasterComponent implements OnInit {
 
 			});
 		}
+		},
+		(err)=>{
+			console.log(err);
+		})
 	}
 
 	getStatesOfServiceProviderSuccessHandeler(response)
@@ -155,6 +167,7 @@ export class EmployeeMasterComponent implements OnInit {
 	}
 
 	userDeleteHandeler(response) {
+		this.alertService.alert("User deleted successfully");
 		console.log(response, "user delete successfully");
 		this.searchEmployee(this.state_filter, this.service_filter, this.role_filter, this.name_filter, this.employee_id_filter);
 	}
@@ -179,7 +192,8 @@ export class EditEmployeeDetailsModal{
 
 	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
 		public EmployeeMasterService: EmployeeMasterService,
-		public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>) { }
+		public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
+		private alertService: ConfirmationDialogsService) { }
 
 	ngOnInit() {
 		this.m_firstname = this.data.firstName;
@@ -305,6 +319,7 @@ export class EditEmployeeDetailsModal{
 	}
 
 	editEmployeeDetailsSuccessHandeler(response) {
+		this.alertService.alert("Employee details edited successfully");
 		console.log('edited', response);
 		this.dialog_Ref.close("success");
 	}

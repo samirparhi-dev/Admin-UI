@@ -1,7 +1,7 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { LocationServicelineMapping } from "../services/ProviderAdminServices/location-serviceline-mapping.service";
 import { dataService } from '../services/dataService/data.service';
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogRef} from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 declare var jQuery: any;
@@ -46,7 +46,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   constructor(public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public commonDataService: dataService,
-    public dialog: MdDialog) 
+    public dialog: MdDialog, private alertService: ConfirmationDialogsService) 
   {
     this.serviceProviderID = this.commonDataService.service_providerID; //pass this value dynamically
     this.states = [];
@@ -198,12 +198,17 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   deleteOfficeAddress(id) {
-    let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
-    if (confirmation) {
-      console.log(id);
-      this.provider_admin_location_serviceline_mapping.deleteWorkLocation(id)
-        .subscribe((response: Response) => this.deleteOfficeSuccessHandeler(response));
-    }
+    // let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
+    this.alertService.confirm("Are you sure want to delete?").subscribe((res)=>{
+      if (res) {
+        console.log(id);
+        this.provider_admin_location_serviceline_mapping.deleteWorkLocation(id)
+          .subscribe((response: Response) => this.deleteOfficeSuccessHandeler(response));
+      }
+    },
+    (err)=>{
+      console.log(err);
+    })
   }
 
  // handeler functions
@@ -237,7 +242,8 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   saveOfficeSuccessHandeler(response) {
-    alert("location successfully created");
+    // alert("location successfully created");
+    this.alertService.alert("Location created successfully");
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
@@ -247,6 +253,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   deleteOfficeSuccessHandeler(response) {
+    this.alertService.alert("Location deleted successfully")
     console.log('deleted', response);
     this.findLocations();
   }
@@ -301,7 +308,8 @@ export class EditLocationModal {
 
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
   public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
-  public dialog_Ref: MdDialogRef<EditLocationModal>) { }
+  public dialog_Ref: MdDialogRef<EditLocationModal>,
+  private alertService: ConfirmationDialogsService) { }
   
   ngOnInit() {
 
@@ -338,6 +346,7 @@ export class EditLocationModal {
   }
 
   editOfficeSuccessHandeler(response) {
+    this.alertService.alert("Location edited successfully");
     console.log('edited', response);
     this.dialog_Ref.close("success");
   }
