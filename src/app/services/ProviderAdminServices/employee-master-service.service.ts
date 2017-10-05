@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-
+import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from "../config/config.service";
 
 
@@ -53,7 +53,7 @@ export class EmployeeMasterService {
 
 
 
-  constructor(private http: Http, public basepaths: ConfigService) {
+  constructor(private http: Http, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
@@ -181,25 +181,25 @@ export class EmployeeMasterService {
   // CRUD begins
   createEmployee(requestObject) {
     console.log(requestObject, "request obj in service")
-    return this.http.post(this.createEmployeeUrl, JSON.parse(requestObject))
+    return this.httpIntercept.post(this.createEmployeeUrl, JSON.parse(requestObject))
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   editEmployee(requestObject) {
-    return this.http.post(this.editEmployeeUrl, requestObject)
+    return this.httpIntercept.post(this.editEmployeeUrl, requestObject)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   deleteEmployeeRole(usrMapID) {
-    return this.http.post(this.deleteRoleUrl, { "uSRMappingID": usrMapID })
+    return this.httpIntercept.post(this.deleteRoleUrl, { "uSRMappingID": usrMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   getEmployees(requestObject) {
-    return this.http.post(this.getEmployeeUrl, requestObject)
+    return this.httpIntercept.post(this.getEmployeeUrl, requestObject)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
