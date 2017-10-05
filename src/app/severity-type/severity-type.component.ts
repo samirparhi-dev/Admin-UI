@@ -159,7 +159,7 @@ export class EditSeverityModalComponent {
     ) { }
   ngOnInit() {
     this.data;
-    debugger;
+    ;
      this.severity = this.data.severityTypeName;
      this.description = this.data.severityDesc;
 

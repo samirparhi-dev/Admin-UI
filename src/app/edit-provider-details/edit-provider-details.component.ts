@@ -108,7 +108,7 @@ export class EditProviderDetailsComponent implements OnInit {
     // for(var i=0; i<this.providerListArray.length; i++) {
     //   if(this.providerListArray[i].serviceProviderName.toLowerCase() === service_provider_name.toLowerCase()){
     //       this.providerNameExist = true;
-    //       debugger;
+    //       ;
     //   }
     //   else  {
     //     this.providerNameExist = false;

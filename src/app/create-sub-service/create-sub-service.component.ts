@@ -54,7 +54,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.states = response;
     // if(this.added){
     //   this.searchState = this.state;
-    //   debugger;
+    //   ;
     // }
   }
   getAllServicesInState(serviceProviderObj, stateObj) {
@@ -84,9 +84,10 @@ export class CreateSubServiceComponent implements OnInit {
     this.services = response;
   }
   getExistingOnSearch(service) {
+    ;
     this.sub_service.getSubServiceDetails(service.providerServiceMapID)
       .subscribe(response => this.populateTable(response, service))
-  }
+  } 
   populateTable(response, service) {
     this.showTable = true;
     this.data = response;
@@ -97,14 +98,13 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.existingSubServiceHandler(response))
   }
 
-
   existingSubServiceHandler(response) {
-
     this.existingSubService = [];
     this.existingSubService = response;
     this.getSubServices(this.serviceObj);
 
   }
+
   add(providerServiceMapID, state, service, subServices, subServiceDesc) {
     const array = [];
     const obj = {};
@@ -119,7 +119,7 @@ export class CreateSubServiceComponent implements OnInit {
       if (response.length > 0) {
         this.message.alert('Added Sucessfully');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
-          this.showSubService(res, service.serviceName);
+          // this.showSubService(res, service.serviceName);
           this.clearFields();
         }, (err) => {
 
@@ -223,16 +223,22 @@ export class CreateSubServiceComponent implements OnInit {
   }
   addSubService(flag) {
     this.searchForm = flag;
+    if (flag) {
+      this.getExistingOnSearch(this.serviceObj);
+    }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
     // jQuery('#addingForm').trigger('reset');
   }
   deleteSubService(subserviceID) {
-
-    this.sub_service.deleteSubService(subserviceID).subscribe(response => {
-      this.deletedSuccessHandler(response)
-    })
+    this.message.confirm('Are you sure want to delete?').subscribe((res) => {
+      if (res) {
+        this.sub_service.deleteSubService(subserviceID).subscribe(response => {
+          this.deletedSuccessHandler(response)
+        })
+      }
+    }, (err) => { });
   }
   clearFields() {
     this.subServiceDesc = '';

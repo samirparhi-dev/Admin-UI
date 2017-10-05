@@ -91,7 +91,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.showForm = flag;
 		// if (flag) {
 		// 	jQuery("#addingSubTypes").trigger("reset");
-		// 	debugger;
+		// 	;
 		// }
 		this.callType = "";
 		this.callSubType = "";

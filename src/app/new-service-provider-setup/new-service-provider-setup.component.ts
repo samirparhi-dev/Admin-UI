@@ -262,10 +262,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 			*/
     // if (this.state_service_array.length > 0) {
     // 	this.state_service_array = this.state_service_array.filter(function (item) {
-    // 		debugger;
+    // 		;
     // 		return item !== data_obj
     // 	}).map(function (data) {
-    // 		debugger;
+    // 		;
     // 		return data;
     // 	});
     // 	if()
@@ -400,7 +400,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     // for(var i=0; i<this.providerListArray.length; i++) {
     //   if(this.providerListArray[i].serviceProviderName.toLowerCase() === service_provider_name.toLowerCase()){
     //       this.providerNameExist = true;
-    //       debugger;
+    //       ;
     //   }
     //   else  {
     //     this.providerNameExist = false;

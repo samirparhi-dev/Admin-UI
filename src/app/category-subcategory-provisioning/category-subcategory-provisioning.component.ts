@@ -15,9 +15,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   state: any;
   service: any;
   sub_service: any;
-
+  showDiv: boolean = false;
   api_choice: any;
-
+  subCat: any = [];
   // flags
   Add_Category_Subcategory_flag: boolean;
   showTable: boolean;
@@ -85,14 +85,50 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
 
   }
+  // to get the details of category and subcategory
   getDetails(subService: any, providerServiceMap: any) {
+    ;
+    this.showDiv = true;
+    this.getCategory(providerServiceMap, subService.subServiceID);
+    this.CategorySubcategoryService.getCategory(providerServiceMap, subService.subServiceID)
+      .subscribe((response) => {
+        ;
+        if (response) {
+          this.data = response.filter(function (item) {
+            return item.categoryID !== null && item.categoryName !== null;
+          });
+        }
+      }, (err) => {
+
+      });
+
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService.subServiceID)
       .subscribe((response) => {
-        this.data = response;
+        if (response) {
+          this.subCat = response;
+        }
       }, (err) => {
 
       });
   }
+
+  // to refresh the category after deletion
+  refeshCategory(subService: any, providerServiceMap: any) {
+    this.showDiv = true;
+    this.CategorySubcategoryService.getCategory(providerServiceMap, subService)
+      .subscribe((response) => {
+        ;
+        if (response) {
+          this.data = response.filter(function (item) {
+            return item.categoryID !== null && item.categoryName !== null;
+          });
+          this.categories = response;
+        }
+      }, (err) => {
+
+      });
+  }
+
 
   hideTable() {
     this.showTable = false;
@@ -171,16 +207,17 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       // this.resetFields();
     }
   }
+
+  // final save to save category and sub category
   finalsave(service) {
     if (this.api_choice === "0") {
       this.addNewCategory(service);
     } else {
-      this.addExistCategory(service);
+      this.addSubCategory(service);
     }
   }
-
+  // add category
   addNewCategory(providerServiceMapID) {
-
     let categoryObj = [];
     categoryObj = this.serviceList.map(function (item) {
       return {
@@ -192,25 +229,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         'createdBy': item.createdBy
       }
     })
-    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
-    //   return {
-    //     'subCategoryName': item.subCategoryName,
-    //     'subCategoryDesc': item.desc,
-    //     'subCatFilePath': item.filePath
-    //   }
-    // })
 
     this.CategorySubcategoryService.saveCategory(categoryObj)
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
             this.messageBox.alert('Successfully Created');
-            // this.searchForm = true;
             this.serviceList.length = [];
-            // this.showTable = true;
-            // this.api_choice = 1;
-            // this.changeRequestObject(this.api_choice);
-            this.getDetails(this.sub_service, providerServiceMapID);
+            this.getCategory(providerServiceMapID, this.sub_service);
           }
         }
       }, (err) => {
@@ -218,17 +244,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
   }
 
-  addExistCategory(providerServiceMapID) {
-    // const categoryObj = {};
-    // categoryObj['categoryID'] = this.category_ID.categoryID;
-    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
-    //   return {
-    //     'subCategoryName': item.subCategoryName,
-    //     'subCategoryDesc': item.desc,
-    //     'subCatFilePath': item.filePath
-    //   }
-    // })
-    // categoryObj['createdBy'] = this.createdBy;
+  // add sub category 
+  addSubCategory(providerServiceMapID) {
     let subCategoryObj = [];
     subCategoryObj = this.serviceSubCatList.map(function (item) {
       return {
@@ -249,7 +266,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
-        // this.serviceSubCatList.length = 0;
       }, (err) => {
 
       });
@@ -259,6 +275,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.serviceList.length = 0;
     this.showTable = true;
     this.cateDisabled = 'false';
+    ;
+    this.getCategory(this.service, this.sub_service.subServiceID);
 
   }
   getCategory(providerserviceMapId: any, subServiceID: any) {
@@ -266,6 +284,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           this.categories = response;
+          this.data = response;
         }
       }, (err) => {
 
@@ -280,7 +299,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id)
           .subscribe((response) => {
             if (response) {
-              this.getDetails(response.subServiceID, response.providerServiceMapID);
+              this.refeshCategory(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {
 
