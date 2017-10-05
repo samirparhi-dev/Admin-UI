@@ -147,6 +147,7 @@ export class SeverityTypeComponent implements OnInit {
   clear() {
     this.data=[];
    this.services=[];
+   this.search = false;
   }
 }
 

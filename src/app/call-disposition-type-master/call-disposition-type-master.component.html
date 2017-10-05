@@ -27,7 +27,7 @@
         </button>
         </div> -->
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <button class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
+        <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
       </div>
       </div>
     </div>

@@ -235,7 +235,7 @@
             <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel"
               maxlength="12">
             <md-hint class="errorText">
-              <span [hidden]="!pass.hasError('pattern')">Enter valid(min:8,max:12,alphanumeric with 1 special character)</span>
+              <span [hidden]="!pass.hasError('pattern')">Enter valid(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
             </md-hint>
           </md-input-container>
         </div>

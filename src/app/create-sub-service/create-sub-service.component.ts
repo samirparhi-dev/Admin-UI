@@ -63,7 +63,10 @@ export class CreateSubServiceComponent implements OnInit {
   }
 
   getAllServicesInStatesSuccess(response) {
-    this.services = response;
+    
+    this.services = response.filter(function(obj){
+      return obj.serviceID == 3 || obj.serviceID == 1;
+    });
   }
 
   getStates(serviceProviderID) {
