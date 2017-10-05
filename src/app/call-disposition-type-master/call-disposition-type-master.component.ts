@@ -365,7 +365,6 @@ export class EditCallType {
 	}
 
 	modifySuccess(res) {
-		debugger;
 		this.dialogReff.close();
 	}
 }

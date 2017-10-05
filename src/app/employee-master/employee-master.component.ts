@@ -103,7 +103,6 @@ export class EmployeeMasterComponent implements OnInit {
 	}
 
 	deleteUser(usrMapingId) {
-		debugger;
 		// let confirmation = confirm("do you want to delete this role ???");
 		this.alertService.confirm("Are you sure you want to delete this role ?").subscribe((res)=>{
 			if (res) {
