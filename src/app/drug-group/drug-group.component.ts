@@ -124,7 +124,7 @@ export class DrugGroupComponent implements OnInit {
 
   successHandler(response){
     this.drugGroupList =  [];
-    this.alertMessage.alert("Drug Groups stored successfully");
+    this.alertMessage.alert("Drug Groups saved successfully");
     this.getAvailableDrugs();
   }
   dataObj:any ={};
@@ -141,6 +141,7 @@ export class DrugGroupComponent implements OnInit {
 
   updateStatusHandler(response){
     console.log("Drug Group status changed");
+    this.alertMessage.alert("Drug Group status changed");
   }
 
   drugGroupID:any;
@@ -175,7 +176,7 @@ export class DrugGroupComponent implements OnInit {
 
   updateHandler(response){
     this.editable = false;
-    this.alertMessage.alert("updated successfully");
+    this.alertMessage.alert("Updated successfully");
     this.getAvailableDrugs();
   }
 

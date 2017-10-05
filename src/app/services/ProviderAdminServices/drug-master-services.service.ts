@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-
+import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from "../config/config.service";
 
 @Injectable()
@@ -27,7 +27,7 @@ export class DrugMasterService {
 
      _getStateListBYServiceIDURL:any;
 
-     constructor(private http: Http,public basepaths:ConfigService) { 
+     constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
           this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
           this.saveDrugGroupsURL = this.providerAdmin_Base_Url + "m/saveDrugGroup";
           this.saveDrugsURL = this.providerAdmin_Base_Url + "m/saveDrug";
@@ -46,68 +46,68 @@ export class DrugMasterService {
 
     saveDrugGroups(data)
     {
-        return this.http.post(this.saveDrugGroupsURL, data)
+        return this.httpIntercept.post(this.saveDrugGroupsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     saveDrugs(data)
     {
-        return this.http.post(this.saveDrugsURL, data)
+        return this.httpIntercept.post(this.saveDrugsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     mapDrugGroups(data){
-        return this.http.post(this.mapDrugGroupURL, data)
+        return this.httpIntercept.post(this.mapDrugGroupURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     getDrugsList(data){
-        return this.http.post(this.getDrugsListURL, data)
+        return this.httpIntercept.post(this.getDrugsListURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     getDrugGroups(data){
-        return this.http.post(this.getDrugGroupsURL, data)
+        return this.httpIntercept.post(this.getDrugGroupsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     getDrugMappings(data){
-        return this.http.post(this.getDrugMappingsURL, data)
+        return this.httpIntercept.post(this.getDrugMappingsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     updateDrugStatus(data){
-        return this.http.post(this.updateDrugStatusURL, data)
+        return this.httpIntercept.post(this.updateDrugStatusURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     updateDrugGroup(data){
-        return this.http.post(this.updateDrugGroupURL, data)
+        return this.httpIntercept.post(this.updateDrugGroupURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     updateDrugData(data){
-        return this.http.post(this.updateDrugDataURL, data)
+        return this.httpIntercept.post(this.updateDrugDataURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     updateDrugMappings(data){
-        return this.http.post(this.updateDrugMappingsURL, data)
+        return this.httpIntercept.post(this.updateDrugMappingsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
 
     getStatesByServiceID(serviceID,serviceProviderID) {
-		return this.http.post(this._getStateListBYServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
+		return this.httpIntercept.post(this._getStateListBYServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
