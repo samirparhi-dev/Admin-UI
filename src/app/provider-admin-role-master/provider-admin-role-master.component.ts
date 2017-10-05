@@ -311,5 +311,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     {
         this.objs.splice(index, 1);
     }
-
+    clear() {
+        this.services = [];
+        this.searchresultarray= [];
+        this.showAddButtonFlag = false;
+    }
 }

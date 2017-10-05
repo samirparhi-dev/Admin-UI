@@ -21,12 +21,16 @@
                 </md-option>
             </md-select>
         </div>
+        </form>
 <!--         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="showAddButtonFlag" >
             <button md-mini-fab " color="primary" >
                 <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
             </button>
         </div> -->
-        </form>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <button class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button>
+      </div>
+        
     </div>
 
 

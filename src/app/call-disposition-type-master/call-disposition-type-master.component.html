@@ -5,25 +5,30 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <form #searchForm="ngForm">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-select [disabled]="disableSelect" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
+          <md-select [disabled]="disableSelect" placeholder="State" name="state" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
             <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
               {{item.stateName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-select [disabled]="disableSelect" placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" required >
+          <md-select [disabled]="disableSelect" placeholder="Service Line" name="service" [style.width]="'100%'" [(ngModel)]="service" required >
             <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
               {{item.serviceName}}
             </md-option>
           </md-select>
         </div>
+        </form>
 <!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
           <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
         </button>
         </div> -->
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <button class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
+      </div>
       </div>
     </div>
 
