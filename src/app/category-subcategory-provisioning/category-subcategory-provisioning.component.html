@@ -39,8 +39,6 @@
       <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
-            <!-- <th>ID</th> -->
-            <!-- <th>SubService</th> -->
             <th>Category</th>
             <th>Category Desc</th>
             <th>Actions</th>
@@ -48,10 +46,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let i of md2.data">
-            <!-- <td width=10%>{{i?.categoryID}}</td> -->
             <td>{{i?.categoryName}}</td>
             <td>{{i?.categoryDesc}}</td>
-            <!-- <td>{{i?.subCategoryName}}</td> -->
             <td>
               <!--               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon> -->
               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon>
