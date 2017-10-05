@@ -206,7 +206,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     employeeParkingPlaceMappingObj:any;
     employeeParkingPlaceMappingList: any = [];
     storeEmployeeParkingPlaceMapping(){
-        debugger;
         console.log(this.MappingForm.value);
         let mappings = this.MappingForm.value.mappings;
         let mappingArray = <FormArray>this.MappingForm.controls.mappings;

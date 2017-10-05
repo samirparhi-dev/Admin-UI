@@ -63,7 +63,6 @@ export class CallTypeSubtypeService {
        .catch(this.handleError);
    }
    deleteSubCallType(subCallType){
-     debugger;
      return this.http.post(this.delete_SubCallType_Url, { "callTypeID" : subCallType }).map(this.handleSuccess)
        .catch(this.handleError);    
    }

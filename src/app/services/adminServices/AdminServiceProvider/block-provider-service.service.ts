@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { ConfigService } from '../../config/config.service';
+import { InterceptedHttp } from './../../../http.interceptor';
 
 
 
@@ -36,7 +37,7 @@ export class BlockProvider {
   editProvider_URL: any;
   deleteSubserviceUrl: any;
 
-  constructor(private _http: Http, public ConfigService: ConfigService) {
+  constructor(private _http: Http, public ConfigService: ConfigService, private httpInterceptor: InterceptedHttp) {
     this.admin_base_url = this.ConfigService.getAdminBaseUrl();
     this.getAllStatus_URL = this.admin_base_url + 'getStatus';
     this.getAllProviderUrl = this.admin_base_url + 'getAllProvider';
@@ -174,8 +175,8 @@ export class BlockProvider {
       .map(this.success_handeler).catch(this.error_handeler);
   }
   save_SubService(subServiceObj: any) {
-    return this._http.post(this.saveSubService, subServiceObj).map(this.success_handeler)
-      .catch(this.error_handeler);
+    return this.httpInterceptor.post(this.saveSubService, subServiceObj).map(this.success_handeler)
+      .catch(this.customErrorHandler);
   }
   getSubServiceDetails(providerServiceMapID: any) {
     return this._http.post(this.getSubServiceDetails_URL, {
@@ -198,7 +199,9 @@ export class BlockProvider {
     console.log(response.json().data, '--- in Block-Provider Service');
     return response.json().data;
   }
-
+  customErrorHandler(error: Response | any) {
+    return Observable.throw(error.json());
+  }
   error_handeler(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {

@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA } from '@angular/material';
 import { BlockProvider } from './../services/adminServices/AdminServiceProvider/block-provider-service.service';
-import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
-
+import { SuperAdmin_ServiceProvider_Service } from '../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service';
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 @Component({
   selector: 'app-edit-provider-details',
   templateUrl: './edit-provider-details.component.html',
@@ -19,17 +19,18 @@ export class EditProviderDetailsComponent implements OnInit {
   secondaryNo: any;
   secondaryAddress: any;
   emailPattern: any;
-  providerNameExist: any=false;
+  providerNameExist: any = false;
   providerID: any;
   providerName: any;
 
-  constructor(public dialogRef: MdDialogRef<EditProviderDetailsComponent>,public super_admin_service: SuperAdmin_ServiceProvider_Service,
-    @Inject(MD_DIALOG_DATA) public providerDetails: any, private provider_services: BlockProvider) { }
+  constructor(public dialogRef: MdDialogRef<EditProviderDetailsComponent>, public super_admin_service: SuperAdmin_ServiceProvider_Service,
+    private message: ConfirmationDialogsService, @Inject(MD_DIALOG_DATA) public providerDetails: any,
+    private provider_services: BlockProvider) { }
 
   ngOnInit() {
     const providerData = this.providerDetails;
     this.setProviderDetails(providerData);
-        this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
 
   }
@@ -56,26 +57,26 @@ export class EditProviderDetailsComponent implements OnInit {
 
   }
   Edit(item: any) {
-// {
-                  // "serviceProviderId" : "292",
-                  // "serviceProviderName":"Diamond BABA BABA abc",
-               
-//                   "stateId":"1",
-//                   "logoFileName":"diamond.png",
-//                   "logoFilePath":"google drive",
+    // {
+    // "serviceProviderId" : "292",
+    // "serviceProviderName":"Diamond BABA BABA abc",
 
-//                   "primaryContactName":"Neeraj Kumar Singh",
-//                  "primaryContactNo" :"12432434",
-//                   "primaryContactEmailID":"neeraj.kumar@gmail.com",
-//                   "primaryContactAddress":"Village: Indupur, Dist:bhabua, state: bihar, pincode:811302",
-                  
-//                   "secondaryContactName":"Neeraj Kumar",
-//                   "secondaryContactNo":"8197511886",
-//                   "secondaryContactEmailID":"neeraj.kumar1@gmail.com",
-//                   "secondaryContactAddress":"Village: chaipur, Dist: hai, state: bihar, pincode:811302",
+    //                   "stateId":"1",
+    //                   "logoFileName":"diamond.png",
+    //                   "logoFilePath":"google drive",
 
-//                   "statusID":"1"
-// }
+    //                   "primaryContactName":"Neeraj Kumar Singh",
+    //                  "primaryContactNo" :"12432434",
+    //                   "primaryContactEmailID":"neeraj.kumar@gmail.com",
+    //                   "primaryContactAddress":"Village: Indupur, Dist:bhabua, state: bihar, pincode:811302",
+
+    //                   "secondaryContactName":"Neeraj Kumar",
+    //                   "secondaryContactNo":"8197511886",
+    //                   "secondaryContactEmailID":"neeraj.kumar1@gmail.com",
+    //                   "secondaryContactAddress":"Village: chaipur, Dist: hai, state: bihar, pincode:811302",
+
+    //                   "statusID":"1"
+    // }
     const providerObj = {};
     providerObj['serviceProviderId'] = this.providerID;
     providerObj['serviceProviderName'] = item.providerName;
@@ -91,15 +92,15 @@ export class EditProviderDetailsComponent implements OnInit {
     providerObj['secondaryContactAddress'] = item.secondaryAddress;
     this.provider_services.editProvider(providerObj).subscribe((res) => {
 
-      alert('Updated Successfully');
+      this.message.alert('Updated Successfully');
       this.array.push(res);
       // this.setProviderDetails(this.array);
       this.dialogRef.close();
     }, (err) => {
-      alert('error');
+      this.message.alert('error');
     })
   }
-  array: any=[];
+  array: any = [];
   checkProviderNameAvailability(service_provider_name) {
 
     this.super_admin_service.checkProviderNameAvailability(service_provider_name)
@@ -118,7 +119,7 @@ export class EditProviderDetailsComponent implements OnInit {
 
   checkProviderNameAvailibilityHandeler(response) {
     console.log(response.response, 'provider name availability');
-    if(response.response == "provider_name_exists") {
+    if (response.response == "provider_name_exists") {
       this.providerNameExist = true;
     }
     else {

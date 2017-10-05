@@ -102,7 +102,6 @@ export class EmployeeMasterComponent implements OnInit {
 	}
 
 	deleteUser(usrMapingId) {
-		debugger;
 		let confirmation = confirm("do you want to delete this role ???");
 		if (confirmation) {
 			this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe((response: Response) => this.userDeleteHandeler(response));
@@ -149,7 +148,6 @@ export class EmployeeMasterComponent implements OnInit {
 
 	getEmployeesSuccessHandeler(response)
 	{
-		debugger;
 		console.log(response,"employees fetched as per condition");
 		this.tableitems = response.filter(function(obj){
             return obj.uSRMDeleted==false && obj.roleName != 'ProviderAdmin';

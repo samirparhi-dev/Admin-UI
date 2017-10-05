@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 declare let jQuery: any;
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 @Component({
   selector: 'app-block-service-provider',
@@ -32,7 +33,7 @@ export class BlockServiceProviderComponent implements OnInit {
   show_card: boolean = false;
   status: any;
   reason: any;
-  constructor(public block_provider: BlockProvider) {
+  constructor(public block_provider: BlockProvider, private message: ConfirmationDialogsService) {
     this.service_provider = '';
     this.state = '';
     this.serviceline = '';
@@ -52,10 +53,8 @@ export class BlockServiceProviderComponent implements OnInit {
   getSuccess(response: any) {
     this.status_array = response;
     let index = 0;
-    for (let i = 0; i < this.status_array.length;i++)
-    {
-      if(this.status_array[i].status==="New")
-      {
+    for (let i = 0; i < this.status_array.length; i++) {
+      if (this.status_array[i].status === "New") {
         index = i;
         break;
       }
@@ -68,7 +67,7 @@ export class BlockServiceProviderComponent implements OnInit {
     this.block_provider.getStates(serviceProviderID).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
-      this.getStatus(this.service_provider,this.state,this.serviceline)
+      this.getStatus(this.service_provider, this.state, this.serviceline)
     });
   }
 
@@ -80,7 +79,7 @@ export class BlockServiceProviderComponent implements OnInit {
   getServicesInState(serviceProviderID, stateID) {
     this.block_provider.getServicesInState(serviceProviderID, stateID)
       .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
-      this.getStatus(this.service_provider,this.state,this.serviceline)
+    this.getStatus(this.service_provider, this.state, this.serviceline)
 
   }
   // success handelers
@@ -91,15 +90,19 @@ export class BlockServiceProviderComponent implements OnInit {
     this.services_array = [];
   }
   resetForm() {
-    jQuery('#myForm').trigger('reset');
-    this.data = [];
-    this.states_array = [];
-    this.services_array = [];
-    this.showTable = false;
-    this.case_one = false;
-    this.case_two = false;
-    this.case_three = false;
-    this.case_four = false;
+    this.message.confirm('Are you sure want to clear?').subscribe((response) => {
+      if (response) {
+        jQuery('#myForm').trigger('reset');
+        this.data = [];
+        this.states_array = [];
+        this.services_array = [];
+        this.showTable = false;
+        this.case_one = false;
+        this.case_two = false;
+        this.case_three = false;
+        this.case_four = false;
+      }
+    }, (err) => { });
   }
 
   getAllProvidersSuccesshandeler(response) {
@@ -123,11 +126,11 @@ export class BlockServiceProviderComponent implements OnInit {
   // Get STATUS function 
 
   getStatus(service_provider, state, serviceline) {
-    
+
     this.showTable = true;
     this.show_card = true;
 
-    if (service_provider != '' && service_provider != null && (state === '' || state === undefined) && (serviceline === '' || serviceline === undefined )) {
+    if (service_provider != '' && service_provider != null && (state === '' || state === undefined) && (serviceline === '' || serviceline === undefined)) {
       this.case_one = true;
       this.case_two = false;
       this.case_three = false;
@@ -316,7 +319,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_providerSuccessHandeler(response) {
     console.log('b u provider success handeler', response);
-    alert('SuccessFully Updated');
+    this.message.alert('Successfully Updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderLevel(response[0].serviceProviderID);
     // }
@@ -347,7 +350,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_stateSuccessHandeler(response) {
     console.log('b u state success handeler', response);
-    alert('SuccessFully Updated');
+    this.message.alert('Successfully Updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
     // }
@@ -378,7 +381,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceSuccessHandeler(response) {
     console.log('b u service success handeler', response);
-    alert('SuccessFully Updated');
+    this.message.alert('Successfully Updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
     // }
@@ -411,7 +414,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceOfStateSuccessHandeler(response) {
     console.log('b u service of state success handeler', response);
-    alert('SuccessFully Updated');
+    this.message.alert('Successfully Updated');
     // if (response.updatedStatusID == 2) {
     //   this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
     // }

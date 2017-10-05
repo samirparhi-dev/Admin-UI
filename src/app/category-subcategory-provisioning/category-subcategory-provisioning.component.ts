@@ -145,7 +145,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.categorydesc = '';
   }
   addExistCategoryRow() {
-    debugger
     let obj = {};
     obj['subServiceID'] = this.sub_service.subServiceID;
     obj['subServiceName'] = this.sub_service.subServiceName;
@@ -264,7 +263,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
       .subscribe((response) => {
         if (response) {
-          debugger;
           this.categories = response;
         }
       }, (err) => {
@@ -280,7 +278,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id)
           .subscribe((response) => {
             if (response) {
-              debugger;
               this.getDetails(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {

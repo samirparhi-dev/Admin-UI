@@ -3,7 +3,7 @@ declare let jQuery: any;
 
 import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 @Component({
   selector: 'app-new-service-provider-setup',
   templateUrl: './new-service-provider-setup.component.html',
@@ -63,12 +63,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
   show1: boolean = true;
   show2: boolean = false;
   show3: boolean = false;
-  providerNameExist : boolean = false;
+  providerNameExist: boolean = false;
   request_object: any = {}
-  providerListArray:any=[];
+  providerListArray: any = [];
   showAdd: boolean = false;
 
-  constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService) {
+  constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService,
+    private message: ConfirmationDialogsService) {
     this.countryID = 1;
 
     this.currentlanguage = {};
@@ -188,7 +189,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.request_object.primaryContactName = this.contactPerson;
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
-      this.request_object.primaryContactAddress = this.address1+ ',' + this.address2;
+      this.request_object.primaryContactAddress = this.address1 + ',' + this.address2;
 
     }
 
@@ -216,12 +217,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   // section 1
   selectedService(value) {
-
-    debugger;
     if (value.length > 0) {
       this.showAdd = true;
     }
-    else  {
+    else {
       this.showAdd = false;
     }
   }
@@ -230,7 +229,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
   // section 2
-  showService(){
+  showService() {
     this.service = "";
     this.showAdd = false;
     this.showServiceline = true;
@@ -362,7 +361,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['statusID'] = '1';
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
-        console.log(item);
+      console.log(item);
       return {
         'stateId': item.stateId.toString(), 'services': item.services.map(function (serviceItem) {
           return serviceItem.serviceID.toString();
@@ -373,7 +372,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
 
-    this.super_admin_service.createServiceProvider(this.request_object).subscribe((response: Response) => this.successHandeler(response));
+    this.super_admin_service.createServiceProvider(this.request_object).subscribe(
+      (response: Response) => this.successHandeler(response),
+      (err) => {
+        this.message.alert('Error in Adding Provider');
+      });
 
   }
 
@@ -381,7 +384,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   successHandeler(response) {
     console.log(response, 'in TS, the response after having sent req for creating service provider');
     if (response === 'true') {
-      alert('PROVIDER CREATED SUCCESSFULLY');
+      this.message.alert('PROVIDER CREATED SUCCESSFULLY');
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
@@ -408,7 +411,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   checkProviderNameAvailibilityHandeler(response) {
     console.log(response.response, 'provider name availability');
-    if(response.response == "provider_name_exists") {
+    if (response.response == "provider_name_exists") {
       this.providerNameExist = true;
     }
     else {
@@ -514,28 +517,37 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.showTable = false;
-    this.address1="";
-    this.address2="";
-    this.contactPerson="";
-    this.middlename="";
-    this.providerAdmin_PhoneNumber="";
-    this.providerAdmin_EmailID="";
+    this.address1 = "";
+    this.address2 = "";
+    this.contactPerson = "";
+    this.middlename = "";
+    this.providerAdmin_PhoneNumber = "";
+    this.providerAdmin_EmailID = "";
 
   }
   clearProviderForm() {
+    this.message.confirm('Are you sure want to clear?').subscribe((response) => {
+      if (response) {
+        jQuery('#detailedForm').trigger('reset');
+        // this.state_service_array = [];
+        // this.show1 = true;
+        // this.show3 = false;
+        this.today = new Date();
+        this.dob = this.today;
+        this.dob.setFullYear(this.today.getFullYear() - 20);
+        this.doj = new Date();
+      }
+    }, (err) => { });
     // jQuery('#providerForm').trigger('reset');
-    jQuery('#detailedForm').trigger('reset');
-    // this.state_service_array = [];
-    // this.show1 = true;
-    // this.show3 = false;
-    this.today = new Date();
-    this.dob = this.today;
-    this.dob.setFullYear(this.today.getFullYear() - 20);
-    this.doj = new Date();
   }
   clearDetailedForm() {
-    jQuery('#providerForm').trigger('reset');
-    this.validTill = new Date();
+    this.message.confirm('Are you sure want to clear?').subscribe((response) => {
+      if (response) {
+        jQuery('#providerForm').trigger('reset');
+        this.validTill = new Date();
+      }
+    }, (err) => { });
+
   }
 
   providerData_successHandler(res) {
