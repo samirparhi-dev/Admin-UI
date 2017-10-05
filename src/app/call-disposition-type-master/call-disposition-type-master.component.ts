@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CallTypeSubtypeService } from "../services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { dataService } from '../services/dataService/data.service';
 declare var jQuery: any;
-import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
@@ -46,8 +45,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	subCallTypeExist : boolean = false;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService,
-				public commonDataService: dataService, public dialog: MdDialog,
-				private alertService: ConfirmationDialogsService) {
+				public commonDataService: dataService, public dialog: MdDialog) {
 		this.data = [];
 		this.service_provider_id =this.commonDataService.service_providerID;
 		this.providerServiceMapID = "";
@@ -216,7 +214,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	saveCallTypeSubTypeSuccessHandeler(response)
 	{
-		this.alertService.alert("Saved Call Type & Sub Type successfully");
 		console.log(response, "save call type sub type success");
 		this.hideTable(false) // going back to table view
 		
@@ -279,17 +276,10 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		}
 	}
 	deleteSubCallType(callTypeID) {
-		this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
-			if(res){
-				this.callTypeSubtypeService.deleteSubCallType(callTypeID).subscribe(response=>this.deletedSuccess(response));
-			}
-		},
-		(err)=>{
-			console.log(err);
-		})
+		this.callTypeSubtypeService.deleteSubCallType(callTypeID).subscribe(response=>this.deletedSuccess(response));
+
 	}
 	deletedSuccess(res) {
-		this.alertService.alert("Deleted successfully");
 		this.get_calltype_subtype_history();
 		console.log(res);
 	}
@@ -316,6 +306,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		// this.fitToBlock = obj.fitToBlock;
 		// this.fitForFollowup = obj.fitForFollowup;
 	}
+	clear() {
+		this.provider_services = [];
+		this.data = [];
+		this.showTable = false;
+	}
 
 }
 @Component({
@@ -324,7 +319,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 })
 export class EditCallType {
 	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,public callTypeSubtypeService: CallTypeSubtypeService,
-		public dialogReff: MdDialogRef<EditCallType>, private alertService: ConfirmationDialogsService) { }
+		public dialogReff: MdDialogRef<EditCallType>) { }
 
 	callType: any;
 	callSubType: any;
@@ -359,7 +354,7 @@ export class EditCallType {
 	}
 	modify(value) {
 		console.log(value);
-		let object = {  
+	let object = 	{  
 		     "callTypeID" : this.data.callTypeID,
 		     "callGroupType" : value.callType,
 		    "callType" : value.callSubType,
@@ -367,7 +362,7 @@ export class EditCallType {
 		    "callTypeDesc" : value.callType,
 		    "fitToBlock" : value.fitToBlock,
 		    "fitForFollowup" : value.fitForFollowup,
-		    "createdBy":"gur"
+		    "createdBy":"abc"
 		   
 		    }
 		this.callTypeSubtypeService.modificallType(object).subscribe(response=>this.modifySuccess(response));
@@ -376,6 +371,5 @@ export class EditCallType {
 
 	modifySuccess(res) {
 		this.dialogReff.close();
-		this.alertService.alert("Edited successfully");
 	}
 }

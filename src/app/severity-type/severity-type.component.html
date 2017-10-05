@@ -1,17 +1,17 @@
 <md-card>
 	<div class="row">
-		<h4  *ngIf="firstPage" class="width100  m-b-20 f-s-b">Severity Type </h4>
-		<h4  *ngIf="!firstPage" class="width100  m-b-20 f-s-b">Add Severity Type </h4>
-		<form>
+		<h4  *ngIf="firstPage" class="width100 f-s-b">Severity Type </h4>
+		<h4  *ngIf="!firstPage" class="width100 f-s-b">Add Severity Type </h4>
+		<form #searchForm="ngForm">
 			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess>
+				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess required>
 					<md-option *ngFor="let stat of states" value="{{stat.stateID}}">
 						{{stat.stateName}}
 					</md-option>
 				</md-select>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess>
+				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess required>
 					<md-option *ngFor="let ser of services" value="{{ser}}" (click)="findSeverity(ser)">
 						{{ser.serviceName}}
 					</md-option>
@@ -23,6 +23,9 @@
 				</button>
 			</div> -->
 		</form>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <button *ngIf="search" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
+        </div>
 	</div>
 	<div class="row" *ngIf="firstPage">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >

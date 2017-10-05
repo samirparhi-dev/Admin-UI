@@ -21,12 +21,16 @@
                 </md-option>
             </md-select>
         </div>
+        </form>
 <!--         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="showAddButtonFlag" >
             <button md-mini-fab " color="primary" >
                 <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
             </button>
         </div> -->
-        </form>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button>
+      </div>
+        
     </div>
 
 
@@ -81,6 +85,7 @@
 
       <div *ngIf="showRoleCreationForm">
           <div class="row m-t-10" >
+          <form #addingForm="ngForm">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Role" [(ngModel)]="role" name="role" (keyup)="validateRole(role)" required #roles="ngModel">
@@ -94,13 +99,14 @@
                 </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-                <md-select placeholder="Feature" class="m-t--10" [style.width]="'100%'" [(ngModel)]="feature">
+                <md-select placeholder="Feature" class="m-t--10" [style.width]="'100%'" name="feature" [(ngModel)]="feature">
                     <md-option *ngFor="let item of features" value="{{item.screenID}}">
                         {{item.screenName}},description:{{item.screenDesc}}
                     </md-option>
                 </md-select>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10" *ngIf="hideAdd">
+            </form>
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10" *ngIf="hideAdd && (addingForm.valid && !othersExist)">
             <button md-mini-fab color="primary">
                     <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(role,description,feature)">add</md-icon>
                 </button>

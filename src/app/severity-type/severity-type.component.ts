@@ -25,6 +25,7 @@ export class SeverityTypeComponent implements OnInit {
   search:boolean = false;
   alreadyExist: boolean = false;
   providerServiceMapID: any;
+  showTable: boolean = false;
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
     public severityTypeService: SeverityTypeService, public dialog: MdDialog, private alertService: ConfirmationDialogsService) { }
 
@@ -142,6 +143,11 @@ export class SeverityTypeComponent implements OnInit {
           dialogReff.afterClosed().subscribe(()=>{
           this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
       });
+  }
+  clear() {
+    this.data=[];
+   this.services=[];
+   this.search = false;
   }
 }
 
