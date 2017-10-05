@@ -1,0 +1,45 @@
+ <div class="row">
+
+<md-icon class="mat-icon material-icons pull-right cursorPointer" mdTooltip="Close" role="img" aria-hidden="true" (click)="dialogReff.close()">clear</md-icon>
+ 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+ 		<form #callTypeSubCallType="ngForm" autocomplete="off" id="addingSubTypes">
+ 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15">
+
+ 				<md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
+ 					<md-option value="Valid">Valid</md-option>
+ 					<md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
+ 					<md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
+ 				</md-select>
+ 			</div>
+ 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15" >
+ 				<md-input-container class="p-t-7" style="width: 100% " >
+ 					<input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
+ 					<md-hint class="errorText" *ngIf="subCallTypeExist">
+ 						This sub call type exist for this service & call Type
+ 					</md-hint>
+ 				</md-input-container>
+ 			</div>
+ 		
+ 		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+ 			<label class="f-s-n-b">Fit To Block</label>
+ 			<md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)" name="fitToBlock">
+ 				<md-radio-button  color="primary"  [value]="true">YES</md-radio-button>
+ 				<md-radio-button  color="primary"  [value]="false">NO</md-radio-button>
+ 			</md-radio-group>
+ 		</div>
+ 		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-40 width20">
+ 			<label class="f-s-n-b">Fit For FollowUp</label>
+ 			<md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)" name="fitForFollowup">
+ 				<md-radio-button color="primary" [value]="true">YES</md-radio-button>
+ 				<md-radio-button color="primary" [value]="false">NO</md-radio-button>
+ 			</md-radio-group>
+ 		</div>
+ 		</form>
+ 	</div>
+
+ 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+
+ 		<button [disabled]="!callTypeSubCallType.valid" class="pull-right" md-raised-button color="primary" (click)="modify(callTypeSubCallType.value)">MODIFY</button>
+<!--             <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
+-->          </div>
+</div>

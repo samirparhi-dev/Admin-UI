@@ -251,8 +251,9 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.findLocations();
   }
   clear() {
-    this.search_serviceline = "";
-    this.search_state = "";
+    jQuery('#searchForm').trigger("reset");
+    // this.search_serviceline = "";
+    // this.search_state = "";
     this.showTable = false;
     this.workLocations = [];
 

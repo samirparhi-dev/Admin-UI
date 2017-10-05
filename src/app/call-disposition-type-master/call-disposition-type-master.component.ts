@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CallTypeSubtypeService } from "../services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { dataService } from '../services/dataService/data.service';
 declare var jQuery: any;
-
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
 	selector: 'app-call-disposition-type-master',
@@ -44,7 +45,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	subCallTypeExist : boolean = false;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService,
-				public commonDataService: dataService) {
+				public commonDataService: dataService, public dialog: MdDialog) {
 		this.data = [];
 		this.service_provider_id =this.commonDataService.service_providerID;
 		this.providerServiceMapID = "";
@@ -243,7 +244,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
 			if(value.toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
-				debugger;
 				a = true;
 				break;
 			}
@@ -284,5 +284,89 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	deletedSuccess(res) {
 		this.get_calltype_subtype_history();
 		console.log(res);
+	}
+
+	editCallDisposition(obj) {
+
+		obj['service'] = this.service;
+		let dialogReff = this.dialog.open(EditCallType, {
+			height: '300px',
+			width: '800px',
+			disableClose: true,
+			data: obj
+
+		});
+		dialogReff.afterClosed(){
+			this.get_calltype_subtype_history();
+			}
+		// this.disableSelect = true;
+		// this.showTable = false;
+		// this.showForm = true;
+		// this.subCallTypeExist = false;
+		// this.callType = obj.callGroupType;
+		// this.callSubType = obj.callType;
+		// this.fitToBlock = obj.fitToBlock;
+		// this.fitForFollowup = obj.fitForFollowup;
+	}
+
+}
+@Component({
+	selector: 'edit-call-type',
+	templateUrl: './edit-call-type-model.html'
+})
+export class EditCallType {
+	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,public callTypeSubtypeService: CallTypeSubtypeService,
+		public dialogReff: MdDialogRef<EditCallType>) { }
+
+	callType: any;
+	callSubType: any;
+	fitToBlock: any;
+	fitForFollowup: any;
+	service: any;
+	ngOnInit() {
+
+		console.log(this.data);
+		this.service = this.data.service;
+		this.callType = this.data.callGroupType;
+		this.callSubType = this.data.callType;
+		this.fitToBlock = this.data.fitToBlock;
+		this.fitForFollowup = this.data.fitForFollowup;
+	}
+	callTypeSelected(callType) {
+		this.callSubType = "";
+
+	}
+	callSubTypes(re){
+
+	}
+	fitToBlocks(flag) {
+		if(flag) {
+			this.fitForFollowup = false;
+		}
+	}
+	fitForFollowups(flag) {
+		if(flag) {
+			this.fitToBlock = false;
+		}
+	}
+	modify(value) {
+		console.log(value);
+	let object = 	{  
+		     "callTypeID" : this.data.callTypeID,
+		     "callGroupType" : value.callType,
+		    "callType" : value.callSubType,
+		    "providerServiceMapID" : this.data.providerServiceMapID,
+		    "callTypeDesc" : value.callType,
+		    "fitToBlock" : value.fitToBlock,
+		    "fitForFollowup" : value.fitForFollowup,
+		    "createdBy":"gur"
+		   
+		    }
+		this.callTypeSubtypeService.modificallType(object).subscribe(response=>this.modifySuccess(response));
+
+	}
+
+	modifySuccess(res) {
+		this.dialogReff.close();
 	}
 }

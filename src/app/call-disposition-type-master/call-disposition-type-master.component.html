@@ -53,7 +53,7 @@
                 <td>{{i.fitForFollowup}}</td>
                 <td>
                
-<!--                   <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon> -->
+                  <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon>
                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon>
                 </td>
               </tr>
@@ -88,13 +88,13 @@
             Invalid Call
           </md-option>
         </md-select>-->
-          <md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType " name="callType" required (change)="callTypeSelected(callType)">
+          <md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
               <md-option value="Valid">Valid</md-option>
               <md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
               <md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
             </md-select>
           </div>
-          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15" [hidden]="!showCallType">
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15" >
             <md-input-container class="p-t-7" style="width: 100% " >
               <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
               <md-hint class="errorText" *ngIf="subCallTypeExist">
@@ -156,6 +156,7 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
             <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
+<!--             <button *ngIf="editing" [disabled]="!callTypeSubCallType.valid" class="pull-right" md-raised-button color="primary" (click)="modify()">MODIFY</button> -->
             <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
           </div>
         </div>
