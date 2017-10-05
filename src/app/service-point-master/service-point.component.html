@@ -61,7 +61,7 @@
                             <td>{{servicePoint.servicePointName}}</td>
                             <td>{{servicePoint.servicePointDesc}}</td>
                             <td>{{servicePoint.servicePointHQAddress}}</td>
-                            <td *ngIf="servicePoint.deleted=='0'"> <button class="btn" (click)="updateServicePointStatus(servicePoint)">DeActivate</button></td>
+                            <td *ngIf="servicePoint.deleted=='0'"> <button class="btn" (click)="updateServicePointStatus(servicePoint)">Deactivate</button></td>
                             <td *ngIf="servicePoint.deleted=='1'"> <button class="btn activateBtn" (click)="updateServicePointStatus(servicePoint)">Activate</button></td>
                         </tr>
                     </tbody>

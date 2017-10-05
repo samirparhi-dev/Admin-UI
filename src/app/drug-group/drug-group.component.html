@@ -13,7 +13,7 @@
         <td>{{availableDrugGroups.indexOf(drugGroup)+1}}</td>
         <td>{{drugGroup.drugGroup}}</td>
         <td>{{drugGroup.drugGroupDesc}}</td>
-        <td *ngIf="drugGroup.deleted=='0'"> <button class="btn" (click)="updateDrugGroupStatus(drugGroup)">DeActivate</button></td>
+        <td *ngIf="drugGroup.deleted=='0'"> <button class="btn" (click)="updateDrugGroupStatus(drugGroup)">Deactivate</button></td>
         <td *ngIf="drugGroup.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugGroupStatus(drugGroup)">Activate</button></td>
         <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td>
       </tr>
