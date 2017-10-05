@@ -70,6 +70,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
       .subscribe((response) => {
         this.serviceLines = response;
+        this.subServices = [];
       }, (err) => {
 
       });
@@ -84,8 +85,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
 
   }
-  getDetails(subServiceID: any, providerServiceMapID: any) {
-    this.CategorySubcategoryService.getCategorybySubService(providerServiceMapID, subServiceID)
+  getDetails(subService: any, providerServiceMap: any) {
+    this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService.subServiceID)
       .subscribe((response) => {
         this.data = response;
       }, (err) => {
@@ -112,7 +113,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   addNewCategoryRow() {
-
     let obj = {};
     obj['categoryName'] = this.category_name;
     obj['categoryDesc'] = this.categorydesc;
@@ -127,21 +127,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     } else {
       this.serviceList.push(obj);
     }
-    // obj['subCategoryName'] = this.subcategory;
-    // obj['desc'] = this.description;
-    // obj['filePath'] = this.filepath;
-
-    // if (this.serviceList.length > 0) {
-    //   this.category_name = this.serviceList[this.serviceList.length - 1].categoryName;
-    //   this.categorydesc = this.serviceList[this.serviceList.length - 1].categoryDesc;
-    //   this.cateDisabled = 'true';
-    // } else {
-    //   this.cateDisabled = 'false';
-    // }
-    // this.subcategory = '';
-    // this.description = '';
-    // this.filepath = '';
-    this.category_name = '';
+    this.category_name = undefined;
     this.categorydesc = '';
   }
   addExistCategoryRow() {
@@ -153,14 +139,15 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     obj['categoryID'] = this.category_ID.categoryID;
     obj['subCategoryName'] = this.subcategory;
     obj['desc'] = this.description;
-    this.serviceSubCatList.push(obj);
-    // if (this.serviceSubCatList.length > 0) {
-    //   this.category_ID = this.serviceSubCatList[this.serviceSubCatList.length - 1].categoryName;
-    // } else {
-    //   this.cateDisabled = 'false';
-    // }
-    // this.subcategory = '';
-    // this.description = '';
+    obj['createdBy'] = this.createdBy;
+    if (this.serviceSubCatList.length > 0) {
+      this.serviceSubCatList.push(obj);
+      this.serviceSubCatList = this.filterSubCatArray(this.serviceSubCatList);
+    } else {
+      this.serviceSubCatList.push(obj);
+    }
+    this.subcategory = undefined;
+    this.description = ''
   }
   deleteRow(index) {
     this.serviceList.pop(index);
@@ -169,6 +156,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.category_name = '';
       this.categorydesc = '';
     }
+  }
+  deleteRowSubCat(index) {
+    this.serviceSubCatList.pop(index);
   }
   changeRequestObject(flag_value) {
     if (flag_value === "0") {
@@ -185,7 +175,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     if (this.api_choice === "0") {
       this.addNewCategory(service);
     } else {
-      this.addExistCategory();
+      this.addExistCategory(service);
     }
   }
 
@@ -216,7 +206,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           if (response.length > 0) {
             this.messageBox.alert('Successfully Created');
             // this.searchForm = true;
-            this.serviceList.length = 0;
+            this.serviceList.length = [];
             // this.showTable = true;
             // this.api_choice = 1;
             // this.changeRequestObject(this.api_choice);
@@ -228,26 +218,38 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
   }
 
-  addExistCategory() {
-
-    const categoryObj = {};
-    categoryObj['categoryID'] = this.category_ID.categoryID;
-    categoryObj['subcatArray'] = this.serviceList.map(function (item) {
+  addExistCategory(providerServiceMapID) {
+    // const categoryObj = {};
+    // categoryObj['categoryID'] = this.category_ID.categoryID;
+    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
+    //   return {
+    //     'subCategoryName': item.subCategoryName,
+    //     'subCategoryDesc': item.desc,
+    //     'subCatFilePath': item.filePath
+    //   }
+    // })
+    // categoryObj['createdBy'] = this.createdBy;
+    let subCategoryObj = [];
+    subCategoryObj = this.serviceSubCatList.map(function (item) {
       return {
+
         'subCategoryName': item.subCategoryName,
         'subCategoryDesc': item.desc,
-        'subCatFilePath': item.filePath
+        'categoryID': item.categoryID,
+        'providerServiceMapID': item.providerServiceMapID,
+        'subServiceID': item.subServiceID,
+        'createdBy': item.createdBy
       }
     })
-    categoryObj['createdBy'] = this.createdBy;
-    this.CategorySubcategoryService.saveExistCategory(categoryObj)
+
+    this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
           this.messageBox.alert('Successfully Created');
+          this.serviceSubCatList.length = [];
+          //  this.getDetails(this.sub_service, providerServiceMapID);
         }
-        this.searchForm = true;
-        this.serviceList.length = 0;
-        this.showTable = true;
+        // this.serviceSubCatList.length = 0;
       }, (err) => {
 
       });
@@ -312,7 +314,15 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .filter((thing, index, self) => self
         .findIndex((t) => { return t.categoryName === thing.categoryName && t.subServiceID === thing.subServiceID; }) === index)
   }
-
+  filterSubCatArray(array: any) {
+    const o = {};
+    return array = array
+      .filter((thing, index, self) => self
+        .findIndex((t) => {
+          return t.categoryID === thing.categoryID
+            && t.subCategoryName === thing.subCategoryName && t.subServiceID === thing.subServiceID;
+        }) === index)
+  }
 }
 
 
