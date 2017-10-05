@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-
+import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from "../config/config.service";
 
 
@@ -23,7 +23,7 @@ export class LocationServicelineMapping {
 	getWorkLocationsOnState_url : any
 	getOfficesUrl: any;
 
-	constructor(private http: Http,public basepaths:ConfigService) { 
+	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
 		this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
 
 		this.getStates_url = this.providerAdmin_Base_Url + "m/location/state";
@@ -50,44 +50,44 @@ export class LocationServicelineMapping {
 	}
 
 	getServiceLines(serviceProviderID, stateID) {
-		return this.http.post(this.getServiceLines_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
+		return this.httpIntercept.post(this.getServiceLines_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 
 	getWorkLocations(reqObj)
 	{
-		return this.http.post(this.getWorkLocations_url, reqObj)
+		return this.httpIntercept.post(this.getWorkLocations_url, reqObj)
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 	getWorkLocationsOnState(reqObj) {
-		return this.http.post(this.getWorkLocationsOnState_url, reqObj)
+		return this.httpIntercept.post(this.getWorkLocationsOnState_url, reqObj)
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 
 	addWorkLocation(requestObject)
 	{
-		return this.http.post(this.add_WorkLocation_url, requestObject)
+		return this.httpIntercept.post(this.add_WorkLocation_url, requestObject)
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 
 	editWorkLocation(requestObject) {
-		return this.http.post(this.edit_WorkLocation_url, requestObject)
+		return this.httpIntercept.post(this.edit_WorkLocation_url, requestObject)
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 
 	deleteWorkLocation(provider_state_address_mapID) {
-		return this.http.post(this.delete_WorkLocation_url, { "pSAddMapID": provider_state_address_mapID })
+		return this.httpIntercept.post(this.delete_WorkLocation_url, { "pSAddMapID": provider_state_address_mapID })
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 	getWorklocationOnProviderArray(ProvidepMapIDArray){
 	
-				return this.http.post(this.getOfficesUrl, { "providerServiceMapID": ProvidepMapIDArray })
+				return this.httpIntercept.post(this.getOfficesUrl, { "providerServiceMapID": ProvidepMapIDArray })
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 

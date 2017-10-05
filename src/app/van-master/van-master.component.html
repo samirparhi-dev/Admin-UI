@@ -59,7 +59,7 @@
                             <td>{{van.vanName}}</td>
                             <td>{{van.vehicalNo}}</td>
                             <td>{{van.vanType}}</td>
-                            <td *ngIf="van.deleted=='0'"> <button class="btn" (click)="updateVanStatus(van)">DeActivate</button></td>
+                            <td *ngIf="van.deleted=='0'"> <button class="btn" (click)="updateVanStatus(van)">Deactivate</button></td>
                             <td *ngIf="van.deleted=='1'"> <button class="btn activateBtn" (click)="updateVanStatus(van)">Activate</button></td>
                             <td> <button class="btn activateBtn" (click)="editVanData(van)">Edit</button></td>
                         </tr>

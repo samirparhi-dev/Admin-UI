@@ -23,7 +23,7 @@
             <span *ngIf="zone.blockName">, {{zone.blockName}}</span>
             <span *ngIf="zone.districtName">, {{zone.districtName}}</span>
         </td>
-        <td *ngIf="zone.deleted=='0'"> <button class="btn" (click)="updateZoneStatus(zone)">DeActivate</button></td>
+        <td *ngIf="zone.deleted=='0'"> <button class="btn" (click)="updateZoneStatus(zone)">Deactivate</button></td>
         <td *ngIf="zone.deleted=='1'"> <button class="btn activateBtn" (click)="updateZoneStatus(zone)">Activate</button></td>
         <td> <button class="btn activateBtn" (click)="editZoneData(zone)">Edit</button></td>
       </tr>

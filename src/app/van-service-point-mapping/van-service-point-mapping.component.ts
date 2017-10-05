@@ -225,7 +225,6 @@ export class VanServicePointMappingComponent implements OnInit {
     vanServicePointMappingObj:any;
     vanServicePointMappingList: any = [];
     storeVanServicePointMapping(){
-        debugger;
         console.log(this.MappingForm.value);
         let mappings = this.MappingForm.value.mappings;
         let mappingArray = <FormArray>this.MappingForm.controls.mappings;

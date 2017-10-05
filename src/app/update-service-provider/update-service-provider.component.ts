@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { EditProviderDetailsComponent } from './../edit-provider-details/edit-provider-details.component';
 import { MdDialog, MdDialogRef } from '@angular/material';
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 @Component({
   selector: 'app-update-service-provider',
   templateUrl: './update-service-provider.component.html',
@@ -22,7 +22,7 @@ export class UpdateServiceProviderComponent implements OnInit {
   serviceline: any;
   provider: any;
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service,
-    public dialog: MdDialog) { }
+    public dialog: MdDialog, private message: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
@@ -115,7 +115,7 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   }
   servicelineAddedSuccesshandler(response) {
-    alert('state & service added for this provider');
+    this.message.alert('state & service added for this provider');
     this.super_admin_service.getProviderStatus(this.provider).subscribe(response => this.providerInfo_handler(response));
     this.searchPage = true;
     this.state = '';
@@ -131,7 +131,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       })
     });
     dialogRef.afterClosed().subscribe(result => {
-          this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
+      this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
 
 
     });

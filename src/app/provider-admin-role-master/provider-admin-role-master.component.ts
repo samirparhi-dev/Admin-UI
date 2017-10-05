@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 @Component({
     selector: 'app-provider-admin-role-master',
@@ -43,7 +43,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     showAddButtonFlag: boolean = false;
 
     constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
-                public commonDataService: dataService) 
+                public commonDataService: dataService,
+                private alertService: ConfirmationDialogsService) 
     {
         this.role = "";
         this.description = "";
@@ -121,11 +122,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     deleteRole(roleID)
     {
-        let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
-        if(confirmation)
-        {
-            this.ProviderAdminRoleService.deleteRole(roleID).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));    
-        }
+        // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
+        this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
+            if(res)
+            {
+                this.ProviderAdminRoleService.deleteRole(roleID).subscribe(response => this.edit_delete_RolesSuccessHandeler(response,"delete"));    
+            }
+        },
+        (err)=>{
+
+        })
         
     }
 
@@ -154,12 +160,17 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             "createdDate": "2017-07-25T00:00:00.000Z"
         }
       
-        this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response));
+        this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response,"edit"));
     }
 
-    edit_delete_RolesSuccessHandeler(response)
+    edit_delete_RolesSuccessHandeler(response, choice)
     {
-
+        if(choice=="edit"){
+            this.alertService.alert("Role Edited successfully");
+        }
+        else {
+            this.alertService.alert("Role deleted successfully");
+        }
         console.log(response, "edit/delete response");
         this.showRoleCreationForm=false;
         this.setEditSubmitButton=false;
@@ -193,6 +204,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     createRolesSuccessHandeler(response) {
+        this.alertService.alert("Role created successfully");
         console.log(response, "in create role success in component.ts");
         this.finalResponse = response;
         if (this.finalResponse[0].roleID)

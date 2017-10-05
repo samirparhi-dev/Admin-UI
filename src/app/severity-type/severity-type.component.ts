@@ -122,7 +122,6 @@ export class SeverityTypeComponent implements OnInit {
     alert("deleted successfully");
   }
   editeUser(obj) {
-    debugger;
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
               height: '180px',
               width: '420px',

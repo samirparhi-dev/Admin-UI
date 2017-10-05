@@ -105,6 +105,20 @@
                   </md-hint>
             </md-input-container> -->
           </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+
+<!--             <md-input-container class="hide_underline" [style.width]="'100%'">
+ -->                  <input mdInput style="display:none" >
+                  <md-select [(ngModel)]="providerServiceMapIDs" multiple name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'" #serviceLine="ngModel" required (change)="servicelineSelected(providerServiceMapIDs)">
+                    <md-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID">{{sl.serviceName}}</md-option>
+                  </md-select>
+<!--                   <md-hint *ngIf="serviceLine.errors && serviceLine.touched">
+                      <span class="error_text">Select Service Line</span>
+                  </md-hint>
+            </md-input-container> -->
+          </div>
+
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <!--<md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="district" name="district" required>
               <md-option *ngFor="let item of districts" value="{{item.districtID}}">
@@ -123,18 +137,15 @@
                   </md-hint>
             </md-input-container> -->
           </div>
- 
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
 
-<!--             <md-input-container class="hide_underline" [style.width]="'100%'">
- -->                  <input mdInput style="display:none" >
-                  <md-select [(ngModel)]="providerServiceMapIDs" multiple name="serviceLine" placeholder="ServiceLine" [style.width]="'100%'" #serviceLine="ngModel" required (change)="servicelineSelected(providerServiceMapIDs)">
-                    <md-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID">{{sl.serviceName}}</md-option>
-                  </md-select>
-<!--                   <md-hint *ngIf="serviceLine.errors && serviceLine.touched">
-                      <span class="error_text">Select Service Line</span>
-                  </md-hint>
-            </md-input-container> -->
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <md-input-container style="width: 100% ">
+              <input mdInput placeholder="Office Name" [(ngModel)]="OfficeID" name="OfficeID" #officeId="ngModel" required maxlength="30" (keyup)="checkOfficeName(OfficeID)">
+              <md-hint *ngIf="officeId.touched">
+                <span [hidden]="!officeId.errors" class="error_text">Office Name is required</span>
+                <span [hidden]="!officeNameExist" class="error_text">{{msg}}</span>
+              </md-hint>
+            </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <md-input-container myAddress style="width: 100% ">
@@ -152,16 +163,6 @@
               </md-hint>
             </md-input-container>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-            <md-input-container style="width: 100% ">
-              <input mdInput placeholder="Office Name" [(ngModel)]="OfficeID" name="OfficeID" #officeId="ngModel" required maxlength="30" (keyup)="checkOfficeName(OfficeID)">
-              <md-hint *ngIf="officeId.touched">
-                <span [hidden]="!officeId.errors" class="error_text">Office Name is required</span>
-                <span [hidden]="!officeNameExist" class="error_text">{{msg}}</span>
-              </md-hint>
-            </md-input-container>
-          </div>
-   
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <button class="pull-right" md-raised-button color="primary" (click)="saveOfficeAddress(f.value)" [disabled]="!(f.valid) || officeNameExist">Save</button>
