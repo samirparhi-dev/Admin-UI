@@ -18,7 +18,7 @@
                             <!--<td>{{vanType.stateName}}</td>-->
                             <td>{{vanType.vanType}}</td>
                             <td>{{vanType.vanTypeDesc}}</td>
-                            <td *ngIf="vanType.deleted=='0'"> <button class="btn" (click)="updateVanTypeStatus(vanType)">DeActivate</button></td>
+                            <td *ngIf="vanType.deleted=='0'"> <button class="btn" (click)="updateVanTypeStatus(vanType)">Deactivate</button></td>
                             <td *ngIf="vanType.deleted=='1'"> <button class="btn activateBtn" (click)="updateVanTypeStatus(vanType)">Activate</button></td>
                         </tr>
                     </tbody>
