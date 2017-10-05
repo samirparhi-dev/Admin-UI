@@ -4,6 +4,8 @@ import { dataService } from '../services/dataService/data.service';
 import { SeverityTypeService } from "../services/ProviderAdminServices/severity-type-service";
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+
 @Component({
   selector: 'app-severity-type',
   templateUrl: './severity-type.component.html',
@@ -24,7 +26,7 @@ export class SeverityTypeComponent implements OnInit {
   alreadyExist: boolean = false;
   providerServiceMapID: any;
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
-    public severityTypeService: SeverityTypeService, public dialog: MdDialog) { }
+    public severityTypeService: SeverityTypeService, public dialog: MdDialog, private alertService: ConfirmationDialogsService) { }
 
   ngOnInit() {
   	this.serviceProviderID =(this.commonDataService.service_providerID).toString();
@@ -106,7 +108,8 @@ export class SeverityTypeComponent implements OnInit {
         this.severityTypeService.addSeverity(this.severityArray).subscribe(response=>this.createdSuccessHandler(response));
   }
   createdSuccessHandler(res){
-    alert("severity added successfully");
+    // alert("severity added successfully");
+    this.alertService.alert("Severity added successfully");
     this.handlingFlag(true);
     this.findSeverity(res[0]);
     this.severityArray= [];
@@ -116,18 +119,29 @@ export class SeverityTypeComponent implements OnInit {
   }
   //severityID
   deleteSeverity(id) {
-       this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+       this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
+         if(res){
+           this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+         }
+       },
+       (err)=>{
+         console.log(err);
+       })
   }
   deleteSuccessHandler(res) {
-    alert("deleted successfully");
+    // alert("deleted successfully");
+    this.alertService.alert("Deleted severity successfully");
   }
-  editeUser(obj) {
+  editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
-              height: '180px',
+              height: '380px',
               width: '420px',
-              disableClose: false,
+              disableClose: true,
               data: obj
             });
+          dialogReff.afterClosed().subscribe(()=>{
+          this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      });
   }
 }
 
@@ -137,9 +151,32 @@ export class SeverityTypeComponent implements OnInit {
 })
 export class EditSeverityModalComponent {
 
+  severity: any;
+  description: any;
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
-    public dialog: MdDialog,
+    public dialog: MdDialog,public severityTypeService: SeverityTypeService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
     ) { }
+  ngOnInit() {
+    this.data;
+    debugger;
+     this.severity = this.data.severityTypeName;
+     this.description = this.data.severityDesc;
 
+  }
+  modify(value) {
+    let object = {
+      "severityID" :this.data.severityID,
+      "severityTypeName" : value.severity,
+      "severityDesc" : value.description
+    } 
+        this.severityTypeService.modifySeverity(object).subscribe(response=>this.modifiedSuccessHandler(response));
+
+  }
+  addSeverity(value){
+
+  }
+  modifiedSuccessHandler(res){
+    this.dialogReff.close();
+  }
 }

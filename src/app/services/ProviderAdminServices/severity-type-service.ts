@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { InterceptedHttp } from '../../http.interceptor';
 
 import { ConfigService } from "../config/config.service";
 
@@ -14,15 +15,18 @@ export class SeverityTypeService {
   get_State_Url: any;
   addSeverityUrl: any;
   deleteSeverityUrl: any;
-  constructor(private http: Http, public basepaths: ConfigService) {
+  modifySeverityUrl: any;
+  constructor(private http: Http, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
+
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + "/m/getServerity";
     this.addSeverityUrl = this.admin_Base_Url + "/m/saveServerity ";
     this.deleteSeverityUrl = this.admin_Base_Url + "/m/deleteServerity";
+    this.modifySeverityUrl = this.admin_Base_Url + "m/editServerity"
    };
 
    getSeverity(providerServiceMapID) {
-     return this.http.post(this.get_State_Url, { "providerServiceMapID": providerServiceMapID })
+     return this.httpIntercept.post(this.get_State_Url, { "providerServiceMapID": providerServiceMapID })
        .map(this.handleSuccess)
        .catch(this.handleError);
    }
@@ -32,12 +36,17 @@ export class SeverityTypeService {
      return response.json().data;
    }
    addSeverity(array) {
-     return this.http.post(this.addSeverityUrl, array)
+     return this.httpIntercept.post(this.addSeverityUrl, array)
+       .map(this.handleSuccess)
+       .catch(this.handleError);
+   }
+   modifySeverity(obj) {
+     return this.http.post(this.modifySeverityUrl, obj)
        .map(this.handleSuccess)
        .catch(this.handleError);
    }
    deleteSeverity(id) { 
-          return this.http.post(this.deleteSeverityUrl,{ "severityID" : id })
+          return this.httpIntercept.post(this.deleteSeverityUrl,{ "severityID" : id })
        .map(this.handleSuccess)
        .catch(this.handleError);
    }

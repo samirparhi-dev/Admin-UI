@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-
+import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from "../config/config.service";
 
 
@@ -24,7 +24,7 @@ export class CallTypeSubtypeService {
   save_CallTypeSubType_Url: any;
   delete_SubCallType_Url: any;
   modify_CallTypeSubType_Url : any;
-  constructor(private http: Http, public basepaths: ConfigService) {
+  constructor(private http: Http, public basepaths: ConfigService,private httpIntercept: InterceptedHttp) {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + "m/role/state";
     this.get_Service_Url = this.admin_Base_Url + "m/role/service";
@@ -52,7 +52,7 @@ export class CallTypeSubtypeService {
 
    getCallTypeSubType(serviceProviderMapID)
    {
-     return this.http.post(this.get_CallTypeSubType_Url, {
+     return this.httpIntercept.post(this.get_CallTypeSubType_Url, {
        "providerServiceMapID": serviceProviderMapID
      }).map(this.handleSuccess)
        .catch(this.handleError);
@@ -60,15 +60,15 @@ export class CallTypeSubtypeService {
 
    saveCallTypeSubtype(request_obj)
    {
-     return this.http.post(this.save_CallTypeSubType_Url, request_obj).map(this.handleSuccess)
+     return this.httpIntercept.post(this.save_CallTypeSubType_Url, request_obj).map(this.handleSuccess)
        .catch(this.handleError);
    }
    deleteSubCallType(subCallType){
-     return this.http.post(this.delete_SubCallType_Url, { "callTypeID" : subCallType }).map(this.handleSuccess)
+     return this.httpIntercept.post(this.delete_SubCallType_Url, { "callTypeID" : subCallType }).map(this.handleSuccess)
        .catch(this.handleError);    
    }
    modificallType(obj) {
-     return this.http.post(this.modify_CallTypeSubType_Url, obj).map(this.handleSuccess)
+     return this.httpIntercept.post(this.modify_CallTypeSubType_Url, obj).map(this.handleSuccess)
        .catch(this.handleError);
    }
 
