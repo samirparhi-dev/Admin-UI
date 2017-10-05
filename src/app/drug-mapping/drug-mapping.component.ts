@@ -196,6 +196,7 @@ export class DrugMappingComponent implements OnInit {
 
   updateStatusHandler(response){
     console.log("Drug Mapping status changed");
+    this.alertMessage.alert("Drug Mapping status changed");
   }
 
   clearEdit(){

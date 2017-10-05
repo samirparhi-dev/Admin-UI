@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { EmployeeMasterService } from '../services/ProviderAdminServices/employee-master-service.service';
 import { dataService } from '../services/dataService/data.service';
-
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 declare var jQuery: any;
 
@@ -114,7 +114,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   govtIDs: any = [];
   allDesignations : any = [];
 
-  constructor(public EmployeeMasterService: EmployeeMasterService, public commonDataService: dataService) {
+  constructor(public EmployeeMasterService: EmployeeMasterService, public commonDataService: dataService, private alertService: ConfirmationDialogsService) {
     this.languages = [];
     this.index = 0;
 
@@ -185,7 +185,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   hide : boolean = true;
   createEmployeeSuccessHandeler(response) {
     console.log(response, 'employee created successfully');
-    alert('Employee Created Successfully!');
+    this.alertService.alert("Employee created successfully");
+    // alert('Employee Created Successfully!');
     jQuery('#credentialsForm').trigger('reset');
     jQuery('#uniquieID').trigger('reset');
     jQuery('#addrsForm').trigger('reset');

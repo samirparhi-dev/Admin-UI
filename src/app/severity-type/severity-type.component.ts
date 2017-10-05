@@ -4,6 +4,8 @@ import { dataService } from '../services/dataService/data.service';
 import { SeverityTypeService } from "../services/ProviderAdminServices/severity-type-service";
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+
 @Component({
   selector: 'app-severity-type',
   templateUrl: './severity-type.component.html',
@@ -24,7 +26,7 @@ export class SeverityTypeComponent implements OnInit {
   alreadyExist: boolean = false;
   providerServiceMapID: any;
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
-    public severityTypeService: SeverityTypeService, public dialog: MdDialog) { }
+    public severityTypeService: SeverityTypeService, public dialog: MdDialog, private alertService: ConfirmationDialogsService) { }
 
   ngOnInit() {
   	this.serviceProviderID =(this.commonDataService.service_providerID).toString();
@@ -106,7 +108,8 @@ export class SeverityTypeComponent implements OnInit {
         this.severityTypeService.addSeverity(this.severityArray).subscribe(response=>this.createdSuccessHandler(response));
   }
   createdSuccessHandler(res){
-    alert("severity added successfully");
+    // alert("severity added successfully");
+    this.alertService.alert("Severity added successfully");
     this.handlingFlag(true);
     this.findSeverity(res[0]);
     this.severityArray= [];
@@ -116,10 +119,18 @@ export class SeverityTypeComponent implements OnInit {
   }
   //severityID
   deleteSeverity(id) {
-       this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+       this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
+         if(res){
+           this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+         }
+       },
+       (err)=>{
+         console.log(err);
+       })
   }
   deleteSuccessHandler(res) {
-    alert("deleted successfully");
+    // alert("deleted successfully");
+    this.alertService.alert("Deleted severity successfully");
   }
   editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {

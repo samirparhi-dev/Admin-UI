@@ -142,6 +142,7 @@ export class DrugListComponent implements OnInit {
   }
   updateStatusHandler(response){
     console.log("Drug status changed");
+    this.alertMessage.alert("Drug status changed");
   }
 
   drugID:any;
@@ -179,7 +180,7 @@ export class DrugListComponent implements OnInit {
 
   updateHandler(response){
     this.editable = false;
-    this.alertMessage.alert("updated successfully");
+    this.alertMessage.alert("Updated successfully");
     this.getAvailableDrugs();
   }
 
