@@ -17,7 +17,7 @@
         <td>{{drugMapping.drugGroupName}}</td>
         <td>{{drugMapping.drugName}}</td>
         <td>{{drugMapping.remarks}}</td>
-        <td *ngIf="drugMapping.deleted=='0'"> <button class="btn" (click)="updateDrugMappingStatus(drugMapping)">DeActivate</button></td>
+        <td *ngIf="drugMapping.deleted=='0'"> <button class="btn" (click)="updateDrugMappingStatus(drugMapping)">Deactivate</button></td>
         <td *ngIf="drugMapping.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugMappingStatus(drugMapping)">Activate</button></td>
         <!--<td> <button class="btn activateBtn" (click)="editDrugMapping(drugMapping)">Edit</button></td>-->
       </tr>

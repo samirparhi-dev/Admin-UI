@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { dataService } from './../services/dataService/data.service';
-declare var jQuery: any;
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+declare let jQuery: any;
 @Component({
   selector: 'app-create-sub-service',
   templateUrl: './create-sub-service.component.html',
@@ -31,7 +32,8 @@ export class CreateSubServiceComponent implements OnInit {
   statesSearched: any = [];
   servicesSearched: any = [];
   existingSubService: any = [];
-  constructor(private sub_service: BlockProvider, private commonData: dataService) { }
+  added: boolean = false;
+  constructor(private sub_service: BlockProvider, private commonData: dataService, private message: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.subServiceAvailable = false;
@@ -49,7 +51,7 @@ export class CreateSubServiceComponent implements OnInit {
 
   getAllStatesSuccesshandeler(response) {
 
-    this.statesSearched = response;
+    this.states = response;
     // if(this.added){
     //   this.searchState = this.state;
     //   debugger;
@@ -61,9 +63,9 @@ export class CreateSubServiceComponent implements OnInit {
   }
 
   getAllServicesInStatesSuccess(response) {
-
-    this.servicesSearched = response;
+    this.services = response;
   }
+
   getStates(serviceProviderID) {
     this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
       this.getStatesSuccesshandeler(response);
@@ -83,13 +85,12 @@ export class CreateSubServiceComponent implements OnInit {
   }
   getExistingOnSearch(service) {
     this.sub_service.getSubServiceDetails(service.providerServiceMapID)
-      .subscribe(response => this.populateTable(response))
+      .subscribe(response => this.populateTable(response, service))
   }
-  populateTable(response) {
-
+  populateTable(response, service) {
     this.showTable = true;
-
     this.data = response;
+    this.getExistingSubService(service);
   }
   getExistingSubService(service) {
     this.sub_service.getSubServiceDetails(service.providerServiceMapID)
@@ -116,7 +117,7 @@ export class CreateSubServiceComponent implements OnInit {
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
-        alert('Added Sucessfully');
+        this.message.alert('Added Sucessfully');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           this.showSubService(res, service.serviceName);
           this.clearFields();
@@ -124,7 +125,7 @@ export class CreateSubServiceComponent implements OnInit {
 
         })
       } else {
-        alert('Something went wrong');
+        this.message.alert('Something went wrong');
       }
     }, (err) => {
 
@@ -173,14 +174,13 @@ export class CreateSubServiceComponent implements OnInit {
       if (res) {
         if (res.length === 0) {
           this.subServiceAvailable = true;
-        }
-        else {
+        } else {
 
           let tempService = {};
           let temp: boolean;
-          for (var i = 0; i < res.length; i++) {
+          for (let i = 0; i < res.length; i++) {
             temp = true;
-            for (var a = 0; a < this.existingSubService.length; a++) {
+            for (let a = 0; a < this.existingSubService.length; a++) {
               if (res[i].subServiceName === this.existingSubService[a].subServiceName) {
                 temp = false;
               }
@@ -201,7 +201,7 @@ export class CreateSubServiceComponent implements OnInit {
 
     })
   }
-  added: boolean = false;
+
   showSubService(response: any, serviceName) {
 
     this.added = true;
@@ -223,7 +223,10 @@ export class CreateSubServiceComponent implements OnInit {
   }
   addSubService(flag) {
     this.searchForm = flag;
-    jQuery('#addingForm').trigger('reset');
+    // this.serviceProvider = this.searchServiceProvider;
+    // this.state = this.searchState;
+    // this.serviceObj = this.searchServiceObj;
+    // jQuery('#addingForm').trigger('reset');
   }
   deleteSubService(subserviceID) {
 

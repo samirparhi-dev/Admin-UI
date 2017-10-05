@@ -15,8 +15,8 @@ export class ConfirmationDialogsService {
         let dialogRef: MdDialogRef<CommonDialogComponent>;
         const config = new MdDialogConfig();
         dialogRef = this.dialog.open(CommonDialogComponent, {
-            height: '30%',
-            width: '30%',
+            height: '25%',
+            width: '25%',
             disableClose: false
         });
         // dialogRef.componentInstance.title = title;

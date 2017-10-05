@@ -243,7 +243,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
 			if(value.toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
-				debugger;
 				a = true;
 				break;
 			}
@@ -254,7 +253,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		for(var i=0; i<this.temporarySubtypeArray.length; i++) {
 			if(value.toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
-				debugger;
 				b = true;
 				break;
 			}
@@ -263,7 +261,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			}
 		}
 		if(a == false && b == false) {
-			debugger;
 			this.subCallTypeExist = false;
 		}
 	}

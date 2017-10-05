@@ -4,23 +4,23 @@
     
     <form>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-          <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="searchServiceProvider"
-            (change)="getAllStates(searchServiceProvider)">
+          <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider"
+            (change)="getAllStates(serviceProvider)">
             <md-option *ngFor="let serviceProviderObj of serviceProviders" [value]="serviceProviderObj">
               {{serviceProviderObj.serviceProviderName}}
             </md-option>
           </md-select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="searchState" (change)="getAllServicesInState(searchServiceProvider,searchState)">
-            <md-option *ngFor="let stateObj of statesSearched" [value]="stateObj">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getAllServicesInState(serviceProvider,state)">
+            <md-option *ngFor="let stateObj of states" [value]="stateObj">
               {{stateObj.stateName}}
             </md-option>
           </md-select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-          <md-select required name="services" placeholder="Services" [style.width]="'100%'" [(ngModel)]="searchServiceObj"  >
-            <md-option *ngFor="let service of servicesSearched" [value]="service" (click)="getExistingOnSearch(service)">
+          <md-select required name="services" placeholder="Services" [style.width]="'100%'" [(ngModel)]="serviceObj"  >
+            <md-option *ngFor="let service of services" [value]="service" (click)="getExistingOnSearch(service)">
               {{service.serviceName}}
             </md-option>
           </md-select>
@@ -71,8 +71,8 @@
     </div>
 </md-card>
 <md-card *ngIf="!searchForm">
+  <label class="pull-left">Add Sub Service</label>
   <div class="row">
-   <h4 class="width100 t-a-c m-b-20 f-s-b">Add Sub Service</h4>
     <form #form="ngForm" autocomplete="off" id="addingForm">
       <div class="row"> </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

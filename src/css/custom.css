@@ -2179,4 +2179,8 @@ input:-webkit-autofill:hover {
     padding-left: 15px;
     padding-right: 15px;
   }
+  .center-btn {
+    justify-content: center;
+    display: flex;
+  }
 }

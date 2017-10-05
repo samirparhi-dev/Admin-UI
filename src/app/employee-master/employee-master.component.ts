@@ -160,7 +160,6 @@ export class EmployeeMasterComponent implements OnInit {
 
 	getEmployeesSuccessHandeler(response)
 	{
-		debugger;
 		console.log(response,"employees fetched as per condition");
 		this.tableitems = response.filter(function(obj){
             return obj.uSRMDeleted==false && obj.roleName != 'ProviderAdmin';

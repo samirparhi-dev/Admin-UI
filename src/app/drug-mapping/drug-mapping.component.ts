@@ -122,7 +122,6 @@ export class DrugMappingComponent implements OnInit {
   drugIdList:any = [];
   mappedDrugIDs:any = [];
   addDrugToList(values){  
-    debugger;
     let drugIdList = [];
     for(let drugs of values.drugIdList){
         drugIdList.push(drugs.split("-")[0]);
