@@ -132,11 +132,11 @@ export class SeverityTypeComponent implements OnInit {
     // alert("deleted successfully");
     this.alertService.alert("Deleted severity successfully");
   }
-  editeUser(obj) {
+  editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
               height: '180px',
               width: '420px',
-              disableClose: false,
+              disableClose: true,
               data: obj
             });
   }
@@ -148,9 +148,23 @@ export class SeverityTypeComponent implements OnInit {
 })
 export class EditSeverityModalComponent {
 
+  severity: any;
+  description: any;
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
     public dialog: MdDialog,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
     ) { }
+  ngOnInit() {
+    this.data;
 
+     this.severity = this.data.severityTypeName;
+     this.description = this.data.severityDesc;
+
+  }
+  modify(value) {
+
+  }
+  addSeverity(value){
+
+  }
 }
