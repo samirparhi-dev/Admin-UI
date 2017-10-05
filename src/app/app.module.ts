@@ -59,6 +59,7 @@ import { EmployeeDetailsCapturingComponent } from './employee-details-capturing/
 import { LocationServicelineMappingComponent } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { ProviderAdminComponent } from './provider-admin/provider-admin.component';
 import { CallDispositionTypeMasterComponent } from './call-disposition-type-master/call-disposition-type-master.component';
+import { EditCallType } from './call-disposition-type-master/call-disposition-type-master.component';
 import { CategorySubcategoryProvisioningComponent } from './category-subcategory-provisioning/category-subcategory-provisioning.component';
 import { DrugMasterComponent } from './drug-master/drug-master.component';
 import { DrugGroupComponent } from './drug-group/drug-group.component';
@@ -137,7 +138,7 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent, UpdateServiceProviderComponent,
     EmployeeMasterComponent, EmployeeDetailsCapturingComponent, DrugGroupComponent, DrugListComponent, DrugMappingComponent,
     LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
-    CallDispositionTypeMasterComponent, EditSeverityModalComponent,
+    CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
@@ -231,7 +232,8 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     EditEmployeeDetailsModal,
     EditProviderDetailsComponent,
     CommonDialogComponent,
-    EditSeverityModalComponent
+    EditSeverityModalComponent,
+    EditCallType
   ],
 
   bootstrap: [AppComponent]
