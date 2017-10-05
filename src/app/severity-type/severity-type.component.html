@@ -43,7 +43,7 @@
 							<td>{{sev.severityTypeName}}</td>
 							<td>{{sev.severityDesc}}</td>
 							<td>
-<!-- 							<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon> -->
+							<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon>
 								<md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon>
 							</td>
 						</tr>
@@ -65,18 +65,18 @@
 		<div class="row">
 			<div class="m-t-10" *ngIf="!firstPage">
 				<form class="row" #severityAdding="ngForm" autocomplete="off">
-					<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+					<div class="col-xs-12 col-sm-5 col-md-3 col-lg-3">
 						<md-input-container [style.width]="'100%'">
 							<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" required>
 							<md-hint class="error_text" *ngIf="alreadyExist">Severity already exist</md-hint>
 						</md-input-container>
 					</div>
-					<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+					<div class="col-xs-12 col-sm-5 col-md-3 col-lg-3">
 						<md-input-container [style.width]="'100%'">
 							<input mdInput placeholder="Description" name="description" [(ngModel)]="description" >
 						</md-input-container>
 					</div>
-					<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+					<div class="col-xs-12 col-sm-5 col-md-3 col-lg-3">
 						<button md-mini-fab  color="primary">
 							<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"(click)="add(severityAdding.value)">add</md-icon>
 						</button>

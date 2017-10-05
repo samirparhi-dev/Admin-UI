@@ -123,11 +123,14 @@ export class SeverityTypeComponent implements OnInit {
   }
   editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
-              height: '180px',
+              height: '380px',
               width: '420px',
               disableClose: true,
               data: obj
             });
+          dialogReff.afterClosed().subscribe(()=>{
+          this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      });
   }
 }
 
@@ -140,20 +143,29 @@ export class EditSeverityModalComponent {
   severity: any;
   description: any;
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
-    public dialog: MdDialog,
+    public dialog: MdDialog,public severityTypeService: SeverityTypeService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
     ) { }
   ngOnInit() {
     this.data;
-
+    debugger;
      this.severity = this.data.severityTypeName;
      this.description = this.data.severityDesc;
 
   }
   modify(value) {
+    let object = {
+      "severityID" :this.data.severityID,
+      "severityTypeName" : value.severity,
+      "severityDesc" : value.description
+    } 
+        this.severityTypeService.modifySeverity(object).subscribe(response=>this.modifiedSuccessHandler(response));
 
   }
   addSeverity(value){
 
+  }
+  modifiedSuccessHandler(res){
+    this.dialogReff.close();
   }
 }
