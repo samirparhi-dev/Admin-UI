@@ -44,7 +44,7 @@ export class EmployeeMasterComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe((response: Response) => this.getStatesOfServiceProviderSuccessHandeler(response));
+		this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
 	}
 
 	searchEmployee(state,service,role,empname,empid)
@@ -83,7 +83,7 @@ export class EmployeeMasterComponent implements OnInit {
 			request_obj.userID=null;
 		}
 		console.log(request_obj, "reqOBJ");
-		this.EmployeeMasterService.getEmployees(request_obj).subscribe((response:Response)=>this.getEmployeesSuccessHandeler(response));
+		this.EmployeeMasterService.getEmployees(request_obj).subscribe(response=>this.getEmployeesSuccessHandeler(response));
 	}
 
 	changeFlagValue(boolean_value)
@@ -94,19 +94,19 @@ export class EmployeeMasterComponent implements OnInit {
 	
 	getServices(stateID) {
 		console.log(this.serviceProviderID, stateID);
-		this.EmployeeMasterService.getServices(this.serviceProviderID, stateID).subscribe((response:Response) => this.servicesSuccesshandeler(response));
+		this.EmployeeMasterService.getServices(this.serviceProviderID, stateID).subscribe(response => this.servicesSuccesshandeler(response));
 	}
 
 	getRoles(stateID,serviceID)
 	{
-		this.EmployeeMasterService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response: Response) => this.rolesSuccesshandeler(response));
+		this.EmployeeMasterService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe(response => this.rolesSuccesshandeler(response));
 	}
 
 	deleteUser(usrMapingId) {
 		// let confirmation = confirm("do you want to delete this role ???");
 		this.alertService.confirm("Are you sure you want to delete this role ?").subscribe((res)=>{
 			if (res) {
-			this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe((response: Response) => this.userDeleteHandeler(response));
+			this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe(response => this.userDeleteHandeler(response));
 			}
 		},
 		(err)=>{
@@ -116,7 +116,7 @@ export class EmployeeMasterComponent implements OnInit {
 
 	editeUser(toBeEditedObject) {
 		// let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
-		this.alertService.confirm("Do you want to edit the user with employeeID as " + toBeEditedObject.userID + "?").subscribe((res)=>{
+		this.alertService.confirm("Do you want to edit the user with employeeID as " + toBeEditedObject.userID + "?").subscribe(res=>{
 			if (res) {
 			console.log(JSON.stringify(toBeEditedObject));	
 
@@ -313,7 +313,7 @@ export class EditEmployeeDetailsModal{
 		console.log(robj, "edit rwq obj in modal");
 
 		this.EmployeeMasterService.editEmployee(robj)
-			.subscribe((response: Response) => this.editEmployeeDetailsSuccessHandeler(response));
+			.subscribe(response => this.editEmployeeDetailsSuccessHandeler(response));
 
 	}
 

@@ -61,7 +61,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   ngOnInit() {
     this.provider_admin_location_serviceline_mapping.getStates(this.serviceProviderID)
-    .subscribe((response:Response)=>this.states=this.successhandeler(response));
+    .subscribe(response=>this.states=this.successhandeler(response));
 
     // this.getAllWorkLocations();
   }
@@ -99,12 +99,12 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   getDistricts(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getDistricts(serviceProviderID, stateID)
-      .subscribe((response: Response) =>  this.getDistrictsSuccessHandeler(response));
+      .subscribe(response =>  this.getDistrictsSuccessHandeler(response));
   }
 
   getServiceLines(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getServiceLines(serviceProviderID, stateID)
-      .subscribe((response: Response) => this.servicesSuccesshandeler(response));
+      .subscribe(response => this.servicesSuccesshandeler(response));
   }
   getServiceLinesfromSearch(serviceProviderID, stateID){
     
@@ -126,7 +126,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       console.log(reqOBJ);
 
       this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
-        (response: Response) => this.findLocationsSuccesshandeler(response)
+        response => this.findLocationsSuccesshandeler(response)
         );
     }
     else {
@@ -134,7 +134,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       console.log(reqOBJ);
 
       this.provider_admin_location_serviceline_mapping.getWorkLocationsOnState(reqOBJ).subscribe(
-        (response: Response) => this.findLocationsSuccesshandeler(response)
+        response => this.findLocationsSuccesshandeler(response)
         );
 
     }
@@ -177,7 +177,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log(newreqobj, "new requestOBJ");
 
     this.provider_admin_location_serviceline_mapping.addWorkLocation(newreqobj)
-    .subscribe((response: Response) => this.saveOfficeSuccessHandeler(response));
+    .subscribe(response => this.saveOfficeSuccessHandeler(response));
   }
 
   editOfficeAddress(toBeEditedOBJ) {
@@ -213,8 +213,10 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.alertService.confirm("Are you sure want to "+this.confirmMessage+"?").subscribe((res)=>{
       if (res) {
         console.log(id);
+
         this.provider_admin_location_serviceline_mapping.deleteWorkLocation(obj)
-          .subscribe((response: Response) => this.deleteOfficeSuccessHandeler(response));
+          .subscribe(response => this.deleteOfficeSuccessHandeler(response));
+
       }
     },
     (err)=>{
@@ -282,7 +284,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.OfficeID = "";
     this.officeNameExist =false;
     this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(obj)
-      .subscribe((response: Response) => this.currentServicesSuccess(response));
+      .subscribe(response => this.currentServicesSuccess(response));
   }
   currentServicesSuccess(res) {
      this.officeArray = res;
@@ -355,7 +357,7 @@ export class EditLocationModal {
     console.log(editedObj, "edit rwq obj in modal");
 
     this.provider_admin_location_serviceline_mapping.editWorkLocation(editedObj)
-      .subscribe((response: Response) => this.editOfficeSuccessHandeler(response));
+      .subscribe(response => this.editOfficeSuccessHandeler(response));
 
   }
 

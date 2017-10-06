@@ -100,7 +100,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     getDistricts(stateID)
 	{
-		this.zoneMasterService.getDistricts(stateID).subscribe((response:Response)=>this.getDistrictsSuccessHandeler(response));
+		this.zoneMasterService.getDistricts(stateID).subscribe(response=>this.getDistrictsSuccessHandeler(response));
 	}
     getDistrictsSuccessHandeler(response)
 	{

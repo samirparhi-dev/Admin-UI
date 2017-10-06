@@ -1,5 +1,6 @@
 <!-- Main Search Form Starts -->
 <md-card *ngIf="searchForm">
+  <label class="pull-left">Search Category and SubCategory</label>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <form #search="ngForm">
@@ -46,11 +47,14 @@
         </thead>
         <tbody>
           <tr *ngFor="let i of md2.data">
-            <td>{{i?.categoryName}}</td>
-            <td>{{i?.categoryDesc}}</td>
-            <td>
-              <!--               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon> -->
-              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon>
+            <td width=30%>{{i?.categoryName}}</td>
+            <td width=30%>{{i?.categoryDesc}}</td>
+            <td width=30%>
+              <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="editCategory(i)">edit</md-icon>
+              <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
+              <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
+              <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
             </td>
           </tr>
         </tbody>
@@ -105,6 +109,7 @@
 <!-- Search Data Table Ends -->
 
 <md-card *ngIf="!showTable">
+  <label class="pull-left">Create Category and SubCategory</label>
   <div class="row">
     <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12 pull-right">
       <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>

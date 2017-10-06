@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CategorySubcategoryService } from '../services/ProviderAdminServices/category-subcategory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
-
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
+import { EditCategorySubcategoryComponent } from './edit-category-subcategory/edit-category-subcategory.component';
 @Component({
   selector: 'app-category-subcategory-provisioning',
   templateUrl: './category-subcategory-provisioning.component.html',
@@ -42,7 +44,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   private items: Array<any>;
   hideButton: boolean = false;
 
-  constructor(public commonDataService: dataService, public CategorySubcategoryService: CategorySubcategoryService
+  constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
     this.Add_Category_Subcategory_flag = true;
@@ -89,7 +91,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
       .subscribe((response) => {
         if (response) {
-          this.categories = response;
+          this.categories = response.filter(function (item) {
+            return item.deleted !== true;
+          });
           this.data = response;
         }
       }, (err) => {
@@ -220,8 +224,29 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
   }
 
-  editCategory(id: any) {
+  editCategory(catObj: any) {
+    debugger;
+    const categoryObj = {};
+    categoryObj['categoryID'] = catObj.categoryID;
+    categoryObj['categoryName'] = catObj.categoryName;
+    categoryObj['subService'] = this.sub_service.subServiceName;
+    categoryObj['providerServiceMapId'] = catObj.providerServiceMapID;
+    categoryObj['categoryDesc'] = catObj.categoryDesc;
+    const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
+      height: '60%',
+      width: '30%',
+      disableClose: true,
+      data: categoryObj
 
+    });
+    dialogReff.componentInstance.categoryType = true;
+    dialogReff.afterClosed().subscribe((res) => {
+      if (res) {
+        debugger;
+        this.getCategory(catObj.providerServiceMapID, catObj.subServiceID);
+      }
+
+    });
   }
   deleteRow(index) {
     this.serviceList.pop(index);
@@ -235,10 +260,16 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   deleteRowSubCat(index) {
     this.serviceSubCatList.pop(index);
   }
-  deleteCategory(id: any) {
-    this.messageBox.confirm('Are you sure want to delete?').subscribe((res) => {
+  deleteCategory(id: any, isActivate: boolean) {
+    let confirmMessage;
+    if (isActivate) {
+      confirmMessage = 'Deactivate';
+    } else {
+      confirmMessage = 'Activate';
+    }
+    this.messageBox.confirm('Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
       if (res) {
-        this.CategorySubcategoryService.deleteCategory(id)
+        this.CategorySubcategoryService.deleteCategory(id, isActivate)
           .subscribe((response) => {
             if (response) {
               this.refeshCategory(response.subServiceID, response.providerServiceMapID);
@@ -260,7 +291,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.data = response.filter(function (item) {
             return item.categoryID !== null && item.categoryName !== null;
           });
-          this.categories = response;
+          this.categories = response.filter(function (item) {
+            return item.deleted !== true;
+          });
         }
       }, (err) => {
 
@@ -271,7 +304,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   changeRequestObject(flag_value) {
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
-     
+
       // this.resetFields();
 
     }

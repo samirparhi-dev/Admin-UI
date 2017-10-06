@@ -13,12 +13,16 @@ export class ConfigService {
     // private _helpline104BaseURL: String = "http://14.142.214.242:8080/104api-v1.0/";
     // private adminBaseUrl: String = "http://14.142.214.242:8080/adminapi-v1.0/";
     // private superadminBaseURL: String = "http://14.142.214.242:8080/adminapi-v1.0/";
+    // private _commonBaseURL: String = "http://10.152.3.99:8080/commonapi-v1.0/";
+    // private _helpline1097BaseURL: String = "http://10.152.3.99:8080/1097api-v1.0/";
+    // private _helpline104BaseURL: String = "http://10.152.3.99:8080/104api-v1.0/";
+    // private adminBaseUrl: String = "http://10.152.3.99:8080/adminapi-v1.0/";
+    // private superadminBaseURL: String = "http://10.152.3.99:8080/adminapi-v1.0/";
     private _commonBaseURL: String = "http://10.152.3.99:8080/commonapi-v1.0/";
-    private _helpline1097BaseURL: String = "http://10.152.3.99:8080/1097api-v1.0/";
-    private _helpline104BaseURL: String = "http://10.152.3.99:8080/104api-v1.0/";
-    private adminBaseUrl: String = "http://10.152.3.99:8080/adminapi-v1.0/";
-    private superadminBaseURL: String = "http://10.152.3.99:8080/adminapi-v1.0/";
-
+    private _helpline1097BaseURL: String = "http://10.92.17.44:8080/1097api-v1.0/";
+    private _helpline104BaseURL: String = "http://10.92.17.44:8080/104api-v1.0/";
+    private adminBaseUrl: String = "http://10.92.17.44:8080/";
+    private superadminBaseURL: String = "http://10.92.17.44:8080/";
 
     getCommonBaseURL() {
         return this._commonBaseURL;
