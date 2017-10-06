@@ -97,7 +97,7 @@ export class UpdateServiceProviderComponent implements OnInit {
     // 	console.log(a);
 
     // 	a={};
-    // 	debugger;
+    // 	;
     // })
     for (var i = 0; i < this.data.length; i++) {
       if (this.data[i].stateID == value) {

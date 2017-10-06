@@ -15,9 +15,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   state: any;
   service: any;
   sub_service: any;
-
+  showDiv: boolean = false;
   api_choice: any;
-
+  subCat: any = [];
   // flags
   Add_Category_Subcategory_flag: boolean;
   showTable: boolean;
@@ -48,7 +48,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
     this.serviceproviderID = this.commonDataService.service_providerID;
-    // this.providerServiceMapID = this.commonDataService.provider_serviceMapID;
     this.createdBy = this.commonDataService.uname;
 
   }
@@ -85,23 +84,38 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
 
   }
-  getDetails(subService: any, providerServiceMap: any) {
-    this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService.subServiceID)
+
+  getCategory(providerserviceMapId: any, subServiceID: any) {
+    this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
       .subscribe((response) => {
-        this.data = response;
+        if (response) {
+          this.categories = response;
+          this.data = response;
+        }
+      }, (err) => {
+
+      });
+  }
+  getSubCategory(providerserviceMapId: any, subServiceID: any) {
+    this.CategorySubcategoryService.getCategorybySubService(providerserviceMapId, subServiceID)
+      .subscribe((response) => {
+        if (response) {
+          this.subCat = response;
+        }
       }, (err) => {
 
       });
   }
 
-  hideTable() {
-    this.showTable = false;
-    this.searchForm = false;
+
+  // to get the details of category and subcategory
+  getDetails(subService: any, providerServiceMap: any) {
+    this.showDiv = true;
+    this.getCategory(providerServiceMap, subService.subServiceID);
+    this.getSubCategory(providerServiceMap, subService.subServiceID);
+
   }
 
-  hideForm() {
-    this.showTable = true;
-  }
   addNew(rowNumber: any) {
 
     if (this.api_choice === '0') {
@@ -110,8 +124,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.addExistCategoryRow();
     }
 
-
   }
+
   addNewCategoryRow() {
     let obj = {};
     obj['categoryName'] = this.category_name;
@@ -130,6 +144,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.category_name = undefined;
     this.categorydesc = '';
   }
+
   addExistCategoryRow() {
     let obj = {};
     obj['subServiceID'] = this.sub_service.subServiceID;
@@ -149,38 +164,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.subcategory = undefined;
     this.description = ''
   }
-  deleteRow(index) {
-    this.serviceList.pop(index);
-    if (this.serviceList.length === 0) {
-      this.cateDisabled = 'false';
-      this.category_name = '';
-      this.categorydesc = '';
-    }
-  }
-  deleteRowSubCat(index) {
-    this.serviceSubCatList.pop(index);
-  }
-  changeRequestObject(flag_value) {
-    if (flag_value === "0") {
-      this.Add_Category_Subcategory_flag = true;
-      // this.resetFields();
 
-    }
-    if (flag_value === "1") {
-      this.Add_Category_Subcategory_flag = false;
-      // this.resetFields();
-    }
-  }
-  finalsave(service) {
-    if (this.api_choice === "0") {
-      this.addNewCategory(service);
-    } else {
-      this.addExistCategory(service);
-    }
-  }
-
+  // add category
   addNewCategory(providerServiceMapID) {
-
     let categoryObj = [];
     categoryObj = this.serviceList.map(function (item) {
       return {
@@ -192,25 +178,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         'createdBy': item.createdBy
       }
     })
-    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
-    //   return {
-    //     'subCategoryName': item.subCategoryName,
-    //     'subCategoryDesc': item.desc,
-    //     'subCatFilePath': item.filePath
-    //   }
-    // })
 
     this.CategorySubcategoryService.saveCategory(categoryObj)
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
             this.messageBox.alert('Successfully Created');
-            // this.searchForm = true;
             this.serviceList.length = [];
-            // this.showTable = true;
-            // this.api_choice = 1;
-            // this.changeRequestObject(this.api_choice);
-            this.getDetails(this.sub_service, providerServiceMapID);
+            this.getCategory(providerServiceMapID, this.sub_service);
           }
         }
       }, (err) => {
@@ -218,17 +193,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
   }
 
-  addExistCategory(providerServiceMapID) {
-    // const categoryObj = {};
-    // categoryObj['categoryID'] = this.category_ID.categoryID;
-    // categoryObj['subcatArray'] = this.serviceList.map(function (item) {
-    //   return {
-    //     'subCategoryName': item.subCategoryName,
-    //     'subCategoryDesc': item.desc,
-    //     'subCatFilePath': item.filePath
-    //   }
-    // })
-    // categoryObj['createdBy'] = this.createdBy;
+  // add sub category
+  addSubCategory(providerServiceMapID) {
     let subCategoryObj = [];
     subCategoryObj = this.serviceSubCatList.map(function (item) {
       return {
@@ -249,30 +215,25 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
-        // this.serviceSubCatList.length = 0;
       }, (err) => {
 
       });
   }
-  back() {
-    this.searchForm = true;
-    this.serviceList.length = 0;
-    this.showTable = true;
-    this.cateDisabled = 'false';
 
-  }
-  getCategory(providerserviceMapId: any, subServiceID: any) {
-    this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
-      .subscribe((response) => {
-        if (response) {
-          this.categories = response;
-        }
-      }, (err) => {
-
-      });
-  }
   editCategory(id: any) {
 
+  }
+  deleteRow(index) {
+    this.serviceList.pop(index);
+    if (this.serviceList.length === 0) {
+      this.cateDisabled = 'false';
+      this.category_name = '';
+      this.categorydesc = '';
+    }
+  }
+
+  deleteRowSubCat(index) {
+    this.serviceSubCatList.pop(index);
   }
   deleteCategory(id: any) {
     this.messageBox.confirm('Are you sure want to delete?').subscribe((res) => {
@@ -280,13 +241,70 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id)
           .subscribe((response) => {
             if (response) {
-              this.getDetails(response.subServiceID, response.providerServiceMapID);
+              this.refeshCategory(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {
 
           });
       }
     }, (err) => { });
+
+  }
+  // to refresh the category after deletion
+  refeshCategory(subService: any, providerServiceMap: any) {
+    this.showDiv = true;
+    this.CategorySubcategoryService.getCategory(providerServiceMap, subService)
+      .subscribe((response) => {
+        ;
+        if (response) {
+          this.data = response.filter(function (item) {
+            return item.categoryID !== null && item.categoryName !== null;
+          });
+          this.categories = response;
+        }
+      }, (err) => {
+
+      });
+  }
+
+
+  changeRequestObject(flag_value) {
+    if (flag_value === "0") {
+      this.Add_Category_Subcategory_flag = true;
+     
+      // this.resetFields();
+
+    }
+    if (flag_value === "1") {
+      this.Add_Category_Subcategory_flag = false;
+      this.getCategory(this.service, this.sub_service.subServiceID);
+      // this.resetFields();
+    }
+  }
+  // final save to save category and sub category
+  finalsave(service) {
+    if (this.api_choice === "0") {
+      this.addNewCategory(service);
+    } else {
+      this.addSubCategory(service);
+    }
+  }
+  hideTable() {
+    this.showTable = false;
+    this.searchForm = false;
+  }
+
+  hideForm() {
+    this.showTable = true;
+  }
+
+  back() {
+    this.searchForm = true;
+    this.serviceList.length = 0;
+    this.showTable = true;
+    this.cateDisabled = 'false';
+    this.getCategory(this.service, this.sub_service.subServiceID);
+    this.getSubCategory(this.service, this.sub_service.subServiceID);
 
   }
 
