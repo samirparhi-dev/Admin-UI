@@ -3,6 +3,7 @@ import { HttpServices } from '../services/http-services/http_services.service';
 import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
 import { ConfigService } from '../services/config/config.service';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 
 
@@ -19,7 +20,7 @@ export class SetPasswordComponent implements OnInit
 		public http_calls: HttpServices,
 		public getUserData: dataService,
 		private configService: ConfigService,
-		public router: Router ) { }
+		public router: Router, private alertService: ConfirmationDialogsService ) { }
 
 	ngOnInit ()
 	{
@@ -42,11 +43,13 @@ export class SetPasswordComponent implements OnInit
 				( error: any ) => this.errorCallback( error )
 				);
 
-			alert( "password is changed for user " + this.uname + " wd new pwd as : " + new_pwd );
+			//alert( "password changed for" + this.uname );
+			    this.alertService.alert("password changed for " + this.uname);
+
 		}
 		else
 		{
-			alert( "password dsnt match" );
+			this.alertService.alert("password does not matched");
 		}
 	}
 

@@ -68,16 +68,17 @@
             </md-select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <md-select multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required
+            <md-select *ngIf="!allServicesMapped" multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required
               #sLine="ngModel">
               <md-option *ngFor="let service of servicelines" [value]="service.serviceID">
                 {{service.serviceName}}
               </md-option>
             </md-select>
+            <label *ngIf="allServicesMapped" class="error_text">All Services Mapped</label>
           </div>
           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 m-t-5">
             <!-- 						<button color="primary" type="button" name="back" md-raised-button class="pull-left " (click)="back()">Back</button> -->
-            <button color="primary" type="button" name="modify" [disabled]="sLine.errors" md-raised-button class="pull-right " (click)="modifyProvider(modifyForm.value)">Submit</button>
+            <button *ngIf="!allServicesMapped" color="primary" type="button" name="modify" [disabled]="!modifyForm.valid" md-raised-button class="pull-right " (click)="modifyProvider(modifyForm.value)">Submit</button>
           </div>
         </form>
       </div>

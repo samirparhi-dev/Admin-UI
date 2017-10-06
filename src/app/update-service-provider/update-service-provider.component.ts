@@ -21,6 +21,8 @@ export class UpdateServiceProviderComponent implements OnInit {
   state: any;
   serviceline: any;
   provider: any;
+  allServicesMapped :  any;
+  
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service,
     public dialog: MdDialog, private message: ConfirmationDialogsService) { }
 
@@ -72,12 +74,19 @@ export class UpdateServiceProviderComponent implements OnInit {
       }
     }
     console.log(this.servicelines);
+    if(this.servicelines.length == 0) {
+      this.allServicesMapped = true;
+    }
+    else {
+      this.allServicesMapped = false;
+    }
 
   }
   array: any = [];
   getValidServicelines(value) {
     this.servicelines = [];
     this.array = [];
+    this.serviceline = "";
     let tempState = {};
     // let res = this.data.filter(function(obj) {
     // 	if(obj.stateID == value)
