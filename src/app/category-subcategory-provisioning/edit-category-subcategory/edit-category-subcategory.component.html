@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <label class="pull-left">Edit Category</label>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right">
+      <button class="pull-right" md-icon-button class="closeBtn" md-dialog-close>
+          <i class="material-icons">close</i>
+        </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput [disabled]='true' placeholder="Sub Service Name" [(ngModel)]="subService " name="subService">
+      </md-input-container>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
+      </md-input-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc">
+      </md-input-container>
+    </div>
+  </div>
+  <div class="clearfix"> </div>
+  <div class="clearfix"> </div>
+  <div class="clearfix"> </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button md-raised-button color="primary" type="submit" class="full-width" (click)="editCategory()">Save</button>
+    </div>
+  </div>
+</div>

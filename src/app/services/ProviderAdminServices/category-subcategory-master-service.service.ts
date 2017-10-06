@@ -30,7 +30,7 @@ export class CategorySubcategoryService {
   deleteCategory_url: any;
   getCategory_url: any;
   saveExistCategory_url: any;
-
+  editCategory_url: any;
   constructor(private http: Http, public basepaths: ConfigService, private _httpInterceptor: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.getStates_url = this.providerAdmin_Base_Url + 'm/location/state';
@@ -41,6 +41,7 @@ export class CategorySubcategoryService {
     this.deleteCategory_url = this.providerAdmin_Base_Url + 'm/deleteCategory1';
     this.getCategory_url = this.providerAdmin_Base_Url + 'm/getCategory';
     this.saveExistCategory_url = this.providerAdmin_Base_Url + 'm/createSubCategory';
+    this.editCategory_url = this.providerAdmin_Base_Url + 'm/updateCategory';
   };
 
   getStates(serviceProviderID) {
@@ -82,8 +83,13 @@ export class CategorySubcategoryService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  deleteCategory(id: any) {
-    return this.http.post(this.deleteCategory_url, { 'categoryID': id })
+  deleteCategory(id: any, isActivate: boolean) {
+    return this.http.post(this.deleteCategory_url, { 'categoryID': id, 'deleted': isActivate })
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+  editCategory(catObj: any) {
+    return this.http.post(this.editCategory_url, catObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
