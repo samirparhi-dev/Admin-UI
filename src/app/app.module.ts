@@ -93,18 +93,18 @@ import { ServicemasterService } from './services/adminServices/AdminService/serv
 import { ScreenService } from './services/adminServices/AdminScreen/screen.service';
 import { HttpServices } from './services/http-services/http_services.service';
 import { UserBeneficiaryData } from './services/common/userbeneficiarydata.service'
-import { LocationService } from "./services/common/location.service";
-import { FeedbackTypes } from "./services/common/feedbacktypes.service";
-import { CallServices } from "./services/callservices/callservice.service";
-import { ConfigService } from "./services/config/config.service";
-import { SuperAdmin_ServiceProvider_Service } from "./services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
-import { ProviderAdminRoleService } from "./services/ProviderAdminServices/state-serviceline-role.service";
-import { LocationServicelineMapping } from "./services/ProviderAdminServices/location-serviceline-mapping.service";
-import { EmployeeMasterService } from "./services/ProviderAdminServices/employee-master-service.service";
-import { CallTypeSubtypeService } from "./services/ProviderAdminServices/calltype-subtype-master-service.service";
-import { BlockProvider } from "./services/adminServices/AdminServiceProvider/block-provider-service.service";
-import { DrugMasterService } from "./services/ProviderAdminServices/drug-master-services.service";
-import { CategorySubcategoryService } from "./services/ProviderAdminServices/category-subcategory-master-service.service";
+import { LocationService } from './services/common/location.service';
+import { FeedbackTypes } from './services/common/feedbacktypes.service';
+import { CallServices } from './services/callservices/callservice.service';
+import { ConfigService } from './services/config/config.service';
+import { SuperAdmin_ServiceProvider_Service } from './services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service';
+import { ProviderAdminRoleService } from './services/ProviderAdminServices/state-serviceline-role.service';
+import { LocationServicelineMapping } from './services/ProviderAdminServices/location-serviceline-mapping.service';
+import { EmployeeMasterService } from './services/ProviderAdminServices/employee-master-service.service';
+import { CallTypeSubtypeService } from './services/ProviderAdminServices/calltype-subtype-master-service.service';
+import { BlockProvider } from './services/adminServices/AdminServiceProvider/block-provider-service.service';
+import { DrugMasterService } from './services/ProviderAdminServices/drug-master-services.service';
+import { CategorySubcategoryService } from './services/ProviderAdminServices/category-subcategory-master-service.service';
 
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
@@ -122,6 +122,7 @@ import { EditProviderDetailsComponent } from './edit-provider-details/edit-provi
 import { SeverityTypeComponent } from './severity-type/severity-type.component';
 import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
 import { EditSeverityModalComponent } from './severity-type/severity-type.component';
+import { EditCategorySubcategoryComponent } from './category-subcategory-provisioning/edit-category-subcategory/edit-category-subcategory.component';
 
 
 
@@ -141,8 +142,8 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent,LoaderComponent,ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent,VanTypeComponent,VanServicePointMappingComponent,EmployeeParkingPlaceMappingComponent
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent
 
   ],
 
@@ -219,12 +220,12 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
     LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
     DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService, ServicePointMasterService,
-    ConfirmationDialogsService, LoaderService,SeverityTypeService, {
+    ConfirmationDialogsService, LoaderService, SeverityTypeService, {
       provide: InterceptedHttp,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService,VanMasterService,VanTypeMasterService,VanServicePointMappingService,EmployeeParkingPlaceMappingService
+    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService
   ],
 
   entryComponents: [
@@ -233,7 +234,8 @@ import { EditSeverityModalComponent } from './severity-type/severity-type.compon
     EditProviderDetailsComponent,
     CommonDialogComponent,
     EditSeverityModalComponent,
-    EditCallType
+    EditCallType,
+    EditCategorySubcategoryComponent
   ],
 
   bootstrap: [AppComponent]
