@@ -63,8 +63,8 @@ export class CallTypeSubtypeService {
      return this.httpIntercept.post(this.save_CallTypeSubType_Url, request_obj).map(this.handleSuccess)
        .catch(this.handleError);
    }
-   deleteSubCallType(subCallType){
-     return this.httpIntercept.post(this.delete_SubCallType_Url, { "callTypeID" : subCallType }).map(this.handleSuccess)
+   deleteSubCallType(obj){
+     return this.httpIntercept.post(this.delete_SubCallType_Url, obj).map(this.handleSuccess)
        .catch(this.handleError);    
    }
    modificallType(obj) {

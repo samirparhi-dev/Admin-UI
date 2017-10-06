@@ -119,10 +119,24 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   //severityID
-  deleteSeverity(id) {
-       this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
+  confirmMessage: any;
+  deleteSeverity(id,flag) {
+
+    let obj = {
+      "severityID": id,
+      "deleted": flag
+    }
+ 
+      
+      if (flag) {
+        this.confirmMessage = 'Deactivate';
+      } else {
+        this.confirmMessage = 'Activate';
+      }
+
+       this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res)=>{
          if(res){
-           this.severityTypeService.deleteSeverity(id).subscribe(response=>this.deleteSuccessHandler(response));
+           this.severityTypeService.deleteSeverity(obj).subscribe(response=>this.deleteSuccessHandler(response));
          }
        },
        (err)=>{
@@ -131,7 +145,9 @@ export class SeverityTypeComponent implements OnInit {
   }
   deleteSuccessHandler(res) {
     // alert("deleted successfully");
-    this.alertService.alert("Deleted severity successfully");
+        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+
+    this.alertService.alert(this.confirmMessage+"d successfully");
   }
   editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {

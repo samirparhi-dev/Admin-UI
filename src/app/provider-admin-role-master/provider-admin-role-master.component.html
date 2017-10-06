@@ -56,13 +56,16 @@
                         </tr>
                         <tr *ngFor="let role of md2.data">
                             <!-- <td>{{i+1}}</td> -->
-                            <td>{{role.roleID}}</td>
-                            <td>{{role.roleName}}</td>
-                            <td>{{role.roleDesc}}</td>
+                            <td width=25%>{{role.roleID}}</td>
+                            <td width=25%>{{role.roleName}}</td>
+                            <td width=25%>{{role.roleDesc}}</td>
                             <!-- <td>{{role.deleted}}</td> -->
-                            <td><md-icon mdTooltip="edit"  *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRole(role)">edit</md-icon>
-                                <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon></td>
-                            </tr>
+                            <td width=25%><md-icon mdTooltip="edit"  *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRole(role)">edit</md-icon>
+<!--                                 <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon> -->
+                              <button *ngIf="role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, false)">Activate</button>
+                              <button *ngIf="!role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, true)">Deactivate</button>
+                          </td>
+                      </tr>
 
                         </tbody>
                         <tfoot>

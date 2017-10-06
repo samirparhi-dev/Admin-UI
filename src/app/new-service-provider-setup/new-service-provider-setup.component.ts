@@ -67,6 +67,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   request_object: any = {}
   providerListArray: any = [];
   showAdd: boolean = false;
+  validFrom: any = "";
 
   constructor(public super_admin_service: SuperAdmin_ServiceProvider_Service, public EmployeeMasterService: EmployeeMasterService,
     private message: ConfirmationDialogsService) {
@@ -83,6 +84,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   ngOnInit() {
 
     this.today = new Date();
+    this.validFrom = this.today;
     this.validTill = this.today;
     this.minDate = this.today;
     this.doj = this.today;
@@ -122,7 +124,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
       'secondaryContactAddress': '',
       'statusID': '1',
       'createdBy': 'Diamond_Khanna',
-
+      'validTill': '',
+      'validFrom':'',
       'stateAndServiceMapList': [],
       'providerAdminDetails': []
     }
@@ -151,7 +154,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.emailID = '';
     this.address1 = '';
     this.address2 = '';
-
+    this.validFrom = '';
     this.state = '';
     this.service = '';
 
@@ -185,7 +188,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
 
       this.request_object.serviceProviderName = this.serviceProviderName;
-      this.request_object.valid_till = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
+      this.request_object.validTill = new Date((this.validTill) - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)).toJSON();
+      this.request_object.validFrom = new Date((this.validFrom) - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)).toJSON();
       this.request_object.primaryContactName = this.contactPerson;
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
@@ -513,6 +517,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.show3 = false;
     this.today = new Date();
     this.validTill = this.today;
+    this.validFrom = this.today;
     this.doj = this.today;
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
@@ -545,6 +550,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       if (response) {
         jQuery('#providerForm').trigger('reset');
         this.validTill = new Date();
+        this.validFrom = new Date();
       }
     }, (err) => { });
 
@@ -552,5 +558,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   providerData_successHandler(res) {
     this.providerListArray = res;
+  }
+  validFromD(date) {
+    console.log(this.today);
+    console.log(date);
+    this.validTill = date;
   }
 }

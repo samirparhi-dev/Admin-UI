@@ -119,14 +119,24 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
         
     }
-
-    deleteRole(roleID)
+    confirmMessage : any;
+    deleteRole(roleID,flag)
     {
+        let obj = {
+            "roleID": roleID,
+            "deleted": flag
+        }
+
+      if (flag) {
+        this.confirmMessage = 'Deactivate';
+      } else {
+        this.confirmMessage = 'Activate';
+      }
         // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
-        this.alertService.confirm("Are you sure you want to delete?").subscribe((res)=>{
+        this.alertService.confirm("Are you sure you want to "+this.confirmMessage+"?").subscribe((res)=>{
             if(res)
             {
-                this.ProviderAdminRoleService.deleteRole(roleID).subscribe(response => this.edit_delete_RolesSuccessHandeler(response,"delete"));    
+                this.ProviderAdminRoleService.deleteRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response,"delete"));    
             }
         },
         (err)=>{
@@ -145,7 +155,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.setEditSubmitButton = true;
         this.toBeEditedRoleObj = roleObj;
         this.hideAdd = false;
- 
+         this.showAddButtonFlag = false;
     }
 
     saveEditChanges()
@@ -169,7 +179,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.alertService.alert("Role Edited successfully");
         }
         else {
-            this.alertService.alert("Role deleted successfully");
+            this.alertService.alert(this.confirmMessage+"d successfully");
         }
         console.log(response, "edit/delete response");
         this.showRoleCreationForm=false;
@@ -188,7 +198,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     noRecordFound: boolean = false;
     fetchRoleSuccessHandeler(response)
     {
-        
+        debugger;
         console.log(response, "in fetch role success in component.ts");
         if(response.length == 0){
             this.noRecordFound = true;
@@ -197,9 +207,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.noRecordFound = false;
         }
         // this.showAddButtonFlag = true;
-        response = response.filter(function(obj){
-            return obj.deleted!=true;
-        })
+        // response = response.filter(function(obj){
+        //     return obj.deleted!=true;
+        // })
         return response;
     }
 

@@ -80,8 +80,8 @@ export class LocationServicelineMapping {
 		.catch(this.handleError);
 	}
 
-	deleteWorkLocation(provider_state_address_mapID) {
-		return this.httpIntercept.post(this.delete_WorkLocation_url, { "pSAddMapID": provider_state_address_mapID })
+	deleteWorkLocation(obj) {
+		return this.httpIntercept.post(this.delete_WorkLocation_url, obj)
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}

@@ -14,7 +14,7 @@
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" (change)="findLocations()">
+          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" (change)="findLocations()">
               <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}">
                 {{service.serviceName}}
               </md-option>
@@ -52,14 +52,16 @@
           <tr *ngFor="let loc of md2.data">
             <!--<td>{{loc.providerServiceMapID}}</td>-->
             <!--<td>{{loc.pSAddMapID}}</td>-->
-            <td>{{loc.locationName}}</td>
-            <td>{{loc.serviceName}}</td>
-            <td>{{loc.address}}</td>
-            <td>{{loc.stateName}}</td>
-            <td>{{loc.districtName}}</td>
-            <td>
+            <td width=15%>{{loc.locationName}}</td>
+            <td width=15%>{{loc.serviceName}}</td>
+            <td width=15%>{{loc.address}}</td>
+            <td width=15%>{{loc.stateName}}</td>
+            <td width=15%>{{loc.districtName}}</td>
+            <td width=25%>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="editOfficeAddress(loc)">edit</md-icon>
-              <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="deleteOfficeAddress(loc.pSAddMapID)">delete</md-icon>
+<!--               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="deleteOfficeAddress(loc.pSAddMapID)">delete</md-icon> -->
+              <button *ngIf="loc.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, false)">Activate</button>
+              <button *ngIf="loc.deleted == false" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, true)">Deactivate</button>
             </td>
           </tr>
         </tbody>

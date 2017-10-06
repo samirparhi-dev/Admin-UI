@@ -196,13 +196,24 @@ export class LocationServicelineMappingComponent implements OnInit {
     });
 
   }
+  confirmMessage : any;
+  activeDeactivate(id,flag) {
+    let obj = {
+      "pSAddMapID": id,
+      "deleted": flag
+    }
+    console.log(obj);
 
-  deleteOfficeAddress(id) {
+      if (flag) {
+        this.confirmMessage = 'Deactivate';
+      } else {
+        this.confirmMessage = 'Activate';
+      }
     // let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
-    this.alertService.confirm("Are you sure want to delete?").subscribe((res)=>{
+    this.alertService.confirm("Are you sure want to "+this.confirmMessage+"?").subscribe((res)=>{
       if (res) {
         console.log(id);
-        this.provider_admin_location_serviceline_mapping.deleteWorkLocation(id)
+        this.provider_admin_location_serviceline_mapping.deleteWorkLocation(obj)
           .subscribe((response: Response) => this.deleteOfficeSuccessHandeler(response));
       }
     },
@@ -221,6 +232,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   findLocationsSuccesshandeler(response) {
     console.log(response, "get locations success");
+    debugger;
     this.workLocations = response;
     // this.showTable = true;
   }
@@ -253,7 +265,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   deleteOfficeSuccessHandeler(response) {
-    this.alertService.alert("Location deleted successfully")
+    this.alertService.alert(this.confirmMessage+"d successfully");
     console.log('deleted', response);
     this.findLocations();
   }

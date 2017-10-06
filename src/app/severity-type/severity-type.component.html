@@ -24,7 +24,7 @@
 			</div> -->
 		</form>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <button *ngIf="search" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
+        <button *ngIf="search && firstPage" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
         </div>
 	</div>
 	<div class="row" *ngIf="firstPage">
@@ -46,8 +46,10 @@
 							<td>{{sev.severityTypeName}}</td>
 							<td>{{sev.severityDesc}}</td>
 							<td>
-							<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon>
-								<md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon>
+							<md-icon *ngIf="!sev.deleted" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon>
+				<!-- 				<md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSeverity(sev.severityID)">delete</md-icon> -->
+                            <button *ngIf="sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, false)">Activate</button>
+                            <button *ngIf="!sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, true)">Deactivate</button>
 							</td>
 						</tr>
 					</tbody>

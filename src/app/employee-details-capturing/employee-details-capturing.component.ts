@@ -226,15 +226,18 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getWorkLocationsInStateSuccessHandeler(response) {
     console.log('all offices', response);
-    this.serviceproviderAllOfficesInState = response;
+
+    this.serviceproviderAllOfficesInState = response.filter(function(obj){
+        return obj.deleted == false;
+    })
   }
 
   getRolesSuccessHandeler(response) {
     console.log('all roles', response);
-    this.serviceproviderAllRoles = response;
+    this.serviceproviderAllRoles = response.filter(function(obj){
+        return obj.deleted == false;
+      });
   }
-
-
 
   addressCheck(value) {
     if (value.checked) {

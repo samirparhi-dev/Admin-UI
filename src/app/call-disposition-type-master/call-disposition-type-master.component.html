@@ -52,14 +52,16 @@
               </tr>
               <tr *ngFor="let i of md2.data">
                 <!--<td>{{i.callTypeID}}</td>-->
-                <td>{{i.callGroupType}}</td>
-                <td>{{i.callType}}</td>
-                <td>{{i.fitToBlock}}</td>
-                <td>{{i.fitForFollowup}}</td>
-                <td>
+                <td width=20%>{{i.callGroupType}}</td>
+                <td width=20%>{{i.callType}}</td>
+                <td width=20%>{{i.fitToBlock}}</td>
+                <td width=20%>{{i.fitForFollowup}}</td>
+                <td width=20%>
                
-                  <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon>
-                  <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon>
+                  <span [hidden]="i.deleted"><md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon></span>
+<!--                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon> -->
+                      <button *ngIf="i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
+                      <button *ngIf="!i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, true)">Deactivate</button>
                 </td>
               </tr>
             </tbody>
