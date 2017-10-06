@@ -66,7 +66,7 @@ export class ZoneComponent implements OnInit {
 
     districts: any = [];
     getDistricts(stateID) {
-        this.zoneMasterService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
+        this.zoneMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;

@@ -128,7 +128,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     districts: any = [];
     getDistricts(stateID) {
-        this.parkingPlaceMasterService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
+        this.parkingPlaceMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");

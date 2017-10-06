@@ -95,8 +95,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
     this.userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
     this.passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
-    this.super_admin_service.getAllStates(this.countryID).subscribe((response: Response) => this.states = this.successhandeler(response));
-    this.super_admin_service.getAllServiceLines().subscribe((response: Response) => this.servicelines = this.successhandeler(response));
+    this.super_admin_service.getAllStates(this.countryID).subscribe(response => this.states = this.successhandeler(response));
+    this.super_admin_service.getAllServiceLines().subscribe(response => this.servicelines = this.successhandeler(response));
     this.super_admin_service.getCommonRegistrationData().subscribe(response => this.reg_data_successhandeler(response));
     this.requestObject();
     this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
@@ -373,7 +373,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(JSON.stringify(this.request_object));
 
     this.super_admin_service.createServiceProvider(this.request_object).subscribe(
-      (response: Response) => this.successHandeler(response),
+      response => this.successHandeler(response),
       (err) => {
         this.message.alert('Error in Adding Provider');
       });
@@ -420,7 +420,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
   checkUsernameExists(username) {
-    this.EmployeeMasterService.checkUsernameExists(username).subscribe((response: Response) => this.checkUsernameSuccessHandeler(response));
+    this.EmployeeMasterService.checkUsernameExists(username).subscribe(response => this.checkUsernameSuccessHandeler(response));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -499,7 +499,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
   checkPan() {
     this.EmployeeMasterService.validatePan(this.pan_number)
-      .subscribe((response: Response) => {
+      .subscribe(response => {
         this.checkPanSuccessHandler(response);
       }, (err) => {
 

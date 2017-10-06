@@ -131,10 +131,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.EmployeeMasterService.getCommonRegistrationData()
-      .subscribe((response: Response) => this.commonRegistrationDataSuccessHandeler(response));
+      .subscribe(response => this.commonRegistrationDataSuccessHandeler(response));
     this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID)
-      .subscribe((response: Response) => this.getStatesOfServiceProviderSuccessHandeler(response));
-    this.EmployeeMasterService.getQualifications().subscribe((response: Response) => this.getQualificationsHandeler(response));
+      .subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
+    this.EmployeeMasterService.getQualifications().subscribe(response => this.getQualificationsHandeler(response));
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         this.data = [];
     this.previleges = [];
@@ -143,14 +143,14 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getServices(value) {
     this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, value.stateID)
-      .subscribe((response: Response) => this.getServicesOfServiceProviderSuccessHandeler(response));
+      .subscribe(response => this.getServicesOfServiceProviderSuccessHandeler(response));
 
   }
 
   getOffices(value1, value2) {
 
     this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, value1.stateID, value2.serviceID)
-      .subscribe((response: Response) => this.getWorkLocationsInStateSuccessHandeler(response));
+      .subscribe(response => this.getWorkLocationsInStateSuccessHandeler(response));
 
   }
   allDesignationsSuccess(res) {
@@ -159,7 +159,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
   getRoles(value1, value2) {
     this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
-      .subscribe((response: Response) => this.getRolesSuccessHandeler(response));
+      .subscribe(response => this.getRolesSuccessHandeler(response));
       this.hideOffRole = true;
 
   }
@@ -274,11 +274,11 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
 
   getDistricts(stateID) {
-    this.EmployeeMasterService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
+    this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
   }
 
   getOfficeDistricts(value) {
-    this.EmployeeMasterService.getDistricts(value.stateID).subscribe((response: Response) => this.getOfficeDistrictsSuccessHandeler(response));
+    this.EmployeeMasterService.getDistricts(value.stateID).subscribe(response => this.getOfficeDistrictsSuccessHandeler(response));
   }
 
   disableLanguageSubmit:boolean =true;
@@ -507,13 +507,13 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       // "workingLocationID": this.agent_officeName
     }
     // console.log('create employee request Object:', JSON.stringify(request_object));
-    this.EmployeeMasterService.createEmployee(JSON.stringify(request_object)).subscribe((response: Response) => this.createEmployeeSuccessHandeler(response));
+    this.EmployeeMasterService.createEmployee(JSON.stringify(request_object)).subscribe(response => this.createEmployeeSuccessHandeler(response));
   }
 
 
 
   checkUsernameExists(username) {
-    this.EmployeeMasterService.checkUsernameExists(username).subscribe((response: Response) => this.checkUsernameSuccessHandeler(response));
+    this.EmployeeMasterService.checkUsernameExists(username).subscribe(response => this.checkUsernameSuccessHandeler(response));
   }
 
   checkUsernameSuccessHandeler(response) {

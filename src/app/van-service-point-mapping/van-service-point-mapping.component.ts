@@ -156,7 +156,7 @@ export class VanServicePointMappingComponent implements OnInit {
 
     districts: any = [];
     getDistricts(stateID) {
-        this.vanServicePointMappingService.getDistricts(stateID).subscribe((response: Response) => this.getDistrictsSuccessHandeler(response));
+        this.vanServicePointMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
