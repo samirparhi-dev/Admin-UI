@@ -234,10 +234,21 @@ export class CreateSubServiceComponent implements OnInit {
     // this.serviceObj = this.searchServiceObj;
     // jQuery('#addingForm').trigger('reset');
   }
-  deleteSubService(subserviceID) {
-    this.message.confirm('Are you sure want to delete?').subscribe((res) => {
+  confirmMessage: any;
+  deleteSubService(subserviceID,flag) {
+    debugger;
+    let obj = {
+      "subServiceID" : subserviceID,
+      "deleted": flag
+    }
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
+    }
+    this.message.confirm('Are you sure want to '+this.confirmMessage+'?').subscribe((res) => {
       if (res) {
-        this.sub_service.deleteSubService(subserviceID).subscribe(response => {
+        this.sub_service.deleteSubService(obj).subscribe(response => {
           this.deletedSuccessHandler(response)
         })
       }
@@ -248,10 +259,9 @@ export class CreateSubServiceComponent implements OnInit {
     this.getExistingSubService(this.serviceObj);
   }
   deletedSuccessHandler(res) {
-    this.data;
-    this.data = this.data.filter(function (obj) {
-      return obj.subServiceID != res.subServiceID;
-    })
+        this.message.alert(this.confirmMessage+"d Successfully");
+            this.getExistingOnSearch(this.serviceObj);
+
   }
 
 }

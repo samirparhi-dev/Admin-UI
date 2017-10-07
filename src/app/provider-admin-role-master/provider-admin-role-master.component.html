@@ -88,7 +88,7 @@
 
       <div *ngIf="showRoleCreationForm">
           <div class="row m-t-10" >
-          <form #addingForm="ngForm">
+          <form #addingForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                 <md-input-container style="width: 100%">
                     <input mdInput placeholder="Role" [(ngModel)]="role" name="role" (keyup)="validateRole(role)" required #roles="ngModel">

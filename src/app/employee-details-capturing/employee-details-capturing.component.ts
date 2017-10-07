@@ -45,7 +45,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   mother_name: any;
   marital_status: any;
   religion: any;
-  community: any;
+  community: any
 
 
   allQualificationTypes: any = [];
@@ -287,22 +287,31 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   disableLanguageSubmit:boolean =true;
   updateSliderData(data, index) {
     let index_exists = false;
-    let obj = {
+    let obj ={};
+     obj = {
       'language_index': index,
       'value': data
     }
+    let temp :boolean = false;
+    let a;
     if (this.sliderarray.length === 0) {
       this.sliderarray.push(obj);
     }
     else {
       for (let i = 0; i < this.sliderarray.length; i++) {
-        if (this.sliderarray[i].language_index === index) {
-          this.sliderarray[i].value = data;
-          index_exists = true;
+        if (this.sliderarray[i].language_index == index) {
+          debugger;
+            a = i;
+            temp = true;
+            break;
         }
 
       }
-      if (index_exists === false) {
+      if(temp) {
+           this.sliderarray[a].value = data;
+          index_exists = true;
+      }
+      if (index_exists == false) {
         this.sliderarray.push(obj);
       }
     }
@@ -374,7 +383,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     let roleNames = "";
     let roleIds = [];
     for(var i=0 ; i <value.agent_role.length; i++) {
-      roleNames += value.agent_role[i].roleName+ ", ";
+      roleNames += value.agent_role[i].roleName+ " ";
       roleIds.push(value.agent_role[i].roleID);
     }
 
@@ -509,8 +518,12 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       // "providerServiceMapID": this.providerServiceMapID,
       // "workingLocationID": this.agent_officeName
     }
+    console.log(request_object);
+    let a = JSON.stringify(request_object);
+    console.log(a);
+debugger;
     // console.log('create employee request Object:', JSON.stringify(request_object));
-    this.EmployeeMasterService.createEmployee(JSON.stringify(request_object)).subscribe(response => this.createEmployeeSuccessHandeler(response));
+    this.EmployeeMasterService.createEmployee(a).subscribe(response => this.createEmployeeSuccessHandeler(response));
   }
 
 

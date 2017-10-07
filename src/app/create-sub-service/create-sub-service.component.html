@@ -51,8 +51,10 @@
               <td>{{sub.subServiceName}}</td>
               <td>{{sub.subServiceDesc}}</td>
               <td>
-                <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                  (click)="deleteSubService(sub.subServiceID)">delete</md-icon>
+<!--                 <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="deleteSubService(sub.subServiceID)">delete</md-icon> -->
+                <button *ngIf="sub.deleted" md-raised-button color="primary" (click)="deleteSubService(sub.subServiceID, false)">Activate</button>
+                <button *ngIf="!sub.deleted" md-raised-button color="primary" (click)="deleteSubService(sub.subServiceID, true)">Deactivate</button>
               </td>
             </tr>
           </tbody>
@@ -75,7 +77,7 @@
   </div>
 </md-card>
 <md-card *ngIf="!searchForm">
-  <label class="pull-left">Add Sub Service</label>
+  <label class="pull-left">Sub Service Mapping</label>
   <div class="row">
     <form #form="ngForm" autocomplete="off" id="addingForm">
       <div class="row"> </div>

@@ -362,7 +362,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['qualificationID'] = '';
     provider_admin_details_obj['emrContactPersion'] = '';
     provider_admin_details_obj['emrConctactNo'] = '';
-    provider_admin_details_obj['statusID'] = '1';
+    provider_admin_details_obj['statusID'] = '2';
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
       console.log(item);
@@ -375,7 +375,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.request_object.createdBy = '';
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
-
+    console.log(this.request_object);
+    debugger;
     this.super_admin_service.createServiceProvider(this.request_object).subscribe(
       response => this.successHandeler(response),
       (err) => {

@@ -189,6 +189,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.description = "";
         this.objs= [];
          this.selectedRole = undefined;
+         this.disableSelection = false;
     }
 
     successhandeler(response)

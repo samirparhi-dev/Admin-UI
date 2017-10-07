@@ -185,10 +185,8 @@ export class BlockProvider {
       .catch(this.error_handeler);
   }
 
-  deleteSubService(sebserviceId: any) {
-    return this._http.post(this.deleteSubserviceUrl, {
-      "subServiceID": sebserviceId
-    }).map(this.success_handeler)
+  deleteSubService(obj) {
+    return this._http.post(this.deleteSubserviceUrl, obj).map(this.success_handeler)
       .catch(this.error_handeler);
   }
   editProvider(serviceProviderObj: any) {
