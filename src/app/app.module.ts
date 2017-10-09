@@ -116,6 +116,7 @@ import { VanServicePointMappingService } from './services/ProviderAdminServices/
 import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
 
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
+import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
@@ -123,6 +124,7 @@ import { SeverityTypeComponent } from './severity-type/severity-type.component';
 import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
 import { EditSeverityModalComponent } from './severity-type/severity-type.component';
 import { EditCategorySubcategoryComponent } from './category-subcategory-provisioning/edit-category-subcategory/edit-category-subcategory.component';
+import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
 
 
 
@@ -143,7 +145,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
 
   ],
 
@@ -225,7 +228,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService
+    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService,
+    EmployeeParkingPlaceMappingService,InstituteDirectoryMasterService
   ],
 
   entryComponents: [
