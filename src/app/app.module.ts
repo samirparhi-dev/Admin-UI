@@ -81,6 +81,7 @@ import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 import { EditLocationModal } from './location-serviceline-mapping/location-serviceline-mapping.component';
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
 import { UpdateServiceProviderComponent } from './update-service-provider/update-service-provider.component';
+import { EditFeedbackModal } from './feedback-type-master/feedback-type-master.component';
 
 
 // services
@@ -105,6 +106,7 @@ import { CallTypeSubtypeService } from './services/ProviderAdminServices/calltyp
 import { BlockProvider } from './services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { DrugMasterService } from './services/ProviderAdminServices/drug-master-services.service';
 import { CategorySubcategoryService } from './services/ProviderAdminServices/category-subcategory-master-service.service';
+import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
@@ -123,6 +125,8 @@ import { SeverityTypeComponent } from './severity-type/severity-type.component';
 import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
 import { EditSeverityModalComponent } from './severity-type/severity-type.component';
 import { EditCategorySubcategoryComponent } from './category-subcategory-provisioning/edit-category-subcategory/edit-category-subcategory.component';
+import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-type-master.component';
+import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 
 
@@ -142,8 +146,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent
 
   ],
 
@@ -225,7 +229,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService
+    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService,
+    FeedbackTypeService
   ],
 
   entryComponents: [
@@ -235,7 +240,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
     CommonDialogComponent,
     EditSeverityModalComponent,
     EditCallType,
-    EditCategorySubcategoryComponent
+    EditCategorySubcategoryComponent,
+    EditFeedbackModal
   ],
 
   bootstrap: [AppComponent]
