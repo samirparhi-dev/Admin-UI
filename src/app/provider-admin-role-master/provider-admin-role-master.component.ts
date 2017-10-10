@@ -255,7 +255,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                 let obj = {
                     "roleName": role,
                     "roleDesc": desc,
-                    "feature":feature,
+                    "screenID":feature,
                     "createdBy":"diamond",
                     "createdDate":"2017-07-28",
                     "providerServiceMapID": this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
@@ -275,6 +275,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     let obj = {
                         "roleName": role,
                         "roleDesc": desc,
+                        "screenID":feature,
                         "createdBy": "diamond",
                         "createdDate": new Date(),
                         "providerServiceMapID": this.commonDataService.provider_serviceMapID   //this needs to be fed dynmically!!!

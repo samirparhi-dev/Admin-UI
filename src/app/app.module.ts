@@ -131,6 +131,7 @@ import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-typ
 import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
+import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
 
 
 
@@ -155,7 +156,7 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory
 
   ],
 
@@ -251,7 +252,8 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     EditSeverityModalComponent,
     EditCallType,
     EditCategorySubcategoryComponent,
-    EditFeedbackModal
+    EditFeedbackModal,
+    EditInstituteDirectory
   ],
 
   bootstrap: [AppComponent]

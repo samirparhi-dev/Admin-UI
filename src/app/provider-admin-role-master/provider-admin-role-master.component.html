@@ -43,7 +43,7 @@
                     <thead>
                         <tr>
                             <!-- <th>S.No</th> -->
-                            <th>RoleID</th>
+                            <!-- <th>RoleID</th> -->
                             <th>Role</th>
                             <th>Description</th>
                             <!-- <th>Deleted</th> -->
@@ -56,7 +56,7 @@
                         </tr>
                         <tr *ngFor="let role of md2.data">
                             <!-- <td>{{i+1}}</td> -->
-                            <td width=25%>{{role.roleID}}</td>
+                            <!-- <td width=25%>{{role.roleID}}</td> -->
                             <td width=25%>{{role.roleName}}</td>
                             <td width=25%>{{role.roleDesc}}</td>
                             <!-- <td>{{role.deleted}}</td> -->
@@ -73,7 +73,7 @@
                               <td colspan="2">
                                   <md2-pagination></md2-pagination>
                               </td>
-                              <td colspan="2">
+                              <td colspan="1">
                                   <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
                               </td>
                           </tr>

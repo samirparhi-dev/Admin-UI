@@ -5,14 +5,14 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-t-15">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
+        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
           <md-option *ngFor="let item of states" value="{{item.stateID}}">
             {{item.stateName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-t-15">
-        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" required>
+        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" required>
           <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
             {{item.serviceName}}
           </md-option>
@@ -27,7 +27,7 @@
 <md-card class="m-t-10" *ngIf="showTableFlag">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
         <thead>
           <tr>
             <th>Institute Directory</th>
@@ -43,9 +43,9 @@
             <td>{{item.instituteDirectoryName}}</td>
             <td>{{item.instituteDirectoryDesc}}</td>
             <td>
-              <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
-              <button *ngIf="item.deleted" md-raised-button color="primary">Activate</button>
-              <button *ngIf="!item.deleted" md-raised-button color="primary">Deactivate</button>
+              <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirectoryID,false)">Activate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirectoryID,true)">Deactivate</button>
             </td>
           </tr>
         </tbody>
@@ -68,7 +68,7 @@
     <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
         <md-input-container style="width: 100%">
-          <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory">
+          <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" required>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
@@ -93,8 +93,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of md2.data; let k=index; ">
-            <td>{{item.institute_directory}}</td>
-            <td>{{item.description}}</td>
+            <td>{{item.instituteDirectoryName}}</td>
+            <td>{{item.instituteDirectoryDesc}}</td>
             <td>
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">clear</md-icon>
             </td>
@@ -110,8 +110,8 @@
       </table>
     </div>
     <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-15">
-      <button md-raised-button class="m-l-10 pull-right" color="primary">Save</button>
-      <button md-raised-button class="pull-right" color="primary" (click)="back()">Back</button>
+      <button md-raised-button class="pull-right" disabled="{{bufferArray.length<1}}" color="primary" (click)="save()">Save</button>
+      <button md-raised-button class="pull-right m-r-10" color="primary" (click)="back()">Back</button>
     </div>
   </div>
 </md-card>
