@@ -19,11 +19,11 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   providerServiceMapID: any;
   countryID: any;
   data: any = [];
-
+  lang: any;
   username_status: any;
   showHint: boolean;
   username_dependent_flag: boolean;
-
+  multiLanguages: any = [];
   /*demographics*/
   title: any;
   firstname: any;
@@ -37,8 +37,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   today = new Date();
   allTitles: any = [];
   allGenders: any = [];
-  hideOffRole : boolean = false;
-  designation : any;
+  hideOffRole: boolean = false;
+  designation: any;
   /*qualification*/
   qualificationType: any;
   father_name: any;
@@ -46,7 +46,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   marital_status: any;
   religion: any;
   community: any
-
+  showSlider: boolean = false;
 
   allQualificationTypes: any = [];
   communities: any = [];
@@ -109,10 +109,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   agentID: any;
 
   // arrays
-
   showAdd: boolean = false;
   govtIDs: any = [];
-  allDesignations : any = [];
+  allDesignations: any = [];
 
   constructor(public EmployeeMasterService: EmployeeMasterService, public commonDataService: dataService, private alertService: ConfirmationDialogsService) {
     this.languages = [];
@@ -136,7 +135,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       .subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
     this.EmployeeMasterService.getQualifications().subscribe(response => this.getQualificationsHandeler(response));
     this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-        this.data = [];
+    this.data = [];
     this.previleges = [];
     this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));
   }
@@ -154,13 +153,13 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   }
   allDesignationsSuccess(res) {
-      console.log(res,"2222");
-      this.allDesignations = res;
+    console.log(res, "2222");
+    this.allDesignations = res;
   }
   getRoles(value1, value2) {
     this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
       .subscribe(response => this.getRolesSuccessHandeler(response));
-      this.hideOffRole = true;
+    this.hideOffRole = true;
 
   }
 
@@ -182,7 +181,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(response, 'qualifications');
     this.allQualificationTypes = response;
   }
-  hide : boolean = true;
+  hide: boolean = true;
   createEmployeeSuccessHandeler(response) {
     console.log(response, 'employee created successfully');
     this.alertService.alert("Employee created successfully");
@@ -227,16 +226,16 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   getWorkLocationsInStateSuccessHandeler(response) {
     console.log('all offices', response);
 
-    this.serviceproviderAllOfficesInState = response.filter(function(obj){
-        return obj.deleted == false;
+    this.serviceproviderAllOfficesInState = response.filter(function (obj) {
+      return obj.deleted == false;
     })
   }
 
   getRolesSuccessHandeler(response) {
     console.log('all roles', response);
-    this.serviceproviderAllRoles = response.filter(function(obj){
-        return obj.deleted == false;
-      });
+    this.serviceproviderAllRoles = response.filter(function (obj) {
+      return obj.deleted == false;
+    });
   }
 
   addressCheck(value) {
@@ -284,15 +283,15 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getDistricts(value.stateID).subscribe(response => this.getOfficeDistrictsSuccessHandeler(response));
   }
 
-  disableLanguageSubmit:boolean =true;
+  disableLanguageSubmit: boolean = true;
   updateSliderData(data, index) {
     let index_exists = false;
-    let obj ={};
-     obj = {
+    let obj = {};
+    obj = {
       'language_index': index,
       'value': data
     }
-    let temp :boolean = false;
+    let temp: boolean = false;
     let a;
     if (this.sliderarray.length === 0) {
       this.sliderarray.push(obj);
@@ -300,16 +299,15 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     else {
       for (let i = 0; i < this.sliderarray.length; i++) {
         if (this.sliderarray[i].language_index == index) {
-          debugger;
-            a = i;
-            temp = true;
-            break;
+          a = i;
+          temp = true;
+          break;
         }
 
       }
-      if(temp) {
-           this.sliderarray[a].value = data;
-          index_exists = true;
+      if (temp) {
+        this.sliderarray[a].value = data;
+        index_exists = true;
       }
       if (index_exists == false) {
         this.sliderarray.push(obj);
@@ -326,77 +324,76 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.sliderarray.sort(function (a, b) { return a.value - b.value });
     console.log(this.sliderarray);
     this.disableLanguageSubmit = true;
-     this.disableLanguageSubmit = this.sliderarray.forEach(function(obj){
-              if(obj.value > 0) {
-              
-               return false;
-            
-              }
+    this.disableLanguageSubmit = this.sliderarray.forEach(function (obj) {
+      if (obj.value > 0) {
+
+        return false;
+
+      }
     });
     console.log(this.disableLanguageSubmit);
   }
 
-  previleges : any = [];
+  previleges: any = [];
   pushPrivelege(value) {
 
     console.log(this.previleges);
     console.log(value);
     let temp;
     let flag;
-    if(this.previleges.length == 0)
-    {
+    if (this.previleges.length == 0) {
       this.addToTable(value);
       flag = false;
     }
     else {
       flag = true;
       let mapIdMatched = false;
-      for(var i=0; i<this.previleges.length; i++) {
+      for (var i = 0; i < this.previleges.length; i++) {
         temp = false;
-        if(this.previleges[i].providerServiceMapID == value.agent_serviceline.providerServiceMapID) {
+        if (this.previleges[i].providerServiceMapID == value.agent_serviceline.providerServiceMapID) {
           temp = true;
-          flag  = false;
+          flag = false;
           mapIdMatched = true;
         }
-        if(temp){
-          for(var j=0; j<this.previleges[i].roleID.length; j++) {
+        if (temp) {
+          for (var j = 0; j < this.previleges[i].roleID.length; j++) {
             //console.log(this.previleges[i].roleID);
-            for(var z=0; z<value.agent_role.length; z++) {
-             // console.log(value.agent_role[z].roleID);
-              if(value.agent_role[z].roleID == this.previleges[i].roleID[j]) {
-                value.agent_role.splice(z,1);
+            for (var z = 0; z < value.agent_role.length; z++) {
+              // console.log(value.agent_role[z].roleID);
+              if (value.agent_role[z].roleID == this.previleges[i].roleID[j]) {
+                value.agent_role.splice(z, 1);
                 console.log(value);
               }
             }
           }
         }
       }
-      if(value.agent_role.length > 0 && mapIdMatched) {
+      if (value.agent_role.length > 0 && mapIdMatched) {
         this.addToTable(value);
       }
     }
-    if(flag) {
+    if (flag) {
       this.addToTable(value);
     }
   }
   addToTable(value) {
     let roleNames = "";
     let roleIds = [];
-    for(var i=0 ; i <value.agent_role.length; i++) {
-      roleNames += value.agent_role[i].roleName+ " ";
+    for (var i = 0; i < value.agent_role.length; i++) {
+      roleNames += value.agent_role[i].roleName + " ";
       roleIds.push(value.agent_role[i].roleID);
     }
 
     let obj = {
       'roleName': roleNames,
-      'state' : value.state.stateName,
+      'state': value.state.stateName,
       'serviceLineName': value.agent_serviceline.serviceName,
       'workingLocationName': value.agent_officeName.locationName
     }
-    let previlege ={
-      "roleID" : roleIds,
-      "providerServiceMapID" : value.agent_serviceline.providerServiceMapID,
-      "workingLocationID" : value.agent_officeName.pSAddMapID
+    let previlege = {
+      "roleID": roleIds,
+      "providerServiceMapID": value.agent_serviceline.providerServiceMapID,
+      "workingLocationID": value.agent_officeName.pSAddMapID
     }
     this.data.push(obj);
     this.previleges.push(previlege);
@@ -408,12 +405,12 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   removePrivelege(index) {
     this.data.splice(index, 1);
-    this.previleges.splice(index,1);
+    this.previleges.splice(index, 1);
     console.log(this.data);
     console.log(this.previleges);
   }
   roleSelected(value) {
-    if(value.length > 0) {
+    if (value.length > 0) {
       this.showAdd = true;
     }
     else {
@@ -466,6 +463,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
 
   createEmployee() {
+    debugger;
     console.log(this.previleges);
 
     let request_object = {
@@ -485,13 +483,13 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'emailID': this.emailID,
       'statusID': 1,  // because its a new user 
       // "emergencyContactPerson": "Ish Gandotra",
-      'designation' : this.designation,
+      'designation': this.designation,
       'emergencyContactNo': '9023650041',
       // "titleName": "Mrs",
       // "status": "New",
       // "qualificationName": "PostGraduate",
-      'createdBy': 'DI352929',
-      'modifiedBy': 'DiamondKhanna',
+      'createdBy': this.commonDataService.uname,
+      'modifiedBy': '',
       'password': this.password,
       'agentPassword': this.password,
       // "createdDate": "2017-08-01T00:00:00.000Z",
@@ -510,8 +508,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'pinCode': this.permanentPincode,
       'isPresent': '1',  // by default it will remain 1 , if checked, then permanent will also be 1
       'isPermanent': this.isPermanent,
-      'languageID': this.languages,
-      'weightage': this.language_weightage,
+      'languageID': this.multiLanguages.map(item => { return item.languageID }),
+      'weightage': this.multiLanguages.map(item => { return item.weightage }),
+      // 'languageID': this.languages,
+      // 'weightage': this.language_weightage,
       'previleges': this.previleges
       // "roleID": this.agent_role,
       // "serviceProviderID": this.serviceProviderID,
@@ -521,7 +521,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(request_object);
     let a = JSON.stringify(request_object);
     console.log(a);
-debugger;
+    debugger;
     // console.log('create employee request Object:', JSON.stringify(request_object));
     this.EmployeeMasterService.createEmployee(a).subscribe(response => this.createEmployeeSuccessHandeler(response));
   }
@@ -553,7 +553,31 @@ debugger;
 
     }
   }
-
-
-
+  setLanguage(languageArray: any) {
+    debugger
+    this.lang = languageArray;
+    this.showSlider = true;
+  }
+  addLanguage(language: any, weightage: any) {
+    debugger;
+    let langObj = {};
+    langObj['languageName'] = language.languageName;
+    langObj['languageID'] = language.languageID;
+    langObj['weightage'] = weightage;
+    if (this.multiLanguages.length === 0) {
+      this.multiLanguages.push(langObj);
+    } else {
+      this.multiLanguages.push(langObj);
+      this.multiLanguages = this.filterArray(this.multiLanguages);
+    }
+  }
+  deleteRow(index: number) {
+    this.multiLanguages.pop(index);
+  }
+  filterArray(array: any) {
+    const o = {};
+    return array = array
+      .filter((thing, index, self) => self
+        .findIndex((t) => { return t.languageID === thing.languageID && t.weightage === thing.weightage; }) === index)
+  }
 }

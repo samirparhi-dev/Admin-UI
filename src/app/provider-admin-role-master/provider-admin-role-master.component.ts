@@ -199,7 +199,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     noRecordFound: boolean = false;
     fetchRoleSuccessHandeler(response)
     {
-        debugger;
+        ;
         console.log(response, "in fetch role success in component.ts");
         if(response.length == 0){
             this.noRecordFound = true;

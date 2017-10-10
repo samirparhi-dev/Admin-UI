@@ -236,7 +236,7 @@ export class CreateSubServiceComponent implements OnInit {
   }
   confirmMessage: any;
   deleteSubService(subserviceID,flag) {
-    debugger;
+    ;
     let obj = {
       "subServiceID" : subserviceID,
       "deleted": flag

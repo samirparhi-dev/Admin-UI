@@ -35,7 +35,7 @@ export class EditCategorySubcategoryComponent implements OnInit {
     catObj['categoryName'] = this.category_name;
     catObj['categoryDesc'] = this.categorydesc;
     catObj['modifiedBy'] = this.commonData.uname;
-    debugger;
+    ;
     this.catService.editCategory(catObj).subscribe((response) => {
       if (response) {
         this.message.alert('Successfully Updated');

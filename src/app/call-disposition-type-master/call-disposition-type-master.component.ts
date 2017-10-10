@@ -205,7 +205,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	getCallTypeSubTypeSuccessHandeler(response)
 	{
-		debugger;
+		;
 		console.log("call type subtype history", response);
 		this.data = response;
 
@@ -281,7 +281,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			"deleted": flag
 		}
 		console.log(obj);
-		debugger;
+		;
 		this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response));
 
 	}

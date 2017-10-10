@@ -18,10 +18,12 @@ export class loginContentClass {
 	constructor(public loginservice: loginService, public router: Router, public dataSettingService: dataService) { };
 
 	login(userId: any, password: any) {
+		;
 		console.log(userId, password);
 		if (userId === "SUPERADMIN" && password === "SUPERADMIN") {
 			this.dataSettingService.Userdata = { "userName": "Super Admin" };
 			this.dataSettingService.role = "SUPERADMIN";
+			;
 			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
 		// if (userId === "padmin" && password === "padmin") {
@@ -38,7 +40,7 @@ export class loginContentClass {
 	};
 
 	successCallback(response: any) {
-
+		;
 		console.log(response);
 		this.dataSettingService.Userdata = response;
 		this.dataSettingService.userPriveliges = response.previlegeObj;
@@ -54,14 +56,15 @@ export class loginContentClass {
 
 				for (let j = 0; j < response.Previlege[i].Role.length; j++) {
 					if (response.Previlege[i].Role[j] === "ProviderAdmin") {
-						this.router.navigate(['/MultiRoleScreenComponent']);
+						// this.router.navigate(['/MultiRoleScreenComponent']);
 						this.dataSettingService.role = "PROVIDERADMIN";
 					}
 					else {
-						this.router.navigate(['/MultiRoleScreenComponent']);
+						// this.router.navigate(['/MultiRoleScreenComponent']);
 					}
 				}
 			}
+			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
 			this.router.navigate(['/setQuestions']);
