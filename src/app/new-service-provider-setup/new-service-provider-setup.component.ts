@@ -103,7 +103,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.super_admin_service
       .getAllServiceLines()
       .subscribe(
-        response => (this.servicelines = this.successhandeler(response))
+      response => (this.servicelines = this.successhandeler(response))
       );
     this.super_admin_service
       .getCommonRegistrationData()
@@ -364,19 +364,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj["emrContactPersion"] = "";
     provider_admin_details_obj["emrConctactNo"] = "";
     ;
-    provider_admin_details_obj["statusID"] = this.status[0].statusID.toString();
+    provider_admin_details_obj["statusID"] = this.status[0].statusID.toString()
 
-    this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(
-      function(item) {
-        console.log(item);
-        return {
-          stateId: item.stateId.toString(),
-          services: item.services.map(function(serviceItem) {
-            return serviceItem.serviceID.toString();
-          })
-        };
+    this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
+      console.log(item);
+      return {
+        'stateId': item.stateId.toString(), 'services': item.services.map(function (serviceItem) {
+          return serviceItem.serviceID.toString();
+        })
       }
-    );
+    });
     this.request_object.createdBy = "";
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
@@ -384,10 +381,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.super_admin_service
       .createServiceProvider(this.request_object)
       .subscribe(
-        response => this.successHandeler(response),
-        err => {
-          this.message.alert("Error in Adding Provider");
-        }
+      response => this.successHandeler(response),
+      err => {
+        this.message.alert("Error in Adding Provider");
+      }
       );
   }
 
@@ -509,7 +506,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       (response: any) => {
         this.checkAdhaarSuccessHandler(response);
       },
-      err => {}
+      err => { }
     );
   }
   checkPan() {
@@ -517,7 +514,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       response => {
         this.checkPanSuccessHandler(response);
       },
-      err => {}
+      err => { }
     );
   }
   clearFullForm() {
@@ -543,11 +540,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
   getStatus() {
     this.super_admin_service.getAllStatus().subscribe(
       res => {
-        this.status = res.filter(function(serviceItem) {
+        this.status = res.filter(function (serviceItem) {
           return serviceItem.status.toLowerCase() === "new";
         });
       },
-      err => {}
+      err => { }
     );
   }
   clearProviderForm() {
@@ -564,7 +561,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
           this.doj = new Date();
         }
       },
-      err => {}
+      err => { }
     );
     // jQuery('#providerForm').trigger('reset');
   }
@@ -577,7 +574,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
           this.validFrom = new Date();
         }
       },
-      err => {}
+      err => { }
     );
   }
 

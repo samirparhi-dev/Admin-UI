@@ -124,6 +124,12 @@ import { FeedbackTypeComponent } from './feedback-type/feedback-type.component';
 import { EditSeverityModalComponent } from './severity-type/severity-type.component';
 import { EditCategorySubcategoryComponent } from './category-subcategory-provisioning/edit-category-subcategory/edit-category-subcategory.component';
 
+import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-type-master.component';
+import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
+
+import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
+//import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
+
 
 
 @NgModule({
@@ -143,7 +149,8 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
 
   ],
 

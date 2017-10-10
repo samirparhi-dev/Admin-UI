@@ -285,6 +285,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   disableLanguageSubmit: boolean = true;
   updateSliderData(data, index) {
+    debugger;
     let index_exists = false;
     let obj = {};
     obj = {
