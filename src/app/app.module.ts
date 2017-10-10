@@ -82,6 +82,7 @@ import { EditLocationModal } from './location-serviceline-mapping/location-servi
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
 import { UpdateServiceProviderComponent } from './update-service-provider/update-service-provider.component';
 import { EditFeedbackModal } from './feedback-type-master/feedback-type-master.component';
+import { EditFeedbackNatureModal } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 
 // services
@@ -151,7 +152,7 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,EditFeedbackNatureModal,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
@@ -251,7 +252,8 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     EditSeverityModalComponent,
     EditCallType,
     EditCategorySubcategoryComponent,
-    EditFeedbackModal
+    EditFeedbackModal,
+    EditFeedbackNatureModal
   ],
 
   bootstrap: [AppComponent]

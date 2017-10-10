@@ -26,6 +26,9 @@ export class FeedbackTypeMasterComponent implements OnInit {
   objs = [];
   @ViewChild('searchFTForm') searchFTForm: NgForm;
   @ViewChild('addForm') addForm: NgForm;
+  feedbackExists: boolean = false;
+  searchFeedbackArray = [];
+  msg = "Feedback Name already exists";
 
   constructor(private commonData: dataService, private FeedbackTypeService: FeedbackTypeService, private alertService: ConfirmationDialogsService, public dialog: MdDialog) { }
 
@@ -62,13 +65,17 @@ export class FeedbackTypeMasterComponent implements OnInit {
     console.log("state",this.search_state);
     console.log("serviceLine",this.search_serviceline);
     this.feedbackTypes = [];
+    this.showTable = false;
   }
 
   editFeedback(feedbackObj){
     console.log("feedbackObj",feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackModal, {
       width: '500px',
-      data: feedbackObj
+      data: {
+        'feedbackObj': feedbackObj,
+        'feedbackTypes': this.feedbackTypes 
+      }
     });
 
     dialog_Ref.afterClosed().subscribe(result => {
@@ -112,6 +119,25 @@ export class FeedbackTypeMasterComponent implements OnInit {
     this.searchForm = flag;
   }
 
+  validateFeedback(feedback){
+    // console.log("check",feedback);
+    this.feedbackExists = false;
+    this.searchFeedbackArray = this.feedbackTypes.concat(this.objs);
+    console.log("searchArray",this.searchFeedbackArray);
+    let count = 0;
+    for(var i=0; i< this.searchFeedbackArray.length;i++){
+      if(feedback.toUpperCase()===this.searchFeedbackArray[i].feedbackTypeName.toUpperCase()){
+        // console.log("gotcha",feedback,"exists");
+        count++;
+      }
+      // console.log(i,"iterating");
+    }
+    if(count>0){
+      // console.log("error found");
+      this.feedbackExists = true;
+    }
+  }
+
   saveFeedback(){
     // console.log("dataObj", obj);
     var tempArr = [];
@@ -129,6 +155,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     this.FeedbackTypeService.saveFeedback(tempArr)
     .subscribe((res)=>{
       console.log("response",res);
+      this.searchForm = true;
       this.alertService.alert("Feedback Type saved successfully");
       this.addForm.resetForm();
       this.objs = [];
@@ -138,11 +165,12 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
   add_obj(name,desc){
     var tempObj = {
-      "feedbackName": name,
+      "feedbackTypeName": name,
       "feedbackDesc": desc
     }
     console.log(tempObj);
     this.objs.push(tempObj);
+    this.validateFeedback(name);
   }
 
   remove_obj(index){
@@ -159,6 +187,10 @@ export class EditFeedbackModal {
 
   feedbackName: any;
   feedbackDesc: any;
+  originalName: any;
+  searchFeedbackArray = [];
+  feedbackExists: boolean = false;
+  msg = "Feedback Name already exists";
 
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
   public FeedbackTypeService: FeedbackTypeService,
@@ -167,16 +199,18 @@ export class EditFeedbackModal {
   
   ngOnInit() {
     console.log("update this data",this.data);
-    this.feedbackName = this.data.feedbackTypeName;
-    this.feedbackDesc = this.data.feedbackDesc;
+    this.feedbackName = this.data.feedbackObj.feedbackTypeName;
+    this.originalName = this.data.feedbackObj.feedbackTypeName;
+    this.feedbackDesc = this.data.feedbackObj.feedbackDesc;
+    this.searchFeedbackArray = this.data.feedbackTypes;
   }
 
   update(){
     var tempObj = {
-      "feedbackTypeID": this.data.feedbackTypeID,
+      "feedbackTypeID": this.data.feedbackObj.feedbackTypeID,
       "feedbackTypeName": this.feedbackName,
       "feedbackDesc": this.feedbackDesc,
-      "modifiedBy": this.data.createdBy
+      "modifiedBy": this.data.feedbackObj.createdBy
     }
     
     this.FeedbackTypeService.editFeedback(tempObj)
@@ -185,5 +219,23 @@ export class EditFeedbackModal {
       this.alertService.alert("Feedback Type edited successfully");
     })
     
+  }
+
+  validateFeedback(feedback){
+    console.log("check",feedback);
+    this.feedbackExists = false;
+    console.log("searchArray",this.searchFeedbackArray);
+    let count = 0;
+    for(var i=0; i< this.searchFeedbackArray.length;i++){
+      if(feedback.toUpperCase()===this.searchFeedbackArray[i].feedbackTypeName.toUpperCase() && feedback.toUpperCase()!=this.originalName.toUpperCase()){
+        // console.log("gotcha",feedback,"exists");
+        count++;
+      }
+      // console.log(i,"iterating");
+    }
+    if(count>0){
+      // console.log("error found");
+      this.feedbackExists = true;
+    }
   }
 }
