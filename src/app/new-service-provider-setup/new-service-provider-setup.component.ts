@@ -362,7 +362,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['qualificationID'] = '';
     provider_admin_details_obj['emrContactPersion'] = '';
     provider_admin_details_obj['emrConctactNo'] = '';
-    provider_admin_details_obj['statusID'] = '2';
+    provider_admin_details_obj['statusID'] = "1";
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
       console.log(item);

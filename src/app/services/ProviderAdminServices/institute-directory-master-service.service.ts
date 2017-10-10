@@ -20,6 +20,7 @@ export class InstituteDirectoryMasterService {
 
 	get_State_Url:any;
 	get_Service_Url:any;
+	get_InstituteDirectory_Url:any;
 	
 
 	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
@@ -27,6 +28,7 @@ export class InstituteDirectoryMasterService {
 
 		this.get_State_Url = this.admin_Base_Url + "m/role/state";
 		this.get_Service_Url = this.admin_Base_Url + "m/role/service";
+		this.get_InstituteDirectory_Url=this.admin_Base_Url+"m/getInstituteDirectory";
 		
 	};
 
@@ -43,11 +45,14 @@ export class InstituteDirectoryMasterService {
 													.catch(this.handleError);
 	}
 
+	getInstituteDirectory(providerServiceMapID)
+	{
+		console.log("psmID",providerServiceMapID);
+		return this.http.post(this.get_InstituteDirectory_Url,{"providerServiceMapId":providerServiceMapID}).map(this.handleSuccess).catch(this.handleError);
+	}
+
 
 	handleSuccess(response: Response) {
-		// console.log((response.json().data).json(), "in service.ts");
-		// console.log(response,"---1");
-		// console.log(response.json(), "---2");
 		console.log(response.json().data, "INSTITUTE-DIRECTORY file success response");
 		return response.json().data;
 	}

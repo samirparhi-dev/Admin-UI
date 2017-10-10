@@ -57,9 +57,23 @@ export class InstituteDirectoryMasterComponent implements OnInit {
   	this.services=response;
   }
 
+  setProviderServiceMapID(providerServiceMapID)
+  {
+  	console.log("providerServiceMapID",providerServiceMapID);
+  	this.providerServiceMapID=providerServiceMapID;
+  	this.search();
+  }
+
   search()
   {
+  	this.instituteDirectoryService.getInstituteDirectory(this.providerServiceMapID).subscribe(response=>this.getInstituteDirectorySuccessHandeler(response));
+  }
+
+  getInstituteDirectorySuccessHandeler(response)
+  {
+  	console.log("search result",response);
   	this.showTableFlag=true;
+  	this.searchResultArray=response;
   }
 
   clear()
@@ -67,6 +81,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
   	/*resetting the search fields*/
   	this.state="";
   	this.service="";
+  	this.providerServiceMapID="";
 
   	/*resetting the flag*/
   	this.showTableFlag=false;
