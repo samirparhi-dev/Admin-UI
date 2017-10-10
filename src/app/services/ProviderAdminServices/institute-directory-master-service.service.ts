@@ -20,6 +20,10 @@ export class InstituteDirectoryMasterService {
 
 	get_State_Url:any;
 	get_Service_Url:any;
+	get_InstituteDirectory_Url:any;
+	save_InstituteDirectory_Url:any;
+	edit_InstituteDirectory_Url:any;
+	toggle_activate_InstituteDirectory_Url:any;
 	
 
 	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
@@ -27,6 +31,10 @@ export class InstituteDirectoryMasterService {
 
 		this.get_State_Url = this.admin_Base_Url + "m/role/state";
 		this.get_Service_Url = this.admin_Base_Url + "m/role/service";
+		this.get_InstituteDirectory_Url=this.admin_Base_Url+"m/getInstituteDirectory";
+		this.save_InstituteDirectory_Url=this.admin_Base_Url+"m/createInstituteDirectory";
+		this.edit_InstituteDirectory_Url=this.admin_Base_Url+"m/editInstituteDirectory";
+		this.toggle_activate_InstituteDirectory_Url=this.admin_Base_Url+"m/deleteInstituteDirectory";
 		
 	};
 
@@ -43,11 +51,31 @@ export class InstituteDirectoryMasterService {
 													.catch(this.handleError);
 	}
 
+	getInstituteDirectory(providerServiceMapID)
+	{
+		console.log("psmID",providerServiceMapID);
+		return this.http.post(this.get_InstituteDirectory_Url,{"providerServiceMapId":providerServiceMapID}).map(this.handleSuccess).catch(this.handleError);
+	}
+
+	saveInstituteDirectory(data)
+	{
+		console.log("save Institute Directory",data);
+		return this.http.post(this.save_InstituteDirectory_Url,data).map(this.handleSuccess).catch(this.handleError);
+	}
+
+	editInstituteDirectory(data)
+	{
+		return this.http.post(this.edit_InstituteDirectory_Url,data).map(this.handleSuccess).catch(this.handleError);
+	}
+
+	toggle_activate_InstituteDirectory(data)
+	{
+		console.log(data,"delete req obj");
+		return this.http.post(this.toggle_activate_InstituteDirectory_Url,data).map(this.handleSuccess).catch(this.handleError);
+	}
+
 
 	handleSuccess(response: Response) {
-		// console.log((response.json().data).json(), "in service.ts");
-		// console.log(response,"---1");
-		// console.log(response.json(), "---2");
 		console.log(response.json().data, "INSTITUTE-DIRECTORY file success response");
 		return response.json().data;
 	}

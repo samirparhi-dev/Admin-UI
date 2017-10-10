@@ -23,6 +23,9 @@ export class ConfigService {
     private _helpline104BaseURL: String = "http://10.152.3.99:8080/104api-v1.0/";
     private adminBaseUrl: String = "http://10.152.3.99:8080/adminapi-v1.0/";
     private superadminBaseURL: String = "http://10.152.3.99:8080/adminapi-v1.0/";
+    // private adminBaseUrl: String = "http://10.201.44.25:8080/";
+    // private superadminBaseURL: String = "http://10.201.44.25:8080/";
+
 
 
     getCommonBaseURL() {

@@ -225,7 +225,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   editCategory(catObj: any) {
-    debugger;
+    ;
     const categoryObj = {};
     categoryObj['categoryID'] = catObj.categoryID;
     categoryObj['categoryName'] = catObj.categoryName;
@@ -242,7 +242,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     dialogReff.componentInstance.categoryType = true;
     dialogReff.afterClosed().subscribe((res) => {
       if (res) {
-        debugger;
+        ;
         this.getCategory(catObj.providerServiceMapID, catObj.subServiceID);
       }
 
