@@ -140,8 +140,7 @@ export class SeverityTypeComponent implements OnInit {
   }
   editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
-              height: '380px',
-              width: '420px',
+              width: '500px',
               disableClose: true,
               data: {
               "severityObj":  obj,
