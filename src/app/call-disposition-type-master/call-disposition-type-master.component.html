@@ -1,10 +1,7 @@
-<md-card>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-        
-         <h4 class="width100 f-s-b">Call Disposition</h4>   
-    </div>
+<md-card>   
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="width100 m-b-30 f-s-b">Call Disposition</h4>
       <form #searchForm="ngForm">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-select [disabled]="disableSelect" placeholder="State" name="state" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
@@ -48,7 +45,9 @@
             </thead>
             <tbody>
               <tr *ngIf="data.length == 0 ">
-                NO RECORD FOUND
+                <td colspan="5">
+                  No Records Found
+                </td>
               </tr>
               <tr *ngFor="let i of md2.data">
                 <!--<td>{{i.callTypeID}}</td>-->
@@ -67,18 +66,15 @@
             </tbody>
             <tfoot>
               <tr>
-                <td  colspan="3">
+                <td  colspan="5">
                   <md2-pagination></md2-pagination>
-                </td>
-                <td  colspan="2">
-                  <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
                 </td>
               </tr>
             </tfoot>
           </table>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
+          <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
         </div>
       </div>
     </div>
