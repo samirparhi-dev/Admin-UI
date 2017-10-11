@@ -43,7 +43,9 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="correctInput && searchresultarray.length == 0" >
-                            NO RECORD FOUND!!
+                            <td colspan="3">
+                                No Records Found
+                            </td>
                         </tr>
                         <tr *ngFor="let role of md2.data">
                             <!-- <td>{{i+1}}</td> -->
@@ -61,20 +63,20 @@
                         </tbody>
                         <tfoot>
                           <tr>
-                              <td colspan="2">
+                              <td colspan="3">
                                   <md2-pagination></md2-pagination>
                               </td>
-                              <td colspan="1">
+                              <!--<td colspan="1">
                                   <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
-                              </td>
+                              </td>-->
                           </tr>
                       </tfoot>
                   </table>
               </div>
-          </div>
-<!--             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(showAddButtonFlag && correctInput && searchresultarray.length == 0) || showAddButton">
-              <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
-          </div> -->
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30">
+                <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
+              </div>
+          </div> 
       </div>
 
       <div class="row" *ngIf="showRoleCreationForm">
