@@ -372,10 +372,18 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       if (value.agent_role.length > 0 && mapIdMatched) {
         this.addToTable(value);
       }
+      else
+      {
+        this.alertService.alert("Value Already Exists in Table");
+      }
     }
     if (flag) {
       this.addToTable(value);
     }
+    // else
+    // {
+    //   this.alertService.alert("Value Already Exists in Table");
+    // }
   }
   addToTable(value) {
     let roleNames = "";

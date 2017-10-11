@@ -134,6 +134,7 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
 import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
 
 import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
+import { HospitalMasterComponent } from './hospital-master/hospital-master.component';
 
 
 @NgModule({
@@ -158,7 +159,7 @@ import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-t
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent
 
   ],
 
