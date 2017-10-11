@@ -62,8 +62,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     ngOnInit() {
         this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response=>this.states=this.successhandeler(response));
-        this.ProviderAdminRoleService.getFeature(this.provider_service_mapID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
      //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
+    }
+
+    getFeatures(serviceID)
+    {
+      this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
+
     }
 
     getServices(stateID) {

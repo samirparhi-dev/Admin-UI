@@ -53,9 +53,9 @@ export class ProviderAdminRoleService {
 													.catch(this.handleError);
 	}
 
-	getFeature(serviceProviderMapID)
+	getFeature(serviceID)
 	{
-		return this.http.post(this.getFeaturesUrl, { "providerServiceMapId" :serviceProviderMapID})
+		return this.http.post(this.getFeaturesUrl, { "serviceID" :serviceID})
 		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
