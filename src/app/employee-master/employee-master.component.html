@@ -2,9 +2,7 @@
   <md-card >
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            <h4 class="f-s-b">Employee Master</h4>
-          </div>
+          <h4 class="f-s-b">Employee Master</h4>
       
           <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 
@@ -42,11 +40,11 @@
 
   </div>
 </div>
-</md-card>
-<md-card *ngIf="!createEmployeeFlag" class="m-t-10" style="height: 315px">
+
+<div *ngIf="!createEmployeeFlag && tableitems?.length>0" class="m-t-10" style="height: 315px">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
-      <table [md2Data]="tableitems" #md2="md2DataTable" class="table">
+      <table [md2Data]="tableitems" #md2="md2DataTable" class="table" [rowsPerPage]="3">
         <thead>
           <tr>
             <th md2SortBy="state">State</th>
@@ -58,7 +56,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of tableitems| paginate: {id:'emp', itemsPerPage: 3, currentPage: b}">
+          <tr *ngFor="let item of md2.data">
             <td>{{item.pSMStateName}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.roleName}}</td>
@@ -70,15 +68,21 @@
             </td>
           </tr>
           <!-- *ngIf="tableitems.length>3" -->
-          <pagination-controls (pageChange)="b = $event" id="emp" ></pagination-controls>
+          <!--<pagination-controls (pageChange)="b = $event" id="emp" ></pagination-controls>-->
         </tbody>
+        <tfoot>
+          <tr>
+              <td colspan="6">
+              <md2-pagination></md2-pagination>
+              </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
-      
-        <button md-raised-button color="primary" class="pull-right" (click)="changeFlagValue(true)">Create New Employee</button>
-    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >     
+        <button md-raised-button color="primary" class="pull-right" (click)="changeFlagValue(true)">Create New Employee</button>  
     </div>
+  </div>
   </div>
 </md-card>
 </div>
