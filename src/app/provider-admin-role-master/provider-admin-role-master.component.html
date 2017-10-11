@@ -43,7 +43,9 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="correctInput && searchresultarray.length == 0" >
-                            NO RECORD FOUND!!
+                            <td colspan="3">
+                                No Records Found
+                            </td>
                         </tr>
                         <tr *ngFor="let role of md2.data">
                             <!-- <td>{{i+1}}</td> -->
