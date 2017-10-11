@@ -79,8 +79,10 @@
 				<form #severityAdding="ngForm" autocomplete="off">
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 						<md-input-container [style.width]="'100%'">
-							<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" required>
-							<md-hint class="error_text" *ngIf="alreadyExist">Severity already exist</md-hint>
+							<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" #newSeverity="ngModel" required>
+							<md-hint *ngIf="alreadyExist && newSeverity.touched">
+								<span class="error_text">Severity already exist</span>
+							</md-hint>
 						</md-input-container>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -88,7 +90,7 @@
 							<input mdInput placeholder="Description" name="description" [(ngModel)]="description" >
 						</md-input-container>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="severityAdding.valid && alreadyExist">
 						<button md-mini-fab  color="primary">
 							<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"(click)="add(severityAdding.value)">add</md-icon>
 						</button>
@@ -96,7 +98,7 @@
 				</form>			
 			</div>
 		</div>
-		<div class="row" *ngIf="(severityArray.length !=0) && !firstPage">
+		<div class="row" *ngIf="(severityArray?.length !=0) && !firstPage">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let obj of severityArray; let i=index" style="">
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 					<md-chip-list >
