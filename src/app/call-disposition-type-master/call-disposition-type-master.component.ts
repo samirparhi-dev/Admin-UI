@@ -4,6 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 declare var jQuery: any;
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 @Component({
 	selector: 'app-call-disposition-type-master',
@@ -44,7 +45,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	tempCorrespondingSubCallType : any = [];
 	subCallTypeExist : boolean = false;
 
-	constructor(public callTypeSubtypeService: CallTypeSubtypeService,
+	constructor(public callTypeSubtypeService: CallTypeSubtypeService, private alertService: ConfirmationDialogsService,
 				public commonDataService: dataService, public dialog: MdDialog) {
 		this.data = [];
 		this.service_provider_id =this.commonDataService.service_providerID;
@@ -215,6 +216,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	saveCallTypeSubTypeSuccessHandeler(response)
 	{
 		console.log(response, "save call type sub type success");
+		this.alertService.alert("Saved Call type/Sub type successfully");
 		this.hideTable(false) // going back to table view
 		
 		// resetting the ngmodels  
