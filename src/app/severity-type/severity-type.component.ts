@@ -22,6 +22,7 @@ export class SeverityTypeComponent implements OnInit {
   description: any;
   severity: any;
   data: any = [];
+  searchArray: any = [];
   search:boolean = false;
   alreadyExist: boolean = false;
   providerServiceMapID: any;
@@ -62,42 +63,30 @@ export class SeverityTypeComponent implements OnInit {
   	this.handlingFlag(false);
   }
   addSeverity(severity) {
-    for (var i=0; i<this.data.length; i++) {
-          if (this.data[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
-              this.alreadyExist = true;
+    this.alreadyExist = false;
+    this.searchArray = this.data.concat(this.severityArray);
+    console.log("searchArray",this.searchArray);
+    let count = 0;
+    for (var i=0; i<this.searchArray.length; i++) {
+          if (this.searchArray[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
+              count++;
           }
-          else{
-            this.alreadyExist = false;
-          }
-     }
+    }
+    if(count>0){
+      this.alreadyExist = true;
+    }
 
   }
   severityArray: any =[];
-  add(values) {
-    if(!this.alreadyExist) {
+  add(values) {   
       let obj = {
         "severityTypeName" : values.severity,
         "severityDesc" : values.description,
         "providerServiceMapID" : this.providerServiceMapID,
         "createdBy" : "Admin"
       }
-      let temp : boolean;
-      if(this.severityArray.length == 0) {
-        this.severityArray.push(obj);
-      }
-      
-      else {
-        for (var i=0; i<this.severityArray.length; i++) { 
-          temp = true;
-          if(this.severityArray[i].severityTypeName.toLowerCase() == obj.severityTypeName.toLowerCase()) {
-            temp = false;
-          }
-        }
-        if(temp){
-          this.severityArray.push(obj);
-        }
-      }
-    }
+  this.severityArray.push(obj);
+
   }
   handlingFlag(flag) {
   	this.firstPage = flag;
@@ -147,14 +136,17 @@ export class SeverityTypeComponent implements OnInit {
     // alert("deleted successfully");
         this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
 
-    this.alertService.alert(this.confirmMessage+"d successfully");
+        this.alertService.alert(this.confirmMessage+"d successfully");
   }
   editSeverity(obj) {
               let dialogReff = this.dialog.open(EditSeverityModalComponent, {
               height: '380px',
               width: '420px',
               disableClose: true,
-              data: obj
+              data: {
+              "severityObj":  obj,
+              "searchArray": this.data
+              }
             });
           dialogReff.afterClosed().subscribe(()=>{
           this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
@@ -162,8 +154,8 @@ export class SeverityTypeComponent implements OnInit {
   }
   clear() {
     this.data=[];
-   this.services=[];
-   this.search = false;
+    this.services=[];
+    this.search = false;
   }
 }
 
@@ -174,29 +166,40 @@ export class SeverityTypeComponent implements OnInit {
 export class EditSeverityModalComponent {
 
   severity: any;
+  originalSeverity: any;
   description: any;
+  alreadyExist = false;
+  searchArray = [];
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
     public dialog: MdDialog,public severityTypeService: SeverityTypeService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
     ) { }
   ngOnInit() {
-    this.data;
-    ;
-     this.severity = this.data.severityTypeName;
-     this.description = this.data.severityDesc;
-
+     this.originalSeverity = this.data.severityObj.severityTypeName;
+     this.severity = this.data.severityObj.severityTypeName;
+     this.description = this.data.severityObj.severityDesc;
+     this.searchArray = this.data.searchArray;
   }
   modify(value) {
     let object = {
-      "severityID" :this.data.severityID,
+      "severityID" :this.data.severityObj.severityID,
       "severityTypeName" : value.severity,
       "severityDesc" : value.description
     } 
-        this.severityTypeService.modifySeverity(object).subscribe(response=>this.modifiedSuccessHandler(response));
-
+    this.severityTypeService.modifySeverity(object).subscribe(response=>this.modifiedSuccessHandler(response));
   }
   addSeverity(value){
-
+      this.alreadyExist = false;
+      console.log("searchArray",this.searchArray);
+      let count = 0;
+      for (var i=0; i<this.searchArray.length; i++) {
+            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity) {
+                count++;
+            }
+      }
+      if(count>0){
+        this.alreadyExist = true;
+      }
   }
   modifiedSuccessHandler(res){
     this.dialogReff.close();
