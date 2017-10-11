@@ -285,7 +285,6 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   disableLanguageSubmit: boolean = true;
   updateSliderData(data, index) {
-    debugger;
     let index_exists = false;
     let obj = {};
     obj = {
@@ -472,9 +471,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
 
   createEmployee() {
-    debugger;
     console.log(this.previleges);
-
     let request_object = {
 
       'titleID': this.title,
@@ -530,7 +527,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(request_object);
     let a = JSON.stringify(request_object);
     console.log(a);
-    debugger;
+    ;
     // console.log('create employee request Object:', JSON.stringify(request_object));
     this.EmployeeMasterService.createEmployee(a).subscribe(response => this.createEmployeeSuccessHandeler(response));
   }
@@ -563,12 +560,12 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     }
   }
   setLanguage(languageArray: any) {
-    debugger
+
     this.lang = languageArray;
     this.showSlider = true;
   }
   addLanguage(language: any, weightage: any) {
-    debugger;
+    ;
     let langObj = {};
     langObj['languageName'] = language.languageName;
     langObj['languageID'] = language.languageID;
@@ -580,13 +577,14 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       this.multiLanguages = this.filterArray(this.multiLanguages);
     }
   }
-  deleteRow(index: number) {
-    this.multiLanguages.pop(index);
+  deleteRow(i) {
+    ;
+    this.multiLanguages.splice(i, 1);
   }
   filterArray(array: any) {
     const o = {};
     return array = array
       .filter((thing, index, self) => self
-        .findIndex((t) => { return t.languageID === thing.languageID && t.weightage === thing.weightage; }) === index)
+        .findIndex((t) => { return t.languageID === thing.languageID }) === index)
   }
 }
