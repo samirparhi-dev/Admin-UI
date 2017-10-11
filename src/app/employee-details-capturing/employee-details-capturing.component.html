@@ -189,10 +189,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr style="cursor: pointer" *ngFor="let lang of multiLanguages | paginate: {id:'multiLanguages', itemsPerPage: 3, currentPage: b};let i=index">
+                <tr style="cursor: pointer" *ngFor="let lang of multiLanguages | paginate: {id:'multiLanguages', itemsPerPage: 3, currentPage: b};let k=index">
                   <td>{{lang.languageName}}</td>
                   <td>{{lang.weightage}}</td>
-                  <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
+                  <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(k)">delete</i></td>
                 </tr>
                 <tr>
                   <td colspan="6">

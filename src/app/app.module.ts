@@ -128,10 +128,10 @@ import { EditCategorySubcategoryComponent } from './category-subcategory-provisi
 
 import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-type-master.component';
 import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
-
+import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
-//import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
-
+import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
+import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
 
 
 @NgModule({
@@ -151,12 +151,12 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
 
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,EditFeedbackNatureModal,
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent, EditInstituteDirectory
 
   ],
 
@@ -221,9 +221,9 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     loginService, dataService, DashboardHttpServices, RoleService, ServicemasterService,
     ScreenService, HttpServices, UserBeneficiaryData, LocationService, FeedbackTypes,
     CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider,
+    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider, FeedbackTypeService,
     DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService, ServicePointMasterService,
-    ConfirmationDialogsService, LoaderService, SeverityTypeService, {
+    ConfirmationDialogsService, LoaderService, SeverityTypeService, InstituteDirectoryMasterService, {
       provide: InterceptedHttp,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
@@ -241,7 +241,8 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     EditCategorySubcategoryComponent,
     EditFeedbackModal,
     EditFeedbackNatureModal,
-    EditCategorySubcategoryComponent
+    EditCategorySubcategoryComponent,
+    EditInstituteDirectory
   ],
 
   bootstrap: [AppComponent]
