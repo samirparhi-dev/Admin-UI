@@ -175,7 +175,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	toggle_activate(instituteDirectoryID,isDeleted)
 	{
-		if(isDeleted==="true")
+		if(isDeleted===true)
 		{
 			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response=>{
 				if(response)
@@ -190,7 +190,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 			});
 		}
 
-		if(isDeleted==="false")
+		if(isDeleted===false)
 		{
 			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response=>{
 				if(response)

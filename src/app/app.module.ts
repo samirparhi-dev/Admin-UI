@@ -130,8 +130,10 @@ import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-typ
 import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
-//import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
+import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
+import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
 
+import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 
 
 @NgModule({
@@ -156,7 +158,7 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory
 
   ],
 
@@ -228,7 +230,9 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService
+    ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
+     VanServicePointMappingService, EmployeeParkingPlaceMappingService,
+     InstituteDirectoryMasterService,FeedbackTypeService
   ],
 
   entryComponents: [
@@ -241,7 +245,8 @@ import { InstituteDirectoryMasterComponent } from './institute-directory-master/
     EditCategorySubcategoryComponent,
     EditFeedbackModal,
     EditFeedbackNatureModal,
-    EditCategorySubcategoryComponent
+    EditCategorySubcategoryComponent,
+    EditInstituteDirectory
   ],
 
   bootstrap: [AppComponent]
