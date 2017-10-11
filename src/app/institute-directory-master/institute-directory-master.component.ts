@@ -3,6 +3,8 @@ import { InstituteDirectoryMasterService } from '../services/ProviderAdminServic
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+
 
 
 @Component({
@@ -34,7 +36,8 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	constructor(public instituteDirectoryService:InstituteDirectoryMasterService,
 	            public commonDataService:dataService,
-	            public dialog:MdDialog) {
+	            public dialog:MdDialog,
+	            public alertService:ConfirmationDialogsService) {
 		this.serviceProviderID =this.commonDataService.service_providerID;
 
 	}
@@ -164,6 +167,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log("response",response);
 		if(response)
 		{
+			this.alertService.alert("Institute Directory Saved Successfully!");
 			this.back();
 			this.search();
 		}
@@ -171,19 +175,44 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	toggle_activate(instituteDirectoryID,isDeleted)
 	{
-		let obj={
-			"instituteDirectoryID":instituteDirectoryID,
-			"deleted":isDeleted
-		};
+		if(isDeleted===true)
+		{
+			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response=>{
+				if(response)
+				{
+					let obj={
+						"instituteDirectoryID":instituteDirectoryID,
+						"deleted":isDeleted
+					};
 
-		this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response=>this.toggleActivateSuccessHandeler(response))
+					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response=>this.toggleActivateSuccessHandeler(response,"Deactivated"))
+				}
+			});
+		}
+
+		if(isDeleted===false)
+		{
+			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response=>{
+				if(response)
+				{
+					let obj={
+						"instituteDirectoryID":instituteDirectoryID,
+						"deleted":isDeleted
+					};
+
+					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response=>this.toggleActivateSuccessHandeler(response,"Activated"))
+				}
+			});
+		}
+		
 	}
 
-	toggleActivateSuccessHandeler(response)
+	toggleActivateSuccessHandeler(response,action)
 	{
 		console.log(response,"delete Response");
 		if(response)
 		{
+			this.alertService.alert(action+" Successfully!")
 			this.search();
 		}
 	}
@@ -197,12 +226,12 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		});
 
 		dialog_Ref.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      if (result === "success") {
-        this.search();
-      }
+			console.log(`Dialog result: ${result}`);
+			if (result === "success") {
+				this.search();
+			}
 
-    });
+		});
 
 	}
 
