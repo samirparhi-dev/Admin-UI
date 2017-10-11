@@ -18,6 +18,10 @@ export class FeedbackTypeService {
     deleteFeedback_url: any;
     editFeedback_url: any;
     saveFeedback_url: any;
+	getFeedbackNaturesTypes_url: any;
+	deleteFeedbackNatureType_url: any;
+	saveFeedbackNatureType_url: any;
+	editFeedbackNatureType_url: any;
 
 	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
 		this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -28,6 +32,10 @@ export class FeedbackTypeService {
         this.deleteFeedback_url = this.providerAdmin_Base_Url + "m/deleteFeedbackType";
         this.saveFeedback_url = this.providerAdmin_Base_Url + "m/saveFeedbackType";
         this.editFeedback_url = this.providerAdmin_Base_Url + "m/editFeedbackType";
+		this.getFeedbackNaturesTypes_url = this.providerAdmin_Base_Url + "m/getFeedbackNatureType";
+		this.deleteFeedbackNatureType_url = this.providerAdmin_Base_Url + "m/deleteFeedbackNatureType";
+		this.saveFeedbackNatureType_url = this.providerAdmin_Base_Url + "m/createFeedbackNatureType";
+		this.editFeedbackNatureType_url = this.providerAdmin_Base_Url + "m/editFeedbackNatureType";
 	};
 
 	getStates(serviceProviderID) {
@@ -66,6 +74,31 @@ export class FeedbackTypeService {
 		.map(this.handleSuccess)
 		.catch(this.handleError);
     }
+
+
+	getFeedbackNatureTypes(data){
+		return this.httpIntercept.post(this.getFeedbackNaturesTypes_url, data)
+		.map(this.handleSuccess)
+		.catch(this.handleError);
+	}
+
+	deleteFeedbackNatureType(data){
+		return this.httpIntercept.post(this.deleteFeedbackNatureType_url, data)
+		.map(this.handleSuccess)
+		.catch(this.handleError);
+	}
+
+	saveFeedbackNatureType(data){
+		return this.httpIntercept.post(this.saveFeedbackNatureType_url, data)
+		.map(this.handleSuccess)
+		.catch(this.handleError);
+	}
+
+	editFeedbackNatureType(data){
+		return this.httpIntercept.post(this.editFeedbackNatureType_url, data)
+		.map(this.handleSuccess)
+		.catch(this.handleError);
+	}
 
 	handleSuccess(response: Response) {
 		console.log(response.json().data, "--- in feedback-type-master-service");

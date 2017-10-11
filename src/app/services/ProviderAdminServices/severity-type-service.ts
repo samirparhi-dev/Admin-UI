@@ -46,7 +46,7 @@ export class SeverityTypeService {
        .catch(this.handleError);
    }
    deleteSeverity(obj) { 
-     debugger;
+     ;
           return this.httpIntercept.post(this.deleteSeverityUrl,obj)
        .map(this.handleSuccess)
        .catch(this.handleError);

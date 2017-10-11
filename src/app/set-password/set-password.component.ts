@@ -8,22 +8,20 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 
 
 
-@Component( {
+@Component({
 	selector: 'app-set-password',
 	templateUrl: './set-password.component.html',
-	styleUrls: [ './set-password.component.css' ]
-} )
-export class SetPasswordComponent implements OnInit
-{
+	styleUrls: ['./set-password.component.css']
+})
+export class SetPasswordComponent implements OnInit {
 
 	constructor(
 		public http_calls: HttpServices,
 		public getUserData: dataService,
 		private configService: ConfigService,
-		public router: Router, private alertService: ConfirmationDialogsService ) { }
+		public router: Router, private alertService: ConfirmationDialogsService) { }
 
-	ngOnInit ()
-	{
+	ngOnInit() {
 	}
 
 	newpwd: any;
@@ -32,36 +30,28 @@ export class SetPasswordComponent implements OnInit
 	uname: any = this.getUserData.uname;
 
 
-	updatePassword ( new_pwd )
-	{
-		if ( new_pwd === this.confirmpwd )
-		{
-			this.http_calls.postData( this.configService.getCommonBaseURL() + "user/setForgetPassword",
-				{ "userName": this.uname, "password": new_pwd }
+	updatePassword(new_pwd) {
+		if (new_pwd === this.confirmpwd) {
+			this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
+				{ 'userName': this.uname, 'password': new_pwd }
 			).subscribe(
-				( response: any ) => this.successCallback( response ),
-				( error: any ) => this.errorCallback( error )
+				(response: any) => this.successCallback(response),
+				(error: any) => this.errorCallback(error)
 				);
-
-			//alert( "password changed for" + this.uname );
-			    this.alertService.alert("password changed for " + this.uname);
-
 		}
-		else
-		{
-			this.alertService.alert("password does not matched");
+		else {
+			this.alertService.alert('password does not matched');
 		}
 	}
 
-	successCallback ( response )
-	{
+	successCallback(response) {
 
-		console.log( response );
-		this.router.navigate( [ '/loginContentClass' ] );
+		console.log(response);
+		this.alertService.alert('password changed');
+		this.router.navigate(['']);
 	}
-	errorCallback ( response )
-	{
-		console.log( response );
+	errorCallback(response) {
+		console.log(response);
 	}
 
 

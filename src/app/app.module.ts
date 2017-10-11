@@ -82,6 +82,7 @@ import { EditLocationModal } from './location-serviceline-mapping/location-servi
 import { EditEmployeeDetailsModal } from './employee-master/employee-master.component';
 import { UpdateServiceProviderComponent } from './update-service-provider/update-service-provider.component';
 import { EditFeedbackModal } from './feedback-type-master/feedback-type-master.component';
+import { EditFeedbackNatureModal } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 
 // services
@@ -106,7 +107,6 @@ import { CallTypeSubtypeService } from './services/ProviderAdminServices/calltyp
 import { BlockProvider } from './services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { DrugMasterService } from './services/ProviderAdminServices/drug-master-services.service';
 import { CategorySubcategoryService } from './services/ProviderAdminServices/category-subcategory-master-service.service';
-import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
@@ -118,7 +118,6 @@ import { VanServicePointMappingService } from './services/ProviderAdminServices/
 import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
 
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
-import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
 
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
@@ -131,8 +130,7 @@ import { FeedbackTypeMasterComponent } from './feedback-type-master/feedback-typ
 import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nature-master/feedback-complaint-nature-master.component';
 
 import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
-import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
-
+//import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
 
 
 
@@ -152,11 +150,13 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,
+
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,EditFeedbackModal,EditFeedbackNatureModal,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
+
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent
 
   ],
 
@@ -188,10 +188,6 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
         component: ResetComponent
       },
       {
-        path: 'loginContentClass',
-        component: loginContentClass
-      },
-      {
         path: 'setQuestions',
         component: SetSecurityQuestionsComponent
       },
@@ -199,11 +195,6 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
         path: 'MultiRoleScreenComponent',
         component: MultiRoleScreenComponent,
         children: [
-          {
-            path: '',
-            component: ServiceRoleSelectionComponent,
-            outlet: 'postLogin_router'
-          },
           {
             path: 'superAdmin',
             component: SuperAdminComponent,
@@ -222,8 +213,7 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
       },
       {
         path: '',
-        redirectTo: '/loginContentClass',
-        pathMatch: 'full'
+        component: loginContentClass
       }
     ])],
 
@@ -238,10 +228,7 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
-    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService,
-    FeedbackTypeService,
-    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService,
-    EmployeeParkingPlaceMappingService,InstituteDirectoryMasterService
+    ServicePointVillageMapService, VanMasterService, VanTypeMasterService, VanServicePointMappingService, EmployeeParkingPlaceMappingService
   ],
 
   entryComponents: [
@@ -253,7 +240,8 @@ import { EditInstituteDirectory } from './institute-directory-master/institute-d
     EditCallType,
     EditCategorySubcategoryComponent,
     EditFeedbackModal,
-    EditInstituteDirectory
+    EditFeedbackNatureModal,
+    EditCategorySubcategoryComponent
   ],
 
   bootstrap: [AppComponent]

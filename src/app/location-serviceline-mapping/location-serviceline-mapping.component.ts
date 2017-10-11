@@ -234,7 +234,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   findLocationsSuccesshandeler(response) {
     console.log(response, "get locations success");
-    debugger;
+    ;
     this.workLocations = response;
     // this.showTable = true;
   }
