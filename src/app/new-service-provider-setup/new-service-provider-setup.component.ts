@@ -377,11 +377,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
         })
       }
     });
-    this.request_object.createdBy = "";
+    this.request_object.createdBy = this.commonAppData.uname;
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
     console.log(this.request_object,"REQUEST OBJECT IN SUPER ADMIN FOR PROVIDER CREATION");
-    debugger;
     this.super_admin_service
       .createServiceProvider(this.request_object)
       .subscribe(
