@@ -110,7 +110,7 @@ export class EmployeeMasterComponent implements OnInit {
 
   editeUser(toBeEditedObject) {
     // let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
-    this.alertService.confirm("Do you want to edit the user with employeeID as " + toBeEditedObject.userID + "?").subscribe(res => {
+    this.alertService.confirm("Do you want to edit the details of " + toBeEditedObject.firstName + " " + toBeEditedObject.lastName + "?").subscribe(res => {
       if (res) {
         console.log(JSON.stringify(toBeEditedObject));
 
@@ -179,7 +179,7 @@ export class EditEmployeeDetailsModal {
   m_lastname: any;
   m_address1: any;
   m_address2: any;
-
+  m_middlename: any;
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public EmployeeMasterService: EmployeeMasterService, public CommonDataService: dataService,
     public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
@@ -190,6 +190,7 @@ export class EditEmployeeDetailsModal {
     this.m_lastname = this.data.lastName;
     this.m_address1 = this.data.userAddressLine1;
     this.m_address2 = this.data.userAddressLine2;
+    this.m_middlename = this.data.middleName;
     console.log(this.data, 'modal content');
   }
 
@@ -205,7 +206,7 @@ export class EditEmployeeDetailsModal {
       'userID': this.data.userID,
       'titleID': this.data.titleID,
       'firstName': this.m_firstname,
-      'middleName': this.data.middleName,
+      'middleName': this.m_middlename,
       'lastName': this.m_lastname,
       'genderID': this.data.genderID,
       'maritalStatusID': this.data.maritalStatusID,
@@ -221,7 +222,7 @@ export class EditEmployeeDetailsModal {
       'statusID': this.data.statusID,
       'emergencyContactPerson': this.data.emergencyContactPerson,
       'emergencyContactNo': this.data.emergencyContactNo,
-      'titleName': this.data.titleName,
+      // 'titleName': this.data.titleName,
       'status': this.data.userStatus,
       'qualificationName': this.data.qualification,
       'createdBy': this.CommonDataService.uname,
@@ -244,10 +245,10 @@ export class EditEmployeeDetailsModal {
       'pinCode': this.data.pinCode,
       'isPresent': '0',
       'isPermanent': '1',
-      'oldLanguageID': '1',
-      'newLanguageID': '3',
-      'oldRoleId': this.data.roleID,
-      'newRoleId': this.data.roleID,
+      // 'oldLanguageID': '1',
+      // 'newLanguageID': '3',
+      // 'oldRoleId': this.data.roleID,
+      // 'newRoleId': this.data.roleID,
       // "weightage" : 20,
       // "roleID": this.data.roleID,
       'serviceProviderID': this.data.serviceProviderID,
