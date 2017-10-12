@@ -137,6 +137,7 @@ import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-t
 
 import { HospitalMasterComponent } from './hospital-master/hospital-master.component';
 import { HospitalMasterService } from './services/ProviderAdminServices/hospital-master-service.service';
+import { EditHospitalModal } from './hospital-master/hospital-master.component';
 
 
 @NgModule({
@@ -161,7 +162,8 @@ import { HospitalMasterService } from './services/ProviderAdminServices/hospital
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
+    EditHospitalModal
 
   ],
 
@@ -249,7 +251,8 @@ import { HospitalMasterService } from './services/ProviderAdminServices/hospital
     EditFeedbackModal,
     EditFeedbackNatureModal,
     EditCategorySubcategoryComponent,
-    EditInstituteDirectory
+    EditInstituteDirectory,
+    EditHospitalModal
   ],
 
   bootstrap: [AppComponent]
