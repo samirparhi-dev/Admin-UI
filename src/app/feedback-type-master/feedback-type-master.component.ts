@@ -143,7 +143,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     var tempArr = [];
     for(var i=0; i < this.objs.length;i++){
       var tempObj = {
-        "feedbackTypeName": this.objs[i].feedbackName,
+        "feedbackTypeName": this.objs[i].feedbackTypeName,
         "feedbackDesc": this.objs[i].feedbackDesc,
         "providerServiceMapID": this.providerServiceMapID,
         "createdBy": "Admin"
