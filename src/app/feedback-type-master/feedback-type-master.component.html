@@ -2,7 +2,7 @@
   <!--search page-->
   <div class="row" *ngIf="searchForm">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="f-s-b m-b-30">Feedback Type Master</h4>
+      <h4 class="f-s-b m-b-30">Feedback/Complaint Type Master</h4>
       <form #searchFTForm="ngForm">
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
           <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)">
@@ -66,7 +66,7 @@
   <!--new feedback page-->
   <div class="row" *ngIf="!(searchForm)">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="width100 f-s-b t-a-c m-b-30">Add Feedback Type</h4>
+      <h4 class="width100 f-s-b t-a-c m-b-30">Add Feedback/Complaint Type</h4>
       <form #addForm="ngForm">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
