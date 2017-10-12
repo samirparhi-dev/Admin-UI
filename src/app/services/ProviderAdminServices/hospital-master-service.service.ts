@@ -98,9 +98,9 @@ import { ConfigService } from "../config/config.service";
  		.catch(this.handleError);
  	}
 
- 	deleteInstitution(institutionID)
+ 	deleteInstitution(data)
  	{
- 		return this.http.post(this.delete_Institution_Url,{"institutionID":institutionID})
+ 		return this.http.post(this.delete_Institution_Url,data)
  		.map(this.handleSuccess)
  		.catch(this.handleError);
  	}

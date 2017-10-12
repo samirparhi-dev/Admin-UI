@@ -19,6 +19,26 @@ export class myName {
 
 
 }
+
+@Directive({
+	selector: '[myName2]'
+})
+export class myName2 {
+	constructor(element: ElementRef) {
+
+	}
+
+
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[0-9~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+
+
+}
 @Directive({
 	selector: '[myProviderName]'
 })
