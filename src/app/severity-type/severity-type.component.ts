@@ -86,7 +86,7 @@ export class SeverityTypeComponent implements OnInit {
         "createdBy" : "Admin"
       }
   this.severityArray.push(obj);
-
+  this.addSeverity(values.severity)
   }
   handlingFlag(flag) {
   	this.firstPage = flag;
