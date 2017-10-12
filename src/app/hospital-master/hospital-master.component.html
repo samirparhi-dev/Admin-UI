@@ -1,3 +1,123 @@
-<p>
-  hospital-master works!
-</p>
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">Institution Master</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-15">
+      <md-select placeholder="State" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state);getDistrict(state)">
+        <md-option *ngFor="let item of states" value="{{item.stateID}}">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-15">
+      <md-select placeholder="Service Line" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="District" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district" (change)="getTaluk(district)">
+        <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+          {{item.districtName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="Taluk" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
+        <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
+          {{item.blockName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-15">
+      <button *ngIf="showTableFlag" class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="showTableFlag">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th>Institution Name</th>
+            <th>Address</th>
+            <th>Website</th>
+            <th>Contact Person</th>
+            <th>Contact Number</th>
+            <th>EmailID</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="searchResultArray.length == 0">
+            <td colspan="7">NO RECORD FOUND!!</td>
+          </tr>
+          <tr *ngFor="let item of md2.data">
+            <td>{{item.institutionName}}</td>
+            <td>{{item.address}}</td>
+            <td>{{item.website}}</td>
+            <td>{{item.contactPerson1}}</td>
+            <td>{{item.contactNo1}}</td>
+            <td>{{item.contactPerson1_Email}}</td>
+            <td>
+              <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">edit</md-icon>
+              <button *ngIf="item.deleted" md-raised-button color="primary">Activate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="5">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Hospital</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="showFormFlag">
+    <form #institutionForm="ngForm">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Address" [(ngModel)]="address" name="address" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Website" [(ngModel)]="website" name="website" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Contact Number" [(ngModel)]="contact_number" name="contact_number" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="EmailID" [(ngModel)]="emailID" name="emailID" required>
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <button md-raised-button color="primary" [disabled]="!institutionForm.valid" class="pull-right">Save</button>
+    </div>
+  </div>
+</md-card>
