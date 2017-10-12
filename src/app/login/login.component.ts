@@ -23,7 +23,7 @@ export class loginContentClass {
 		if (userId === "SUPERADMIN" && password === "SUPERADMIN") {
 			this.dataSettingService.Userdata = { "userName": "Super Admin" };
 			this.dataSettingService.role = "SUPERADMIN";
-			;
+			this.dataSettingService.uname = "Super Admin";
 			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
 		// if (userId === "padmin" && password === "padmin") {
