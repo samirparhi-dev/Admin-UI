@@ -24,6 +24,8 @@ import { SetSecurityQuestionsComponent } from './set-security-questions/set-secu
 // directives
 import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
+import { myName2 } from './directives/name/myName.directive';
+
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
 import { myUserName } from './directives/address/myAddress.directive';
@@ -144,7 +146,7 @@ import { EditHospitalModal } from './hospital-master/hospital-master.component';
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
+    myName,myName2, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,

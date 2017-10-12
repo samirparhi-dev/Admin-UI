@@ -3,13 +3,13 @@
     <h4 class="pull-left">Edit Institution</h4>
   </div>
   <form #editForm="ngForm">
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100" required #validInstitutionName="ngModel">
+        <md-hint *ngIf="validInstitutionName.touched">
+          <span class="errorText" [hidden]="!validInstitutionName.errors">Enter atleast 3 characters</span>
+        </md-hint>
       </md-input-container>
-      <md-hint *ngIf="validInstitutionName.touched">
-        <span class="errorText" [hidden]="!validInstitutionName.errors">Enter atleast 3 characters</span>
-      </md-hint>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myAddress>
       <md-input-container style="width: 100%">
@@ -19,28 +19,30 @@
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
         <input mdInput [pattern]="website_expression" placeholder="Website" [(ngModel)]="website" name="website" required #valid_website="ngModel">
+        <md-hint class="errorText" [hidden]="!valid_website.hasError('pattern')">Enter valid Website
+        </md-hint>
       </md-input-container>
-      <md-hint class="errorText" [hidden]="!valid_website.hasError('pattern')">Enter valid Website
-      </md-hint>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" required>
+        <input mdInput placeholder="Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" #valid_contactname="ngModel" required>
+        <md-hint class="errorText" *ngIf="valid_contactname.errors && valid_contactname.touched">Enter minimum 2 characters
+          </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myMobileNumber>
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Contact Number" minlength="10" maxlength="10" [(ngModel)]="contact_number" name="contact_number" #validMobileNumber="ngModel" required>
+        <md-hint class="errorText" *ngIf="validMobileNumber.errors && validMobileNumber.touched">Enter 10 digit mobile number
+        </md-hint>
       </md-input-container>
-      <md-hint class="errorText" *ngIf="validMobileNumber.errors && validMobileNumber.touched">Enter 10 digit mobile number
-      </md-hint>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
         <input mdInput type="email" placeholder="EmailID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression" #validEmail="ngModel" required>
+        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid EmailID
+        </md-hint>
       </md-input-container>
-      <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid EmailID
-      </md-hint>
     </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
