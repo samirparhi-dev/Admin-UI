@@ -278,18 +278,45 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		}
 	}
 	deleteSubCallType(callTypeID,flag) {
-		let obj = {
-			"callTypeID": callTypeID,
-			"deleted": flag
+		if(flag===true)
+		{
+			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response=>{
+				if(response)
+				{
+					let obj = {
+							"callTypeID": callTypeID,
+							"deleted": flag
+							}
+					console.log(obj);
+					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Deactivated"));
+				}
+			});
 		}
-		console.log(obj);
-		;
-		this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response));
+		if(flag===false)
+		{
+			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response=>{
+				if(response)
+				{
+					let obj = {
+							"callTypeID": callTypeID,
+							"deleted": flag
+							}
+					console.log(obj);
+					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Activated"));
+				}
+			});
+		}
+		
 
 	}
-	deletedSuccess(res) {
+	deletedSuccess(res,action) {
+		if(res)
+		{
+			this.alertService.alert(action+" Successfully");
 		this.get_calltype_subtype_history();
 		console.log(res);
+		}
+		
 	}
 
 	editCallDisposition(obj) {
