@@ -17,6 +17,9 @@
     <!-- <properties>
         <ui-base-dir>iemrdash</ui-base-dir>
     </properties> -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <!-- install the necessary node_modules & compile in prod mode -->
     <build>
