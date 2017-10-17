@@ -52,9 +52,9 @@ export class SetSecurityQuestionsComponent implements OnInit {
   question2: any = "";
   question3: any = "";
 
-  answer1: any = "";
-  answer2: any = "";
-  answer3: any = "";
+  answer1: any = '';
+  answer2: any = '';
+  answer3: any = '';
 
   questions: any = [];
   selectedQuestions: any = [];
@@ -79,25 +79,25 @@ export class SetSecurityQuestionsComponent implements OnInit {
     if (this.selectedQuestions.length == 3) {
 
       this.dataArray = [{
-        "userID": this.uid,
-        "questionID": this.question1,
-        "answers": this.answer1,
-        "mobileNumber": "1234567890",
-        "createdBy": "neeraj"
+        'userID': this.uid,
+        'questionID': this.question1,
+        'answers': this.answer1,
+        'mobileNumber': '1234567890',
+        'createdBy': 'neeraj'
       },
       {
-        "userID": this.uid,
-        "questionID": this.question2,
-        "answers": this.answer2,
-        "mobileNumber": "1234567890",
-        "createdBy": "neeraj"
+        'userID': this.uid,
+        'questionID': this.question2,
+        'answers': this.answer2,
+        'mobileNumber': '1234567890',
+        'createdBy': 'neeraj'
       },
       {
-        "userID": this.uid,
-        "questionID": this.question3,
-        "answers": this.answer3,
-        "mobileNumber": "1234567890",
-        "createdBy": "neeraj"
+        'userID': this.uid,
+        'questionID': this.question3,
+        'answers': this.answer3,
+        'mobileNumber': '1234567890',
+        'createdBy': 'neeraj'
       }
       ]
       // this.dataArray = {
@@ -120,13 +120,12 @@ export class SetSecurityQuestionsComponent implements OnInit {
       // alert("the data set is :" + this.dataObj);
       console.log(this.selectedQuestions);
 
-      this.http_calls.postData(this.configService.getCommonBaseURL() + "user/saveUserSecurityQuesAns", this.dataArray).subscribe(
+      this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray).subscribe(
         (response: any) => this.handleQuestionSaveSuccess(response),
         (error: any) => this.handleQuestionSaveError(error));
 
-    }
-    else {
-      alert("all 3 ques shud be diff");
+    } else {
+      alert('all 3 ques shud be diff');
     }
 
 
@@ -138,7 +137,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
 
   }
   handleQuestionSaveError(response) {
-    console.log("question save error", response);
+    console.log('question save error', response);
   }
 
   oldpwd: any;
@@ -147,17 +146,15 @@ export class SetSecurityQuestionsComponent implements OnInit {
 
   updatePassword(new_pwd) {
     if (new_pwd === this.confirmpwd) {
-
-
-      this.http_calls.postData(this.configService.getCommonBaseURL() + "user/setForgetPassword", { "userName": this.uname, "password": new_pwd }).
+      this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword', { 'userName': this.uname, 'password': new_pwd }).
         subscribe(
         (response: any) => this.successCallback(response),
         (error: any) => this.errorCallback(error));
 
-      alert("password changed successfully");
+      alert('password changed successfully');
     }
     else {
-      alert("password dsnt match");
+      alert('password dsnt match');
     }
   }
 
