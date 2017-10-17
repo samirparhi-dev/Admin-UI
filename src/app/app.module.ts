@@ -24,6 +24,8 @@ import { SetSecurityQuestionsComponent } from './set-security-questions/set-secu
 // directives
 import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
+import { myName2 } from './directives/name/myName.directive';
+
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
 import { myUserName } from './directives/address/myAddress.directive';
@@ -135,12 +137,16 @@ import { InstituteDirectoryMasterService } from './services/ProviderAdminService
 
 import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 
+import { HospitalMasterComponent } from './hospital-master/hospital-master.component';
+import { HospitalMasterService } from './services/ProviderAdminServices/hospital-master-service.service';
+import { EditHospitalModal } from './hospital-master/hospital-master.component';
+
 
 @NgModule({
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
+    myName,myName2, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,
@@ -158,7 +164,8 @@ import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-t
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
+    EditHospitalModal
 
   ],
 
@@ -232,7 +239,7 @@ import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-t
     },
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
-     InstituteDirectoryMasterService,FeedbackTypeService
+     InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService
   ],
 
   entryComponents: [
@@ -246,7 +253,8 @@ import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-t
     EditFeedbackModal,
     EditFeedbackNatureModal,
     EditCategorySubcategoryComponent,
-    EditInstituteDirectory
+    EditInstituteDirectory,
+    EditHospitalModal
   ],
 
   bootstrap: [AppComponent]

@@ -342,7 +342,7 @@
                   </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="hideOffRole">
-                  <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName">
+                  <md-select placeholder="Agent 's Office" [style.width]="'100% '" [(ngModel)]="agent_officeName" name="agent_officeName" required>
                     <md-option *ngFor="let office of serviceproviderAllOfficesInState" [value]="office">
                       {{office.locationName}}
                     </md-option>
@@ -355,7 +355,7 @@
                   </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-20" *ngIf="showAdd">
-                  <button md-mini-fab class="pull-right" color="primary" (click)="pushPrivelege(workplace_form.value)">
+                  <button md-mini-fab class="pull-right" *ngIf="workplace_form.valid" color="primary" (click)="pushPrivelege(workplace_form.value)">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                 </button>
                 </div>

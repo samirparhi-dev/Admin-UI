@@ -29,7 +29,7 @@ export class ResetComponent{
 	public correctAnswers: any[]=[];
 	public userAnswers: any[]=[];
 
-
+	wrong_answer_msg:any="";
 	getQuestions(username:any)
 	{
 		this.getUserData.uname=username;
@@ -100,6 +100,7 @@ export class ResetComponent{
 			var result=this.saveUserAnswers(this.answer);
 			if(result==='correct')
 			{
+				this.wrong_answer_msg="";
 				this.counter = this.counter + 1;
 				if (this.counter < 3) {
 					this.showMyQuestion();
@@ -110,6 +111,7 @@ export class ResetComponent{
 			}
 			else{
 				console.log('incorrect answer, please try again');
+				this.wrong_answer_msg="Incorrect Answer, Please Try Again";
 			}
 		}
 	}

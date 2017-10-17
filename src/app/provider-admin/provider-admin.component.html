@@ -27,8 +27,9 @@
                            <li style="cursor: pointer" (click)='show("20")'><a>Institute Directory Master</a></li>
 
 
-                          <li style="cursor: pointer" (click)='show("18")'><a>Feedback Type Master</a></li>
-                          <li style="cursor: pointer" (click)='show("19")'><a>Feedback Complaint Nature Master</a></li>
+                          <li style="cursor: pointer" (click)='show("18")'><a>Feedback/Complaint Type Master</a></li>
+                          <li style="cursor: pointer" (click)='show("19")'><a>Feedback/Complaint Nature Master</a></li>
+                           <li style="cursor: pointer" (click)='show("21")'><a>Hospital Master</a></li>
 
 
 
@@ -89,6 +90,7 @@
                 <app-institute-directory-master *ngSwitchCase="20"></app-institute-directory-master>
                 <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
                 <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
+                <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
               </div>
             </div>
           </div>
@@ -97,8 +99,8 @@
     </div>
   </div>
 </div>
-<footer class="footer">
-  <div class="row" style="height: 20px">
+<footer class="footer" style="left: 0px">
+  <div class="row">
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
       <span class="footer-text">Powered by: WIPRO</span>
     </div>
@@ -106,8 +108,6 @@
       <p class="footer-text t-a-c">2017
         <md-icon color="" class="copyright_icon" style="font-size: 15px">copyright</md-icon> PSMRI</p>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-      <!--<button md-raised-button type="button" color="primary" class="footer-height pull-right czenrix-bar" *ngIf="!barMinimized" (click)="toggleBar()">CZentrix</button>-->
-    </div>
   </div>
 </footer>
+

@@ -4,6 +4,8 @@ declare let jQuery: any;
 import { SuperAdmin_ServiceProvider_Service } from "../services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service";
 import { EmployeeMasterService } from "../services/ProviderAdminServices/employee-master-service.service";
 import { ConfirmationDialogsService } from "../services/dialog/confirmation.service";
+import { dataService } from '../services/dataService/data.service';
+
 @Component({
   selector: "app-new-service-provider-setup",
   templateUrl: "./new-service-provider-setup.component.html",
@@ -72,7 +74,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
   constructor(
     public super_admin_service: SuperAdmin_ServiceProvider_Service,
     public EmployeeMasterService: EmployeeMasterService,
-    private message: ConfirmationDialogsService
+    private message: ConfirmationDialogsService,
+    public commonAppData:dataService
   ) {
     this.countryID = 1;
 
@@ -132,8 +135,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
       secondaryContactNo: "",
       secondaryContactEmailID: "",
       secondaryContactAddress: "",
-      statusID: "1",
-      createdBy: "Diamond_Khanna",
+      statusID: "2",
+      createdBy: this.commonAppData.uname,
       validTill: "",
       validFrom: "",
       stateAndServiceMapList: [],
@@ -374,10 +377,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
         })
       }
     });
-    this.request_object.createdBy = "";
+    this.request_object.createdBy = this.commonAppData.uname;
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
-    console.log(this.request_object);
+    console.log(this.request_object,"REQUEST OBJECT IN SUPER ADMIN FOR PROVIDER CREATION");
     this.super_admin_service
       .createServiceProvider(this.request_object)
       .subscribe(
