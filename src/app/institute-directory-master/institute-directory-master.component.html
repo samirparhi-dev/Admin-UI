@@ -4,6 +4,7 @@
       <h4 class="pull-left">Institute Directory</h4>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <form #searchFields="ngForm">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-t-15">
         <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
           <md-option *ngFor="let item of states" value="{{item.stateID}}">
@@ -18,6 +19,7 @@
           </md-option>
         </md-select>
       </div>
+    </form>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15" *ngIf="showTableFlag">
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
       </div>
@@ -54,7 +56,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Institute Directory</button>
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!searchFields.valid">Add Institute Directory</button>
             </td>
           </tr>
         </tfoot>
@@ -110,7 +112,7 @@
       </table>
     </div>
     <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-15">
-      <button md-raised-button class="pull-right" disabled="{{bufferArray.length<1}}" color="primary" (click)="save()">Save</button>
+      <button md-raised-button class="pull-right" [disabled]="bufferArray.length<1 && !(searchFields.valid)" color="primary" (click)="save()">Save</button>
       <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>
   </div>

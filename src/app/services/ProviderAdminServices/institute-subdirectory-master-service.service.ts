@@ -87,7 +87,7 @@ export class InstituteSubDirectoryMasterService {
 
 
 	handleSuccess(response: Response) {
-		console.log(response.json().data, "INSTITUTE-DIRECTORY file success response");
+		console.log(response.json().data, "INSTITUTE-SUBDIRECTORY file success response");
 		return response.json().data;
 	}
 

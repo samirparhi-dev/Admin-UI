@@ -145,6 +145,9 @@ import { InstituteSubdirectoryMasterComponent } from './institute-subdirectory-m
 import { InstituteSubDirectoryMasterService } from './services/ProviderAdminServices/institute-subdirectory-master-service.service';
 import { EditInstituteSubDirectory } from './institute-subdirectory-master/institute-subdirectory-master.component';
 
+import { HospitalInstituteDirectorySubdirectoryMappingComponent } from './hospital-institute-directory-subdirectory-mapping/hospital-institute-directory-subdirectory-mapping.component';
+import { HospitalInstituteMappingService } from './services/ProviderAdminServices/hospital-institute-mapping-service.service';
+
 
 @NgModule({
   declarations: [
@@ -170,7 +173,7 @@ import { EditInstituteSubDirectory } from './institute-subdirectory-master/insti
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
     EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
     EditHospitalModal,
-    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory
+    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent
 
   ],
 
@@ -245,7 +248,7 @@ import { EditInstituteSubDirectory } from './institute-subdirectory-master/insti
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
      InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
-     InstituteSubDirectoryMasterService
+     InstituteSubDirectoryMasterService,HospitalInstituteMappingService
   ],
 
   entryComponents: [

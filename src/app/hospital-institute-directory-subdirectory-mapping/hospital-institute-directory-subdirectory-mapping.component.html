@@ -1,0 +1,56 @@
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">Hospital-Institution Mapping</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state);getDistrict(state)">
+        <md-option *ngFor="let item of states" value="{{item.stateID}}">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service">
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="district" name="district" (change)="getTaluk(district)">
+        <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+          {{item.districtName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+      <md-select placeholder="Taluk" [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
+        <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
+          {{item.blockName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-25">
+      <md-select placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital">
+        <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}">
+          {{item.institutionName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-25">
+      <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" name="institute_directory" (change)="getInstituteSubdirectory(institute_directory)">
+        <md-option *ngFor="let item of institute_directories" value="{{item.instituteDirectoryID}}">
+          {{item.instituteDirectoryName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-25">
+      <md-select placeholder="Institute Sub-Directory" [style.width]="'100%'" [(ngModel)]="institute_subdirectory" name="institute_subdirectory">
+        <md-option *ngFor="let item of institute_subdirectories" value="{{item.instituteSubDirectoryID}}">
+          {{item.instituteSubDirectoryName}}
+        </md-option>
+      </md-select>
+    </div>
+  </div>
+</md-card>
