@@ -13,7 +13,7 @@
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-select required [(ngModel)]="state" [style.width]="'100%'" placeholder="State " name="stateName" (change)="getServices($event.value)">
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let state of states" [value]="state.stateID">{{state.stateName}}</md-option>md-ra
+            <md-option *ngFor="let state of states" [value]="state.stateID">{{state.stateName}}</md-option>
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">

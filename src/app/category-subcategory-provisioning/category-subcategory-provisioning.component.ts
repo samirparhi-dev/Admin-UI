@@ -111,9 +111,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getCategorybySubService(providerserviceMapId, subServiceID)
       .subscribe((response) => {
         if (response) {
-          console.log(response,"subcat response");
-          this.subCat = response.filter((obj)=>{
-            return obj!==null;
+          console.log(response, "subcat response");
+          this.subCat = response.filter((obj) => {
+            return obj !== null;
           });
         }
       }, (err) => {
@@ -121,9 +121,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       });
   }
 
-  searchReqObjChange(choice){
-    console.log(choice,"search choice");
-    if(choice==1){
+  searchReqObjChange(choice) {
+    console.log(choice, "search choice");
+    if (choice == 1) {
       this.showCategoryTable = false;
     }
     else {
@@ -268,7 +268,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     });
   }
 
-  editSubCategory(subCatObj){
+  editSubCategory(subCatObj) {
     console.log(subCatObj);
   }
 
@@ -306,7 +306,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
 
-  deleteSubCategory(id, flag){
+  deleteSubCategory(id, flag) {
     let confirmMessage;
     if (flag) {
       confirmMessage = 'Deactivate';
@@ -347,9 +347,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService)
       .subscribe((response) => {
         if (response) {
-          console.log(response,"subCategory");
+          console.log(response, "subCategory");
           this.subCat = response.filter(function (item) {
-            return item!=null;
+            return item != null;
           });
           console.log(this.subCat);
         }
@@ -421,7 +421,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     const o = {};
     return array = array
       .filter((thing, index, self) => self
-        .findIndex((t) => { return t.categoryName === thing.categoryName && t.subServiceID === thing.subServiceID; }) === index)
+        .findIndex((t) => {
+          return t.categoryName.toLowerCase().trim() === thing.categoryName.toLowerCase().trim()
+            && t.subServiceID === thing.subServiceID;
+        }) === index)
   }
   filterSubCatArray(array: any) {
     const o = {};
@@ -429,7 +432,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .filter((thing, index, self) => self
         .findIndex((t) => {
           return t.categoryID === thing.categoryID
-            && t.subCategoryName === thing.subCategoryName && t.subServiceID === thing.subServiceID;
+            && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
+            && t.subServiceID === thing.subServiceID;
         }) === index)
   }
 }

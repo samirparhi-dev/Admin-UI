@@ -256,7 +256,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             }
             else {
                 for (let i = 0; i < this.objs.length; i++) {
-                    if (this.objs[i].roleName === role) {
+                    if (this.objs[i].roleName.toLowerCase().trim() === role.toLowerCase().trim()) {
                         count = count + 1;
                     }
                 }
