@@ -25,6 +25,7 @@
                           <li style="cursor: pointer" (click)='show("6")'><a>Drug Master</a></li>
 
                            <li style="cursor: pointer" (click)='show("20")'><a>Institute Directory Master</a></li>
+                           <li style="cursor: pointer" (click)='show("22")'><a>Institute Subdirectory Master</a></li>
 
 
                           <li style="cursor: pointer" (click)='show("18")'><a>Feedback/Complaint Type Master</a></li>
@@ -59,6 +60,7 @@
                               <li style="cursor: pointer" (click)='show("17")'><a>User Parking Place Mapping</a></li>
                             </ul>
                           </li>
+                          <!-- <li style="cursor: pointer" (click)='show("23")'><a>Hospital-Institute Directory Mapping</a></li> -->
                         </ul>
                       </li>
                     </ul>
@@ -91,6 +93,8 @@
                 <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
                 <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
                 <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
+                <app-institute-subdirectory-master *ngSwitchCase="22"></app-institute-subdirectory-master>
+                <app-hospital-institute-directory-subdirectory-mapping *ngSwitchCase="23"></app-hospital-institute-directory-subdirectory-mapping>
               </div>
             </div>
           </div>

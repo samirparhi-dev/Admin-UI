@@ -141,6 +141,13 @@ import { HospitalMasterComponent } from './hospital-master/hospital-master.compo
 import { HospitalMasterService } from './services/ProviderAdminServices/hospital-master-service.service';
 import { EditHospitalModal } from './hospital-master/hospital-master.component';
 
+import { InstituteSubdirectoryMasterComponent } from './institute-subdirectory-master/institute-subdirectory-master.component';
+import { InstituteSubDirectoryMasterService } from './services/ProviderAdminServices/institute-subdirectory-master-service.service';
+import { EditInstituteSubDirectory } from './institute-subdirectory-master/institute-subdirectory-master.component';
+
+import { HospitalInstituteDirectorySubdirectoryMappingComponent } from './hospital-institute-directory-subdirectory-mapping/hospital-institute-directory-subdirectory-mapping.component';
+import { HospitalInstituteMappingService } from './services/ProviderAdminServices/hospital-institute-mapping-service.service';
+
 
 @NgModule({
   declarations: [
@@ -165,7 +172,8 @@ import { EditHospitalModal } from './hospital-master/hospital-master.component';
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
     EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
-    EditHospitalModal
+    EditHospitalModal,
+    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent
 
   ],
 
@@ -239,7 +247,8 @@ import { EditHospitalModal } from './hospital-master/hospital-master.component';
     },
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
-     InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService
+     InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
+     InstituteSubDirectoryMasterService,HospitalInstituteMappingService
   ],
 
   entryComponents: [
@@ -254,7 +263,8 @@ import { EditHospitalModal } from './hospital-master/hospital-master.component';
     EditFeedbackNatureModal,
     EditCategorySubcategoryComponent,
     EditInstituteDirectory,
-    EditHospitalModal
+    EditHospitalModal,
+    EditInstituteSubDirectory
   ],
 
   bootstrap: [AppComponent]

@@ -1,0 +1,126 @@
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">Institute Subdirectory</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <form #searchform="ngForm">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+          <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
+            <md-option *ngFor="let item of states" value="{{item.stateID}}">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+          <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" required>
+            <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+          <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" disabled={{disableSelection}} name="institute_directory" (change)="getInstituteSubdirectory(institute_directory)" required>
+            <md-option *ngFor="let item of instituteDirectories" value="{{item.instituteDirectoryID}}">
+              {{item.instituteDirectoryName}}
+            </md-option>
+          </md-select>
+        </div>
+      </form>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="showTableFlag">
+        <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
+      </div>
+    </div>
+  </div>
+  <div class="m-t-10" *ngIf="showTableFlag">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th width="40%">Institute Subdirectory</th>
+              <th width="40%">Description</th>
+              <th width="20%">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="searchResultArray.length == 0">
+              NO RECORD FOUND!!
+            </tr>
+            <tr *ngFor="let item of md2.data">
+              <td>{{item.instituteSubDirectoryName}}</td>
+              <td>{{item.instituteSubDirectoryDesc}}</td>
+              <td>
+                <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+                <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,false)">Activate</button>
+                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,true)">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="1">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="2">
+                <button md-raised-button color="primary" [disabled]="!searchform.valid" class="pull-right" (click)="showForm()">Add Institute Subdirectory</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showFormFlag">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+          <md-input-container style="width: 100%">
+            <input mdInput placeholder="Institute Subdirectory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" required>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+          <md-input-container style="width: 100%">
+            <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+          <button md-mini-fab color="primary" (click)="add_obj(institute_subdirectory,description)">
+            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+          </button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
+        <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th>Institute Subdirectory</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of md2.data; let k=index; ">
+              <td>{{item.instituteSubDirectoryName}}</td>
+              <td>{{item.instituteSubDirectoryDesc}}</td>
+              <td>
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">clear</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-15">
+        <button md-raised-button class="pull-right" [disabled]="bufferArray.length<1 && !(searchform.valid)" color="primary" (click)="save()">Save</button>
+        <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
+      </div>
+    </div>
+  </div>
+</md-card>
