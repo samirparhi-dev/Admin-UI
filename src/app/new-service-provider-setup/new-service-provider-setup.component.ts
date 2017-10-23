@@ -71,11 +71,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
   showAdd: boolean = false;
   validFrom: any = "";
   status: any;
+  Campaign: any;
+  campaings: any = [];
   constructor(
     public super_admin_service: SuperAdmin_ServiceProvider_Service,
     public EmployeeMasterService: EmployeeMasterService,
     private message: ConfirmationDialogsService,
-    public commonAppData:dataService
+    public commonAppData: dataService
   ) {
     this.countryID = 1;
 
@@ -191,7 +193,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show3 = false;
     }
 
-    if (val == 2 && action === "save") {
+    if (val == 2 && action === 'save') {
       this.show1 = false;
       this.show2 = true;
       this.show3 = false;
@@ -207,16 +209,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
       this.request_object.primaryContactAddress =
-        this.address1 + "," + this.address2;
+        this.address1 + ',' + this.address2;
     }
 
-    if (val == 2 && action === "back") {
+    if (val == 2 && action === 'back') {
       this.show1 = false;
       this.show2 = true;
       this.show3 = false;
     }
 
-    if (val == 3 && action === "save") {
+    if (val == 3 && action === 'save') {
       this.show1 = false;
       this.show2 = false;
       this.show3 = true;
@@ -227,7 +229,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       //     })
       //   }
       // });
-      console.log("Object is", JSON.stringify(this.state_service_array));
+      console.log('Object is', JSON.stringify(this.state_service_array));
       this.request_object.stateAndServiceMapList = this.state_service_array;
     }
   }
@@ -243,7 +245,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   // section 2
   showService() {
-    this.service = "";
+    this.service = '';
     this.showAdd = false;
     this.showServiceline = true;
   }
@@ -303,13 +305,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
       }
       /** counter will not increase if an obj for that state is not there*/
       if (count === 0) {
-        if (data_obj.stateId != "") {
+        if (data_obj.stateId != '') {
           this.state_service_array.push(data_obj);
         }
       }
     } else {
       /** if blank array, enter obj as it is */
-      if (data_obj.stateId != "") {
+      if (data_obj.stateId != '') {
         this.state_service_array.push(data_obj);
       }
 
@@ -318,8 +320,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
     /** once data is pushed in the table array..do the following */
 
-    jQuery("#addServiceLines").trigger("reset");
-    this.service = "";
+    jQuery('#addServiceLines').trigger('reset');
+    this.service = '';
     this.showTable = true;
     this.showAdd = false;
   }
@@ -339,35 +341,35 @@ export class NewServiceProviderSetupComponent implements OnInit {
   finalSubmit() {
     console.log(this.dob);
     let provider_admin_details_obj = {};
-    provider_admin_details_obj["firstName"] = this.firstname;
-    provider_admin_details_obj["middleName"] = this.middlename;
-    provider_admin_details_obj["lastName"] = this.lastname;
-    provider_admin_details_obj["emailID"] = this.providerAdmin_EmailID;
-    provider_admin_details_obj["mobileNo"] = this.providerAdmin_PhoneNumber;
-    provider_admin_details_obj["userName"] = this.username.toLowerCase();
-    provider_admin_details_obj["password"] = this.password;
-    provider_admin_details_obj["titleID"] = this.title;
-    provider_admin_details_obj["genderID"] = this.gender;
+    provider_admin_details_obj['firstName'] = this.firstname;
+    provider_admin_details_obj['middleName'] = this.middlename;
+    provider_admin_details_obj['lastName'] = this.lastname;
+    provider_admin_details_obj['emailID'] = this.providerAdmin_EmailID;
+    provider_admin_details_obj['mobileNo'] = this.providerAdmin_PhoneNumber;
+    provider_admin_details_obj['userName'] = this.username.toLowerCase();
+    provider_admin_details_obj['password'] = this.password;
+    provider_admin_details_obj['titleID'] = this.title;
+    provider_admin_details_obj['genderID'] = this.gender;
     this.dob;
     this.address1;
-    provider_admin_details_obj["dob"] = new Date(
+    provider_admin_details_obj['dob'] = new Date(
       this.dob - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)
     ).toJSON();
-    provider_admin_details_obj["doj"] = new Date(
+    provider_admin_details_obj['doj'] = new Date(
       this.doj - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)
     ).toJSON();
-    provider_admin_details_obj["maritalStatusID"] = "";
+    provider_admin_details_obj['maritalStatusID'] = '';
     if (this.aadhaar_number) {
-      provider_admin_details_obj["aadharNo"] = this.aadhaar_number;
+      provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
-    provider_admin_details_obj["panNo"] = this.pan_number
+    provider_admin_details_obj['panNo'] = this.pan_number
       ? this.pan_number
-      : "";
-    provider_admin_details_obj["qualificationID"] = "";
-    provider_admin_details_obj["emrContactPersion"] = "";
-    provider_admin_details_obj["emrConctactNo"] = "";
+      : '';
+    provider_admin_details_obj['qualificationID'] = '';
+    provider_admin_details_obj['emrContactPersion'] = '';
+    provider_admin_details_obj['emrConctactNo'] = '';
     ;
-    provider_admin_details_obj["statusID"] = this.status[0].statusID.toString()
+    provider_admin_details_obj['statusID'] = this.status[0].statusID.toString()
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
       console.log(item);
@@ -380,13 +382,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.request_object.createdBy = this.commonAppData.uname;
     this.request_object.providerAdminDetails.push(provider_admin_details_obj);
     console.log(JSON.stringify(this.request_object));
-    console.log(this.request_object,"REQUEST OBJECT IN SUPER ADMIN FOR PROVIDER CREATION");
+    console.log(this.request_object, 'REQUEST OBJECT IN SUPER ADMIN FOR PROVIDER CREATION');
     this.super_admin_service
       .createServiceProvider(this.request_object)
       .subscribe(
       response => this.successHandeler(response),
       err => {
-        this.message.alert("Error in Adding Provider");
+        this.message.alert('Error in Adding Provider');
       }
       );
   }
@@ -394,10 +396,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
   successHandeler(response) {
     console.log(
       response,
-      "in TS, the response after having sent req for creating service provider"
+      'in TS, the response after having sent req for creating service provider'
     );
-    if (response === "true") {
-      this.message.alert("PROVIDER CREATED SUCCESSFULLY");
+    if (response === 'true') {
+      this.message.alert('PROVIDER CREATED SUCCESSFULLY');
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
@@ -405,7 +407,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.requestObject();
     }
   }
-
+  deleteServiceLine(parentIndex: number, index: number) {
+    debugger;
+    this.state_service_array[parentIndex].services.splice(index, 1);
+    if (this.state_service_array[parentIndex].services.length === 0) {
+      this.state_service_array.splice(parentIndex, 1);
+    }
+    if (this.state_service_array.length == 0) {
+      this.showTable = false;
+    }
+  }
   checkProviderNameAvailability(service_provider_name) {
     this.super_admin_service
       .checkProviderNameAvailability(service_provider_name)
@@ -424,8 +435,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
   checkProviderNameAvailibilityHandeler(response) {
-    console.log(response.response, "provider name availability");
-    if (response.response == "provider_name_exists") {
+    console.log(response.response, 'provider name availability');
+    if (response.response == 'provider_name_exists') {
       this.providerNameExist = true;
     } else {
       this.providerNameExist = false;
@@ -439,16 +450,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
   checkUsernameSuccessHandeler(response) {
-    console.log(this.username, "uname");
-    console.log("username existance status", response);
-    if (response === "userexist") {
-      this.username_status = "User Login ID Exists!! Type Different Please!";
+    console.log(this.username, 'uname');
+    console.log('username existance status', response);
+    if (response === 'userexist') {
+      this.username_status = 'User Login ID Exists!! Type Different Please!';
       this.showHint = true;
       this.username_dependent_flag = true;
     }
-    if (response === "usernotexist") {
+    if (response === 'usernotexist') {
       if (
-        this.username != "" &&
+        this.username != '' &&
         (this.username != undefined && this.username != null)
       ) {
         this.showHint = false;
@@ -456,26 +467,26 @@ export class NewServiceProviderSetupComponent implements OnInit {
       } else {
         this.showHint = true;
         this.username_dependent_flag = true;
-        this.username_status = "Username can't be blank";
+        this.username_status = 'Username can\'t be blank';
       }
     }
   }
   checkAdhaarSuccessHandler(response) {
-    if (response === "true") {
+    if (response === 'true') {
       this.isExistAdhaar = true;
-      this.idMessage = "Adhaar Number Already Exists";
+      this.idMessage = 'Adhaar Number Already Exists';
     } else {
       this.isExistAdhaar = false;
-      this.idMessage = "";
+      this.idMessage = '';
     }
   }
   checkPanSuccessHandler(response) {
-    if (response === "true") {
+    if (response === 'true') {
       this.isExistPan = true;
-      this.idMessage = "Pan Number Already Exists";
+      this.idMessage = 'Pan Number Already Exists';
     } else {
       this.isExistPan = false;
-      this.idMessage = "";
+      this.idMessage = '';
     }
   }
   // to check whether the object are same
@@ -521,8 +532,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     );
   }
   clearFullForm() {
-    jQuery("#providerForm").trigger("reset");
-    jQuery("#detailedForm").trigger("reset");
+    jQuery('#providerForm').trigger('reset');
+    jQuery('#detailedForm').trigger('reset');
     this.state_service_array = [];
     this.show1 = true;
     this.show3 = false;
@@ -533,28 +544,28 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.showTable = false;
-    this.address1 = "";
-    this.address2 = "";
-    this.contactPerson = "";
-    this.middlename = "";
-    this.providerAdmin_PhoneNumber = "";
-    this.providerAdmin_EmailID = "";
+    this.address1 = '';
+    this.address2 = '';
+    this.contactPerson = '';
+    this.middlename = '';
+    this.providerAdmin_PhoneNumber = '';
+    this.providerAdmin_EmailID = '';
   }
   getStatus() {
     this.super_admin_service.getAllStatus().subscribe(
       res => {
         this.status = res.filter(function (serviceItem) {
-          return serviceItem.status.toLowerCase() === "new";
+          return serviceItem.status.toLowerCase() === 'new';
         });
       },
       err => { }
     );
   }
   clearProviderForm() {
-    this.message.confirm("Are you sure want to clear?").subscribe(
+    this.message.confirm('Are you sure want to clear?').subscribe(
       response => {
         if (response) {
-          jQuery("#detailedForm").trigger("reset");
+          jQuery('#detailedForm').trigger('reset');
           // this.state_service_array = [];
           // this.show1 = true;
           // this.show3 = false;
@@ -569,10 +580,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
     // jQuery('#providerForm').trigger('reset');
   }
   clearDetailedForm() {
-    this.message.confirm("Are you sure want to clear?").subscribe(
+    this.message.confirm('Are you sure want to clear?').subscribe(
       response => {
         if (response) {
-          jQuery("#providerForm").trigger("reset");
+          jQuery('#providerForm').trigger('reset');
           this.validTill = new Date();
           this.validFrom = new Date();
         }
@@ -588,5 +599,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
     console.log(this.today);
     console.log(date);
     this.validTill = date;
+  }
+  getCampaingns() {
+    // this.super_admin_service.getCampaingns().subscribe(
+    //   res => {
+    //   },
+    //   err => { }
+    // );
   }
 }

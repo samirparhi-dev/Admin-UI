@@ -14,8 +14,7 @@
                   <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                       <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-                          style="color:black">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
                           <!-- Activities -->
                           {{currentlanguage.activities}}
                           <span class="caret"></span></a>
@@ -37,10 +36,17 @@
                       {{currentlanguage.reports}}
                       <!-- Reports -->
                       </a></li>
-                      <li style="cursor: pointer" (click)='show("9")'><a>
-                      {{currentlanguage.configurations}}
-                      <!-- Configurations -->
-                      </a></li>
+                      <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
+                            <!-- Activities -->
+                            Configurations
+                            <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li style="cursor: pointer" (click)='show("11")'><a>Provider/CTI Mapping</a></li>
+                      
+                        <!-- Configurations -->
+                      </ul>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -62,6 +68,7 @@
                 <app-create-state *ngSwitchCase="7"></app-create-state>
                 <p *ngSwitchCase="8">Reports Work In PROGRESS</p>
                 <p *ngSwitchCase="9">Configurations Work In PROGRESS</p>
+                <app-provide-cti-mapping *ngSwitchCase="11"></app-provide-cti-mapping>
               </div>
             </div>
           </div>

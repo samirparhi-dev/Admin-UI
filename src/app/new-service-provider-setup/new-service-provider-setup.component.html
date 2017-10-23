@@ -33,7 +33,8 @@
             <button mdSuffix []="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-          <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true" name="valid_till" ></md2-datepicker>
+          <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true"
+            name="valid_till"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myProviderName>
@@ -105,6 +106,12 @@
             </md-option>
           </md-select>
         </div>
+        <!-- <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" *ngIf="showServiceline">
+          <md-select [(ngModel)]="Campaign"  name="Campaign" placeholder="Select Campaign" [style.width]="'100%'" required >
+            <md-option *ngFor="let campaign of campaigns" [value]="campaign">{{serviceLine.serviceName}}
+            </md-option>
+          </md-select>
+        </div> -->
       </form>
       <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 " *ngIf="showAdd">
         <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black"
@@ -131,7 +138,9 @@
                 <!-- <td>{{state_service.services.toString()}}</td> -->
                 <td>
                   <ul class="list-unstyled">
-                    <li *ngFor="let service of state_service.services">{{service.serviceName}}</li>
+                    <li *ngFor="let service of state_service.services;let k=index">{{service.serviceName}}
+                      <md-icon class="mat-icon material-icons" role="img " aria-hidden="true " style="cursor: pointer " (click)="deleteServiceLine(i,k) ">cancel</md-icon>
+                    </li>
                   </ul>
                 </td>
                 <td>
@@ -215,7 +224,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myMobileNumber>
-            <input mdInput placeholder="PhoneNumber" minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber " required>
+            <input mdInput placeholder="PhoneNumber" minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber "
+              required>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">

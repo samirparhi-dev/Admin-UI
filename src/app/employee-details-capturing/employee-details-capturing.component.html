@@ -285,14 +285,14 @@
                   </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30 m-t-10">
-                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentState" name="currentState">
+                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentState" name="currentState" (change)="getDistricts(currentState)">
                     <md-option *ngFor="let item of allStates" value="{{item.stateID}}">
                       {{item.stateName}}
                     </md-option>
                   </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-15">
-                  <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentDistrict" name="currentDistrict">
+                  <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentDistrict" name="currentDistrict"  >
                     <md-option *ngFor="let item of districts" value="{{item.districtID}}">
                       {{item.districtName}}
                     </md-option>

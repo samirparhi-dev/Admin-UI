@@ -147,6 +147,7 @@ import { EditInstituteSubDirectory } from './institute-subdirectory-master/insti
 
 import { HospitalInstituteDirectorySubdirectoryMappingComponent } from './hospital-institute-directory-subdirectory-mapping/hospital-institute-directory-subdirectory-mapping.component';
 import { HospitalInstituteMappingService } from './services/ProviderAdminServices/hospital-institute-mapping-service.service';
+import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-mapping.component';
 
 
 @NgModule({
@@ -173,7 +174,7 @@ import { HospitalInstituteMappingService } from './services/ProviderAdminService
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
     EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
     EditHospitalModal,
-    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent
+    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent
 
   ],
 
