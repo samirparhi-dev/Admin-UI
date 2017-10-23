@@ -28,6 +28,9 @@ import { ConfigService } from "../config/config.service";
  	get_InstituteDirectory_Url:any;
  	get_InstituteSubDirectory_Url:any;
  	
+ 	getMappingList_Url:any;
+ 	createMapping_Url:any;
+ 	toggleMappingStatus_Url:any;
 
  	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
  		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -41,6 +44,10 @@ import { ConfigService } from "../config/config.service";
  		this.get_Institution_Url=this.admin_Base_Url+"m/getInstution";
  		this.get_InstituteDirectory_Url=this.admin_Base_Url+"m/getInstituteDirectory";
 		this.get_InstituteSubDirectory_Url=this.admin_Base_Url+"m/getInstutesubDirectory";
+
+		this.getMappingList_Url=this.common_Base_Url+"directory/getInstitutesDirectories";
+		this.createMapping_Url=this.admin_Base_Url+"m/createInstutesubDirectoryMapping";
+		this.toggleMappingStatus_Url=this.admin_Base_Url+"m/deleteInstutesubDirectoryMapping";
 
 
 
@@ -93,6 +100,22 @@ import { ConfigService } from "../config/config.service";
 	getInstituteSubDirectory(data)
 	{
 		return this.http.post(this.get_InstituteSubDirectory_Url,data).map(this.handleSuccess).catch(this.handleError);
+
+	}
+
+	getMappingList(data)
+	{
+		return this.http.post(this.getMappingList_Url,data).map(this.handleSuccess).catch(this.handleError);
+	}
+
+	createMapping(data)
+	{
+		return this.http.post(this.createMapping_Url,data).map(this.handleSuccess).catch(this.handleError);
+	}
+
+	toggleMappingStatus(data)
+	{
+		return this.http.post(this.toggleMappingStatus_Url,data).map(this.handleSuccess).catch(this.handleError);
 
 	}
 
