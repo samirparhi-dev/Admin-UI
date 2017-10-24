@@ -297,7 +297,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		if(this.bufferArray.length==0 && (obj.institutionID!="" && obj.institutionID!=undefined))
 		{
 			var is_unique=this.preventDuplicateMapping(obj.institutionID);
-			debugger;
+		
 			if(is_unique)
 			{
 				this.bufferArray.push(obj);
@@ -312,7 +312,6 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		else
 		{
 			var is_unique=this.preventDuplicateMapping(obj.institutionID);
-			debugger;
 			if(is_unique)
 			{
 				let count=0;
