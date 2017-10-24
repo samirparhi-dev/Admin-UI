@@ -46,7 +46,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   sub_serviceID: any;
   private items: Array<any>;
   hideButton: boolean = false;
-
+  categoryExist: boolean = false;
+  subCategoryExist: boolean = false;
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
@@ -111,7 +112,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.getCategorybySubService(providerserviceMapId, subServiceID)
       .subscribe((response) => {
         if (response) {
-          console.log(response, "subcat response");
+          //  console.log(response, "subcat response");
           this.subCat = response.filter((obj) => {
             return obj !== null;
           });
@@ -244,7 +245,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   editCategory(catObj: any) {
-    ;
     const categoryObj = {};
     categoryObj['categoryID'] = catObj.categoryID;
     categoryObj['categoryName'] = catObj.categoryName;
@@ -269,7 +269,31 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   editSubCategory(subCatObj) {
-    console.log(subCatObj);
+    const categoryObj = {};
+    categoryObj['categoryID'] = subCatObj.categoryID;
+    categoryObj['categoryName'] = subCatObj.categoryName;
+    categoryObj['subService'] = this.sub_service.subServiceName;
+    categoryObj['providerServiceMapId'] = subCatObj.providerServiceMapID;
+    // categoryObj['categoryDesc'] = subCatObj.categoryDesc;
+    categoryObj['subCategoryID'] = subCatObj.subCategoryID;
+    categoryObj['subCategoryName'] = subCatObj.subCategoryName;
+    categoryObj['subCategoryDesc'] = subCatObj.subCategoryDesc;
+    const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
+      height: '60%',
+      width: '30%',
+      disableClose: true,
+      data: categoryObj
+
+    });
+    dialogReff.componentInstance.subCategoryType = true;
+    dialogReff.afterClosed().subscribe((res) => {
+      if (res) {
+        ;
+        this.getSubCategory(subCatObj.providerServiceMapID, subCatObj.subServiceID);
+      }
+
+    });
+    // console.log(subCatObj);
   }
 
   deleteRow(index) {
@@ -435,6 +459,44 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
             && t.subServiceID === thing.subServiceID;
         }) === index)
+  }
+  checkCategory(categoryName: string) {
+    let categoriesExist;
+    if (categoryName) {
+      categoriesExist = this.categories.filter(function (item) {
+        return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
+      });
+    }
+    if (categoriesExist.length > 0) {
+      this.categoryExist = true;
+    } else {
+      this.categoryExist = false;
+    }
+
+  }
+  checkSubCategory(subCategoryName: string, providerServiceMapId: any, subService: any, category: any) {
+    if (subCategoryName && providerServiceMapId && subService && category) {
+      let subCategoriesExist;
+      this.CategorySubcategoryService.getCategorybySubService(providerServiceMapId, subService.subServiceID)
+        .subscribe((response) => {
+          if (response) {
+            //  console.log(response, "subcat response");
+            subCategoriesExist = response.filter((obj) => {
+              if (obj) {
+                return obj.categoryID === category.categoryID &&
+                  obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
+              }
+            });
+            if (subCategoriesExist.length > 0) {
+              this.subCategoryExist = true;
+            } else {
+              this.subCategoryExist = false;
+            }
+          }
+        }, (err) => {
+
+        });
+    }
   }
 }
 

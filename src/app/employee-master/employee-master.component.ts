@@ -196,7 +196,6 @@ export class EditEmployeeDetailsModal {
 
 
   update() {
-    debugger;
     let today = new Date();
     // this.data.firstName = this.m_firstname;
     // this.data.lastName = this.m_lastname;

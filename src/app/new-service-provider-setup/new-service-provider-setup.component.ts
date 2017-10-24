@@ -408,7 +408,6 @@ export class NewServiceProviderSetupComponent implements OnInit {
     }
   }
   deleteServiceLine(parentIndex: number, index: number) {
-    debugger;
     this.state_service_array[parentIndex].services.splice(index, 1);
     if (this.state_service_array[parentIndex].services.length === 0) {
       this.state_service_array.splice(parentIndex, 1);

@@ -37,90 +37,90 @@
     </div>
   </div>
 
-<!-- Main Search Form Ends -->
-<!-- Search Data Table -->
-<div class="m-t-20"></div>
-<div *ngIf="showTable && showDiv">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
-      <!--category table-->
-      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Category Desc</th>
-            <th>Edit</th>
-            <th>Activate/Deactivate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let i of md2.data">
-            <td width=30%>{{i?.categoryName}}</td>
-            <td width=30%>{{i?.categoryDesc}}</td>
-            <td width=15%>
-              <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                (click)="editCategory(i)">edit</md-icon>
-            </td>
-            <td width=15%>
-              <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
-              <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
-              <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3">
-              <md2-pagination></md2-pagination>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-      <!--sub-category table-->
-      <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
-        <thead>
-          <tr>
-            <th>Sub Category</th>
-            <th>Sub Category Desc</th>
-            <th>Category</th>
-            <th>Category Desc</th>
-            <th>Edit</th>
-            <th>Activate/Deactivate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let i of md2.data">
-            <td width=15%>{{i?.subCategoryName}}</td>
-            <td width=15%>{{i?.subCategoryDesc}}</td>
-            <td width=15%>{{i?.categoryName}}</td>
-            <td width=15%>{{i?.categoryDesc}}</td>
-            <td width=15%>
-              <md-icon *ngIf="i.subCategoryDeleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                (click)="editSubCategory(i)">edit</md-icon>
-            </td>
-            <td width=15%>
-              <button *ngIf="i.subCategoryDeleted == true" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
-              <button *ngIf="i.subCategoryDeleted == false" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
-              <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="5">
-              <md2-pagination></md2-pagination>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <!-- <md-tab label="Sub Category">
+  <!-- Main Search Form Ends -->
+  <!-- Search Data Table -->
+  <div class="m-t-20"></div>
+  <div *ngIf="showTable && showDiv">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
+        <!--category table-->
+        <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Category Desc</th>
+              <th>Edit</th>
+              <th>Activate/Deactivate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of md2.data">
+              <td width=30%>{{i?.categoryName}}</td>
+              <td width=30%>{{i?.categoryDesc}}</td>
+              <td width=15%>
+                <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="editCategory(i)">edit</md-icon>
+              </td>
+              <td width=15%>
+                <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
+                <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
+                <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <!--sub-category table-->
+        <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th>Sub Category</th>
+              <th>Sub Category Desc</th>
+              <th>Category</th>
+              <th>Category Desc</th>
+              <th>Edit</th>
+              <th>Activate/Deactivate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of md2.data">
+              <td width=15%>{{i?.subCategoryName}}</td>
+              <td width=15%>{{i?.subCategoryDesc}}</td>
+              <td width=15%>{{i?.categoryName}}</td>
+              <td width=15%>{{i?.categoryDesc}}</td>
+              <td width=15%>
+                <md-icon *ngIf="i.subCategoryDeleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true"
+                  style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
+              </td>
+              <td width=15%>
+                <button *ngIf="i.subCategoryDeleted == true" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
+                <button *ngIf="i.subCategoryDeleted == false" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
+                <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- <md-tab label="Sub Category">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
           <table class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
             <thead>
               <tr> -->
-    <!-- <th>ID</th> -->
-    <!-- <th>SubService</th>
+      <!-- <th>ID</th> -->
+      <!-- <th>SubService</th>
                 <th>Category</th>
                 <th>Subcategory</th>
                 <th>Actions</th>
@@ -128,13 +128,13 @@
             </thead>
             <tbody>
               <tr *ngFor="let i of md2.data"> -->
-    <!-- <td width=10%>{{i?.categoryID}}</td> -->
-    <!-- <td>{{i?.subServiceName}}</td>
+      <!-- <td width=10%>{{i?.categoryID}}</td> -->
+      <!-- <td>{{i?.subServiceName}}</td>
                 <td>{{i?.categoryName}}</td>
                 <td>{{i?.subCategoryName}}</td>
                 <td> -->
-    <!--<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon> -->
-    <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.subCategoryID)">delete</md-icon>
+      <!--<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon> -->
+      <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.subCategoryID)">delete</md-icon>
                 </td>
               </tr>
             </tbody>
@@ -148,10 +148,10 @@
           </table>
         </div>
       </md-tab> -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
+      </div>
     </div>
-  </div>
   </div>
 </md-card>
 <!-- Search Data Table Ends -->
@@ -185,24 +185,26 @@
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select class="p-t-14" [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService" (change)="getCategory(service,$event.value.subServiceID)"
-            required>
+          <md-select class="p-t-14" [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService"
+            (change)="getCategory(service,$event.value.subServiceID)" required>
             <md-option *ngFor="let subservice of subServices" [value]="subservice">{{subservice.subServiceName}}</md-option>
           </md-select>
 
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
 
-          <md-select class="p-t-14" [disabled]="cateDisabled" [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'" placeholder="Category"
-            required>
+          <md-select class="p-t-14" [disabled]="cateDisabled" [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'"
+            placeholder="Category" required>
             <md-option *ngFor="let category of categories" [value]="category">{{category.categoryName}}</md-option>
           </md-select>
 
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
-            <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
-            <md-hint [hidden]="categoryRef.valid || categoryRef.pristine">
+            <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " (blur)="checkCategory(category_name)"
+              name="category_name" required>
+            <md-hint class="error_text" *ngIf="categoryExist">Category already exists </md-hint>
+            <md-hint [hidden]="categoryRef.valid || categoryRef.pristine" *ngIf="!categoryExist">
               <span class=" error_text" [hidden]="!categoryRef.hasError('required')">Category is required</span>
             </md-hint>
           </md-input-container>
@@ -214,8 +216,11 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20" *ngIf="!Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
-            <input required mdInput placeholder="SubCategory Name" [(ngModel)]="subcategory" name="subcategory">
-
+            <input required mdInput placeholder="SubCategory Name" #subCategories="ngModel" [(ngModel)]="subcategory" name="subcategory" (blur)="checkSubCategory(subcategory,service,sub_service,category_ID)">
+            <md-hint class="error_text" *ngIf="subCategoryExist">Sub Category already exists </md-hint>
+            <md-hint [hidden]="subCategories.valid || subCategories.pristine" *ngIf="!subCategoryExist">
+              <span class=" error_text" [hidden]="!subCategories.hasError('required')">Sub Category is required</span>
+            </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20" *ngIf="!Add_Category_Subcategory_flag">
@@ -224,7 +229,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 m-t-20 pull-right">
-          <button md-raised-button color="primary" [disabled]="!form.valid" class="pull-right" color="primary" name="subServiceName"
+          <button md-raised-button color="primary" [disabled]="!form.valid || categoryExist || subCategoryExist" class="pull-right" color="primary" name="subServiceName"
             (click)="addNew(i)">
            Add
           </button>

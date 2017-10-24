@@ -17,26 +17,52 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <md-input-container style="width: 100% ">
         <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
       </md-input-container>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <md-input-container style="width: 100% ">
         <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc">
       </md-input-container>
     </div>
   </div>
+  <div class="row" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput [disabled]='true' placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
+      </md-input-container>
+    </div>
+  </div>
+  <div class="row" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput placeholder="Sub Category" [(ngModel)]="subCategory" name="subCategory">
+      </md-input-container>
+    </div>
+  </div>
+  <div class="row" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container style="width: 100% ">
+        <input mdInput placeholder="Sub Category Desc" [(ngModel)]="subCategoryDesc" name="subCategoryDesc">
+      </md-input-container>
+    </div>
+  </div>
   <div class="clearfix"> </div>
   <div class="clearfix"> </div>
   <div class="clearfix"> </div>
-  <div class="row">
+  <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <button md-raised-button color="primary" type="submit" class="full-width" (click)="editCategory()">Save</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button md-raised-button color="primary" type="submit" class="full-width" (click)="editSubCategory()">Save</button>
     </div>
   </div>
 </div>

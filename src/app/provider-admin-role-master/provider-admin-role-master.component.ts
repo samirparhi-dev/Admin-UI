@@ -115,7 +115,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     finalsave() {
-        debugger;
         console.log(this.objs);
 
         this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
@@ -238,7 +237,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
     add_obj(role, desc, feature) {
-        debugger;
         var result = this.validateRole(role);
         if (result) {
             let count = 0;
