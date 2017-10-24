@@ -9,14 +9,17 @@ import { CategorySubcategoryService } from '../../services/ProviderAdminServices
   styleUrls: ['./edit-category-subcategory.component.css']
 })
 export class EditCategorySubcategoryComponent implements OnInit {
-  categoryType: boolean;
-  subCategoryType: boolean;
+  categoryType: boolean = false;
+  subCategoryType: boolean = false;
   subService: any;
   category_name: any;
   categorydesc: any;
   categoryObj: any;
   categoryID: any;
+  subCategoryID: any;
   providerServiceMapId: any;
+  subCategory: any;
+  subCategoryDesc: any;
   constructor(private commonData: dataService,
     private message: ConfirmationDialogsService, public dialogRef: MdDialogRef<EditCategorySubcategoryComponent>,
     @Inject(MD_DIALOG_DATA) public data: any, private catService: CategorySubcategoryService) { }
@@ -27,6 +30,9 @@ export class EditCategorySubcategoryComponent implements OnInit {
     this.categorydesc = this.categoryObj.categoryDesc;
     this.providerServiceMapId = this.categoryObj.providerServiceMapId;
     this.categoryID = this.categoryObj.categoryID;
+    this.subCategoryID = this.categoryObj.subCategoryID;
+    this.subCategory = this.categoryObj.subCategoryName;
+    this.subCategoryDesc = this.categoryObj.subCategoryDesc;
 
   }
   editCategory() {
@@ -43,5 +49,18 @@ export class EditCategorySubcategoryComponent implements OnInit {
       }
     }, (err) => { });
   }
-
+  editSubCategory() {
+    const catObj = {};
+    catObj['subCategoryID'] = this.subCategoryID;
+    catObj['categoryID'] = this.categoryID;
+    catObj['subCategoryName'] = this.subCategory;
+    catObj['subCategoryDesc'] = this.subCategoryDesc;
+    catObj['modifiedBy'] = this.commonData.uname;
+    this.catService.editSubCategory(catObj).subscribe((response) => {
+      if (response) {
+        this.message.alert('Successfully Updated');
+        this.dialogRef.close(true);
+      }
+    }, (err) => { });
+  }
 }
