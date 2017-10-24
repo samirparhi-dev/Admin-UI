@@ -10,7 +10,7 @@ export class myName {
 
 
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9 ~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+		var regex = new RegExp(/^[0-9 ~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
 		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
 		if (regex.test(key)) {
 			ev.preventDefault();
@@ -39,6 +39,45 @@ export class myName2 {
 
 
 }
+
+@Directive({
+	selector: '[agentID_one]'
+})
+export class agentID_one {
+	constructor(element: ElementRef) {
+
+	}
+	
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\-=\[\]{};':"\\|.<>\/?]*$/);
+		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
+		//   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+}
+
+@Directive({
+	selector: '[agentID_two]'
+})
+export class agentID_two {
+	constructor(element: ElementRef) {
+
+	}
+	
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\=\[\]{};':"\\|,.<>\/?]*$/);
+		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
+		//   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+}
+
 @Directive({
 	selector: '[myProviderName]'
 })
