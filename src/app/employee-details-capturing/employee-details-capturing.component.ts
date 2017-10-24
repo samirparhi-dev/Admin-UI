@@ -78,7 +78,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   isPermanent: any;
 
   allStates: any = [];
-  districts: any = [];
+  districts:any=[];
+  districts_permanent: any = [];
+  districts_current: any = [];
 
   /*work place*/
   officeState: any;
@@ -208,6 +210,16 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.districts = response;
   }
 
+  getpermanentDistrictsSuccessHandeler(response) {
+    console.log(response, 'districts retrieved');
+    this.districts_permanent = response;
+  }
+
+  getcurrentDistrictsSuccessHandeler(response) {
+    console.log(response, 'districts retrieved');
+    this.districts_current = response;
+  }
+
   getOfficeDistrictsSuccessHandeler(response) {
     console.log(response, 'office districts');
     this.serviceproviderDistricts = response;
@@ -238,15 +250,19 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     });
   }
 
+  disable_currentAddress_flag:boolean=false;
   addressCheck(value) {
     if (value.checked) {
       this.currentAddressLine1 = this.permanentAddressLine1;
       this.currentAddressLine2 = this.permanentAddressLine2;
       this.currentState = this.permanentState;
+
+      this.districts_current=this.districts_permanent;
       this.currentDistrict = this.permanentDistrict;
       this.currentPincode = this.permanentPincode;
 
       this.isPermanent = '1';
+      this.disable_currentAddress_flag=true;
     } else {
       this.currentAddressLine1 = '';
       this.currentAddressLine2 = '';
@@ -254,6 +270,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       this.currentDistrict = '';
       this.currentPincode = '';
       this.isPermanent = '0';
+      this.disable_currentAddress_flag=false;
+
+      this.districts_current=[];
+      
     }
   }
 
@@ -277,6 +297,18 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getDistricts(stateID) {
     this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+  }
+
+  getpermanentDistricts(stateID)
+  {
+    this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getpermanentDistrictsSuccessHandeler(response));
+
+  }
+
+  getcurrentDistricts(stateID){
+        this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getcurrentDistrictsSuccessHandeler(response));
+
+
   }
 
   getOfficeDistricts(value) {

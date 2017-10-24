@@ -25,6 +25,10 @@ import { SetSecurityQuestionsComponent } from './set-security-questions/set-secu
 import { myPassword } from './directives/password/myPassword.directive';
 import { myName } from './directives/name/myName.directive';
 import { myName2 } from './directives/name/myName.directive';
+import { agentID_one } from './directives/name/myName.directive';
+import { agentID_two } from './directives/name/myName.directive';
+
+
 
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
@@ -149,14 +153,18 @@ import { EditInstituteSubDirectory } from './institute-subdirectory-master/insti
 
 import { HospitalInstituteDirectorySubdirectoryMappingComponent } from './hospital-institute-directory-subdirectory-mapping/hospital-institute-directory-subdirectory-mapping.component';
 import { HospitalInstituteMappingService } from './services/ProviderAdminServices/hospital-institute-mapping-service.service';
+
 import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-mapping.component';
+
+import { AgentListCreationComponent } from './agent-list-creation/agent-list-creation.component';
+import { AgentListCreationService } from './services/ProviderAdminServices/agent-list-creation-service.service';
 
 
 @NgModule({
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName,myName2, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
+    myName,myName2,agentID_one,agentID_two, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,
@@ -176,8 +184,9 @@ import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-ma
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
     EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
     EditHospitalModal,
-    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
-    VillageMasterComponent
+    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory,
+    HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
+    AgentListCreationComponent,VillageMasterComponent
 
   ],
 
@@ -252,7 +261,9 @@ import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-ma
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
      InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
-     InstituteSubDirectoryMasterService,HospitalInstituteMappingService,VillageMasterService
+     InstituteSubDirectoryMasterService,HospitalInstituteMappingService,
+     AgentListCreationService,VillageMasterService
+
   ],
 
   entryComponents: [

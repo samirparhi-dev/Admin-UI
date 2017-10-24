@@ -238,7 +238,7 @@
                   </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30 m-t-10">
-                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="permanentState" name="permanentState" (change)="getDistricts(permanentState)"
+                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="permanentState" name="permanentState" (change)="getpermanentDistricts(permanentState)"
                     required #states="ngModel">
                     <md-option *ngFor="let item of allStates" value="{{item.stateID}}">
                       {{item.stateName}}
@@ -248,7 +248,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-15">
                   <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="permanentDistrict" name="permanentDistrict" required
                     #city="ngModel">
-                    <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+                    <md-option *ngFor="let item of districts_permanent" value="{{item.districtID}}">
                       {{item.districtName}}
                     </md-option>
                   </md-select>
@@ -262,10 +262,10 @@
               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <md-checkbox color="primary" (change)="addressCheck($event)">Is the Current Address of Employee, same as the Permanent Address?</md-checkbox>
+                  <md-checkbox color="primary" [disabled]="!addressForm.valid" (change)="addressCheck($event)" #myCheckBox>Is the Current Address of Employee, same as the Permanent Address?</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
-                  <button md-raised-button (click)="addressForm.reset()">Clear</button>
+                  <button md-raised-button (click)="addressForm.reset();myCheckBox.checked=false;disable_currentAddress_flag=false">Clear</button>
                   <button md-raised-button color="primary" [disabled]="city.errors || states.errors || address.errors" (click)="MOVE2NEXT(4)">Save and Next</button>
                 </div>
 
@@ -276,31 +276,31 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <md-input-container style="width: 100% ">
-                    <input mdInput placeholder="AddressLine1 " [(ngModel)]="currentAddressLine1 " name="currentAddressLine1 ">
+                    <input mdInput placeholder="AddressLine1 " [disabled]="disable_currentAddress_flag" [(ngModel)]="currentAddressLine1 " name="currentAddressLine1 ">
                   </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <md-input-container style="width: 100% ">
-                    <input mdInput placeholder="AddressLine2 " [(ngModel)]="currentAddressLine2 " name="currentAddressLine2">
+                    <input mdInput placeholder="AddressLine2 " [disabled]="disable_currentAddress_flag" [(ngModel)]="currentAddressLine2 " name="currentAddressLine2">
                   </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30 m-t-10">
-                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentState" name="currentState" (change)="getDistricts(currentState)">
+                  <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="currentState" name="currentState" [disabled]="disable_currentAddress_flag" (change)="getcurrentDistricts(currentState)">
                     <md-option *ngFor="let item of allStates" value="{{item.stateID}}">
                       {{item.stateName}}
                     </md-option>
                   </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-15">
-                  <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentDistrict" name="currentDistrict"  >
-                    <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+                  <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="currentDistrict" name="currentDistrict" [disabled]="disable_currentAddress_flag"  >
+                    <md-option *ngFor="let item of districts_current" value="{{item.districtID}}">
                       {{item.districtName}}
                     </md-option>
                   </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <md-input-container style="width: 100%" myMobileNumber>
-                    <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="currentPincode " name="currentPincode ">
+                    <input mdInput placeholder="Pincode " maxlength="6" [(ngModel)]="currentPincode " name="currentPincode " [disabled]="disable_currentAddress_flag">
                   </md-input-container>
                 </div>
               </div>
