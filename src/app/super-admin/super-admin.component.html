@@ -23,7 +23,7 @@
                           <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
                           <li style="cursor: pointer" (click)='show("10")'><a>Update Provider</a></li>
                           <li style="cursor: pointer" (click)='show("3")'><a>Sub Service</a></li>
-
+                          <li style="cursor: pointer" (click)='show("12")'><a>Village Master</a></li>
 
                           <!-- <li style="cursor: pointer" (click)='show("3")'><a>{{currentlanguage.activity_dropdown.gender_master}}</a></li>
                           <li style="cursor: pointer" (click)='show("4")'><a>{{currentlanguage.activity_dropdown.qualification_master}}</a></li>
@@ -69,6 +69,7 @@
                 <p *ngSwitchCase="8">Reports Work In PROGRESS</p>
                 <p *ngSwitchCase="9">Configurations Work In PROGRESS</p>
                 <app-provide-cti-mapping *ngSwitchCase="11"></app-provide-cti-mapping>
+                <app-village-master *ngSwitchCase="12"></app-village-master>
               </div>
             </div>
           </div>

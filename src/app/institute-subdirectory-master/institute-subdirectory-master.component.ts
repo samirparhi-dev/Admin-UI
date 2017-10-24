@@ -147,6 +147,9 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		this.institute_directory="",
 		this.providerServiceMapID="";
 
+		this.services=[];
+		this.instituteDirectories=[];
+
 		/*resetting the flag*/
 		this.showTableFlag=false;
 		/*resetting the search result array*/

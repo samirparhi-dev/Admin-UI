@@ -1,0 +1,184 @@
+<div *ngIf="showVillages && !editable">
+    <div *ngIf="showVillages" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4>Search Villages</h4>
+        <form #searForm="ngForm">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID.split('-')[0]);"
+                    #stateVal="ngModel">
+                    <md-option *ngFor="let state of provider_states" value="{{state.stateID}}-{{state.stateName}}">
+                        {{state.stateName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID" (change)="GetTaluks(searchDistrictID.split('-')[0]);">
+                    <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
+                        {{district.districtName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <md-select placeholder="Taluk" [style.width]="'100%'" [(ngModel)]="searchTalukID" name="searchTalukID" (change)="GetBranches(searchTalukID);">
+                    <md-option *ngFor="let taluk of taluks" [value]="taluk.blockID">
+                        {{taluk.blockName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <button class="btn">
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
+            </button>
+        </form>
+    </div>
+    <div class="clearfix"></div>
+  <h4>Available Villages</h4>
+  <table class="table ">
+    <thead>
+      <tr>
+            <th>S No.</th>
+            <th>Village</th>
+            <th>PanchayatName</th>
+            <th>Habitat</th>
+            <th>PinCode</th>
+            <th>GovVillageID</th>
+            <th>GovSubDistrictID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="cursor: pointer" *ngFor="let village of availableVillages | paginate: {id:'VillageListResult', itemsPerPage: 3, currentPage: b}" >
+        <td>{{availableVillages.indexOf(village)+1}}</td>
+        <td>{{village.villageName}}</td>
+        <td>{{village.panchayatName}}</td>
+        <td>{{village.habitat}}</td>
+        <td>{{village.pinCode}}</td>
+        <td>{{village.govVillageID}}</td>
+        <td>{{village.govSubDistrictID}}</td>
+        <td *ngIf="village.deleted=='0'"> <button class="btn" (click)="updateVillageStatus(village)">Deactivate</button></td>
+        <td *ngIf="village.deleted=='1'"> <button class="btn activateBtn" (click)="updateVillageStatus(village)">Activate</button></td>
+        <td> <button class="btn activateBtn" (click)="editVillageData(village)">Edit</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="b = $event" id="VillageListResult"></pagination-controls>
+  <div>
+    <button class="btn pull-right " (click)="showForm()">Add Village </button>
+  </div>
+</div>
+<div *ngIf="editable">
+
+</div>
+<div *ngIf="!showVillages || editable">
+  <h4>Create Village </h4>
+  <form #VillageForm="ngForm">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <input mdInput style="display:none;" [(ngModel)]="districtBranchID" name="districtBranchID" >
+      <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getDistricts(stateID.split('-')[0])" #stateVal="ngModel">
+        <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+      <md-hint [hidden]=stateVal.valid>
+        <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
+      </md-hint>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="GetTaluks(districtID.split('-')[0])" >
+        <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
+          {{district.districtName}}
+        </md-option>
+      </md-select>
+      <md-hint [hidden]=districtV.valid>
+        <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select District</span>
+      </md-hint>
+    </div>
+   
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-select required placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="blockID" name="blockID" #talukV="ngModel" (change)="GetBranches(blockID.split('-')[0]);checkExistance(talukID.split('-')[0],villageName)">
+        <md-option *ngFor="let taluk of taluks" value="{{taluk.blockID}}-{{taluk.blockName}}" >
+          {{taluk.blockName}}
+        </md-option>
+      </md-select>
+      <md-hint [hidden]=talukV.valid>
+        <span class="error_text" *ngIf="!talukV.required  && ( talukV.dirty || talukV.touched)">Please select Taluk</span>
+      </md-hint>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput required placeholder="Village Name" [(ngModel)]="villageName" name="villageName"  #VillageN="ngModel" (blur)="checkExistance(talukID.split('-')[0],villageName)">
+        <md-hint>
+          <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>
+          <span class="error_text" *ngIf="VillageN.valid && villageNameExist">Village already exists</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" name="panchayatName">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="Habitat" [(ngModel)]="habitat" name="habitat">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'" myMobileNumber>
+        <input mdInput placeholder="PinCode" [(ngModel)]="pinCode" name="pinCode" maxlength="6" minlength="6" #PINC="ngModel">
+        <md-hint [hidden]=PINC.valid>
+          <span class="error_text" *ngIf="!PINC.valid  && ( PINC.dirty || PINC.touched)">Please enter valid pincode</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="GovVillageID" [(ngModel)]="govVillageID" name="govVillageID">
+      </md-input-container>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="GovSubDistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID">
+      </md-input-container>
+    </div>
+    
+    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 pull-right">
+      <button *ngIf="!editable" [disabled]=" !VillageN.valid || VillageNameExist || !stateVal.valid || !districtV.valid || !talukV.valid || !PINC.valid" class="btn pull-right " 
+      (click)="addVillageToList(VillageForm.value);VillageForm.reset()  ">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+      <button *ngIf="editable" class="btn pull-right" (click)="updateVillageData(VillageForm.value);VillageForm.reset()"> Save</button>
+    </div>
+  </form>
+  <div *ngIf="villageList.length>0">
+    <table class="table ">
+      <thead>
+        <tr>
+            <th>S No.</th>
+            <th>Village</th>
+            <th>PanchayatName</th>
+            <th>Habitat</th>
+            <th>PinCode</th>
+            <th>GovVillageID</th>
+            <th>GovSubDistrictID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="cursor: pointer" *ngFor="let village of villageList | paginate: {id:'VillageResult', itemsPerPage: 2, currentPage: b}">
+            <td>{{availableVillages.indexOf(village)+1}}</td>
+            <td>{{village.villageName}}</td>
+            <td>{{village.panchayatName}}</td>
+            <td>{{village.habitat}}</td>
+            <td>{{village.pinCode}}</td>
+            <td>{{village.govVillageID}}</td>
+            <td>{{village.govSubDistrictID}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="b = $event" id="VillageResult"></pagination-controls>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+   <button class="btn pull-left" (click)="VillageForm.reset();clearEdit()">Back</button> <button *ngIf="villageList.length>0" class="btn pull-right " (click)="storeVillages()">Submit</button>
+  </div>
+</div>

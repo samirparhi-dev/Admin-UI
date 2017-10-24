@@ -90,6 +90,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		this.service="";
 		this.providerServiceMapID="";
 
+		this.services=[];
 		/*resetting the flag*/
 		this.showTableFlag=false;
 		/*resetting the search result array*/

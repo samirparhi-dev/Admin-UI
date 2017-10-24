@@ -77,6 +77,7 @@ import { VanComponent } from './van-master/van-master.component';
 import { VanTypeComponent } from './van-type-master/van-type-master.component';
 import { VanServicePointMappingComponent } from './van-service-point-mapping/van-service-point-mapping.component';
 import { EmployeeParkingPlaceMappingComponent } from './employee-parking-place-mapping/employee-parking-place-mapping.component';
+import { VillageMasterComponent } from './village-master/village-master.component';
 
 import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
@@ -118,6 +119,7 @@ import { VanMasterService } from './services/ProviderAdminServices/van-master-se
 import { VanTypeMasterService } from './services/ProviderAdminServices/van-type-master.service';
 import { VanServicePointMappingService } from './services/ProviderAdminServices/van-service-point-mapping.service';
 import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
+import { VillageMasterService } from './services/adminServices/AdminVillage/village-master-service.service';
 
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
 
@@ -174,7 +176,8 @@ import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-ma
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
     EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
     EditHospitalModal,
-    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent
+    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory, HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
+    VillageMasterComponent
 
   ],
 
@@ -249,7 +252,7 @@ import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-ma
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
      InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
-     InstituteSubDirectoryMasterService,HospitalInstituteMappingService
+     InstituteSubDirectoryMasterService,HospitalInstituteMappingService,VillageMasterService
   ],
 
   entryComponents: [
