@@ -25,6 +25,8 @@ export class AgentListCreationComponent implements OnInit {
 	campaignNames:any=[];
 	resultArray:any=[];
 
+	disableButtonFlag:boolean=true;
+
 	constructor(public AgentListCreationService:AgentListCreationService,
 	            public commonDataService:dataService,
 	            public alertService:ConfirmationDialogsService) {
@@ -107,6 +109,29 @@ export class AgentListCreationComponent implements OnInit {
 
 		console.log("Result from 1",this.resultArray);
 
+		
+		if(this.resultArray.length>0)
+		{
+			let tick=0;
+			for(let z=0;z<this.resultArray.length;z++)
+			{
+				if(this.resultArray[z].agentID.toString()[0]==="2"||
+				   this.resultArray[z].agentID.toString()[0]==="3"||
+				   this.resultArray[z].agentID.toString()[0]==="4")
+				{
+					console.log(this.resultArray[z].agentID.toString()[0]);
+					tick=tick+1;
+				}
+			}
+
+			if(tick>0)
+			{
+				
+				return "GO";
+			}
+			
+		}
+
 	}
 
 	validate_two(agentID)
@@ -116,10 +141,16 @@ export class AgentListCreationComponent implements OnInit {
 		var items=agentID.split(",");
 		for(let i=0;i<items.length;i++)
 		{
+
 			// let obj=
 			// {
 			// 	"agentID":parseInt(items[i])
 			// }
+
+			if(items[i].length===0){
+				continue;
+			}
+
 			var obj={
 				"agentID":parseInt(items[i]),
 				"agentPassword":this.password,
@@ -152,6 +183,27 @@ export class AgentListCreationComponent implements OnInit {
 			
 		}
 		console.log("Result from 2",this.resultArray);
+		
+		if(this.resultArray.length>0)
+		{
+			let tick=0;
+			for(let z=0;z<this.resultArray.length;z++)
+			{
+				if(this.resultArray[z].agentID.toString()[0]==="2"||
+				   this.resultArray[z].agentID.toString()[0]==="3"||
+				   this.resultArray[z].agentID.toString()[0]==="4")
+				{
+					console.log(this.resultArray[z].agentID.toString()[0]);
+					tick=tick+1;
+				}
+			}
+
+			if(tick>0)
+			{
+				
+				return "GO";
+			}
+		}
 	}
 
 	validate_three(agentID)
@@ -159,7 +211,7 @@ export class AgentListCreationComponent implements OnInit {
 		this.resultArray=[];
 
 		var hyphen_items=agentID.split("-");
-		if(hyphen_items.length==2)
+		if(hyphen_items.length==2 && hyphen_items[0].length>0 && hyphen_items[1].length> 0 && parseInt(hyphen_items[1])>parseInt(hyphen_items[0]))
 		{
 			var no_of_items=(parseInt(hyphen_items[1])-parseInt(hyphen_items[0]))+1;
 			for(let j=0;j<no_of_items;j++)
@@ -200,27 +252,57 @@ export class AgentListCreationComponent implements OnInit {
 			}
 		}
 
+		if(this.resultArray.length>0)
+		{
+			let tick=0;
+			for(let z=0;z<this.resultArray.length;z++)
+			{
+				if(this.resultArray[z].agentID.toString()[0]==="2"||
+				   this.resultArray[z].agentID.toString()[0]==="3"||
+				   this.resultArray[z].agentID.toString()[0]==="4")
+				{
+					console.log(this.resultArray[z].agentID.toString()[0]);
+					tick=tick+1;
+				}
+			}
+
+			if(tick>0)
+			{
+				return "GO";
+			}
+		}
+		
+
 		console.log("Result from 3",this.resultArray);
 	}
 
 
 	map(choice)
 	{
+		var result="";
 		if(choice==="1")
 		{
-			this.validate_one(this.agent_ID);
+			result=this.validate_one(this.agent_ID);
 		}
 		if(choice==="2")
 		{
-			this.validate_two(this.agent_ID);
+			result=this.validate_two(this.agent_ID);
 		}
 		if(choice==="3")
 		{
-			this.validate_three(this.agent_ID);
+			result=this.validate_three(this.agent_ID);
 		}
 
-		this.AgentListCreationService.saveAgentListMapping(this.resultArray)
+		if(result==="GO")
+		{
+			this.AgentListCreationService.saveAgentListMapping(this.resultArray)
 		.subscribe(response=>this.saveSuccessHandeler(response));
+		}
+		else
+		{
+			this.alertService.alert("INVALID ENTRY IN AGENT ID");
+		}
+		
 	}
 
 	saveSuccessHandeler(response)

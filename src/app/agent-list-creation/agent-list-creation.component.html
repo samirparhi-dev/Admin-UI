@@ -34,7 +34,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" *ngIf="radio_option==='1'">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Agent ID" [(ngModel)]="agent_ID" name="agent_ID" myMobileNumber  required>
+        <input mdInput placeholder="Agent ID" [(ngModel)]="agent_ID" name="agent_ID" myMobileNumber minlength="4" maxlength="6"  required>
         <md-hint>Eg. 2001</md-hint>
       </md-input-container>
     </div>
@@ -54,7 +54,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
-        <input mdInput type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="3" maxlength="30" required>
+        <input mdInput type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="3" maxlength="30" required myMobileNumber>
 
       </md-input-container>
     </div>
