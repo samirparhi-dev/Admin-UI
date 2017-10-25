@@ -209,6 +209,7 @@
             <th>Provider Name</th>
             <th>State</th>
             <th>Service Line</th>
+            <th>Campaign</th>
             <th>Status</th>
             <!-- <th>Actions</th> -->
           </tr>
@@ -216,9 +217,9 @@
         <tbody>
           <tr *ngFor="let i of md2.data">
             <!-- <td>{{i.providerServiceMapID}}</td> -->
-            <td width=25%>{{i.serviceProviderName}}</td>
-            <td width=25%>{{i.stateName}}</td>
-            <td width=25%>{{i.serviceName}}</td>
+            <td width=20%>{{i.serviceProviderName}}</td>
+            <td width=20%>{{i.stateName}}</td>
+            <td width=20%>{{i.serviceName}}</td>
             <!-- <td>
                 <div class="circle10x10 bg-color-red border-radius-50"></div>
                  <div class="circle10x10 bg-color-orange border-radius-50"></div>
@@ -228,7 +229,8 @@
             <!--  <td>
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">block</md-icon>
               </td> -->
-            <td width=25%>{{i.status}}</td>
+            <td width=20%>{{i.cTI_CampaignName}}</td>
+            <td width=20%>{{i.status}}</td>
           </tr>
         </tbody>
         <tfoot>
