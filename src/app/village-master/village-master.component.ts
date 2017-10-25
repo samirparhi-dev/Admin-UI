@@ -198,7 +198,6 @@ export class VillageMasterComponent implements OnInit {
     }
 
     updateVillageData(village) {
-        debugger;
         this.dataObj = {};
         this.dataObj.districtBranchID = village.districtBranchID;
         if(village.blockID!=undefined){
