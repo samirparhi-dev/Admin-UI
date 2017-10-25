@@ -159,6 +159,10 @@ import { ProvideCtiMappingComponent } from './provide-cti-mapping/provide-cti-ma
 import { AgentListCreationComponent } from './agent-list-creation/agent-list-creation.component';
 import { AgentListCreationService } from './services/ProviderAdminServices/agent-list-creation-service.service';
 
+import { InstituteTypeMasterComponent } from './institute-type-master/institute-type-master.component';
+import { InstituteTypeMasterService } from './services/ProviderAdminServices/institute-type-master-service.service';
+import { EditInstituteType } from './institute-type-master/institute-type-master.component';
+
 
 @NgModule({
   declarations: [
@@ -186,7 +190,7 @@ import { AgentListCreationService } from './services/ProviderAdminServices/agent
     EditHospitalModal,
     InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
-    AgentListCreationComponent,VillageMasterComponent
+    AgentListCreationComponent,VillageMasterComponent, InstituteTypeMasterComponent,EditInstituteType
 
   ],
 
@@ -262,7 +266,7 @@ import { AgentListCreationService } from './services/ProviderAdminServices/agent
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
      InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
      InstituteSubDirectoryMasterService,HospitalInstituteMappingService,
-     AgentListCreationService,VillageMasterService
+     AgentListCreationService,VillageMasterService,InstituteTypeMasterService
 
   ],
 
@@ -279,7 +283,8 @@ import { AgentListCreationService } from './services/ProviderAdminServices/agent
     EditCategorySubcategoryComponent,
     EditInstituteDirectory,
     EditHospitalModal,
-    EditInstituteSubDirectory
+    EditInstituteSubDirectory,
+    EditInstituteType
   ],
 
   bootstrap: [AppComponent]

@@ -84,7 +84,7 @@
     <form #institutionForm="ngForm">
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
         <md-input-container style="width: 100%">
-          <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100" required #validInstitutionName="ngModel">
+          <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100" required #validInstitutionName="ngModel" myName2>
           <md-hint *ngIf="validInstitutionName.touched">
             <span class="errorText" [hidden]="!validInstitutionName.errors">Enter atleast 3 characters</span>
           </md-hint>
