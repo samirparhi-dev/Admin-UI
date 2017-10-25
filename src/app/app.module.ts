@@ -163,6 +163,10 @@ import { InstituteTypeMasterComponent } from './institute-type-master/institute-
 import { InstituteTypeMasterService } from './services/ProviderAdminServices/institute-type-master-service.service';
 import { EditInstituteType } from './institute-type-master/institute-type-master.component';
 
+import { UserRoleAgentIDMappingComponent } from './user-role-agent-id-mapping/user-role-agent-id-mapping.component';
+import { UserRoleAgentID_MappingService } from './services/ProviderAdminServices/user-role-agentID-mapping-service.service';
+import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agent-id-mapping.component';
+
 
 @NgModule({
   declarations: [
@@ -190,7 +194,8 @@ import { EditInstituteType } from './institute-type-master/institute-type-master
     EditHospitalModal,
     InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
-    AgentListCreationComponent,VillageMasterComponent, InstituteTypeMasterComponent,EditInstituteType
+    AgentListCreationComponent,VillageMasterComponent, InstituteTypeMasterComponent,EditInstituteType,
+    UserRoleAgentIDMappingComponent,AgentIDMappingModal
 
   ],
 
@@ -266,7 +271,8 @@ import { EditInstituteType } from './institute-type-master/institute-type-master
      VanServicePointMappingService, EmployeeParkingPlaceMappingService,
      InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
      InstituteSubDirectoryMasterService,HospitalInstituteMappingService,
-     AgentListCreationService,VillageMasterService,InstituteTypeMasterService
+     AgentListCreationService,VillageMasterService,InstituteTypeMasterService,
+     UserRoleAgentID_MappingService
 
   ],
 
@@ -284,7 +290,8 @@ import { EditInstituteType } from './institute-type-master/institute-type-master
     EditInstituteDirectory,
     EditHospitalModal,
     EditInstituteSubDirectory,
-    EditInstituteType
+    EditInstituteType,
+    AgentIDMappingModal
   ],
 
   bootstrap: [AppComponent]

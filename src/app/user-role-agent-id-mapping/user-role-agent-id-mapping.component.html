@@ -1,0 +1,70 @@
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">User-Role AgentID Mapping</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 m-t-15">
+      <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
+        <md-option *ngFor="let item of states" value="{{item.stateID}}">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 m-t-15">
+      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getRoles(state,service)" required>
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" >
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 m-t-15">
+      <md-select placeholder="Role" [style.width]="'100%'" [(ngModel)]="role" name="role" (change)="searchEmployee(state,service,role,undefined,undefined)" required>
+        <md-option *ngFor="let item of roles" value="{{item.roleID}}">
+          {{item.roleName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 m-t-15" *ngIf="showTableFlag">
+      <button class="pull-right" md-raised-button color="primary">Clear
+      </button>
+    </div>
+  </div>
+  <div class="row" *ngIf="showTableFlag">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20 table-responsive">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th md2SortBy="state">State</th>
+            <th md2SortBy="service">Service</th>
+            <th md2SortBy="role">Role</th>
+            <th md2SortBy="empName">Employee Name</th>
+            <th md2SortBy="empID">Employee ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of md2.data">
+            <td>{{item.pSMStateName}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.roleName}}</td>
+            <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
+            <td>{{item.userID}}</td>
+            <td>
+              <!-- <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
+              <md-icon mdTooltip="delete" *ngIf="!item.deleted"  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.uSRMappingID)">delete</md-icon> -->
+              <button md-raised-button color="primary" (click)="openMappingModal(item)">Map AgentID
+      </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</md-card>
