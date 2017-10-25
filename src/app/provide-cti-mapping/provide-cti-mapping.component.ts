@@ -52,9 +52,10 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.services_array = response;
   }
   addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
+    debugger;
     let campignObj = {};
     campignObj['providerName'] = serviceProvider.serviceProviderName;
-    campignObj['providerServiceMapID'] = serviceProvider.serviceProviderId;
+    campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
     campignObj['cTI_CampaignName'] = campaign.campaign_name;
     campignObj['Service'] = serviceline.serviceName;
     campignObj['ServiceId'] = serviceline.serviceID;
@@ -85,7 +86,7 @@ export class ProvideCtiMappingComponent implements OnInit {
       }
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
-      if (res === 'mappedSuccessFully') {
+      if (res.response === 'mappedSuccessFully') {
         this.message.alert('Successfully Added');
       }
     }, (err) => {
