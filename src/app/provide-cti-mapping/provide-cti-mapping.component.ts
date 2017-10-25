@@ -86,9 +86,12 @@ export class ProvideCtiMappingComponent implements OnInit {
       }
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
-      if (res.response === 'mappedSuccessFully') {
-        this.message.alert('Successfully Added');
-      }
+      this.message.alert(res.response);
+      // if (res.response === 'mappedSuccessFully') {
+      //   this.message.alert('Successfully Added');
+      // } else {
+
+      // }
     }, (err) => {
 
     })
