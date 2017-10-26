@@ -277,6 +277,12 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     }
   }
 
+  reset()
+  {
+    this.districts_permanent=[];
+    this.districts_current=[];
+  }
+
   MOVE2NEXT(value) {
     this.index = value;
 

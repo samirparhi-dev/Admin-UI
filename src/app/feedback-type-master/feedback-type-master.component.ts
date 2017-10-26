@@ -45,6 +45,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     this.FeedbackTypeService.getServiceLines(this.serviceProviderID,state)
     .subscribe((response)=>{
       console.log("services",response);
+      this.search_serviceline="";
       this.servicelines = response;
     })
   }
@@ -126,7 +127,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     console.log("searchArray",this.searchFeedbackArray);
     let count = 0;
     for(var i=0; i< this.searchFeedbackArray.length;i++){
-      if(feedback.toUpperCase()===this.searchFeedbackArray[i].feedbackTypeName.toUpperCase()){
+      if(feedback.toUpperCase()==this.searchFeedbackArray[i].feedbackTypeName.toUpperCase()){
         // console.log("gotcha",feedback,"exists");
         count++;
       }
@@ -136,6 +137,10 @@ export class FeedbackTypeMasterComponent implements OnInit {
       // console.log("error found");
       this.feedbackExists = true;
     }
+
+
+
+    
   }
 
   saveFeedback(){
@@ -169,8 +174,57 @@ export class FeedbackTypeMasterComponent implements OnInit {
       "feedbackDesc": desc
     }
     console.log(tempObj);
-    this.objs.push(tempObj);
-    this.validateFeedback(name);
+    if(this.objs.length==0)
+    {
+      var count=0;
+       for(let i=0;i<this.feedbackTypes.length;i++)
+      {
+        if(this.feedbackTypes[i].feedbackTypeName===tempObj.feedbackTypeName)
+        {
+          count=count+1;
+        }
+      }
+
+      if(count==0)
+      {
+        this.objs.push(tempObj);
+      }
+      else
+      {
+        this.alertService.alert("Already Exists");
+      }
+    }
+    else
+    {
+      var count=0;
+      for(let i=0;i<this.objs.length;i++)
+      {
+        console.log(this.feedbackTypes[i].feedbackTypeName,tempObj.feedbackTypeName);
+        if(this.objs[i].feedbackTypeName===tempObj.feedbackTypeName)
+        {
+          count=count+1;
+        }
+      }
+
+       for(let i=0;i<this.feedbackTypes.length;i++)
+      {
+        if(this.feedbackTypes[i].feedbackTypeName===tempObj.feedbackTypeName)
+        {
+          count=count+1;
+        }
+      }
+
+      if(count==0)
+      {
+        this.objs.push(tempObj);
+      }
+      else
+      {
+        this.alertService.alert("Already Exists");
+      }
+    }
+    
+    // this.validateFeedback(name);
   }
 
   remove_obj(index){

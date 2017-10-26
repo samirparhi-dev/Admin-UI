@@ -265,7 +265,7 @@
                   <md-checkbox color="primary" [disabled]="!addressForm.valid" (change)="addressCheck($event)" #myCheckBox>Is the Current Address of Employee, same as the Permanent Address?</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
-                  <button md-raised-button (click)="addressForm.reset();myCheckBox.checked=false;disable_currentAddress_flag=false">Clear</button>
+                  <button md-raised-button (click)="addressForm.reset();myCheckBox.checked=false;disable_currentAddress_flag=false;reset()">Clear</button>
                   <button md-raised-button color="primary" [disabled]="city.errors || states.errors || address.errors" (click)="MOVE2NEXT(4)">Save and Next</button>
                 </div>
 

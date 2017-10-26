@@ -214,7 +214,8 @@ export class AgentIDMappingModal {
 		let req_array=[{
 			"uSRMappingID" : this.data.uSRMappingID,
 			"agentID" : agentID,
-			"agentPassword":this.agentPassword
+			"agentPassword":this.agentPassword,
+			
 		}];
 
 		this.UserRoleAgentID_MappingService.mapAgentID(req_array)
