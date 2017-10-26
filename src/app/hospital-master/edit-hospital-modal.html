@@ -2,7 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Edit Institution</h4>
   </div>
-  <form #editForm="ngForm">
+  <form #editForm1="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100" required #validInstitutionName="ngModel">
@@ -16,13 +16,15 @@
         <input mdInput placeholder="Address" maxlength="300" [(ngModel)]="address" name="address" required>
       </md-input-container>
     </div>
+  </form>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
-        <input mdInput [pattern]="website_expression" placeholder="Website" [(ngModel)]="website" name="website" required #valid_website="ngModel">
+        <input mdInput [pattern]="website_expression" placeholder="Website" [(ngModel)]="website" name="website" #valid_website="ngModel">
         <md-hint class="errorText" [hidden]="!valid_website.hasError('pattern')">Enter valid Website
         </md-hint>
       </md-input-container>
     </div>
+    <form #editForm2="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" #valid_contactname="ngModel" required>
@@ -37,15 +39,65 @@
         </md-hint>
       </md-input-container>
     </div>
+  </form>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
-        <input mdInput type="email" placeholder="EmailID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression" #validEmail="ngModel" required>
+        <input mdInput type="email" placeholder="EmailID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression" #validEmail="ngModel">
         <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid EmailID
         </md-hint>
       </md-input-container>
     </div>
-  </form>
+
+    <form #form2="ngForm">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Secondary Contact Person" [(ngModel)]="secondary_contact_person_name" [disabled]="!editForm2.valid" name="secondary_contact_person_name" minlength="2" maxlength="50" #valid_contactname1="ngModel" >
+          <!-- <md-hint class="errorText" *ngIf="valid_contactname1.errors && valid_contactname1.touched">Enter atleast 2 characters
+          </md-hint> -->
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myMobileNumber>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Secondary Contact Number" minlength="10" maxlength="10" [(ngModel)]="secondary_contact_number" [disabled]="!editForm2.valid" name="secondary_contact_number" #validMobileNumber1="ngModel" >
+          <!-- <md-hint class="errorText" *ngIf="validMobileNumber1.errors && validMobileNumber1.touched">Enter 10 digit mobile number
+          </md-hint> -->
+        </md-input-container>
+      </div>
+    </form>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput type="email" placeholder="Secondary EmailID" [(ngModel)]="secondary_emailID" [disabled]="!editForm2.valid" name="secondary_emailID" [pattern]="email_expression" #validEmail1="ngModel">
+          <!-- <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Enter valid EmailID
+          </md-hint> -->
+        </md-input-container>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Tertiary Contact Person" [(ngModel)]="tertiary_contact_person_name" [disabled]="!form2.valid" name="tertiary_contact_person_name" minlength="2" maxlength="50" #valid_contactname2="ngModel" >
+          <!-- <md-hint class="errorText" *ngIf="valid_contactname2.errors && valid_contactname2.touched">Enter atleast 2 characters
+          </md-hint> -->
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" myMobileNumber>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Tertiary Contact Number" minlength="10" maxlength="10" [(ngModel)]="tertiary_contact_number" [disabled]="!form2.valid" name="tertiary_contact_number" #validMobileNumber2="ngModel" >
+          <!-- <md-hint class="errorText" *ngIf="validMobileNumber2.errors && validMobileNumber2.touched">Enter 10 digit mobile number
+          </md-hint> -->
+        </md-input-container>
+      </div>
+    
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-input-container style="width: 100%">
+          <input mdInput type="email" placeholder="Tertiary EmailID" [(ngModel)]="tertiary_emailID" [disabled]="!form2.valid" name="tertiary_emailID" [pattern]="email_expression" #validEmail2="ngModel">
+          <!-- <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Enter valid EmailID
+          </md-hint> -->
+        </md-input-container>
+      </div>
+
+
+  
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
-    <button md-raised-button color="primary" [disabled]="!editForm.valid" (click)="update(editForm.value)">Update</button>
+    <button md-raised-button color="primary" [disabled]="!editForm1.valid ||!editForm2.valid" (click)="update()">Update</button>
   </div>
 </div>

@@ -23,9 +23,18 @@ export class HospitalMasterComponent implements OnInit {
     institutionName:any;
     address:any;
     website:any;
+
     contact_person_name:any;
     contact_number:any;
     emailID:any;
+
+    secondary_contact_person_name:any;
+    secondary_contact_number:any;
+    secondary_emailID:any;
+
+    tertiary_contact_person_name:any;
+    tertiary_contact_number:any;
+    tertiary_emailID:any;
 
     /*arrays*/
     states:any=[];
@@ -85,9 +94,18 @@ export class HospitalMasterComponent implements OnInit {
         this.institutionName="";
         this.address="";
         this.website="";
+
         this.contact_person_name="";
         this.contact_number="";
         this.emailID="";
+
+        this.secondary_contact_person_name="";
+        this.secondary_contact_number="";
+        this.secondary_emailID="";
+
+        this.tertiary_contact_person_name="";
+        this.tertiary_contact_number="";
+        this.tertiary_emailID="";
 
     }
 
@@ -233,21 +251,21 @@ export class HospitalMasterComponent implements OnInit {
         let request_Array=[];
         let request_obj={
 
-            "institutionName": value_object.institutionName,
+            "institutionName": this.institutionName,
             "stateID": this.state,
             "districtID":this.district,
             "blockID": this.taluk,
-            "address": value_object.address,
-            "contactPerson1": value_object.contact_person_name,
-            "contactPerson1_Email": value_object.emailID,
-            "contactNo1": value_object.contact_number,
-            "contactPerson2": "",
-            "contactPerson2_Email": "",
-            "contactNo2": "",
-            "contactPerson3": "",
-            "contactPerson3_Email": "",
-            "contactNo3": "",
-            "website": value_object.website,
+            "address": this.address,
+            "contactPerson1": this.contact_person_name,
+            "contactPerson1_Email": this.emailID,
+            "contactNo1": this.contact_number,
+            "contactPerson2": this.secondary_contact_person_name,
+            "contactPerson2_Email": this.secondary_emailID,
+            "contactNo2": this.secondary_contact_number,
+            "contactPerson3": this.tertiary_contact_person_name,
+            "contactPerson3_Email": this.tertiary_emailID,
+            "contactNo3": this.tertiary_contact_number,
+            "website": this.website,
             "providerServiceMapID": this.providerServiceMapID,
             "createdBy": this.commonDataService.uname
 
@@ -273,18 +291,18 @@ export class HospitalMasterComponent implements OnInit {
     openEditModal(toBeEditedObject)
     {
         let dialog_Ref = this.dialog.open(EditHospitalModal, {
-            height: '400px',
+            height: '500px',
             width: '700px',
             data: toBeEditedObject
         });
 
         dialog_Ref.afterClosed().subscribe(result => {
-             console.log(`Dialog result: ${result}`);
-             if (result === "success") {
-                     this.getInstitutions();
-                 }
+         console.log(`Dialog result: ${result}`);
+         if (result === "success") {
+             this.getInstitutions();
+         }
 
-                });
+     });
     }
 
 }
@@ -299,9 +317,18 @@ export class EditHospitalModal {
     institutionName:any;
     address:any;
     website:any;
+    
     contact_person_name:any;
     contact_number:any;
     emailID:any;
+
+    secondary_contact_person_name:any;
+    secondary_contact_number:any;
+    secondary_emailID:any;
+
+    tertiary_contact_person_name:any;
+    tertiary_contact_number:any;
+    tertiary_emailID:any;
 
     /*regEx*/
     website_expression:any=/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
@@ -319,33 +346,42 @@ export class EditHospitalModal {
         this.institutionName=this.data.institutionName;
         this.address=this.data.address;
         this.website=this.data.website;
+        
         this.contact_person_name=this.data.contactPerson1;
         this.contact_number=this.data.contactNo1;
         this.emailID=this.data.contactPerson1_Email;
+
+        this.secondary_contact_person_name=this.data.contactPerson2;
+        this.secondary_contact_number=this.data.contactNo2;
+        this.secondary_emailID=this.data.contactPerson2_Email;
+
+        this.tertiary_contact_person_name=this.data.contactPerson3;
+        this.tertiary_contact_number=this.data.contactNo3;
+        this.tertiary_emailID=this.data.contactPerson3_Email;
     }
 
     update(editedData)
     {
         console.log(editedData,"editedData");
         let edit_request_obj={
-                "institutionID" : this.data.institutionID,
-                "institutionName" : editedData.institutionName,
-                "address" :editedData.address,
-                "contactPerson1" : editedData.contact_person_name,
-                "contactPerson1_Email" : editedData.emailID,
-                "contactNo1" : editedData.contact_number,
-                "contactPerson2" : this.data.contactPerson2,
-                "contactPerson2_Email" : this.data.contactPerson2_Email,
-                "contactNo2" : this.data.contactNo2,
-                "contactPerson3" : this.data.contactPerson3,
-                "contactPerson3_Email" :this.data.contactPerson3_Email,
-                "contactNo3" : this.data.contactNo3,
-                "website" : editedData.website,
-                "providerServiceMapID":this.data.providerServiceMapID,
-                "modifiedBy" : this.commonDataService.uname
-                }
+            "institutionID" : this.data.institutionID,
+            "institutionName" : this.institutionName,
+            "address" :this.address,
+            "contactPerson1" : this.contact_person_name,
+            "contactPerson1_Email" : this.emailID,
+            "contactNo1" : this.contact_number,
+            "contactPerson2" : this.secondary_contact_person_name,
+            "contactPerson2_Email" : this.secondary_emailID,
+            "contactNo2" : this.secondary_contact_number,
+            "contactPerson3" : this.tertiary_contact_person_name,
+            "contactPerson3_Email" :this.tertiary_emailID,
+            "contactNo3" : this.tertiary_contact_number,
+            "website" : this.website,
+            "providerServiceMapID":this.data.providerServiceMapID,
+            "modifiedBy" : this.commonDataService.uname
+        }
 
-         this.HospitalMasterService.editInstitution(edit_request_obj).subscribe(response=>this.editInstitutionSuccessHandeler(response));
+        this.HospitalMasterService.editInstitution(edit_request_obj).subscribe(response=>this.editInstitutionSuccessHandeler(response));
     }
 
 
