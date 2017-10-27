@@ -22,10 +22,13 @@ export class LocationServicelineMappingComponent implements OnInit {
   office_address2:any;
   OfficeID:any;
 
-  providerServiceMapIDs: any;
+  providerServiceMapIDs: any=[];
 
   serviceProviderID: any;
   providerServiceMapID: any;
+
+  PSMID_searchService:any;
+  service_ID:any;
 
   search_state:any;
   search_serviceline:any;
@@ -79,6 +82,14 @@ export class LocationServicelineMappingComponent implements OnInit {
     else {
       // this.showTable = !flag_val;
       this.showForm = !flag_val;
+      this.state=this.search_state;
+      this.getDistricts(this.serviceProviderID,this.state);
+
+      this.providerServiceMapIDs=[];
+      if(this.PSMID_searchService!=null && this.PSMID_searchService!=undefined && this.PSMID_searchService!="")
+      {
+        this.providerServiceMapIDs.push(this.PSMID_searchService);
+      }
     }
 
   }
@@ -96,6 +107,16 @@ export class LocationServicelineMappingComponent implements OnInit {
   //   this.search_state="";
   //   this.search_serviceline="";
   // }
+
+  setPSMID(psmID)
+  {
+    this.PSMID_searchService=psmID;
+  }
+
+  setSL(serviceID)
+  {
+    this.service_ID=serviceID;
+  }
 
   getDistricts(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getDistricts(serviceProviderID, stateID)
@@ -250,6 +271,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.servicelines = response;
     if(response.length>0)
     {
+      this.providerServiceMapIDs=[];
       this.providerServiceMapID = response[0].providerServiceMapID;
     }
     
@@ -262,7 +284,11 @@ export class LocationServicelineMappingComponent implements OnInit {
     // this.showTable = false;
     this.showForm = false;
   //  this.resetFields();
+  this.search_state=this.state;
+  // this.search_serviceline=this.service_ID; we can use this also if we want to find for specific
+  this.search_serviceline="";
     jQuery('#locationForm').trigger("reset");
+
     this.findLocations();
   }
 
@@ -278,6 +304,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.showTable = false;
     this.workLocations = [];
     this.servicelines = [];
+    this.PSMID_searchService="";
 
   }
   servicelineSelected(obj) {

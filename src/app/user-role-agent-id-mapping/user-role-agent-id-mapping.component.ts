@@ -142,6 +142,7 @@ export class AgentIDMappingModal {
 	/*ngModels*/
 	providerServiceMapID:any;
 	agentPassword:any;
+	usrAgentMappingID:any;
 
 	employeeName:any;
 	service:any;
@@ -149,6 +150,7 @@ export class AgentIDMappingModal {
 
 	campaign:any;
 	agentID:any;
+	oldAgentID:any;
 
 	campaigns:any=[];
 	agentIDs:any=[];
@@ -166,6 +168,8 @@ export class AgentIDMappingModal {
 		this.employeeName=this.data.firstName+" "+this.data.middleName+" "+this.data.lastName;
 		this.service=this.data.serviceName;
 		this.role=this.data.roleName;
+
+		this.oldAgentID=this.data.agentID;
 
 		this.providerServiceMapID=this.data.providerServiceMapID;
 
@@ -203,9 +207,10 @@ export class AgentIDMappingModal {
 		}
 	}
 
-	setAgentPassword(agentPassword)
+	setAgentPassword_usrAgentMappingID(agentPassword,usrAgentMappingID)
 	{
 		this.agentPassword=agentPassword;
+		this.usrAgentMappingID=usrAgentMappingID;
 	}
 
 
@@ -215,7 +220,11 @@ export class AgentIDMappingModal {
 			"uSRMappingID" : this.data.uSRMappingID,
 			"agentID" : agentID,
 			"agentPassword":this.agentPassword,
-			
+			"usrAgentMappingID":this.usrAgentMappingID,
+			"isAvailable":"false",
+			"oldAgentID" : this.oldAgentID,
+			"providerServiceMapID":this.providerServiceMapID
+
 		}];
 
 		this.UserRoleAgentID_MappingService.mapAgentID(req_array)

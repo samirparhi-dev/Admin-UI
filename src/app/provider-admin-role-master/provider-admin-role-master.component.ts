@@ -12,6 +12,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     role: any;
     description: any;
     feature: any;
+    screen_name:any;
 
     serviceProviderID: any;
     provider_service_mapID: any = 11;  // has to be dynamic, as of now hardcoded
@@ -236,6 +237,12 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     }
 
+
+    setFeatureName(screen_name)
+    {
+        this.screen_name=screen_name;
+    }
+
     add_obj(role, desc, feature) {
         var result = this.validateRole(role);
         if (result) {
@@ -245,6 +252,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     'roleName': role,
                     'roleDesc': desc,
                     'screenID': feature,
+                    'screen_name':this.screen_name,
                     'createdBy': this.commonDataService.uname,
                     'createdDate': '2017-07-28',
                     'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!

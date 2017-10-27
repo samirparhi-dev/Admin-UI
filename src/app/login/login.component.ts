@@ -80,18 +80,23 @@ export class loginContentClass {
 		console.log(error);
 	};
 
-	encryptionFlag: boolean = true;
+	// encryptionFlag: boolean = true;
 	dynamictype: any = 'password';
 	toggleAnswerVisibilty() {
 		console.log('chala toggle');
-		this.encryptionFlag = !this.encryptionFlag;
-		if (this.encryptionFlag === true) {
-			this.dynamictype = 'password';
-		}
-		if (this.encryptionFlag === false) {
+		// this.encryptionFlag = !this.encryptionFlag;
+		// if (this.encryptionFlag === true) {
+		// 	this.dynamictype = 'password';
+		// }
+		// if (this.encryptionFlag === false) {
 			this.dynamictype = 'text';
 
-		}
+		// }
+	}
+
+	hidePWD()
+	{
+		this.dynamictype = 'password';
 	}
 
 

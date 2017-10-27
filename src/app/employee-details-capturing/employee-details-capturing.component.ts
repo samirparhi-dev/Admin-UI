@@ -74,7 +74,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   currentState: any;
   currentDistrict: any;
   currentPincode: any;
-  emailPattern: any;
+  email_expression: any;
   isPermanent: any;
 
   allStates: any = [];
@@ -136,7 +136,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID)
       .subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
     this.EmployeeMasterService.getQualifications().subscribe(response => this.getQualificationsHandeler(response));
-    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    // this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.email_expression=/^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
+
     this.data = [];
     this.previleges = [];
     this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));

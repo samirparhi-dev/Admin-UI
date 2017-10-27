@@ -34,11 +34,12 @@
       <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table" [rowsPerPage]="3">
         <thead>
           <tr>
-            <th md2SortBy="state">State</th>
-            <th md2SortBy="service">Service</th>
-            <th md2SortBy="role">Role</th>
-            <th md2SortBy="empName">Employee Name</th>
-            <th md2SortBy="empID">Employee ID</th>
+            <th>State</th>
+            <th>Service</th>
+            <th>Role</th>
+            <th>Employee Name</th>
+            <th>Employee ID</th>
+            <th>Agent ID</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -49,6 +50,7 @@
             <td>{{item.roleName}}</td>
             <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
             <td>{{item.userID}}</td>
+            <td>{{item.agentID}}</td>
             <td>
               <!-- <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
               <md-icon mdTooltip="delete" *ngIf="!item.deleted"  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.uSRMappingID)">delete</md-icon> -->

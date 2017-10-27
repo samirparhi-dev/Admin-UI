@@ -27,7 +27,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
       <md-select placeholder="Available AgentIDs" [style.width]="'100%'" [(ngModel)]="agentID" name="agentID" required>
-        <md-option *ngFor="let item of agentIDs" value="{{item.agentID}}" (click)="setAgentPassword(item.agentPassword)">
+        <md-option *ngFor="let item of agentIDs" value="{{item.agentID}}" (click)="setAgentPassword_usrAgentMappingID(item.agentPassword,item.usrAgentMappingID)">
           {{item.agentID}}
         </md-option>
       </md-select>
