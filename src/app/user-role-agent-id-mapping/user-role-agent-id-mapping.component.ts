@@ -39,6 +39,20 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
 
 	}
 
+	clear()
+	{
+		this.state="";
+		this.service="";
+		this.role="";
+
+		
+		this.services=[];
+		this.roles=[];
+
+		this.searchResultArray=[];
+		this.showTableFlag=false;
+	}
+
 	getStatesSuccessHandeler(response)
 	{
 		console.log("STATE",response);
