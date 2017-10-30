@@ -27,8 +27,8 @@
       <div class="row">
         <form #demographicsForm="ngForm" id="demographicForm" autocomplete="off">
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-            <md-select class="p-t-14" placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
-              <md-option *ngFor="let item of allTitles" value="{{item.titleID}}">
+            <md-select class="p-t-14" placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title" required>
+              <md-option *ngFor="let item of allTitles" [value]="item.titleID" (click)="setGenderOnCondition(item.titleID)">
                 {{item.titleName}}
               </md-option>
             </md-select>
@@ -56,7 +56,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
             <md-select class="p-t-14" placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="gender" required>
-              <md-option *ngFor="let item of allGenders" value="{{item.genderID}}">
+              <md-option *ngFor="let item of allGenders" [value]="item.genderID">
                 {{item.genderName}}
               </md-option>
             </md-select>
@@ -490,16 +490,16 @@
         </div> -->
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
             <md-input-container style="width: 100% " myMobileNumber>
-              <input mdInput placeholder="Aadhaar Card Number" maxlength="12" [(ngModel)]="adhaar_no" name="adhaar_no ">
+              <input mdInput placeholder="Aadhaar Card Number" maxlength="12" [(ngModel)]="adhaar_no" name="adhaar_no" (keyup)="checkAdhaar(adhaar_no)">
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
             <md-input-container style="width: 100% ">
-              <input mdInput placeholder="PAN Card Number" [(ngModel)]="pan_no" name="pan_no ">
+              <input mdInput placeholder="PAN Card Number" maxlength="12" [(ngModel)]="pan_no" name="pan_no" (keyup)="checkPan(pan_no)">
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            <button md-raised-button class="pull-right" (click)="MOVE2NEXT(6)">Save and Next</button>
+            <button md-raised-button [disabled]="duplicateCheckFlag" class="pull-right" (click)="MOVE2NEXT(6)">Save and Next</button>
           </div>
         </form>
       </div>

@@ -85,9 +85,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
     this.showHint = false;
     this.username_dependent_flag = true;
+
   }
 
   ngOnInit() {
+
     this.today = new Date();
     this.validFrom = this.today;
     this.validTill = this.today;
@@ -123,6 +125,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
   ngOnChanges() {
     this.setLanguage(this.current_language);
   }
+
+  preventTyping()
+  {
+    return false;
+  }
+  
   requestObject() {
     this.request_object = {
       serviceProviderName: "",

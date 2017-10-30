@@ -1,17 +1,15 @@
 <md-card class="example-card" *ngIf="currentlanguage!=undefined">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [hidden]="!show1">
-      <div class="row">
-        <label class="pull-left">Create Provider - Provider Information</label>
+      <div class="col-xs-12 col-sm-12">
+        <h4 class="pull-left">Create Provider - Provider Information</h4>
       </div>
       <form #service_provider_form="ngForm" autocomplete="off" id="providerForm">
         <!-- <div class="panel-body card "> -->
         <!-- <div class="row"> -->
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-
           <md-input-container class="width100" myProviderName>
-            <input mdInput placeholder="{{currentlanguage.provider_name}}" [(ngModel)]="serviceProviderName" name="provider_name" required="true"
-              minlength="2" maxlength="50" #name="ngModel" (keyup)="checkProviderNameAvailability(serviceProviderName)">
+            <input mdInput placeholder="{{currentlanguage.provider_name}}" [(ngModel)]="serviceProviderName" name="provider_name" required="true" minlength="2" maxlength="50" #name="ngModel" (keyup)="checkProviderNameAvailability(serviceProviderName)">
             <md-hint *ngIf="name.touched">
               <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
               <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
@@ -24,8 +22,7 @@
             <button mdSuffix []="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-          <md2-datepicker class="width100" placeholder="Valid From" [min]="minDate" [(ngModel)]="validFrom" required="true" (change)="validFromD(validFrom)"
-            name="valid_till"></md2-datepicker>
+          <md2-datepicker class="width100" placeholder="Valid From" [min]="minDate" [(ngModel)]="validFrom" required="true" (change)="validFromD(validFrom)" name="valid_from" (keydown)="preventTyping()"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <!-- <md-input-container class="width100">
@@ -33,75 +30,69 @@
             <button mdSuffix []="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-          <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true"
-            name="valid_till"></md2-datepicker>
+          <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true" name="valid_till" (keydown)="preventTyping()"></md2-datepicker>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myProviderName>
-            <input mdInput placeholder="{{currentlanguage.contact_person}}" maxlength="50" name="contact_person" [(ngModel)]="contactPerson">
+            <input mdInput placeholder="{{currentlanguage.contact_person}}" minlength="2" maxlength="50" name="contact_person" #cp="ngModel" [(ngModel)]="contactPerson" required>
+            <md-hint class="errorText" *ngIf="cp.errors && cp.touched">Enter minimum 2 characters
+            </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myMobileNumber>
-            <input mdInput placeholder="{{currentlanguage.contact_number}}" name="contact_number" [(ngModel)]="contactNumber" minlength="10"
-              maxlength="10" required #number="ngModel">
+            <input mdInput placeholder="{{currentlanguage.contact_number}}" name="contact_number" [(ngModel)]="contactNumber" minlength="10" maxlength="10" required #number="ngModel">
             <md-hint class="errorText" *ngIf="number.errors && number.touched">Enter 10 digit mobile number
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100">
-            <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID"
-              #validEmail="ngModel">
+            <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID" #validEmail="ngModel">
             <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address1}}" maxlength="300" name="address1" [(ngModel)]="address1">
+            <input mdInput placeholder="{{currentlanguage.address1}}" maxlength="100" minlength="3" name="address1" [(ngModel)]="address1" required #address="ngModel">
+            <md-hint class="errorText" *ngIf="address.errors && address.touched">Enter minimum 3 characters
+            </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="{{currentlanguage.address2}}" maxlength="300" name="address2" [(ngModel)]="address2">
+            <input mdInput placeholder="{{currentlanguage.address2}}" maxlength="100" name="address2" [(ngModel)]="address2">
           </md-input-container>
         </div>
-
         <!-- </div> -->
         <!-- </div> -->
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-
         <button class="pull-left" color="primary" type="button" name="Save" md-raised-button (click)="clearDetailedForm(); ">Clear</button>
-
         <!-- <button class="pull-right" color="primary" type="button" name="Save" md-raised-button (click)="clearProviderForm(); ">Cancel</button> -->
         <!-- <input type="button" class="pull-right" name="Save" disabled="{{username_dependent_flag}}" md-raised-button (click)="finalSubmit() " value="Save & Create" />
                   <input type="button" md-raised-button name="Save" (click)="show(2,'back')" value="Back" /> -->
-
-        <button color="primary" [disabled]="providerNameExist || !service_provider_form.form.valid || validEmail.hasError('pattern')"
-          class="pull-right" md-raised-button (click)="show(2,'save')">Next</button>
-
+        <button color="primary" [disabled]="providerNameExist || !service_provider_form.form.valid || validEmail.hasError('pattern')" class="pull-right" md-raised-button (click)="show(2,'save')">Next</button>
       </div>
     </div>
     <!-- ############  Service Provider State-Service Screen   ############# -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show2">
       <!-- <div class="panel-body card "> -->
       <!-- <div class="row"> -->
-      <form id="addServiceLines">
-        <div class="row">
-          <label class="pull-left">Create Provider - Serviceline Mapping</label>
+      <form #serviceForm="ngForm" id="addServiceLines">
+        <div class="col-xs-12 col-sm-12">
+          <h4 class="pull-left">Create Provider - Serviceline Mapping</h4>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 m-t-15">
           <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="showService()" required>
             <md-option *ngFor="let item of states" [value]="item">
               {{item.stateName}}
             </md-option>
           </md-select>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" *ngIf="showServiceline">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 m-t-15" *ngIf="showServiceline">
           <md-select [(ngModel)]="service" multiple name="service" placeholder="Servicelines" [style.width]="'100%'" required (change)="selectedService(service)">
-
             <md-option *ngFor="let serviceLine of servicelines" [value]="serviceLine">{{serviceLine.serviceName}}
             </md-option>
           </md-select>
@@ -113,13 +104,12 @@
           </md-select>
         </div> -->
       </form>
-      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 " *ngIf="showAdd">
-        <md-icon mdSuffix class="mat-icon material-icons pull-left m-t-20" role="img" aria-hidden="true" style="cursor: pointer;color: black"
-          (click)="add_2_state_service_array(state,service)">add</md-icon>
+      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 m-t-15" *ngIf="showAdd">
+        <md-icon mdSuffix class="mat-icon material-icons pull-left" role="img" aria-hidden="true" style="cursor: pointer;color: black" (click)="add_2_state_service_array(state,service)">add</md-icon>
       </div>
-
-      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 pull-right">
-        <button color="primary" class="pull-right" md-raised-button (click)="show(1,'back')">Back</button>
+      <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 pull-right m-t-15">
+        <button color="primary" class="pull-right m-l-10 m-r-10" md-raised-button (click)="show(1,'back')">Back</button>
+        <button color="primary" class="pull-right m-l-10 m-r-10" md-raised-button (click)="serviceForm.reset();state_service_array=[];showTable=false">Clear</button>
       </div>
       <div class="row"> </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="showTable ">
@@ -138,7 +128,7 @@
                 <!-- <td>{{state_service.services.toString()}}</td> -->
                 <td>
                   <ul class="list-unstyled">
-                    <li *ngFor="let service of state_service.services;let k=index">{{service.serviceName}}
+                    <li *ngFor="let service of state_service.services;let k=index ">{{service.serviceName}}
                       <md-icon class="mat-icon material-icons" role="img " aria-hidden="true " style="cursor: pointer " (click)="deleteServiceLine(i,k) ">cancel</md-icon>
                     </li>
                   </ul>
@@ -159,15 +149,13 @@
     </div>
     <!-- #######  Service Provider Admin Creation Screen   ########### -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="show3 ">
-      <div class="row">
-        <label class="pull-left">Create Provider - Contact Person Information</label>
+      <div class="col-xs-12 col-sm-12">
+        <h4 class="pull-left">Create Provider - Contact Person Information</h4>
+        <button type="button" color="primary" class="pull-right" md-raised-button (click)="show(2,'back')">Back </button>
       </div>
       <form #paFORM="ngForm" autocomplete="off" id="detailedForm">
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <button type="button" color="primary" class="pull-right" md-raised-button (click)="show(2,'back')">Back </button>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
           <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="title" name="title">
             <md-option *ngFor="let item of titles" value="{{item.titleID}}">
               {{item.titleName}}
@@ -176,8 +164,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myName>
-            <input mdInput placeholder="First Name " maxlength="50" minlength="2" [(ngModel)]="firstname " name="provider_admin_name "
-              required="true" #fName="ngModel">
+            <input mdInput placeholder="First Name " maxlength="50" minlength="2" [(ngModel)]="firstname " name="provider_admin_name " required="true" #fName="ngModel">
             <md-hint class="errorText" *ngIf="fName.errors && fName.touched">Enter atleast 2 characters
             </md-hint>
           </md-input-container>
@@ -189,15 +176,12 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% " myName>
-            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel" maxlength="50"
-              minlength="2">
+            <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel" maxlength="50" minlength="2">
             <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 2 characters
             </md-hint>
           </md-input-container>
         </div>
-
-
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-20">
           <md-select placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="gender" required #gend="ngModel">
             <md-option *ngFor="let gen of genders" value="{{gen.genderID}}">
               {{gen.genderName}}
@@ -206,80 +190,73 @@
           <!--             <span class="errorText" *ngIf="gend.errors && gend.touched">Please select gender
             </span> -->
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3m-t-5">
           <!--  <md-input-container class="width100">
               <input mdInput [mdDatepicker]="picker" name="dob" placeholder="Date of Birth" [(ngModel)]="dob" required="true">
               <button mdSuffix md-datepicker-toggle="picker"></button>
             </md-input-container>
             <md-datepicker #picker></md-datepicker> -->
-          <md2-datepicker style="width: 100% " name="dob" placeholder="Date of Birth" [(ngModel)]="dob" [max]="maxBirth" required="true"></md2-datepicker>
+          <md2-datepicker style="width: 100% " name="dob" placeholder="Date of Birth" [(ngModel)]="dob" [max]="maxBirth" required="true" (keydown)="preventTyping()"></md2-datepicker>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3m-t-5">
           <!-- <md-input-container class="width100">
               <input mdInput [mdDatepicker]="picker1" name="doj" placeholder="Date of Joining" [(ngModel)]="doj" required="true">
               <button mdSuffix md-datepicker-toggle="picker1"></button>
             </md-input-container>
             <md-datepicker #picker1></md-datepicker> -->
-          <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [max]="maxJoining" required="true"></md2-datepicker>
+          <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" required="true" (keydown)="preventTyping()"></md2-datepicker>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-5">
           <md-input-container style="width: 100% " myMobileNumber>
-            <input mdInput placeholder="PhoneNumber" minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber "
-              required>
+            <input mdInput placeholder="PhoneNumber" minlength="10" maxlength="10" [(ngModel)]="providerAdmin_PhoneNumber " name="providerAdmin_PhoneNumber " #paPhno="ngModel" required>
+            <md-hint class="errorText" *ngIf="paPhno.errors && paPhno.touched">Enter 10 digit mobile number
+            </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID "
-              #validEmail2="ngModel" required>
-            <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Enter valid email
+            <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID " #validEmail2="ngModel" required>
+            <md-hint class="errorText" *ngIf="validEmail2.hasError('pattern')">Enter valid email
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% " myUserName>
-            <input mdInput placeholder="User Login ID " [(ngModel)]="username " [pattern]="userNamePattern" name="username " required="true"
-              maxlength="12" (keyup)="checkUsernameExists(username)" #userName="ngModel">
+            <input mdInput placeholder="User Login ID " [(ngModel)]="username " [pattern]="userNamePattern" name="username " required="true" maxlength="12" (keyup)="checkUsernameExists(username)" #userName="ngModel">
             <md-hint class="errorText">
-              <span [hidden]="!userName.hasError('pattern')">Enter valid one(can't end or start with special characters,min:3)</span>
+              <span *ngIf="userName.hasError('pattern')">Enter valid one(can't end or start with special characters,min:3)</span>
               <span *ngIf="showHint && userName.touched">{{username_status}}</span>
             </md-hint>
-
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% ">
-            <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel"
-              maxlength="12">
+            <input mdInput placeholder="Password " [(ngModel)]="password " name="password " [pattern]="passwordPattern" required #pass="ngModel" maxlength="12">
             <md-hint class="errorText">
-              <span [hidden]="!pass.hasError('pattern')">Enter valid(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
+              <span *ngIf="pass.hasError('pattern')">Enter valid(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container style="width: 100% " myMobileNumber>
-            <input mdInput placeholder="Aadhaar Number" [pattern]="patternAadhaar" maxlength="12" [(ngModel)]="aadhaar_number" name="aadhaar"
-              #adhaarNo="ngModel" (blur)="checkAdhaar()">
-            <md-hint [hidden]="adhaarNo.valid || adhaarNo.pristine">
+            <input mdInput placeholder="Aadhaar Number" [pattern]="patternAadhaar" maxlength="12" [(ngModel)]="aadhaar_number" name="aadhaar" #adhaarNo="ngModel" (keyup)="checkAdhaar()">
+            <md-hint *ngIf="adhaarNo.valid || adhaarNo.pristine">
               <!-- <span class="error_text" [hidden]="!adhaarNo.hasError('required')">ID Number is required</span> -->
-              <span class="error_text" [hidden]="!adhaarNo.hasError('pattern')">Enter valid Aadhar Ex:XXXXXXXXXXXX</span>
+              <span class="error_text" *ngIf="adhaarNo.hasError('pattern')">Enter valid Aadhar Ex:XXXXXXXXXXXX</span>
+              <span class="error_text" *ngIf="isExistAdhaar">{{idMessage}}</span>
             </md-hint>
-            <md-hint *ngIf="isExistAdhaar">
-              <span class="error_text">{{idMessage}}</span>
-            </md-hint>
+            
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" PAN>
           <md-input-container style="width: 100%">
-            <input mdInput placeholder="Pan Number" maxlength="10" [pattern]="patternPan" [(ngModel)]="pan_number " name="pan" #panNo="ngModel"
-              (blur)="checkPan()">
-            <md-hint [hidden]="panNo.valid || panNo.pristine">
+            <input mdInput placeholder="Pan Number" maxlength="10" [pattern]="patternPan" [(ngModel)]="pan_number " name="pan" #panNo="ngModel" (keyup)="checkPan()">
+            <md-hint *ngIf="panNo.valid || panNo.pristine">
               <!-- <span class="error_text" [hidden]="!adhaarNo.hasError('required')">ID Number is required</span> -->
-              <span class="error_text" [hidden]="!panNo.hasError('pattern')">Enter valid Pan Ex: alphanumeric</span>
+              <span class="error_text" *ngIf="panNo.hasError('pattern')">Enter valid Pan Ex: alphanumeric</span>
+              <span *ngIf="isExistPan" class="error_text">{{idMessage}}</span>
             </md-hint>
-            <md-hint *ngIf="isExistPan">
-              <span class="error_text">{{idMessage}}</span>
-            </md-hint>
+           
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15 pull-right">

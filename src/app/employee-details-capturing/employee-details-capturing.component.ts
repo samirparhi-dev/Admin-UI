@@ -144,6 +144,24 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));
   }
 
+  setGenderOnCondition(title)
+  {
+    if(title===2||title===4||title===5||title===13)
+    {
+      this.gender=2;
+    }
+    else if(title===3||title===8)
+    {
+      this.gender=1;
+    }
+    else
+    {
+      this.gender="";
+    }
+  }
+
+  
+
   getServices(value) {
     this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, value.stateID)
       .subscribe(response => this.getServicesOfServiceProviderSuccessHandeler(response));
@@ -512,6 +530,14 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   createEmployee() {
     console.log(this.previleges);
+    if(this.adhaar_no==="")
+    {
+      this.adhaar_no=undefined;
+    }
+    if(this.pan_no==="")
+    {
+      this.pan_no=undefined;
+    }
     let request_object = {
 
       'titleID': this.title,
@@ -626,5 +652,50 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     return array = array
       .filter((thing, index, self) => self
         .findIndex((t) => { return t.languageID === thing.languageID }) === index)
+  }
+
+
+
+  duplicateCheckFlag:boolean=false;
+
+  checkAdhaar(uniqueIDnumber)
+  {
+    if(uniqueIDnumber!="")
+    {
+      this.EmployeeMasterService.validateAdhaar(uniqueIDnumber).subscribe(response => this.checkDuplicateSuccessHandeler(response));
+    }
+    else
+    {
+      this.duplicateCheckFlag=false;
+    }
+  }
+
+  checkPan(uniqueIDnumber)
+  {
+    if(uniqueIDnumber!="")
+    {
+      this.EmployeeMasterService.validatePan(uniqueIDnumber).subscribe(response => this.checkDuplicateSuccessHandeler(response));
+    }
+    else
+    {
+      this.duplicateCheckFlag=false;
+    }
+  }
+
+  checkDuplicateSuccessHandeler(response)
+  {
+    if(response)
+    {
+      console.log("duplicate check response",response);
+      if(response==="true")
+      {
+        this.duplicateCheckFlag=true;
+        this.alertService.alert("ID value entered is duplicate. Kindly enter a unique value");
+      }
+      if(response==="false")
+      {
+        this.duplicateCheckFlag=false;
+      }
+    }
   }
 }
