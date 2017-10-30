@@ -4,6 +4,9 @@ import { HttpServices } from '../services/http-services/http_services.service';
 import { Router } from '@angular/router';
 import { ConfigService } from '../services/config/config.service';
 
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+
+
 @Component({
   selector: 'app-set-security-questions',
   templateUrl: './set-security-questions.component.html',
@@ -15,7 +18,8 @@ export class SetSecurityQuestionsComponent implements OnInit {
     public getUserData: dataService,
     public http_calls: HttpServices,
     public router: Router,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private alertService:ConfirmationDialogsService
   ) {
 
   }
@@ -57,16 +61,45 @@ export class SetSecurityQuestionsComponent implements OnInit {
   answer3: any = '';
 
   questions: any = [];
+
   selectedQuestions: any = [];
 
-  updateQuestions(selectedques: any) {
+  updateQuestions(selectedques,position) {
 
     if (this.selectedQuestions.indexOf(selectedques) == -1) {
-      this.selectedQuestions.push(selectedques);
-      // this.questions.splice(this.questions.indexOf(selectedques), 1);
+      this.selectedQuestions[position]=selectedques;
+      if(position==0)
+      {
+        this.answer1="";
+      }
+      if(position==1)
+      {
+        this.answer2="";
+      }
+      if(position==2)
+      {
+        this.answer3="";
+      }
     }
     else {
-      alert('choose a different question... this question is already selected');
+      // alert('choose a different question... this question is already selected');
+      this.alertService.alert("This Question is already selected. Choose a different Question");
+      if(position==0)
+      {
+        this.answer1="";
+        this.question1="";
+      }
+      if(position==1)
+      {
+        this.answer2="";
+        this.question2="";
+      }
+      if(position==2)
+      {
+        this.answer3="";
+        this.question3="";
+      }
+
     }
   }
 
@@ -74,7 +107,6 @@ export class SetSecurityQuestionsComponent implements OnInit {
 
   setSecurityQuestions() {
 
-    // in place of userID, we have to feed it , as of now its hardcoded only for neer
     console.log(this.selectedQuestions);
     if (this.selectedQuestions.length == 3) {
 
@@ -83,41 +115,25 @@ export class SetSecurityQuestionsComponent implements OnInit {
         'questionID': this.question1,
         'answers': this.answer1,
         'mobileNumber': '1234567890',
-        'createdBy': 'neeraj'
+        'createdBy': this.uname
       },
       {
         'userID': this.uid,
         'questionID': this.question2,
         'answers': this.answer2,
         'mobileNumber': '1234567890',
-        'createdBy': 'neeraj'
+        'createdBy': this.uname
       },
       {
         'userID': this.uid,
         'questionID': this.question3,
         'answers': this.answer3,
         'mobileNumber': '1234567890',
-        'createdBy': 'neeraj'
+        'createdBy': this.uname
       }
       ]
-      // this.dataArray = {
-      // 	username: this.uname,
-      // 	one: {
-      // 		"question": this.question1,
-      // 		"answer": this.answer1
-      // 	},
-      // 	two: {
-      // 		"question": this.question2,
-      // 		"answer": this.answer2
-      // 	},
-      // 	three: {
-      // 		"question": this.question3,
-      // 		"answer": this.answer3
-      // 	},
-
-      // }
+      
       console.log(JSON.stringify(this.dataArray));
-      // alert("the data set is :" + this.dataObj);
       console.log(this.selectedQuestions);
 
       this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray).subscribe(
@@ -125,7 +141,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
         (error: any) => this.handleQuestionSaveError(error));
 
     } else {
-      alert('all 3 ques shud be diff');
+      this.alertService.alert("All 3 questions should be different. Please check your selected Questions");
     }
 
 
@@ -150,17 +166,16 @@ export class SetSecurityQuestionsComponent implements OnInit {
         subscribe(
         (response: any) => this.successCallback(response),
         (error: any) => this.errorCallback(error));
-
-      alert('password changed successfully');
     }
     else {
-      alert('password dsnt match');
+      this.alertService.alert("Password doesn't match");
     }
   }
 
   successCallback(response) {
 
     console.log(response);
+    this.alertService.alert("Password changed Successfully");
     this.router.navigate(['']);
   }
   errorCallback(response) {
