@@ -82,16 +82,8 @@ export class loginContentClass {
 
 	// encryptionFlag: boolean = true;
 	dynamictype: any = 'password';
-	toggleAnswerVisibilty() {
-		console.log('chala toggle');
-		// this.encryptionFlag = !this.encryptionFlag;
-		// if (this.encryptionFlag === true) {
-		// 	this.dynamictype = 'password';
-		// }
-		// if (this.encryptionFlag === false) {
-			this.dynamictype = 'text';
-
-		// }
+	showPWD() {
+		this.dynamictype = 'text';
 	}
 
 	hidePWD()

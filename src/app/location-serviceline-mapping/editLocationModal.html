@@ -36,14 +36,15 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <md-input-container style="width: 100%">
-          <input mdInput placeholder="Office Name" name="officeID" [(ngModel)]="officeID" #officeId="ngModel" required>
-          <md-hint *ngIf="officeId.errors && officeId.touched">
-            <span class="error_text">Office Name is required</span>
+          <input mdInput placeholder="Office Name" name="officeID" [(ngModel)]="officeID" #officeId="ngModel" required (keyup)="checkOfficeName(officeID)">
+          <md-hint >
+            <span *ngIf="officeId.errors && officeId.touched" class="error_text">Office Name is required</span>
+            <span [hidden]="!officeNameExist" class="error_text">{{msg}}</span>
           </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-        <button md-raised-button color="primary" (click)="update()" style="width: 100%" [disabled]="!(f1.valid)">
+        <button md-raised-button color="primary" (click)="update()" style="width: 100%" [disabled]="!(f1.valid) || officeNameExist">
           Save Changes
         </button>
       </div>

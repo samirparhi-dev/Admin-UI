@@ -13,6 +13,8 @@ import { EditCategorySubcategoryComponent } from './edit-category-subcategory/ed
 export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   serviceproviderID: any;
+  well_being:boolean=false;
+  showWellBeingFlag:boolean=false;
   // ngmodels
   state: any;
   service: any;
@@ -48,6 +50,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   hideButton: boolean = false;
   categoryExist: boolean = false;
   subCategoryExist: boolean = false;
+
+
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
@@ -158,6 +162,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     obj['subServiceName'] = this.sub_service.subServiceName;
     obj['providerServiceMapID'] = this.service;
     obj['createdBy'] = this.createdBy;
+    obj['well_being'] = this.well_being;
+
 
     if (this.serviceList.length > 0) {
       this.serviceList.push(obj);
@@ -167,6 +173,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     this.category_name = undefined;
     this.categorydesc = '';
+    this.well_being=false;
+  }
+
+  checkSubService(sub_service_name)
+  {
+    if(sub_service_name==="Counselling Service")
+    {
+      this.showWellBeingFlag=true;
+      this.well_being=false;
+    }
+    else
+    {
+      this.showWellBeingFlag=false;
+    }
   }
 
   addExistCategoryRow() {
@@ -199,6 +219,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         'categoryDesc': item.categoryDesc,
         'subServiceID': item.subServiceID,
         'providerServiceMapID': item.providerServiceMapID,
+        's104_CS_Type':item.well_being,
         'createdBy': item.createdBy
       }
     })
@@ -386,6 +407,19 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   changeRequestObject(flag_value) {
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
+      
+      /*edited by diamond*/
+      this.categoryExist=false;
+      this.subCategoryExist=false;
+
+      this.category_name="";
+      this.categorydesc="";
+
+      this.subcategory="";
+      this.description="";
+
+      this.well_being=false;
+      /*editing ends*/
 
       // this.resetFields();
 
@@ -394,6 +428,17 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.Add_Category_Subcategory_flag = false;
       this.getCategory(this.service, this.sub_service.subServiceID);
       // this.resetFields();
+
+      /*edited by diamond*/
+      this.categoryExist=false;
+      this.subCategoryExist=false;
+
+      this.category_name="";
+      this.categorydesc="";
+
+      this.subcategory="";
+      this.description="";
+      /*editing ends*/
     }
   }
   // final save to save category and sub category

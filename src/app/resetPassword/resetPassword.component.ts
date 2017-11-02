@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 import { loginService } from '../services/loginService/login.service';
 import { Router } from '@angular/router';
 import { dataService } from '../services/dataService/data.service';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 
 
 @Component({
-    selector:'ResetComponent',
-    templateUrl: './resetPassword.html',
+	selector:'ResetComponent',
+	templateUrl: './resetPassword.html',
 	styles: ['body{ background:red !important; }']
 })
 
 export class ResetComponent{
 
-	constructor(public loginservice: loginService, public getUserData: dataService, public router: Router) { };
+	constructor(public loginservice: loginService, public getUserData: dataService, public router: Router,
+	            public alertService:ConfirmationDialogsService) { };
 
 	public response:any;
 	public error:any;
@@ -22,7 +24,6 @@ export class ResetComponent{
 	questionsAnswers: any;
 	answer: any=undefined;
 
-	encryptionFlag: boolean = true;
 	dynamictype: any = 'password';
 
 	public questions: any[]=[];
@@ -36,36 +37,35 @@ export class ResetComponent{
 
 		this.loginservice.getSecurityQuestions(username).
 		subscribe((response:any)=> this.handleSuccess(response),
-			 (error:any)=> this.error = <any>error
-		);
+		          (error:any)=> this.error = <any>error
+		          );
 	}
 
 	handleSuccess(data:any)
-    {
+	{
 		console.log(data);
-	 if ((data.SecurityQuesAns) != "user Not Found")
-	  {
-		  this.questionsAnswers = data.SecurityQuesAns;
-		  this.showQuestions = true;
-		  this.hideOnGettingQuestions = false;
+		if ((data.SecurityQuesAns) != "user Not Found")
+		{
+			this.questionsAnswers = data.SecurityQuesAns;
+			this.showQuestions = true;
+			this.hideOnGettingQuestions = false;
 
-		  this.getQuestionsandAnswers();
-
-	  }
+			this.getQuestionsandAnswers();
+		}
+		else
+		{
+			this.router.navigate(["/"]);
+			this.alertService.alert("Login to set your Security Questions");
+		}
 	}
 
-	toggleAnswerVisibilty()
-	{
-		console.log('chala toggle');
-		this.encryptionFlag = !this.encryptionFlag;
-		if(this.encryptionFlag===true)
-		{
-			this.dynamictype = 'password';
-		}
-		if(this.encryptionFlag===false){
-			this.dynamictype = 'text';
+	showPWD() {
+		this.dynamictype = 'text';
+	}
 
-		}
+	hidePWD()
+	{
+		this.dynamictype = 'password';
 	}
 
 	

@@ -202,10 +202,14 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   editOfficeAddress(toBeEditedOBJ) {
+    let OBJ={
+      "toBeEditedOBJ":toBeEditedOBJ,
+      "offices":this.officeArray
+    }
     let dialog_Ref = this.dialog.open(EditLocationModal, {
       height: '500px',
       width: '500px',
-      data: toBeEditedOBJ
+      data: OBJ
     });
 
     dialog_Ref.afterClosed().subscribe(result => {
@@ -307,17 +311,29 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.PSMID_searchService="";
 
   }
-  servicelineSelected(obj) {
+
+  servicelineSelected(array) {
+    let req_array=[];
+    if(array.constructor != Array)
+    {
+      req_array.push(array);
+    }
+    else
+    {
+      req_array=array;
+    }
     this.OfficeID = "";
     this.officeNameExist =false;
-    this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(obj)
+    this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(req_array)
       .subscribe(response => this.currentServicesSuccess(response));
   }
+
   currentServicesSuccess(res) {
      this.officeArray = res;
   }
    officeNameExist: boolean = false;
    msg: any;
+
   checkOfficeName(value) {
 
     for(var i=0; i<this.officeArray.length; i++) {
@@ -349,6 +365,10 @@ export class EditLocationModal {
   address:any;
   officeID:any;
 
+  originalOfficeID:any;
+  officeNameExist:boolean=true;
+  msg:any="";
+
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
   public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
   public dialog_Ref: MdDialogRef<EditLocationModal>,
@@ -358,11 +378,28 @@ export class EditLocationModal {
 
     console.log(this.data, "modal content");
 
-    this.serviceProviderName = this.data.serviceProviderName;
-    this.stateName = this.data.stateName;
-    this.districtName=this.data.districtName;
-    this.address = this.data.address;
-    this.officeID = this.data.locationName;
+    this.serviceProviderName = this.data.toBeEditedOBJ.serviceProviderName;
+    this.stateName = this.data.toBeEditedOBJ.stateName;
+    this.districtName=this.data.toBeEditedOBJ.districtName;
+    this.address = this.data.toBeEditedOBJ.address;
+    this.officeID = this.data.toBeEditedOBJ.locationName;
+
+    this.originalOfficeID=this.data.toBeEditedOBJ.locationName;
+  }
+
+  checkOfficeName(value) {
+
+    for(var i=0; i<this.data.offices.length; i++) {
+       let a = this.data.offices[i].locationName;
+       if(a.toLowerCase() == value.toLowerCase() && this.originalOfficeID.toLowerCase()!=a.toLowerCase() ) {
+         this.officeNameExist = true;
+         this.msg = "OfficeName exist for "+this.data.offices[i].serviceName;
+         break;
+       }
+       else {
+         this.officeNameExist = false;
+       }
+    }
   }
 
 
@@ -371,12 +408,12 @@ export class EditLocationModal {
     let editedObj =
       {
 
-        "pSAddMapID": this.data.pSAddMapID,
+        "pSAddMapID": this.data.toBeEditedOBJ.pSAddMapID,
         "providerServiceMapID": this.data.providerServiceMapID,
         "locationName": this.officeID,
         "address": this.address,
-        "districtID": this.data.districtID,
-        "createdBy": this.data.CreatedBy,
+        "districtID": this.data.toBeEditedOBJ.districtID,
+        "createdBy": this.data.toBeEditedOBJ.CreatedBy,
         "createdDate": "2017-02-28T00:00:00.000Z"
 
       }

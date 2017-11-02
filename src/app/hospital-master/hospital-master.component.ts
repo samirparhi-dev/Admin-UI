@@ -246,7 +246,7 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     /*create institution*/
-    createInstitution(value_object)
+    createInstitution()
     {
         let request_Array=[];
         let request_obj={
@@ -360,9 +360,9 @@ export class EditHospitalModal {
         this.tertiary_emailID=this.data.contactPerson3_Email;
     }
 
-    update(editedData)
+    update()
     {
-        console.log(editedData,"editedData");
+        // console.log(editedData,"editedData");
         let edit_request_obj={
             "institutionID" : this.data.institutionID,
             "institutionName" : this.institutionName,

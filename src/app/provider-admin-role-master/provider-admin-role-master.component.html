@@ -93,8 +93,8 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-25" *ngIf="hideAdd">
-          <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="feature" required>
-            <md-option *ngFor="let item of features" value="{{item.screenID}}" (click)="setFeatureName(item.screenName)">
+          <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature" required>
+            <md-option *ngFor="let item of features" [value]="item">
               {{item.screenName}},description:{{item.screenDesc}}
             </md-option>
           </md-select>

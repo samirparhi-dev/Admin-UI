@@ -4,17 +4,17 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 @Component({
-    selector: 'app-provider-admin-role-master',
-    templateUrl: './provider-admin-role-master.component.html',
-    styleUrls: ['./provider-admin-role-master.component.css']
+  selector: 'app-provider-admin-role-master',
+  templateUrl: './provider-admin-role-master.component.html',
+  styleUrls: ['./provider-admin-role-master.component.css']
 })
 export class ProviderAdminRoleMasterComponent implements OnInit {
-    role: any;
-    description: any;
-    feature: any;
-    screen_name:any;
+  role: any;
+  description: any;
+  feature: any;
+  screen_name:any;
 
-    serviceProviderID: any;
+  serviceProviderID: any;
     provider_service_mapID: any = 11;  // has to be dynamic, as of now hardcoded
 
     state: any;
@@ -44,10 +44,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     showAddButtonFlag: boolean = false;
 
     constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
-        public commonDataService: dataService,
-        private alertService: ConfirmationDialogsService) {
-        this.role = "";
-        this.description = "";
+                public commonDataService: dataService,
+                private alertService: ConfirmationDialogsService) {
+      this.role = "";
+      this.description = "";
 
         // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
         this.serviceProviderID = (this.commonDataService.service_providerID).toString();
@@ -58,94 +58,94 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.searchresultarray = [];
 
 
-    }
+      }
 
-    ngOnInit() {
+      ngOnInit() {
         this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response=>this.states=this.successhandeler(response));
      //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
+   }
+
+   getFeatures(serviceID)
+   {
+    this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
+
+  }
+
+  getServices(stateID) {
+    console.log(this.serviceProviderID, stateID);
+    this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).subscribe(response => this.servicesSuccesshandeler(response));
+  }
+
+  setProviderServiceMapID(ProviderServiceMapID) {
+    this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
+    console.log("psmid", ProviderServiceMapID);
+  }
+
+  servicesSuccesshandeler(response) {
+    this.service = "";
+    this.services = response;
+    this.showAddButtonFlag = false;
+
+  }
+
+  getFeaturesSuccessHandeler(response) {
+    console.log("features", response);
+    this.features = response;
+  }
+  correctInput: boolean = false;
+  showAddButton: boolean = false;;
+  findRoles(stateID, serviceID) {
+    this.showAddButtonFlag = true;
+    this.STATE_ID = stateID;
+    this.SERVICE_ID = serviceID;
+
+    console.log(this.serviceProviderID, stateID, serviceID);
+    this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
+      this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+    });
+
+    if (serviceID == "" || serviceID == undefined) {
+      this.correctInput = false;
+    }
+    else {
+      this.correctInput = true;
+      this.showAddButton = true;
+
     }
 
-    getFeatures(serviceID)
-    {
-      this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
+  }
 
+  finalsave() {
+    console.log(this.objs);
+
+    this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
+
+  }
+  confirmMessage : any;
+  deleteRole(roleID, flag) {
+    let obj = {
+      "roleID": roleID,
+      "deleted": flag
     }
 
-    getServices(stateID) {
-        console.log(this.serviceProviderID, stateID);
-        this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).subscribe(response => this.servicesSuccesshandeler(response));
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
     }
-
-    setProviderServiceMapID(ProviderServiceMapID) {
-        this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
-        console.log("psmid", ProviderServiceMapID);
-    }
-
-    servicesSuccesshandeler(response) {
-        this.service = "";
-        this.services = response;
-        this.showAddButtonFlag = false;
-
-    }
-
-    getFeaturesSuccessHandeler(response) {
-        console.log("features", response);
-        this.features = response;
-    }
-    correctInput: boolean = false;
-    showAddButton: boolean = false;;
-    findRoles(stateID, serviceID) {
-        this.showAddButtonFlag = true;
-        this.STATE_ID = stateID;
-        this.SERVICE_ID = serviceID;
-
-        console.log(this.serviceProviderID, stateID, serviceID);
-        this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
-            this.searchresultarray = this.fetchRoleSuccessHandeler(response);
-        });
-
-        if (serviceID == "" || serviceID == undefined) {
-            this.correctInput = false;
-        }
-        else {
-            this.correctInput = true;
-            this.showAddButton = true;
-
-        }
-
-    }
-
-    finalsave() {
-        console.log(this.objs);
-
-        this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
-
-    }
-    confirmMessage : any;
-    deleteRole(roleID, flag) {
-        let obj = {
-            "roleID": roleID,
-            "deleted": flag
-        }
-
-        if (flag) {
-            this.confirmMessage = 'Deactivate';
-        } else {
-            this.confirmMessage = 'Activate';
-        }
         // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
         this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
-            if (res) {
-                this.ProviderAdminRoleService.deleteRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, "delete"));
-            }
+          if (res) {
+            this.ProviderAdminRoleService.deleteRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, "delete"));
+          }
         },
-            (err) => {
+        (err) => {
 
-            })
+        })
 
-    }
+      }
 
-    editRole(roleObj) {
+      editRole(roleObj) {
 
         this.setRoleFormFlag(true);
         this.role = roleObj.roleName;
@@ -155,28 +155,28 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.toBeEditedRoleObj = roleObj;
         this.hideAdd = false;
         this.showAddButtonFlag = false;
-    }
+      }
 
-    saveEditChanges() {
+      saveEditChanges() {
 
         let obj = {
-            "roleID": this.toBeEditedRoleObj.roleID,
-            "roleName": this.role,
-            "roleDesc": this.description,
-            "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
-            "createdBy": this.commonDataService.uname,
-            "createdDate": "2017-07-25T00:00:00.000Z"
+          "roleID": this.toBeEditedRoleObj.roleID,
+          "roleName": this.role,
+          "roleDesc": this.description,
+          "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+          "createdBy": this.commonDataService.uname,
+          "createdDate": "2017-07-25T00:00:00.000Z"
         }
 
         this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'));
-    }
+      }
 
-    edit_delete_RolesSuccessHandeler(response, choice) {
+      edit_delete_RolesSuccessHandeler(response, choice) {
         if (choice == 'edit') {
-            this.alertService.alert('Role Edited successfully');
+          this.alertService.alert('Role Edited successfully');
         }
         else {
-            this.alertService.alert(this.confirmMessage + 'd successfully');
+          this.alertService.alert(this.confirmMessage + 'd successfully');
         }
         console.log(response, 'edit/delete response');
         this.showRoleCreationForm = false;
@@ -187,29 +187,29 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.objs = [];
         this.selectedRole = undefined;
         this.disableSelection = false;
-    }
+      }
 
-    successhandeler(response) {
+      successhandeler(response) {
         return response;
-    }
-    noRecordFound: boolean = false;
-    fetchRoleSuccessHandeler(response) {
+      }
+      noRecordFound: boolean = false;
+      fetchRoleSuccessHandeler(response) {
         ;
         console.log(response, 'in fetch role success in component.ts');
         if (response.length == 0) {
-            this.noRecordFound = true;
+          this.noRecordFound = true;
         }
         else {
-            this.noRecordFound = false;
+          this.noRecordFound = false;
         }
         // this.showAddButtonFlag = true;
         // response = response.filter(function(obj){
         //     return obj.deleted!=true;
         // })
         return response;
-    }
+      }
 
-    createRolesSuccessHandeler(response) {
+      createRolesSuccessHandeler(response) {
         this.alertService.alert('Role created successfully');
         console.log(response, 'in create role success in component.ts');
         this.finalResponse = response;
@@ -217,108 +217,123 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.objs = []; //empty the buffer array
             this.setRoleFormFlag(false);
             this.findRoles(this.STATE_ID, this.SERVICE_ID);
+          }
+
         }
 
-    }
 
-
-    setRoleFormFlag(flag) {
-        this.hideAdd = true;
-        this.setEditSubmitButton = false;
-        this.showRoleCreationForm = flag;
-        this.showAddButtonFlag = !flag;
-        this.disableSelection = flag;
-        if (!flag) {
+        setRoleFormFlag(flag) {
+          this.hideAdd = true;
+          this.setEditSubmitButton = false;
+          this.showRoleCreationForm = flag;
+          this.showAddButtonFlag = !flag;
+          this.disableSelection = flag;
+          if (!flag) {
             this.role = '';
             this.description = '';
             this.feature = undefined;
             this.selectedRole = undefined;
+          }
+
         }
 
-    }
 
+        setFeatureName(screen_name)
+        {
+          this.screen_name=screen_name;
+        }
 
-    setFeatureName(screen_name)
-    {
-        this.screen_name=screen_name;
-    }
-
-    add_obj(role, desc, feature) {
-        var result = this.validateRole(role);
-        if (result) {
+        add_obj(role, desc, feature) {
+          var result = this.validateRole(role);
+          console.log(feature,"feature wala array");
+          if (result) {
             let count = 0;
             if (this.objs.length < 1) {
+
+              for(let z=0;z<feature.length;z++)
+              {
                 let obj = {
-                    'roleName': role,
-                    'roleDesc': desc,
-                    'screenID': feature,
-                    'screen_name':this.screen_name,
-                    'createdBy': this.commonDataService.uname,
-                    'createdDate': '2017-07-28',
+                  'roleName': role,
+                  'roleDesc': desc,
+                  'screenID': feature[z].screenID,
+                  'screen_name':feature[z].screenName,
+                  'createdBy': this.commonDataService.uname,
+                  'createdDate': new Date(),
                     'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
-                };
-                this.objs.push(obj);
-                console.log(obj, 'obj pushed');
-            }
-            else {
-                for (let i = 0; i < this.objs.length; i++) {
-                    if (this.objs[i].roleName.toLowerCase().trim() === role.toLowerCase().trim()) {
-                        count = count + 1;
-                    }
+                  };
+
+                  console.log("Pushed OBJ",obj);
+                  this.objs.push(obj);
                 }
-                if (count < 1) {
+
+              }
+              else 
+              {
+                for (let i = 0; i < this.objs.length; i++) 
+                {
+                  if (this.objs[i].roleName.toLowerCase().trim() === role.toLowerCase().trim()) 
+                  {
+                    count = count + 1;
+                  }
+                }
+                if (count < 1) 
+                {
+                  for(let k=0;k<feature.length;k++)
+                  {
                     let obj = {
-                        'roleName': role,
-                        'roleDesc': desc,
-                        'screenID': feature,
-                        'createdBy': this.commonDataService.uname,
-                        'createdDate': new Date(),
-                        'providerServiceMapID': this.commonDataService.provider_serviceMapID   //this needs to be fed dynmically!!!
-                    };
-                    this.objs.push(obj);
-                    console.log(obj, 'obj pushed');
+                      'roleName': role,
+                      'roleDesc': desc,
+                      'screenID': feature[k].screenID,
+                      'screen_name':feature[k].screenName,
+                      'createdBy': this.commonDataService.uname,
+                      'createdDate': new Date(),
+                    'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
+                  };
+                  console.log("Pushed OBJ",obj);
+                  this.objs.push(obj);
                 }
+              }
             }
+          }
+          this.role = '';
+          this.description = '';
+          this.feature = undefined;
         }
-        this.role = '';
-        this.description = '';
-        this.feature = undefined;
-    }
-    validateRole(role) {
-        if (this.selectedRole != undefined && this.selectedRole.toUpperCase() === role.toUpperCase()) {
+        validateRole(role) {
+          if (this.selectedRole != undefined && this.selectedRole.toUpperCase() === role.toUpperCase()) {
 
             this.othersExist = false;
-        }
-        else {
+          }
+          else {
             var count = 0;
             for (let i = 0; i < this.searchresultarray.length; i++) {
-                console.log((this.searchresultarray[i].roleName).toUpperCase());
-                if ((this.searchresultarray[i].roleName).toUpperCase() === role.toUpperCase()) {
-                    count = count + 1;
-                }
+              console.log((this.searchresultarray[i].roleName).toUpperCase());
+              if ((this.searchresultarray[i].roleName).toUpperCase() === role.toUpperCase()) {
+                count = count + 1;
+              }
             }
             console.log(count);
             if (count > 0) {
-                this.othersExist = true;
-                return false;
+              this.othersExist = true;
+              return false;
             }
             else {
-                this.othersExist = false;
-                return true;
+              this.othersExist = false;
+              return true;
             }
+          }
         }
 
+        remove_obj(index) 
+        {
+          this.objs.splice(index, 1);
+        }
 
+        clear() 
+        {
+          this.services = [];
+          this.searchresultarray = [];
+          this.showAddButtonFlag = false;
+        }
 
-
-    }
-
-    remove_obj(index) {
-        this.objs.splice(index, 1);
-    }
-    clear() {
-        this.services = [];
-        this.searchresultarray = [];
-        this.showAddButtonFlag = false;
-    }
-}
+      }

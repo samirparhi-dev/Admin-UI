@@ -29,19 +29,15 @@ export class SetPasswordComponent implements OnInit {
 
 	uname: any = this.getUserData.uname;
 
+	dynamictype:any="password";
 	
-	encryptionFlag: boolean = true;
-	dynamictype: any = 'password';
-	toggleAnswerVisibilty() {
-		console.log('chala toggle');
-		this.encryptionFlag = !this.encryptionFlag;
-		if (this.encryptionFlag === true) {
-			this.dynamictype = 'password';
-		}
-		if (this.encryptionFlag === false) {
-			this.dynamictype = 'text';
+	showPWD() {
+		this.dynamictype = 'text';
+	}
 
-		}
+	hidePWD()
+	{
+		this.dynamictype = 'password';
 	}
 
 	updatePassword(new_pwd) {
@@ -54,14 +50,14 @@ export class SetPasswordComponent implements OnInit {
 				);
 		}
 		else {
-			this.alertService.alert('password does not match');
+			this.alertService.alert('Password does not match');
 		}
 	}
 
 	successCallback(response) {
 
 		console.log(response);
-		this.alertService.alert('password changed');
+		this.alertService.alert('Password changed Successfully');
 		this.router.navigate(['']);
 	}
 	errorCallback(response) {
