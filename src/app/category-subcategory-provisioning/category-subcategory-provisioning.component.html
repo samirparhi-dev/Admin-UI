@@ -25,7 +25,7 @@
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-select required [(ngModel)]="sub_service" [style.width]="'100%'" name="subserviceName" placeholder="SubService" (change)="getDetails(sub_service,service)">
             <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let subservice of subServices" [value]="subservice">{{subservice.subServiceName}}</md-option>
+            <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
           </md-select>
         </div>
         <!-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -49,19 +49,22 @@
             <tr>
               <th>Category</th>
               <th>Category Desc</th>
+              <th>Sub-SubService</th>
               <th>Edit</th>
               <th>Activate/Deactivate</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let i of md2.data">
-              <td width=30%>{{i?.categoryName}}</td>
-              <td width=30%>{{i?.categoryDesc}}</td>
-              <td width=15%>
+              <td width="30%">{{i?.categoryName}}</td>
+              <td width="20%">{{i?.categoryDesc}}</td>
+              <td width="20%" *ngIf="i.s104_CS_Type">Well Being</td>
+              <td width="10%" *ngIf="!i.s104_CS_Type">Information</td>
+              <td width="15%">
                 <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                   (click)="editCategory(i)">edit</md-icon>
               </td>
-              <td width=15%>
+              <td width="15%">
                 <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
                 <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
                 <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
@@ -70,7 +73,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="3">
+              <td colspan="5">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
