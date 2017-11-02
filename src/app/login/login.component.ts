@@ -40,7 +40,6 @@ export class loginContentClass {
 	};
 
 	successCallback(response: any) {
-		;
 		console.log(response);
 		this.dataSettingService.Userdata = response;
 		this.dataSettingService.userPriveliges = response.previlegeObj;
