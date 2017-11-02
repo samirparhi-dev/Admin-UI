@@ -44,18 +44,26 @@ export class ResetComponent{
 	handleSuccess(data:any)
 	{
 		console.log(data);
-		if ((data.SecurityQuesAns) != "user Not Found")
+		if (data.forgetPassword!="user Not Found")
 		{
-			this.questionsAnswers = data.SecurityQuesAns;
-			this.showQuestions = true;
-			this.hideOnGettingQuestions = false;
+			if(data.SecurityQuesAns.length>0)
+			{
+				this.questionsAnswers = data.SecurityQuesAns;
+				this.showQuestions = true;
+				this.hideOnGettingQuestions = false;
 
-			this.getQuestionsandAnswers();
+				this.getQuestionsandAnswers();
+			}
+			else
+			{
+				this.router.navigate(["/"]);
+				this.alertService.alert("Questions are not set for this User");
+			}
 		}
 		else
 		{
 			this.router.navigate(["/"]);
-			this.alertService.alert("Login to set your Security Questions");
+			this.alertService.alert("User Not Found");
 		}
 	}
 
