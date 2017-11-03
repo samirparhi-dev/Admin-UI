@@ -1,58 +1,45 @@
 <md-card>
   <!-- <div class="container-fluid"> -->
   <div class="row">
-    <label class="pull-left">Provider CTI Mapping</label>
-  </div>
-  <div class="row">
-    <form id="myForm" #form="ngForm">
-      <div class="row">
-        <!-- <button md-raised-button class="pull-right" color="primary" (click)="resetForm()">Clear</button> -->
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
-            <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="service_provider"
-              (change)="getStates(service_provider)">
-              <md-option *ngFor="let item of service_provider_array" [value]="item">
-                {{item.serviceProviderName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ">
-            <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
-              <md-option *ngFor="let item of states_array" [value]="item.stateID">
-                {{item.stateName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
-            <md-select required name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getCampaign(service_provider,state,serviceline)">
-              <md-option *ngFor="let item of services_array" [value]="item">
-                {{item.serviceName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
-            <md-select required name="Services" placeholder="Campaign" [style.width]="'100%'" [(ngModel)]="campaign" required>
-              <md-option *ngFor="let item of campaign_array" [value]="item">
-                {{item.campaign_name}}
-              </md-option>
-            </md-select>
-          </div>
-          <!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
-            <button color="primary" md-mini-fab (click)="getStatus(service_provider,state,serviceline)">
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
-            </button>
-          </div> -->
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 pull-right">
-      <button md-raised-button [disabled]="!form.valid" class="pull-right" color="primary" (click)="addCampaign(service_provider,serviceline,campaign)">Add</button>
+    <div class="col-xs-12 col-sm-12">
+      <h4 class="pull-left">Provider CTI Mapping</h4>
     </div>
-  </div>
-  <!-- </div> -->
-  <div class="row">
+    <form id="myForm" #form="ngForm">
+      
+      <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 m-t-15">
+        <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="service_provider" (change)="getStates(service_provider)">
+          <md-option *ngFor="let item of service_provider_array" [value]="item">
+            {{item.serviceProviderName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2  m-t-15">
+        <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
+          <md-option *ngFor="let item of states_array" [value]="item.stateID">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 m-t-15">
+        <md-select required name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getCampaign(service_provider,state,serviceline)">
+          <md-option *ngFor="let item of services_array" [value]="item">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 m-t-15">
+        <md-select required name="campaign" placeholder="Campaign" [style.width]="'100%'" [(ngModel)]="campaign" required>
+          <md-option *ngFor="let item of campaign_array" [value]="item">
+            {{item.campaign_name}}
+          </md-option>
+        </md-select>
+      </div>
+      
+    </form>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
+      <button md-raised-button [disabled]="!form.valid" class="m-r-10 m-l-10 pull-right" color="primary" (click)="addCampaign(service_provider,serviceline,campaign)">Add</button>
+      <button md-raised-button class=" pull-right m-l-10 m-r-10" color="primary" (click)="resetForm()">Reset</button>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="campaignList.length>0">
       <table [md2Data]="campaignList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
         <thead>
@@ -64,17 +51,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index">
+          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
             <td>{{service.providerName}}</td>
             <td>{{service.cTI_CampaignName}}</td>
             <td>{{service.Service}}</td>
             <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
           </tr>
-          <!--<tr>
-            <td colspan="6">
-              <pagination-controls (pageChange)="b = $event" id="serviceList"></pagination-controls>
-            </td>
-          </tr>-->
         </tbody>
         <tfoot>
           <tr>

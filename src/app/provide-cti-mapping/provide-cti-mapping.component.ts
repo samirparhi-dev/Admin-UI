@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { CallServices } from './../services/callservices/callservice.service';
+declare var jQuery: any;
+
+
 @Component({
   selector: 'app-provide-cti-mapping',
   templateUrl: './provide-cti-mapping.component.html',
@@ -33,7 +36,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
   getServicesInState(serviceProviderID, stateID) {
     this.block_provider.getServicesInState(serviceProviderID.serviceProviderId, stateID)
-      .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
+    .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
   }
   getCampaign(service_provider, state, serviceline) {
     this._callServices.getCapmaign(serviceline.serviceName).subscribe((res) => {
@@ -70,10 +73,10 @@ export class ProvideCtiMappingComponent implements OnInit {
   filterArray(array: any) {
     const o = {};
     return array = array
-      .filter((thing, index, self) => self
-        .findIndex((t) => {
-          return t.providerServiceMapID === thing.providerServiceMapID;
-        }) === index)
+    .filter((thing, index, self) => self
+            .findIndex((t) => {
+              return t.providerServiceMapID === thing.providerServiceMapID;
+            }) === index)
   }
   deleteRow(index) {
     this.campaignList.splice(index, 1);
@@ -96,14 +99,18 @@ export class ProvideCtiMappingComponent implements OnInit {
 
     })
   }
-  resetForm() {
-    this.message.confirm('Are you sure want to clear?').subscribe((response) => {
-      if (response) {
-        // jQuery('#myForm').trigger('reset');
-        this.states_array = [];
-        this.services_array = [];
-      }
+  resetForm() 
+  {
+    // this.message.confirm('Are you sure want to reset?').subscribe((response) => {
+    //   if (response) {
+      jQuery('#myForm').trigger('reset');
+      this.states_array = [];
+      this.services_array = [];
+      this.campaign_array=[];
 
-    }, (err) => { });
+      this.campaignList=[];
+    //   }
+
+    // }, (err) => { });
   }
 }

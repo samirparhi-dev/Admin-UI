@@ -1,18 +1,18 @@
 <md-card>
-  <label class="pull-left">Update Provider</label>
   <div class="row">
-
+    <div class="col-xs-12 col-sm-12">
+      <h4 class="pull-left">Update Provider</h4>
+    </div>
     <div class="col-xs-12 col-sm-12" *ngIf="searchPage">
       <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-          <md-select placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="providerSelected" (change)="selectedProvider(providerSelected)"
-            required>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
+          <md-select placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="providerSelected" (change)="selectedProvider(providerSelected)" required>
             <md-option *ngFor="let provider of allProviders" [value]="provider.serviceProviderId">
               {{provider.serviceProviderName}}
             </md-option>
           </md-select>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8" *ngIf="showProvider">
+        <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 m-t-15" *ngIf="showProvider">
           <button color="primary" type="button" name="Add" md-raised-button class=" pull-right" (click)="edit(providerSelected)">Edit personal details</button>
         </div>
       </div>
@@ -53,31 +53,32 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-12" *ngIf="!searchPage">
-      <div class="row">
+     <!--  <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 pull-right">
           <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <form #modifyForm="ngForm">
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
             <md-select placeholder="State" [style.width]="'100%'" name="state" [(ngModel)]="state" (change)="getValidServicelines(state)">
               <md-option *ngFor="let state of states" [value]="state.stateID">
                 {{state.stateName}}
               </md-option>
             </md-select>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <md-select *ngIf="!allServicesMapped" multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required
-              #sLine="ngModel">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
+            <md-select *ngIf="!allServicesMapped" multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required #sLine="ngModel">
               <md-option *ngFor="let service of servicelines" [value]="service.serviceID">
                 {{service.serviceName}}
               </md-option>
             </md-select>
             <label *ngIf="allServicesMapped" class="error_text">All Services Mapped</label>
           </div>
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 m-t-5">
-            <!-- 						<button color="primary" type="button" name="back" md-raised-button class="pull-left " (click)="back()">Back</button> -->
+          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 m-t-15">
+            <!--            <button color="primary" type="button" name="back" md-raised-button class="pull-left " (click)="back()">Back</button> -->
+            <button color="primary" type="button" name="back" md-raised-button class="pull-left" (click)="back()">Back</button>
+
             <button *ngIf="!allServicesMapped" color="primary" type="button" name="modify" [disabled]="!modifyForm.valid" md-raised-button class="pull-right " (click)="modifyProvider(modifyForm.value)">Submit</button>
           </div>
         </form>
