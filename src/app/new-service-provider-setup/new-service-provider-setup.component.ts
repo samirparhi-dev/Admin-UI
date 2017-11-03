@@ -130,6 +130,22 @@ export class NewServiceProviderSetupComponent implements OnInit {
   {
     return false;
   }
+
+  setGenderOnCondition(title)
+  {
+    if(title===2||title===4||title===5||title===13)
+    {
+      this.gender=2;
+    }
+    else if(title===3||title===8)
+    {
+      this.gender=1;
+    }
+    else
+    {
+      this.gender="";
+    }
+  }
   
   requestObject() {
     this.request_object = {

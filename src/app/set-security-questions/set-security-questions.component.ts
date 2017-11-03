@@ -205,9 +205,6 @@ export class SetSecurityQuestionsComponent implements OnInit {
    
 
     if (this.selectedQuestions.length == 3) {
-
-      this.alertService.alert("GOOD TO GO");
-
       this.dataArray = [{
         'userID': this.uid,
         'questionID': this.question1,

@@ -512,7 +512,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });
     }
-    if (categoriesExist.length > 0) {
+    if (categoriesExist!=undefined && categoriesExist.length > 0) {
       this.categoryExist = true;
     } else {
       this.categoryExist = false;
@@ -532,7 +532,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
                   obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
               }
             });
-            if (subCategoriesExist.length > 0) {
+            if (subCategoriesExist!=undefined && subCategoriesExist.length > 0) {
               this.subCategoryExist = true;
             } else {
               this.subCategoryExist = false;

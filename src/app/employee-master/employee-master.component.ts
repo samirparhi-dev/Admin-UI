@@ -34,9 +34,9 @@ export class EmployeeMasterComponent implements OnInit {
 
 
   constructor(public EmployeeMasterService: EmployeeMasterService,
-    public CommonDataService: dataService,
-    public dialog: MdDialog,
-    private alertService: ConfirmationDialogsService) {
+              public CommonDataService: dataService,
+              public dialog: MdDialog,
+              private alertService: ConfirmationDialogsService) {
     this.serviceProviderID = this.CommonDataService.service_providerID;
 
     this.createEmployeeFlag = false;
@@ -57,17 +57,17 @@ export class EmployeeMasterComponent implements OnInit {
       "userName": empname,
       "userID": empid
     }
-    if (request_obj.pSMStateID === undefined) {
+    if (request_obj.pSMStateID === undefined||request_obj.pSMStateID==="") {
       request_obj.pSMStateID = null;
     }
-    if (request_obj.serviceID === undefined) {
+    if (request_obj.serviceID === undefined||request_obj.serviceID==="") {
       request_obj.serviceID = null;
     }
-    if (request_obj.roleID === undefined) {
+    if (request_obj.roleID === undefined||request_obj.roleID ==="") {
 
       request_obj.roleID = null;
     }
-    if (request_obj.userName === undefined) {
+    if (request_obj.userName === undefined||request_obj.userName==="") {
 
       request_obj.userName = null;
     }
@@ -80,6 +80,20 @@ export class EmployeeMasterComponent implements OnInit {
     }
     console.log(request_obj, "reqOBJ");
     this.EmployeeMasterService.getEmployees(request_obj).subscribe(response => this.getEmployeesSuccessHandeler(response));
+  }
+
+  clear()
+  {
+    this.state_filter="";
+    this.service_filter="";
+    this.role_filter="";
+    this.name_filter="";
+    this.employee_id_filter="";
+
+    this.services=[];
+    this.roles=[];
+
+    this.tableitems=[];
   }
 
   changeFlagValue(boolean_value) {
@@ -103,9 +117,9 @@ export class EmployeeMasterComponent implements OnInit {
         this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe(response => this.userDeleteHandeler(response));
       }
     },
-      (err) => {
-        console.log(err);
-      })
+    (err) => {
+      console.log(err);
+    })
   }
 
   editeUser(toBeEditedObject) {
@@ -129,9 +143,9 @@ export class EmployeeMasterComponent implements OnInit {
         });
       }
     },
-      (err) => {
-        console.log(err);
-      })
+    (err) => {
+      console.log(err);
+    })
   }
 
   getStatesOfServiceProviderSuccessHandeler(response) {
@@ -181,9 +195,9 @@ export class EditEmployeeDetailsModal {
   m_address2: any;
   m_middlename: any;
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-    public EmployeeMasterService: EmployeeMasterService, public CommonDataService: dataService,
-    public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
-    private alertService: ConfirmationDialogsService) { }
+              public EmployeeMasterService: EmployeeMasterService, public CommonDataService: dataService,
+              public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
+              private alertService: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.m_firstname = this.data.firstName;
@@ -311,7 +325,7 @@ export class EditEmployeeDetailsModal {
 
 
     this.EmployeeMasterService.editEmployee(edit_req_obj)
-      .subscribe(response => this.editEmployeeDetailsSuccessHandeler(response));
+    .subscribe(response => this.editEmployeeDetailsSuccessHandeler(response));
 
   }
 

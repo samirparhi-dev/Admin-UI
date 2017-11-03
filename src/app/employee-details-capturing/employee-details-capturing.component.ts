@@ -31,6 +31,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   lastname: any;
   gender: any;
   dob: any;
+  maxdate:any;
+  mindate:any;
   mobileNumber: any;
   emailID: any;
   employeeID: any;
@@ -131,10 +133,15 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     jQuery("#UD0").css('font-size', '130%');
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate=new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate=new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
+
     this.EmployeeMasterService.getCommonRegistrationData()
-      .subscribe(response => this.commonRegistrationDataSuccessHandeler(response));
+    .subscribe(response => this.commonRegistrationDataSuccessHandeler(response));
     this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID)
-      .subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
+    .subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
     this.EmployeeMasterService.getQualifications().subscribe(response => this.getQualificationsHandeler(response));
     // this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     this.email_expression=/^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
@@ -142,6 +149,11 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.data = [];
     this.previleges = [];
     this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));
+  }
+
+  preventTyping()
+  {
+    return false;
   }
 
   setGenderOnCondition(title)
@@ -164,14 +176,14 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getServices(value) {
     this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, value.stateID)
-      .subscribe(response => this.getServicesOfServiceProviderSuccessHandeler(response));
+    .subscribe(response => this.getServicesOfServiceProviderSuccessHandeler(response));
 
   }
 
   getOffices(value1, value2) {
 
     this.EmployeeMasterService.getWorkLocationsInState(this.serviceProviderID, value1.stateID, value2.serviceID)
-      .subscribe(response => this.getWorkLocationsInStateSuccessHandeler(response));
+    .subscribe(response => this.getWorkLocationsInStateSuccessHandeler(response));
 
   }
   allDesignationsSuccess(res) {
@@ -180,7 +192,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
   getRoles(value1, value2) {
     this.EmployeeMasterService.getRoles(this.serviceProviderID, value1.stateID, value2.serviceID)
-      .subscribe(response => this.getRolesSuccessHandeler(response));
+    .subscribe(response => this.getRolesSuccessHandeler(response));
     this.hideOffRole = true;
 
   }
@@ -332,7 +344,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
 
   getcurrentDistricts(stateID){
-        this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getcurrentDistrictsSuccessHandeler(response));
+    this.EmployeeMasterService.getDistricts(stateID).subscribe(response => this.getcurrentDistrictsSuccessHandeler(response));
 
 
   }
@@ -650,8 +662,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   filterArray(array: any) {
     const o = {};
     return array = array
-      .filter((thing, index, self) => self
-        .findIndex((t) => { return t.languageID === thing.languageID }) === index)
+    .filter((thing, index, self) => self
+            .findIndex((t) => { return t.languageID === thing.languageID }) === index)
   }
 
 
