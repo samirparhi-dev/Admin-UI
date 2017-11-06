@@ -82,6 +82,7 @@ import { VanTypeComponent } from './van-type-master/van-type-master.component';
 import { VanServicePointMappingComponent } from './van-service-point-mapping/van-service-point-mapping.component';
 import { EmployeeParkingPlaceMappingComponent } from './employee-parking-place-mapping/employee-parking-place-mapping.component';
 import { VillageMasterComponent } from './village-master/village-master.component';
+import { EditVillageModal } from './village-master/village-master.component';
 
 import { CommonDialogComponent } from './common-dialog/common-dialog.component'
 
@@ -195,7 +196,7 @@ import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agen
     InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent,VillageMasterComponent, InstituteTypeMasterComponent,EditInstituteType,
-    UserRoleAgentIDMappingComponent,AgentIDMappingModal
+    UserRoleAgentIDMappingComponent,AgentIDMappingModal,EditVillageModal
 
   ],
 
@@ -291,7 +292,8 @@ import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agen
     EditHospitalModal,
     EditInstituteSubDirectory,
     EditInstituteType,
-    AgentIDMappingModal
+    AgentIDMappingModal,
+    EditVillageModal
   ],
 
   bootstrap: [AppComponent]

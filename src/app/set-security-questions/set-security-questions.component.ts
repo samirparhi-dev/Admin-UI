@@ -136,9 +136,6 @@ export class SetSecurityQuestionsComponent implements OnInit {
     /*filter the primary array based on the selection and feed resultant to Q_array_one*/
     this.Q_array_one=this.filter_function(questionID,this.replica_questions);
     // this.questions=this.Q_array_one;
-    
-
-
   }
 
   filterArrayTwo(questionID)
@@ -149,10 +146,6 @@ export class SetSecurityQuestionsComponent implements OnInit {
 
     /*filter the Q_array_one based on the selection and feed resultant to Q_array_two*/
     this.Q_array_two=this.filter_function(questionID,this.Q_array_one);
-    
-
-
-
   }
 
   filter_function(questionID,array)
@@ -160,121 +153,94 @@ export class SetSecurityQuestionsComponent implements OnInit {
     let dummy_array=[];
     for(let i=0;i<array.length;i++)
     {
-      if(array[i].QuestionID===questionID)
-      {
+      if(array[i].QuestionID===questionID){
        continue;
-      }
-      else
-      {
-        dummy_array.push(array[i]);
-      }
+     }
+     else{
+      dummy_array.push(array[i]);
     }
-    return dummy_array;
-    
   }
+  return dummy_array;
+}
 
- /* disableAnswerField(position)
+dataArray: any = [];
+
+setSecurityQuestions() {
+  if (this.selectedQuestions.length == 3) 
   {
-    if(position===0)
+    this.dataArray = [
     {
-      console.log("pehla");
-      this.answer1="";
-      this.question1="";
-      // jQuery("#ans1").prop("disabled",true);
-    }
-    if(position===1)
+      'userID': this.uid,
+      'questionID': this.question1,
+      'answers': this.answer1,
+      'mobileNumber': '1234567890',
+      'createdBy': this.uname
+    },
     {
-      console.log("dusra");
-      this.answer2="";
-      this.question2="";
-      // jQuery("#ans2").prop("disabled",true);
-    }
-    if(position===2)
+      'userID': this.uid,
+      'questionID': this.question2,
+      'answers': this.answer2,
+      'mobileNumber': '1234567890',
+      'createdBy': this.uname
+    },
     {
-      console.log("teesra");
-      this.answer3="";
-      this.question3="";
-      // jQuery("#ans3").prop("disabled",true);
-    }
-  }*/
+      'userID': this.uid,
+      'questionID': this.question3,
+      'answers': this.answer3,
+      'mobileNumber': '1234567890',
+      'createdBy': this.uname
+    }];
 
-  dataArray: any = [];
+    console.log("Request Array",this.dataArray);
+    console.log("selected questions",this.selectedQuestions);                                                                                                                         
 
-  setSecurityQuestions() {
-
-   
-
-    if (this.selectedQuestions.length == 3) {
-      this.dataArray = [{
-        'userID': this.uid,
-        'questionID': this.question1,
-        'answers': this.answer1,
-        'mobileNumber': '1234567890',
-        'createdBy': this.uname
-      },
-      {
-        'userID': this.uid,
-        'questionID': this.question2,
-        'answers': this.answer2,
-        'mobileNumber': '1234567890',
-        'createdBy': this.uname
-      },
-      {
-        'userID': this.uid,
-        'questionID': this.question3,
-        'answers': this.answer3,
-        'mobileNumber': '1234567890',
-        'createdBy': this.uname
-      }
-      ]
-      
-
-      console.log("Request Array",this.dataArray);
-      console.log("selected questions",this.selectedQuestions);
-
-      this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray).subscribe(
-                                                                                                                                 (response: any) => this.handleQuestionSaveSuccess(response),
-                                                                                                                                 (error: any) => this.handleQuestionSaveError(error));
-
-    } 
-    else {
-      this.alertService.alert("All 3 questions should be different. Please check your selected Questions");
-    }
-  }
-
-  handleQuestionSaveSuccess(response) {
-    console.log('saved questions', response);
     this.switch();
+  } 
+  else 
+  {
+    this.alertService.alert("All 3 questions should be different. Please check your selected Questions");
+  }
+}
+
+
+
+oldpwd: any;
+newpwd: any;
+confirmpwd: any;
+
+updatePassword(new_pwd) {
+  if (new_pwd === this.confirmpwd) {
+    this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray)
+    .subscribe((response: any) => this.handleQuestionSaveSuccess(response,new_pwd),
+               (error: any) => this.handleQuestionSaveError(error));
 
   }
-  handleQuestionSaveError(response) {
-    console.log('question save error', response);
+  else {
+    this.alertService.alert("Password doesn't match");
   }
+}
 
-  oldpwd: any;
-  newpwd: any;
-  confirmpwd: any;
 
-  updatePassword(new_pwd) {
-    if (new_pwd === this.confirmpwd) {
-      this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword', { 'userName': this.uname, 'password': new_pwd }).
-      subscribe(
-                (response: any) => this.successCallback(response),
-                (error: any) => this.errorCallback(error));
-    }
-    else {
-      this.alertService.alert("Password doesn't match");
-    }
-  }
+handleQuestionSaveSuccess(response,new_pwd) {
+  console.log('saved questions', response);
+  this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
+                           { 'userName': this.uname, 'password': new_pwd })
+  .subscribe((response: any) => this.successCallback(response),
+             (error: any) => this.errorCallback(error));
 
-  successCallback(response) {
+}
+handleQuestionSaveError(response) {
+  console.log('question save error', response);
+}
 
-    console.log(response);
-    this.alertService.alert("Password changed Successfully");
-    this.router.navigate(['']);
-  }
-  errorCallback(response) {
-    console.log(response);
-  }
+successCallback(response) {
+
+  console.log(response);
+  this.alertService.alert("Password changed Successfully");
+  this.router.navigate(['']);
+}
+errorCallback(response) {
+  console.log(response);
+}
 
 }

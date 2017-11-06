@@ -374,6 +374,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['password'] = this.password;
     provider_admin_details_obj['titleID'] = this.title;
     provider_admin_details_obj['genderID'] = this.gender;
+     // provider_admin_details_obj['roleID'] = 11;
     this.dob;
     this.address1;
     provider_admin_details_obj['dob'] = new Date(
@@ -393,7 +394,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['emrContactPersion'] = '';
     provider_admin_details_obj['emrConctactNo'] = '';
     ;
-    provider_admin_details_obj['statusID'] = this.status[0].statusID.toString()
+    provider_admin_details_obj['statusID'] = this.status[0].statusID.toString();
 
     this.request_object.stateAndServiceMapList = this.request_object.stateAndServiceMapList.map(function (item) {
       console.log(item);

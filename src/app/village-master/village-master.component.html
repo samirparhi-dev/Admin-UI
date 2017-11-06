@@ -1,4 +1,4 @@
-<div *ngIf="showVillages && !editable">
+<!-- <div *ngIf="showVillages && !editable">
     <div *ngIf="showVillages" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4>Search Villages</h4>
         <form #searForm="ngForm">
@@ -182,3 +182,172 @@
    <button class="btn pull-left" (click)="VillageForm.reset();clearEdit()">Back</button> <button *ngIf="villageList.length>0" class="btn pull-right " (click)="storeVillages()">Submit</button>
   </div>
 </div>
+ -->
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <h4 class="pull-left">Village Master</h4>
+    </div>
+    <form id="searchFields" #searchFields="ngForm">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+        <md-select placeholder="State" [style.width]="'100%'" [disabled]="disable_flag" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID);" #stateVal="ngModel" required>
+          <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+            {{state.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+        <md-select placeholder="District" [style.width]="'100%'" [disabled]="disable_flag" [(ngModel)]="searchDistrictID" name="searchDistrictID" (change)="GetTaluks(searchDistrictID)" required>
+          <md-option *ngFor="let district of districts" [value]="district.districtID">
+            {{district.districtName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+        <md-select placeholder="Taluk" [style.width]="'100%'" [disabled]="disable_flag" [(ngModel)]="searchTalukID" name="searchTalukID" (change)="GetBranches(searchTalukID);" required>
+          <md-option *ngFor="let taluk of taluks" [value]="taluk.blockID">
+            {{taluk.blockName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+      <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="showTableFlag">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+      <table [md2Data]="availableVillages" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th width="15%">Village</th>
+            <th width="15%">Panchayat Name</th>
+            <th width="10%">Habitat</th>
+            <th width="10%">Pincode</th>
+            <th width="15%">Government VillageID</th>
+            <th width="20%">Government SubDistrictID</th>
+            <th width="15%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="availableVillages.length == 0">
+            <td colspan="7">NO RECORD FOUND!!</td>
+          </tr>
+          <tr *ngFor="let item of md2.data">
+            <td>{{item.villageName}}</td>
+            <td>{{item.panchayatName}}</td>
+            <td>{{item.habitat}}</td>
+            <td>{{item.pinCode}}</td>
+            <td>{{item.govVillageID}}</td>
+            <td>{{item.govSubDistrictID}}</td>
+            <td>
+              <md-icon mdTooltip="edit" *ngIf="item.deleted=='0'" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+              <button *ngIf="item.deleted=='0'" md-raised-button color="primary" (click)="updateVillageStatus(item)">Deactivate</button>
+              <button *ngIf="item.deleted=='1'" md-raised-button color="primary" (click)="updateVillageStatus(item)">Activate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="4">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!searchFields.valid">Add Village</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="showFormFlag">
+    <form id="villageForm" #villageForm="ngForm">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance(searchTalukID,villageName)">
+          <md-hint>
+            <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>
+            <span class="error_text" *ngIf="VillageN.valid && villageNameExist">Village already exists</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" name="panchayatName">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput placeholder="Habitat" [(ngModel)]="habitat" name="habitat">
+        </md-input-container>
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'" myMobileNumber>
+          <input mdInput placeholder="Pincode" [(ngModel)]="pinCode" name="pinCode" maxlength="6" minlength="6" #PINC="ngModel">
+          <md-hint [hidden]=PINC.valid>
+            <span class="error_text" *ngIf="!PINC.valid  && ( PINC.dirty || PINC.touched)">Please enter valid pincode</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID">
+        </md-input-container>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput placeholder="Government SubDistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID">
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-10">
+      <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="pull-right" color="primary" (click)="addVillageToList(villageForm.value);villageForm.reset()">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 m-t-10" *ngIf="villageList.length>0">
+      <table [md2Data]="villageList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th width="15%">Village</th>
+            <th width="15%">PanchayatName</th>
+            <th width="10%">Habitat</th>
+            <th width="10%">PinCode</th>
+            <th width="15%">GovVillageID</th>
+            <th width="20%">GovSubDistrictID</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="availableVillages.length == 0">
+            <td colspan="7">NO RECORD FOUND!!</td>
+          </tr>
+          <tr *ngFor="let item of md2.data">
+            <td>{{item.villageName}}</td>
+            <td>{{item.panchayatName}}</td>
+            <td>{{item.habitat}}</td>
+            <td>{{item.pinCode}}</td>
+            <td>{{item.govVillageID}}</td>
+            <td>{{item.govSubDistrictID}}</td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">clear</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      <button class="pull-left" md-raised-button (click)="back()">Back</button>
+      <button class="pull-right" md-raised-button color="primary" [disabled]="villageList.length<1" (click)="storeVillages()">Save</button>
+    </div>
+  </div>
+</md-card>
