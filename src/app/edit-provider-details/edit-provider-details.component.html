@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <h2 md-dialog-title>
     <div class="row">
-      <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4">Edit Provider</div>
-      <div class="col-xs-1 col-sm-1 col-md-4 col-lg-4"></div>
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">Edit Provider</div>
+      
       <div class="pull-right">
         <button md-icon-button class="closeBtn" md-dialog-close>
         <i class="material-icons">close</i>
@@ -19,41 +19,41 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <label class="pull-left">Primary Details</label>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
-              <md-input-container style="width: 100% " myName>
-                <input required mdInput placeholder="Name" [(ngModel)]="providerName" name="providerName" #name="ngModel" minlength="2" maxlength="25"> 
+            <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6">
+              <md-input-container style="width: 100% " myName2>
+                <input required mdInput placeholder="Provider Name" [(ngModel)]="providerName" [disabled]="true" name="providerName" #name="ngModel" minlength="2" maxlength="25"> 
                 <md-hint *ngIf="name.touched"> 
                   <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
                   <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
                 </md-hint>
               </md-input-container>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
-              <md-input-container style="width: 100% " myProviderName>
-                <input required mdInput placeholder="Name" [(ngModel)]="primaryName" name="primaryName" #namee="ngModel" minlength="2" maxlength="25"> 
+            <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6">
+              <md-input-container style="width: 100% " myName2>
+                <input required mdInput placeholder="Contact Name" [(ngModel)]="primaryName" name="primaryName" #namee="ngModel" minlength="2" maxlength="25"> 
               <md-hint *ngIf="name.touched"> 
                 <span class="errorText" [hidden]="!namee.errors">Enter atleast 2 characters</span>
               
               </md-hint>
               </md-input-container>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+            <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6">
               <md-input-container style="width: 100% ">
                 <input required mdInput placeholder="Email" [(ngModel)]="primaryEmail" [pattern]="emailPattern" name="primaryEmail" #validEmail="ngModel">
               <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
             </md-hint>
               </md-input-container>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" myMobileNumber>
+            <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6" myMobileNumber>
               <md-input-container style="width: 100% ">
               <input required mdInput placeholder="Phone Number" [(ngModel)]="primaryNo" name="primaryNo" #number="ngModel" minlength="10" maxlength="10">
                 <md-hint class="errorText" *ngIf="number.errors && number.touched">Enter 10 digit mobile number
                 </md-hint>
               </md-input-container>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-12 col-lg-12">
               <md-input-container style="width: 100% ">
-                <input mdInput placeholder="Address" [(ngModel)]="primaryAddress" name="prinamryAdress">
+                <input mdInput placeholder="Address" [(ngModel)]="primaryAddress" name="prinamryAdress" maxlength="50">
               </md-input-container>
             </div>
           </div>
@@ -82,8 +82,8 @@
               </md-input-container>
             </div>
           </div> -->
-          <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
-            <button md-raised-button color="primary" [disabled]="!form.valid || providerNameExist" class="pull-right" (click)="Edit(form.value)">Save
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  m-t-20 " align="center">
+            <button md-raised-button color="primary" [disabled]="!form.valid || providerNameExist" (click)="Edit(form.value)">Save
               </button>
           </div>
         </form>

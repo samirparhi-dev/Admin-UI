@@ -30,7 +30,7 @@ export class EditProviderDetailsComponent implements OnInit {
   ngOnInit() {
     const providerData = this.providerDetails;
     this.setProviderDetails(providerData);
-    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    this.emailPattern =  /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
 
   }
