@@ -64,6 +64,7 @@ export class VillageMasterComponent implements OnInit {
         this.villageMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
+        this.taluks=[];
         this.districts = response;
         console.log(this.districts)
     }
