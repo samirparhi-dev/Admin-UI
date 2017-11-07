@@ -93,6 +93,7 @@
         </md-select>-->
           <md-select style="width: 100%" class="p-t-14" placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
               <md-option value="Valid">Valid</md-option>
+               <md-option value="Transfer" *ngIf="service == 1">Transfer</md-option>
               <md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
               <md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
             </md-select>
