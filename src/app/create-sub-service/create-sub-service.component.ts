@@ -52,6 +52,7 @@ export class CreateSubServiceComponent implements OnInit {
   getAllStatesSuccesshandeler(response) {
 
     this.states = response;
+    this.services=[];
     // if(this.added){
     //   this.searchState = this.state;
     //   ;
@@ -255,7 +256,8 @@ export class CreateSubServiceComponent implements OnInit {
     }, (err) => { });
   }
   clearFields() {
-    this.subServiceDesc = '';
+    // this.subServiceDesc = '';
+    jQuery("#form2").trigger('reset');
     this.getExistingSubService(this.serviceObj);
   }
   deletedSuccessHandler(res) {

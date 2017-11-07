@@ -112,6 +112,8 @@
       <div class="col-xs-12 col-sm-4 col-md-8 col-lg-8  m-t-20" *ngIf="allServicesAdded">
         <label class="errorText">All services Mapped </label>
       </div>
+    </form>
+    <form #resetFieldsForm="ngForm" id="form2">
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4  m-t-30" *ngIf="!subServiceAvailable && !allServicesAdded">
         <md-select name="subService" placeholder="Sub Services" [style.width]="'100%'" [(ngModel)]="subService" required>
           <md-option *ngFor="let subService of subServices" [value]="subService">
@@ -124,12 +126,13 @@
       </div>
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 m-t-15" *ngIf="!subServiceAvailable && !allServicesAdded">
         <md-input-container style="width: 100% ">
-          <input required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc">
+          <input id="description" required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc" maxlength="50">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button md-raised-button color="primary" class="pull-left" (click)="addSubService(true)">Back</button>
-        <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="primary" class="pull-right" [disabled]="!form.valid " (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
+        <button md-raised-button color="primary" type="button" class="pull-left" (click)="addSubService(true)">Back</button>
+        <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="primary" type="button" class="pull-right" [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
+
       </div>
       <!-- <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
       <button color="primary" class="pull-right" md-mini-fab (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">
