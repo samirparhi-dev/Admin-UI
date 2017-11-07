@@ -365,6 +365,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   finalSubmit() {
     console.log(this.dob);
     let provider_admin_details_obj = {};
+
     provider_admin_details_obj['firstName'] = this.firstname;
     provider_admin_details_obj['middleName'] = this.middlename;
     provider_admin_details_obj['lastName'] = this.lastname;
@@ -385,7 +386,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     ).toJSON();
     provider_admin_details_obj['maritalStatusID'] = '';
     
-    if(this.aadhaar_number)
+    if(this.aadhaar_number && this.aadhaar_number.trim().length>0)
     {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
