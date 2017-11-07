@@ -391,7 +391,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
 
-    if(this.pan_number)
+    if(this.pan_number && this.pan_number.trim().length>0)
     {
       provider_admin_details_obj['panNo'] = this.pan_number;
     }
@@ -399,9 +399,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
     // provider_admin_details_obj['panNo'] = this.pan_number
     //   ? this.pan_number
     //   : '';
-    provider_admin_details_obj['qualificationID'] = '';
-    provider_admin_details_obj['emrContactPersion'] = '';
-    provider_admin_details_obj['emrConctactNo'] = '';
+    provider_admin_details_obj['qualificationID'] = undefined;
+    provider_admin_details_obj['emrContactPersion'] = undefined;
+    provider_admin_details_obj['emrConctactNo'] = undefined;
     ;
     provider_admin_details_obj['statusID'] = this.status[0].statusID.toString();
 

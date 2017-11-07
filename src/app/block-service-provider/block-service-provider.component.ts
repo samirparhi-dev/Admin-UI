@@ -79,7 +79,7 @@ export class BlockServiceProviderComponent implements OnInit {
   getServicesInState(serviceProviderID, stateID) {
     this.block_provider.getServicesInState(serviceProviderID, stateID)
       .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
-    this.getStatus(this.service_provider, this.state, this.serviceline)
+    
 
   }
   // success handelers
@@ -115,12 +115,14 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   getAllServicesOfProviderSuccesshandeler(response) {
+    this.serviceline = '';
     this.services_array = response;
   }
 
   getServicesInStatesSuccesshandeler(response) {
     this.serviceline = '';
     this.services_array = response;
+    this.getStatus(this.service_provider, this.state, this.serviceline)
   }
 
   // Get STATUS function 

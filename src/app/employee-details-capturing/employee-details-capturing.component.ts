@@ -48,7 +48,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   marital_status: any;
   religion: any;
   community: any
-  showSlider: boolean = false;
+  showCheckboxes: boolean = false;
 
   allQualificationTypes: any = [];
   communities: any = [];
@@ -57,7 +57,8 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   // allQualifications:any=[];
 
   /*language*/
-  languages: any;
+  language: any;
+  weightage:any=1;
   // preferredlanguage: any;
   allLanguages: any = [];
   dummy_allLanguages: any = [];// just for visual tricks
@@ -118,7 +119,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   allDesignations: any = [];
 
   constructor(public EmployeeMasterService: EmployeeMasterService, public commonDataService: dataService, private alertService: ConfirmationDialogsService) {
-    this.languages = [];
+    // this.languages = [];
     this.index = 0;
 
     this.serviceProviderID = this.commonDataService.service_providerID;
@@ -354,55 +355,55 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
   }
 
   disableLanguageSubmit: boolean = true;
-  updateSliderData(data, index) {
-    let index_exists = false;
-    let obj = {};
-    obj = {
-      'language_index': index,
-      'value': data
-    }
-    let temp: boolean = false;
-    let a;
-    if (this.sliderarray.length === 0) {
-      this.sliderarray.push(obj);
-    }
-    else {
-      for (let i = 0; i < this.sliderarray.length; i++) {
-        if (this.sliderarray[i].language_index == index) {
-          a = i;
-          temp = true;
-          break;
-        }
+  // updateSliderData(data, index) {
+  //   let index_exists = false;
+  //   let obj = {};
+  //   obj = {
+  //     'language_index': index,
+  //     'value': data
+  //   }
+  //   let temp: boolean = false;
+  //   let a;
+  //   if (this.sliderarray.length === 0) {
+  //     this.sliderarray.push(obj);
+  //   }
+  //   else {
+  //     for (let i = 0; i < this.sliderarray.length; i++) {
+  //       if (this.sliderarray[i].language_index == index) {
+  //         a = i;
+  //         temp = true;
+  //         break;
+  //       }
 
-      }
-      if (temp) {
-        this.sliderarray[a].value = data;
-        index_exists = true;
-      }
-      if (index_exists == false) {
-        this.sliderarray.push(obj);
-      }
-    }
+  //     }
+  //     if (temp) {
+  //       this.sliderarray[a].value = data;
+  //       index_exists = true;
+  //     }
+  //     if (index_exists == false) {
+  //       this.sliderarray.push(obj);
+  //     }
+  //   }
 
-    // assigning weightage array
-    for (let i = 0; i < this.sliderarray.length; i++) {
-      this.language_weightage.push(this.sliderarray[i].value);
-    }
+  //   // assigning weightage array
+  //   for (let i = 0; i < this.sliderarray.length; i++) {
+  //     this.language_weightage.push(this.sliderarray[i].value);
+  //   }
 
-    // to  check highly proficient language.....not the most proficient language would be at the end of array
+  //   // to  check highly proficient language.....not the most proficient language would be at the end of array
 
-    this.sliderarray.sort(function (a, b) { return a.value - b.value });
-    console.log(this.sliderarray);
-    this.disableLanguageSubmit = true;
-    this.disableLanguageSubmit = this.sliderarray.forEach(function (obj) {
-      if (obj.value > 0) {
+  //   this.sliderarray.sort(function (a, b) { return a.value - b.value });
+  //   console.log(this.sliderarray);
+  //   this.disableLanguageSubmit = true;
+  //   this.disableLanguageSubmit = this.sliderarray.forEach(function (obj) {
+  //     if (obj.value > 0) {
 
-        return false;
+  //       return false;
 
-      }
-    });
-    console.log(this.disableLanguageSubmit);
-  }
+  //     }
+  //   });
+  //   console.log(this.disableLanguageSubmit);
+  // }
 
   previleges: any = [];
   pushPrivelege(value) {
@@ -593,6 +594,9 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       'isPresent': '1',  // by default it will remain 1 , if checked, then permanent will also be 1
       'isPermanent': this.isPermanent,
       'languageID': this.multiLanguages.map(item => { return item.languageID }),
+      'canRead' :this.multiLanguages.map(item => { return item.read }),
+      'canWrite' :this.multiLanguages.map(item => { return item.write }),
+      'canSpeak' :this.multiLanguages.map(item => { return item.speak }),
       'weightage': this.multiLanguages.map(item => { return item.weightage }),
       // 'languageID': this.languages,
       // 'weightage': this.language_weightage,
@@ -607,7 +611,14 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(a);
     ;
     // console.log('create employee request Object:', JSON.stringify(request_object));
-    this.EmployeeMasterService.createEmployee(a).subscribe(response => this.createEmployeeSuccessHandeler(response));
+    this.EmployeeMasterService.createEmployee(a).subscribe(response => this.createEmployeeSuccessHandeler(response),
+                                                           error=> this.createEmployeeErrorHandeler(error));
+  }
+
+
+  createEmployeeErrorHandeler(error)
+  {
+    this.alertService.alert("Kindly fill all the mandatory fields and try again");
   }
 
 
@@ -637,33 +648,103 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
     }
   }
+
+
+
   setLanguage(languageArray: any) {
 
     this.lang = languageArray;
-    this.showSlider = true;
+    this.showCheckboxes = true;
   }
-  addLanguage(language: any, weightage: any) {
-    ;
+
+  addLanguage(language: any,weightage: any) {
     let langObj = {};
     langObj['languageName'] = language.languageName;
     langObj['languageID'] = language.languageID;
-    langObj['weightage'] = weightage;
+    langObj['read'] = this.read;
+    langObj['weightage']=weightage;
+
+    
+    langObj['write'] = this.write;
+    langObj['speak'] = this.speak;
     if (this.multiLanguages.length === 0) {
       this.multiLanguages.push(langObj);
+
+      /*resetting*/
+      this.read=false;
+      this.write=false;
+      this.speak=false;
+      this.lang=[];
+      
+      jQuery("#languagesForm").trigger('reset');
+      this.weightage=1;
+      this.showCheckboxes=false;
     } else {
       this.multiLanguages.push(langObj);
       this.multiLanguages = this.filterArray(this.multiLanguages);
+
+      /*resetting*/
+      this.read=false;
+      this.write=false;
+      this.speak=false;
+      this.lang=[];
+     
+      jQuery("#languagesForm").trigger('reset');
+      this.weightage=1;
+
+      this.showCheckboxes=false;
     }
   }
+
   deleteRow(i) {
-    ;
     this.multiLanguages.splice(i, 1);
   }
+
   filterArray(array: any) {
     const o = {};
     return array = array
     .filter((thing, index, self) => self
             .findIndex((t) => { return t.languageID === thing.languageID }) === index)
+  }
+
+
+  read:boolean=false;
+  setRead(value)
+  {
+    if(value.checked)
+    {
+      this.read=true;
+    }
+    else
+    {
+      this.read=false;
+    }
+  }
+
+  write:boolean=false;
+  setWrite(value)
+  {
+    if(value.checked)
+    {
+      this.write=true; 
+    }
+    else
+    {
+      this.write=false;
+    }
+  }
+
+  speak:boolean=false;
+  setSpeak(value)
+  {
+    if(value.checked)
+    {
+      this.speak=true; 
+    }
+    else
+    {
+      this.speak=false;
+    }
   }
 
 
