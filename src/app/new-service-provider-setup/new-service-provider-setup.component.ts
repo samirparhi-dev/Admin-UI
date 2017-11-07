@@ -388,14 +388,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
     if(this.aadhaar_number)
     {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
-    }else
+    }
+
+    if(this.pan_number)
     {
-      provider_admin_details_obj['aadharNo'] ="";
+      provider_admin_details_obj['panNo'] = this.pan_number;
     }
     
-    provider_admin_details_obj['panNo'] = this.pan_number
-      ? this.pan_number
-      : '';
+    // provider_admin_details_obj['panNo'] = this.pan_number
+    //   ? this.pan_number
+    //   : '';
     provider_admin_details_obj['qualificationID'] = '';
     provider_admin_details_obj['emrContactPersion'] = '';
     provider_admin_details_obj['emrConctactNo'] = '';
