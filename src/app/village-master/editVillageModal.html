@@ -5,7 +5,7 @@
   <form #editVillageform="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance(villageName)">
+        <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance(villageName)" maxlength="30" myName2>
         <md-hint>
           <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>
           <span class="error_text" *ngIf="VillageN.valid && villageExist">Village already exists</span>
@@ -14,12 +14,12 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" name="panchayatName">
+        <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" maxlength="30" name="panchayatName" myName2>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Habitat" [(ngModel)]="habitat" name="habitat">
+        <input mdInput placeholder="Habitat" [(ngModel)]="habitat" maxlength="30" name="habitat" myName2>
       </md-input-container>
     </div>
     
@@ -33,12 +33,12 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID">
+        <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" myMobileNumber>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Government SubDistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID">
+        <input mdInput placeholder="Government SubDistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6" myMobileNumber>
       </md-input-container>
     </div>
   </form>

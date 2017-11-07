@@ -150,7 +150,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   requestObject() {
     this.request_object = {
       serviceProviderName: "",
-      stateId: null,
+      // stateId: null,
       logoFileName: "",
       logoFilePath: "",
       primaryContactName: "",
@@ -372,8 +372,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['mobileNo'] = this.providerAdmin_PhoneNumber;
     provider_admin_details_obj['userName'] = this.username.toLowerCase();
     provider_admin_details_obj['password'] = this.password;
-    provider_admin_details_obj['titleID'] = this.title;
-    provider_admin_details_obj['genderID'] = this.gender;
+    provider_admin_details_obj['titleID'] = this.title.toString();
+    provider_admin_details_obj['genderID'] = this.gender.toString();
      // provider_admin_details_obj['roleID'] = 11;
     this.dob;
     this.address1;
@@ -384,9 +384,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.doj - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)
     ).toJSON();
     provider_admin_details_obj['maritalStatusID'] = '';
-    if (this.aadhaar_number) {
+    
+    if(this.aadhaar_number)
+    {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
+    }else
+    {
+      provider_admin_details_obj['aadharNo'] ="";
     }
+    
     provider_admin_details_obj['panNo'] = this.pan_number
       ? this.pan_number
       : '';
