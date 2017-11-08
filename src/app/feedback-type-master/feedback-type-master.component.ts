@@ -63,6 +63,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
   clear(){
     this.searchFTForm.resetForm();
+    this.servicelines=[];
     console.log("state",this.search_state);
     console.log("serviceLine",this.search_serviceline);
     this.feedbackTypes = [];

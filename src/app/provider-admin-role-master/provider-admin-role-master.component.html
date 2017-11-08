@@ -83,13 +83,15 @@
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
           <md-input-container style="width: 100%">
             <input mdInput placeholder="Role" [(ngModel)]="role" maxlength="50" name="role" (keyup)="validateRole(role)" required #roles="ngModel">
-            <md-hint class="error_text" *ngIf="othersExist && roles.touched">Role already exists
+            <md-hint  *ngIf="roles.touched">
+              <span class="error_text" *ngIf="othersExist">Role already exists</span>
+              <span class="error_text" *ngIf="roles.errors.required">Role is required</span>
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
           <md-input-container style="width: 100%">
-            <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
+            <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="100">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-25" *ngIf="hideAdd">
