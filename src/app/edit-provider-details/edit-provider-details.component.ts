@@ -46,75 +46,39 @@ export class EditProviderDetailsComponent implements OnInit {
     this.secondaryName = providerData[0].secondaryContactName;
     this.secondaryEmail = providerData[0].secondaryContactEmailID;
     this.secondaryNo = providerData[0].secondaryContactNo;
-    this.secondaryAddress = providerData[0].secondaryContactNo;
-
-
-
-
-
-
-
-
+    this.secondaryAddress = providerData[0].secondaryContactAddress;
   }
-  Edit(item: any) {
-    // {
-    // "serviceProviderId" : "292",
-    // "serviceProviderName":"Diamond BABA BABA abc",
-
-    //                   "stateId":"1",
-    //                   "logoFileName":"diamond.png",
-    //                   "logoFilePath":"google drive",
-
-    //                   "primaryContactName":"Neeraj Kumar Singh",
-    //                  "primaryContactNo" :"12432434",
-    //                   "primaryContactEmailID":"neeraj.kumar@gmail.com",
-    //                   "primaryContactAddress":"Village: Indupur, Dist:bhabua, state: bihar, pincode:811302",
-
-    //                   "secondaryContactName":"Neeraj Kumar",
-    //                   "secondaryContactNo":"8197511886",
-    //                   "secondaryContactEmailID":"neeraj.kumar1@gmail.com",
-    //                   "secondaryContactAddress":"Village: chaipur, Dist: hai, state: bihar, pincode:811302",
-
-    //                   "statusID":"1"
-    // }
+  Edit(item) {
     const providerObj = {};
     providerObj['serviceProviderId'] = this.providerID;
-    providerObj['serviceProviderName'] = item.providerName;
+    providerObj['serviceProviderName'] =this.providerName;
 
     providerObj['primaryContactName'] = item.primaryName;
     providerObj['primaryContactNo'] = item.primaryNo;
     providerObj['primaryContactEmailID'] = item.primaryEmail;
-    providerObj['primaryContactAddress'] = item.prinamryAdress;
+    providerObj['primaryContactAddress'] = item.primaryAddress;
 
     providerObj['secondaryContactName'] = item.secondaryName;
     providerObj['secondaryContactEmailID'] = item.secondaryEmail;
     providerObj['secondaryContactNo'] = item.secondaryNo;
     providerObj['secondaryContactAddress'] = item.secondaryAddress;
+
+    console.log(providerObj,"EDITED OBJ");
+
     this.provider_services.editProvider(providerObj).subscribe((res) => {
 
+      console.log(res,"Response after edit");
       this.message.alert('Updated Successfully');
-      this.array.push(res);
-      // this.setProviderDetails(this.array);
+      
       this.dialogRef.close();
     }, (err) => {
       this.message.alert('error');
     })
   }
-  array: any = [];
   checkProviderNameAvailability(service_provider_name) {
 
     this.super_admin_service.checkProviderNameAvailability(service_provider_name)
       .subscribe(response => this.checkProviderNameAvailibilityHandeler(response));
-    // for(var i=0; i<this.providerListArray.length; i++) {
-    //   if(this.providerListArray[i].serviceProviderName.toLowerCase() === service_provider_name.toLowerCase()){
-    //       this.providerNameExist = true;
-    //       ;
-    //   }
-    //   else  {
-    //     this.providerNameExist = false;
-    //   }
-    // }
-
   }
 
   checkProviderNameAvailibilityHandeler(response) {

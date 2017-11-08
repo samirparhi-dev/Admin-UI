@@ -53,6 +53,7 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.state = "";
     this.serviceline = "";
     this.servicelines = [];
+    this.allServicesMapped=false;
   }
   getAllStates(response) {
     this.states = response;
@@ -133,8 +134,8 @@ export class UpdateServiceProviderComponent implements OnInit {
   }
   edit(providerID: any) {
     const dialogRef = this.dialog.open(EditProviderDetailsComponent, {
-      height: '400px',
-      width: '400px',
+      height: '550px',
+      width: '450px',
       data: this.allProviders.filter(function (item) {
         return item.serviceProviderId === providerID
       })
