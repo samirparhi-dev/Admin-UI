@@ -1,88 +1,87 @@
-<md-card>   
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="width100 m-b-30 f-s-b">Call Disposition</h4>
-      <form #searchForm="ngForm">
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-select [disabled]="disableSelect" placeholder="State" name="state" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
-            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <md-select [disabled]="disableSelect" placeholder="Service Line" name="service" [style.width]="'100%'" [(ngModel)]="service" required >
-            <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        </div>
-        </form>
-<!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
+<md-card>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">Call Disposition</h4>
+    </div>
+    <form #searchForm="ngForm">
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+        <md-select [disabled]="disableSelect" placeholder="State" name="state" [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" required>
+          <md-option *ngFor="let item of provider_states" value="{{item.stateID}}">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+        <md-select [disabled]="disableSelect" placeholder="Service Line" name="service" [style.width]="'100%'" [(ngModel)]="service" required>
+          <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+    <!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
           <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
         </button>
         </div> -->
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
-      </div>
-      </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-10">
+      <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
     </div>
-
-    <div class="m-t-30" *ngIf="showTable">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
-          <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
-            <thead>
-              <tr>
-                <!--<th>ID</th>-->
-                <th>Call Type</th>
-                <th>Call Subtype </th>
-                <th>Blocking Required</th>
-                <th>FollowUp Required</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngIf="data.length == 0 ">
-                <td colspan="5">
-                  No Records Found
-                </td>
-              </tr>
-              <tr *ngFor="let i of md2.data">
-                <!--<td>{{i.callTypeID}}</td>-->
-                <td width=20%>{{i.callGroupType}}</td>
-                <td width=20%>{{i.callType}}</td>
-                <td width=20%>{{i.fitToBlock}}</td>
-                <td width=20%>{{i.fitForFollowup}}</td>
-                <td width=20%>
-               
-                  <span [hidden]="i.deleted"><md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon></span>
-<!--                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon> -->
-                      <button *ngIf="i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
-                      <button *ngIf="!i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, true)">Deactivate</button>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td  colspan="5">
-                  <md2-pagination></md2-pagination>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
-        </div>
-      </div>
+  </div>
+  <div class="row m-t-30" *ngIf="showTable">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
+      <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <!--<th>ID</th>-->
+            <th>Call Type</th>
+            <th>Call Subtype </th>
+            <th>Blocking Required</th>
+            <th>FollowUp Required</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="data.length == 0 ">
+            <td colspan="5">
+              No Records Found
+            </td>
+          </tr>
+          <tr *ngFor="let i of md2.data">
+            <!--<td>{{i.callTypeID}}</td>-->
+            <td width=20%>{{i.callGroupType}}</td>
+            <td width=20%>{{i.callType}}</td>
+            <td width=20%>{{i.fitToBlock}}</td>
+            <td width=20%>{{i.fitForFollowup}}</td>
+            <td width=20%>
+              <span [hidden]="i.deleted"><md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon></span>
+              <!--                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon> -->
+              <button *ngIf="i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
+              <button *ngIf="!i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="2">
+              <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
-    <div class="m-t-10" *ngIf="showForm">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
+    </div> -->
+  </div>
+  <!-- <div class="m-t-10" *ngIf="showForm"> -->
+    <div class="row m-t-10" *ngIf="showForm">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
         <form #callTypeSubCallType="ngForm" autocomplete="off" id="addingSubTypes">
-          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 m-t-15">
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 m-t-30">
             <!--<md-select placeholder="Call Type" [style.width]="'100%'" [(ngModel)]="callType" (change)="reset()">
           <md-option value="Valid Call">
             Valid Call
@@ -91,80 +90,78 @@
             Invalid Call
           </md-option>
         </md-select>-->
-          <md-select style="width: 100%" class="p-t-14" placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
+            <md-select style="width: 100%" placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
               <md-option value="Valid">Valid</md-option>
-               <md-option value="Transfer" *ngIf="service == 1">Transfer</md-option>
+              <md-option value="Transfer" *ngIf="service == 1">Transfer</md-option>
               <md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
               <md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
             </md-select>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" >
-            <md-input-container style="width: 100% " >
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+            <md-input-container style="width: 100% ">
               <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
               <md-hint class="errorText" *ngIf="subCallTypeExist">
-                  This sub call type exist for this service & call Type
+                This sub call type exist for this service & call Type
               </md-hint>
             </md-input-container>
           </div>
-          </form>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40 width20">
-            <label class="f-s-n-b">Fit To Block</label>
-            <md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)">
-              <md-radio-button  color="primary"  [value]="true">YES</md-radio-button>
-              <md-radio-button  color="primary"  [value]="false">NO</md-radio-button>
-            </md-radio-group>
+        </form>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40">
+          <label class="f-s-n-b">Fit To Block</label>
+          <md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)">
+            <md-radio-button color="primary" [value]="true">YES</md-radio-button>
+            <md-radio-button color="primary" [value]="false">NO</md-radio-button>
+          </md-radio-group>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40">
+          <label class="f-s-n-b">Fit For FollowUp</label>
+          <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
+            <md-radio-button color="primary" [value]="true">YES</md-radio-button>
+            <md-radio-button color="primary" [value]="false">NO</md-radio-button>
+          </md-radio-group>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 m-t-15" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">
+          <button class="m-t-10 pull-right" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock,fitForFollowup);callTypeSubCallType.reset()">
+            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+          </button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+        <div *ngFor="let item of temporarySubtypeArray;let i=index " class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-1">
+            <md-chip-list>
+              <md-chip color="accent" selected="true">{{item.callGroupType}}</md-chip>
+            </md-chip-list>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40 width20">
-            <label class="f-s-n-b">Fit For FollowUp</label>
-            <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
-              <md-radio-button color="primary" [value]="true">YES</md-radio-button>
-              <md-radio-button color="primary" [value]="false">NO</md-radio-button>
-            </md-radio-group>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-1">
+            <md-chip-list>
+              <md-chip color="accent" selected="true">{{item.callType}}</md-chip>
+            </md-chip-list>
           </div>
-
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15 width10" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">
-            <button class="m-t-10" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock,fitForFollowup)">
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="col-lg-6">
+              <md-chip-list>
+                <md-chip color="accent" selected="true">Block:{{item.fitToBlock}}</md-chip>
+              </md-chip-list>
+            </div>
+            <div class="col-lg-6">
+              <md-chip-list>
+                <md-chip color="accent" selected="true">Followup:{{item.fitForFollowup}}</md-chip>
+              </md-chip-list>
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <button md-mini-fab color="primary" (click)="removeFromCallSubType(i)">
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
             </button>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div *ngFor="let item of temporarySubtypeArray;let i=index" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">{{item.callGroupType}}</md-chip>
-              </md-chip-list>
-            </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">{{item.callType}}</md-chip>
-              </md-chip-list>
-            </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <div class="col-lg-6">
-                <md-chip-list>
-                  <md-chip color="accent" selected="true">Block:{{item.fitToBlock}}</md-chip>
-                </md-chip-list>
-              </div>
-              <div class="col-lg-6">
-                <md-chip-list>
-                  <md-chip color="accent" selected="true">Followup:{{item.fitForFollowup}}</md-chip>
-                </md-chip-list>
-              </div>
-            </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <button md-mini-fab color="primary" (click)="removeFromCallSubType(i)">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
-          </button>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-            <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
-<!--             <button *ngIf="editing" [disabled]="!callTypeSubCallType.valid" class="pull-right" md-raised-button color="primary" (click)="modify()">MODIFY</button> -->
-            <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
-          </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+          <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
+          <!--             <button *ngIf="editing" [disabled]="!callTypeSubCallType.valid" class="pull-right" md-raised-button color="primary" (click)="modify()">MODIFY</button> -->
+          <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
         </div>
       </div>
     </div>
-
+  <!-- </div> -->
 </md-card>

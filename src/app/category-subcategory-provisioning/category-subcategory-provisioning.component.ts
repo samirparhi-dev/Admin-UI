@@ -318,7 +318,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   deleteRow(index) {
-    this.serviceList.pop(index);
+    this.serviceList.splice(index,1);
     if (this.serviceList.length === 0) {
       this.cateDisabled = 'false';
       this.category_name = '';
@@ -327,7 +327,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   deleteRowSubCat(index) {
-    this.serviceSubCatList.pop(index);
+    this.serviceSubCatList.splice(index,1);
   }
   deleteCategory(id: any, isActivate: boolean) {
     let confirmMessage;

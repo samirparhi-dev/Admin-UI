@@ -261,6 +261,10 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
           <md-input-container style="width: 100%">
             <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
             <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
@@ -290,6 +294,10 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
           <md-input-container style="width: 100%">
             <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
             <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
@@ -304,7 +312,7 @@
           <label>SERVICELINE LEVEL PROVISION</label>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-30">
-          <md-select name="status" #statusRef="ngModel" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status">
+          <md-select name="status" #statusRef="ngModel" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status" required>
             <md-option *ngFor="let item of status_array" [value]="item.statusID">
               {{item.status}}
             </md-option>
@@ -316,6 +324,10 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
           <md-input-container style="width: 100%">
             <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
             <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
@@ -342,6 +354,10 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
           <md-input-container style="width: 100%">
             <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
+            <md-hint *ngIf="reasonR.touched">
+              <span class="error_text" *ngIf="reasonR.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
             <!-- <md-hint *ngIf="!reasonRef.valid">
                   <span class="error_text" *ngIf="!reasonRef.valid && (reasonRef.dirty || reasonRef.touched)">Reason is required</span>
                 </md-hint> -->

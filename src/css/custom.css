@@ -634,6 +634,10 @@ color:#545454;
   margin: 5px;
 }
 
+.p-a-0 {
+  padding: 0px !important;
+}
+
 .m-a-10 {
   margin: 10px;
 }
