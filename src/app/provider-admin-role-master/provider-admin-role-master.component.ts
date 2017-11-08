@@ -263,7 +263,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                   };
 
                   console.log("Pushed OBJ",obj);
-                  this.objs.push(obj);
+                  if(obj.roleName.trim().length>0)
+                  {
+                    this.objs.push(obj);
+                  }
+                  
                 }
 
               }
@@ -290,7 +294,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
                   };
                   console.log("Pushed OBJ",obj);
-                  this.objs.push(obj);
+                  if(obj.roleName.trim().length>0)
+                  {
+                    this.objs.push(obj);
+                  }
+                  
                 }
               }
             }
