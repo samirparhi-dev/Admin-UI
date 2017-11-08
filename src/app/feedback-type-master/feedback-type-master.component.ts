@@ -179,7 +179,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       var count=0;
        for(let i=0;i<this.feedbackTypes.length;i++)
       {
-        if(this.feedbackTypes[i].feedbackTypeName===tempObj.feedbackTypeName)
+        if(this.feedbackTypes[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
         {
           count=count+1;
         }
@@ -200,7 +200,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       for(let i=0;i<this.objs.length;i++)
       {
         console.log(this.feedbackTypes[i].feedbackTypeName,tempObj.feedbackTypeName);
-        if(this.objs[i].feedbackTypeName===tempObj.feedbackTypeName)
+        if(this.objs[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
         {
           count=count+1;
         }
@@ -208,7 +208,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
        for(let i=0;i<this.feedbackTypes.length;i++)
       {
-        if(this.feedbackTypes[i].feedbackTypeName===tempObj.feedbackTypeName)
+        if(this.feedbackTypes[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
         {
           count=count+1;
         }
