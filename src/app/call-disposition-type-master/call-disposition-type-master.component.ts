@@ -46,14 +46,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	subCallTypeExist : boolean = false;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService, private alertService: ConfirmationDialogsService,
-				public commonDataService: dataService, public dialog: MdDialog) {
+	            public commonDataService: dataService, public dialog: MdDialog) {
 		this.data = [];
 		this.service_provider_id =this.commonDataService.service_providerID;
 		this.providerServiceMapID = "";
 
 		this.showTable = false;
 		this.showForm = false;
-	 }
+	}
 
 	ngOnInit() {
 		this.callTypeSubtypeService.getStates(this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
@@ -114,50 +114,26 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	pushCallSubType(callType,call_subtype, fitToBlock, fitForFollowup)
 	{
-		let obj={
-			"callGroupType": callType,
-			"callType": call_subtype,
-			"providerServiceMapID":this.providerServiceMapID,
-			"callTypeDesc": call_subtype,
-			"fitToBlock": fitToBlock,
-			"fitForFollowup": fitForFollowup,
-			"createdBy": "Diamond Khanna"
+		if(call_subtype.trim().length>0)
+		{
+			let obj={
+				"callGroupType": callType,
+				"callType": call_subtype,
+				"providerServiceMapID":this.providerServiceMapID,
+				"callTypeDesc": call_subtype,
+				"fitToBlock": fitToBlock,
+				"fitForFollowup": fitForFollowup,
+				"createdBy": "Diamond Khanna"
+			}
+			console.log('dummy obj', obj);
+
+			// resetting fields
+			this.temporarySubtypeArray.push(obj);
+			this.callSubType = "";
+			this.fitToBlock = false;
+			this.fitForFollowup = false;
 		}
-		console.log('dummy obj', obj);
-
-		// if(this.temporarySubtypeArray.length==0)
-		// {
-		// 	this.temporarySubtypeArray.push(obj);
-		// 	console.log("value pushed1");
-		// }
-		// else
-		// {
-		// 	let count = 0;
-		// 	for (let i = 0; i < this.temporarySubtypeArray.length;i++)
-		// 	{
-		// 		if (this.temporarySubtypeArray[i].call_subtype === call_subtype)
-		// 		{
-		// 			count = count + 1;
-		// 			console.log(count, "count");
-		// 		}
-		// 	}
-		// 	if(count<1)
-		// 	{
-		//		this.temporarySubtypeArray.push(obj);
-		// 		console.log("value pushed2");
-		// 	}
-		// 	else{
-		// 		alert("value exists in buffer array");
-		// 	}
-		// }
-
-
-		// resetting fields
-		this.temporarySubtypeArray.push(obj);
-		this.callSubType = "";
-		this.fitToBlock = false;
-		this.fitForFollowup = false;
-
+	
 	}
 
 	removeFromCallSubType(index)
@@ -168,13 +144,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	save()
 	{
-		// this.request_object = {
-		// 	"callGroupType": this.callType,
-		// 	"callType1": this.temporarySubtypeArray,
-		// 	"createdBy": "Diamond Khanna"
-		// }
-		// this.request_array.push(this.request_object);
-		// console.log(this.request_array, "requested array");
 		this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray).subscribe(response=>this.saveCallTypeSubTypeSuccessHandeler(response));
 	}
 
@@ -184,6 +153,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	{
 		this.showTable = true;
 		this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID).subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response));
+	}
+
+	getCallTypeSubTypeSuccessHandeler(response)
+	{
+		console.log("call type subtype history", response);
+		this.data = response;
+
+		
 	}
 
 
@@ -197,21 +174,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	getServicesSuccessHandeler(response) {
-	
+
 		this.service = "";
 		this.provider_services = response.filter(function(obj){
-				return obj.serviceID == 1 || obj.serviceID == 3;
+			return obj.serviceID == 1 || obj.serviceID == 3;
 		});
 	}
 
-	getCallTypeSubTypeSuccessHandeler(response)
-	{
-		;
-		console.log("call type subtype history", response);
-		this.data = response;
-
-		
-	}
+	
 
 	saveCallTypeSubTypeSuccessHandeler(response)
 	{
@@ -234,7 +204,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.callSubType = "";
 		this.showCallType = true;
 		this.tempCorrespondingSubCallType = this.data.filter(function(obj){
-				return obj.callGroupType == callType;
+			return obj.callGroupType == callType;
 		});
 		console.log(this.data);
 		console.log(this.tempCorrespondingSubCallType);
@@ -244,23 +214,23 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		let a:boolean=false;
 		let b:boolean=false;
 		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
-			if(value.toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+			if(value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
 				a = true;
 				break;
 			}
 			else {
-				 a = false;
+				a = false;
 			}
 		}
 		for(var i=0; i<this.temporarySubtypeArray.length; i++) {
-			if(value.toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
+			if(value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
 				b = true;
 				break;
 			}
 			else {
-				 b = false;
+				b = false;
 			}
 		}
 		if(a == false && b == false) {
@@ -284,9 +254,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				if(response)
 				{
 					let obj = {
-							"callTypeID": callTypeID,
-							"deleted": flag
-							}
+						"callTypeID": callTypeID,
+						"deleted": flag
+					}
 					console.log(obj);
 					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Deactivated"));
 				}
@@ -298,9 +268,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				if(response)
 				{
 					let obj = {
-							"callTypeID": callTypeID,
-							"deleted": flag
-							}
+						"callTypeID": callTypeID,
+						"deleted": flag
+					}
 					console.log(obj);
 					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Activated"));
 				}
@@ -313,8 +283,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		if(res)
 		{
 			this.alertService.alert(action+" Successfully");
-		this.get_calltype_subtype_history();
-		console.log(res);
+			this.get_calltype_subtype_history();
+			console.log(res);
 		}
 		
 	}
@@ -323,15 +293,15 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		obj['service'] = this.service;
 		let dialogReff = this.dialog.open(EditCallType, {
-			height: '300px',
-			width: '800px',
+			height: '400px',
+			width: '400px',
 			disableClose: true,
 			data: obj
 
 		});
 		dialogReff.afterClosed().subscribe(()=>{
 			this.get_calltype_subtype_history();
-			});
+		});
 		// this.disableSelect = true;
 		// this.showTable = false;
 		// this.showForm = true;
@@ -354,7 +324,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 })
 export class EditCallType {
 	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,public callTypeSubtypeService: CallTypeSubtypeService,
-		public dialogReff: MdDialogRef<EditCallType>) { }
+	            public dialogReff: MdDialogRef<EditCallType>) { }
 
 	callType: any;
 	callSubType: any;
@@ -389,17 +359,17 @@ export class EditCallType {
 	}
 	modify(value) {
 		console.log(value);
-	let object = 	{  
-		     "callTypeID" : this.data.callTypeID,
-		     "callGroupType" : value.callType,
-		    "callType" : value.callSubType,
-		    "providerServiceMapID" : this.data.providerServiceMapID,
-		    "callTypeDesc" : value.callType,
-		    "fitToBlock" : value.fitToBlock,
-		    "fitForFollowup" : value.fitForFollowup,
-		    "createdBy":"abc"
-		   
-		    }
+		let object = 	{  
+			"callTypeID" : this.data.callTypeID,
+			"callGroupType" : value.callType,
+			"callType" : value.callSubType,
+			"providerServiceMapID" : this.data.providerServiceMapID,
+			"callTypeDesc" : value.callType,
+			"fitToBlock" : value.fitToBlock,
+			"fitForFollowup" : value.fitForFollowup,
+			"createdBy":"abc"
+
+		}
 		this.callTypeSubtypeService.modificallType(object).subscribe(response=>this.modifySuccess(response));
 
 	}

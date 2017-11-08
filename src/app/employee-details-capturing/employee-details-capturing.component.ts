@@ -270,7 +270,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getWorkLocationsInStateSuccessHandeler(response) {
     console.log('all offices', response);
-
+    if(response.length==0)
+    {
+      this.alertService.alert("No Offices Found")
+    }
     this.serviceproviderAllOfficesInState = response.filter(function (obj) {
       return obj.deleted == false;
     })
@@ -278,6 +281,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
 
   getRolesSuccessHandeler(response) {
     console.log('all roles', response);
+    if(response.length==0)
+    {
+      this.alertService.alert("No Roles Found")
+    }
     this.serviceproviderAllRoles = response.filter(function (obj) {
       return obj.deleted == false;
     });
@@ -442,10 +449,6 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       if (value.agent_role.length > 0 && mapIdMatched) {
         this.addToTable(value);
       }
-      else
-      {
-        this.alertService.alert("Value Already Exists in Table");
-      }
     }
     if (flag) {
       this.addToTable(value);
@@ -480,6 +483,11 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.formResetForNewEntry();
     this.officeState = "";
 
+    this.serviceproviderDistricts=[];
+    this.serviceproviderAllServices=[];
+    this.serviceproviderAllOfficesInState=[];
+    this.serviceproviderAllRoles=[];
+
   }
 
   removePrivelege(index) {
@@ -501,6 +509,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.showAdd = false;
     this.agent_role = "";
     this.agent_serviceline = "";
+
   }
 
   // AddIDs(type,value)
