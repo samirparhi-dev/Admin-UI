@@ -3,6 +3,8 @@ import { ProviderAdminRoleService } from '../services/ProviderAdminServices/stat
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
+declare var jQuery: any;
+
 @Component({
   selector: 'app-provider-admin-role-master',
   templateUrl: './provider-admin-role-master.component.html',
@@ -253,8 +255,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
               for(let z=0;z<feature.length;z++)
               {
                 let obj = {
-                  'roleName': role,
-                  'roleDesc': desc,
+                  'roleName': role.trim(),
+                  'roleDesc': desc.trim(),
                   'screenID': feature[z].screenID,
                   'screen_name':feature[z].screenName,
                   'createdBy': this.commonDataService.uname,
@@ -285,8 +287,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                   for(let k=0;k<feature.length;k++)
                   {
                     let obj = {
-                      'roleName': role,
-                      'roleDesc': desc,
+                      'roleName': role.trim(),
+                      'roleDesc': desc.trim(),
                       'screenID': feature[k].screenID,
                       'screen_name':feature[k].screenName,
                       'createdBy': this.commonDataService.uname,
@@ -303,12 +305,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
               }
             }
           }
-          this.role = '';
-          this.description = '';
+          // this.role = '';
+          // this.description = '';
+          jQuery("#roleAddForm").trigger('reset');
           this.feature = undefined;
         }
         validateRole(role) {
-          if (this.selectedRole != undefined && this.selectedRole.toUpperCase() === role.toUpperCase()) {
+          if (this.selectedRole != undefined && this.selectedRole.trim().toUpperCase() === role.trim().toUpperCase()) {
 
             this.othersExist = false;
           }
@@ -316,7 +319,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             var count = 0;
             for (let i = 0; i < this.searchresultarray.length; i++) {
               console.log((this.searchresultarray[i].roleName).toUpperCase());
-              if ((this.searchresultarray[i].roleName).toUpperCase() === role.toUpperCase()) {
+              if ((this.searchresultarray[i].roleName).trim().toUpperCase() === role.trim().toUpperCase()) {
                 count = count + 1;
               }
             }

@@ -1,184 +1,132 @@
-<!-- Main Search Form Starts -->
 <md-card *ngIf="searchForm">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="f-s-b m-b-30">Search Category and SubCategory</h4>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-l-0 m-b-30">
-        <md-radio-group [(ngModel)]="searchChoice" name="searchChoice" (change)="searchReqObjChange(searchChoice)">
-          <md-radio-button color="primary" value="0">Category</md-radio-button>
-          <md-radio-button color="primary" value="1">Subcategory</md-radio-button>
-        </md-radio-group>
-      </div>
-      <form #search="ngForm">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select required [(ngModel)]="state" [style.width]="'100%'" placeholder="State " name="stateName" (change)="getServices($event.value)">
-            <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let state of states" [value]="state.stateID">{{state.stateName}}</md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select required [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
-            <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline)" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select required [(ngModel)]="sub_service" [style.width]="'100%'" name="subserviceName" placeholder="SubService" (change)="getDetails(sub_service,service)">
-            <!--md-on-close: expression; multiple:boolean; placeholder: string;-->
-            <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
-          </md-select>
-        </div>
-        <!-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <button md-mini-fab [disabled]="!search.valid" color="primary">
-          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="getDetails(sub_service,service)">search</md-icon>
-        </button>
-        </div> -->
-      </form>
+      <h4 class="pull-left">Search Category and SubCategory</h4>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30 m-t-10">
+      <md-radio-group [(ngModel)]="searchChoice" name="searchChoice" (change)="searchReqObjChange(searchChoice)">
+        <md-radio-button color="primary" value="0">Category</md-radio-button>
+        <md-radio-button color="primary" value="1">Subcategory</md-radio-button>
+      </md-radio-group>
+    </div>
+    <form #search="ngForm">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select required [(ngModel)]="state" [style.width]="'100%'" placeholder="State " name="stateName" (change)="getServices($event.value)">
+          <md-option *ngFor="let state of states" [value]="state.stateID">{{state.stateName}}</md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select required [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
+          <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline)" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select required [(ngModel)]="sub_service" [style.width]="'100%'" name="subserviceName" placeholder="SubService" (change)="getDetails(sub_service,service)">
+          <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
+        </md-select>
+      </div>
+    </form>
   </div>
-
-  <!-- Main Search Form Ends -->
-  <!-- Search Data Table -->
-  <div class="m-t-20"></div>
-  <div *ngIf="showTable && showDiv">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
-        <!--category table-->
-        <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Category Desc</th>
-              <th>Sub-SubService</th>
-              <th>Edit</th>
-              <th>Activate/Deactivate</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let i of md2.data">
-              <td width="30%">{{i?.categoryName}}</td>
-              <td width="20%">{{i?.categoryDesc}}</td>
-              <td width="20%" *ngIf="i.s104_CS_Type">Well Being</td>
-              <td width="10%" *ngIf="!i.s104_CS_Type">Information</td>
-              <td width="15%">
-                <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                  (click)="editCategory(i)">edit</md-icon>
-              </td>
-              <td width="15%">
-                <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
-                <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
-                <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="5">
-                <md2-pagination></md2-pagination>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <!--sub-category table-->
-        <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
-          <thead>
-            <tr>
-              <th>Sub Category</th>
-              <th>Sub Category Desc</th>
-              <th>Category</th>
-              <th>Category Desc</th>
-              <th>Edit</th>
-              <th>Activate/Deactivate</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let i of md2.data">
-              <td width=15%>{{i?.subCategoryName}}</td>
-              <td width=15%>{{i?.subCategoryDesc}}</td>
-              <td width=15%>{{i?.categoryName}}</td>
-              <td width=15%>{{i?.categoryDesc}}</td>
-              <td width=15%>
-                <md-icon *ngIf="i.subCategoryDeleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true"
-                  style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
-              </td>
-              <td width=15%>
-                <button *ngIf="i.subCategoryDeleted == true" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
-                <button *ngIf="i.subCategoryDeleted == false" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
-                <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.categoryID)">delete</md-icon> -->
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="5">
-                <md2-pagination></md2-pagination>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <!-- <md-tab label="Sub Category">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
-          <table class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
-            <thead>
-              <tr> -->
-      <!-- <th>ID</th> -->
-      <!-- <th>SubService</th>
-                <th>Category</th>
-                <th>Subcategory</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let i of md2.data"> -->
-      <!-- <td width=10%>{{i?.categoryID}}</td> -->
-      <!-- <td>{{i?.subServiceName}}</td>
-                <td>{{i?.categoryName}}</td>
-                <td>{{i?.subCategoryName}}</td>
-                <td> -->
-      <!--<md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i.categoryID)">edit</md-icon> -->
-      <!-- <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteCategory(i.subCategoryID)">delete</md-icon>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="6">
-                  <md2-pagination></md2-pagination>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </md-tab> -->
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
-      </div>
+  <div class="row m-t-20" *ngIf="showTable && showDiv">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
+      <!--category table-->
+      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Category Desc</th>
+            <th *ngIf="showWellBeingFlag">Sub-SubService</th>
+            <th>Edit</th>
+            <th>Activate/Deactivate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of md2.data">
+            <td width="30%">{{i?.categoryName}}</td>
+            <td width="20%">{{i?.categoryDesc}}</td>
+            <td width="20%" *ngIf="showWellBeingFlag">
+              <span *ngIf="i.s104_CS_Type"> Well Being </span>
+              <span *ngIf="!i.s104_CS_Type"> Information </span>
+            </td>
+            <td width="15%">
+              <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i)">edit</md-icon>
+            </td>
+            <td width="15%">
+              <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
+              <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="2">
+              <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <!--sub-category table-->
+      <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th>Sub Category</th>
+            <th>Sub Category Description</th>
+            <th>Category</th>
+            <th>Category Description</th>
+            <th>Edit</th>
+            <th>Activate/Deactivate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of md2.data">
+            <td width=15%>{{i?.subCategoryName}}</td>
+            <td width=15%>{{i?.subCategoryDesc}}</td>
+            <td width=15%>{{i?.categoryName}}</td>
+            <td width=15%>{{i?.categoryDesc}}</td>
+            <td width=15%>
+              <md-icon *ngIf="i.subCategoryDeleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
+            </td>
+            <td width=15%>
+              <button *ngIf="i.subCategoryDeleted == true" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
+              <button *ngIf="i.subCategoryDeleted == false" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3">
+              <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Subcategory</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
 </md-card>
-<!-- Search Data Table Ends -->
-
 <md-card *ngIf="!showTable">
-  <!--<label class="pull-left">Create Category and SubCategory</label>-->
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="f-s-b m-b-30">Create Category and SubCategory</h4>
+      <h4 class="pull-left">Create Category and SubCategory</h4>
     </div>
     <form #form="ngForm">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-10">
         <md-radio-group [(ngModel)]="api_choice" name="apiChoice" (change)="changeRequestObject(api_choice)">
           <md-radio-button color="primary" value="0">Add Category</md-radio-button>
           <md-radio-button color="primary" value="1">Add Subcategory</md-radio-button>
         </md-radio-group>
-        <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12 pull-right">
-          <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>
-        </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+        <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15 p-a-0">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select class="p-t-14" [(ngModel)]="state" [style.width]="'100%'" name="stateName" placeholder="State" (change)="getServices($event.value)"
-            required>
+          <md-select class="p-t-14" [(ngModel)]="state" [style.width]="'100%'" name="stateName" placeholder="State" (change)="getServices($event.value)" required>
             <md-option *ngFor="let state of states" [value]="state.stateID">{{state.stateName}}</md-option>
           </md-select>
         </div>
@@ -188,33 +136,26 @@
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select class="p-t-14" [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService"
-            (change)="getCategory(service,$event.value.subServiceID)" required>
-            <md-option *ngFor="let subservice of subServices" [value]="subservice"  (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
+          <md-select class="p-t-14" [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService" (change)="getCategory(service,$event.value.subServiceID)" required>
+            <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
           </md-select>
-
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
-
-          <md-select class="p-t-14" [disabled]="cateDisabled" [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'"
-            placeholder="Category" required>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-b-18" *ngIf="!Add_Category_Subcategory_flag">
+          <md-select class="p-t-14" [disabled]="cateDisabled" [(ngModel)]="category_ID" name="categoryName" [style.width]="'100%'" placeholder="Category" required>
             <md-option *ngFor="let category of categories" [value]="category">{{category.categoryName}}</md-option>
           </md-select>
-
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" *ngIf="Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
-            <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " (keyup)="checkCategory(category_name)"
-              name="category_name" minlength="2" maxlength="100" required>
+            <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " (keyup)="checkCategory(category_name)" name="category_name" minlength="2" maxlength="100" required>
             <md-hint class="error_text" *ngIf="categoryExist">Category already exists </md-hint>
             <md-hint [hidden]="categoryRef.valid || categoryRef.pristine" *ngIf="!categoryExist">
               <span class=" error_text" [hidden]="!categoryRef.hasError('required')">Category is required</span>
               <span class=" error_text" *ngIf="categoryRef.errors?.minlength">Enter minimum 2 characters</span>
-
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3  m-t-20" *ngIf="Add_Category_Subcategory_flag">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-t-20" *ngIf="Add_Category_Subcategory_flag">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc" maxlength="50">
           </md-input-container>
@@ -240,14 +181,12 @@
             <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="50">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 m-t-20 pull-right">
-          <button md-raised-button color="primary" [disabled]="!form.valid || categoryExist || subCategoryExist" class="pull-right" color="primary" name="subServiceName"
-            (click)="addNew(i)">
-           Add
+        <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 m-t-30 pull-right">
+          <button md-raised-button color="primary" [disabled]="!form.valid || categoryExist || subCategoryExist" class="pull-right" color="primary" name="subServiceName" (click)="addNew(i)">
+            Add
           </button>
         </div>
       </div>
-
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && Add_Category_Subcategory_flag">
         <table [md2Data]="serviceList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
           <thead>
@@ -266,26 +205,20 @@
               <td>{{service.categoryDesc}}</td>
               <td *ngIf="service.well_being">Well Being</td>
               <td *ngIf="!service.well_being">Information</td>
-
               <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
             </tr>
-            <!--<tr>
-              <td colspan="6">
-                <pagination-controls (pageChange)="b = $event" id="serviceList"></pagination-controls>
-              </td>
-            </tr>-->
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5">
+              <td colspan="3">
                 <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="2">
+                <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);">Save</button>
               </td>
             </tr>
           </tfoot>
         </table>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-          <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);">Save</button>
-        </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceSubCatList.length> 0 && !Add_Category_Subcategory_flag">
         <table [md2Data]="serviceSubCatList" #md2="md2DataTable" class="table" [rowsPerPage]="5">
@@ -306,24 +239,18 @@
               <td>{{service.desc}}</td>
               <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRowSubCat(k)">delete</i></td>
             </tr>
-            <!--<tr>
-              <td colspan="6">
-                <pagination-controls (pageChange)="b = $event" id="serviceSubCatList"></pagination-controls>
-              </td>
-            </tr>-->
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5">
+              <td colspan="3">
                 <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="2">
+                <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);">Save</button>
               </td>
             </tr>
           </tfoot>
         </table>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-          <button name="btnSave" class="pull-right" md-raised-button color="primary" (click)="finalsave(service);">Save</button>
-          <!-- show the buffer array here ; reset it along with the fileds if api-type changes -->
-        </div>
       </div>
     </form>
   </div>

@@ -123,7 +123,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				"callTypeDesc": call_subtype,
 				"fitToBlock": fitToBlock,
 				"fitForFollowup": fitForFollowup,
-				"createdBy": "Diamond Khanna"
+				"createdBy": this.commonDataService.uname
 			}
 			console.log('dummy obj', obj);
 
@@ -133,7 +133,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			this.fitToBlock = false;
 			this.fitForFollowup = false;
 		}
-	
+
 	}
 
 	removeFromCallSubType(index)
@@ -160,7 +160,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		console.log("call type subtype history", response);
 		this.data = response;
 
-		
 	}
 
 
@@ -179,6 +178,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.provider_services = response.filter(function(obj){
 			return obj.serviceID == 1 || obj.serviceID == 3;
 		});
+
+		if(this.provider_services.length==0)
+		{
+			this.alertService.alert("104 & 1097 are not working in this state");
+		}
 	}
 
 	
@@ -293,8 +297,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		obj['service'] = this.service;
 		let dialogReff = this.dialog.open(EditCallType, {
-			height: '400px',
-			width: '400px',
+			height: '450px',
+			width: '450px',
 			disableClose: true,
 			data: obj
 
@@ -323,7 +327,10 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	templateUrl: './edit-call-type-model.html'
 })
 export class EditCallType {
-	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,public callTypeSubtypeService: CallTypeSubtypeService,
+	constructor( @Inject(MD_DIALOG_DATA) public data: any,
+	            public dialog: MdDialog,
+	            public callTypeSubtypeService: CallTypeSubtypeService,
+	            public commonDataService:dataService,
 	            public dialogReff: MdDialogRef<EditCallType>) { }
 
 	callType: any;
@@ -331,6 +338,11 @@ export class EditCallType {
 	fitToBlock: any;
 	fitForFollowup: any;
 	service: any;
+
+	providerServiceMapID:any;
+	existingName:any;
+	subCallTypeExist:boolean=false;
+
 	ngOnInit() {
 
 		console.log(this.data);
@@ -339,14 +351,43 @@ export class EditCallType {
 		this.callSubType = this.data.callType;
 		this.fitToBlock = this.data.fitToBlock;
 		this.fitForFollowup = this.data.fitForFollowup;
-	}
-	callTypeSelected(callType) {
-		this.callSubType = "";
 
-	}
-	callSubTypes(re){
+		this.providerServiceMapID=this.data.providerServiceMapID;
+		this.existingName=this.data.callType;
 
+		this.get_calltype_subtype_history();
+		
 	}
+
+
+	CTS(callType) {
+		this.tempCorrespondingSubCallType = [];
+		this.tempCorrespondingSubCallType = this.tableData.filter(function(obj){
+			return obj.callGroupType == callType;
+		});
+
+		console.log(this.tempCorrespondingSubCallType,"array to check dupes from");
+	}
+
+
+	tableData:any=[];
+	get_calltype_subtype_history()
+	{
+		this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID).subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response));
+	}
+
+	getCallTypeSubTypeSuccessHandeler(response)
+	{
+		console.log("call type subtype history", response);
+		this.tableData = response;
+		console.log(this.tableData);
+
+		this.CTS(this.data.callGroupType);
+
+		
+	}
+
+
 	fitToBlocks(flag) {
 		if(flag) {
 			this.fitForFollowup = false;
@@ -357,17 +398,78 @@ export class EditCallType {
 			this.fitToBlock = false;
 		}
 	}
+
+	/**/
+	tempCorrespondingSubCallType:any=[];
+	callTypeSelected(callType) {
+		this.tempCorrespondingSubCallType = [];
+		this.callSubType = "";
+		this.tempCorrespondingSubCallType = this.tableData.filter(function(obj){
+			return obj.callGroupType == callType;
+		});
+
+		console.log(this.tempCorrespondingSubCallType,"array to check dupes from");
+	}
+
+	validateCallSubtype(value) {
+		
+		let a:boolean=false;
+		let b:boolean=false;
+		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
+			if(value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+				this.subCallTypeExist = true;
+				a = true;
+				break;
+			}
+			else {
+				a = false;
+			}
+		}
+		// for(var i=0; i<this.temporarySubtypeArray.length; i++) {
+		// 	if(value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
+		// 		this.subCallTypeExist = true;
+		// 		b = true;
+		// 		break;
+		// 	}
+		// 	else {
+		// 		b = false;
+		// 	}
+		// }
+		if(a == false) {
+			this.subCallTypeExist = false;
+		}
+		if(value.trim().length==0)
+		{
+			this.subCallTypeExist = true;
+		}
+		if(value.trim().toLowerCase()===this.existingName.toLowerCase())
+		{
+			this.subCallTypeExist = false;
+		}
+	}
+
+
+
+	/**/
+
+
+
+
+
+
+
+
 	modify(value) {
 		console.log(value);
 		let object = 	{  
 			"callTypeID" : this.data.callTypeID,
 			"callGroupType" : value.callType,
-			"callType" : value.callSubType,
+			"callType" : value.callSubType.trim(),
 			"providerServiceMapID" : this.data.providerServiceMapID,
 			"callTypeDesc" : value.callType,
 			"fitToBlock" : value.fitToBlock,
 			"fitForFollowup" : value.fitForFollowup,
-			"createdBy":"abc"
+			"createdBy":this.commonDataService.uname
 
 		}
 		this.callTypeSubtypeService.modificallType(object).subscribe(response=>this.modifySuccess(response));
