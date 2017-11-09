@@ -1751,6 +1751,15 @@ ul.topIcon li.help a:hover {
   content: "\f105";
 }
 
+.mat-input-infix {
+  font-weight: 800 !important;
+  font-size: 15px !important;
+}
+
+.mat-select-trigger {
+  font-weight: 700 !important;
+} 
+
 
 /*.sidebar-toggle:after {
   

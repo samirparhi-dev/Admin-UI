@@ -266,6 +266,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   editCategory(catObj: any) {
+
     const categoryObj = {};
     categoryObj['categoryID'] = catObj.categoryID;
     categoryObj['categoryName'] = catObj.categoryName;
@@ -282,7 +283,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     dialogReff.componentInstance.categoryType = true;
     dialogReff.afterClosed().subscribe((res) => {
       if (res) {
-        ;
         this.getCategory(catObj.providerServiceMapID, catObj.subServiceID);
       }
 
@@ -495,6 +495,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             && t.subServiceID === thing.subServiceID;
         }) === index)
   }
+
   filterSubCatArray(array: any) {
     const o = {};
     return array = array
@@ -505,6 +506,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             && t.subServiceID === thing.subServiceID;
         }) === index)
   }
+
   checkCategory(categoryName: string) {
     let categoriesExist;
     if (categoryName) {
