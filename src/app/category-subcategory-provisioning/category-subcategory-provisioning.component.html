@@ -17,12 +17,12 @@
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <md-select required [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
-          <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline)" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
+          <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline);selected_service_id=serviceline.serviceID" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
         </md-select>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <md-select required [(ngModel)]="sub_service" [style.width]="'100%'" name="subserviceName" placeholder="SubService" (change)="getDetails(sub_service,service)">
-          <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
+          <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(selected_service_id,subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
         </md-select>
       </div>
     </form>
@@ -132,12 +132,12 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-select class="p-t-14" required [(ngModel)]="service" [style.width]="'100%'" name="serviceName" placeholder="Service Line">
-            <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline)" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
+            <md-option *ngFor="let serviceline of serviceLines" (click)="getSubServices(serviceline);selected_service_id=serviceline.serviceID" [value]="serviceline.providerServiceMapID">{{serviceline.serviceName}}</md-option>
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <md-select class="p-t-14" [(ngModel)]="sub_service" name="subServiceName" [style.width]="'100%'" placeholder="SubService" (change)="getCategory(service,$event.value.subServiceID)" required>
-            <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
+            <md-option *ngFor="let subservice of subServices" [value]="subservice" (click)="checkSubService(selected_service_id,subservice.subServiceName)">{{subservice.subServiceName}}</md-option>
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 m-b-18" *ngIf="!Add_Category_Subcategory_flag">

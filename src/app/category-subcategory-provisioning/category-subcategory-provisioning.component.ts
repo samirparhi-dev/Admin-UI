@@ -15,6 +15,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   serviceproviderID: any;
   well_being:boolean=false;
   showWellBeingFlag:boolean=false;
+
+  selected_service_id:any;
   // ngmodels
   state: any;
   service: any;
@@ -78,7 +80,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getServices(stateID: any) {
     this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
       .subscribe((response) => {
-        this.serviceLines = response;
+        this.serviceLines = response.filter(function(item)
+                                            {
+                                              if(item.serviceID===3 || item.serviceID===1)
+                                              {
+                                                return item;
+                                              }
+                                            });
         this.subServices = [];
       }, (err) => {
 
@@ -88,7 +96,24 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getSubServices(items: any) {
     this.CategorySubcategoryService.getSubService(items.providerServiceMapID)
       .subscribe((response) => {
-        this.subServices = response;
+        this.showWellBeingFlag=false;
+        if(this.selected_service_id===1)
+        {
+          this.subServices=response.filter(function(item)
+          {
+            if(item.subServiceName==="Information Service" || item.subServiceName==="Counselling Service")
+            {
+              return item;
+            }
+          });
+        }
+        else
+        {
+          this.subServices = response;
+        }
+
+        console.log(this.subServices,"The array after filter");
+        
       }, (err) => {
 
       });
@@ -176,9 +201,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.well_being=false;
   }
 
-  checkSubService(sub_service_name)
+  checkSubService(service,sub_service_name)
   {
-    if(sub_service_name==="Counselling Service")
+    if(sub_service_name==="Counselling Service" && service===3 )
     {
       this.showWellBeingFlag=true;
       this.well_being=false;
