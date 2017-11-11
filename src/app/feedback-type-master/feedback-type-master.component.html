@@ -70,24 +70,22 @@
         <h4 class="pull-left">Add Feedback/Complaint Type</h4>
       </div>
       <form #addForm="ngForm" autocomplete="off">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-            <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true">
-              <md-option *ngFor="let state of states" value="{{state.stateID}}">
-                {{state.stateName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
-              <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
-                {{service.serviceName}}
-              </md-option>
-            </md-select>
-          </div>
-
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-30">
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true">
+            <md-option *ngFor="let state of states" value="{{state.stateID}}">
+              {{state.stateName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
+          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
+            <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
+              {{service.serviceName}}
+            </md-option>
+          </md-select>
+        </div>
         <div class="clearfix"></div>
-
-          <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <md-input-container class="width100">
               <input mdInput name="feedbackName" placeholder="Feedback Name" [(ngModel)]="feedbackName" #newFeedbackName="ngModel" (keyup)="validateFeedback(feedbackName)" required>
               <md-hint *ngIf="newFeedbackName.errors && newFeedbackName.touched">
@@ -109,27 +107,31 @@
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(feedbackName,feedbackDesc)">add</md-icon>
             </button>
           </div> -->
-
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="search_serviceline!='3'">
+          <md-input-container [style.width]="'100%'">
+            <input mdInput placeholder="Feedback Name" name="feedbackName" [(ngModel)]="feedbackName" #feedback_name="ngModel" required>
+            <md-hint *ngIf="alreadyExist && feedback_name.touched">
+              <span class="error_text">Feedback already exist</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="search_serviceline==='3'">
+          <md-select placeholder="Feedback Name" [style.width]="'100%'" [(ngModel)]="feedbackName" name="feedbackName">
+            <md-option value="Generic Complaints">Generic Complaint</md-option>
+            <md-option value="Asha Complaints">Asha Complaints</md-option>
+            <md-option value="Epidemic Complaints">Epidemic Complaints</md-option>
+          </md-select>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
-            <md-input-container [style.width]="'100%'">
-              <input mdInput placeholder="Feedback Name" name="feedbackName" [(ngModel)]="feedbackName" #feedback_name="ngModel" required>
-              <md-hint *ngIf="alreadyExist && feedback_name.touched" >
-                <span class="error_text">Feedback already exist</span>
-              </md-hint>
-            </md-input-container>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
-            <md-input-container [style.width]="'100%'" >
-              <input mdInput placeholder="Feedback Description" name="feedbackDesc" [(ngModel)]="feedbackDesc"  >
-            </md-input-container>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="addForm.valid && !feedbackExists">
-            <button md-mini-fab  color="primary" type="button" (click)="add_obj(feedbackName,feedbackDesc)">
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-            </button>
-          </div>
-
-
+          <md-input-container [style.width]="'100%'">
+            <input mdInput placeholder="Feedback Description" name="feedbackDesc" [(ngModel)]="feedbackDesc">
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="addForm.valid && !feedbackExists">
+          <button md-mini-fab color="primary" type="button" (click)="add_obj(feedbackName,feedbackDesc)">
+            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+          </button>
+        </div>
         <div class="row" *ngIf="(objs.length !=0)">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let obj of objs; let i=index ">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-10">
