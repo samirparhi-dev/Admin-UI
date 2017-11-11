@@ -409,7 +409,7 @@ export class EditLocationModal {
       {
 
         "pSAddMapID": this.data.toBeEditedOBJ.pSAddMapID,
-        "providerServiceMapID": this.data.providerServiceMapID,
+        "providerServiceMapID": this.data.toBeEditedOBJ.providerServiceMapID,
         "locationName": this.officeID,
         "address": this.address,
         "districtID": this.data.toBeEditedOBJ.districtID,

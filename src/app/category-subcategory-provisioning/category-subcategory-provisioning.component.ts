@@ -55,7 +55,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
 
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
-    , private messageBox: ConfirmationDialogsService) {
+              , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
@@ -71,52 +71,52 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   getStates() {
     this.CategorySubcategoryService.getStates(this.serviceproviderID)
-      .subscribe((response) => {
-        this.states = response;
-      }, (err) => {
-      });
+    .subscribe((response) => {
+      this.states = response;
+    }, (err) => {
+    });
   }
 
   getServices(stateID: any) {
     this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
-      .subscribe((response) => {
-        this.serviceLines = response.filter(function(item)
-                                            {
-                                              if(item.serviceID===3 || item.serviceID===1)
-                                              {
-                                                return item;
-                                              }
-                                            });
-        this.subServices = [];
-      }, (err) => {
-
+    .subscribe((response) => {
+      this.serviceLines = response.filter(function(item)
+      {
+        if(item.serviceID===3 || item.serviceID===1)
+        {
+          return item;
+        }
       });
+      this.subServices = [];
+    }, (err) => {
+
+    });
   }
 
   getSubServices(items: any) {
     this.CategorySubcategoryService.getSubService(items.providerServiceMapID)
-      .subscribe((response) => {
-        this.showWellBeingFlag=false;
-        if(this.selected_service_id===1)
+    .subscribe((response) => {
+      this.showWellBeingFlag=false;
+      if(this.selected_service_id===1)
+      {
+        this.subServices=response.filter(function(item)
         {
-          this.subServices=response.filter(function(item)
+          if(item.subServiceName==="Information Service" || item.subServiceName==="Counselling Service")
           {
-            if(item.subServiceName==="Information Service" || item.subServiceName==="Counselling Service")
-            {
-              return item;
-            }
-          });
-        }
-        else
-        {
-          this.subServices = response;
-        }
+            return item;
+          }
+        });
+      }
+      else
+      {
+        this.subServices = response;
+      }
 
-        console.log(this.subServices,"The array after filter");
-        
-      }, (err) => {
+      console.log(this.subServices,"The array after filter");
 
-      });
+    }, (err) => {
+
+    });
 
   }
 
@@ -124,23 +124,23 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.providerServiceMapID = providerserviceMapId;
     this.sub_serviceID = subServiceID;
     this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
-      .subscribe((response) => {
-        if (response) {
-          this.categories = response.filter(function (item) {
-            return item.deleted !== true;
-          });
-          this.data = response;
-        }
-      }, (err) => {
+    .subscribe((response) => {
+      if (response) {
+        this.categories = response.filter(function (item) {
+          return item.deleted !== true;
+        });
+        this.data = response;
+      }
+    }, (err) => {
 
-      });
+    });
   }
   getSubCategory(providerserviceMapId: any, subServiceID: any) {
     this.providerServiceMapID = providerserviceMapId;
     this.sub_serviceID = subServiceID;
     this.CategorySubcategoryService.getCategorybySubService(providerserviceMapId, subServiceID)
-      .subscribe((response) => {
-        if (response) {
+    .subscribe((response) => {
+      if (response) {
           //  console.log(response, "subcat response");
           this.subCat = response.filter((obj) => {
             return obj !== null;
@@ -250,17 +250,17 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     })
 
     this.CategorySubcategoryService.saveCategory(categoryObj)
-      .subscribe((response) => {
-        if (response) {
-          if (response.length > 0) {
-            this.messageBox.alert('Successfully Created');
-            this.serviceList.length = [];
-            this.getCategory(providerServiceMapID, this.sub_service);
-          }
+    .subscribe((response) => {
+      if (response) {
+        if (response.length > 0) {
+          this.messageBox.alert('Successfully Created');
+          this.serviceList.length = [];
+          this.getCategory(providerServiceMapID, this.sub_service);
         }
-      }, (err) => {
+      }
+    }, (err) => {
 
-      });
+    });
   }
 
   // add sub category
@@ -279,10 +279,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     })
 
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
-      .subscribe((response) => {
-        if (response.length > 0) {
-          this.messageBox.alert('Successfully Created');
-          this.serviceSubCatList.length = [];
+    .subscribe((response) => {
+      if (response.length > 0) {
+        this.messageBox.alert('Successfully Created');
+        this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
       }, (err) => {
@@ -298,11 +298,19 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     categoryObj['subService'] = this.sub_service.subServiceName;
     categoryObj['providerServiceMapId'] = catObj.providerServiceMapID;
     categoryObj['categoryDesc'] = catObj.categoryDesc;
+
+    let object={
+      "categoryObj":categoryObj,
+      "isCategory":true,
+      "isSubCategory":false,
+      "categories":this.categories,
+      "subcategories":this.subCat
+    }
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
-      height: '60%',
-      width: '30%',
+      height: '450px',
+      width: '450px',
       disableClose: true,
-      data: categoryObj
+      data: object
 
     });
     dialogReff.componentInstance.categoryType = true;
@@ -324,11 +332,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     categoryObj['subCategoryID'] = subCatObj.subCategoryID;
     categoryObj['subCategoryName'] = subCatObj.subCategoryName;
     categoryObj['subCategoryDesc'] = subCatObj.subCategoryDesc;
+
+    let object={
+      "categoryObj":categoryObj,
+      "isCategory":false,
+      "isSubCategory":true,
+      "categories":this.categories,
+      "subcategories":this.subCat
+    }
+
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
-      height: '60%',
-      width: '30%',
+      height: '450px',
+      width: '450px',
       disableClose: true,
-      data: categoryObj
+      data: object
 
     });
     dialogReff.componentInstance.subCategoryType = true;
@@ -364,13 +381,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.messageBox.confirm('Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
-          .subscribe((response) => {
-            if (response) {
-              this.refeshCategory(response.subServiceID, response.providerServiceMapID);
-            }
-          }, (err) => {
+        .subscribe((response) => {
+          if (response) {
+            this.refeshCategory(response.subServiceID, response.providerServiceMapID);
+          }
+        }, (err) => {
 
-          });
+        });
       }
     }, (err) => { });
 
@@ -386,8 +403,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.messageBox.confirm('Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.CategorySubcategoryService.deleteSubCategory(id, flag)
-          .subscribe((response) => {
-            if (response) {
+        .subscribe((response) => {
+          if (response) {
               // console.log(response,"after delete");
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
@@ -402,30 +419,30 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   refeshCategory(subService: any, providerServiceMap: any) {
     this.showDiv = true;
     this.CategorySubcategoryService.getCategory(providerServiceMap, subService)
-      .subscribe((response) => {
-        if (response) {
-          this.data = response.filter(function (item) {
-            return item.categoryID !== null && item.categoryName !== null;
-          });
-          this.categories = response.filter(function (item) {
-            return item.deleted !== true;
-          });
-        }
-      }, (err) => {
+    .subscribe((response) => {
+      if (response) {
+        this.data = response.filter(function (item) {
+          return item.categoryID !== null && item.categoryName !== null;
+        });
+        this.categories = response.filter(function (item) {
+          return item.deleted !== true;
+        });
+      }
+    }, (err) => {
 
-      });
+    });
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService)
-      .subscribe((response) => {
-        if (response) {
-          console.log(response, "subCategory");
-          this.subCat = response.filter(function (item) {
-            return item != null;
-          });
-          console.log(this.subCat);
-        }
-      }, (err) => {
+    .subscribe((response) => {
+      if (response) {
+        console.log(response, "subCategory");
+        this.subCat = response.filter(function (item) {
+          return item != null;
+        });
+        console.log(this.subCat);
+      }
+    }, (err) => {
 
-      });
+    });
   }
 
 
@@ -514,22 +531,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   filterArray(array: any) {
     const o = {};
     return array = array
-      .filter((thing, index, self) => self
-        .findIndex((t) => {
-          return t.categoryName.toLowerCase().trim() === thing.categoryName.toLowerCase().trim()
-            && t.subServiceID === thing.subServiceID;
-        }) === index)
+    .filter((thing, index, self) => self
+            .findIndex((t) => {
+              return t.categoryName.toLowerCase().trim() === thing.categoryName.toLowerCase().trim()
+              && t.subServiceID === thing.subServiceID;
+            }) === index)
   }
 
   filterSubCatArray(array: any) {
     const o = {};
     return array = array
-      .filter((thing, index, self) => self
-        .findIndex((t) => {
-          return t.categoryID === thing.categoryID
-            && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
-            && t.subServiceID === thing.subServiceID;
-        }) === index)
+    .filter((thing, index, self) => self
+            .findIndex((t) => {
+              return t.categoryID === thing.categoryID
+              && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
+              && t.subServiceID === thing.subServiceID;
+            }) === index)
   }
 
   checkCategory(categoryName: string) {
@@ -541,7 +558,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     if (categoriesExist!=undefined && categoriesExist.length > 0) {
       this.categoryExist = true;
-    } else {
+    }
+    else if(categoryName.trim().length==0)
+    {
+      this.categoryExist = true;
+    }
+    else {
       this.categoryExist = false;
     }
 
@@ -550,18 +572,23 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     if (subCategoryName && providerServiceMapId && subService && category) {
       let subCategoriesExist;
       this.CategorySubcategoryService.getCategorybySubService(providerServiceMapId, subService.subServiceID)
-        .subscribe((response) => {
-          if (response) {
+      .subscribe((response) => {
+        if (response) {
             //  console.log(response, "subcat response");
             subCategoriesExist = response.filter((obj) => {
               if (obj) {
                 return obj.categoryID === category.categoryID &&
-                  obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
+                obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
               }
             });
             if (subCategoriesExist!=undefined && subCategoriesExist.length > 0) {
               this.subCategoryExist = true;
-            } else {
+            }
+            else if(subCategoryName.trim().length==0)
+            {
+              this.categoryExist = true;
+            } 
+            else {
               this.subCategoryExist = false;
             }
           }

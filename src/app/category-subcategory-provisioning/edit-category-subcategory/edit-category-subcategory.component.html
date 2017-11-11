@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-      <label class="pull-left">Edit Category</label>
+      <label class="pull-left" *ngIf="data.isCategory">Edit Category</label>
+      <label class="pull-left" *ngIf="data.isSubCategory">Edit Sub-Category</label>
     </div>
     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right">
       <button class="pull-right" md-icon-button class="closeBtn" md-dialog-close>
@@ -9,6 +10,7 @@
         </button>
     </div>
   </div>
+  <form #f="ngForm">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <md-input-container style="width: 100% ">
@@ -20,7 +22,7 @@
   <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <md-input-container style="width: 100% ">
-        <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required>
+        <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required (keyup)="checkCategory(category_name)">
       </md-input-container>
       <!-- is me karna hai keyup  -->
     </div>
@@ -42,7 +44,7 @@
   <div class="row" *ngIf="subCategoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <md-input-container style="width: 100% ">
-        <input mdInput placeholder="Sub Category" [(ngModel)]="subCategory" name="subCategory">
+        <input mdInput placeholder="Sub Category" [(ngModel)]="subCategory" name="subCategory" (keyup)="checkSubCategory(subCategory)" required>
       </md-input-container>
       <!-- isme karna hai keyup -->
     </div>
@@ -57,14 +59,15 @@
   <div class="clearfix"> </div>
   <div class="clearfix"> </div>
   <div class="clearfix"> </div>
+  </form>
   <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" type="submit" class="full-width" (click)="editCategory()">Save</button>
+      <button md-raised-button color="primary" [disabled]="f.invalid || categoryExist" type="submit" class="full-width" (click)="editCategory()">Save</button>
     </div>
   </div>
   <div class="row" *ngIf="subCategoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" type="submit" class="full-width" (click)="editSubCategory()">Save</button>
+      <button md-raised-button color="primary" [disabled]="f.invalid || subCategoryExist" type="submit" class="full-width" (click)="editSubCategory()">Save</button>
     </div>
   </div>
 </div>
