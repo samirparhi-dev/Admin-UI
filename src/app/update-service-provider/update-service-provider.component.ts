@@ -118,7 +118,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       'stateID': value.state,
       'createdBy': 'SUPERADMIN',
       'serviceID1': value.serviceLine,
-      'statusID': 1
+      'statusID': 2
     }
     console.log(obj);
     this.super_admin_service.addProviderStateAndServiceLines(obj).subscribe(response => this.servicelineAddedSuccesshandler(response));

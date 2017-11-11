@@ -163,7 +163,7 @@
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="saveOfficeAddress(f.value)" [disabled]="!(f.valid) || officeNameExist">Save</button>
+        <button class="pull-right" md-raised-button color="primary" (click)="saveOfficeAddress(f.value)" [disabled]="f.invalid ||officeNameExist">Save</button>
         <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true)">Back</button>
       </div>
     </form>

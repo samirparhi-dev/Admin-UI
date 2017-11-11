@@ -44,7 +44,7 @@
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-        <button md-raised-button color="primary" (click)="update()" style="width: 100%" [disabled]="!(f1.valid) || officeNameExist">
+        <button md-raised-button color="primary" (click)="update()" style="width: 100%" [disabled]="!(f1.valid) || officeNameExist ||officeId.value.trim().length==0">
           Save Changes
         </button>
       </div>

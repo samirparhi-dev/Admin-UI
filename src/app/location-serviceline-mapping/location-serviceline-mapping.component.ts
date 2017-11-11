@@ -338,7 +338,8 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     for(var i=0; i<this.officeArray.length; i++) {
        let a = this.officeArray[i].locationName;
-       if(a.toLowerCase() == value.toLowerCase()) {
+       console.log(value.trim(),"EDsdd");
+       if(a.trim().toLowerCase() == value.trim().toLowerCase()) {
          this.officeNameExist = true;
          this.msg = "OfficeName exist for "+this.officeArray[i].serviceName+", deselect "+this.officeArray[i].serviceName;
          break;
@@ -346,6 +347,11 @@ export class LocationServicelineMappingComponent implements OnInit {
        else {
          this.officeNameExist = false;
        }
+    }
+
+    if(value.trim().length==0)
+    {
+      this.officeNameExist = true;
     }
   }
   
@@ -391,7 +397,8 @@ export class EditLocationModal {
 
     for(var i=0; i<this.data.offices.length; i++) {
        let a = this.data.offices[i].locationName;
-       if(a.toLowerCase() == value.toLowerCase() && this.originalOfficeID.toLowerCase()!=a.toLowerCase() ) {
+       
+       if(a.trim().toLowerCase() == value.trim().toLowerCase() && this.originalOfficeID.trim().toLowerCase()!=a.trim().toLowerCase() ) {
          this.officeNameExist = true;
          this.msg = "OfficeName exist for "+this.data.offices[i].serviceName;
          break;
@@ -399,6 +406,12 @@ export class EditLocationModal {
        else {
          this.officeNameExist = false;
        }
+    }
+
+
+    if(value.trim().length==0)
+    {
+      this.officeNameExist = true;
     }
   }
 
