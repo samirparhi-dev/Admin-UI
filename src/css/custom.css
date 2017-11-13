@@ -1170,9 +1170,9 @@ em {
   height: 100px;
 }
 
-.md2-datepicker-arrow {
+/*.md2-datepicker-arrow {
   display: none;
-}
+}*/
 
 .form-group-custome::after,
 .form-group-custome::before {
@@ -1341,6 +1341,19 @@ em {
   margin: 0;
   padding: 0;
 }
+
+.md2-datepicker-input {
+  font-weight: 700;
+}
+
+.md2-datepicker-clear svg {
+  display: none;
+}
+
+.md2-datepicker-arrow {
+  display: none;
+} 
+
 
 .cu-ul li a {
   display: block;
