@@ -29,12 +29,12 @@
 </md2-autocomplete>
 -->
         </div>
-        <div class="col-xs-4 col-sm-2 col-md-2 col-lg-2" style="margin-top: 3px">
+        <div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Employee Name" [style.width]="'100%'" [(ngModel)]="name_filter" name="employee_middlename" (blur)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter)">
           </md-input-container>
         </div>
-        <div class="col-xs-4 col-sm-2 col-md-2 col-lg-2" style="margin-top: 3px">
+        <div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
           <md-input-container style="width: 100% ">
             <input mdInput placeholder="Employee ID" [style.width]="'100%'" [(ngModel)]="employee_id_filter" name="employee_middlename" (blur)="searchEmployee(state_filter,service_filter,role_filter,name_filter,employee_id_filter)">
           </md-input-container>
@@ -44,9 +44,9 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!createEmployeeFlag" class="m-t-10" style="height: 315px">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+    <!-- <div > -->
+      <div *ngIf="!createEmployeeFlag" class="row m-t-10" style="height: 315px">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive p-l-30 p-r-30">
           <table [md2Data]="tableitems" #md2="md2DataTable" class="table" [rowsPerPage]="3">
             <thead>
               <tr>
@@ -86,7 +86,7 @@
           <button md-raised-button color="primary" class="pull-right" (click)="changeFlagValue(true)">Create New Employee</button>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </md-card>
 </div>
 <div class="row" *ngIf="createEmployeeFlag">

@@ -571,6 +571,10 @@ color:#545454;
   padding-left: 20px !important;
 }
 
+.p-l-30 {
+  padding-left: 30px !important;
+}
+
 .p-l-r-10 {
   padding-left: 10px !important;
   padding-right: 10px !important;
@@ -619,7 +623,7 @@ color:#545454;
 }
 
 .p-r-0 {
-  padding-right: 0px;
+  padding-right: 0px !important;
 }
 
 .p-r-2 {
@@ -628,6 +632,10 @@ color:#545454;
 
 .p-r-15 {
   padding-right: 15px;
+}
+
+.p-r-30 {
+  padding-right: 30px !important;
 }
 
 .m-a-5 {
