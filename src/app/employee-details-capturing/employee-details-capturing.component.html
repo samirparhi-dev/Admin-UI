@@ -47,8 +47,8 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myName>
             <md-input-container style="width: 100% ">
-              <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="employee_lastname " required minlength="2" maxlength="25" #lName="ngModel">
-              <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 2 characters
+              <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="employee_lastname " required minlength="1" maxlength="25" #lName="ngModel">
+              <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 1 character
               </md-hint>
             </md-input-container>
           </div>
@@ -72,7 +72,7 @@
             <button mdSuffix md-datepicker-toggle="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-            <md2-datepicker [style.width]="'100%'" name="dob" [min]="mindate" [max]="maxdate" placeholder="Date of Birth" [(ngModel)]="dob" (keydown)="preventTyping()"></md2-datepicker>
+            <md2-datepicker [style.width]="'100%'" name="dob" [min]="mindate" [max]="maxdate" placeholder="Date of Birth" [(ngModel)]="dob" (keydown)="preventTyping($event)"></md2-datepicker>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myMobileNumber>
             <md-input-container style="width: 100% ">
@@ -102,8 +102,8 @@
     <md-card>
       <div class="row">
         <form #od="ngForm" id="otherDetails" autocomplete="off">
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-            <md-select class="p-t-14" placeholder="Qualification Type" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType" required>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-20">
+            <md-select placeholder="Qualification Type" [style.width]="'100%'" [(ngModel)]="qualificationType" name="qualificationType" required>
               <md-option *ngFor="let item of allQualificationTypes" value="{{item.qualificationID}}">
                 {{item.name}}
               </md-option>
@@ -111,35 +111,36 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <md-input-container style="width: 100% " myName>
-              <input mdInput placeholder="Father Name " maxlength="25" [(ngModel)]="father_name " name="father_name ">
+              <input mdInput placeholder="Father Name" maxlength="25" [(ngModel)]="father_name " name="father_name">
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <md-input-container style="width: 100% " myName>
-              <input mdInput placeholder="Mother Name " maxlength="25" [(ngModel)]="mother_name " name="mother_name ">
+              <input mdInput placeholder="Mother Name" maxlength="25" [(ngModel)]="mother_name " name="mother_name ">
             </md-input-container>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-20">
-            <md-select class="p-t-14" placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="marital_status">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-20">
+            <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="marital_status">
               <md-option *ngFor="let item of marital_status_array" value="{{item.maritalStatusID}}">
                 {{item.status}}
               </md-option>
             </md-select>
           </div>
+          <div class="clearfix"></div>
           <!--         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-select placeholder="Religion" [style.width]="'100%'" [(ngModel)]="religion" name="religion">
 
             <md-option value="1">religion1</md-option>
           </md-select>
         </div> -->
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-            <md-select class="p-t-14" placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-30">
+            <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community">
               <md-option *ngFor="let item of communities" value="{{item.communityID}}">
                 {{item.communityType}}
               </md-option>
             </md-select>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-15">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
             <button [disabled]="od.invalid" md-raised-button class="pull-right" (click)="MOVE2NEXT(2)">Next</button>
           </div>
         </form>
@@ -534,11 +535,11 @@
               <input mdInput placeholder="Password " [(ngModel)]="password" name="password" maxlength="20" required>
             </md-input-container>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+          <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <md-input-container style="width: 100% ">
               <input mdInput placeholder="Agent ID " [(ngModel)]="agentID" name="agentID ">
             </md-input-container>
-          </div>
+          </div> -->
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
             <button md-raised-button class="pull-right" [disabled]="username_dependent_flag || credentialsForm.invalid" (click)="createEmployee()">Submit</button>
           </div>

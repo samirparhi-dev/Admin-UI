@@ -152,10 +152,21 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.EmployeeMasterService.getDesignations().subscribe(response => this.allDesignationsSuccess(response));
   }
 
-  preventTyping()
+  preventTyping(e:any)
   {
-    return false;
+
+    if (e.keyCode === 9) {
+
+      return true;
+
+    } else {
+
+      return false;
+
+    }
+
   }
+  
 
   setGenderOnCondition(title)
   {
@@ -173,7 +184,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     }
   }
 
-  
+
 
   getServices(value) {
     this.EmployeeMasterService.getServicesOfServiceProvider(this.serviceProviderID, value.stateID)
@@ -697,7 +708,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
       this.write=false;
       this.speak=false;
       this.lang=[];
-     
+
       jQuery("#languagesForm").trigger('reset');
       this.weightage=1;
 

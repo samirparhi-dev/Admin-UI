@@ -22,7 +22,7 @@
             <button mdSuffix []="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-        <md2-datepicker class="width100" placeholder="Valid From" [min]="minDate" [(ngModel)]="validFrom" required="true" disabled="true" (change)="validFromD(validFrom)" name="valid_from" (keydown)="preventTyping()"></md2-datepicker>
+        <md2-datepicker class="width100" placeholder="Valid From" [min]="minDate" [(ngModel)]="validFrom" required="true" disabled="true" (change)="validFromD(validFrom)" name="valid_from" (keydown)="preventTyping($event)"></md2-datepicker>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <!-- <md-input-container class="width100">
@@ -30,7 +30,7 @@
             <button mdSuffix []="picker"></button>
           </md-input-container>
           <md-datepicker #picker></md-datepicker> -->
-        <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true" name="valid_till" (keydown)="preventTyping()"></md2-datepicker>
+        <md2-datepicker class="width100" placeholder="{{currentlanguage.valid_till}}" [min]="validFrom" [(ngModel)]="validTill" required="true" name="valid_till" (keydown)="preventTyping($event)"></md2-datepicker>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="width100" myProviderName>
@@ -175,8 +175,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
         <md-input-container style="width: 100% " myName>
-          <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel" maxlength="50" minlength="2">
-          <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 2 characters
+          <input mdInput placeholder="Last Name " [(ngModel)]="lastname " name="last_name " required #lName="ngModel" maxlength="50" minlength="1">
+          <md-hint class="errorText" *ngIf="lName.errors && lName.touched">Enter atleast 1 character
           </md-hint>
         </md-input-container>
       </div>
@@ -195,7 +195,7 @@
               <button mdSuffix md-datepicker-toggle="picker"></button>
             </md-input-container>
             <md-datepicker #picker></md-datepicker> -->
-        <md2-datepicker style="width: 100% " name="dob" placeholder="Date of Birth" [(ngModel)]="dob" [max]="maxBirth" required="true" (keydown)="preventTyping()"></md2-datepicker>
+        <md2-datepicker style="width: 100% " name="dob" placeholder="Date of Birth" [(ngModel)]="dob" [max]="maxBirth" required="true" (keydown)="preventTyping($event)" (change)="changeMinJoiningDate(dob)"></md2-datepicker>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3m-t-5">
         <!-- <md-input-container class="width100">
@@ -203,7 +203,7 @@
               <button mdSuffix md-datepicker-toggle="picker1"></button>
             </md-input-container>
             <md-datepicker #picker1></md-datepicker> -->
-        <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" required="true" (keydown)="preventTyping()"></md2-datepicker>
+        <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" required="true" (keydown)="preventTyping($event)"></md2-datepicker>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-5">
         <md-input-container style="width: 100% " myMobileNumber>

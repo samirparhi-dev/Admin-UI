@@ -126,9 +126,27 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.setLanguage(this.current_language);
   }
 
-  preventTyping()
+  changeMinJoiningDate(dob)
   {
-    return false;
+    console.log("date change wala function chala",dob,new Date());
+    this.maxJoining.setFullYear(dob.getFullYear() + 20);
+    console.log(this.maxJoining,"post change");
+    // this.doj = this.maxJoining;
+  }
+
+  preventTyping(e:any)
+  {
+
+    if (e.keyCode === 9) {
+
+      return true;
+
+    } else {
+
+      return false;
+
+    }
+
   }
 
   setGenderOnCondition(title)
