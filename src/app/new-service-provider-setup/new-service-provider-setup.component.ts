@@ -51,6 +51,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   countryID: any;
   states: any;
   servicelines: any;
+  servicelines_copy:any=[];
   today: Date;
   minDate: Date;
   emailPattern: any;
@@ -110,7 +111,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.super_admin_service
       .getAllServiceLines()
       .subscribe(
-      response => (this.servicelines = this.successhandeler(response))
+      response => (this.getServicesSuccessHandeler(response))
       );
     this.super_admin_service
       .getCommonRegistrationData()
@@ -146,6 +147,13 @@ export class NewServiceProviderSetupComponent implements OnInit {
       return false;
 
     }
+
+  }
+
+  getServicesSuccessHandeler(response)
+  {
+    this.servicelines = response;
+    this.servicelines_copy=response;
 
   }
 
@@ -296,6 +304,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   showServiceline: boolean = false;
   state_service_array: any = [];
+
   add_2_state_service_array(state, services) {
     this.showServiceline = false;
     let data_obj = {
@@ -303,6 +312,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
       stateName: state.stateName,
       services: services
     };
+
+/*need DISCUSSION DO NOT DELETE SECTION-starts*/
+    // this.check1097ServiceExistance(data_obj.services);
+/*need DISCUSSION DO NOT DELETE SECTION-ends*/
+
+
     /** NOTE
 		if services are already mentioned for that state in that transaction,
 		dont add it in the  'state_service_array'
@@ -367,6 +382,36 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.showTable = true;
     this.showAdd = false;
   }
+
+
+/*NEED DISCUSSION---DONT DELETE SECTION--starts*/
+
+  /*check1097ServiceExistance(selected_services){
+    console.log("selected services",selected_services);
+
+    for(let i=0;i<selected_services.length;i++)
+    {
+      if(selected_services[i].serviceID===1 || selected_services[i].serviceName==="1097")
+      {
+        this.servicelines=this.servicelines.filter(function(service)
+        {
+          if(service.serviceID!=1)
+          {
+            return service;
+          }
+        });
+
+        break;
+      }
+
+    }
+
+  }*/
+
+  /*NEED DISCUSSION---DONT DELETE SECTION--ends*/
+
+
+
   remove_from_state_service_array(index) {
     this.state_service_array.splice(index, 1);
     if (this.state_service_array.length == 0) {
@@ -459,13 +504,18 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.requestObject();
     }
   }
-  deleteServiceLine(parentIndex: number, index: number) {
+  deleteServiceLine(parentIndex: number, index: number,service_name) {
     this.state_service_array[parentIndex].services.splice(index, 1);
     if (this.state_service_array[parentIndex].services.length === 0) {
       this.state_service_array.splice(parentIndex, 1);
     }
     if (this.state_service_array.length == 0) {
       this.showTable = false;
+    }
+
+    if(service_name==="1097")
+    {
+      this.clr();
     }
   }
   checkProviderNameAvailability(service_provider_name) {
@@ -641,6 +691,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
       },
       err => { }
     );
+  }
+
+  clr()
+  {
+    /*do not delete...needs discussion---START*/
+    // this.servicelines=this.servicelines_copy;
   }
 
   providerData_successHandler(res) {

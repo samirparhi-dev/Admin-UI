@@ -53,15 +53,16 @@ export class loginContentClass {
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {
 
-				for (let j = 0; j < response.Previlege[i].Role.length; j++) {
-					if (response.Previlege[i].Role[j] === "ProviderAdmin") {
+				// for (let j = 0; j < response.Previlege[i].Role.length; j++) {
+					if (response.Previlege[i].Role === "ProviderAdmin") {
 						// this.router.navigate(['/MultiRoleScreenComponent']);
 						this.dataSettingService.role = "PROVIDERADMIN";
+						console.log("VALUE SET HOGAYI");
 					}
 					else {
 						// this.router.navigate(['/MultiRoleScreenComponent']);
 					}
-				}
+				// }
 			}
 			this.router.navigate(['/MultiRoleScreenComponent']);
 		}

@@ -18,6 +18,7 @@ export class MultiRoleScreenComponent implements OnInit {
     public HttpServices: HttpServices
   ) {
     this.role = this.getCommonData.role;
+    console.log(this.role,"ROLE NAME AS OF NOW");
   }
 
   data: any;
