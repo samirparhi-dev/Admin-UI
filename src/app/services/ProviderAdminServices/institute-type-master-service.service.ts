@@ -32,10 +32,10 @@ export class InstituteTypeMasterService {
 		this.get_State_Url = this.admin_Base_Url + "m/role/state";
 		this.get_Service_Url = this.admin_Base_Url + "m/role/service";
 
-		this.get_InstituteType_Url=this.admin_Base_Url+"m/getInstuteType";
-		this.save_InstituteType_Url=this.admin_Base_Url+"m/createInstuteType";
-		this.edit_InstituteType_Url=this.admin_Base_Url+"m/editInstuteType";
-		this.delete_InstituteType_Url=this.admin_Base_Url+"m/deleteInstuteType";
+		this.get_InstituteType_Url=this.admin_Base_Url+"m/getInstituteType";
+		this.save_InstituteType_Url=this.admin_Base_Url+"m/createInstituteType";
+		this.edit_InstituteType_Url=this.admin_Base_Url+"m/editInstituteType";
+		this.delete_InstituteType_Url=this.admin_Base_Url+"m/deleteInstituteType";
 
 
 		
