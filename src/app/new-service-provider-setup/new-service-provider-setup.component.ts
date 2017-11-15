@@ -130,9 +130,12 @@ export class NewServiceProviderSetupComponent implements OnInit {
   changeMinJoiningDate(dob)
   {
     console.log("date change wala function chala",dob,new Date());
-    this.maxJoining.setFullYear(dob.getFullYear() + 20);
+    // this.maxJoining.setDate( dob.getDate());
+    // this.maxJoining.setMonth( dob.getMonth(),dob.getDate());
+    this.maxJoining.setFullYear(dob.getFullYear() + 20,dob.getMonth(),dob.getDate());
     console.log(this.maxJoining,"post change");
     // this.doj = this.maxJoining;
+    this.maxJoining=new Date(this.maxJoining);
   }
 
   preventTyping(e:any)
