@@ -130,7 +130,13 @@ export class HospitalMasterComponent implements OnInit {
     {
         if(response)
         {
-            this.services=response;
+            this.services=response.filter(function(item)
+                                      {
+                                        if(item.serviceID!=6)
+                                        {
+                                            return item;
+                                        }
+                                      });;
         }
     }
 

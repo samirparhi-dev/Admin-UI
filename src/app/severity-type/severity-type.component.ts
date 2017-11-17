@@ -45,7 +45,8 @@ export class SeverityTypeComponent implements OnInit {
   servicesSuccesshandeler(response) {
   	console.log(response);
   	this.services = response.filter(function(obj){
-  		return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
+  		// return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
+      return obj.serviceName == 104 || obj.serviceName == 1097
   	});
   }
   findSeverity(serObj) {
