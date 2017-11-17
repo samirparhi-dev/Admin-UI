@@ -26,9 +26,9 @@ export class LocationServicelineMapping {
 	constructor(private http: Http,public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
 		this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
 
-		this.getStates_url = this.providerAdmin_Base_Url + "m/location/state";
+		this.getStates_url = this.providerAdmin_Base_Url + "m/role/state";
 		this.getDistricts_url = this.providerAdmin_Base_Url + "m/location/findDistrict";
-		this.getServiceLines_url = this.providerAdmin_Base_Url + "m/location/service";
+		this.getServiceLines_url = this.providerAdmin_Base_Url + "m/role/service";
 		this.getWorkLocations_url = this.providerAdmin_Base_Url + "m/location/getAlllocation";
 		this.add_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/addLocation";
 		this.edit_WorkLocation_url = this.providerAdmin_Base_Url + "m/location/editLocation";
@@ -39,13 +39,13 @@ export class LocationServicelineMapping {
 
 	getStates(serviceProviderID) {
 		return this.http.post(this.getStates_url, { "serviceProviderID": serviceProviderID })
-		.map(this.handleSuccess)
+		.map(this.handleState_n_ServiceSuccess)
 		.catch(this.handleError);
 	}
 
 	getDistricts(serviceProviderID,stateID) {
 		return this.http.post(this.getDistricts_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
-		.map(this.handleSuccess)
+		.map(this.handleState_n_ServiceSuccess)
 		.catch(this.handleError);
 	}
 
@@ -95,6 +95,20 @@ export class LocationServicelineMapping {
 	handleSuccess(response: Response) {
 		console.log(response.json().data, "--- in location-serviceline-mapping service");
 		return response.json().data;
+	}
+
+	handleState_n_ServiceSuccess(response: Response) {
+		
+		console.log(response.json().data, "loc-serviceline-service file success response");
+		let result=[];
+		result=response.json().data.filter(function(item)
+		{
+			if(item.statusID!=4)
+			{
+				return item;
+			}
+		});
+		return result;
 	}
 
 	handleError(error: Response | any) {

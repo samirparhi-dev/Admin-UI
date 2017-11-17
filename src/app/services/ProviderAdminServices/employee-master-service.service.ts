@@ -65,7 +65,7 @@ export class EmployeeMasterService {
 
     this.getRegistrationDataUrl = this.common_Base_Url + "beneficiary/getRegistrationData";
     this.getAllDistrictsInStateUrl = this.common_Base_Url + "location/districts/";
-    this.getAllStatesOfServiceProviderUrl = this.providerAdmin_Base_Url + "m/location/state";
+    this.getAllStatesOfServiceProviderUrl = this.providerAdmin_Base_Url + "m/role/state";
     this.get_Service_Url = this.providerAdmin_Base_Url + "m/role/service";
     this.getAllQualificationsUrl = this.providerAdmin_Base_Url + "m/Qualification";
     this.getAllWorkLocationsInStateUrl = this.providerAdmin_Base_Url + "m/location/getAlllocation";
@@ -109,13 +109,13 @@ export class EmployeeMasterService {
   // worklocation specific
   getStatesOfServiceProvider(serviceProviderID) {
     return this.http.post(this.getAllStatesOfServiceProviderUrl, { "serviceProviderID": serviceProviderID })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getServicesOfServiceProvider(serviceProviderID, stateID) {
     return this.http.post(this.get_Service_Url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
@@ -162,7 +162,7 @@ export class EmployeeMasterService {
       "serviceProviderID": serviceProviderID,
       "stateID": stateID
     })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
@@ -218,6 +218,20 @@ export class EmployeeMasterService {
   handleSuccess(response: Response) {
     console.log(response.json().data, "--- in employee master SERVICE");
     return response.json().data;
+  }
+
+  handleState_n_ServiceSuccess(response: Response) {
+    
+    console.log(response.json().data, "role service file success response");
+    let result=[];
+    result=response.json().data.filter(function(item)
+    {
+      if(item.statusID!=4)
+      {
+        return item;
+      }
+    });
+    return result;
   }
 
   handleError(error: Response | any) {

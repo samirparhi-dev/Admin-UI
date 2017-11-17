@@ -16,6 +16,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   feature: any;
   screen_name:any;
 
+sRSMappingID:any;
+editedFeatureID:any;
+existingFeatureID:any;
+
+
   serviceProviderID: any;
     provider_service_mapID: any = 11;  // has to be dynamic, as of now hardcoded
 
@@ -151,13 +156,26 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       editRole(roleObj) {
 
         this.setRoleFormFlag(true);
+        this.sRSMappingID=roleObj.sRSMappingID;
         this.role = roleObj.roleName;
         this.selectedRole = roleObj.roleName;
         this.description = roleObj.roleDesc;
         this.setEditSubmitButton = true;
+
         this.toBeEditedRoleObj = roleObj;
         this.hideAdd = false;
         this.showAddButtonFlag = false;
+
+        for(let x=0;x<this.features.length;x++)
+        {
+          if(this.features[x].screenName===roleObj.screenName)
+          {
+            this.existingFeatureID=this.features[x].screenID;
+            break;
+          }
+        }
+
+        this.editedFeatureID=this.existingFeatureID;
       }
 
       saveEditChanges() {
@@ -166,10 +184,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           "roleID": this.toBeEditedRoleObj.roleID,
           "roleName": this.role,
           "roleDesc": this.description,
-          "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+          // "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+          "sRSMappingID" : this.sRSMappingID,
+          "screenID":this.editedFeatureID,
           "createdBy": this.commonDataService.uname,
-          "createdDate": "2017-07-25T00:00:00.000Z"
+          "createdDate":new Date()
         }
+
 
         this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'));
       }
@@ -257,7 +278,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
               {
                 let obj = {
                   'roleName': role.trim(),
-                  'roleDesc': desc.trim(),
+                  'roleDesc': desc,
                   'screenID': feature[z].screenID,
                   'screen_name':feature[z].screenName,
                   'createdBy': this.commonDataService.uname,
@@ -289,7 +310,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                   {
                     let obj = {
                       'roleName': role.trim(),
-                      'roleDesc': desc.trim(),
+                      'roleDesc': desc,
                       'screenID': feature[k].screenID,
                       'screen_name':feature[k].screenName,
                       'createdBy': this.commonDataService.uname,

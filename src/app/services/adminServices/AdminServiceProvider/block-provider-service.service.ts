@@ -77,7 +77,7 @@ export class BlockProvider {
   }
   getStates(serviceProviderID) {
     return this._http.post(this.getAllStatesOfProvider_Url, { 'serviceProviderID': serviceProviderID })
-      .map(this.success_handeler)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.error_handeler);
   }
 
@@ -85,7 +85,7 @@ export class BlockProvider {
     return this._http.post(this.getAllServicesInStateOfProvider_Url, {
       'serviceProviderID': serviceProviderID,
       'stateID': stateID
-    }).map(this.success_handeler)
+    }).map(this.handleState_n_ServiceSuccess)
       .catch(this.error_handeler);
   }
 
@@ -197,6 +197,21 @@ export class BlockProvider {
     console.log(response.json().data, '--- in Block-Provider Service');
     return response.json().data;
   }
+
+  handleState_n_ServiceSuccess(response: Response) {
+    
+    console.log(response.json().data, "role service file success response");
+    let result=[];
+    result=response.json().data.filter(function(item)
+    {
+      if(item.statusID!=4)
+      {
+        return item;
+      }
+    });
+    return result;
+  }
+
   customErrorHandler(error: Response | any) {
     return Observable.throw(error.json());
   }
