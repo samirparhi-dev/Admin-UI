@@ -227,7 +227,13 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		if(response)
 		{
 			console.log("institute directory",response);
-			this.institute_directories=response;	
+			this.institute_directories=response.filter(function(item)
+			                                           {
+			                                           	if(item.deleted===false)
+			                                           	{
+			                                           		return item;
+			                                           	}
+			                                           });	
 		}
 	}
 
@@ -248,7 +254,13 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		if(response)
 		{
 			console.log("INSTITUTE SUB DIRECTORY",response);
-			this.institute_subdirectories=response;
+			this.institute_subdirectories=response.filter(function(item)
+			                                           {
+			                                           	if(item.deleted===false)
+			                                           	{
+			                                           		return item;
+			                                           	}
+			                                           });	
 		}
 	}
 

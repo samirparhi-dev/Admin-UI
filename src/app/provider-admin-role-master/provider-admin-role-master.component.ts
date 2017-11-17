@@ -69,6 +69,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
    getFeatures(serviceID)
    {
+    console.log(serviceID,"b4 feature get");
     this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
 
   }

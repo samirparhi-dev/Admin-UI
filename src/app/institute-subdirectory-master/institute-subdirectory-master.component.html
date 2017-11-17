@@ -21,7 +21,8 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
           <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" disabled={{disableSelection}} name="institute_directory" (change)="getInstituteSubdirectory(institute_directory)" required>
-            <md-option *ngFor="let item of instituteDirectories" value="{{item.instituteDirectoryID}}">
+            <md-option 
+            *ngFor="let item of instituteDirectories" value="{{item.instituteDirectoryID}}">
               {{item.instituteDirectoryName}}
             </md-option>
           </md-select>

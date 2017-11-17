@@ -92,7 +92,13 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		console.log(response,"Institiute Directories");
 		if(response)
 		{
-			this.instituteDirectories=response;
+			this.instituteDirectories=response.filter(function(item)
+			                                          {
+			                                          	if(item.deleted===false)
+			                                          	{
+			                                          		return item;
+			                                          	}
+			                                          });
 		}
 	}
 
