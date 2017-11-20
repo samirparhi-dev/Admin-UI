@@ -304,6 +304,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		});
 		dialogReff.afterClosed().subscribe(()=>{
+			this.alertService.alert("Edited Call type/Sub type Successfully");
 			this.get_calltype_subtype_history();
 		});
 		// this.disableSelect = true;
@@ -477,6 +478,9 @@ export class EditCallType {
 	}
 
 	modifySuccess(res) {
+		if(res)
+		{
 		this.dialogReff.close();
+		}
 	}
 }

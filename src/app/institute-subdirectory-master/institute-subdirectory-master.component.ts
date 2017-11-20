@@ -218,7 +218,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	{
 		if(response)
 		{
-			this.alertService.alert("Institute Subdirectory Saved Successfully!");
+			this.alertService.alert("Institute Subdirectory Saved Successfully");
 			this.back();
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
@@ -280,6 +280,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
+				this.alertService.alert("Institute Subdirectory Edited Successfully!");
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 

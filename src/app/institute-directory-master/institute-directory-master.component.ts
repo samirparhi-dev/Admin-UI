@@ -235,6 +235,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
+				this.alertService.alert("Institute Directory Edited Successfully");
 				this.search();
 			}
 

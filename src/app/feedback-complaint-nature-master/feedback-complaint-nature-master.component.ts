@@ -12,6 +12,10 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-complaint-nature-master.component.css']
 })
 export class FeedbackComplaintNatureMasterComponent implements OnInit {
+previous_state_id:any;
+  previous_service_id:any;
+  previous_feedbacktype:any;
+
 
   search_state: any;
   search_serviceline: any;
@@ -32,6 +36,10 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   natureExists: boolean = false;
   searchFeedbackNatureArray = [];
   msg = "Complaint Nature already exists";
+
+
+  feedbackNature:any;
+  feedbackNatureDesc:any;
 
   constructor(private commonData: dataService, private FeedbackTypeService: FeedbackTypeService, private alertService: ConfirmationDialogsService, public dialog: MdDialog) { }
 
@@ -88,6 +96,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
+        this.alertService.alert("Feedback Nature Edited Successfully");
         this.findFeedbackNature(this.feedbackTypeID);
       }
 
@@ -171,9 +180,17 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     .subscribe((res)=>{
       console.log("response",res);
       this.searchForm = true;
-      this.alertService.alert("Feedback Type saved successfully");
+      this.alertService.alert("Feedback Nature Saved Successfully");
+      this.previous_state_id=this.search_state;
+      this.previous_service_id=this.search_serviceline;
+      this.previous_feedbacktype=this.search_feedbacktype;
       this.addForm.resetForm();
       this.objs = [];
+
+      this.search_state=this.previous_state_id;
+      this.search_serviceline=this.previous_service_id;
+      this.search_feedbacktype=this.previous_feedbacktype;
+
       this.findFeedbackNature(this.feedbackTypeID);
     })
   }
@@ -186,6 +203,10 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     console.log(tempObj);
     this.objs.push(tempObj);
     this.validateFeedbackNature(nature);
+    
+    this.feedbackNature="";
+    this.feedbackNatureDesc="";
+    this.natureExists=false;
   }
 
   remove_obj(index){
@@ -231,7 +252,7 @@ export class EditFeedbackNatureModal {
     this.FeedbackTypeService.editFeedbackNatureType(tempObj)
     .subscribe((res)=>{
       this.dialog_Ref.close("success");
-      this.alertService.alert("Feedback Type edited successfully");
+      // this.alertService.alert("Feedback Nature edited successfully");
     })
     
   }

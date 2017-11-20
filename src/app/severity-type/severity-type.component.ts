@@ -87,10 +87,21 @@ export class SeverityTypeComponent implements OnInit {
         "createdBy" : "Admin"
       }
   this.severityArray.push(obj);
-  this.addSeverity(values.severity)
+  this.severity="";
+  this.description="";
+
+  this.addSeverity(values.severity);
+  this.alreadyExist=false;
   }
   handlingFlag(flag) {
   	this.firstPage = flag;
+
+    if(flag)
+    {
+      this.severity="";
+      this.description="";
+      this.severityArray=[];
+    }
   }
   removeObj(i) {
     this.severityArray.splice(i, 1);
@@ -100,7 +111,7 @@ export class SeverityTypeComponent implements OnInit {
   }
   createdSuccessHandler(res){
     // alert("severity added successfully");
-    this.alertService.alert("Severity added successfully");
+    this.alertService.alert("Severity Saved Successfully");
     this.handlingFlag(true);
     this.findSeverity(res[0]);
     this.severityArray= [];
@@ -149,6 +160,7 @@ export class SeverityTypeComponent implements OnInit {
               }
             });
           dialogReff.afterClosed().subscribe(()=>{
+          this.alertService.alert("Severity Edited Successfully");
           this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
       });
   }

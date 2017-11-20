@@ -6,15 +6,15 @@
     </div>
     <form #searchFTForm="ngForm">
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" required>
           <md-option *ngFor="let state of states" value="{{state.stateID}}">
             {{state.stateName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline">
-          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
+        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
+          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)" >
             {{service.serviceName}}
           </md-option>
         </md-select>
@@ -59,7 +59,7 @@
         </tfoot>
       </table>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="changeTableFlag(false)">Add Feedback type</button>
+        <button class="pull-right" md-raised-button color="primary" [disabled]="searchFTForm.invalid" (click)="changeTableFlag(false)">Add Feedback type</button>
       </div>
     </div>
   </div>
@@ -71,14 +71,14 @@
       </div>
       <form #addForm="ngForm" autocomplete="off">
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true">
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true" required>
             <md-option *ngFor="let state of states" value="{{state.stateID}}">
               {{state.stateName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
+          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true" required>
             <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
               {{service.serviceName}}
             </md-option>

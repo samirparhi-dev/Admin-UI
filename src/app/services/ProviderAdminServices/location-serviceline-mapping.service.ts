@@ -45,13 +45,13 @@ export class LocationServicelineMapping {
 
 	getDistricts(serviceProviderID,stateID) {
 		return this.http.post(this.getDistricts_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
-		.map(this.handleState_n_ServiceSuccess)
+		.map(this.handleSuccess)
 		.catch(this.handleError);
 	}
 
 	getServiceLines(serviceProviderID, stateID) {
 		return this.httpIntercept.post(this.getServiceLines_url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
-		.map(this.handleSuccess)
+		.map(this.handleState_n_ServiceSuccess)
 		.catch(this.handleError);
 	}
 

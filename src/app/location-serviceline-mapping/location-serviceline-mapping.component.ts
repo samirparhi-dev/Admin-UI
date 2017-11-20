@@ -204,7 +204,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   editOfficeAddress(toBeEditedOBJ) {
     let OBJ={
       "toBeEditedOBJ":toBeEditedOBJ,
-      "offices":this.officeArray
+      "offices":this.workLocations
     }
     let dialog_Ref = this.dialog.open(EditLocationModal, {
       height: '500px',
