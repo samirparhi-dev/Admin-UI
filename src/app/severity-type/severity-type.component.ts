@@ -159,10 +159,18 @@ export class SeverityTypeComponent implements OnInit {
               "searchArray": this.data
               }
             });
-          dialogReff.afterClosed().subscribe(()=>{
-          this.alertService.alert("Severity Edited Successfully");
-          this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
-      });
+      //     dialogReff.afterClosed().subscribe(()=>{
+      //     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      // });
+
+      dialogReff.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === "success") {
+        this.alertService.alert("Severity Edited Successfully");
+        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      }
+
+    });
   }
   clear() {
     this.data=[];
@@ -176,6 +184,7 @@ export class SeverityTypeComponent implements OnInit {
   templateUrl: './edit-severity-component-modal.html',
 })
 export class EditSeverityModalComponent {
+
 
   severity: any;
   originalSeverity: any;
@@ -205,7 +214,7 @@ export class EditSeverityModalComponent {
       console.log("searchArray",this.searchArray);
       let count = 0;
       for (var i=0; i<this.searchArray.length; i++) {
-            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity) {
+            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity.toLowerCase()) {
                 count++;
             }
       }
@@ -214,6 +223,8 @@ export class EditSeverityModalComponent {
       }
   }
   modifiedSuccessHandler(res){
-    this.dialogReff.close();
+
+    this.dialogReff.close('success');
+        
   }
 }
