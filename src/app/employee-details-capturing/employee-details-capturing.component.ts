@@ -246,8 +246,9 @@ hide: boolean = true;
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.data = [];
     this.previleges = [];
-    this.MOVE2NEXT(0);
-    this.hide = false;
+    // this.MOVE2NEXT(0);
+    // this.hide = false;
+    this.goBackToView();
   }
 
   goBackToView() {
