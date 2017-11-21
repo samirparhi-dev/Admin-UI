@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef,EventEmitter, Input, Output, Renderer } from '@angular/core';
 import { EmployeeMasterService } from '../services/ProviderAdminServices/employee-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
@@ -13,6 +13,9 @@ declare var jQuery: any;
 
 
 export class EmployeeDetailsCapturingComponent implements OnInit {
+
+@Output() hide_event: EventEmitter<any> = new EventEmitter<any>();
+hide: boolean = true;
 
   index: any;
   serviceProviderID: any;
@@ -227,7 +230,7 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     console.log(response, 'qualifications');
     this.allQualificationTypes = response;
   }
-  hide: boolean = true;
+  
   createEmployeeSuccessHandeler(response) {
     console.log(response, 'employee created successfully');
     this.alertService.alert("Employee created successfully");
@@ -246,8 +249,10 @@ export class EmployeeDetailsCapturingComponent implements OnInit {
     this.MOVE2NEXT(0);
     this.hide = false;
   }
+
   goBackToView() {
-    this.hide = false;
+    // this.hide = false;
+    this.hide_event.emit(false);
   }
   getDistrictsSuccessHandeler(response) {
     console.log(response, 'districts retrieved');
