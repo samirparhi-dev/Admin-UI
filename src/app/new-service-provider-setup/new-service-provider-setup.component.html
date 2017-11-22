@@ -203,7 +203,7 @@
               <button mdSuffix md-datepicker-toggle="picker1"></button>
             </md-input-container>
             <md-datepicker #picker1></md-datepicker> -->
-        <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" required="true" (keydown)="preventTyping($event)"></md2-datepicker>
+        <md2-datepicker style="width: 100% " name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" [max]="today" required="true" (keydown)="preventTyping($event)"></md2-datepicker>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-5">
         <md-input-container style="width: 100% " myMobileNumber>
