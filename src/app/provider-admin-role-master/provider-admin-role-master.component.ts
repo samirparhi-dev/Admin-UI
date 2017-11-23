@@ -16,9 +16,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   feature: any;
   screen_name:any;
 
-sRSMappingID:any;
-editedFeatureID:any;
-existingFeatureID:any;
+  sRSMappingID:any;
+  editedFeatureID:any;
+  existingFeatureID:any;
 
 
   serviceProviderID: any;
@@ -273,8 +273,30 @@ existingFeatureID:any;
           if (result) {
             let count = 0;
             if (this.objs.length < 1) {
-
+              let screenIDs=[];
+              let screenNames=[];
               for(let z=0;z<feature.length;z++)
+              {
+                screenIDs.push(feature[z].screenID);
+                screenNames.push(feature[z].screenName);
+              }
+
+              let obj={
+                'roleName': role.trim(),
+                'roleDesc': desc,
+                'screenID': screenIDs,
+                'screen_name':screenNames,
+                'createdBy': this.commonDataService.uname,
+                'createdDate': new Date(),
+                'providerServiceMapID': this.commonDataService.provider_serviceMapID
+              }
+
+              if(obj.roleName.trim().length>0)
+              {
+                this.objs.push(obj);
+              }
+
+              /*for(let z=0;z<feature.length;z++)
               {
                 let obj = {
                   'roleName': role.trim(),
@@ -292,7 +314,7 @@ existingFeatureID:any;
                     this.objs.push(obj);
                   }
                   
-                }
+                }*/
 
               }
               else 
@@ -306,7 +328,7 @@ existingFeatureID:any;
                 }
                 if (count < 1) 
                 {
-                  for(let k=0;k<feature.length;k++)
+                  /*for(let k=0;k<feature.length;k++)
                   {
                     let obj = {
                       'roleName': role.trim(),
@@ -323,6 +345,29 @@ existingFeatureID:any;
                     this.objs.push(obj);
                   }
                   
+                }*/
+
+                let screenIDs=[];
+                let screenNames=[];
+                for(let z=0;z<feature.length;z++)
+                {
+                  screenIDs.push(feature[z].screenID);
+                  screenNames.push(feature[z].screenName);
+                }
+
+                let obj={
+                  'roleName': role.trim(),
+                  'roleDesc': desc,
+                  'screenID': screenIDs,
+                  'screen_name':screenNames,
+                  'createdBy': this.commonDataService.uname,
+                  'createdDate': new Date(),
+                  'providerServiceMapID': this.commonDataService.provider_serviceMapID
+                }
+
+                if(obj.roleName.trim().length>0)
+                {
+                  this.objs.push(obj);
                 }
               }
             }
