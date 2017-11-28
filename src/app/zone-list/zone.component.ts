@@ -101,7 +101,7 @@ export class ZoneComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.zoneMasterService.getZones({}).subscribe(response => this.getZonesSuccessHandler(response));
+        this.zoneMasterService.getZones({"serviceProviderID":this.service_provider_id}).subscribe(response => this.getZonesSuccessHandler(response));
     }
 
 
