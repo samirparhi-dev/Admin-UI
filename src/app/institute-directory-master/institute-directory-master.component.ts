@@ -85,8 +85,11 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	getInstituteDirectorySuccessHandeler(response)
 	{
 		console.log("search result",response);
+		if(response)
+		{
 		this.showTableFlag=true;
 		this.searchResultArray=response;
+		}
 	}
 
 	clear()

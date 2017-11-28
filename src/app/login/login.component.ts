@@ -49,6 +49,7 @@ export class loginContentClass {
 		console.log("array", response.previlegeObj);
 
 		if (response.isAuthenticated === true && response.Status === "Active") {
+			console.log("response.previlegeObj[0].serviceID",response.previlegeObj[0].serviceID);
 			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {

@@ -12,7 +12,7 @@
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess (change)="findRoles(state,service);getFeatures(service)" required>
+        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" (change)="findRoles(state,service);getFeatures(service)" required>
           <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
             {{ser.serviceName}}
           </md-option>
@@ -95,14 +95,26 @@
           <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="hideAdd">
+
+      <!-- in case of 104, multiselect needed in feature-->
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="hideAdd && service == 3">
         <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature" required>
           <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
             {{item.screenName}}
           </md-option>
         </md-select>
       </div>
-      
+
+      <!-- incase of others, single select is needed in feature -->
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="hideAdd && service != 3">
+        <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="feature" required>
+          <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+            {{item.screenName}}
+          </md-option>
+        </md-select>
+      </div>
+
+
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="!hideAdd">
         <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="editedFeatureID" required>
           <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
