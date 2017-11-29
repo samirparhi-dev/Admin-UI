@@ -22,12 +22,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
   serviceProviderID: any;
-    provider_service_mapID: any = 11;  // has to be dynamic, as of now hardcoded
 
-    state: any;
-    service: any;
-    othersExist: boolean = false;
-    toBeEditedRoleObj: any;
+  state: any;
+  service: any;
+  othersExist: boolean = false;
+  toBeEditedRoleObj: any;
 
 
     // arrays
@@ -101,7 +100,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.features = response;
   }
   correctInput: boolean = false;
-  showAddButton: boolean = false;;
+  showAddButton: boolean = false;
+
   findRoles(stateID, serviceID) {
     this.showAddButtonFlag = true;
     this.STATE_ID = stateID;
@@ -271,16 +271,28 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
         add_obj(role, desc, feature) {
           var result = this.validateRole(role);
+
+          var selected_features=[];
+          if(Array.isArray(feature))
+          {
+            selected_features=feature;
+          }
+          else
+          {
+            selected_features.push(feature);
+          }
+
           console.log(feature,"feature wala array");
           if (result) {
             let count = 0;
             if (this.objs.length < 1) {
               let screenIDs=[];
               let screenNames=[];
-              for(let z=0;z<feature.length;z++)
+
+              for(let z=0;z<selected_features.length;z++)
               {
-                screenIDs.push(feature[z].screenID);
-                screenNames.push(feature[z].screenName);
+                screenIDs.push(selected_features[z].screenID);
+                screenNames.push(selected_features[z].screenName);
               }
 
               let obj={
@@ -351,10 +363,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
                 let screenIDs=[];
                 let screenNames=[];
-                for(let z=0;z<feature.length;z++)
+                for(let z=0;z<selected_features.length;z++)
                 {
-                  screenIDs.push(feature[z].screenID);
-                  screenNames.push(feature[z].screenName);
+                  screenIDs.push(selected_features[z].screenID);
+                  screenNames.push(selected_features[z].screenName);
                 }
 
                 let obj={
