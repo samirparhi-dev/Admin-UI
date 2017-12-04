@@ -62,6 +62,7 @@ export class VanServicePointMappingComponent implements OnInit {
         this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
+        this.vanObj.serviceProviderID = this.service_provider_id;
         this.vanServicePointMappingService.getVanServicePointMappings(this.vanObj).subscribe(response => this.getVanServicePointMappingsSuccessHandler(response));
     }
 
@@ -168,6 +169,7 @@ export class VanServicePointMappingComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.vanServicePointMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }
 
@@ -191,6 +193,7 @@ export class VanServicePointMappingComponent implements OnInit {
         this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
         this.vanObj.vanTypeID = vanTypeID;
+        this.vanObj.serviceProviderID = this.service_provider_id;
         this.vanServicePointMappingService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
     }
@@ -208,6 +211,7 @@ export class VanServicePointMappingComponent implements OnInit {
         this.servicePointObj.stateID = stateID;
         this.servicePointObj.districtID = districtID;
         this.servicePointObj.parkingPlaceID = parkingPlaceID;
+        this.servicePointObj.serviceProviderID = this.service_provider_id;
         this.vanServicePointMappingService.getServicePoints(this.servicePointObj).subscribe(response => this.getServicePointSuccessHandler(response));
 
     }

@@ -63,6 +63,7 @@ export class VanComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.vanMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }
 
@@ -84,6 +85,7 @@ export class VanComponent implements OnInit {
         this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
+        this.vanObj.serviceProviderID = this.service_provider_id;
         this.vanMasterService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
     }
@@ -203,14 +205,28 @@ export class VanComponent implements OnInit {
 
      dataObj: any = {};
     updateVanStatus(van) {
+        let flag = !van.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        this.dataObj = {};
-        this.dataObj.vanID = van.vanID;
-        this.dataObj.deleted = !van.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.vanMasterService.updateVanStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
 
-        van.deleted = !van.deleted;
+                this.dataObj = {};
+                this.dataObj.vanID = van.vanID;
+                this.dataObj.deleted = !van.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.vanMasterService.updateVanStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+
+                van.deleted = !van.deleted;
+            }
+        });
 
     }
     updateStatusHandler(response) {

@@ -51,6 +51,7 @@ export class ServicePointComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.servicePointMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }
 
@@ -72,6 +73,7 @@ export class ServicePointComponent implements OnInit {
         this.servicePointObj.stateID = stateID;
         this.servicePointObj.districtID = districtID;
         this.servicePointObj.parkingPlaceID = parkingPlaceID;
+        this.servicePointObj.serviceProviderID = this.service_provider_id;
         this.servicePointMasterService.getServicePoints(this.servicePointObj).subscribe(response => this.getServicePointSuccessHandler(response));
 
     }
@@ -196,14 +198,27 @@ export class ServicePointComponent implements OnInit {
 
      dataObj: any = {};
     updateServicePointStatus(servicePoint) {
+        let flag = !servicePoint.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        this.dataObj = {};
-        this.dataObj.servicePointID = servicePoint.servicePointID;
-        this.dataObj.deleted = !servicePoint.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.servicePointMasterService.updateServicePointStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
+                this.dataObj = {};
+                this.dataObj.servicePointID = servicePoint.servicePointID;
+                this.dataObj.deleted = !servicePoint.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.servicePointMasterService.updateServicePointStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
-        servicePoint.deleted = !servicePoint.deleted;
+                servicePoint.deleted = !servicePoint.deleted;
+            }
+        });
 
     }
     updateStatusHandler(response) {

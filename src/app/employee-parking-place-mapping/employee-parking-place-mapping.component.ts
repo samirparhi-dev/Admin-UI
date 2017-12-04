@@ -70,7 +70,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     employeeObj:any = {};
     getEmployeeParkingPlaceMappings(stateID,districtID,designationID){
         this.employeeObj = {};
-        this.employeeObj.providerServiceMapID = this.providerServiceMapID;
+        this.employeeObj.serviceProviderID = this.service_provider_id;
         this.employeeObj.stateID = stateID;
         this.employeeObj.districtID = districtID;
         //this.employeeObj.parkingPlaceID = this.parkingPlaceID;
@@ -182,6 +182,8 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.employeeParkingPlaceMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }
 

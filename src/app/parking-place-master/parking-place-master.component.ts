@@ -48,6 +48,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.parkingPlaceMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
 
     }
@@ -168,14 +169,27 @@ export class ParkingPlaceComponent implements OnInit {
      dataObj: any = {};
     updateParkingPlaceStatus(parkingPlace) {
 
-        this.dataObj = {};
-        this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
-        this.dataObj.deleted = !parkingPlace.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.parkingPlaceMasterService.updateParkingPlaceStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        let flag = !parkingPlace.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        parkingPlace.deleted = !parkingPlace.deleted;
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
+                this.dataObj = {};
+                this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
+                this.dataObj.deleted = !parkingPlace.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.parkingPlaceMasterService.updateParkingPlaceStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
+                parkingPlace.deleted = !parkingPlace.deleted;
+            }
+        });
     }
     updateStatusHandler(response) {
         console.log("Parking Place status changed");
@@ -186,6 +200,8 @@ export class ParkingPlaceComponent implements OnInit {
         this.searchDistrictID ="";
         this.getParkingPlaces(null,null);
         this.showParkingPlaces=true;
+        
+        this.editable=false;
     }
 
     parkingPlaceNameExist: any = false;
@@ -193,6 +209,72 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);
         console.log(this.parkingPlaceNameExist);
     }
-    
+
+    parkingPlaceID: any;
+    parkingPlaceName: any;
+    parkingPlaceDesc: any;
+    stateID: any;
+    districtID: any;
+    talukID: any;
+    areaHQAddress: any;
+    initializeObj() {
+        this.parkingPlaceID = "";
+        this.parkingPlaceName = "";
+        this.parkingPlaceDesc = "";
+        this.stateID = "";
+        this.districtID = "";
+        this.talukID = "";
+        this.areaHQAddress = "";
+    }
+    editParkingPlaceData(parkingPlace){
+                        
+        this.parkingPlaceID = parkingPlace.parkingPlaceID;
+        this.parkingPlaceName = parkingPlace.parkingPlaceName
+        this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
+        this.areaHQAddress = parkingPlace.areaHQAddress;
+        this.stateID = parkingPlace.stateID+"-"+ parkingPlace.stateName;
+        this.districtID = parkingPlace.districtID + "-" + parkingPlace.districtName;
+        if(parkingPlace.districtBlockID!=undefined){
+            this.talukID = parkingPlace.districtBlockID + "-" + parkingPlace.blockName;
+        }
+      
+        this.serviceID = parkingPlace.m_providerServiceMapping.m_serviceMaster.serviceID+"-"+parkingPlace.providerServiceMapID;
+        this.getDistricts(parkingPlace.stateID);
+        this.GetTaluks(parkingPlace.districtID);
+        this.GetBranches(parkingPlace.districtBlockID);
+        this.getStates();
+        this.getServices(parkingPlace.stateID);
+
+        this.editable = true;
+    }
+
+     updateParkingPlaceData(parkingPlace) {
+        this.dataObj = {};
+        this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
+        this.dataObj.parkingPlaceName = parkingPlace.parkingPlaceName;
+        this.dataObj.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
+        this.dataObj.areaHQAddress = parkingPlace.areaHQAddress;
+        //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];
+        if(parkingPlace.stateID!=undefined){
+            this.dataObj.stateID = parkingPlace.stateID.split("-")[0];
+        }
+        if(parkingPlace.districtID!=undefined){
+            this.dataObj.districtID = parkingPlace.districtID.split("-")[0];
+        }
+        if(parkingPlace.talukID!=undefined){
+            this.dataObj.districtBlockID = parkingPlace.talukID.split("-")[0];
+        }
+       
+        this.dataObj.modifiedBy = this.createdBy;
+        this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
+
+    }
+
+    updateHandler(response) {
+        this.editable = false;
+        this.alertMessage.alert("updated successfully");
+        this.getParkingPlaces(null,null);
+        //this.initializeObj();
+    }
     
 }
