@@ -172,8 +172,8 @@ export class LocationServicelineMappingComponent implements OnInit {
       "districtID": this.district,
       "locationName": this.OfficeID,
       "address": this.office_address1 + "," + this.office_address2,
-      "createdBy": "Diamond Khanna",
-      "createdDate": "2017-07-31T00:00:00.000Z"
+      "createdBy": this.commonDataService.uname,
+      "createdDate": new Date()
     }
 
     // for (let i = 0; i < this.serviceLine.length;i++)
@@ -204,7 +204,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   editOfficeAddress(toBeEditedOBJ) {
     let OBJ={
       "toBeEditedOBJ":toBeEditedOBJ,
-      "offices":this.officeArray
+      "offices":this.workLocations
     }
     let dialog_Ref = this.dialog.open(EditLocationModal, {
       height: '500px',

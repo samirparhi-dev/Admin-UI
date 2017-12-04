@@ -101,7 +101,7 @@ export class ZoneComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.zoneMasterService.getZones({}).subscribe(response => this.getZonesSuccessHandler(response));
+        this.zoneMasterService.getZones({"serviceProviderID":this.service_provider_id}).subscribe(response => this.getZonesSuccessHandler(response));
     }
 
 
@@ -168,13 +168,28 @@ export class ZoneComponent implements OnInit {
     dataObj: any = {};
     updateZoneStatus(zone) {
 
-        this.dataObj = {};
-        this.dataObj.zoneID = zone.zoneID;
-        this.dataObj.deleted = !zone.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.zoneMasterService.updateZoneStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        let flag = !zone.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        zone.deleted = !zone.deleted;
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
+            
+                this.dataObj = {};
+                this.dataObj.zoneID = zone.zoneID;
+                this.dataObj.deleted = !zone.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.zoneMasterService.updateZoneStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+
+                zone.deleted = !zone.deleted;
+            }
+        });
 
     }
     updateStatusHandler(response) {
@@ -234,7 +249,6 @@ export class ZoneComponent implements OnInit {
         //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];
         if(zone.stateID!=undefined){
             this.dataObj.stateID = zone.stateID.split("-")[0];
-            this.dataObj.providerServiceMapID = zone.stateID.split("-")[1];
         }
         if(zone.districtID!=undefined){
             this.dataObj.districtID = zone.districtID.split("-")[0];

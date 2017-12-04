@@ -6,15 +6,15 @@
     </div>
     <form #searchFTForm="ngForm">
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" required>
           <md-option *ngFor="let state of states" value="{{state.stateID}}">
             {{state.stateName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline">
-          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
+        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
+          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)" >
             {{service.serviceName}}
           </md-option>
         </md-select>
@@ -59,7 +59,7 @@
         </tfoot>
       </table>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="changeTableFlag(false)">Add Feedback type</button>
+        <button class="pull-right" md-raised-button color="primary" [disabled]="searchFTForm.invalid" (click)="changeTableFlag(false)">Add Feedback type</button>
       </div>
     </div>
   </div>
@@ -70,15 +70,15 @@
         <h4 class="pull-left">Add Feedback/Complaint Type</h4>
       </div>
       <form #addForm="ngForm" autocomplete="off">
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-30">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" [disabled]="true" required>
             <md-option *ngFor="let state of states" value="{{state.stateID}}">
               {{state.stateName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 m-t-15">
-          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
+          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true" required>
             <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
               {{service.serviceName}}
             </md-option>
@@ -115,9 +115,9 @@
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15" *ngIf="search_serviceline==='3'">
-          <md-select placeholder="Feedback Name" [style.width]="'100%'" [(ngModel)]="feedbackName" name="feedbackName">
-            <md-option value="Generic Complaints">Generic Complaint</md-option>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-30" *ngIf="search_serviceline==='3'">
+          <md-select placeholder="Feedback Name" [style.width]="'100%'" [(ngModel)]="feedbackName" name="feedbackName" required>
+            <md-option value="Generic Complaint">Generic Complaint</md-option>
             <md-option value="Asha Complaints">Asha Complaints</md-option>
             <md-option value="Epidemic Complaints">Epidemic Complaints</md-option>
           </md-select>

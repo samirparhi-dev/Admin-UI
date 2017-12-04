@@ -383,6 +383,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
         .subscribe((response) => {
           if (response) {
+            this.messageBox.alert("Category "+confirmMessage+"d Successfully");
             this.refeshCategory(response.subServiceID, response.providerServiceMapID);
           }
         }, (err) => {
@@ -406,6 +407,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         .subscribe((response) => {
           if (response) {
               // console.log(response,"after delete");
+              this.messageBox.alert("Subcategory "+confirmMessage+"d Successfully");
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
           }, (err) => {

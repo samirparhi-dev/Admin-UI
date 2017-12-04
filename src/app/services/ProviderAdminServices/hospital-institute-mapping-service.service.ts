@@ -56,14 +56,14 @@ import { ConfigService } from "../config/config.service";
 
  	getStates(serviceProviderID) {
  		return this.http.post(this.get_State_Url, { "serviceProviderID": serviceProviderID })
- 		.map(this.handleSuccess)
+ 		.map(this.handleState_n_ServiceSuccess)
  		.catch(this.handleError);
  	}
 
  	getServices(serviceProviderID,stateID) {
  		return this.http.post(this.get_Service_Url, { "serviceProviderID": serviceProviderID,
  		                      "stateID": stateID
- 		                  }).map(this.handleSuccess)
+ 		                  }).map(this.handleState_n_ServiceSuccess)
  		.catch(this.handleError);
  	}
 
@@ -124,6 +124,20 @@ import { ConfigService } from "../config/config.service";
  		console.log(response.json().data, "HOSPITAL-MASTER-SERVICE file success response");
  		return response.json().data;
  	}
+
+ 	handleState_n_ServiceSuccess(response: Response) {
+		
+		console.log(response.json().data, "HOSPITAL-MASTER-SERVICE success response");
+		let result=[];
+		result=response.json().data.filter(function(item)
+		{
+			if(item.statusID!=4)
+			{
+				return item;
+			}
+		});
+		return result;
+	}
 
  	handleError(error: Response | any) {
  		let errMsg: string;

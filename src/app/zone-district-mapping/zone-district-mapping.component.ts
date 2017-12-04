@@ -74,7 +74,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getAvailableZoneDistrictMappings() {
-        this.zoneMasterService.getZoneDistrictMappings().subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
+        this.zoneMasterService.getZoneDistrictMappings({"serviceProviderID":this.service_provider_id}).subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
     }
 
     getZoneDistrictMappingsSuccessHandler(response) {
@@ -83,7 +83,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.dataObj = {};
+        this.dataObj = {"serviceProviderID":this.service_provider_id};
         this.dataObj.deleted = false;
         this.zoneMasterService.getZones(this.dataObj).subscribe(response => this.getZonesSuccessHandler(response));
     }
@@ -177,14 +177,27 @@ export class ZoneDistrictMappingComponent implements OnInit {
     dataObj: any = {};
     updateZoneMappingStatus(zoneMapping) {
 
-        this.dataObj = {};
-        this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
-        this.dataObj.deleted = !zoneMapping.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        let flag = !zoneMapping.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        zoneMapping.deleted = !zoneMapping.deleted;
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
+                this.dataObj = {};
+                this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
+                this.dataObj.deleted = !zoneMapping.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
+                zoneMapping.deleted = !zoneMapping.deleted;
+            }
+        });
     }
     updateStatusHandler(response) {
         console.log("Zone District Mapping status changed");

@@ -16,13 +16,17 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   feature: any;
   screen_name:any;
 
-  serviceProviderID: any;
-    provider_service_mapID: any = 11;  // has to be dynamic, as of now hardcoded
+  sRSMappingID:any;
+  editedFeatureID:any;
+  existingFeatureID:any;
 
-    state: any;
-    service: any;
-    othersExist: boolean = false;
-    toBeEditedRoleObj: any;
+
+  serviceProviderID: any;
+
+  state: any;
+  service: any;
+  othersExist: boolean = false;
+  toBeEditedRoleObj: any;
 
 
     // arrays
@@ -69,6 +73,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
    getFeatures(serviceID)
    {
+    console.log(serviceID,"b4 feature get");
     this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response=>this.getFeaturesSuccessHandeler(response));
 
   }
@@ -95,7 +100,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.features = response;
   }
   correctInput: boolean = false;
-  showAddButton: boolean = false;;
+  showAddButton: boolean = false;
+
   findRoles(stateID, serviceID) {
     this.showAddButtonFlag = true;
     this.STATE_ID = stateID;
@@ -150,13 +156,26 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       editRole(roleObj) {
 
         this.setRoleFormFlag(true);
+        this.sRSMappingID=roleObj.sRSMappingID;
         this.role = roleObj.roleName;
         this.selectedRole = roleObj.roleName;
         this.description = roleObj.roleDesc;
         this.setEditSubmitButton = true;
+
         this.toBeEditedRoleObj = roleObj;
         this.hideAdd = false;
         this.showAddButtonFlag = false;
+
+        for(let x=0;x<this.features.length;x++)
+        {
+          if(this.features[x].screenName===roleObj.screenName)
+          {
+            this.existingFeatureID=this.features[x].screenID;
+            break;
+          }
+        }
+
+        this.editedFeatureID=this.existingFeatureID;
       }
 
       saveEditChanges() {
@@ -165,10 +184,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           "roleID": this.toBeEditedRoleObj.roleID,
           "roleName": this.role,
           "roleDesc": this.description,
-          "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+          // "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
+          "sRSMappingID" : this.sRSMappingID,
+          "screenID":this.editedFeatureID,
           "createdBy": this.commonDataService.uname,
-          "createdDate": "2017-07-25T00:00:00.000Z"
+          "createdDate":new Date()
         }
+
 
         this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'));
       }
@@ -225,6 +247,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
         setRoleFormFlag(flag) {
+          console.log("service",this.service);
           this.hideAdd = true;
           this.setEditSubmitButton = false;
           this.showRoleCreationForm = flag;
@@ -235,6 +258,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.description = '';
             this.feature = undefined;
             this.selectedRole = undefined;
+            this.objs=[];
           }
 
         }
@@ -247,16 +271,50 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
         add_obj(role, desc, feature) {
           var result = this.validateRole(role);
+
+          var selected_features=[];
+          if(Array.isArray(feature))
+          {
+            selected_features=feature;
+          }
+          else
+          {
+            selected_features.push(feature);
+          }
+
           console.log(feature,"feature wala array");
           if (result) {
             let count = 0;
             if (this.objs.length < 1) {
+              let screenIDs=[];
+              let screenNames=[];
 
-              for(let z=0;z<feature.length;z++)
+              for(let z=0;z<selected_features.length;z++)
+              {
+                screenIDs.push(selected_features[z].screenID);
+                screenNames.push(selected_features[z].screenName);
+              }
+
+              let obj={
+                'roleName': role.trim(),
+                'roleDesc': desc,
+                'screenID': screenIDs,
+                'screen_name':screenNames,
+                'createdBy': this.commonDataService.uname,
+                'createdDate': new Date(),
+                'providerServiceMapID': this.commonDataService.provider_serviceMapID
+              }
+
+              if(obj.roleName.trim().length>0)
+              {
+                this.objs.push(obj);
+              }
+
+              /*for(let z=0;z<feature.length;z++)
               {
                 let obj = {
                   'roleName': role.trim(),
-                  'roleDesc': desc.trim(),
+                  'roleDesc': desc,
                   'screenID': feature[z].screenID,
                   'screen_name':feature[z].screenName,
                   'createdBy': this.commonDataService.uname,
@@ -270,7 +328,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     this.objs.push(obj);
                   }
                   
-                }
+                }*/
 
               }
               else 
@@ -284,11 +342,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                 }
                 if (count < 1) 
                 {
-                  for(let k=0;k<feature.length;k++)
+                  /*for(let k=0;k<feature.length;k++)
                   {
                     let obj = {
                       'roleName': role.trim(),
-                      'roleDesc': desc.trim(),
+                      'roleDesc': desc,
                       'screenID': feature[k].screenID,
                       'screen_name':feature[k].screenName,
                       'createdBy': this.commonDataService.uname,
@@ -301,6 +359,29 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                     this.objs.push(obj);
                   }
                   
+                }*/
+
+                let screenIDs=[];
+                let screenNames=[];
+                for(let z=0;z<selected_features.length;z++)
+                {
+                  screenIDs.push(selected_features[z].screenID);
+                  screenNames.push(selected_features[z].screenName);
+                }
+
+                let obj={
+                  'roleName': role.trim(),
+                  'roleDesc': desc,
+                  'screenID': screenIDs,
+                  'screen_name':screenNames,
+                  'createdBy': this.commonDataService.uname,
+                  'createdDate': new Date(),
+                  'providerServiceMapID': this.commonDataService.provider_serviceMapID
+                }
+
+                if(obj.roleName.trim().length>0)
+                {
+                  this.objs.push(obj);
                 }
               }
             }

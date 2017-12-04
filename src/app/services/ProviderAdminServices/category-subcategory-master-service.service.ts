@@ -36,8 +36,8 @@ export class CategorySubcategoryService {
 
   constructor(private http: Http, public basepaths: ConfigService, private _httpInterceptor: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
-    this.getStates_url = this.providerAdmin_Base_Url + 'm/location/state';
-    this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/location/service';
+    this.getStates_url = this.providerAdmin_Base_Url + 'm/role/state';
+    this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/role/service';
     this.getSubService_url = this.providerAdmin_Base_Url + 'm/getSubSerive';
     this.getCategoryBySubService_url = this.providerAdmin_Base_Url + 'm/getCategoryBySubServiceID';
     this.saveCategory_url = this.providerAdmin_Base_Url + 'm/createCategory';
@@ -51,14 +51,14 @@ export class CategorySubcategoryService {
 
   getStates(serviceProviderID) {
     return this.http.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
 
   getServiceLines(serviceProviderID, stateID) {
     return this.http.post(this.getServiceLines_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
@@ -110,6 +110,21 @@ export class CategorySubcategoryService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
+
+  handleState_n_ServiceSuccess(response: Response) {
+    
+    console.log(response.json().data, "role service file success response");
+    let result=[];
+    result=response.json().data.filter(function(item)
+    {
+      if(item.statusID!=4)
+      {
+        return item;
+      }
+    });
+    return result;
+  }
+  
   handleSuccess(response: Response) {
     console.log(response.json().data, '--- in location-serviceline-mapping service');
     return response.json().data;

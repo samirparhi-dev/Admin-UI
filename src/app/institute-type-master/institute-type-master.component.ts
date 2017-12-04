@@ -62,7 +62,13 @@ export class InstituteTypeMasterComponent implements OnInit {
 	getServicesSuccessHandeler(response)
 	{
 		console.log("SERVICES",response);
-		this.services=response;
+		this.services=response.filter(function(item)
+		                              {
+		                              	if(item.serviceID!=6)
+		                              	{
+		                              		return item;
+		                              	}
+		                              });;
 	}
 
 	setProviderServiceMapID(providerServiceMapID)
@@ -217,7 +223,7 @@ export class InstituteTypeMasterComponent implements OnInit {
 		console.log("response",response);
 		if(response)
 		{
-			this.alertService.alert("Institute Type Saved Successfully!");
+			this.alertService.alert("Institute Type Saved Successfully");
 			this.back();
 			this.search(this.providerServiceMapID);
 		}
@@ -235,6 +241,7 @@ export class InstituteTypeMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
+				this.alertService.alert("Institute Type Edited Successfully")
 				this.search(this.providerServiceMapID);
 			}
 

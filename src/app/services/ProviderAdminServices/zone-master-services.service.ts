@@ -77,8 +77,8 @@ export class ZoneMasterService {
         .catch(this.handleError);
     }
 
-    getZoneDistrictMappings(){
-        return this.http.post(this.getZoneDistrictMappingURL, {})
+    getZoneDistrictMappings(data){
+        return this.http.post(this.getZoneDistrictMappingURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }

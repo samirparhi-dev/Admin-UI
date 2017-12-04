@@ -5,21 +5,21 @@
       <h4 class="f-s-b m-b-30">Feedback/Complaint Nature Master</h4>
       <form #searchCNForm="ngForm">
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)">
+          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)" required>
             <md-option *ngFor="let state of states" value="{{state.stateID}}">
               {{state.stateName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline">
+          <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
             <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
               {{service.serviceName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <md-select placeholder="Feedback Type" [style.width]="'100%'" [(ngModel)]="search_feedbacktype" name="feedbacktype">
+          <md-select placeholder="Feedback Type" [style.width]="'100%'" [(ngModel)]="search_feedbacktype" name="feedbacktype" required>
             <md-option *ngFor="let feedback of feedbackTypes" value="{{feedback.feedbackTypeID}}" (click)="findFeedbackNature(feedback.feedbackTypeID)">
               {{feedback.feedbackTypeName}}
             </md-option>
@@ -63,7 +63,7 @@
         </tfoot>
       </table>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="changeTableFlag(false)">Add Feedback type</button>
+        <button class="pull-right" md-raised-button color="primary" [disabled]="searchCNForm.invalid" (click)="changeTableFlag(false)">Add Feedback type</button>
       </div>
     </div>
   </div>
@@ -99,11 +99,9 @@
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <md-input-container class="width100">
               <input mdInput name="feedbackNature" placeholder="Nature of Complaint" [(ngModel)]="feedbackNature" #newFeedbackNature="ngModel" (keyup)="validateFeedbackNature(feedbackNature)" required>
-              <md-hint *ngIf="newFeedbackNature.errors && newFeedbackNature.touched">
-                <span class="error_text">Nature of Complaint is required</span>
-              </md-hint>
-              <md-hint *ngIf="natureExists && newFeedbackNature.touched">
-                <span class="error_text">{{msg}}</span>
+              <md-hint>
+                <span class="error_text" *ngIf="newFeedbackNature.touched && newFeedbackNature.errors">Nature of Complaint is required</span>
+                <span class="error_text" *ngIf="natureExists">{{msg}}</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -113,13 +111,13 @@
             </md-input-container>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngIf="addForm.valid && !natureExists">
-            <button md-mini-fab color="primary">
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add_obj(feedbackNature,feedbackNatureDesc)">add</md-icon>
+            <button md-mini-fab color="primary" (click)="add_obj(feedbackNature,feedbackNatureDesc)">
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
           </div>
         </div>
         <div class="row" *ngIf="(objs.length !=0)">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let obj of objs; let i=index">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let obj of objs; let i=index ">
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <md-chip-list >
                         <md-chip color="accent" selected="true">{{obj.feedbackNature}}</md-chip>

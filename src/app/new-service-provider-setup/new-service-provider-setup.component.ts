@@ -251,6 +251,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show2 = true;
       this.show3 = false;
 
+      // setting of some details in screen one to screen 3 (pre-population)
+      this.firstname=this.contactPerson;
+      this.providerAdmin_EmailID=this.emailID;
+      this.providerAdmin_PhoneNumber=this.contactNumber;
+
       this.request_object.serviceProviderName = this.serviceProviderName;
       this.request_object.validTill = new Date(
         this.validTill - 1 * (this.validTill.getTimezoneOffset() * 60 * 1000)

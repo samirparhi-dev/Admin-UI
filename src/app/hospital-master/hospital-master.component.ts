@@ -130,7 +130,13 @@ export class HospitalMasterComponent implements OnInit {
     {
         if(response)
         {
-            this.services=response;
+            this.services=response.filter(function(item)
+                                      {
+                                        if(item.serviceID!=6)
+                                        {
+                                            return item;
+                                        }
+                                      });;
         }
     }
 
@@ -282,7 +288,7 @@ export class HospitalMasterComponent implements OnInit {
         console.log(response,"SAVE INSTITUTION SUCCESS HANDELER");
         if(response)
         {
-            this.alertService.alert("Institution Saved Successfully!!");
+            this.alertService.alert("Institution Saved Successfully");
             this.back();
             this.getInstitutions();
         }
@@ -299,6 +305,7 @@ export class HospitalMasterComponent implements OnInit {
         dialog_Ref.afterClosed().subscribe(result => {
          console.log(`Dialog result: ${result}`);
          if (result === "success") {
+            this.alertService.alert("Institution Edited Successfully")
              this.getInstitutions();
          }
 

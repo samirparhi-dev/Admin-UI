@@ -61,7 +61,13 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	getServicesSuccessHandeler(response)
 	{
 		console.log("SERVICES",response);
-		this.services=response;
+		this.services=response.filter(function(item)
+		                              {
+		                              	if(item.serviceID!=6)
+		                              	{
+		                              		return item;
+		                              	}
+		                              });
 	}
 
 	setProviderServiceMapID(providerServiceMapID)
@@ -79,8 +85,11 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	getInstituteDirectorySuccessHandeler(response)
 	{
 		console.log("search result",response);
+		if(response)
+		{
 		this.showTableFlag=true;
 		this.searchResultArray=response;
+		}
 	}
 
 	clear()
@@ -229,6 +238,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
+				this.alertService.alert("Institute Directory Edited Successfully");
 				this.search();
 			}
 

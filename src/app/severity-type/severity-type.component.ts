@@ -45,7 +45,8 @@ export class SeverityTypeComponent implements OnInit {
   servicesSuccesshandeler(response) {
   	console.log(response);
   	this.services = response.filter(function(obj){
-  		return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
+  		// return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
+      return obj.serviceName == 104 || obj.serviceName == 1097
   	});
   }
   findSeverity(serObj) {
@@ -86,10 +87,21 @@ export class SeverityTypeComponent implements OnInit {
         "createdBy" : "Admin"
       }
   this.severityArray.push(obj);
-  this.addSeverity(values.severity)
+  this.severity="";
+  this.description="";
+
+  this.addSeverity(values.severity);
+  this.alreadyExist=false;
   }
   handlingFlag(flag) {
   	this.firstPage = flag;
+
+    if(flag)
+    {
+      this.severity="";
+      this.description="";
+      this.severityArray=[];
+    }
   }
   removeObj(i) {
     this.severityArray.splice(i, 1);
@@ -99,7 +111,7 @@ export class SeverityTypeComponent implements OnInit {
   }
   createdSuccessHandler(res){
     // alert("severity added successfully");
-    this.alertService.alert("Severity added successfully");
+    this.alertService.alert("Severity Saved Successfully");
     this.handlingFlag(true);
     this.findSeverity(res[0]);
     this.severityArray= [];
@@ -147,9 +159,18 @@ export class SeverityTypeComponent implements OnInit {
               "searchArray": this.data
               }
             });
-          dialogReff.afterClosed().subscribe(()=>{
-          this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
-      });
+      //     dialogReff.afterClosed().subscribe(()=>{
+      //     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      // });
+
+      dialogReff.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === "success") {
+        this.alertService.alert("Severity Edited Successfully");
+        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+      }
+
+    });
   }
   clear() {
     this.data=[];
@@ -163,6 +184,7 @@ export class SeverityTypeComponent implements OnInit {
   templateUrl: './edit-severity-component-modal.html',
 })
 export class EditSeverityModalComponent {
+
 
   severity: any;
   originalSeverity: any;
@@ -192,7 +214,7 @@ export class EditSeverityModalComponent {
       console.log("searchArray",this.searchArray);
       let count = 0;
       for (var i=0; i<this.searchArray.length; i++) {
-            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity) {
+            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity.toLowerCase()) {
                 count++;
             }
       }
@@ -201,6 +223,8 @@ export class EditSeverityModalComponent {
       }
   }
   modifiedSuccessHandler(res){
-    this.dialogReff.close();
+
+    this.dialogReff.close('success');
+        
   }
 }

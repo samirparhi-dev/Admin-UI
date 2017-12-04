@@ -205,6 +205,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 			"districtID" : this.district,
 			"blockID": this.taluk
 		}
+
+		console.log("request obj to get",request_obj);
 		this.hospitalInstituteMappingService.getInstitutions(request_obj).subscribe(response=>this.getInstitutionSuccessHandeler(response));
 	}
 
@@ -227,7 +229,13 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		if(response)
 		{
 			console.log("institute directory",response);
-			this.institute_directories=response;	
+			this.institute_directories=response.filter(function(item)
+			                                           {
+			                                           	if(item.deleted===false)
+			                                           	{
+			                                           		return item;
+			                                           	}
+			                                           });	
 		}
 	}
 
@@ -248,7 +256,13 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 		if(response)
 		{
 			console.log("INSTITUTE SUB DIRECTORY",response);
-			this.institute_subdirectories=response;
+			this.institute_subdirectories=response.filter(function(item)
+			                                           {
+			                                           	if(item.deleted===false)
+			                                           	{
+			                                           		return item;
+			                                           	}
+			                                           });	
 		}
 	}
 
@@ -268,6 +282,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 			this.alertService.alert("Please Select Taluk as well");
 		} 
 		else{
+			console.log("GET REQ OBJ FOR GETTING MAPPINGS",reqObj);
 			this.hospitalInstituteMappingService.getMappingList(reqObj)
 		.subscribe(response=>this.mappingHistorySuccessHandeler(response));
 		}

@@ -47,6 +47,12 @@ export class EmployeeMasterComponent implements OnInit {
     this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
   }
 
+  outputHandeler(data)
+  {
+    console.log("Event Data",data);
+    this.createEmployeeFlag=data;
+  }
+
   searchEmployee(state, service, role, empname, empid) {
     console.log(state + "--" + service + "--" + role + "--" + empname + "--" + empid);
     let request_obj = {

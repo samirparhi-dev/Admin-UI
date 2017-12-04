@@ -50,6 +50,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
         this.servicePointVillageMapService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }    
 
@@ -72,6 +73,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.servicePointVillageMapObj.stateID = stateID;
         this.servicePointVillageMapObj.districtID = districtID;
         this.servicePointVillageMapObj.parkingPlaceID = parkingPlaceID;
+        this.servicePointVillageMapObj.serviceProviderID = this.service_provider_id;
         this.servicePointVillageMapService.getServicePoints(this.servicePointVillageMapObj).subscribe(response => this.getServicePointSuccessHandler(response));
 
     }
@@ -96,6 +98,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.servicePointVillageMapObj.districtID = districtID;
         this.servicePointVillageMapObj.parkingPlaceID = parkingPlaceID;
         this.servicePointVillageMapObj.servicePointID = servicePointID;
+        this.servicePointVillageMapObj.serviceProviderID = this.service_provider_id;
         this.servicePointVillageMapService.getServicePointVillageMaps(this.servicePointVillageMapObj).subscribe(response => this.getServicePointVillageMapSuccessHandler(response));
 
     }
@@ -103,7 +106,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getServicePointVillageMapSuccessHandler(response) {
         this.availableServicePointVillageMaps = response;
         for (let availableServicePointVillageMap of this.availableServicePointVillageMaps) {
-            this.availableServicePointVillageMapNames.push(availableServicePointVillageMap.servicePointName);
+            this.availableServicePointVillageMapNames.push(availableServicePointVillageMap.m_servicepoint.servicePointName);
         }
     }
 
@@ -176,7 +179,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             }      
         }
         if(this.servicePointVillageMapList.length<=0){
-            this.alertMessage.alert("No Service available with the state selected");
+            this.alertMessage.alert("Villages Mapped Succesfully");
         }
     }
 
@@ -254,23 +257,39 @@ export class ServicePointVillageMapComponent implements OnInit {
 
      dataObj: any = {};
     updateServicePointVillageMapStatus(servicePointvillageMap) {
+        let flag = !servicePointvillageMap.deleted;
+        let status;
+        if(flag===true){
+            status = "Deactivate";
+        }
+        if(flag===false) {
+            status = "Activate";
+        }
 
-        this.dataObj = {};
-        this.dataObj.servicePointVillageMapID = servicePointvillageMap.servicePointVillageMapID;
-        this.dataObj.deleted = !servicePointvillageMap.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+            if(response)
+            {
+                this.dataObj = {};
+                this.dataObj.servicePointVillageMapID = servicePointvillageMap.servicePointVillageMapID;
+                this.dataObj.deleted = !servicePointvillageMap.deleted;
+                this.dataObj.modifiedBy = this.createdBy;
+                this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
-        servicePointvillageMap.deleted = !servicePointvillageMap.deleted;
-
+                servicePointvillageMap.deleted = !servicePointvillageMap.deleted;
+            }
+        });
     }
     updateStatusHandler(response) {
         console.log("Service Point status changed");
     }
-
+    
+    searchParkingPlaceID:any;
+    searchServicePointID:any;
     showList(){
-        this.searchStateID ="";
-        this.searchDistrictID ="";
+        this.searchStateID =null;
+        this.searchDistrictID =null;
+        this.searchParkingPlaceID =null;
+        this.searchServicePointID =null;
         this.getServicePointVillageMaps(null,null,null,null);
         this.showServicePointVillageMaps=true;
     }

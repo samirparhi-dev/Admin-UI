@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                         <md-select placeholder="Service Point" [style.width]="'100%'" [(ngModel)]="searchServicePointID" name="searchServicePointID" #districtV="ngModel" (change)="getServicePointVillageMaps(searchStateID,searchDistrictID,searchParkingPlaceID,searchServicePointID)">
-                            <md-option *ngFor="let servicePoint of servicePoints" [value]="servicePoint.servicePointID">
+                            <md-option *ngFor="let servicePoint of availableServicePoints" [value]="servicePoint.servicePointID">
                                 {{servicePoint.servicePointName}}
                             </md-option>
                         </md-select>

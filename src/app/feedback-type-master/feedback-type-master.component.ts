@@ -13,6 +13,11 @@ import { MD_DIALOG_DATA } from '@angular/material';
 })
 export class FeedbackTypeMasterComponent implements OnInit {
 
+  previous_state_id:any;
+  previous_service_id:any;
+  feedbackDesc:any;
+feedbackName:any;
+
   search_state: any;
   search_serviceline: any;
   searchForm: boolean = true;
@@ -76,7 +81,8 @@ export class FeedbackTypeMasterComponent implements OnInit {
       width: '500px',
       data: {
         'feedbackObj': feedbackObj,
-        'feedbackTypes': this.feedbackTypes 
+        'feedbackTypes': this.feedbackTypes,
+        'service':this.search_serviceline
       }
     });
 
@@ -119,6 +125,12 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
   changeTableFlag(flag){
     this.searchForm = flag;
+    // this.previous_state_id=this.search_state;
+    // this.previous_service_id=this.search_serviceline;
+    if(flag===true)
+    {
+      this.objs=[];
+    }
   }
 
   validateFeedback(feedback){
@@ -163,8 +175,14 @@ export class FeedbackTypeMasterComponent implements OnInit {
       console.log("response",res);
       this.searchForm = true;
       this.alertService.alert("Feedback Type saved successfully");
+      this.previous_state_id=this.search_state;
+      this.previous_service_id=this.search_serviceline;
       this.addForm.resetForm();
       this.objs = [];
+
+      this.search_state=this.previous_state_id;
+      this.search_serviceline=this.previous_service_id;
+
       this.findFeedbackTypes(this.providerServiceMapID);
     })
   }
@@ -200,7 +218,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       var count=0;
       for(let i=0;i<this.objs.length;i++)
       {
-        console.log(this.feedbackTypes[i].feedbackTypeName,tempObj.feedbackTypeName);
+        // console.log(this.feedbackTypes[i].feedbackTypeName,tempObj.feedbackTypeName);
         if(this.objs[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
         {
           count=count+1;
@@ -224,6 +242,9 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.alertService.alert("Already Exists");
       }
     }
+
+    this.feedbackDesc="";
+    this.feedbackName="";
     
     // this.validateFeedback(name);
   }
@@ -247,6 +268,8 @@ export class EditFeedbackModal {
   feedbackExists: boolean = false;
   msg = "Feedback Name already exists";
 
+  service:any;
+
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
   public FeedbackTypeService: FeedbackTypeService,
   public dialog_Ref: MdDialogRef<EditFeedbackModal>,
@@ -258,6 +281,8 @@ export class EditFeedbackModal {
     this.originalName = this.data.feedbackObj.feedbackTypeName;
     this.feedbackDesc = this.data.feedbackObj.feedbackDesc;
     this.searchFeedbackArray = this.data.feedbackTypes;
+
+    this.service=this.data.service;
   }
 
   update(){

@@ -68,7 +68,13 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	{
 		if(response)
 		{
-			this.services=response;
+			this.services=response.filter(function(item)
+		                              {
+		                              	if(item.serviceID!=6)
+		                              	{
+		                              		return item;
+		                              	}
+		                              });;
 		}
 
 	}
@@ -92,7 +98,13 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		console.log(response,"Institiute Directories");
 		if(response)
 		{
-			this.instituteDirectories=response;
+			this.instituteDirectories=response.filter(function(item)
+			                                          {
+			                                          	if(item.deleted===false)
+			                                          	{
+			                                          		return item;
+			                                          	}
+			                                          });
 		}
 	}
 
@@ -206,7 +218,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	{
 		if(response)
 		{
-			this.alertService.alert("Institute Subdirectory Saved Successfully!");
+			this.alertService.alert("Institute Subdirectory Saved Successfully");
 			this.back();
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
@@ -268,6 +280,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
+				this.alertService.alert("Institute Subdirectory Edited Successfully!");
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 

@@ -18,6 +18,7 @@ export class ParkingPlaceMasterService {
      saveParkingPlacesURL:any;
      getParkingPlacesURL:any;
      updateParkingPlaceStatusURL:any;
+     updateParkingPlaceDetailsURL:any;
 
      _getStateListBYServiceIDURL:any;
      _getStateListURL:any;
@@ -34,7 +35,7 @@ export class ParkingPlaceMasterService {
           this.saveParkingPlacesURL = this.providerAdmin_Base_Url + "parkingPlaceMaster/create/parkingPlaces";
           this.getParkingPlacesURL = this.providerAdmin_Base_Url + "parkingPlaceMaster/get/parkingPlaces";
           this.updateParkingPlaceStatusURL = this.providerAdmin_Base_Url + "parkingPlaceMaster/remove/parkingPlace";
-
+          this.updateParkingPlaceDetailsURL = this.providerAdmin_Base_Url + "parkingPlaceMaster/update/parkingPlaceDetails"; 
 
           this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + "m/location/getStatesByServiceID";
           this._getStateListURL = this.common_Base_Url + "location/states/";
@@ -59,6 +60,12 @@ export class ParkingPlaceMasterService {
 
      updateParkingPlaceStatus(data){
         return this.http.post(this.updateParkingPlaceStatusURL, data)
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+    }
+
+    updateParkingPlaceDetails(data){
+        return this.http.post(this.updateParkingPlaceDetailsURL, data)
         .map(this.handleSuccess)
         .catch(this.handleError);
     }
