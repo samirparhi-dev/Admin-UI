@@ -51,6 +51,7 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   getSuccess(response: any) {
+    console.log("status",response);
     this.status_array = response;
     let index = 0;
     for (let i = 0; i < this.status_array.length; i++) {

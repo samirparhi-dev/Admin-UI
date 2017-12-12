@@ -594,7 +594,7 @@ hide: boolean = true;
       'emailID': this.emailID,
       'statusID': 1,  // because its a new user 
       // "emergencyContactPerson": "Ish Gandotra",
-      'designation': this.designation,
+      'designationID': this.designation,
       'emergencyContactNo': '9023650041',
       // "titleName": "Mrs",
       // "status": "New",
