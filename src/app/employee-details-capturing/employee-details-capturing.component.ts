@@ -595,12 +595,12 @@ hide: boolean = true;
       'statusID': 1,  // because its a new user 
       // "emergencyContactPerson": "Ish Gandotra",
       'designationID': this.designation,
-      'emergencyContactNo': '9023650041',
+      // 'emergencyContactNo': '9023650041',
       // "titleName": "Mrs",
       // "status": "New",
       // "qualificationName": "PostGraduate",
       'createdBy': this.commonDataService.uname,
-      'modifiedBy': '',
+      // 'modifiedBy': '',
       'password': this.password,
       'agentPassword': this.password,
       // "createdDate": "2017-08-01T00:00:00.000Z",
@@ -632,7 +632,7 @@ hide: boolean = true;
       // "providerServiceMapID": this.providerServiceMapID,
       // "workingLocationID": this.agent_officeName
     }
-    console.log(request_object);
+    console.log(request_object,"req obj of create employeeeeeeeeeee");
     let a = JSON.stringify(request_object);
     console.log(a);
     ;
