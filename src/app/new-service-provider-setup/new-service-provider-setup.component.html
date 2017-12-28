@@ -48,7 +48,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="width100">
-          <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" [(ngModel)]="emailID" #validEmail="ngModel">
+          <input mdInput placeholder="{{currentlanguage.emailID}}" required [pattern]="emailPattern" name="email" maxlength="50" [(ngModel)]="emailID" #validEmail="ngModel">
           <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email
           </md-hint>
         </md-input-container>
@@ -214,7 +214,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
         <md-input-container style="width: 100% ">
-          <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " name="providerAdmin_EmailID " #validEmail2="ngModel" required>
+          <input mdInput placeholder="EmailID " [pattern]="emailPattern" [(ngModel)]="providerAdmin_EmailID " maxlength="50" name="providerAdmin_EmailID " #validEmail2="ngModel" required>
           <md-hint class="errorText" *ngIf="validEmail2.hasError('pattern')">Enter valid email
           </md-hint>
         </md-input-container>
