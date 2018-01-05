@@ -33,7 +33,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     states: any;
     services: any;
     searchresultarray: any;
-
+    // new content
+    filterScreens: any;
+    tempFilterScreens: any = [];
+    combinedFilterArray: any = [];
+    // new content
     objs: any = [];
     finalResponse: any;
     disableSelection: boolean = false;
@@ -42,6 +46,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     SERVICE_ID: any;
 
     features: any = [];
+    editFeatures: any = [];
+
+    editScreenName: any;
 
     hideAdd: boolean = false;
     // flags
@@ -62,7 +69,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.states = [];
         this.services = [];
         this.searchresultarray = [];
-
+        this.filterScreens = [];
 
       }
 
@@ -97,7 +104,24 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   getFeaturesSuccessHandeler(response) {
     console.log("features", response);
-    this.features = response;
+    this.combinedFilterArray = [];
+    console.log("filterScreens", this.filterScreens);
+    console.log("tempFilterScreens", this.tempFilterScreens);
+    this.combinedFilterArray = this.filterScreens.concat(this.tempFilterScreens);
+    console.log("combinedFilterArray", this.combinedFilterArray);
+    this.features = response.filter((obj)=>{
+      return this.combinedFilterArray.indexOf(obj.screenName)==-1;
+    }, this);
+    this.editFeatures = response.filter((obj)=>{
+      if(obj.screenName==this.editScreenName){
+        this.editedFeatureID = obj.screenID;
+      }
+      return this.combinedFilterArray.indexOf(obj.screenName)==-1 || obj.screenName==this.editScreenName;
+    }, this);
+    console.log("editFeatures", this.editFeatures);
+    if(this.features.length==0 && this.hideAdd){
+      this.alertService.alert("No features available for mapping");
+    }
   }
   correctInput: boolean = false;
   showAddButton: boolean = false;
@@ -110,6 +134,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(this.serviceProviderID, stateID, serviceID);
     this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+      this.filterScreens = [];
+      for(var i=0; i < this.searchresultarray.length; i++){
+        this.filterScreens.push(this.searchresultarray[i].screenName);
+      }
     });
 
     if (serviceID == "" || serviceID == undefined) {
@@ -154,6 +182,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       }
 
       editRole(roleObj) {
+
+        this.editScreenName = roleObj.screenName;
 
         this.setRoleFormFlag(true);
         this.sRSMappingID=roleObj.sRSMappingID;
@@ -209,6 +239,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.role = '';
         this.description = '';
         this.objs = [];
+        this.tempFilterScreens = [];
         this.selectedRole = undefined;
         this.disableSelection = false;
       }
@@ -239,6 +270,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         this.finalResponse = response;
         if (this.finalResponse[0].roleID) {
             this.objs = []; //empty the buffer array
+            this.tempFilterScreens = [];
             this.setRoleFormFlag(false);
             this.findRoles(this.STATE_ID, this.SERVICE_ID);
           }
@@ -259,6 +291,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.feature = undefined;
             this.selectedRole = undefined;
             this.objs=[];
+            this.tempFilterScreens = [];
+            this.editScreenName = undefined;
+          }
+          else {
+            this.getFeatures(this.service);
           }
 
         }
@@ -308,6 +345,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
               if(obj.roleName.trim().length>0)
               {
                 this.objs.push(obj);
+                this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
+                this.getFeatures(this.service);
               }
 
               /*for(let z=0;z<feature.length;z++)
@@ -382,6 +421,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
                 if(obj.roleName.trim().length>0)
                 {
                   this.objs.push(obj);
+                  this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
+                  this.getFeatures(this.service);
                 }
               }
             }
@@ -418,6 +459,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
         remove_obj(index) 
         {
+          for(var k=0; k< this.objs[index].screen_name.length; k++){
+            var delIndex = this.tempFilterScreens.indexOf(this.objs[index].screen_name[k]);
+            if(delIndex!=-1){
+              this.tempFilterScreens.splice(delIndex,1);
+              this.getFeatures(this.service);
+            }
+          }
           this.objs.splice(index, 1);
         }
 
@@ -425,6 +473,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         {
           this.services = [];
           this.searchresultarray = [];
+          this.filterScreens = [];
           this.showAddButtonFlag = false;
         }
 
