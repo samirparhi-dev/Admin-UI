@@ -2245,3 +2245,16 @@ input:-webkit-autofill:hover {
   justify-content: center;
   display: flex;
 }
+
+.mat-select-placeholder, .mat-select-value-text, .mat-input-element, .mat-input-placeholder-wrapper, .md2-autocomplete-placeholder{
+   font-family: SF-UI-Display-Regular !important;
+   font-size: 15px !important;
+   font-weight: 800 !important;
+} 
+
+.mat-input-infix {
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  width: inherit;
+}
+
