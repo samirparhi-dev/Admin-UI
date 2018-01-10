@@ -13,10 +13,10 @@ import { EditCategorySubcategoryComponent } from './edit-category-subcategory/ed
 export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   serviceproviderID: any;
-  well_being:boolean=false;
-  showWellBeingFlag:boolean=false;
+  well_being: boolean = false;
+  showWellBeingFlag: boolean = false;
 
-  selected_service_id:any;
+  selected_service_id: any;
   // ngmodels
   state: any;
   service: any;
@@ -55,7 +55,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
 
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
-              , private messageBox: ConfirmationDialogsService) {
+    , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
@@ -71,52 +71,51 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   getStates() {
     this.CategorySubcategoryService.getStates(this.serviceproviderID)
-    .subscribe((response) => {
-      this.states = response;
-    }, (err) => {
-    });
+      .subscribe((response) => {
+        this.states = response;
+      }, (err) => {
+      });
   }
 
   getServices(stateID: any) {
     this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
-    .subscribe((response) => {
-      this.serviceLines = response.filter(function(item)
-      {
-        if(item.serviceID===3 || item.serviceID===1)
-        {
-          return item;
-        }
-      });
-      this.subServices = [];
-    }, (err) => {
+      .subscribe((response) => {
+        this.serviceLines = response.filter(function (item) {
+          if (item.serviceID === 3 || item.serviceID === 1) {
+            return item;
+          }
+        });
+        this.subServices = [];
+      }, (err) => {
 
-    });
+      });
   }
 
   getSubServices(items: any) {
     this.CategorySubcategoryService.getSubService(items.providerServiceMapID)
-    .subscribe((response) => {
-      this.showWellBeingFlag=false;
-      if(this.selected_service_id===1)
-      {
-        this.subServices=response.filter(function(item)
-        {
-          if(item.subServiceName==="Information Service" || item.subServiceName==="Counselling Service")
-          {
-            return item;
-          }
-        });
-      }
-      else
-      {
-        this.subServices = response;
-      }
+      .subscribe((response) => {
+        this.showWellBeingFlag = false;
+        if (this.selected_service_id === 1) {
+          this.subServices = response.filter(function (item) {
+            if (item.subServiceName.toUpperCase() === "Information Service".toUpperCase() ||
+               item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase()) {
+              return item;
+            }
+          });
+        }
+        else {
+          this.subServices = response.filter(function (item) {
+            if (item.subServiceName.toUpperCase() !== "Blood Request".toUpperCase() ) {
+              return item;
+            }
+          });
+        }
 
-      console.log(this.subServices,"The array after filter");
+        console.log(this.subServices, "The array after filter");
 
-    }, (err) => {
+      }, (err) => {
 
-    });
+      });
 
   }
 
@@ -124,23 +123,23 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.providerServiceMapID = providerserviceMapId;
     this.sub_serviceID = subServiceID;
     this.CategorySubcategoryService.getCategory(providerserviceMapId, subServiceID)
-    .subscribe((response) => {
-      if (response) {
-        this.categories = response.filter(function (item) {
-          return item.deleted !== true;
-        });
-        this.data = response;
-      }
-    }, (err) => {
+      .subscribe((response) => {
+        if (response) {
+          this.categories = response.filter(function (item) {
+            return item.deleted !== true;
+          });
+          this.data = response;
+        }
+      }, (err) => {
 
-    });
+      });
   }
   getSubCategory(providerserviceMapId: any, subServiceID: any) {
     this.providerServiceMapID = providerserviceMapId;
     this.sub_serviceID = subServiceID;
     this.CategorySubcategoryService.getCategorybySubService(providerserviceMapId, subServiceID)
-    .subscribe((response) => {
-      if (response) {
+      .subscribe((response) => {
+        if (response) {
           //  console.log(response, "subcat response");
           this.subCat = response.filter((obj) => {
             return obj !== null;
@@ -198,19 +197,16 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     this.category_name = undefined;
     this.categorydesc = '';
-    this.well_being=false;
+    this.well_being = false;
   }
 
-  checkSubService(service,sub_service_name)
-  {
-    if(sub_service_name==="Counselling Service" && service===3 )
-    {
-      this.showWellBeingFlag=true;
-      this.well_being=false;
+  checkSubService(service, sub_service_name) {
+    if (sub_service_name === "Counselling Service" && service === 3) {
+      this.showWellBeingFlag = true;
+      this.well_being = false;
     }
-    else
-    {
-      this.showWellBeingFlag=false;
+    else {
+      this.showWellBeingFlag = false;
     }
   }
 
@@ -244,23 +240,23 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         'categoryDesc': item.categoryDesc,
         'subServiceID': item.subServiceID,
         'providerServiceMapID': item.providerServiceMapID,
-        's104_CS_Type':item.well_being,
+        's104_CS_Type': item.well_being,
         'createdBy': item.createdBy
       }
     })
 
     this.CategorySubcategoryService.saveCategory(categoryObj)
-    .subscribe((response) => {
-      if (response) {
-        if (response.length > 0) {
-          this.messageBox.alert('Successfully Created');
-          this.serviceList.length = [];
-          this.getCategory(providerServiceMapID, this.sub_service);
+      .subscribe((response) => {
+        if (response) {
+          if (response.length > 0) {
+            this.messageBox.alert('Successfully Created');
+            this.serviceList.length = [];
+            this.getCategory(providerServiceMapID, this.sub_service);
+          }
         }
-      }
-    }, (err) => {
+      }, (err) => {
 
-    });
+      });
   }
 
   // add sub category
@@ -279,10 +275,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     })
 
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
-    .subscribe((response) => {
-      if (response.length > 0) {
-        this.messageBox.alert('Successfully Created');
-        this.serviceSubCatList.length = [];
+      .subscribe((response) => {
+        if (response.length > 0) {
+          this.messageBox.alert('Successfully Created');
+          this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
       }, (err) => {
@@ -299,12 +295,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     categoryObj['providerServiceMapId'] = catObj.providerServiceMapID;
     categoryObj['categoryDesc'] = catObj.categoryDesc;
 
-    let object={
-      "categoryObj":categoryObj,
-      "isCategory":true,
-      "isSubCategory":false,
-      "categories":this.categories,
-      "subcategories":this.subCat
+    let object = {
+      "categoryObj": categoryObj,
+      "isCategory": true,
+      "isSubCategory": false,
+      "categories": this.categories,
+      "subcategories": this.subCat
     }
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
       height: '450px',
@@ -333,12 +329,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     categoryObj['subCategoryName'] = subCatObj.subCategoryName;
     categoryObj['subCategoryDesc'] = subCatObj.subCategoryDesc;
 
-    let object={
-      "categoryObj":categoryObj,
-      "isCategory":false,
-      "isSubCategory":true,
-      "categories":this.categories,
-      "subcategories":this.subCat
+    let object = {
+      "categoryObj": categoryObj,
+      "isCategory": false,
+      "isSubCategory": true,
+      "categories": this.categories,
+      "subcategories": this.subCat
     }
 
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
@@ -360,7 +356,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   deleteRow(index) {
-    this.serviceList.splice(index,1);
+    this.serviceList.splice(index, 1);
     if (this.serviceList.length === 0) {
       this.cateDisabled = 'false';
       this.category_name = '';
@@ -369,7 +365,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   deleteRowSubCat(index) {
-    this.serviceSubCatList.splice(index,1);
+    this.serviceSubCatList.splice(index, 1);
   }
   deleteCategory(id: any, isActivate: boolean) {
     let confirmMessage;
@@ -381,14 +377,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.messageBox.confirm('Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
-        .subscribe((response) => {
-          if (response) {
-            this.messageBox.alert("Category "+confirmMessage+"d Successfully");
-            this.refeshCategory(response.subServiceID, response.providerServiceMapID);
-          }
-        }, (err) => {
+          .subscribe((response) => {
+            if (response) {
+              this.messageBox.alert("Category " + confirmMessage + "d Successfully");
+              this.refeshCategory(response.subServiceID, response.providerServiceMapID);
+            }
+          }, (err) => {
 
-        });
+          });
       }
     }, (err) => { });
 
@@ -404,10 +400,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.messageBox.confirm('Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.CategorySubcategoryService.deleteSubCategory(id, flag)
-        .subscribe((response) => {
-          if (response) {
+          .subscribe((response) => {
+            if (response) {
               // console.log(response,"after delete");
-              this.messageBox.alert("Subcategory "+confirmMessage+"d Successfully");
+              this.messageBox.alert("Subcategory " + confirmMessage + "d Successfully");
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
           }, (err) => {
@@ -421,48 +417,48 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   refeshCategory(subService: any, providerServiceMap: any) {
     this.showDiv = true;
     this.CategorySubcategoryService.getCategory(providerServiceMap, subService)
-    .subscribe((response) => {
-      if (response) {
-        this.data = response.filter(function (item) {
-          return item.categoryID !== null && item.categoryName !== null;
-        });
-        this.categories = response.filter(function (item) {
-          return item.deleted !== true;
-        });
-      }
-    }, (err) => {
+      .subscribe((response) => {
+        if (response) {
+          this.data = response.filter(function (item) {
+            return item.categoryID !== null && item.categoryName !== null;
+          });
+          this.categories = response.filter(function (item) {
+            return item.deleted !== true;
+          });
+        }
+      }, (err) => {
 
-    });
+      });
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService)
-    .subscribe((response) => {
-      if (response) {
-        console.log(response, "subCategory");
-        this.subCat = response.filter(function (item) {
-          return item != null;
-        });
-        console.log(this.subCat);
-      }
-    }, (err) => {
+      .subscribe((response) => {
+        if (response) {
+          console.log(response, "subCategory");
+          this.subCat = response.filter(function (item) {
+            return item != null;
+          });
+          console.log(this.subCat);
+        }
+      }, (err) => {
 
-    });
+      });
   }
 
 
   changeRequestObject(flag_value) {
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
-      
+
       /*edited by diamond*/
-      this.categoryExist=false;
-      this.subCategoryExist=false;
+      this.categoryExist = false;
+      this.subCategoryExist = false;
 
-      this.category_name="";
-      this.categorydesc="";
+      this.category_name = "";
+      this.categorydesc = "";
 
-      this.subcategory="";
-      this.description="";
+      this.subcategory = "";
+      this.description = "";
 
-      this.well_being=false;
+      this.well_being = false;
       /*editing ends*/
 
       // this.resetFields();
@@ -474,14 +470,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       // this.resetFields();
 
       /*edited by diamond*/
-      this.categoryExist=false;
-      this.subCategoryExist=false;
+      this.categoryExist = false;
+      this.subCategoryExist = false;
 
-      this.category_name="";
-      this.categorydesc="";
+      this.category_name = "";
+      this.categorydesc = "";
 
-      this.subcategory="";
-      this.description="";
+      this.subcategory = "";
+      this.description = "";
       /*editing ends*/
     }
   }
@@ -533,22 +529,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   filterArray(array: any) {
     const o = {};
     return array = array
-    .filter((thing, index, self) => self
-            .findIndex((t) => {
-              return t.categoryName.toLowerCase().trim() === thing.categoryName.toLowerCase().trim()
-              && t.subServiceID === thing.subServiceID;
-            }) === index)
+      .filter((thing, index, self) => self
+        .findIndex((t) => {
+          return t.categoryName.toLowerCase().trim() === thing.categoryName.toLowerCase().trim()
+            && t.subServiceID === thing.subServiceID;
+        }) === index)
   }
 
   filterSubCatArray(array: any) {
     const o = {};
     return array = array
-    .filter((thing, index, self) => self
-            .findIndex((t) => {
-              return t.categoryID === thing.categoryID
-              && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
-              && t.subServiceID === thing.subServiceID;
-            }) === index)
+      .filter((thing, index, self) => self
+        .findIndex((t) => {
+          return t.categoryID === thing.categoryID
+            && t.subCategoryName.toLowerCase().trim() === thing.subCategoryName.toLowerCase().trim()
+            && t.subServiceID === thing.subServiceID;
+        }) === index)
   }
 
   checkCategory(categoryName: string) {
@@ -558,11 +554,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });
     }
-    if (categoriesExist!=undefined && categoriesExist.length > 0) {
+    if (categoriesExist != undefined && categoriesExist.length > 0) {
       this.categoryExist = true;
     }
-    else if(categoryName.trim().length==0)
-    {
+    else if (categoryName.trim().length == 0) {
       this.categoryExist = true;
     }
     else {
@@ -574,22 +569,21 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     if (subCategoryName && providerServiceMapId && subService && category) {
       let subCategoriesExist;
       this.CategorySubcategoryService.getCategorybySubService(providerServiceMapId, subService.subServiceID)
-      .subscribe((response) => {
-        if (response) {
+        .subscribe((response) => {
+          if (response) {
             //  console.log(response, "subcat response");
             subCategoriesExist = response.filter((obj) => {
               if (obj) {
                 return obj.categoryID === category.categoryID &&
-                obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
+                  obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
               }
             });
-            if (subCategoriesExist!=undefined && subCategoriesExist.length > 0) {
+            if (subCategoriesExist != undefined && subCategoriesExist.length > 0) {
               this.subCategoryExist = true;
             }
-            else if(subCategoryName.trim().length==0)
-            {
+            else if (subCategoryName.trim().length == 0) {
               this.categoryExist = true;
-            } 
+            }
             else {
               this.subCategoryExist = false;
             }

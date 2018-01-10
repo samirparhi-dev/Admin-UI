@@ -167,13 +167,14 @@ import { EditInstituteType } from './institute-type-master/institute-type-master
 import { UserRoleAgentIDMappingComponent } from './user-role-agent-id-mapping/user-role-agent-id-mapping.component';
 import { UserRoleAgentID_MappingService } from './services/ProviderAdminServices/user-role-agentID-mapping-service.service';
 import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agent-id-mapping.component';
+import { ServiceProviderMasterComponent } from './service-provider-master/service-provider-master.component';
 
 
 @NgModule({
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName,myName2,agentID_one,agentID_two, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
+    myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
     ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
     AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
     SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,
@@ -191,12 +192,12 @@ import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agen
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent,EditInstituteDirectory, HospitalMasterComponent,
+    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent, EditInstituteDirectory, HospitalMasterComponent,
     EditHospitalModal,
-    InstituteSubdirectoryMasterComponent,EditInstituteSubDirectory,
+    InstituteSubdirectoryMasterComponent, EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
-    AgentListCreationComponent,VillageMasterComponent, InstituteTypeMasterComponent,EditInstituteType,
-    UserRoleAgentIDMappingComponent,AgentIDMappingModal,EditVillageModal
+    AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent, EditInstituteType,
+    UserRoleAgentIDMappingComponent, AgentIDMappingModal, EditVillageModal, ServiceProviderMasterComponent
 
   ],
 
@@ -269,11 +270,11 @@ import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agen
       deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
     },
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
-     VanServicePointMappingService, EmployeeParkingPlaceMappingService,
-     InstituteDirectoryMasterService,FeedbackTypeService,HospitalMasterService,
-     InstituteSubDirectoryMasterService,HospitalInstituteMappingService,
-     AgentListCreationService,VillageMasterService,InstituteTypeMasterService,
-     UserRoleAgentID_MappingService
+    VanServicePointMappingService, EmployeeParkingPlaceMappingService,
+    InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
+    InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
+    AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
+    UserRoleAgentID_MappingService
 
   ],
 
