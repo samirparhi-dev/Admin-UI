@@ -32,7 +32,7 @@ export class SuperAdmin_ServiceProvider_Service {
 
 
   /* new APIs */
-  getAllProvidersUrl: any;
+  createProviderUrl: any;
 
   constructor(
     private _http: Http,
@@ -60,6 +60,10 @@ export class SuperAdmin_ServiceProvider_Service {
     this.getAllStatus_URL = this.providerAdminBaseUrl + "getStatus";
     // 	this.updateProviderPersonalDetailsUrl = this.providerAdminBaseUrl + "/updateProvider";
 
+
+
+    /* new APIs */
+    this.createProviderUrl = this.superadmin_base_url + 'createProvider';
   }
 
   getCommonRegistrationData() {
@@ -126,9 +130,16 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleCustomError);
   };
 
+  public createProvider(request_array) {
+    return this._httpInterceptor
+      .post(this.createProviderUrl, request_array)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+
   private extractCustomData(res: Response) {
     console.log(res, "in SA service");
-    return res.json().data.response;
+    return res.json().data;
   }
   private extractData(res: Response) {
     console.log(res, "in SA service");

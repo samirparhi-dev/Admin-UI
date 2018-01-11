@@ -18,7 +18,7 @@ import { SuperAdmin_ServiceProvider_Service } from '../services/adminServices/Ad
 export class ServiceProviderMasterComponent implements OnInit {
 
   // ngModel
-  validFrom: Date;
+  validFrom: any;
   validTill: Date;
   today: Date;
 
@@ -95,30 +95,33 @@ export class ServiceProviderMasterComponent implements OnInit {
   save(form_value) {
     console.log(form_value, 'Form Value');
     let object = {
-      'serviceProviderName': 'EXCEprion',
-      'createdBy': 'rajeev',
-      'joiningDate': '2017-07-14T14:07:05.681Z',
-      'stateID': 2,
-      'logoFileName': 'raj',
-      'logoFilePath': 'ra',
-      'primaryContactName': 'rajbaba',
-      'primaryContactNo': '1111',
-      'primaryContactEmailID': 'xxx@gmail.com',
-      'primaryContactAddress': 'blr',
-      'primaryContactValidityTillDate': '2017-07-14T14:07:05.681Z',
-      'secondaryContactName': 'raj',
-      'secondaryContactNo': '233435',
-      'secondaryContactEmailID': 'abc@gmail.com',
-      'secondaryContactAddress': 'hyd',
-      'secondaryContactValidityTillDate': '2017-07-14T14:07:05.681Z',
-      'statusID': '1',
-      'validFrom': '2017-07-14T14:07:05.681Z',
-      'validTill': '2017-07-14T14:07:05.681Z',
-      'deleted': false,
-      'createdDate': '2017-07-14T14:07:05.681Z',
-      'modifiedBy': 'rajeev',
-      'lastModDate': 're'
+      'serviceProviderName': form_value.provider_name,
+      'createdBy': this.createdBy,
+      'primaryContactName': form_value.contact_person,
+      'primaryContactNo': form_value.contact_number,
+      'primaryContactEmailID': form_value.email,
+      'primaryContactAddress': form_value.address1 + (form_value.address2 === '' ? '' : ',' + form_value.address2),
+      'statusID': '2',
+      'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)).toJSON(),
+      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)).toJSON(),
+      'deleted': false
     }
+
+    let requestArray = [];
+    requestArray.push(object);
+
+    this.superadminService.createProvider(requestArray)
+      .subscribe(response => {
+        console.log(response, 'Provider Creation Success Handeler');
+        if (response.length > 0) {
+          this.dialogService.alert('Provider created successfully');
+          this.providerCreationForm.reset();
+          this.showTable();
+          this.getAllProviders();
+        }
+      }, err => {
+        console.log(err, 'Error');
+      });
   }
 
   getAllProviders() {
@@ -131,6 +134,18 @@ export class ServiceProviderMasterComponent implements OnInit {
       }, err => {
         console.log('Error', err);
       });
+  }
+
+  activate() {
+    this.dialogService.alert('work in progress');
+  }
+
+  deactivate() {
+    this.dialogService.alert('work in progress');
+  }
+
+  edit(row) {
+    this.dialogService.alert('work in progress');
   }
 
 }
