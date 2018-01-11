@@ -47,7 +47,7 @@ export class agentID_one {
 	constructor(element: ElementRef) {
 
 	}
-	
+
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
 		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\-=\[\]{};':"\\|.<>\/?]*$/);
 		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
@@ -66,7 +66,7 @@ export class agentID_two {
 	constructor(element: ElementRef) {
 
 	}
-	
+
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
 		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\=\[\]{};':"\\|,.<>\/?]*$/);
 		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
@@ -88,7 +88,7 @@ export class myProviderName {
 
 
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+		var regex = new RegExp(/^[0-9~!@#$%^&*()_+\-=\[\]{};'`:"\\|,.<>\/?]*$/);
 		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
 		if (regex.test(key)) {
 			ev.preventDefault();

@@ -29,6 +29,11 @@ export class SuperAdmin_ServiceProvider_Service {
   addProviderStateAndServiceLinesUrl: any;
   getAllStatus_URL: any;
   //	updateProviderPersonalDetailsUrl: any;
+
+
+  /* new APIs */
+  getAllProvidersUrl: any;
+
   constructor(
     private _http: Http,
     public ConfigService: ConfigService,
@@ -54,6 +59,7 @@ export class SuperAdmin_ServiceProvider_Service {
       this.providerAdminBaseUrl + "addProviderStateAndServiceLines";
     this.getAllStatus_URL = this.providerAdminBaseUrl + "getStatus";
     // 	this.updateProviderPersonalDetailsUrl = this.providerAdminBaseUrl + "/updateProvider";
+
   }
 
   getCommonRegistrationData() {
@@ -66,7 +72,7 @@ export class SuperAdmin_ServiceProvider_Service {
   checkProviderNameAvailability(provider_name) {
     return this._http
       .post(this.checkProviderNameAvailabilityUrl, {
-        serviceProviderName: provider_name
+        'serviceProviderName': provider_name
       })
       .map(this.extractData)
       .catch(this.handleError);
@@ -113,7 +119,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleError);
   }
 
-  public createServiceProvider = function(serviceProviderRequestObject) {
+  public createServiceProvider = function (serviceProviderRequestObject) {
     return this._httpInterceptor
       .post(this.service_provider_setup_url, serviceProviderRequestObject)
       .map(this.extractCustomData)
