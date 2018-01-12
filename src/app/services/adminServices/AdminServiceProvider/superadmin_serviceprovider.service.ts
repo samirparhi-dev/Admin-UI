@@ -33,6 +33,8 @@ export class SuperAdmin_ServiceProvider_Service {
 
   /* new APIs */
   createProviderUrl: any;
+  providerUpdateUrl: any;
+  providerDeleteUrl: any;
 
   constructor(
     private _http: Http,
@@ -64,6 +66,8 @@ export class SuperAdmin_ServiceProvider_Service {
 
     /* new APIs */
     this.createProviderUrl = this.superadmin_base_url + 'createProvider';
+    this.providerUpdateUrl = this.superadmin_base_url + 'providerUpdate';
+    this.providerDeleteUrl = this.superadmin_base_url + 'providerdelete';
   }
 
   getCommonRegistrationData() {
@@ -135,6 +139,20 @@ export class SuperAdmin_ServiceProvider_Service {
       .post(this.createProviderUrl, request_array)
       .map(this.extractCustomData)
       .catch(this.handleCustomError);
+  }
+
+  public updateProviderDetails(req_obj) {
+    return this._httpInterceptor
+      .post(this.providerUpdateUrl, req_obj)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+
+  public deleteProvider(req_obj) {
+    return this._http
+      .post(this.providerDeleteUrl, req_obj)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   private extractCustomData(res: Response) {

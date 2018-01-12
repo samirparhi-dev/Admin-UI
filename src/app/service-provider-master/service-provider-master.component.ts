@@ -22,6 +22,14 @@ export class ServiceProviderMasterComponent implements OnInit {
   validTill: Date;
   today: Date;
 
+  providerName: any;
+  primaryName: any;
+  primaryNumber: any;
+  primaryEmail: any;
+  primaryAddress: any;
+  address1: any;
+  address2: any;
+
   // array
   searchResult: any = [];
 
@@ -34,6 +42,8 @@ export class ServiceProviderMasterComponent implements OnInit {
   // constants & variables
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   createdBy: any;
+  providerNameBeforeEdit: any;
+  serviceProviderID: any;
 
   @ViewChild('providerCreationForm') providerCreationForm: NgForm;
 
@@ -52,9 +62,25 @@ export class ServiceProviderMasterComponent implements OnInit {
 
 
   showTable() {
-    this.tableMode = true;
-    this.formMode = false;
-    this.editMode = false;
+    if (this.editMode) {
+      this.tableMode = true;
+      this.formMode = false;
+      this.editMode = false;
+
+      /* resetting ngModels used in editing if moving BACK from edit mode*/
+      this.resetNGmodels();
+
+      /* resetting date if moving BACK from edit mode */
+      this.today = new Date();
+      this.validFrom = this.today;
+      this.validTill = this.today;
+
+    }
+    else {
+      this.tableMode = true;
+      this.formMode = false;
+      this.editMode = false;
+    }
   }
 
   showForm() {
@@ -65,7 +91,7 @@ export class ServiceProviderMasterComponent implements OnInit {
 
   showEditForm() {
     this.tableMode = false;
-    this.formMode = false;
+    this.formMode = true;
     this.editMode = true;
   }
 
@@ -74,7 +100,17 @@ export class ServiceProviderMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response.response, 'Check Provider Name Success Handeler');
         if (response.response.toUpperCase() === 'provider_name_exists'.toUpperCase()) {
-          this.providerNameExist = true;
+          if (this.editMode && this.formMode) {
+            if (serviceProviderName.toUpperCase() === this.providerNameBeforeEdit.toUpperCase()) {
+              this.providerNameExist = false;
+            }
+            else {
+              this.providerNameExist = true;
+            }
+          }
+          if (this.formMode === true && this.editMode === false) {
+            this.providerNameExist = true;
+          }
         }
         if (response.response.toUpperCase() === 'provider_name_doesnt_exist'.toUpperCase()) {
           this.providerNameExist = false;
@@ -94,7 +130,7 @@ export class ServiceProviderMasterComponent implements OnInit {
 
   save(form_value) {
     console.log(form_value, 'Form Value');
-    let object = {
+    const object = {
       'serviceProviderName': form_value.provider_name,
       'createdBy': this.createdBy,
       'primaryContactName': form_value.contact_person,
@@ -107,15 +143,21 @@ export class ServiceProviderMasterComponent implements OnInit {
       'deleted': false
     }
 
-    let requestArray = [];
+    const requestArray = [];
     requestArray.push(object);
 
     this.superadminService.createProvider(requestArray)
       .subscribe(response => {
         console.log(response, 'Provider Creation Success Handeler');
         if (response.length > 0) {
-          this.dialogService.alert('Provider created successfully');
+          this.dialogService.alert('Provider Created Successfully');
+
+          /* resetting form,ngModels and Dates */
           this.providerCreationForm.reset();
+          this.resetNGmodels();
+          this.resetDates();
+
+          /* show and refresh table*/
           this.showTable();
           this.getAllProviders();
         }
@@ -136,16 +178,101 @@ export class ServiceProviderMasterComponent implements OnInit {
       });
   }
 
-  activate() {
-    this.dialogService.alert('work in progress');
+  activate(serviceProviderID) {
+    const object = { 'serviceProviderId': serviceProviderID, 'deleted': false };
+
+    this.superadminService.deleteProvider(object)
+      .subscribe(response => {
+        if (response) {
+          this.dialogService.alert('Provider Activated Successfully');
+          /* refresh table */
+          this.getAllProviders();
+        }
+      },
+      err => {
+        console.log('error', err);
+      });
   }
 
-  deactivate() {
-    this.dialogService.alert('work in progress');
+  deactivate(serviceProviderID) {
+    const object = { 'serviceProviderId': serviceProviderID, 'deleted': true };
+
+    this.superadminService.deleteProvider(object)
+      .subscribe(response => {
+        if (response) {
+          this.dialogService.alert('Provider Deactivated Successfully');
+          /* refresh table */
+          this.getAllProviders();
+        }
+      },
+      err => {
+        console.log('error', err);
+      });
   }
 
   edit(row) {
-    this.dialogService.alert('work in progress');
+    this.showEditForm();
+    this.providerNameBeforeEdit = row.serviceProviderName; // saving the existing-name of the Provider before editing
+    this.serviceProviderID = row.serviceProviderId;
+
+    this.providerName = row.serviceProviderName;
+    this.primaryName = row.primaryContactName;
+    this.primaryNumber = row.primaryContactNo;
+    this.primaryEmail = row.primaryContactEmailID;
+    this.primaryAddress = row.primaryContactAddress;
+
+    this.validFrom = new Date(row.validFrom);
+    this.validTill = new Date(row.validTill);
+
+  }
+
+  update(form_value) {
+    const object = {
+      'serviceProviderId': this.serviceProviderID,
+      'serviceProviderName': form_value.provider_name,
+      'primaryContactName': form_value.contact_person,
+      'primaryContactNo': form_value.contact_number,
+      'primaryContactEmailID': form_value.email,
+      'primaryContactAddress': form_value.address,
+      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)).toJSON(),
+      'modifiedBy': this.createdBy
+    }
+
+    this.superadminService.updateProviderDetails(object)
+      .subscribe(response => {
+        console.log('Edit success callback', response);
+        this.dialogService.alert('Provider Edited Successfully');
+        /* resetting form and ngModels used in editing */
+        this.providerCreationForm.reset();
+        this.resetNGmodels();
+
+        /* resetting dates */
+        this.resetDates();
+
+        /* showing and refreshing table */
+        this.getAllProviders();
+        this.showTable();
+
+      }, err => {
+        console.log('error', err);
+      });
+  }
+
+  resetNGmodels() {
+    this.providerName = '';
+    this.primaryName = '';
+    this.primaryNumber = '';
+    this.primaryEmail = '';
+    this.primaryAddress = '';
+
+    this.address1 = '';
+    this.address2 = '';
+  }
+
+  resetDates() {
+    this.today = new Date();
+    this.validFrom = this.today;
+    this.validTill = this.today;
   }
 
 }

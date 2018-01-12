@@ -21,15 +21,15 @@
             <td colspan="6" align="center">No Record Found</td>
           </tr>
           <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*3+i+1}}</td>
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.primaryContactName}}</td>
             <td>{{item.primaryContactNo}}</td>
             <td>{{item.primaryContactAddress}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Edit" (click)='edit(item)'>mode_edit</md-icon>
-              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activate()">Activate</button>
-              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="deactivate()">Deactivate</button>
+              <md-icon class="cursorPointer" *ngIf="!item.deleted" mdTooltip="Edit" (click)='edit(item)'>mode_edit</md-icon>
+              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activate(item.serviceProviderId)">Activate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="deactivate(item.serviceProviderId)">Deactivate</button>
             </td>
           </tr>
         </tbody>
@@ -48,14 +48,15 @@
   </div>
   <div class="row" *ngIf="formMode">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4><strong>Provider Master</strong></h4>
+      <h4 *ngIf="!editMode"><strong>Create Provider</strong></h4>
+      <h4 *ngIf="editMode"><strong>Edit Provider</strong></h4>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
       <form #providerCreationForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myProviderName>
-            <input mdInput placeholder="Provider/Company Name" ngModel name="provider_name" required="true" minlength="2" maxlength="50" #name="ngModel"
-              (keyup)="checkProviderNameAvailability(name.value)">
+            <input mdInput placeholder="Provider/Company Name" ngModel name="provider_name" [(ngModel)]="providerName" required="true"
+              minlength="2" maxlength="50" #name="ngModel" (keyup)="checkProviderNameAvailability(name.value)">
             <md-hint *ngIf="name.touched">
               <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
               <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
@@ -72,42 +73,55 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myProviderName>
-            <input mdInput placeholder="Contact Person" ngModel minlength="2" maxlength="30" name="contact_person" #cp="ngModel" required>
+            <input mdInput placeholder="Contact Person" ngModel minlength="2" maxlength="30" [(ngModel)]="primaryName" name="contact_person"
+              #cp="ngModel" required>
             <md-hint class="errorText" *ngIf="cp.errors && cp.touched">Enter minimum 2 characters
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100" myMobileNumber>
-            <input mdInput placeholder="Contact Number" ngModel name="contact_number" minlength="10" maxlength="10" required #number="ngModel">
+            <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryNumber" minlength="10" maxlength="10"
+              required #number="ngModel">
             <md-hint class="errorText" *ngIf="number.errors && number.touched">Enter 10 digit mobile number
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <md-input-container class="width100">
-            <input mdInput placeholder="Email ID" required ngModel [pattern]="emailPattern" name="email" maxlength="30" #validEmail="ngModel">
+            <input mdInput placeholder="Email ID" required ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
+              #validEmail="ngModel">
             <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email-ID
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="!editMode">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="Address1" maxlength="50" ngModel minlength="3" name="address1" required #address="ngModel">
+            <input mdInput placeholder="Address1" maxlength="50" ngModel minlength="3" name="address1" [(ngModel)]="address1" required #address="ngModel">
             <md-hint class="errorText" *ngIf="address.errors && address.touched">Enter minimum 3 characters
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="!editMode">
           <md-input-container class="width100" myAddress>
-            <input mdInput placeholder="Address2" maxlength="50" ngModel name="address2">
+            <input mdInput placeholder="Address2" maxlength="50" ngModel name="address2" [(ngModel)]="address2">
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="editMode">
+          <md-input-container class="width100" myAddress>
+            <input mdInput placeholder="Address" minlength="3" maxlength="100" ngModel name="address" [(ngModel)]="primaryAddress" #editAddress="ngModel">
+            <md-hint class="errorText" *ngIf="editAddress.errors && editAddress.touched">Enter minimum 3 characters
+            </md-hint>
           </md-input-container>
         </div>
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button md-raised-button color="accent" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
+        <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
           (click)="save(providerCreationForm.value)">Save</button>
+        <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
+          (click)="update(providerCreationForm.value)">Update</button>
+
       </div>
     </div>
   </div>
