@@ -168,6 +168,8 @@ import { UserRoleAgentIDMappingComponent } from './user-role-agent-id-mapping/us
 import { UserRoleAgentID_MappingService } from './services/ProviderAdminServices/user-role-agentID-mapping-service.service';
 import { AgentIDMappingModal } from './user-role-agent-id-mapping/user-role-agent-id-mapping.component';
 import { ServiceProviderMasterComponent } from './service-provider-master/service-provider-master.component';
+// tslint:disable-next-line:max-line-length
+import { ProviderServicelineStateMappingComponent } from './provider-serviceline-state-mapping/provider-serviceline-state-mapping.component';
 
 
 @NgModule({
@@ -187,8 +189,11 @@ import { ServiceProviderMasterComponent } from './service-provider-master/servic
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
     ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
 
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent, FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
+    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent,
+     SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
+     EditCategorySubcategoryComponent, FeedbackTypeMasterComponent,
+     FeedbackComplaintNatureMasterComponent,
 
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
     VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
@@ -197,7 +202,8 @@ import { ServiceProviderMasterComponent } from './service-provider-master/servic
     InstituteSubdirectoryMasterComponent, EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent, EditInstituteType,
-    UserRoleAgentIDMappingComponent, AgentIDMappingModal, EditVillageModal, ServiceProviderMasterComponent
+    UserRoleAgentIDMappingComponent, AgentIDMappingModal, EditVillageModal, ServiceProviderMasterComponent,
+    ProviderServicelineStateMappingComponent
 
   ],
 

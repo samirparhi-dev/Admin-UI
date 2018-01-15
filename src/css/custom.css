@@ -843,6 +843,10 @@ color:#545454;
   margin-left: 2px;
 }
 
+.m-l-5 {
+  margin-left: 5px !important;
+}
+
 .m-l-10 {
   margin-left: 10px;
 }
@@ -932,7 +936,7 @@ color:#545454;
 }
 
 .m-r-5 {
-  margin-right: 5px;
+  margin-right: 5px !important;
 }
 
 .m-r-10 {
