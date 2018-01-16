@@ -141,44 +141,53 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
       this.bufferArray.push(object);
+      this.resetForm();
     }
 
     /* case:2 If the buffer array is not empty */
     else if (this.bufferArray.length > 0) {
       let servicelineMatched = false;
+      let providerCount = 0;
       for (let a = 0; a < this.bufferArray.length; a++) {
-        /* if the serviceID of object in BufferArray is same as that of new object */
+        /* if the ProviderID of object in BufferArray is same as that of new object */
+        if (this.bufferArray[a].providerID === object.providerID) {
+          providerCount = providerCount + 1;
+          /* if the serviceID of object in BufferArray is same as that of new object */
+          if (this.bufferArray[a].serviceID === object.serviceID) {
+            servicelineMatched = true;
+            /* the loop will run i times , where i= no of objects in States Array
+               of OBJECT sent for verification */
+            for (let i = 0; i < object.states.length; i++) {
+              let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
 
-        if (this.bufferArray[a].serviceID === object.serviceID) {
-
-          servicelineMatched = true;
-          /* the loop will run i times , where i= no of objects in States Array
-             of OBJECT sent for verification */
-          for (let i = 0; i < object.states.length; i++) {
-            let count = 0;
-            /* running second loop which will run j times , where j= no of objects in States Array
-             of an OBJECT in buffer array */
-            for (let j = 0; j < this.bufferArray[a].states.length; j++) {
-              if (this.bufferArray[a].states[j].stateID === object.states[i].stateID) {
-                count = count + 1;
-                console.log('Duplicate Combo Exists', count);
+              /* running second loop which will run j times , where j= no of objects in States Array
+               of an OBJECT in buffer array */
+              for (let j = 0; j < this.bufferArray[a].states.length; j++) {
+                if (this.bufferArray[a].states[j].stateID === object.states[i].stateID) {
+                  count = count + 1;
+                  console.log('Duplicate Combo Exists', count);
+                }
+              }
+              if (count === 0) {
+                this.bufferArray[a].states.push(object.states[i]);
+                this.resetForm();
+              }
+              else if (count > 0) {
+                console.log('Duplicate Entry Already exists for ' + object.states[i].stateName);
+                this.resetForm();
               }
             }
-            if (count === 0) {
-              this.bufferArray[a].states.push(object.states[i]);
-              this.resetForm();
-            }
-            else if (count > 0) {
-              console.log('Duplicate Entry Already exists for ' + object.states[i].stateName);
-              this.resetForm();
-            }
+          }
+          else {
+            continue;
           }
         }
-        else {
-          continue;
-        }
       }
-      if (servicelineMatched === false) {
+      if (providerCount === 1 && servicelineMatched === false) {
+        this.bufferArray.push(object);
+        this.resetForm();
+      }
+      if (providerCount === 0) {
         this.bufferArray.push(object);
         this.resetForm();
       }
@@ -205,3 +214,4 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
 
 }
+
