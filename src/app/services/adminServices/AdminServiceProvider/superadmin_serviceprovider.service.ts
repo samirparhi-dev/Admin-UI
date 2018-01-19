@@ -37,6 +37,9 @@ export class SuperAdmin_ServiceProvider_Service {
   providerDeleteUrl: any;
 
   getAllProviderMappingsUrl: any;
+  mapProviderServiceStateUrl: any;
+  editMappedProviderServiceStateUrl: any;
+  deleteMappedProviderServiceStateUrl: any;
 
   constructor(
     private _http: Http,
@@ -72,6 +75,9 @@ export class SuperAdmin_ServiceProvider_Service {
     this.providerDeleteUrl = this.superadmin_base_url + 'providerdelete';
 
     this.getAllProviderMappingsUrl = this.superadmin_base_url + 'getMappedServiceLinesAndStatetoProvider';
+    this.mapProviderServiceStateUrl = this.superadmin_base_url + 'mapServiceLinesAndStatetoProvider';
+    this.editMappedProviderServiceStateUrl = this.superadmin_base_url + 'editMappedServiceLinesAndStatetoProvider'
+    this.deleteMappedProviderServiceStateUrl = this.superadmin_base_url + 'deleteMappedServiceLinesAndStatetoProvider';
   }
 
   getCommonRegistrationData() {
@@ -162,6 +168,27 @@ export class SuperAdmin_ServiceProvider_Service {
   getAllProviderMappings() {
     return this._httpInterceptor
       .post(this.getAllProviderMappingsUrl, {})
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+
+  mapProviderServiceState(requestArray) {
+    return this._httpInterceptor
+      .post(this.mapProviderServiceStateUrl, requestArray)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+
+  editMappedProviderServiceState(request_object) {
+    return this._httpInterceptor
+      .post(this.editMappedProviderServiceStateUrl, request_object)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+
+  deleteMappedProviderServiceState(request_object) {
+    return this._httpInterceptor
+      .post(this.deleteMappedProviderServiceStateUrl, request_object)
       .map(this.extractCustomData)
       .catch(this.handleCustomError);
   }
