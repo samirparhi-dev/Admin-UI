@@ -5,12 +5,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { ConfigService } from "../config/config.service";
+import { InterceptedHttp } from './../../http.interceptor';
+import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 
 @Injectable()
 export class VanServicePointMappingService {
      headers = new Headers( { 'Content-Type': 'application/json' } );
-     options = new RequestOptions( { headers: this.headers } );
-
+    
      providerAdmin_Base_Url: any;
      common_Base_Url:any;
 
@@ -26,7 +27,7 @@ export class VanServicePointMappingService {
     _getServiceLineURL:any;
     _getDistrictListURL:any;
 
-    constructor(private http: Http,public basepaths:ConfigService) { 
+    constructor(private http: SecurityInterceptedHttp, public basepaths:ConfigService, private httpIntercept: InterceptedHttp) { 
         this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
@@ -76,7 +77,7 @@ export class VanServicePointMappingService {
 
     getDistricts ( stateId: number )
     {
-        return this.http.get( this._getDistrictListURL + stateId, this.options )
+        return this.http.get( this._getDistrictListURL + stateId )
             .map( this.handleSuccess )
             .catch( this.handleError );
 
@@ -106,21 +107,16 @@ export class VanServicePointMappingService {
         .catch(this.handleError);
      }
 
-    handleSuccess(response: Response) {
-        console.log(response.json().data, "--- in zone master SERVICE");
-        return response.json().data;
+    handleSuccess(res: Response) {
+        console.log(res.json().data, "--- in zone master SERVICE");
+        if (res.json().data) {
+			return res.json().data;
+		} else {
+		    return Observable.throw(res.json());
+		}
     }
 
     handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
+        return Observable.throw(error.json());
     }
 }
