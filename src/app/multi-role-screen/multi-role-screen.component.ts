@@ -53,5 +53,6 @@ export class MultiRoleScreenComponent implements OnInit {
 
   logOut() {
     this.router.navigate([""]);
+    localStorage.removeItem('authToken');
   }
 }
