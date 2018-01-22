@@ -4,8 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { InterceptedHttp } from '../../http.interceptor';
+import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 
-import { ConfigService } from "../config/config.service";
+import { ConfigService } from '../config/config.service';
 
 
 @Injectable()
@@ -16,52 +17,51 @@ export class SeverityTypeService {
   addSeverityUrl: any;
   deleteSeverityUrl: any;
   modifySeverityUrl: any;
-  constructor(private http: Http, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
+  constructor(private http: SecurityInterceptedHttp,
+    public basepaths: ConfigService,
+    private httpIntercept: InterceptedHttp) {
 
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
-    this.get_State_Url = this.admin_Base_Url + "/m/getServerity";
-    this.addSeverityUrl = this.admin_Base_Url + "/m/saveServerity ";
-    this.deleteSeverityUrl = this.admin_Base_Url + "/m/deleteServerity";
-    this.modifySeverityUrl = this.admin_Base_Url + "m/editServerity"
-   };
+    this.get_State_Url = this.admin_Base_Url + '/m/getServerity';
+    this.addSeverityUrl = this.admin_Base_Url + '/m/saveServerity ';
+    this.deleteSeverityUrl = this.admin_Base_Url + '/m/deleteServerity';
+    this.modifySeverityUrl = this.admin_Base_Url + 'm/editServerity'
+  };
 
-   getSeverity(providerServiceMapID) {
-     return this.httpIntercept.post(this.get_State_Url, { "providerServiceMapID": providerServiceMapID })
-       .map(this.handleSuccess)
-       .catch(this.handleError);
-   }
+  getSeverity(providerServiceMapID) {
+    return this.httpIntercept.post(this.get_State_Url, { 'providerServiceMapID': providerServiceMapID })
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
 
-   handleSuccess(response: Response) {
-     console.log(response.json(), "calltype-subtype service file success response");
-     return response.json().data;
-   }
-   addSeverity(array) {
-     return this.httpIntercept.post(this.addSeverityUrl, array)
-       .map(this.handleSuccess)
-       .catch(this.handleError);
-   }
-   modifySeverity(obj) {
-     return this.http.post(this.modifySeverityUrl, obj)
-       .map(this.handleSuccess)
-       .catch(this.handleError);
-   }
-   deleteSeverity(obj) { 
-     ;
-          return this.httpIntercept.post(this.deleteSeverityUrl,obj)
-       .map(this.handleSuccess)
-       .catch(this.handleError);
-   }
-   handleError(error: Response | any) {
-     let errMsg: string;
-     if (error instanceof Response) {
-       const body = error.json() || '';
-       const err = body.error || JSON.stringify(body);
-       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-     } else {
-       errMsg = error.message ? error.message : error.toString();
-     }
-     console.error(errMsg);
-     return Observable.throw(errMsg);
-   }
+
+  addSeverity(array) {
+    return this.httpIntercept.post(this.addSeverityUrl, array)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+  modifySeverity(obj) {
+    return this.httpIntercept.post(this.modifySeverityUrl, obj)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+  deleteSeverity(obj) {
+    return this.httpIntercept.post(this.deleteSeverityUrl, obj)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+
+  handleSuccess(res: Response) {
+    console.log(res.json(), 'calltype-subtype service file success response');
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
+  }
+
+  handleError(error: Response | any) {
+    return Observable.throw(error.json());
+  }
 
 }
