@@ -8,9 +8,10 @@ import { XHRBackend, Http, RequestOptions } from '@angular/http';
 import { InterceptedHttp } from './http.interceptor';
 import { LoaderService } from './services/common/loader.service'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
-
+import { AuthService } from './services/authentication/auth.service';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions,
-     loaderService: LoaderService, alertMessage: ConfirmationDialogsService): Http {
-    return new InterceptedHttp(xhrBackend, requestOptions, loaderService, alertMessage);
+     loaderService: LoaderService, router:Router, authService:AuthService, alertMessage: ConfirmationDialogsService): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions, loaderService, router, authService, alertMessage);
 }

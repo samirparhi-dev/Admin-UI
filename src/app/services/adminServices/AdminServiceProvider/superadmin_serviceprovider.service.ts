@@ -7,7 +7,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { ConfigService } from '../../config/config.service';
+
 import { InterceptedHttp } from './../../../http.interceptor';
+import { SecurityInterceptedHttp } from './../../../http.securityinterceptor';
 
 @Injectable()
 export class SuperAdmin_ServiceProvider_Service {
@@ -42,13 +44,13 @@ export class SuperAdmin_ServiceProvider_Service {
   deleteMappedProviderServiceStateUrl: any;
 
   constructor(
-    private _http: Http,
-    public ConfigService: ConfigService,
+    private _http: SecurityInterceptedHttp,
+    public configService: ConfigService,
     private _httpInterceptor: InterceptedHttp
   ) {
-    this.superadmin_base_url = this.ConfigService.getSuperAdminBaseUrl();
-    this.providerAdminBaseUrl = this.ConfigService.getAdminBaseUrl();
-    this.commonbaseurl = this.ConfigService.getCommonBaseURL();
+    this.superadmin_base_url = this.configService.getSuperAdminBaseUrl();
+    this.providerAdminBaseUrl = this.configService.getAdminBaseUrl();
+    this.commonbaseurl = this.configService.getCommonBaseURL();
 
     this.service_provider_setup_url =
       this.superadmin_base_url + 'providerCreationAndMapping';
@@ -159,7 +161,7 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   public deleteProvider(req_obj) {
-    return this._http
+    return this._httpInterceptor
       .post(this.providerDeleteUrl, req_obj)
       .map(this.extractData)
       .catch(this.handleError);
@@ -194,27 +196,25 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   private extractCustomData(res: Response) {
-    console.log(res, 'in SA service');
-    return res.json().data;
+    if (res.json().data) {
+      console.log('in SA service', res.json().data);
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
   }
   private extractData(res: Response) {
-    console.log(res, 'in SA service');
-    return res.json().data;
+    if (res.json().data) {
+      console.log('in SA service', res.json().data);
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
   }
   private handleCustomError(error: Response | any) {
     return Observable.throw(error.json());
   }
   private handleError(error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw(error.json());
   }
 }

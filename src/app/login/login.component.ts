@@ -18,9 +18,9 @@ export class loginContentClass {
 	constructor(public loginservice: loginService, public router: Router, public dataSettingService: dataService) { };
 
 	login(userId: any, password: any) {
-		;
 		console.log(userId, password);
 		if (userId === "SUPERADMIN" && password === "SUPERADMIN") {
+
 			this.dataSettingService.Userdata = { "userName": "Super Admin" };
 			this.dataSettingService.role = "SUPERADMIN";
 			this.dataSettingService.uname = "Super Admin";
@@ -49,25 +49,27 @@ export class loginContentClass {
 		console.log("array", response.previlegeObj);
 
 		if (response.isAuthenticated === true && response.Status === "Active") {
-			console.log("response.previlegeObj[0].serviceID",response.previlegeObj[0].serviceID);
+			localStorage.setItem('authToken', response.key);
+			console.log("response.previlegeObj[0].serviceID", response.previlegeObj[0].serviceID);
 			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {
 
 				// for (let j = 0; j < response.Previlege[i].Role.length; j++) {
-					if (response.Previlege[i].Role === "ProviderAdmin") {
-						// this.router.navigate(['/MultiRoleScreenComponent']);
-						this.dataSettingService.role = "PROVIDERADMIN";
-						console.log("VALUE SET HOGAYI");
-					}
-					else {
-						// this.router.navigate(['/MultiRoleScreenComponent']);
-					}
+				if (response.Previlege[i].Role === "ProviderAdmin") {
+					// this.router.navigate(['/MultiRoleScreenComponent']);
+					this.dataSettingService.role = "PROVIDERADMIN";
+					console.log("VALUE SET HOGAYI");
+				}
+				else {
+					// this.router.navigate(['/MultiRoleScreenComponent']);
+				}
 				// }
 			}
 			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
+			localStorage.setItem('authToken', response.key);
 			this.router.navigate(['/setQuestions']);
 		}
 	};
@@ -87,8 +89,7 @@ export class loginContentClass {
 		this.dynamictype = 'text';
 	}
 
-	hidePWD()
-	{
+	hidePWD() {
 		this.dynamictype = 'password';
 	}
 

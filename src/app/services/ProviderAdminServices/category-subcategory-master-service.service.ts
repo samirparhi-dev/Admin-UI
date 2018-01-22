@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 
 import { ConfigService } from '../config/config.service';
 import { InterceptedHttp } from './../../http.interceptor';
-
+import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 
 
 /**
@@ -34,7 +34,9 @@ export class CategorySubcategoryService {
   editCategory_url: any;
   editSubCategory_url: any;
 
-  constructor(private http: Http, public basepaths: ConfigService, private _httpInterceptor: InterceptedHttp) {
+  constructor(private http: SecurityInterceptedHttp,
+    public basepaths: ConfigService,
+    private _httpInterceptor: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.getStates_url = this.providerAdmin_Base_Url + 'm/role/state';
     this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/role/service';
@@ -95,7 +97,7 @@ export class CategorySubcategoryService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  deleteSubCategory(id , isActivate){
+  deleteSubCategory(id, isActivate) {
     return this.http.post(this.deleteSubCategory_url, { 'subCategoryID': id, 'deleted': isActivate })
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -105,29 +107,31 @@ export class CategorySubcategoryService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  editSubCategory(subCatObj){
+  editSubCategory(subCatObj) {
     return this.http.post(this.editSubCategory_url, subCatObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   handleState_n_ServiceSuccess(response: Response) {
-    
-    console.log(response.json().data, "role service file success response");
-    let result=[];
-    result=response.json().data.filter(function(item)
-    {
-      if(item.statusID!=4)
-      {
+
+    console.log(response.json().data, 'role service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.statusID !== 4) {
         return item;
       }
     });
     return result;
   }
-  
-  handleSuccess(response: Response) {
-    console.log(response.json().data, '--- in location-serviceline-mapping service');
-    return response.json().data;
+
+  handleSuccess(res: Response) {
+    console.log(res.json().data, '--- in location-serviceline-mapping service');
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
   }
 
   handleError(error: Response | any) {

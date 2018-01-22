@@ -27,16 +27,13 @@ import { myName } from './directives/name/myName.directive';
 import { myName2 } from './directives/name/myName.directive';
 import { agentID_one } from './directives/name/myName.directive';
 import { agentID_two } from './directives/name/myName.directive';
-
-
-
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
 import { myUserName } from './directives/address/myAddress.directive';
-
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
+
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
 import { httpFactory } from './http.factory';
@@ -171,39 +168,40 @@ import { ServiceProviderMasterComponent } from './service-provider-master/servic
 // tslint:disable-next-line:max-line-length
 import { ProviderServicelineStateMappingComponent } from './provider-serviceline-state-mapping/provider-serviceline-state-mapping.component';
 
+import { AuthService } from './services/authentication/auth.service';
+import { SecurityFactory } from './http.security.factory';
+import { SecurityInterceptedHttp } from './http.securityinterceptor';
+
 
 @NgModule({
   declarations: [
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
-    myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress, myProviderName, PAN, myUserName,
-    ServiceRoleSelectionComponent, SuperAdminComponent, AdminLanguageMasterComponent,
-    AdminRoleMasterComponent, AdminServiceMasterComponent, AdminScreenMasterComponent,
-    SetSecurityQuestionsComponent, SetPasswordComponent, ProviderOnBoardComponent,
-    BlockServiceProviderComponent, CreateGenderComponent,
+    myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
+    myProviderName, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
+    AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
+    ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,
     CreateQualificationComponent, CreateCasteComponent, CreateReligionComponent,
-    CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent, UpdateServiceProviderComponent,
-    EmployeeMasterComponent, EmployeeDetailsCapturingComponent, DrugGroupComponent, DrugListComponent, DrugMappingComponent,
-    LocationServicelineMappingComponent, ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
+    CreateStateComponent, NewServiceProviderSetupComponent, ProviderAdminRoleMasterComponent,
+    UpdateServiceProviderComponent, EmployeeMasterComponent, EmployeeDetailsCapturingComponent,
+    DrugGroupComponent, DrugListComponent, DrugMappingComponent, LocationServicelineMappingComponent,
+    ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
-    CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent, EditProviderDetailsComponent,
-    ZoneMasterComponent, ZoneComponent, ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
-
+    CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent,
+    EditProviderDetailsComponent, ZoneMasterComponent, ZoneComponent,
+    ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent,
-     SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-     EditCategorySubcategoryComponent, FeedbackTypeMasterComponent,
-     FeedbackComplaintNatureMasterComponent,
-
-    CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent, SeverityTypeComponent, FeedbackTypeComponent,
-    VanComponent, VanTypeComponent, VanServicePointMappingComponent, EmployeeParkingPlaceMappingComponent,
-    EditCategorySubcategoryComponent, InstituteDirectoryMasterComponent, EditInstituteDirectory, HospitalMasterComponent,
-    EditHospitalModal,
-    InstituteSubdirectoryMasterComponent, EditInstituteSubDirectory,
+    SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
+    VanComponent, VanTypeComponent, VanServicePointMappingComponent,
+    EmployeeParkingPlaceMappingComponent, EditCategorySubcategoryComponent,
+    FeedbackTypeMasterComponent, FeedbackComplaintNatureMasterComponent,
+    InstituteDirectoryMasterComponent, EditInstituteDirectory, HospitalMasterComponent,
+    EditHospitalModal, InstituteSubdirectoryMasterComponent, EditInstituteSubDirectory,
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
-    AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent, EditInstituteType,
-    UserRoleAgentIDMappingComponent, AgentIDMappingModal, EditVillageModal, ServiceProviderMasterComponent,
-    ProviderServicelineStateMappingComponent
+    AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
+    EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
+    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent
 
   ],
 
@@ -267,20 +265,29 @@ import { ProviderServicelineStateMappingComponent } from './provider-serviceline
   providers: [
     loginService, dataService, DashboardHttpServices, RoleService, ServicemasterService,
     ScreenService, HttpServices, UserBeneficiaryData, LocationService, FeedbackTypes,
-    CallServices, ConfigService, SuperAdmin_ServiceProvider_Service, ProviderAdminRoleService,
-    LocationServicelineMapping, EmployeeMasterService, CallTypeSubtypeService, BlockProvider, FeedbackTypeService,
-    DrugMasterService, CategorySubcategoryService, ZoneMasterService, ParkingPlaceMasterService, ServicePointMasterService,
-    ConfirmationDialogsService, LoaderService, SeverityTypeService, InstituteDirectoryMasterService, {
-      provide: InterceptedHttp,
-      useFactory: httpFactory,
-      deps: [XHRBackend, RequestOptions, LoaderService, ConfirmationDialogsService]
-    },
+    CallServices, ConfigService, SuperAdmin_ServiceProvider_Service,
+    ProviderAdminRoleService, LocationServicelineMapping, EmployeeMasterService,
+    CallTypeSubtypeService, BlockProvider, FeedbackTypeService,
+    DrugMasterService, CategorySubcategoryService, ZoneMasterService,
+    ParkingPlaceMasterService, ServicePointMasterService, ConfirmationDialogsService,
+    LoaderService, SeverityTypeService, InstituteDirectoryMasterService,
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
     VanServicePointMappingService, EmployeeParkingPlaceMappingService,
     InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
-    UserRoleAgentID_MappingService
+    UserRoleAgentID_MappingService, AuthService,
+     {
+
+      provide: InterceptedHttp,
+      useFactory: httpFactory,
+      deps: [XHRBackend, RequestOptions, LoaderService, Router, AuthService, ConfirmationDialogsService]
+    },
+    {
+      provide: SecurityInterceptedHttp,
+      useFactory: SecurityFactory,
+      deps: [XHRBackend, RequestOptions, Router, AuthService, ConfirmationDialogsService]
+    }
 
   ],
 

@@ -7,8 +7,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { ConfigService } from '../../config/config.service';
-import { InterceptedHttp } from './../../../http.interceptor';
 
+import { InterceptedHttp } from './../../../http.interceptor';
+import { SecurityInterceptedHttp } from './../../../http.securityinterceptor';
 
 
 @Injectable()
@@ -37,8 +38,10 @@ export class BlockProvider {
   editProvider_URL: any;
   deleteSubserviceUrl: any;
 
-  constructor(private _http: Http, public ConfigService: ConfigService, private httpInterceptor: InterceptedHttp) {
-    this.admin_base_url = this.ConfigService.getAdminBaseUrl();
+  constructor(private _http: SecurityInterceptedHttp,
+    public configService: ConfigService,
+    private httpInterceptor: InterceptedHttp) {
+    this.admin_base_url = this.configService.getAdminBaseUrl();
     this.getAllStatus_URL = this.admin_base_url + 'getStatus';
     this.getAllProviderUrl = this.admin_base_url + 'getAllProvider';
     this.getAllStatesOfProvider_Url = this.admin_base_url + 'm/role/state';
@@ -180,7 +183,7 @@ export class BlockProvider {
   }
   getSubServiceDetails(providerServiceMapID: any) {
     return this._http.post(this.getSubServiceDetails_URL, {
-      "providerServiceMapID": providerServiceMapID
+      'providerServiceMapID': providerServiceMapID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }
@@ -193,19 +196,21 @@ export class BlockProvider {
     return this._http.post(this.editProvider_URL, serviceProviderObj).map(this.success_handeler)
       .catch(this.error_handeler);
   }
-  success_handeler(response: Response) {
-    console.log(response.json().data, '--- in Block-Provider Service');
-    return response.json().data;
+  success_handeler(res: Response) {
+    console.log(res.json().data, '--- in Block-Provider Service');
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
   }
 
   handleState_n_ServiceSuccess(response: Response) {
-    
-    console.log(response.json().data, "role service file success response");
-    let result=[];
-    result=response.json().data.filter(function(item)
-    {
-      if(item.statusID!=4)
-      {
+
+    console.log(response.json().data, 'block provider service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.statusID !== 4) {
         return item;
       }
     });
@@ -216,16 +221,7 @@ export class BlockProvider {
     return Observable.throw(error.json());
   }
   error_handeler(error: Response | any) {
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw(error.json());
   }
 };
 

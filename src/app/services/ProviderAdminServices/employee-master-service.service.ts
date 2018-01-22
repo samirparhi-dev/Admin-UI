@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { InterceptedHttp } from '../../http.interceptor';
-import { ConfigService } from "../config/config.service";
+import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
+
+import { ConfigService } from '../config/config.service';
 
 
 
@@ -20,7 +22,7 @@ export class EmployeeMasterService {
   providerAdmin_Base_Url: any;
   common_Base_Url: any;
 
-  //  CRUD 
+  //  CRUD
   createEmployeeUrl: any;
   editEmployeeUrl: any;
   deleteEmployeeUrl: any;
@@ -41,44 +43,43 @@ export class EmployeeMasterService {
 
   checkUsernameUrl: any;
 
-
-
-
   // search ka samaan
   getServicesUrl: any;
   find_Roles_Url: any;
   checkID: any;
-  deleteRoleUrl : any;
-  getDesignationsUrl : any;
+  deleteRoleUrl: any;
+  getDesignationsUrl: any;
 
 
 
-  constructor(private http: Http, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
+  constructor(private http: SecurityInterceptedHttp,
+    public basepaths: ConfigService,
+    private httpIntercept: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
-    this.createEmployeeUrl = this.providerAdmin_Base_Url + "m/AddEmployee";
-    this.editEmployeeUrl = this.providerAdmin_Base_Url + "m/editEmployee";
-    //this.deleteEmployeeUrl = this.providerAdmin_Base_Url + "m/deleteEmployee";
-    this.deleteRoleUrl = this.providerAdmin_Base_Url + "/m/deleteEmployeeRole"
-    this.getEmployeeUrl = this.providerAdmin_Base_Url + "m/SearchEmployeeFilter";
+    this.createEmployeeUrl = this.providerAdmin_Base_Url + 'm/AddEmployee';
+    this.editEmployeeUrl = this.providerAdmin_Base_Url + 'm/editEmployee';
+    // this.deleteEmployeeUrl = this.providerAdmin_Base_Url + "m/deleteEmployee";
+    this.deleteRoleUrl = this.providerAdmin_Base_Url + '/m/deleteEmployeeRole';
+    this.getEmployeeUrl = this.providerAdmin_Base_Url + 'm/SearchEmployeeFilter';
 
-    this.getRegistrationDataUrl = this.common_Base_Url + "beneficiary/getRegistrationData";
-    this.getAllDistrictsInStateUrl = this.common_Base_Url + "location/districts/";
-    this.getAllStatesOfServiceProviderUrl = this.providerAdmin_Base_Url + "m/role/state";
-    this.get_Service_Url = this.providerAdmin_Base_Url + "m/role/service";
-    this.getAllQualificationsUrl = this.providerAdmin_Base_Url + "m/Qualification";
-    this.getAllWorkLocationsInStateUrl = this.providerAdmin_Base_Url + "m/location/getAlllocation";
+    this.getRegistrationDataUrl = this.common_Base_Url + 'beneficiary/getRegistrationData';
+    this.getAllDistrictsInStateUrl = this.common_Base_Url + 'location/districts/';
+    this.getAllStatesOfServiceProviderUrl = this.providerAdmin_Base_Url + 'm/role/state';
+    this.get_Service_Url = this.providerAdmin_Base_Url + 'm/role/service';
+    this.getAllQualificationsUrl = this.providerAdmin_Base_Url + 'm/Qualification';
+    this.getAllWorkLocationsInStateUrl = this.providerAdmin_Base_Url + 'm/location/getAlllocation';
     // this.getAllServiceLinesInWorkLocationUrl = "";
-    this.getAllRolesInServiceLine = this.providerAdmin_Base_Url + "m/role/search";
+    this.getAllRolesInServiceLine = this.providerAdmin_Base_Url + 'm/role/search';
 
-    this.checkUsernameUrl = this.providerAdmin_Base_Url + "m/FindEmployeeByName";
+    this.checkUsernameUrl = this.providerAdmin_Base_Url + 'm/FindEmployeeByName';
 
     // newcontent for search
-    this.getServicesUrl = this.providerAdmin_Base_Url + "m/role/service";
-    this.find_Roles_Url = this.providerAdmin_Base_Url + "m/role/search1";
-    this.checkID = this.providerAdmin_Base_Url + "m/FindEmployeeDetails";
-    this.getDesignationsUrl = this.providerAdmin_Base_Url + "/m/getDesignation"; 
+    this.getServicesUrl = this.providerAdmin_Base_Url + 'm/role/service';
+    this.find_Roles_Url = this.providerAdmin_Base_Url + 'm/role/search1';
+    this.checkID = this.providerAdmin_Base_Url + 'm/FindEmployeeDetails';
+    this.getDesignationsUrl = this.providerAdmin_Base_Url + '/m/getDesignation';
 
   };
 
@@ -89,7 +90,7 @@ export class EmployeeMasterService {
   }
 
   checkUsernameExists(username) {
-    return this.http.post(this.checkUsernameUrl, { "userName": username })
+    return this.http.post(this.checkUsernameUrl, { 'userName': username })
       .map(this.handleCustomSuccess)
       .catch(this.handleError);
   }
@@ -108,19 +109,22 @@ export class EmployeeMasterService {
 
   // worklocation specific
   getStatesOfServiceProvider(serviceProviderID) {
-    return this.http.post(this.getAllStatesOfServiceProviderUrl, { "serviceProviderID": serviceProviderID })
+    return this.http.post(this.getAllStatesOfServiceProviderUrl,
+      { 'serviceProviderID': serviceProviderID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getServicesOfServiceProvider(serviceProviderID, stateID) {
-    return this.http.post(this.get_Service_Url, { "serviceProviderID": serviceProviderID, "stateID": stateID })
+    return this.http.post(this.get_Service_Url,
+      { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getWorkLocationsInState(serviceProviderID, stateID, serviceID) {
-    return this.http.post(this.getAllWorkLocationsInStateUrl, { "serviceProviderID": serviceProviderID, "stateID": stateID, "serviceID": serviceID })
+    return this.http.post(this.getAllWorkLocationsInStateUrl,
+      { 'serviceProviderID': serviceProviderID, 'stateID': stateID, 'serviceID': serviceID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
@@ -149,9 +153,9 @@ export class EmployeeMasterService {
   getRolesInServiceLine(serviceProviderID, stateID, serviceID) {
     return this.http.post(this.getAllRolesInServiceLine,
       {
-        "serviceProviderID": serviceProviderID,
-        "stateID": stateID,
-        "serviceID": serviceID
+        'serviceProviderID': serviceProviderID,
+        'stateID': stateID,
+        'serviceID': serviceID
       })
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -159,8 +163,8 @@ export class EmployeeMasterService {
 
   getServices(serviceProviderID, stateID) {
     return this.http.post(this.getServicesUrl, {
-      "serviceProviderID": serviceProviderID,
-      "stateID": stateID
+      'serviceProviderID': serviceProviderID,
+      'stateID': stateID
     })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
@@ -169,9 +173,9 @@ export class EmployeeMasterService {
   getRoles(serviceProviderID, stateID, serviceID) {
     return this.http.post(this.find_Roles_Url,
       {
-        "serviceProviderID": serviceProviderID,
-        "stateID": stateID,
-        "serviceID": serviceID
+        'serviceProviderID': serviceProviderID,
+        'stateID': stateID,
+        'serviceID': serviceID
       })
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -180,7 +184,7 @@ export class EmployeeMasterService {
 
   // CRUD begins
   createEmployee(requestObject) {
-    console.log(requestObject, "request obj in service")
+    console.log(requestObject, 'request obj in service')
     return this.httpIntercept.post(this.createEmployeeUrl, JSON.parse(requestObject))
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -193,7 +197,7 @@ export class EmployeeMasterService {
   }
 
   deleteEmployeeRole(usrMapID) {
-    return this.httpIntercept.post(this.deleteRoleUrl, { "uSRMappingID": usrMapID })
+    return this.httpIntercept.post(this.deleteRoleUrl, { 'uSRMappingID': usrMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
@@ -203,31 +207,33 @@ export class EmployeeMasterService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  
+
 
   handleCustomSuccess(response: Response) {
-    console.log(response.json().data, "--- in employee master SERVICE");
+    console.log(response.json().data, '--- in employee master SERVICE');
     return response.json().data.response;
   }
 
-   getDesignations() {
+  getDesignations() {
     return this.http.post(this.getDesignationsUrl, {})
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-  handleSuccess(response: Response) {
-    console.log(response.json().data, "--- in employee master SERVICE");
-    return response.json().data;
+  handleSuccess(res: Response) {
+    console.log(res.json().data, '--- in employee master SERVICE');
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
   }
 
   handleState_n_ServiceSuccess(response: Response) {
-    
-    console.log(response.json().data, "role service file success response");
-    let result=[];
-    result=response.json().data.filter(function(item)
-    {
-      if(item.statusID!=4)
-      {
+
+    console.log(response.json().data, 'employee master service response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.statusID !== 4) {
         return item;
       }
     });
@@ -235,16 +241,7 @@ export class EmployeeMasterService {
   }
 
   handleError(error: Response | any) {
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw(error.json());
   }
 };
 
