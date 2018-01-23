@@ -13,9 +13,11 @@ import { loginService } from './../loginService/login.service';
 export class AuthService {
 
     public getToken(): string {
+        let authToken = '';
         if (localStorage.getItem('authToken')) {
-            return localStorage.getItem('authToken');
+            authToken = localStorage.getItem('authToken');
         }
+        return authToken;
     }
     public removeToken() {
         localStorage.removeItem('authToken');
