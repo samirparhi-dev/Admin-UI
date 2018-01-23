@@ -5,20 +5,24 @@ import { Observable } from 'rxjs/Observable';
 import { ConfigService } from "../config/config.service";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { InterceptedHttp } from './../../http.interceptor'
+import { InterceptedHttp } from './../../http.interceptor';
+import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 
 
 @Injectable()
 export class loginService {
 	_baseURL = this._config.getCommonBaseURL();
 	_userAuthURL = this._baseURL + "user/userAuthenticate/";
+	redis_session_removal_url = this._baseURL + 'user/userLogout';
+
+	superadmin_auth_url = this._baseURL + 'user/superUserAuthenticate';
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
 	admin_base_path: any;
 	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
 	newlogin = this._baseURL + "user/userAuthenticate";
 	getServiceProviderID_url: any;
 	constructor(
-		private _http: Http,
+		private _http: SecurityInterceptedHttp,
 		private _httpInterceptor: InterceptedHttp,
 		private _config: ConfigService
 	) {
@@ -31,6 +35,18 @@ export class loginService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	};
+
+	superAdminAuthenticate(uname, pwd) {
+		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd })
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	removeTokenFromRedis() {
+		return this._http.post(this.redis_session_removal_url, {})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
 
 	getSecurityQuestions(uname: any): Observable<any> {
 
@@ -50,7 +66,11 @@ export class loginService {
 		// let body = res.json();
 		//return body.data || {};
 		console.log('response in service', res);
-		return res.json().data;
+		if (res.json().data) {
+			return res.json().data;
+		} else {
+			return Observable.throw(res.json());
+		}
 	};
 
 	private handleError(error: Response | any) {

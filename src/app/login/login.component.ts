@@ -19,12 +19,22 @@ export class loginContentClass {
 
 	login(userId: any, password: any) {
 		console.log(userId, password);
-		if (userId === "SUPERADMIN" && password === "SUPERADMIN") {
+		if (userId.toLowerCase() === "SUPERADMIN".toLowerCase()) {
+			this.loginservice.superAdminAuthenticate(userId, password)
+				.subscribe(response => {
+					if (response.isAuthenticated) {
+						console.log(response, "SUPERADMIN VALIDATED");
+						localStorage.setItem('authToken', response.key);
+						this.dataSettingService.Userdata = { "userName": "Super Admin" };
+						this.dataSettingService.role = "SUPERADMIN";
+						this.dataSettingService.uname = "Super Admin";
+						this.router.navigate(['/MultiRoleScreenComponent']);
+					}
 
-			this.dataSettingService.Userdata = { "userName": "Super Admin" };
-			this.dataSettingService.role = "SUPERADMIN";
-			this.dataSettingService.uname = "Super Admin";
-			this.router.navigate(['/MultiRoleScreenComponent']);
+				}, err => {
+					console.log(err, "ERR while superadmin validation");
+				});
+
 		}
 		// if (userId === "padmin" && password === "padmin") {
 		// 	this.dataSettingService.Userdata = { "userName": "Diamond Khanna" };

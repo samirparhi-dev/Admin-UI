@@ -96,13 +96,16 @@ export class SecurityInterceptedHttp extends Http {
     }
     private onSuccess(response: any) {
         if (response.json().data) {
+
             return response;
         } else if (response.json().statusCode === 5002) {
+
             this.router.navigate(['']);
             this.message.alert(response.json().errorMessage);
             this.authService.removeToken();
             return Observable.empty();
         } else {
+
             throw response;
         }
     }
@@ -112,6 +115,7 @@ export class SecurityInterceptedHttp extends Http {
 
     private onCatch(error: any, caught?: Observable<Response>): Observable<Response> {
         // return Observable.throw(error);
+        console.log(error.json())
         return Observable.throw(error);
     }
 }

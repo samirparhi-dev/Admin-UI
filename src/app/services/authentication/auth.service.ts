@@ -5,6 +5,10 @@ import { ConfigService } from '../config/config.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { InterceptedHttp } from './../../http.interceptor';
+import { loginService } from './../loginService/login.service';
+
+
+
 @Injectable()
 export class AuthService {
 

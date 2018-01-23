@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { dataService } from "../services/dataService/data.service";
+import { loginService } from '../services/loginService/login.service';
 import { Router } from "@angular/router";
 import { HttpServices } from "../services/http-services/http_services.service";
 
@@ -15,10 +16,11 @@ export class MultiRoleScreenComponent implements OnInit {
   constructor(
     public getCommonData: dataService,
     public router: Router,
-    public HttpServices: HttpServices
+    public HttpServices: HttpServices,
+    public _loginService: loginService
   ) {
     this.role = this.getCommonData.role;
-    console.log(this.role,"ROLE NAME AS OF NOW");
+    console.log(this.role, "ROLE NAME AS OF NOW");
   }
 
   data: any;
@@ -53,6 +55,16 @@ export class MultiRoleScreenComponent implements OnInit {
 
   logOut() {
     this.router.navigate([""]);
-    localStorage.removeItem('authToken');
+
+    this._loginService.removeTokenFromRedis()
+      .subscribe(response => {
+        if (response.response.toLowerCase() === 'success'.toLowerCase()) {
+          console.log('successfully logged out from CRM and session ended both sides');
+          localStorage.removeItem('authToken');
+        }
+      }, err => {
+        console.log(err, 'error while ending session both sides');
+
+      });
   }
 }
