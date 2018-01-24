@@ -98,14 +98,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         if (this.selected_service_id === 1) {
           this.subServices = response.filter(function (item) {
             if (item.subServiceName.toUpperCase() === "Information Service".toUpperCase() ||
-               item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase()) {
+              item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase()) {
               return item;
             }
           });
         }
         else {
           this.subServices = response.filter(function (item) {
-            if (item.subServiceName.toUpperCase() !== "Blood Request".toUpperCase() ) {
+            if (item.subServiceName.toUpperCase() !== "Blood Request".toUpperCase()) {
               return item;
             }
           });
@@ -201,7 +201,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   checkSubService(service, sub_service_name) {
-    if (sub_service_name === "Counselling Service" && service === 3) {
+    console.log(service, sub_service_name, 'service and subservice name');
+    if ((sub_service_name.toUpperCase() === 'Counselling Service'.toUpperCase() && service === 3) ||
+      (sub_service_name.toUpperCase() === 'Psychiatrist'.toUpperCase() && service === 3)) {
       this.showWellBeingFlag = true;
       this.well_being = false;
     }

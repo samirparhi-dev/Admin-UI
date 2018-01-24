@@ -51,7 +51,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   countryID: any;
   states: any;
   servicelines: any;
-  servicelines_copy:any=[];
+  servicelines_copy: any = [];
   today: Date;
   minDate: Date;
   emailPattern: any;
@@ -127,19 +127,17 @@ export class NewServiceProviderSetupComponent implements OnInit {
     this.setLanguage(this.current_language);
   }
 
-  changeMinJoiningDate(dob)
-  {
-    console.log("date change wala function chala",dob,new Date());
+  changeMinJoiningDate(dob) {
+    console.log("date change wala function chala", dob, new Date());
     // this.maxJoining.setDate( dob.getDate());
     // this.maxJoining.setMonth( dob.getMonth(),dob.getDate());
-    this.maxJoining.setFullYear(dob.getFullYear() + 20,dob.getMonth(),dob.getDate());
-    console.log(this.maxJoining,"post change");
+    this.maxJoining.setFullYear(dob.getFullYear() + 20, dob.getMonth(), dob.getDate());
+    console.log(this.maxJoining, "post change");
     // this.doj = this.maxJoining;
-    this.maxJoining=new Date(this.maxJoining);
+    this.maxJoining = new Date(this.maxJoining);
   }
 
-  preventTyping(e:any)
-  {
+  preventTyping(e: any) {
 
     if (e.keyCode === 9) {
 
@@ -153,29 +151,24 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   }
 
-  getServicesSuccessHandeler(response)
-  {
+  getServicesSuccessHandeler(response) {
     this.servicelines = response;
-    this.servicelines_copy=response;
+    this.servicelines_copy = response;
 
   }
 
-  setGenderOnCondition(title)
-  {
-    if(title===2||title===4||title===5||title===13)
-    {
-      this.gender=2;
+  setGenderOnCondition(title) {
+    if (title === 2 || title === 4 || title === 5 || title === 13) {
+      this.gender = 2;
     }
-    else if(title===3||title===8)
-    {
-      this.gender=1;
+    else if (title === 3 || title === 8) {
+      this.gender = 1;
     }
-    else
-    {
-      this.gender="";
+    else {
+      this.gender = "";
     }
   }
-  
+
   requestObject() {
     this.request_object = {
       serviceProviderName: "",
@@ -252,9 +245,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.show3 = false;
 
       // setting of some details in screen one to screen 3 (pre-population)
-      this.firstname=this.contactPerson;
-      this.providerAdmin_EmailID=this.emailID;
-      this.providerAdmin_PhoneNumber=this.contactNumber;
+      this.firstname = this.contactPerson;
+      this.providerAdmin_EmailID = this.emailID;
+      this.providerAdmin_PhoneNumber = this.contactNumber;
 
       this.request_object.serviceProviderName = this.serviceProviderName;
       this.request_object.validTill = new Date(
@@ -321,9 +314,9 @@ export class NewServiceProviderSetupComponent implements OnInit {
       services: services
     };
 
-/*need DISCUSSION DO NOT DELETE SECTION-starts*/
+    /*need DISCUSSION DO NOT DELETE SECTION-starts*/
     // this.check1097ServiceExistance(data_obj.services);
-/*need DISCUSSION DO NOT DELETE SECTION-ends*/
+    /*need DISCUSSION DO NOT DELETE SECTION-ends*/
 
 
     /** NOTE
@@ -392,7 +385,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
   }
 
 
-/*NEED DISCUSSION---DONT DELETE SECTION--starts*/
+  /*NEED DISCUSSION---DONT DELETE SECTION--starts*/
 
   /*check1097ServiceExistance(selected_services){
     console.log("selected services",selected_services);
@@ -446,7 +439,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['password'] = this.password;
     provider_admin_details_obj['titleID'] = this.title.toString();
     provider_admin_details_obj['genderID'] = this.gender.toString();
-     // provider_admin_details_obj['roleID'] = 11;
+    // provider_admin_details_obj['roleID'] = 11;
     this.dob;
     this.address1;
     provider_admin_details_obj['dob'] = new Date(
@@ -456,17 +449,15 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.doj - 1 * (this.doj.getTimezoneOffset() * 60 * 1000)
     ).toJSON();
     provider_admin_details_obj['maritalStatusID'] = '';
-    
-    if(this.aadhaar_number && this.aadhaar_number.trim().length>0)
-    {
+
+    if (this.aadhaar_number && this.aadhaar_number.trim().length > 0) {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
 
-    if(this.pan_number && this.pan_number.trim().length>0)
-    {
+    if (this.pan_number && this.pan_number.trim().length > 0) {
       provider_admin_details_obj['panNo'] = this.pan_number;
     }
-    
+
     // provider_admin_details_obj['panNo'] = this.pan_number
     //   ? this.pan_number
     //   : '';
@@ -500,10 +491,10 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   successHandeler(response) {
     console.log(
-      response,
+      response.response,
       'in TS, the response after having sent req for creating service provider'
     );
-    if (response === 'true') {
+    if (response.response.toLowerCase() === 'true'.toLowerCase()) {
       this.message.alert('PROVIDER CREATED SUCCESSFULLY');
       this.show1 = true;
       this.show2 = false;
@@ -512,17 +503,16 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.requestObject();
     }
   }
-  deleteServiceLine(parentIndex: number, index: number,service_name) {
+  deleteServiceLine(parentIndex: number, index: number, service_name) {
     this.state_service_array[parentIndex].services.splice(index, 1);
     if (this.state_service_array[parentIndex].services.length === 0) {
       this.state_service_array.splice(parentIndex, 1);
     }
-    if (this.state_service_array.length == 0) {
+    if (this.state_service_array.length === 0) {
       this.showTable = false;
     }
 
-    if(service_name==="1097")
-    {
+    if (service_name === "1097") {
       this.clr();
     }
   }
@@ -545,7 +535,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
 
   checkProviderNameAvailibilityHandeler(response) {
     console.log(response.response, 'provider name availability');
-    if (response.response == 'provider_name_exists') {
+    if (response.response === 'provider_name_exists') {
       this.providerNameExist = true;
     } else {
       this.providerNameExist = false;
@@ -701,8 +691,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     );
   }
 
-  clr()
-  {
+  clr() {
     /*do not delete...needs discussion---START*/
     // this.servicelines=this.servicelines_copy;
   }
