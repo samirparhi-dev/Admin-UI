@@ -18,7 +18,7 @@ export class loginContentClass {
 	constructor(public loginservice: loginService, public router: Router, public dataSettingService: dataService) { };
 
 	login(userId: any, password: any) {
-		console.log(userId, password);
+		// console.log(userId, password);
 		if (userId.toLowerCase() === "SUPERADMIN".toLowerCase()) {
 			this.loginservice.superAdminAuthenticate(userId, password)
 				.subscribe(response => {
