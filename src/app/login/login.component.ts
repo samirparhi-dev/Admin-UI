@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { loginService } from '../services/loginService/login.service';
 import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
@@ -10,12 +10,22 @@ import { Router } from '@angular/router';
 	styleUrls: ['./login.css']
 })
 
-export class loginContentClass {
+export class loginContentClass implements OnInit {
 	model: any = {};
 	userID: any;
 	password: any;
+	serviceProviderID: any;
+	status: any;
 	public loginResult: string;
-	constructor(public loginservice: loginService, public router: Router, public dataSettingService: dataService) { };
+	constructor(public loginservice: loginService,
+		public router: Router,
+		public dataSettingService: dataService) { };
+
+	ngOnInit() {
+		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+		//Add 'implements OnInit' to the class.
+
+	}
 
 	login(userId: any, password: any) {
 		// console.log(userId, password);
@@ -79,6 +89,7 @@ export class loginContentClass {
 			this.router.navigate(['/MultiRoleScreenComponent']);
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
+			this.status = 'new';
 			localStorage.setItem('authToken', response.key);
 			this.router.navigate(['/setQuestions']);
 		}
@@ -108,6 +119,7 @@ export class loginContentClass {
 		console.log("service provider map id", response);
 		if (response != undefined) {
 			this.dataSettingService.service_providerID = response.serviceProviderID;
+			this.serviceProviderID = response.serviceProviderID;
 		}
 		else {
 			alert("Service Provider MAP ID is not fetched, undefined");

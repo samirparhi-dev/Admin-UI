@@ -37,7 +37,7 @@
       
     </form>
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
-      <button md-raised-button [disabled]="!form.valid" class="m-r-10 m-l-10 pull-right" color="primary" (click)="addCampaign(service_provider,serviceline,campaign)">Add</button>
+      <button md-raised-button [disabled]="form.invalid || campaignList.length>0" class="m-r-10 m-l-10 pull-right" color="primary" (click)="addCampaign(service_provider,serviceline,campaign)">Add</button>
       <button md-raised-button class=" pull-right m-l-10 m-r-10" color="primary" (click)="resetForm()">Reset</button>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="campaignList.length>0">

@@ -42,7 +42,7 @@ export class CallServices {
   }
 
   addCampaign(campaignObj) {
-    return this._http.post(this._addCampaign, campaignObj).map(this.extractData).catch(this.handleError);
+    return this._httpInterceptor.post(this._addCampaign, campaignObj).map(this.extractData).catch(this.handleError);
   }
   private extractData(res: Response) {
     console.log('after updation', res);

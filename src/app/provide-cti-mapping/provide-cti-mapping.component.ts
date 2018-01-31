@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { CallServices } from './../services/callservices/callservice.service';
+import { NgForm } from '@angular/forms';
+
 declare var jQuery: any;
 
 
@@ -21,6 +23,9 @@ export class ProvideCtiMappingComponent implements OnInit {
   campaign: any;
   campaignList: any = [];
 
+  @ViewChild('form') mapping_form: NgForm;
+
+
   constructor(private block_provider: BlockProvider, private message: ConfirmationDialogsService, private _callServices: CallServices) { }
 
   ngOnInit() {
@@ -36,7 +41,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
   getServicesInState(serviceProviderID, stateID) {
     this.block_provider.getServicesInState(serviceProviderID.serviceProviderId, stateID)
-    .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
+      .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
   }
   getCampaign(service_provider, state, serviceline) {
     this._callServices.getCapmaign(serviceline.serviceName).subscribe((res) => {
@@ -55,7 +60,6 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.services_array = response;
   }
   addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
-    debugger;
     let campignObj = {};
     campignObj['providerName'] = serviceProvider.serviceProviderName;
     campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
@@ -69,14 +73,16 @@ export class ProvideCtiMappingComponent implements OnInit {
       this.campaignList.push(campignObj);
     }
 
+    this.mapping_form.reset();
+
   }
   filterArray(array: any) {
     const o = {};
     return array = array
-    .filter((thing, index, self) => self
-            .findIndex((t) => {
-              return t.providerServiceMapID === thing.providerServiceMapID;
-            }) === index)
+      .filter((thing, index, self) => self
+        .findIndex((t) => {
+          return t.providerServiceMapID === thing.providerServiceMapID;
+        }) === index)
   }
   deleteRow(index) {
     this.campaignList.splice(index, 1);
@@ -90,6 +96,9 @@ export class ProvideCtiMappingComponent implements OnInit {
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
       this.message.alert(res.response);
+      this.mapping_form.reset();
+      this.campaignList = [];
+
       // if (res.response === 'mappedSuccessFully') {
       //   this.message.alert('Successfully Added');
       // } else {
@@ -99,16 +108,15 @@ export class ProvideCtiMappingComponent implements OnInit {
 
     })
   }
-  resetForm() 
-  {
+  resetForm() {
     // this.message.confirm('Are you sure want to reset?').subscribe((response) => {
     //   if (response) {
-      jQuery('#myForm').trigger('reset');
-      this.states_array = [];
-      this.services_array = [];
-      this.campaign_array=[];
+    jQuery('#myForm').trigger('reset');
+    this.states_array = [];
+    this.services_array = [];
+    this.campaign_array = [];
 
-      this.campaignList=[];
+    this.campaignList = [];
     //   }
 
     // }, (err) => { });
