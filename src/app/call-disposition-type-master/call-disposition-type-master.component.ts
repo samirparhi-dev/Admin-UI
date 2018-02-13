@@ -21,8 +21,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	callType: any;
 	callSubType: any;
-	fitToBlock: boolean=false;
-	fitForFollowup: boolean=false;
+	fitToBlock: boolean = false;
+	fitForFollowup: boolean = false;
 
 
 	// api related 
@@ -36,19 +36,19 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	provider_states: any = [];
 	provider_services: any = [];
 
-	
+
 
 	// flags
 	showTable: boolean;
 	showForm: boolean;
-	showCallType : boolean = false;
-	tempCorrespondingSubCallType : any = [];
-	subCallTypeExist : boolean = false;
+	showCallType: boolean = false;
+	tempCorrespondingSubCallType: any = [];
+	subCallTypeExist: boolean = false;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService, private alertService: ConfirmationDialogsService,
-	            public commonDataService: dataService, public dialog: MdDialog) {
+		public commonDataService: dataService, public dialog: MdDialog) {
 		this.data = [];
-		this.service_provider_id =this.commonDataService.service_providerID;
+		this.service_provider_id = this.commonDataService.service_providerID;
 		this.providerServiceMapID = "";
 
 		this.showTable = false;
@@ -56,13 +56,13 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.callTypeSubtypeService.getStates(this.service_provider_id).subscribe(response=>this.getStatesSuccessHandeler(response));
+		this.callTypeSubtypeService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
 
 		this.request_array = [];
-		this.request_object={
+		this.request_object = {
 			"callGroupType": "",
 			"callType1": [],
-			
+
 			// "callTypeDesc": "call type desc 1",
 			// "fitToBlock": "1",
 			// "fitForFollowup": "1",
@@ -71,19 +71,18 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	// data getters and setters for the component
-	getServices(stateID)
-	{
+	getServices(stateID) {
 		this.showTable = false;
-		this.callTypeSubtypeService.getServices(this.service_provider_id,stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+		this.callTypeSubtypeService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
 	}
 
-	setProviderServiceMapID(providerServiceMapID){
+	setProviderServiceMapID(providerServiceMapID) {
 		this.providerServiceMapID = providerServiceMapID;
 		this.get_calltype_subtype_history();
 
 	}
 	disableSelect: boolean = false;
-	hideTable(flag) {	
+	hideTable(flag) {
 
 		this.disableSelect = flag;
 		this.showTable = !flag;
@@ -98,65 +97,85 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.temporarySubtypeArray = [];
 	}
 
-	hideForm()
-	{
+	hideForm() {
 		this.showTable = true;
 		this.showForm = false;
 	}
 
-	reset()
-	{
+	reset() {
 		this.callSubType = "";
 		this.temporarySubtypeArray = [];
-		this.fitToBlock=false;
-		this.fitForFollowup= false;
+		this.fitToBlock = false;
+		this.fitForFollowup = false;
+		this.isInbound = false;
+		this.isOutbound = false;
 	}
 
-	pushCallSubType(callType,call_subtype, fitToBlock, fitForFollowup)
-	{
-		if(call_subtype.trim().length>0)
-		{
-			let obj={
-				"callGroupType": callType,
-				"callType": call_subtype,
-				"providerServiceMapID":this.providerServiceMapID,
-				"callTypeDesc": call_subtype,
-				"fitToBlock": fitToBlock,
-				"fitForFollowup": fitForFollowup,
-				"createdBy": this.commonDataService.uname
-			}
-			console.log('dummy obj', obj);
+	isInbound = false;
+	isOutbound = false;
+	setIsInbound(ev) {
+		console.log(ev, "INBOUND CHECKBOX");
+		this.isInbound = ev.checked;
+	}
 
-			// resetting fields
-			this.temporarySubtypeArray.push(obj);
-			this.callSubType = "";
+	setIsOutbound(ev) {
+		console.log(ev, "OUTBOUND CHECKBOX");
+		this.isOutbound = ev.checked;
+	}
+
+	pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
+		if (this.isInbound === false && this.isOutbound === false) {
+			this.alertService.alert('Select checkbox Inbound/Outbound/Both');
 			this.fitToBlock = false;
 			this.fitForFollowup = false;
+			this.isInbound = false;
+			this.isOutbound = false;
 		}
+		else {
+			if (call_subtype.trim().length > 0) {
+				let obj = {
+					"callGroupType": callType,
+					"callType": call_subtype,
+					"providerServiceMapID": this.providerServiceMapID,
+					"callTypeDesc": call_subtype,
+					"fitToBlock": fitToBlock,
+					"fitForFollowup": fitForFollowup,
+					"isInbound": this.isInbound,
+					"isOutbound": this.isOutbound,
+					"createdBy": this.commonDataService.uname
+				}
+				console.log('dummy obj', obj);
+
+				// resetting fields
+				this.temporarySubtypeArray.push(obj);
+				this.callSubType = "";
+				this.fitToBlock = false;
+				this.fitForFollowup = false;
+				this.isInbound = false;
+				this.isOutbound = false;
+			}
+		}
+
 
 	}
 
-	removeFromCallSubType(index)
-	{
+	removeFromCallSubType(index) {
 		this.temporarySubtypeArray.splice(index, 1);
 		console.log(this.temporarySubtypeArray);
 	}
 
-	save()
-	{
-		this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray).subscribe(response=>this.saveCallTypeSubTypeSuccessHandeler(response));
+	save() {
+		this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray).subscribe(response => this.saveCallTypeSubTypeSuccessHandeler(response));
 	}
 
-	
+
 	// CRUD
-	get_calltype_subtype_history()
-	{
+	get_calltype_subtype_history() {
 		this.showTable = true;
 		this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID).subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response));
 	}
 
-	getCallTypeSubTypeSuccessHandeler(response)
-	{
+	getCallTypeSubTypeSuccessHandeler(response) {
 		console.log("call type subtype history", response);
 		this.data = response;
 
@@ -167,38 +186,35 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	// successhandelers
 
-	getStatesSuccessHandeler(response)
-	{
+	getStatesSuccessHandeler(response) {
 		this.provider_states = response;
 	}
 
 	getServicesSuccessHandeler(response) {
 
 		this.service = "";
-		this.provider_services = response.filter(function(obj){
+		this.provider_services = response.filter(function (obj) {
 			return obj.serviceID == 1 || obj.serviceID == 3;
 		});
 
-		if(this.provider_services.length==0)
-		{
+		if (this.provider_services.length == 0) {
 			this.alertService.alert("104 & 1097 are not working in this state");
 		}
 	}
 
-	
 
-	saveCallTypeSubTypeSuccessHandeler(response)
-	{
+
+	saveCallTypeSubTypeSuccessHandeler(response) {
 		console.log(response, "save call type sub type success");
 		this.alertService.alert("Saved Call type/Sub type successfully");
 		this.hideTable(false) // going back to table view
-		
+
 		// resetting the ngmodels  
 		this.reset();
 		this.callType = "";
 		this.request_array = [];
 
-		
+
 		this.get_calltype_subtype_history(); // refreshing the table contents
 
 	}
@@ -207,18 +223,18 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.tempCorrespondingSubCallType = [];
 		this.callSubType = "";
 		this.showCallType = true;
-		this.tempCorrespondingSubCallType = this.data.filter(function(obj){
+		this.tempCorrespondingSubCallType = this.data.filter(function (obj) {
 			return obj.callGroupType == callType;
 		});
 		console.log(this.data);
 		console.log(this.tempCorrespondingSubCallType);
 	}
 	callSubTypes(value) {
-		
-		let a:boolean=false;
-		let b:boolean=false;
-		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
-			if(value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+
+		let a: boolean = false;
+		let b: boolean = false;
+		for (var i = 0; i < this.tempCorrespondingSubCallType.length; i++) {
+			if (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
 				a = true;
 				break;
@@ -227,8 +243,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				a = false;
 			}
 		}
-		for(var i=0; i<this.temporarySubtypeArray.length; i++) {
-			if(value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
+		for (var i = 0; i < this.temporarySubtypeArray.length; i++) {
+			if (value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
 				b = true;
 				break;
@@ -237,60 +253,55 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				b = false;
 			}
 		}
-		if(a == false && b == false) {
+		if (a == false && b == false) {
 			this.subCallTypeExist = false;
 		}
 	}
 	fitToBlocks(flag) {
-		if(flag) {
+		if (flag) {
 			this.fitForFollowup = false;
 		}
 	}
 	fitForFollowups(flag) {
-		if(flag) {
+		if (flag) {
 			this.fitToBlock = false;
 		}
 	}
-	deleteSubCallType(callTypeID,flag) {
-		if(flag===true)
-		{
-			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response=>{
-				if(response)
-				{
+	deleteSubCallType(callTypeID, flag) {
+		if (flag === true) {
+			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response => {
+				if (response) {
 					let obj = {
 						"callTypeID": callTypeID,
 						"deleted": flag
 					}
 					console.log(obj);
-					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Deactivated"));
+					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response => this.deletedSuccess(response, "Deactivated"));
 				}
 			});
 		}
-		if(flag===false)
-		{
-			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response=>{
-				if(response)
-				{
+		if (flag === false) {
+			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response => {
+				if (response) {
 					let obj = {
 						"callTypeID": callTypeID,
 						"deleted": flag
 					}
 					console.log(obj);
-					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response=>this.deletedSuccess(response,"Activated"));
+					this.callTypeSubtypeService.deleteSubCallType(obj).subscribe(response => this.deletedSuccess(response, "Activated"));
 				}
 			});
 		}
-		
+
 
 	}
-	deletedSuccess(res,action) {
-		if(res)
-		{
-			this.alertService.alert(action+" Successfully");
+	deletedSuccess(res, action) {
+		if (res) {
+			this.alertService.alert(action + " Successfully");
 			this.get_calltype_subtype_history();
 			console.log(res);
 		}
-		
+
 	}
 
 	editCallDisposition(obj) {
@@ -303,7 +314,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			data: obj
 
 		});
-		dialogReff.afterClosed().subscribe(()=>{
+		dialogReff.afterClosed().subscribe(() => {
 			this.alertService.alert("Edited Call type/Sub type Successfully");
 			this.get_calltype_subtype_history();
 		});
@@ -329,10 +340,10 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 })
 export class EditCallType {
 	constructor( @Inject(MD_DIALOG_DATA) public data: any,
-	            public dialog: MdDialog,
-	            public callTypeSubtypeService: CallTypeSubtypeService,
-	            public commonDataService:dataService,
-	            public dialogReff: MdDialogRef<EditCallType>) { }
+		public dialog: MdDialog,
+		public callTypeSubtypeService: CallTypeSubtypeService,
+		public commonDataService: dataService,
+		public dialogReff: MdDialogRef<EditCallType>) { }
 
 	callType: any;
 	callSubType: any;
@@ -340,9 +351,9 @@ export class EditCallType {
 	fitForFollowup: any;
 	service: any;
 
-	providerServiceMapID:any;
-	existingName:any;
-	subCallTypeExist:boolean=false;
+	providerServiceMapID: any;
+	existingName: any;
+	subCallTypeExist: boolean = false;
 
 	ngOnInit() {
 
@@ -353,71 +364,69 @@ export class EditCallType {
 		this.fitToBlock = this.data.fitToBlock;
 		this.fitForFollowup = this.data.fitForFollowup;
 
-		this.providerServiceMapID=this.data.providerServiceMapID;
-		this.existingName=this.data.callType;
+		this.providerServiceMapID = this.data.providerServiceMapID;
+		this.existingName = this.data.callType;
 
 		this.get_calltype_subtype_history();
-		
+
 	}
 
 
 	CTS(callType) {
 		this.tempCorrespondingSubCallType = [];
-		this.tempCorrespondingSubCallType = this.tableData.filter(function(obj){
+		this.tempCorrespondingSubCallType = this.tableData.filter(function (obj) {
 			return obj.callGroupType == callType;
 		});
 
-		console.log(this.tempCorrespondingSubCallType,"array to check dupes from");
+		console.log(this.tempCorrespondingSubCallType, "array to check dupes from");
 	}
 
 
-	tableData:any=[];
-	get_calltype_subtype_history()
-	{
+	tableData: any = [];
+	get_calltype_subtype_history() {
 		this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID).subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response));
 	}
 
-	getCallTypeSubTypeSuccessHandeler(response)
-	{
+	getCallTypeSubTypeSuccessHandeler(response) {
 		console.log("call type subtype history", response);
 		this.tableData = response;
 		console.log(this.tableData);
 
 		this.CTS(this.data.callGroupType);
 
-		
+
 	}
 
 
 	fitToBlocks(flag) {
-		if(flag) {
+		if (flag) {
 			this.fitForFollowup = false;
 		}
 	}
 	fitForFollowups(flag) {
-		if(flag) {
+		if (flag) {
 			this.fitToBlock = false;
 		}
 	}
 
 	/**/
-	tempCorrespondingSubCallType:any=[];
+	tempCorrespondingSubCallType: any = [];
 	callTypeSelected(callType) {
 		this.tempCorrespondingSubCallType = [];
 		this.callSubType = "";
-		this.tempCorrespondingSubCallType = this.tableData.filter(function(obj){
+		this.tempCorrespondingSubCallType = this.tableData.filter(function (obj) {
 			return obj.callGroupType == callType;
 		});
 
-		console.log(this.tempCorrespondingSubCallType,"array to check dupes from");
+		console.log(this.tempCorrespondingSubCallType, "array to check dupes from");
 	}
 
 	validateCallSubtype(value) {
-		
-		let a:boolean=false;
-		let b:boolean=false;
-		for(var i=0; i<this.tempCorrespondingSubCallType.length; i++) {
-			if(value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+
+		let a: boolean = false;
+		let b: boolean = false;
+		for (var i = 0; i < this.tempCorrespondingSubCallType.length; i++) {
+			if (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
 				this.subCallTypeExist = true;
 				a = true;
 				break;
@@ -436,15 +445,13 @@ export class EditCallType {
 		// 		b = false;
 		// 	}
 		// }
-		if(a == false) {
+		if (a == false) {
 			this.subCallTypeExist = false;
 		}
-		if(value.trim().length==0)
-		{
+		if (value.trim().length == 0) {
 			this.subCallTypeExist = true;
 		}
-		if(value.trim().toLowerCase()===this.existingName.toLowerCase())
-		{
+		if (value.trim().toLowerCase() === this.existingName.toLowerCase()) {
 			this.subCallTypeExist = false;
 		}
 	}
@@ -462,25 +469,24 @@ export class EditCallType {
 
 	modify(value) {
 		console.log(value);
-		let object = 	{  
-			"callTypeID" : this.data.callTypeID,
-			"callGroupType" : value.callType,
-			"callType" : value.callSubType.trim(),
-			"providerServiceMapID" : this.data.providerServiceMapID,
-			"callTypeDesc" : value.callType,
-			"fitToBlock" : value.fitToBlock,
-			"fitForFollowup" : value.fitForFollowup,
-			"createdBy":this.commonDataService.uname
+		let object = {
+			"callTypeID": this.data.callTypeID,
+			"callGroupType": value.callType,
+			"callType": value.callSubType.trim(),
+			"providerServiceMapID": this.data.providerServiceMapID,
+			"callTypeDesc": value.callType,
+			"fitToBlock": value.fitToBlock,
+			"fitForFollowup": value.fitForFollowup,
+			"createdBy": this.commonDataService.uname
 
 		}
-		this.callTypeSubtypeService.modificallType(object).subscribe(response=>this.modifySuccess(response));
+		this.callTypeSubtypeService.modificallType(object).subscribe(response => this.modifySuccess(response));
 
 	}
 
 	modifySuccess(res) {
-		if(res)
-		{
-		this.dialogReff.close();
+		if (res) {
+			this.dialogReff.close();
 		}
 	}
 }

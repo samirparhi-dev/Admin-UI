@@ -36,6 +36,8 @@
             <!--<th>ID</th>-->
             <th>Call Type</th>
             <th>Call Subtype </th>
+            <th>Is Inbound</th>
+            <th>Is Outbound</th>
             <th>Blocking Required</th>
             <th>FollowUp Required</th>
             <th>Actions</th>
@@ -43,17 +45,19 @@
         </thead>
         <tbody>
           <tr *ngIf="data.length == 0 ">
-            <td colspan="5">
+            <td colspan="7">
               No Records Found
             </td>
           </tr>
           <tr *ngFor="let i of md2.data">
             <!--<td>{{i.callTypeID}}</td>-->
-            <td width=20%>{{i.callGroupType}}</td>
-            <td width=20%>{{i.callType}}</td>
-            <td width=20%>{{i.fitToBlock}}</td>
-            <td width=20%>{{i.fitForFollowup}}</td>
-            <td width=20%>
+            <td width=10%>{{i.callGroupType}}</td>
+            <td width=15%>{{i.callType}}</td>
+            <td width=15%>{{i.isInbound}}</td>
+            <td width=15%>{{i.isOutbound}}</td>
+            <td width=15%>{{i.fitToBlock}}</td>
+            <td width=15%>{{i.fitForFollowup}}</td>
+            <td width=15%>
               <span [hidden]="i.deleted"><md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon></span>
               <!--                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon> -->
               <button *ngIf="i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
@@ -63,10 +67,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="2">
+            <td colspan="3">
               <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
             </td>
           </tr>
@@ -79,6 +83,14 @@
   </div>
   <!-- <div class="m-t-10" *ngIf="showForm"> -->
     <div class="row m-t-10" *ngIf="showForm">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-10">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">      
+        <md-checkbox color="primary" [(ngModel)]="isInbound" (change)="setIsInbound($event)" #isInboundCheckbox>Is-Inbound</md-checkbox>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">     
+        <md-checkbox color="primary" [(ngModel)]="isOutbound" (change)="setIsOutbound($event)" #isOutboundCheckbox>Is-Outbound</md-checkbox>
+      </div>
+</div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
         <form #callTypeSubCallType="ngForm" autocomplete="off" id="addingSubTypes">
           <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 m-t-30">
@@ -99,9 +111,9 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
             <md-input-container style="width: 100% ">
-              <input mdInput placeholder="Call SubType" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
+              <input mdInput placeholder="Call Subtype" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
               <md-hint class="errorText" *ngIf="subCallTypeExist">
-                This sub call type exist for this service & call Type
+                This sub call type exist for this service & call type
               </md-hint>
             </md-input-container>
           </div>
@@ -109,31 +121,31 @@
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40">
           <label class="f-s-n-b">Fit To Block</label>
           <md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)">
-            <md-radio-button color="primary" [value]="true">YES</md-radio-button>
-            <md-radio-button color="primary" [value]="false">NO</md-radio-button>
+            <md-radio-button color="primary" [value]="true">Yes</md-radio-button>
+            <md-radio-button color="primary" [value]="false">No</md-radio-button>
           </md-radio-group>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-40">
           <label class="f-s-n-b">Fit For FollowUp</label>
           <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
-            <md-radio-button color="primary" [value]="true">YES</md-radio-button>
-            <md-radio-button color="primary" [value]="false">NO</md-radio-button>
+            <md-radio-button color="primary" [value]="true">Yes</md-radio-button>
+            <md-radio-button color="primary" [value]="false">No</md-radio-button>
           </md-radio-group>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 m-t-15" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">
-          <button class="m-t-10 pull-right" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock,fitForFollowup);callTypeSubCallType.reset()">
+         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 m-t-15" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">   <!-- && (isInbound || isOutbound) --> 
+           <button class="m-t-10 pull-right" md-mini-fab color="primary" (click)="pushCallSubType(callType,callSubType,fitToBlock,fitForFollowup);callTypeSubCallType.reset()"> 
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
         <div *ngFor="let item of temporarySubtypeArray;let i=index " class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-1">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
             <md-chip-list>
               <md-chip color="accent" selected="true">{{item.callGroupType}}</md-chip>
             </md-chip-list>
           </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-1">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
             <md-chip-list>
               <md-chip color="accent" selected="true">{{item.callType}}</md-chip>
             </md-chip-list>
@@ -151,6 +163,18 @@
             </div>
           </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="col-lg-6">
+              <md-chip-list>
+                <md-chip color="accent" selected="true">Inbound:{{item.isInbound}}</md-chip>
+              </md-chip-list>
+            </div>
+            <div class="col-lg-6">
+              <md-chip-list>
+                <md-chip color="accent" selected="true">Outbound:{{item.isOutbound}}</md-chip>
+              </md-chip-list>
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
             <button md-mini-fab color="primary" (click)="removeFromCallSubType(i)">
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
             </button>
