@@ -25,20 +25,26 @@
  				</md-input-container>
  			</div>
  		
- 		<div class="col-xs-12 col-sm-3 col-md-12 col-lg-12 m-t-40">
+ 		<div class="col-xs-12 col-sm-3 col-md-12 col-lg-12 m-t-20">
  			<label class="f-s-n-b">Fit To Block</label>
  			<md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)" name="fitToBlock">
  				<md-radio-button  color="primary"  [value]="true">YES</md-radio-button>
  				<md-radio-button  color="primary"  [value]="false">NO</md-radio-button>
  			</md-radio-group>
  		</div>
- 		<div class="col-xs-12 col-sm-3 col-md-12 col-lg-12 m-t-40">
+ 		<div class="col-xs-12 col-sm-3 col-md-12 col-lg-12 m-t-20">
  			<label class="f-s-n-b">Fit For FollowUp</label>
  			<md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)" name="fitForFollowup">
  				<md-radio-button color="primary" [value]="true">YES</md-radio-button>
  				<md-radio-button color="primary" [value]="false">NO</md-radio-button>
  			</md-radio-group>
- 		</div>
+		 </div>
+		 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">      
+        <md-checkbox color="primary" [(ngModel)]="isInbound" name="IB" (change)="setIsInbound($event)" #isInboundCheckbox>Is-Inbound</md-checkbox>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">     
+        <md-checkbox color="primary" [(ngModel)]="isOutbound" name="OB" (change)="setIsOutbound($event)" #isOutboundCheckbox>Is-Outbound</md-checkbox>
+      </div>
  		</form>
  	</div>
 

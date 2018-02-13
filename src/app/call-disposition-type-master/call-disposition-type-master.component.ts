@@ -315,7 +315,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		});
 		dialogReff.afterClosed().subscribe(() => {
-			this.alertService.alert("Edited Call type/Sub type Successfully");
+
 			this.get_calltype_subtype_history();
 		});
 		// this.disableSelect = true;
@@ -343,7 +343,8 @@ export class EditCallType {
 		public dialog: MdDialog,
 		public callTypeSubtypeService: CallTypeSubtypeService,
 		public commonDataService: dataService,
-		public dialogReff: MdDialogRef<EditCallType>) { }
+		public dialogReff: MdDialogRef<EditCallType>,
+		private alertService: ConfirmationDialogsService) { }
 
 	callType: any;
 	callSubType: any;
@@ -354,6 +355,10 @@ export class EditCallType {
 	providerServiceMapID: any;
 	existingName: any;
 	subCallTypeExist: boolean = false;
+
+	isInbound: boolean;
+	isOutbound: boolean;
+
 
 	ngOnInit() {
 
@@ -366,9 +371,21 @@ export class EditCallType {
 
 		this.providerServiceMapID = this.data.providerServiceMapID;
 		this.existingName = this.data.callType;
+		this.isInbound = this.data.isInbound;
+		this.isOutbound = this.data.isOutbound;
 
 		this.get_calltype_subtype_history();
 
+	}
+
+	setIsInbound(ev) {
+		console.log(ev, "INBOUND CHECKBOX");
+		this.isInbound = ev.checked;
+	}
+
+	setIsOutbound(ev) {
+		console.log(ev, "OUTBOUND CHECKBOX");
+		this.isOutbound = ev.checked;
 	}
 
 
@@ -469,23 +486,30 @@ export class EditCallType {
 
 	modify(value) {
 		console.log(value);
-		let object = {
-			"callTypeID": this.data.callTypeID,
-			"callGroupType": value.callType,
-			"callType": value.callSubType.trim(),
-			"providerServiceMapID": this.data.providerServiceMapID,
-			"callTypeDesc": value.callType,
-			"fitToBlock": value.fitToBlock,
-			"fitForFollowup": value.fitForFollowup,
-			"createdBy": this.commonDataService.uname
-
+		if (this.isInbound === false && this.isOutbound === false) {
+			this.alertService.alert('Select checkbox Inbound/Outbound/Both');
 		}
-		this.callTypeSubtypeService.modificallType(object).subscribe(response => this.modifySuccess(response));
+		else {
+			let object = {
+				"callTypeID": this.data.callTypeID,
+				"callGroupType": value.callType,
+				"callType": value.callSubType.trim(),
+				"providerServiceMapID": this.data.providerServiceMapID,
+				"callTypeDesc": value.callType,
+				"fitToBlock": value.fitToBlock,
+				"fitForFollowup": value.fitForFollowup,
+				"isInbound": this.isInbound,
+				"isOutbound": this.isOutbound,
+				"createdBy": this.commonDataService.uname
 
+			}
+			this.callTypeSubtypeService.modificallType(object).subscribe(response => this.modifySuccess(response));
+		}
 	}
 
 	modifySuccess(res) {
 		if (res) {
+			this.alertService.alert("Edited Call type/Sub type Successfully");
 			this.dialogReff.close();
 		}
 	}
