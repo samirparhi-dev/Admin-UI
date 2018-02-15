@@ -2,7 +2,58 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h4>Procedure Master</h4>
-
+            <div class="m-t-10" [formGroup]='procedureForm'>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <!-- <md-form-field [style.width]=" '100%' ">
+                            <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
+                        </md-form-field> -->
+                        <md-input-container style="width: 100% ">
+                            <input id="procedure-name" mdInput placeholder="Procedure/ Test Name" [style.width]="'100%'" formControlName="name" maxlength="99">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+                        <md-select id="procedure-type" placeholder="Procedure Type" [style.width]="'100%'" formControlName="type">
+                            <md-option value="Radiology">
+                                Radiology
+                            </md-option>
+                            <md-option value="Laboratory">
+                                Laboratory
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
+                        Gender
+                        <div>
+                            <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
+                            <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 m-t-15">
+                        <md-input-container [style.width]="'100%'">
+                            <textarea mdInput mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description" maxlength="99"></textarea>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div class="row m-t-20" style="margin-bottom:30px;">
+                    <div class="col-sm-12 step-btn" align="right">
+                        <button id="updateButton" md-raised-button color="accent" (click)="saveProcedure()">Save</button>
+                        <button id="SaveButton" md-raised-button color="primary" (click)="updateProcedure()">Update</button>
+                        <button md-raised-button id="disableButton" color='primary' *ngIf="procedureForm.value.disable == false" (click)="disableProcedure()">Disable</button>
+                        <button md-raised-button id="enableButton" color='primary' *ngIf="procedureForm.value.disable == true" (click)="enableProcedure()">Enable</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            sss
+            <button (click)="score()">click</button>
         </div>
     </div>
 </md-card>
