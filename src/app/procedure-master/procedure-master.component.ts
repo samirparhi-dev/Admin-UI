@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { ProcedureMasterServiceService } from '../services/ProviderAdminServices/procedure-master-service.service';
+import { dataService } from '../services/dataService/data.service';
+import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
+import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 
 @Component({
   selector: 'app-procedure-master',
@@ -8,15 +12,37 @@ import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@ang
 })
 export class ProcedureMasterComponent implements OnInit {
 
+  state: any;
+  service: any;
+
+  states: any;
+  services: any;
+  disableSelection: boolean = false;
+  
+  editMode: boolean = false;
+  serviceProviderID: any;
+
+  STATE_ID: any;
+  SERVICE_ID: any;
+  providerServiceMapID: any;
+  unfilled: Boolean = false;
   editProcedure: any;
   procedureForm: FormGroup;
+  procedureList: any;
 
-  constructor(private fb: FormBuilder) { }
+
+  constructor(private commonDataService: dataService,
+    private fb: FormBuilder,
+    public providerAdminRoleService: ProviderAdminRoleService,
+    private procedureMasterServiceService: ProcedureMasterServiceService) {
+    this.states = [];
+    this.services = [];
+
+    }
 
   ngOnInit() {
 
     this.initiateForm();
-    this.getAvailableProcedures();
     console.log(this.procedureForm)
   }
   /**
@@ -28,6 +54,13 @@ export class ProcedureMasterComponent implements OnInit {
     this.procedureForm.patchValue({
       disable: false
     })
+    this.procedureList = [];
+
+    // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
+    this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+
+    this.providerAdminRoleService.getStates(this.serviceProviderID)
+    .subscribe(response => this.states = this.successhandeler(response));
 
   }
 
@@ -47,15 +80,21 @@ export class ProcedureMasterComponent implements OnInit {
   */
   getAvailableProcedures() {
 
-  }
+    this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
+    .subscribe((res) => { this.procedureList = this.successhandeler(res)});
 
-  score() {
-    console.log(this.procedureForm.value)
   }
-
 
   saveProcedure() {
     const apiObject = this.objectManipulate();
+    if (apiObject) {
+
+      this.procedureMasterServiceService.postProcedureData(apiObject)
+      .subscribe((res) => {
+        this.procedureList.unshift(res)
+      })
+
+    }
   }
 
   /**
@@ -66,64 +105,113 @@ export class ProcedureMasterComponent implements OnInit {
 
   }
 
-  /**
-   * Disable the Procedure for Doctor
-  */
-  disableProcedure() {
-
-    this.procedureForm.patchValue({
-      disable: true
-    })
-
-  }
-  /**
-   * Enable the Procedure for Doctor
-  */
-  enableProcedure() {
-    this.procedureForm.patchValue({
-      disable: false
-    })
-  }
+ 
 
   /**
    * Manipulate Form Object to as per API Need
   */
   objectManipulate() {
     const obj = Object.assign({}, this.procedureForm.value);
-    let apiObject = {};
-    console.log(obj.male, 'obj');
-    if (obj.male && obj.female) {
-      apiObject = {
-        name: obj.name,
-        type: obj.type,
-        description: obj.description,
-        disable: obj.disable,
-        gender: 'Unisex'
-      };
-    } else if (obj.male && !obj.female) {
-      apiObject = {
-        name: obj.name,
-        type: obj.type,
-        description: obj.description,
-        disable: obj.disable,
-        gender: 'Male'
-      };
-    } else if (!obj.male && obj.female ) {
-      apiObject = {
-        name: obj.name,
-        type: obj.type,
-        description: obj.description,
-        disable: obj.disable,
-        gender: 'Female'
-      };
+
+    if (!obj.name || !obj.type || !obj.description || (!obj.male && !obj.female)) {
+      this.unfilled = true;
+      return false
+    } else {
+      this.unfilled = false;
+
+      let apiObject = {};
+
+
+      console.log(obj.male, 'obj');
+      if (obj.male && obj.female) {
+        apiObject = {
+          procedureName: obj.name,
+          procedureType: obj.type,
+          procedureDesc: obj.description,
+          createdBy: this.commonDataService.uname,
+          providerServiceMapID: this.commonDataService.provider_serviceMapID,
+          gender: 'Unisex'
+        };
+      } else if (obj.male && !obj.female) {
+        apiObject = {
+          procedureName: obj.name,
+          procedureType: obj.type,
+          procedureDesc: obj.description,
+          createdBy: this.commonDataService.uname,
+          providerServiceMapID: this.commonDataService.provider_serviceMapID,
+          gender: 'Male'
+        };
+      } else if (!obj.male && obj.female) {
+        apiObject = {
+          procedureName: obj.name,
+          procedureType: obj.type,
+          procedureDesc: obj.description,
+          createdBy: this.commonDataService.uname,
+          providerServiceMapID: this.commonDataService.provider_serviceMapID ,
+          gender: 'Female'
+        };
+      }
+      console.log(apiObject, 'apiObject');
+      return apiObject;
     }
-    console.log(apiObject, 'apiObject');
-    return apiObject;
 
   }
 
 
 
+  setProviderServiceMapID(ProviderServiceMapID) {
+    this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
+    this.providerServiceMapID = ProviderServiceMapID;
+
+    console.log('psmid', ProviderServiceMapID);
+    console.log(this.service);
+    this.getAvailableProcedures();
+  }
+
+  getServices(stateID) {
+    console.log(this.serviceProviderID, stateID);
+    this.providerAdminRoleService.getServices(this.serviceProviderID, stateID)
+    .subscribe(response => this.servicesSuccesshandeler(response));
+  }
 
 
+  // For Service List
+  servicesSuccesshandeler(response) {
+    this.service = '';
+    this.services = response;
+    this.providerServiceMapID = null;
+
+  }
+// For State List
+  successhandeler(response) {
+    return response;
+  }
+
+
+
+  enableProcedure(procedureID, index) {
+
+  }
+  disableProcedure(procedureID, index) {
+
+  }
+
+  // /**
+  //   * Disable the Procedure for Doctor
+  //  */
+  // disableProcedure() {
+
+  //   this.procedureForm.patchValue({
+  //     disable: true
+  //   })
+
+  // }
+  // /**
+  //  * Enable the Procedure for Doctor
+  // */
+  // enableProcedure() {
+  //   this.procedureForm.patchValue({
+  //     disable: false
+  //   })
+  // }
 }
