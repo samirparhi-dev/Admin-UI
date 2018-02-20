@@ -30,7 +30,7 @@
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
                         <md-input-container style="width: 100% ">
-                            <input id="procedure-name" mdInput placeholder="Procedure/ Test Name" [style.width]="'100%'" formControlName="name" maxlength="99">
+                            <input id="procedure-name" mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
@@ -78,7 +78,8 @@
                         <th width="20%">Procedure Type</th>
                         <th width="15%">Gender</th>
                         <th width="30%">Description</th>
-                        <th width="10%">Created By</th>
+                        <th width="5%">Created By</th>
+                        <th width="5%"></th>
                         <th width="5%">Action</th>
                     </tr>
                 </thead>
@@ -94,15 +95,18 @@
                         <td>{{item.procedureDesc}}</td>
                         <td>{{item.createdBy}}</td>
                         <td>
-                            <button *ngIf="item.deleted" #enableButton md-raised-button color="primary" (click)="enableProcedure(item.procedureID, i)">Enable</button>
-                            <button *ngIf="!item.deleted" #disableButton md-raised-button (click)="disableProcedure(item.procedureID, i)">Disable</button>
+                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedure(item, i)">edit</md-icon>
+                        </td>
+                        <td>
+                            <button *ngIf="item.deleted" #enableButton md-raised-button color="primary" (click)="toggleProcedure(item.procedureID, i, false)">Enable</button>
+                            <button *ngIf="!item.deleted" #disableButton md-raised-button (click)="toggleProcedure(item.procedureID, i, true)">Disable</button>
 
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <md2-pagination></md2-pagination>
                         </td>
 

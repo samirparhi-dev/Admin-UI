@@ -19,7 +19,7 @@ export class ProcedureMasterComponent implements OnInit {
   services: any;
   disableSelection: boolean = false;
   
-  editMode: boolean = false;
+  editMode: any;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -66,6 +66,7 @@ export class ProcedureMasterComponent implements OnInit {
 
   initProcedureForm(): FormGroup {
     return this.fb.group({
+      id: null,
       name: null,
       type: null,
       description: null,
@@ -91,7 +92,8 @@ export class ProcedureMasterComponent implements OnInit {
 
       this.procedureMasterServiceService.postProcedureData(apiObject)
       .subscribe((res) => {
-        this.procedureList.unshift(res)
+        this.procedureList.unshift(res);
+        this.procedureForm.reset();
       })
 
     }
@@ -188,13 +190,55 @@ export class ProcedureMasterComponent implements OnInit {
   }
 
 
-
-  enableProcedure(procedureID, index) {
+  /**
+   *Enable/ Disable Procedure
+   *
+   */
+  toggleProcedure(procedureID, index, toggle) {
+    console.log(procedureID, index , 'index');
+    this.procedureMasterServiceService.toggleProcedure({procedureID: procedureID, deleted: toggle})
+      .subscribe((res) => {
+        console.log(res, 'changed');
+        if (res) {
+          this.procedureList[index] = res;
+        }
+      })
 
   }
-  disableProcedure(procedureID, index) {
+
+
+  configProcedure(item, index) {
+    let male = false;
+    let female = false;
+    if (item.gender === 'Unisex') {
+      male = true;
+      female = true;
+    } else if (item.gender === 'Male') {
+      male = true;
+    } else if (item.gender === 'Female') {
+      female = true;
+    }
+    this.editMode = index; // setting edit mode on
+
+    this.procedureForm.patchValue({
+      id: item.procedureID,
+      name: item.procedureName,
+      type: item.procedureType,
+      description: item.procedureDesc,
+      male: male,
+      female: female,
+      disable: item.deleted
+    })
+
+
 
   }
+
+
+  /**
+   * Manage Geneder String to Value
+   */
+
 
   // /**
   //   * Disable the Procedure for Doctor
