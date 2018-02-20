@@ -20,7 +20,7 @@ export class ComponentMasterComponent implements OnInit {
   services: any;
   disableSelection: boolean = false;
 
-  editMode: any;
+  editMode: any = false;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -30,7 +30,6 @@ export class ComponentMasterComponent implements OnInit {
   editProcedure: any;
   componentForm: FormGroup;
   componentList: any;
-
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
@@ -89,7 +88,10 @@ export class ComponentMasterComponent implements OnInit {
     });
   }
 
-
+  myErrorStateMatcher(control, form) {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.touched || isSubmitted));
+  }
 
 
   addID(index) {
@@ -104,7 +106,10 @@ export class ComponentMasterComponent implements OnInit {
 
   removeID(i) {
     const val = <FormArray>this.componentForm.controls['compOpt'];
-     val.removeAt(i);
+    console.log(i, val);
+    console.log(val.value);
+    val.removeAt(i);
+    //  val.removeAt(i);
   }
 
   /**
@@ -161,47 +166,66 @@ export class ComponentMasterComponent implements OnInit {
   */
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
-
-    if (!obj.name || !obj.type || !obj.description || (!obj.male && !obj.female)) {
+   
+    if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType ) {
       this.unfilled = true;
       return false
     } else {
+      if (obj.inputType == 'TextBox') {
+        if (!obj.range_max ||
+          !obj.range_min ||
+          !obj.range_normal_max ||
+          !obj.range_normal_min ||
+          !obj.measurementUnit) {
+          this.unfilled = true;
+          return false
+          } else {
+          this.unfilled = false;
+          }
+      }  else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
+         if (obj.compOpt.length < 2) {
+           this.unfilled = true;
+           return false;
+
+         }
+
+      }
       this.unfilled = false;
 
-      let apiObject = {};
+      // let apiObject = {};
 
 
-      console.log(obj.male, 'obj');
-      if (obj.male && obj.female) {
-        apiObject = {
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
-          gender: 'Unisex'
-        };
-      } else if (obj.male && !obj.female) {
-        apiObject = {
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
-          gender: 'Male'
-        };
-      } else if (!obj.male && obj.female) {
-        apiObject = {
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
-          gender: 'Female'
-        };
-      }
-      console.log(apiObject, 'apiObject');
-      return apiObject;
+      // console.log(obj.male, 'obj');
+      // if (obj.male && obj.female) {
+      //   apiObject = {
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
+      //     gender: 'Unisex'
+      //   };
+      // } else if (obj.male && !obj.female) {
+      //   apiObject = {
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
+      //     gender: 'Male'
+      //   };
+      // } else if (!obj.male && obj.female) {
+      //   apiObject = {
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
+      //     gender: 'Female'
+      //   };
+      // }
+      // console.log(apiObject, 'apiObject');
+      // return apiObject;
     }
 
   }

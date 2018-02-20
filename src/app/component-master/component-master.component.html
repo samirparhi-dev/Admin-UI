@@ -40,14 +40,17 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                         <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type">Component Input Type</label>
-                        <md-radio-group id="component-type" label="Input Type" placeholder="Input type" class="radio-group" color="primary" (change)="selected()" formControlName="inputType">
-                            <md-radio-button class="radio-button" value="RadioButton">
+                        <md-radio-group id="component-type" label="Input Type" placeholder="Input type" class="radio-group" (change)="selected()" formControlName="inputType">
+                            <md-radio-button class="radio-button" value="RadioButton" color="primary">
+
                                 Radio Button
                             </md-radio-button>
-                            <md-radio-button class="radio-button" value="TextBox">
+                            <md-radio-button class="radio-button" color="primary" value="TextBox">
+
                                 Text Box
                             </md-radio-button>
-                            <md-radio-button class="radio-button" value="DropDown">
+                            <md-radio-button color="primary" class="radio-button" value="DropDown">
+
                                 Drop Down
                             </md-radio-button>
                         </md-radio-group>
@@ -96,23 +99,25 @@
                             <h3>Component Properties</h3>
 
                         </md-card-header>
-                        <div class="container">
+                        <div>
                             <section *ngFor="let datum of componentForm.controls.compOpt['controls']; let i=index; let isLast=last;" class="row">
                                 <ng-container [formGroupName]='i'>
                                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
 
                                         <md-input-container style="width: 100% ">
-                                            <input class="values" mdInput placeholder="Component Option" formControlName="name" [style.width]="'100%'">
+                                            <input class="values" mdInput [errorStateMatcher]="myErrorStateMatcher.bind(this)" placeholder="Component Option" formControlName="name" [style.width]="'100%'">
                                         </md-input-container>
                                     </div>
-                                    <button md-mini-fab color="warn" *ngIf="componentForm.controls.compOpt.controls.length > 1 && i != 0" (click)="removeID(i);">
-            <md-icon class="md-18" aria-label="Example icon-button with a heart icon">close</md-icon>
-          </button>
+                                    <button md-mini-fab color="warn" *ngIf="componentForm.controls.compOpt['controls'].length > 1" (click)="removeID(i);">
+                    <md-icon class="md-18" aria-label="Example icon-button with a heart icon">close</md-icon>
+                  </button>
                                     <span>
-          <button md-mini-fab color="primary" *ngIf="isLast" (click)="addID(i)">
-            <md-icon class="md-18" aria-label="Example icon-button with a heart icon">add</md-icon>
-          </button>
-        </span>
+<button md-mini-fab color="primary" *ngIf="isLast" (click)="addID(i)">
+
+
+                      <md-icon class="md-18" aria-label="Example icon-button with a heart icon">add</md-icon>
+                    </button>
+                  </span>
                                 </ng-container>
                             </section>
                         </div>
@@ -121,7 +126,15 @@
 
             </div>
         </div>
+
     </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 m-t-20 step-btn" align="right">
+            <button *ngIf="!editMode" id="saveButton" md-raised-button color="primary" (click)="saveComponent()">Save</button>
+            <button *ngIf="editMode" id="updateButton" md-raised-button color="primary" (click)="updateComponent()">Update</button>
+        </div>
+    </div>
+
 </md-card>
 <!-- <md-card *ngIf="providerServiceMapID && service=='2' ">
     <div class="row ">
