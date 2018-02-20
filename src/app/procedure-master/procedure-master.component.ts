@@ -200,9 +200,21 @@ export class ProcedureMasterComponent implements OnInit {
       .subscribe((res) => {
         console.log(res, 'changed');
         if (res) {
+          this.updateList(res);
           this.procedureList[index] = res;
         }
       })
+
+  }
+
+  updateList(res) {
+    this.procedureList.forEach((element, i) => {
+      console.log(element, 'elem', res, 'res')
+      if (element.procedureID == res.procedureID) {
+        this.procedureList[i] = res;
+      }
+
+    });
 
   }
 

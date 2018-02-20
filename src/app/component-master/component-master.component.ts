@@ -49,18 +49,22 @@ export class ComponentMasterComponent implements OnInit {
    * Initiate Form
   */
   initiateForm() {
-    this.componentForm = this.initComponentForm();
     // By Default, it'll be set as enabled
+    this.componentForm = this.initComponentForm();
     this.componentForm.patchValue({
       disable: false
     })
     this.componentList = [];
-
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
 
+
     this.providerAdminRoleService.getStates(this.serviceProviderID)
-      .subscribe(response => this.states = this.successhandeler(response));
+      .subscribe(response => {
+        this.states = this.successhandeler(response);
+
+      }
+    );
 
   }
 
@@ -75,15 +79,19 @@ export class ComponentMasterComponent implements OnInit {
       range_normal_max: null,
       range_normal_min: null,
       measurementUnit: null,
+      modifiedBy: null,
+      createdBy: null,
+      providerServiceMapID: null,
       compOpt: this.fb.array([
         this.initComp()
       ]),
-      disable: null
+      deleted: null
     })
   }
 
   initComp(): FormGroup {
     return this.fb.group({
+      id: null,
       name: null
     });
   }
@@ -106,26 +114,21 @@ export class ComponentMasterComponent implements OnInit {
 
   removeID(i) {
     const val = <FormArray>this.componentForm.controls['compOpt'];
-    console.log(i, val);
-    console.log(val.value);
     val.removeAt(i);
-    //  val.removeAt(i);
   }
 
   /**
    * Get Details of Procedures available for this Service PRovider
   */
-  getAvailableProcedures() {
+  getAvailableComponent() {
 
-    // this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
-    //   .subscribe((res) => { this.procedureList = this.successhandeler(res) });
+    this.componentMasterServiceService.getCurrentComponents(this.providerServiceMapID)
+      .subscribe((res) => { this.componentList = this.successhandeler(res) });
 
   }
 
   selected() {
     console.log(this.componentForm.value)
-    // if (this.componentForm.value.inputType == 'RadioButton'
-    // || this.componentForm.value.inputType == 'DropDown') {
       this.componentForm.patchValue({
         range_max: null,
         range_min: null,
@@ -133,20 +136,24 @@ export class ComponentMasterComponent implements OnInit {
         range_normal_min: null,
         measurementUnit: null,
       })
-    // } else if (this.componentForm.value.inputType == 'TextBox') {
       this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
-      // }
   }
 
   saveComponent() {
     const apiObject = this.objectManipulate();
+    delete apiObject.modifiedBy;
+    delete apiObject.deleted;
+    
+    console.log(apiObject, 'apiObject');
     if (apiObject) {
+      apiObject.createdBy = this.commonDataService.uname;
 
-      // this.procedureMasterServiceService.postProcedureData(apiObject)
-      //   .subscribe((res) => {
-      //     this.procedureList.unshift(res);
-      //     this.componentForm.reset();
-      //   })
+      this.componentMasterServiceService.postComponentData(apiObject)
+        .subscribe((res) => {
+          console.log(res, 'resonse here');
+          this.componentList.unshift(res);
+          this.componentForm.reset();
+        })
 
     }
   }
@@ -180,6 +187,7 @@ export class ComponentMasterComponent implements OnInit {
           this.unfilled = true;
           return false
           } else {
+            obj.compOpt = null;
           this.unfilled = false;
           }
       }  else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
@@ -190,42 +198,8 @@ export class ComponentMasterComponent implements OnInit {
          }
 
       }
-      this.unfilled = false;
-
-      // let apiObject = {};
-
-
-      // console.log(obj.male, 'obj');
-      // if (obj.male && obj.female) {
-      //   apiObject = {
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
-      //     gender: 'Unisex'
-      //   };
-      // } else if (obj.male && !obj.female) {
-      //   apiObject = {
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
-      //     gender: 'Male'
-      //   };
-      // } else if (!obj.male && obj.female) {
-      //   apiObject = {
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.commonDataService.provider_serviceMapID,
-      //     gender: 'Female'
-      //   };
-      // }
-      // console.log(apiObject, 'apiObject');
-      // return apiObject;
+      obj.providerServiceMapID = this.providerServiceMapID;
+      return obj;
     }
 
   }
@@ -238,7 +212,7 @@ export class ComponentMasterComponent implements OnInit {
 
     console.log('psmid', ProviderServiceMapID);
     console.log(this.service);
-    this.getAvailableProcedures();
+    this.getAvailableComponent();
   }
 
   getServices(stateID) {
@@ -262,72 +236,35 @@ export class ComponentMasterComponent implements OnInit {
 
 
   /**
-   *Enable/ Disable Procedure
+   *Enable/ Disable Component
    *
    */
-  toggleProcedure(procedureID, index, toggle) {
-    console.log(procedureID, index, 'index');
-    // this.procedureMasterServiceService.toggleProcedure({ procedureID: procedureID, deleted: toggle })
-    //   .subscribe((res) => {
-    //     console.log(res, 'changed');
-    //     if (res) {
-    //       this.procedureList[index] = res;
-    //     }
-    //   })
+  toggleComponent(componentID, index, toggle) {
+    console.log(componentID, index, 'index');
+    this.componentMasterServiceService.toggleComponent({ componentID: componentID, deleted: toggle })
+      .subscribe((res) => {
+        console.log(res, 'changed');
+        if (res) {
+          this.updateList(res);
+        }
+      })
 
   }
 
-
-  configProcedure(item, index) {
-    let male = false;
-    let female = false;
-    if (item.gender === 'Unisex') {
-      male = true;
-      female = true;
-    } else if (item.gender === 'Male') {
-      male = true;
-    } else if (item.gender === 'Female') {
-      female = true;
-    }
-    this.editMode = index; // setting edit mode on
-
-    this.componentForm.patchValue({
-      id: item.procedureID,
-      name: item.procedureName,
-      type: item.procedureType,
-      description: item.procedureDesc,
-      male: male,
-      female: female,
-      disable: item.deleted
-    })
-
-
+  updateList(res) {
+    this.componentList.forEach((element, i) => {
+      console.log(element,'elem', res, 'res')
+      if (element.testComponentID == res.testComponentID) {
+        this.componentList[i] = res;
+      }
+      
+    });
 
   }
 
+  configComponent(item, i) {
+    this.componentForm.setValue({item});
+  }
 
-  /**
-   * Manage Geneder String to Value
-   */
-
-
-  // /**
-  //   * Disable the Procedure for Doctor
-  //  */
-  // disableProcedure() {
-
-  //   this.componentForm.patchValue({
-  //     disable: true
-  //   })
-
-  // }
-  // /**
-  //  * Enable the Procedure for Doctor
-  // */
-  // enableProcedure() {
-  //   this.componentForm.patchValue({
-  //     disable: false
-  //   })
-  // }
 }
 
