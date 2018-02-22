@@ -26,18 +26,18 @@
             <div style="display: block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [required]="true" [min-length]="1" #autocompleteControl="ngModel">
+                        <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedProcedureDescription">
-                            <input id="procedure-description" mdInput placeholder="Procedure Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription" readonly>
+                            <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription" readonly>
                         </md-input-container>
 
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-                        <md2-autocomplete name="components" (change)="componentSelected()" [items]="componentList" item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [required]="true" [min-length]="1" #autocompleteControl="ngModel">
+                        <md2-autocomplete name="components" (change)="componentSelected()" [items]="componentList" item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedComponentDescription">
-                            <input id="component-description" mdInput placeholder="Component Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription" readonly>
+                            <input id="component-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription" readonly>
                         </md-input-container>
 
                     </div>
@@ -47,20 +47,24 @@
 
                     </div>
                     <div *ngIf="selectedProcedure" class="col-xs-12 col-sm-6 col-md-5 col-lg-5 ">
-                        <md-card>
+                        <md-card class="push-top-card">
                             <md-card-header>
                                 <md-card-title>
-                                    <h3 style="margin-top:-20px;">{{selectedProcedure.procedureName}}</h3>
+                                    <h3 style="margin-top:-10px;">{{selectedProcedure.procedureName}}</h3>
                                 </md-card-title>
                             </md-card-header>
-                            <md-card-content>
-                                <mat-chip-list>
-                                    <md-chip *ngFor="let component of selectedComponentList">{{component.testComponentName}}</md-chip>
-                                </mat-chip-list>
+                            <md-card-content style="min-height: 100px;">
+                                <md-chip-list>
+                                    <md-chip removable class="custom-chip" (select)="removechip(component)" *ngFor="let component of selectedComponentList"><span>{{component.testComponentName}}</span>
+                                        <md-icon class="chip-icon" (click)="removechip(component)" mdChipRemove>cancel</md-icon>
+                                    </md-chip>
+
+
+                                </md-chip-list>
                             </md-card-content>
                             <md-card-footer>
                                 <div align="right">
-                                    <button style="margin-right: 40px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1" id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Map</button>
+                                    <button style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1" id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Save</button>
 
                                 </div>
 

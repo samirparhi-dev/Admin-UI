@@ -15,15 +15,16 @@ export class ProcedureComponentMappingServiceService {
 
   _getProcedureListURL: any;
   _getComponentListURL: any;
+  _setProcedureComponentMapURL: any;
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
     private httpIntercept: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
+    this._setProcedureComponentMapURL = this.providerAdmin_Base_Url + 'labModule/createProcedureComponentMapping';
     this._getComponentListURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentMasterDelFalse/';
     this._getProcedureListURL = this.providerAdmin_Base_Url + 'labModule/fetchProcedureMasterDelFalse/';
   }
-
 
   getProceduresList(providerServiceMapID) {
     return this.http.get(`${this._getProcedureListURL}${providerServiceMapID}`)
@@ -37,6 +38,11 @@ export class ProcedureComponentMappingServiceService {
       .catch(this.handleError);
   }
 
+  saveProcedureComponentMapping(apiObject) {
+    return this.http.post(this._setProcedureComponentMapURL, apiObject )
+    .map(this.handleSuccess)
+    .catch(this.handleError);
+  }
 
   handleSuccess(res: Response) {
     console.log(res.json(), 'calltype-subtype service file success response');

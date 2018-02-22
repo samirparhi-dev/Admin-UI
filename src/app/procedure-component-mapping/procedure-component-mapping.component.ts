@@ -30,7 +30,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   selectedComponentList = [];
   selectedProcedureDescription: any;
   selectedComponentDescription: any;
-  
+
   procedureList: any;
   componentList: any;
 
@@ -39,14 +39,14 @@ export class ProcedureComponentMappingComponent implements OnInit {
     private procedureComponentMappingServiceService: ProcedureComponentMappingServiceService) {
     this.states = [];
     this.services = [];
-    }
+  }
 
   ngOnInit() {
 
     this.initiateForm();
   }
   consoleValues(event) {
-console.log(this.selectedProcedure, 'value here')
+    console.log(this.selectedProcedure, 'value here')
   }
   /**
  * Initiate Form
@@ -80,20 +80,54 @@ console.log(this.selectedProcedure, 'value here')
     this.getProcedureDropDown();
     this.getComponentDropDown();
   }
-updateComponentMapList() {
-  this.selectedComponentList.push(this.selectedComponent);
+  updateComponentMapList() {
+    const index = this.selectedComponentList.indexOf(this.selectedComponent);
+    if (index < 0) {
+      this.selectedComponentList.push(this.selectedComponent);
 
-}
+      this.clearComponentValue();
+    }
+  }
+
+
+  clearProcedureValue() {
+    this.selectedProcedure = '';
+    this.selectedProcedureDescription = '';
+  }
+  clearComponentValue() {
+    this.selectedComponent = '';
+    this.selectedComponentDescription = '';
+  }
+  clearSelectedComponentsList() {
+    this.selectedComponentList = [];
+  }
 
   postMappingData() {
-    
+    const apiObject = Object.assign({},
+      this.selectedProcedure,
+      { compList: this.selectedComponentList, createdBy: this.commonDataService.uname, providerServiceMapID: this.providerServiceMapID })
+    this.procedureComponentMappingServiceService.saveProcedureComponentMapping(apiObject)
+      .subscribe((res) => {
+        console.log(res, 'res')
+        this.clearProcedureValue();
+        this.clearComponentValue();
+        this.clearSelectedComponentsList();
+      })
+  }
+
+
+  removechip(component) {
+    const index = this.selectedComponentList.indexOf(component);
+    if (index >= 0) {
+      this.selectedComponentList.splice(index, 1);
+    }
   }
 
 
   getProcedureDropDown() {
     this.procedureComponentMappingServiceService
-    .getProceduresList(this.providerServiceMapID)
-    .subscribe(response => this.procedureList = this.successhandeler(response));
+      .getProceduresList(this.providerServiceMapID)
+      .subscribe(response => this.procedureList = this.successhandeler(response));
 
   }
   getComponentDropDown() {
@@ -104,11 +138,20 @@ updateComponentMapList() {
   }
 
   procedureSelected() {
+    if (this.selectedProcedure) {
     this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
+    } else {
+      this.clearSelectedComponentsList();
+      this.selectedProcedureDescription = '';
+    }
   }
   componentSelected() {
+    if (this.selectedComponent)  {
     this.selectedComponentDescription = this.selectedComponent.testComponentDesc;
+  } else {
+    this.selectedComponentDescription = '';
   }
+}
 
   getServices(stateID) {
     console.log(this.serviceProviderID, stateID);
@@ -120,10 +163,9 @@ updateComponentMapList() {
     this.service = '';
     this.services = response;
     this.providerServiceMapID = null;
-    this.selectedComponent = '';
-    this.selectedProcedure = '';
-    this.selectedComponentDescription = '';
-    this.selectedProcedureDescription = '';
+    this.clearProcedureValue();
+    this.clearComponentValue();
+    this.clearSelectedComponentsList();
     this.procedureList = [];
     this.componentList = [];
 
