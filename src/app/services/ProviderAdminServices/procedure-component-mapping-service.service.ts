@@ -16,6 +16,8 @@ export class ProcedureComponentMappingServiceService {
   _getProcedureListURL: any;
   _getComponentListURL: any;
   _setProcedureComponentMapURL: any;
+  _getCurrentMappingsURL: any;
+  _getprocedureConfigDetailsURL: any;
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
     private httpIntercept: InterceptedHttp) {
@@ -24,12 +26,46 @@ export class ProcedureComponentMappingServiceService {
     this._setProcedureComponentMapURL = this.providerAdmin_Base_Url + 'labModule/createProcedureComponentMapping';
     this._getComponentListURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentMasterDelFalse/';
     this._getProcedureListURL = this.providerAdmin_Base_Url + 'labModule/fetchProcedureMasterDelFalse/';
+    this._getCurrentMappingsURL = this.providerAdmin_Base_Url + '';
+    this._getprocedureConfigDetailsURL = this.providerAdmin_Base_Url + '';
   }
 
   getProceduresList(providerServiceMapID) {
     return this.http.get(`${this._getProcedureListURL}${providerServiceMapID}`)
       .map(this.handleSuccess)
       .catch(this.handleError);
+  }
+
+  getSelectedProcedureMappings(procedureID) {
+    // return this.http.get(`${this._getprocedureConfigDetailsURL}${procedureID}`)
+    // .map(this.handleSuccess)
+    // .catch(this.handleSuccess)
+
+    return Observable.of({
+      procedureID: 4,
+      procedureName: 'procedure',
+      procedureDesc: 'something',
+      compList: [{
+        testComponentID: 12,
+        testComponentName: 'component 1'
+      },
+      {
+        testComponentID: 16,
+        testComponentName: 'otherone'
+      }]
+    })
+  }
+
+  getCurrentMappings(providerServiceMapID) {
+    // return this.http.get(`${this._getCurrentMappingsURL}${providerServiceMapID}`)
+    // .map(this.handleSuccess)
+    // .catch(this.handleError)
+    return Observable.of([{
+      procedureName: 'name here',
+      procedureDesc: 'some random description',
+      componentList: 'anovnv,webweb,webwebbw,webweb',
+      createdBy: 'mySelf'
+    }])
   }
 
   getComponentsList(providerServiceMapID) {
