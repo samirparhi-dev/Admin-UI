@@ -118,6 +118,9 @@ import { ParkingPlaceMasterService } from './services/ProviderAdminServices/park
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
 import { ServicePointVillageMapService } from './services/ProviderAdminServices/service-point-village-map.service';
 import { VanMasterService } from './services/ProviderAdminServices/van-master-service.service';
+import { ProcedureMasterServiceService } from './services/ProviderAdminServices/procedure-master-service.service';
+import { ProcedureComponentMappingServiceService } from './services/ProviderAdminServices/procedure-component-mapping-service.service';
+import { ComponentMasterServiceService } from './services/ProviderAdminServices/component-master-service.service';
 import { VanTypeMasterService } from './services/ProviderAdminServices/van-type-master.service';
 import { VanServicePointMappingService } from './services/ProviderAdminServices/van-service-point-mapping.service';
 import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
@@ -171,6 +174,9 @@ import { ProviderServicelineStateMappingComponent } from './provider-serviceline
 import { AuthService } from './services/authentication/auth.service';
 import { SecurityFactory } from './http.security.factory';
 import { SecurityInterceptedHttp } from './http.securityinterceptor';
+import { ProcedureMasterComponent } from './procedure-master/procedure-master.component';
+import { ComponentMasterComponent } from './component-master/component-master.component';
+import { ProcedureComponentMappingComponent } from './procedure-component-mapping/procedure-component-mapping.component';
 
 
 @NgModule({
@@ -201,7 +207,8 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
-    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent
+    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
+    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent
 
   ],
 
@@ -276,7 +283,9 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
-    UserRoleAgentID_MappingService, AuthService,
+    UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
+    ProcedureComponentMappingServiceService,
+    ComponentMasterServiceService,
      {
 
       provide: InterceptedHttp,
