@@ -166,9 +166,19 @@ feedbackName:any;
         "providerServiceMapID": this.providerServiceMapID,
         "createdBy": "Admin"
       }
+
+      if(this.objs[i].feedbackTypeName == "Generic Complaint") {
+        tempObj['FeedbackTypeCode'] = 'GC';
+      }
+      else if(this.objs[i].feedbackTypeName == "Asha Complaints"){
+        tempObj['FeedbackTypeCode'] = 'AC';
+      }
+      else if(this.objs[i].feedbackTypeName == "Epidemic Complaints"){
+        tempObj['FeedbackTypeCode'] = 'EC';
+      }
       tempArr.push(tempObj);
     }
-   
+    "FeedbackTypeCode"
     console.log("reqObj", tempArr);
     this.FeedbackTypeService.saveFeedback(tempArr)
     .subscribe((res)=>{
@@ -291,6 +301,15 @@ export class EditFeedbackModal {
       "feedbackTypeName": this.feedbackName,
       "feedbackDesc": this.feedbackDesc,
       "modifiedBy": this.data.feedbackObj.createdBy
+    }
+    if(this.feedbackName == "Generic Complaint") {
+      tempObj['FeedbackTypeCode'] = 'GC';
+    }
+    else if(this.feedbackName == "Asha Complaints"){
+      tempObj['FeedbackTypeCode'] = 'AC';
+    }
+    else if(this.feedbackName == "Epidemic Complaints"){
+      tempObj['FeedbackTypeCode'] = 'EC';
     }
     
     this.FeedbackTypeService.editFeedback(tempObj)
