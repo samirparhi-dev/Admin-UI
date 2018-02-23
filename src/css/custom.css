@@ -878,7 +878,9 @@ color:#545454;
 .m-l--5 {
   margin-left: -5px !important;
 }
-
+.m-l--30 {
+  margin-left: -30px !important;
+}
 .m-b-0 {
   margin-bottom: 0px !important;
 }

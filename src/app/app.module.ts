@@ -112,7 +112,6 @@ import { CallTypeSubtypeService } from './services/ProviderAdminServices/calltyp
 import { BlockProvider } from './services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { DrugMasterService } from './services/ProviderAdminServices/drug-master-services.service';
 import { CategorySubcategoryService } from './services/ProviderAdminServices/category-subcategory-master-service.service';
-
 import { ZoneMasterService } from './services/ProviderAdminServices/zone-master-services.service';
 import { ParkingPlaceMasterService } from './services/ProviderAdminServices/parking-place-master-services.service';
 import { ServicePointMasterService } from './services/ProviderAdminServices/service-point-master-services.service';
@@ -122,9 +121,7 @@ import { VanTypeMasterService } from './services/ProviderAdminServices/van-type-
 import { VanServicePointMappingService } from './services/ProviderAdminServices/van-service-point-mapping.service';
 import { EmployeeParkingPlaceMappingService } from './services/ProviderAdminServices/employee-parking-place-mapping.service';
 import { VillageMasterService } from './services/adminServices/AdminVillage/village-master-service.service';
-
 import { SeverityTypeService } from './services/ProviderAdminServices/severity-type-service';
-
 import { CreateSubServiceComponent } from './create-sub-service/create-sub-service.component';
 import { EditProviderDetailsComponent } from './edit-provider-details/edit-provider-details.component';
 import { SeverityTypeComponent } from './severity-type/severity-type.component';
@@ -138,7 +135,7 @@ import { FeedbackComplaintNatureMasterComponent } from './feedback-complaint-nat
 import { InstituteDirectoryMasterComponent } from './institute-directory-master/institute-directory-master.component';
 import { EditInstituteDirectory } from './institute-directory-master/institute-directory-master.component';
 import { InstituteDirectoryMasterService } from './services/ProviderAdminServices/institute-directory-master-service.service';
-
+import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
 import { FeedbackTypeService } from './services/ProviderAdminServices/feedback-type-master-service.service';
 
 import { HospitalMasterComponent } from './hospital-master/hospital-master.component';
@@ -171,6 +168,9 @@ import { ProviderServicelineStateMappingComponent } from './provider-serviceline
 import { AuthService } from './services/authentication/auth.service';
 import { SecurityFactory } from './http.security.factory';
 import { SecurityInterceptedHttp } from './http.securityinterceptor';
+import { MappingProviderAdminToProviderComponent } from './mapping-provider-admin-to-provider/mapping-provider-admin-to-provider.component';
+import { LanguageMappingComponent } from './language-mapping/language-mapping.component';
+
 
 
 @NgModule({
@@ -201,7 +201,7 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
-    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent
+    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent
 
   ],
 
@@ -247,8 +247,7 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
           },
           {
             path: 'providerAdmin',
-            component: ProviderAdminComponent,
-            outlet: 'postLogin_router'
+            component: ProviderAdminComponent
           }
         ]
       },
@@ -276,8 +275,8 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
-    UserRoleAgentID_MappingService, AuthService,
-     {
+    UserRoleAgentID_MappingService, AuthService, LanguageMapping,
+    {
 
       provide: InterceptedHttp,
       useFactory: httpFactory,
