@@ -37,35 +37,15 @@ export class ProcedureComponentMappingServiceService {
   }
 
   getSelectedProcedureMappings(procedureID) {
-    // return this.http.get(`${this._getprocedureConfigDetailsURL}${procedureID}`)
-    // .map(this.handleSuccess)
-    // .catch(this.handleSuccess)
-
-    return Observable.of({
-      procedureID: 4,
-      procedureName: 'procedure',
-      procedureDesc: 'something',
-      compList: [{
-        testComponentID: 12,
-        testComponentName: 'component 1'
-      },
-      {
-        testComponentID: 16,
-        testComponentName: 'otherone'
-      }]
-    })
+    return this.http.get(`${this._getprocedureConfigDetailsURL}labModule/fetchProcCompMappingForSingleProcedure/${procedureID}`)
+    .map(this.handleSuccess)
+    .catch(this.handleSuccess)
   }
 
   getCurrentMappings(providerServiceMapID) {
-    // return this.http.get(`${this._getCurrentMappingsURL}${providerServiceMapID}`)
-    // .map(this.handleSuccess)
-    // .catch(this.handleError)
-    return Observable.of([{
-      procedureName: 'name here',
-      procedureDesc: 'some random description',
-      componentList: 'anovnv,webweb,webwebbw,webweb',
-      createdBy: 'mySelf'
-    }])
+    return this.http.get(`${this._getCurrentMappingsURL}labModule/fetchprocCompMappingDelFalse/${providerServiceMapID}`)
+    .map(this.handleSuccess)
+    .catch(this.handleError)
   }
 
   getComponentsList(providerServiceMapID) {

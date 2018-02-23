@@ -53,7 +53,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
  * Initiate Form
 */
   initiateForm() {
-    this.editMode  = false;
+    this.editMode = false;
     // By Default, it'll be set as enabled
     // this.componentForm = this.initComponentForm();
     // this.componentForm.patchValue({
@@ -61,7 +61,9 @@ export class ProcedureComponentMappingComponent implements OnInit {
     // })
     // this.componentList = [];
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
-    this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+
+    if (this.commonDataService.service_providerID)
+      this.serviceProviderID = (this.commonDataService.service_providerID).toString();
 
 
     this.providerAdminRoleService.getStates(this.serviceProviderID)
@@ -72,6 +74,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
       );
 
   }
+
   setProviderServiceMapID(ProviderServiceMapID) {
     this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
     this.providerServiceMapID = ProviderServiceMapID;
@@ -86,22 +89,27 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   configProcedureMapping(item, index) {
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
-    .subscribe((res) => {
-      this.editMode = index;
-      this.loadForConfig(res);
-    })
+      .subscribe((res) => {
+        if (res.length > 0) {
+          this.editMode = index >= 0 ? true : false;
+          this.loadForConfig(res);
+        }
+      })
 
   }
 
   loadForConfig(res) {
-    this.selectedProcedure = {
-      procedureID: res.procedureID,
-      procedureName: res.procedureName,
-      procedureDesc: res.procedureDesc
-    };
-    this.selectedComponentList = res.compList;
-    this.selectedProcedureDescription = res.procedureDesc;
+    let temp = this.procedureList.filter(procedure => {
+      return procedure.procedureID == res[0].procedureID
+    });
+
+    if (temp.length > 0) {
+      this.selectedProcedure = temp[0];
+      this.selectedComponentList = res[0].compListDetails;
+      this.selectedProcedureDescription = res[0].procedureDesc;
+    }
   }
+
   getCurrentMappings() {
     this.procedureComponentMappingServiceService.getCurrentMappings(this.providerServiceMapID)
       .subscribe((res) => {
@@ -126,7 +134,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
       { compList: this.selectedComponentList, createdBy: this.commonDataService.uname, providerServiceMapID: this.providerServiceMapID })
     this.procedureComponentMappingServiceService.saveProcedureComponentMapping(apiObject)
       .subscribe((res) => {
-        console.log(res, 'res')
+        if (res && res.length > 0)
+          this.mappedList = this.mappedList.concat(res);
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
@@ -146,12 +155,14 @@ export class ProcedureComponentMappingComponent implements OnInit {
   procedureSelected() {
     if (this.selectedProcedure) {
       this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
+      this.configProcedureMapping(this.selectedProcedure, 0);
     } else {
       this.clearSelectedComponentsList();
       this.selectedProcedureDescription = '';
       this.editMode = false;
     }
   }
+
   componentSelected() {
     if (this.selectedComponent) {
       this.selectedComponentDescription = this.selectedComponent.testComponentDesc;
