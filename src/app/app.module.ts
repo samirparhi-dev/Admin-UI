@@ -210,7 +210,11 @@ import{LanguageMapping} from './services/ProviderAdminServices/languagemapping.s
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
+
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent,MappingProviderAdminToProviderComponent,LanguageMappingComponent
+
+   
+
 
   ],
 
@@ -287,7 +291,11 @@ import{LanguageMapping} from './services/ProviderAdminServices/languagemapping.s
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
+<<<<<<< HEAD
     ComponentMasterServiceService,LanguageMapping,
+=======
+    ComponentMasterServiceService,
+>>>>>>> 34af2d3e96c426f09c1293d3b67ad8a140d1582d
      {
 
       provide: InterceptedHttp,
