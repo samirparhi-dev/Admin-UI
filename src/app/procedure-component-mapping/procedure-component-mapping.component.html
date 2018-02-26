@@ -8,16 +8,14 @@
             <div style="min-height: 100px;">
                 <form #stateService="ngForm">
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
-                            name="state" #statess required>
+                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess required>
                             <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
                                 {{stat.stateName}}
                             </md-option>
                         </md-select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-                        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
-                            #servicess="ngModel" required>
+                        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" required>
                             <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
                                 {{ser.serviceName}}
                             </md-option>
@@ -25,26 +23,22 @@
                     </div>
                 </form>
             </div>
-       
+
             <div style="display: block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name"
-                            [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
+                        <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedProcedureDescription">
-                            <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription"
-                                readonly>
+                            <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription" readonly>
                         </md-input-container>
 
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-                        <md2-autocomplete name="components" (change)="componentSelected()" [items]="componentList" item-text="testComponentName"
-                            placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1" #autocompleteControl="ngModel">
+                        <md2-autocomplete name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList" item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedComponentDescription">
-                            <input id="component-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription"
-                                readonly>
+                            <input id="component-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription" readonly>
                         </md-input-container>
 
                     </div>
@@ -71,10 +65,8 @@
                             </md-card-content>
                             <md-card-footer>
                                 <div align="right">
-                                    <button *ngIf="editMode == false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1"
-                                        id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Save</button>
-                                    <button *ngIf="editMode != false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1"
-                                        id="postMapDataButton2" md-raised-button color="primary" (click)="postMappingData()">Update</button>
+                                    <button *ngIf="editMode == false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1" id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Save</button>
+                                    <button *ngIf="editMode != false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" id="postMapDataButton2" md-raised-button color="primary" (click)="postMappingData()">Update</button>
 
                                 </div>
 
@@ -86,7 +78,7 @@
 
                 </div>
             </div>
-     
+
             <!-- <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='procedureForm'>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">

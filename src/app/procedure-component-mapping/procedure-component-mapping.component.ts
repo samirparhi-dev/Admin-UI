@@ -91,8 +91,12 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
         if (res.length > 0) {
+          console.log(res,'recheck')
           this.editMode = index >= 0 ? true : false;
           this.loadForConfig(res);
+        } else {
+          this.editMode =  false;
+          this.selectedComponentList = [];
         }
       })
 
@@ -107,6 +111,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
       this.selectedProcedure = temp[0];
       this.selectedComponentList = res[0].compListDetails;
       this.selectedProcedureDescription = res[0].procedureDesc;
+    } else {
+      this.selectedComponentList = [];
     }
   }
 
@@ -118,12 +124,23 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   updateComponentMapList() {
-    const index = this.selectedComponentList.indexOf(this.selectedComponent);
+    if(this.selectedComponent) {
+    // const index = this.selectedComponentList.indexOf(this.selectedComponent);
+    let index = 0;
+     this.selectedComponentList.forEach((component, i) => {
+       if (component.testComponentID === this.selectedComponent.testComponentID) {
+         index = i;
+       }
+    })
     if (index < 0) {
+      console.log(this.selectedComponentList);
+      console.log(this.selectedComponent);
+
       this.selectedComponentList.push(this.selectedComponent);
 
       this.clearComponentValue();
     }
+  }
   }
 
 
@@ -134,14 +151,27 @@ export class ProcedureComponentMappingComponent implements OnInit {
       { compList: this.selectedComponentList, createdBy: this.commonDataService.uname, providerServiceMapID: this.providerServiceMapID })
     this.procedureComponentMappingServiceService.saveProcedureComponentMapping(apiObject)
       .subscribe((res) => {
-        if (res && res.length > 0)
-          this.mappedList = this.mappedList.concat(res);
+        if (res && res.length > 0) {
+        this.updateListAsPerFunction(res); }
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
       })
   }
 
+
+
+  /**
+   * 
+   * Update Mapped List as per 'Save' or 'Update'
+   */
+  updateListAsPerFunction(res) {
+    if (!this.editMode) {
+      this.mappedList.unshift(res[0]);
+    } else if (this.editMode) {
+      // 
+    }
+  }
 
   removechip(component) {
     const index = this.selectedComponentList.indexOf(component);
@@ -150,7 +180,13 @@ export class ProcedureComponentMappingComponent implements OnInit {
     }
   }
 
+  filterProcedureListforNull(response) {
+    const resp = response.filter((procedure) => {
+      return procedure.procedureName != null
+    })
 
+    return resp;
+  }
 
   procedureSelected() {
     if (this.selectedProcedure) {
@@ -180,7 +216,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   getProcedureDropDown() {
     this.procedureComponentMappingServiceService
       .getProceduresList(this.providerServiceMapID)
-      .subscribe(response => this.procedureList = this.successhandeler(response));
+      .subscribe(response => this.procedureList = this.filterProcedureListforNull(response));
 
   }
   getComponentDropDown() {
