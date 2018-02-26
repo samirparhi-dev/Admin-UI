@@ -29,9 +29,11 @@ export class ProcedureMasterComponent implements OnInit {
   editProcedure: any;
   procedureForm: FormGroup;
   procedureList: any;
+  filteredprocedureList: any;
 
 
   constructor(private commonDataService: dataService,
+    public alertService: ConfirmationDialogsService,
     private fb: FormBuilder,
     public providerAdminRoleService: ProviderAdminRoleService,
     private procedureMasterServiceService: ProcedureMasterServiceService) {
@@ -55,6 +57,7 @@ export class ProcedureMasterComponent implements OnInit {
       disable: false
     })
     this.procedureList = [];
+    this.filteredprocedureList = [];
 
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
@@ -82,18 +85,21 @@ export class ProcedureMasterComponent implements OnInit {
   getAvailableProcedures() {
 
     this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
-    .subscribe((res) => { this.procedureList = this.successhandeler(res)});
+    .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res);});
 
   }
 
   saveProcedure() {
     const apiObject = this.objectManipulate();
     if (apiObject) {
+      delete apiObject['modifiedBy'];
+      delete apiObject['procedureID'];
 
       this.procedureMasterServiceService.postProcedureData(apiObject)
       .subscribe((res) => {
         this.procedureList.unshift(res);
         this.procedureForm.reset();
+        this.alertService.alert('Procedure Details saved.')
       })
 
     }
@@ -104,9 +110,25 @@ export class ProcedureMasterComponent implements OnInit {
   */
   updateProcedure() {
     const apiObject = this.objectManipulate();
+    if (apiObject) {
+      delete apiObject['createdBy'];
+      apiObject['procedureID'] = this.editMode;
 
+      this.procedureMasterServiceService.updateProcedureData(apiObject)
+        .subscribe((res) => {
+          this.updateList(res);
+          this.procedureForm.reset();
+          this.editMode = false;
+          this.alertService.alert('Procedure Details updated.')
+        })
+
+    }
   }
 
+  resetProcedure() {
+    this.procedureForm.reset();
+    this.editMode = false;
+  }
  
 
   /**
@@ -127,6 +149,8 @@ export class ProcedureMasterComponent implements OnInit {
       console.log(obj.male, 'obj');
       if (obj.male && obj.female) {
         apiObject = {
+          procedureID: '',
+          modifiedBy: this.commonDataService.uname,
           procedureName: obj.name,
           procedureType: obj.type,
           procedureDesc: obj.description,
@@ -136,6 +160,8 @@ export class ProcedureMasterComponent implements OnInit {
         };
       } else if (obj.male && !obj.female) {
         apiObject = {
+          procedureID: '',
+          modifiedBy: this.commonDataService.uname,
           procedureName: obj.name,
           procedureType: obj.type,
           procedureDesc: obj.description,
@@ -145,6 +171,8 @@ export class ProcedureMasterComponent implements OnInit {
         };
       } else if (!obj.male && obj.female) {
         apiObject = {
+          procedureID: '',
+          modifiedBy: this.commonDataService.uname,
           procedureName: obj.name,
           procedureType: obj.type,
           procedureDesc: obj.description,
@@ -201,7 +229,7 @@ export class ProcedureMasterComponent implements OnInit {
         console.log(res, 'changed');
         if (res) {
           this.updateList(res);
-          this.procedureList[index] = res;
+          // this.procedureList[index] = res;
         }
       })
 
@@ -216,8 +244,32 @@ export class ProcedureMasterComponent implements OnInit {
 
     });
 
+    this.filteredprocedureList.forEach((element, i) => {
+      console.log(element, 'elem', res, 'res')
+      if (element.procedureID == res.procedureID) {
+        this.filteredprocedureList[i] = res;
+      }
+
+    });
+
   }
 
+  filterprocedureList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredprocedureList = this.procedureList;
+    } else {
+      this.filteredprocedureList = [];
+      this.procedureList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredprocedureList.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
 
   configProcedure(item, index) {
     let male = false;
@@ -230,7 +282,7 @@ export class ProcedureMasterComponent implements OnInit {
     } else if (item.gender === 'Female') {
       female = true;
     }
-    this.editMode = index; // setting edit mode on
+    this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
 
     this.procedureForm.patchValue({
       id: item.procedureID,

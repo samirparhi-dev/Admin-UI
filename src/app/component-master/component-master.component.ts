@@ -33,6 +33,7 @@ export class ComponentMasterComponent implements OnInit {
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
+    private alertService: ConfirmationDialogsService,
     public providerAdminRoleService: ProviderAdminRoleService,
     private componentMasterServiceService: ComponentMasterServiceService) {
     this.states = [];
@@ -175,7 +176,7 @@ export class ComponentMasterComponent implements OnInit {
     const obj = Object.assign({}, this.componentForm.value);
    
     if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType ) {
-      this.unfilled = true;
+      this.alertService.alert('Please fill all mandatory details');
       return false
     } else {
       if (obj.inputType == 'TextBox') {
@@ -184,7 +185,7 @@ export class ComponentMasterComponent implements OnInit {
           !obj.range_normal_max ||
           !obj.range_normal_min ||
           !obj.measurementUnit) {
-          this.unfilled = true;
+          this.alertService.alert('Please add all Input Limits');
           return false
           } else {
             obj.compOpt = null;
@@ -192,9 +193,12 @@ export class ComponentMasterComponent implements OnInit {
           }
       }  else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
          if (obj.compOpt.length < 2) {
-           this.unfilled = true;
+           this.alertService.alert('You need to add at least 2 options.');
            return false;
 
+         } else if (obj.compOpt.length == 2 && obj.inputType == 'DropDown' ) {
+           this.alertService.alert('You\'ve added only 2 options, please choose \'Radio Button\' as Input type.');
+           return false;
          }
 
       }
@@ -263,7 +267,10 @@ export class ComponentMasterComponent implements OnInit {
   }
 
   configComponent(item, i) {
-    this.componentForm.setValue({item});
+    console.log(item, 'item to patch');
+    console.log(this.componentForm, 'form here');
+    this.editMode = item.testComponentID;
+    this.componentForm.setValue(item);
   }
 
 }

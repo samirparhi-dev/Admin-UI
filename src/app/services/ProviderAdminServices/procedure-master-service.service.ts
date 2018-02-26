@@ -16,6 +16,7 @@ export class ProcedureMasterServiceService {
 
   _getProcedureListURL: any;
   _postProcedureURL: any;
+  _updateProcedureURL: any;
   _toggleProcedureURL: any;
 
   constructor(private http: SecurityInterceptedHttp,
@@ -26,6 +27,7 @@ export class ProcedureMasterServiceService {
     this._postProcedureURL = this.providerAdmin_Base_Url + 'labModule/createProcedureMaster';
     this._getProcedureListURL = this.providerAdmin_Base_Url + 'labModule/fetchProcedureMaster/';
     this._toggleProcedureURL = this.providerAdmin_Base_Url + 'labModule/updateProcedureStatus';
+    this._updateProcedureURL = this.providerAdmin_Base_Url + 'labModule/updateProcedureMaster';
   }
 
   getCurrentProcedures(providerServiceMapID) {
@@ -37,6 +39,12 @@ export class ProcedureMasterServiceService {
   postProcedureData(reqObject) {
     return this.http.post(this._postProcedureURL, reqObject)
     .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+
+  updateProcedureData(reqObject) {
+    return this.http.post(this._updateProcedureURL, reqObject)
+      .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
