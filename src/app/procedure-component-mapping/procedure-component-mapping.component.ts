@@ -36,9 +36,11 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
 
   mappedList = [];
+  filteredMappedList = [];
 
   constructor(private commonDataService: dataService,
     public providerAdminRoleService: ProviderAdminRoleService,
+    public alertService: ConfirmationDialogsService,
     private procedureComponentMappingServiceService: ProcedureComponentMappingServiceService) {
     this.states = [];
     this.services = [];
@@ -62,9 +64,9 @@ export class ProcedureComponentMappingComponent implements OnInit {
     // this.componentList = [];
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
 
-    if (this.commonDataService.service_providerID)
+    if (this.commonDataService.service_providerID) {
       this.serviceProviderID = (this.commonDataService.service_providerID).toString();
-
+    }
 
     this.providerAdminRoleService.getStates(this.serviceProviderID)
       .subscribe(response => {
@@ -88,10 +90,12 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   configProcedureMapping(item, index) {
+    this.selectedComponent = '';
+    this.selectedComponentDescription = '';
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
         if (res.length > 0) {
-          console.log(res,'recheck')
+          console.log(res, 'recheck')
           this.editMode = index >= 0 ? true : false;
           this.loadForConfig(res);
         } else {
@@ -120,25 +124,26 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.getCurrentMappings(this.providerServiceMapID)
       .subscribe((res) => {
         this.mappedList = res;
+        this.filteredMappedList = res;
       });
   }
 
   updateComponentMapList() {
-    if(this.selectedComponent) {
+    if (this.selectedComponent) {
     // const index = this.selectedComponentList.indexOf(this.selectedComponent);
-    let index = 0;
+    let index = -1;
      this.selectedComponentList.forEach((component, i) => {
        if (component.testComponentID === this.selectedComponent.testComponentID) {
          index = i;
        }
     })
     if (index < 0) {
-      console.log(this.selectedComponentList);
-      console.log(this.selectedComponent);
 
       this.selectedComponentList.push(this.selectedComponent);
 
       this.clearComponentValue();
+    } else {
+      this.alertService.alert('This Component is already mapped with selected Procedure.');
     }
   }
   }
@@ -152,7 +157,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.saveProcedureComponentMapping(apiObject)
       .subscribe((res) => {
         if (res && res.length > 0) {
-        this.updateListAsPerFunction(res); }
+        this.updateListAsPerFunction(res);
+       }
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
@@ -168,10 +174,50 @@ export class ProcedureComponentMappingComponent implements OnInit {
   updateListAsPerFunction(res) {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
+      this.alertService.alert('Procedure- Component Mapping has been saved successfully.');
     } else if (this.editMode) {
-      // 
+      let index = -1;
+      let filterIndex = -1;
+      this.mappedList.forEach((procedure, i) => {
+        if (procedure.procedureID == res[0].procedureID) {
+            index = i;
+        }
+      })
+      this.filteredMappedList.forEach((procedure, i) => {
+        if (procedure.procedureID == res[0].procedureID) {
+          filterIndex = i;
+        }
+      })
+      if (index >= 0) {
+        this.mappedList[index] = res[0];
+        this.filteredMappedList[filterIndex] = res[0];
+        this.alertService.alert('Procedure- Component Mapping has been updated successfully.');
+        
+      } else {
+        this.mappedList.unshift(res[0]);
+      }
     }
   }
+
+
+
+  filterMappingList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredMappedList = this.mappedList;
+    } else {
+      this.filteredMappedList = [];
+      this.mappedList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredMappedList.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
+
 
   removechip(component) {
     const index = this.selectedComponentList.indexOf(component);
@@ -248,6 +294,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureList = [];
     this.componentList = [];
     this.mappedList = [];
+    this.filteredMappedList = [];
 
   }
   // For State List

@@ -4,6 +4,7 @@
     
     .chip-icon {
         vertical-align: bottom;
+        cursor: pointer;
     }
     
     .custom-chip {
