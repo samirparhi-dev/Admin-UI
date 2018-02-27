@@ -13,7 +13,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 export class ComponentMasterComponent implements OnInit {
 
 
-    state: any;
+  state: any;
   service: any;
 
   states: any;
@@ -67,7 +67,7 @@ export class ComponentMasterComponent implements OnInit {
         this.states = this.successhandeler(response);
 
       }
-    );
+      );
 
   }
 
@@ -106,7 +106,8 @@ export class ComponentMasterComponent implements OnInit {
 
   addID(index) {
     console.log('index here', index)
-    if (index == 1 && this.componentForm.value.inputType == 'RadioButton' ) {
+    if (index == 1 && this.componentForm.value.inputType == 'RadioButton') {
+      this.alertService.alert('We can not have more than 2 options for Radio Button, Choose \'Drop Down\' List Instead ');
     } else {
       const val = <FormArray>this.componentForm.controls['compOpt'];
       val.push(this.initComp());
@@ -131,21 +132,21 @@ export class ComponentMasterComponent implements OnInit {
 
   selected() {
     console.log(this.componentForm.value)
-      this.componentForm.patchValue({
-        range_max: null,
-        range_min: null,
-        range_normal_max: null,
-        range_normal_min: null,
-        measurementUnit: null,
-      })
-      this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
+    this.componentForm.patchValue({
+      range_max: null,
+      range_min: null,
+      range_normal_max: null,
+      range_normal_min: null,
+      measurementUnit: null,
+    })
+    this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
 
   saveComponent() {
     const apiObject = this.objectManipulate();
     delete apiObject.modifiedBy;
     delete apiObject.deleted;
-    
+
     console.log(apiObject, 'apiObject');
     if (apiObject) {
       apiObject.createdBy = this.commonDataService.uname;
@@ -154,7 +155,8 @@ export class ComponentMasterComponent implements OnInit {
         .subscribe((res) => {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
-          this.componentForm.reset();
+          this.resetForm();
+          this.alertService.alert('Component saved Successfully.');
         })
 
     }
@@ -176,7 +178,8 @@ export class ComponentMasterComponent implements OnInit {
         .subscribe((res) => {
           console.log(res, 'resonse here');
           this.updateList(res);
-          this.componentForm.reset();
+          this.resetForm();
+          this.alertService.alert('Component updated Successfully.');
         })
 
     }
@@ -186,6 +189,7 @@ export class ComponentMasterComponent implements OnInit {
   resetForm() {
     this.componentForm.reset();
     this.editMode = false;
+    this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
 
 
@@ -195,8 +199,8 @@ export class ComponentMasterComponent implements OnInit {
   */
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
-   
-    if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType ) {
+
+    if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType) {
       this.alertService.alert('Please fill all mandatory details');
       return false
     } else {
@@ -208,28 +212,29 @@ export class ComponentMasterComponent implements OnInit {
           !obj.measurementUnit) {
           this.alertService.alert('Please add all Input Limits');
           return false
-          } else {
-            obj.compOpt = null;
+        } else {
+          obj.compOpt = null;
           this.unfilled = false;
-          }
-      }  else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
-        if (obj.compOpt.length) {
+        }
+      } else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
+
+        if (obj.compOpt.length < 2) {
+          this.alertService.alert('You need to add at least 2 options.');
+          return false;
+
+        } else if (obj.compOpt.length == 2 && obj.inputType == 'DropDown') {
+          this.alertService.alert('You\'ve added only 2 options, please choose \'Radio Button\' as Input type.');
+          return false;
+        } else  {
+          let index = 0;
           obj.compOpt.forEach(element => {
-            if(!element.name || element.name == undefined || element.name == null || element.name == '') {
+            if (!element.name || element.name == undefined || element.name == null || element.name == '') {
               this.alertService.alert('Please Fill details for all Component Properties.');
-              return false;
+              index++;
             }
           });
-
+            return false;
         }
-         if (obj.compOpt.length < 2) {
-           this.alertService.alert('You need to add at least 2 options.');
-           return false;
-
-         } else if (obj.compOpt.length == 2 && obj.inputType == 'DropDown' ) {
-           this.alertService.alert('You\'ve added only 2 options, please choose \'Radio Button\' as Input type.');
-           return false;
-         }
 
       }
       obj.providerServiceMapID = this.providerServiceMapID;
@@ -305,7 +310,7 @@ export class ComponentMasterComponent implements OnInit {
 
   updateList(res) {
     this.componentList.forEach((element, i) => {
-      console.log(element,'elem', res, 'res')
+      console.log(element, 'elem', res, 'res')
       if (element.testComponentID == res.testComponentID) {
         this.componentList[i] = res;
       }
@@ -322,32 +327,57 @@ export class ComponentMasterComponent implements OnInit {
   }
 
   configComponent(item, i) {
+    this.componentMasterServiceService.getCurrentComponentForEdit(item.testComponentID)
+      .subscribe((res) => { this.loadDataToEdit(res) })
     console.log(item, 'item to patch');
     console.log(this.componentForm, 'form here');
     // this.editMode = item.testComponentID;
-    this.editMode = 21;
-    this.componentForm.patchValue({
-      testComponentID: 21,
-      testComponentName: 'something',
-      testComponentDesc: 'some description',
-      range_normal_max: null,
-      range_normal_min: null,
-      range_min: null,
-      range_max: null,
-      measurementUnit: null,
-      inputType: 'DropDown',
+    //     this.editMode = 21;
+    //     this.componentForm.patchValue({
+    //       testComponentID: 21,
+    //       testComponentName: 'something',
+    //       testComponentDesc: 'some description',
+    //       range_normal_max: null,
+    //       range_normal_min: null,
+    //       range_min: null,
+    //       range_max: null,
+    //       measurementUnit: null,
+    //       inputType: 'DropDown',
 
-    });
+    //     });
 
-    let id = [{ name: 'sdddd' },
-    { name: 'cccc' }];
+    //     let id = [{ name: 'sdddd' },
+    //     { name: 'cccc' }];
 
-    const val = <FormArray>this.componentForm.controls['compOpt'];
-id.forEach((element) => {
+    //     const val = <FormArray>this.componentForm.controls['compOpt'];
+    //     val.removeAt(0);
+    // id.forEach((element) => {
 
-  val.push(this.fb.group(element));
-})
+    //   val.push(this.fb.group(element));
+    // })
     //  this.componentForm.controls['compOpt'].push
+  }
+
+
+  loadDataToEdit(res) {
+    console.log(res, 'res');
+    if (res) {
+      this.editMode = res.testComponentID;
+      this.componentForm.patchValue(res);
+      if (res.inputType != 'TextBox') {
+        console.log('11111');
+        const options = res.compOpt;
+        const val = <FormArray>this.componentForm.controls['compOpt'];
+        val.removeAt(0);
+        // this.componentForm.setControl('compOpt', new FormArray([]))
+        console.log(val);
+        options.forEach((element) => {
+          val.push(this.fb.group(element));
+          console.log(val);
+        })
+      }
+    }
+
   }
 
 }
