@@ -176,6 +176,9 @@ feedbackName:any;
       else if(this.objs[i].feedbackTypeName == "Epidemic Complaints"){
         tempObj['FeedbackTypeCode'] = 'EC';
       }
+      else if(this.objs[i].feedbackTypeName == "Food Complaints"){
+        tempObj['FeedbackTypeCode'] = 'FC';
+      }
       tempArr.push(tempObj);
     }
     "FeedbackTypeCode"
@@ -310,6 +313,9 @@ export class EditFeedbackModal {
     }
     else if(this.feedbackName == "Epidemic Complaints"){
       tempObj['FeedbackTypeCode'] = 'EC';
+    }
+    else if(this.feedbackName == "Food Complaints"){
+      tempObj['FeedbackTypeCode'] = 'FC';
     }
     
     this.FeedbackTypeService.editFeedback(tempObj)
