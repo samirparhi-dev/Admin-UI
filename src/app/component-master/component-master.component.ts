@@ -30,6 +30,7 @@ export class ComponentMasterComponent implements OnInit {
   editProcedure: any;
   componentForm: FormGroup;
   componentList: any;
+  filteredComponentList: any;
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
@@ -56,6 +57,7 @@ export class ComponentMasterComponent implements OnInit {
       disable: false
     })
     this.componentList = [];
+    this.filteredComponentList = [];
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
 
@@ -92,7 +94,6 @@ export class ComponentMasterComponent implements OnInit {
 
   initComp(): FormGroup {
     return this.fb.group({
-      id: null,
       name: null
     });
   }
@@ -124,7 +125,7 @@ export class ComponentMasterComponent implements OnInit {
   getAvailableComponent() {
 
     this.componentMasterServiceService.getCurrentComponents(this.providerServiceMapID)
-      .subscribe((res) => { this.componentList = this.successhandeler(res) });
+      .subscribe((res) => { this.componentList = this.successhandeler(res); this.filteredComponentList = this.successhandeler(res); });
 
   }
 
@@ -164,7 +165,27 @@ export class ComponentMasterComponent implements OnInit {
   */
   updateComponent() {
     const apiObject = this.objectManipulate();
+    delete apiObject.createdBy;
 
+    console.log(apiObject, 'apiObject');
+    if (apiObject) {
+      apiObject['modifiedBy'] = this.commonDataService.uname;
+      apiObject['testComponentID'] = this.editMode;
+
+      this.componentMasterServiceService.updateComponentData(apiObject)
+        .subscribe((res) => {
+          console.log(res, 'resonse here');
+          this.updateList(res);
+          this.componentForm.reset();
+        })
+
+    }
+  }
+
+
+  resetForm() {
+    this.componentForm.reset();
+    this.editMode = false;
   }
 
 
@@ -192,6 +213,15 @@ export class ComponentMasterComponent implements OnInit {
           this.unfilled = false;
           }
       }  else if (obj.inputType == 'DropDown' || obj.inputType == 'RadioButton') {
+        if (obj.compOpt.length) {
+          obj.compOpt.forEach(element => {
+            if(!element.name || element.name == undefined || element.name == null || element.name == '') {
+              this.alertService.alert('Please Fill details for all Component Properties.');
+              return false;
+            }
+          });
+
+        }
          if (obj.compOpt.length < 2) {
            this.alertService.alert('You need to add at least 2 options.');
            return false;
@@ -239,6 +269,24 @@ export class ComponentMasterComponent implements OnInit {
   }
 
 
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredComponentList = this.componentList;
+    } else {
+      this.filteredComponentList = [];
+      this.componentList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredComponentList.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
+
+
   /**
    *Enable/ Disable Component
    *
@@ -261,7 +309,14 @@ export class ComponentMasterComponent implements OnInit {
       if (element.testComponentID == res.testComponentID) {
         this.componentList[i] = res;
       }
-      
+    });
+
+    this.filteredComponentList.forEach((element, i) => {
+      console.log(element, 'elem', res, 'res')
+      if (element.testComponentID == res.testComponentID) {
+        this.filteredComponentList[i] = res;
+      }
+
     });
 
   }
@@ -269,8 +324,30 @@ export class ComponentMasterComponent implements OnInit {
   configComponent(item, i) {
     console.log(item, 'item to patch');
     console.log(this.componentForm, 'form here');
-    this.editMode = item.testComponentID;
-    this.componentForm.setValue(item);
+    // this.editMode = item.testComponentID;
+    this.editMode = 21;
+    this.componentForm.patchValue({
+      testComponentID: 21,
+      testComponentName: 'something',
+      testComponentDesc: 'some description',
+      range_normal_max: null,
+      range_normal_min: null,
+      range_min: null,
+      range_max: null,
+      measurementUnit: null,
+      inputType: 'DropDown',
+
+    });
+
+    let id = [{ name: 'sdddd' },
+    { name: 'cccc' }];
+
+    const val = <FormArray>this.componentForm.controls['compOpt'];
+id.forEach((element) => {
+
+  val.push(this.fb.group(element));
+})
+    //  this.componentForm.controls['compOpt'].push
   }
 
 }
