@@ -1,0 +1,162 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-6 col-sm-6 col-md-9 col-lg-9 p-l-0">
+            <h4 class="modal-title">Edit Provider Admin Details</h4>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-md-3">
+            <button md-button class="pull-right" [md-dialog-close]="true">
+                <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
+                </md-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="formMode">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form #editAdminCreationForm="ngForm" autocomplete="off">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="titleID" name="title_Id" (change)="setGenderOnCondition()"
+                            required>
+                            <md-option *ngFor="let item of titles" [value]="item.titleID">
+                                {{item.titleName}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myProviderName>
+                        <input mdInput placeholder="First Name" ngModel name="providerAdmin" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
+                            #fname="ngModel" required>
+                        <md-hint *ngIf="fname.touched">
+                            <span class="errorText" [hidden]="!fname.errors">Enter minimum 2 characters</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myProviderName>
+                        <input mdInput placeholder="Middle Name" ngModel name="middleName" [(ngModel)]="admin_middleName" minlength="2" maxlength="50"
+                            #name="ngModel">
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myProviderName>
+                        <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="2" maxlength="50"
+                            #lname="ngModel" required>
+                        <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container [style.width]="'100%'" class="hide_underline">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="adminGender" required>
+                            <md-option *ngFor="let item of genders" [value]='item.genderID'>
+                                {{item.genderName}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myMobileNumber>
+                        <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryMobileNumber" minlength="10"
+                            maxlength="10" #contactNo="ngModel" required>
+                        <md-hint class="errorText" *ngIf="contactNo.errors && contactNo.touched">Enter 10 digit mobile number
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="admin_dob" [min]="mindate" [max]="maxdate"
+                        #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" required></md2-datepicker>
+                    <md-hint class="errorText" *ngIf="dOB.errors && dOB.touched">DOB is required</md-hint>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myMobileNumber>
+                        <input mdInput placeholder="Age" ngModel name="person_age" [(ngModel)]="age" minlength="1" maxlength="2" #personAge="ngModel">
+                    </md-input-container>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myEmail>
+                        <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
+                            #validEmail="ngModel" required>
+                        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email-ID
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container [style.width]="'100%'" class="hide_underline">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="admin_maritalStatusId"
+                            (change)="showAllMaritalStatus()" required>
+                            <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
+                                {{item.status}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myMobileNumber>
+                        <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
+                            (keyup)="checkAadhar()" #number="ngModel" required>
+                        <md-hint *ngIf="number.valid || number.pristine">
+                            <span class="error_text" *ngIf="number.hasError('pattern')">Required 12 digit aadhar number</span>
+                            <span class="error_text" *ngIf="isExistAadhar">{{idMessage}}</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100">
+                        <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
+                            #panNo="ngModel" (keyup)="checkPan()" required>
+                        <md-hint *ngIf="panNo.valid || panNo.pristine">
+                            <span class="error_text" *ngIf="panNo.hasError('pattern')">Required 10 digit Pan number EX: alphanumeric</span>
+                            <span *ngIf="isExistPan" class="error_text">{{idMessage}}</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container [style.width]="'100%'" class="hide_underline">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="Educational Qualification" [style.width]="'100%'" [(ngModel)]="edu_qualification" name="admin_edu_qualification"
+                            (change)="getEduQualification()" required>
+                            <md-option *ngFor="let item of eduQualification" [value]="item.qualificationID">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myName>
+                        <input mdInput placeholder="Emergency Contact Person" ngModel name="em_cont_person" [(ngModel)]="emergency_cnt_person" minlength="2"
+                            maxlength="50" #emergencyname="ngModel" required>
+                        <md-hint *ngIf="emergencyname.touched">
+                            <span class="errorText" [hidden]="!emergencyname.errors">Enter atleast 2 characters</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100" myMobileNumber>
+                        <input mdInput placeholder="Emergency Contact Number" ngModel name="em_contact_number" [(ngModel)]="emergencyMobileNumber"
+                            minlength="10" maxlength="10" #emContactNo="ngModel" required>
+                        <md-hint class="errorText" *ngIf="emContactNo.errors && emContactNo.touched">Enter 10 digit mobile number
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <md-input-container class="width100">
+                        <input mdInput placeholder="Remarks" ngModel name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
+                    </md-input-container>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-push-1 col-lg-push-1 m-r-0">
+                <button md-raised-button color="primary" class="pull-right" (click)="update()" [disabled]="editAdminCreationForm.invalid || adminNameExists">
+                    Save Updates</button>
+            </div>
+        </div>
+    </div>
+</div>

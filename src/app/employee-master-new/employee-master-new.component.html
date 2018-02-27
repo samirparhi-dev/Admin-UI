@@ -1,0 +1,338 @@
+<md-card>
+    <div class="container-fluid">
+        <div class="row">
+            <md-accordion>
+                <md-expansion-panel (opened)="panelOpenState = true">
+                    <md-expansion-panel-header>
+                        <md-panel-title>
+                            <h4>
+                                <strong>User Details</strong>
+                            </h4>
+                        </md-panel-title>
+                    </md-expansion-panel-header>
+                    <div class="row m-l-0">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-l-0">
+                            <form #userCreationForm="ngForm" autocomplete="off">
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Title" class="width100" [(ngModel)]="titleID" name="title_Id" (change)="setGenderOnCondition()" required>
+                                            <md-option *ngFor="let item of titles" [value]="item.titleID">
+                                                {{item.titleName}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myName>
+                                        <input mdInput placeholder="Enter FirstName" [ngModel]="firstName" name="user_firstname" minlength="2" maxlength="50" #fname="ngModel"
+                                            required>
+                                        <md-hint *ngIf="fname.touched">
+                                            <span class="errorText" [hidden]="!fname.errors">Enter minimum 2 characters</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myName>
+                                        <input mdInput placeholder="Enter MiddleName" [ngModel]="middleName" name="user_middlename" minlength="2" maxlength="50"
+                                            #mName="ngModel">
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myName>
+                                        <input mdInput placeholder="Enter LastName" [ngModel]="lastName" name="user_lastname" minlength="2" maxlength="50" #lname="ngModel"
+                                            required>
+                                        <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters</md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Gender" class="width100" [(ngModel)]="genderID" name="gender_Id" required>
+                                            <md-option *ngFor="let item of genders" [value]="item.genderID">
+                                                {{item.genderName}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myMobileNumber>
+                                        <input mdInput placeholder="Contact No" [ngModel]="contactNo" name="primaryMobileNo" minlength="10" maxlength="10" #mobileNo="ngModel"
+                                            required>
+                                        <md-hint class="errorText" *ngIf="mobileNo.touched && mobileNo.errors">Required 10 digit mobile number
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select Designation" class="width100" [ngModel]="designationID" name="designation" (change)="getDesignations()"
+                                            required>
+                                            <md-option *ngFor="let item of designations" [value]="item.designationID">{{item.designationName}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myMobileNumber>
+                                        <input mdInput placeholder="Emergency Contact No" [ngModel]="emergency_contactNo" name="emergencyContactNo" minlength="10"
+                                            maxlength="10" #emergencyMobileNo="ngModel" required>
+                                        <md-hint class="errorText" *ngIf="emergencyMobileNo.touched && emergencyMobileNo.errors">Required 10 digit mobile number
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="user_dob" [min]="mindate" [max]="maxdate"
+                                        #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" required></md2-datepicker>
+                                    <md-hint class="errorText" *ngIf="dOB.errors && dOB.touched">DOB is required</md-hint>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100" myMobileNumber>
+                                        <input mdInput placeholder="Enter Age" [ngModel]="age" name="user_age" minlength="1" maxlength="2" #userAge="ngModel">
+                                        <!-- <md-hint class="errorText" *ngIf="userAge.touched && userAge.errors">Age is required</md-hint> -->
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Email" [ngModel]="emailID" name="primaryEmail" #validEmail="ngModel" ngModel [pattern]="emailPattern"
+                                            required>
+                                        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email is required</md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select Marital Status" class="width100" [ngModel]="maritalStatusID" name="marital_status" (change)="getMaritalStatuses()"
+                                            required>
+                                            <md-option *ngFor="let item of maritalStatuses.m_maritalStatuses" [value]="item.maritalStatusID">{{item.status}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="width100" myMobileNumber>
+                                        <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
+                                            (keyup)="checkAadhar()" #number="ngModel" required>
+                                        <md-hint *ngIf="number.valid || number.pristine">
+                                            <span class="error_text" *ngIf="number.hasError('pattern')">Required 12 digit aadhar number</span>
+                                            <span class="error_text" *ngIf="isExistAadhar">{{idMessage}}</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="width100" PAN>
+                                        <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
+                                            #panNo="ngModel" (keyup)="checkPan()" required>
+                                        <md-hint *ngIf="panNo.valid || panNo.pristine">
+                                            <span class="error_text" *ngIf="panNo.hasError('pattern')">Required 10 digit Pan number EX: alphanumeric</span>
+                                            <span *ngIf="isExistPan" class="error_text">{{idMessage}}</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select Qualification" class="width100" [ngModel]="qualificationID" name="edu_qualification" (change)="getQualifications()"
+                                            required>
+                                            <md-option *ngFor="let item of eduQualifications" [value]="item.qualificationID">{{item.name}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <h4>
+                                        <strong>Create user name and password</strong>
+                                    </h4>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="width100" PAN>
+                                        <input mdInput placeholder="Username" ngModel [(ngModel)]="username" name="user_name" [pattern]="userNamePattern" minlength="2"
+                                            maxlength="50" #uname="ngModel" (keyup)="checkUserNameAvailability(username)" required>
+                                        <md-hint class="errorText">
+                                            <span *ngIf="uname.hasError('pattern')">User name is required(can't end or start with special characters,min:2)</span>
+                                            <span *ngIf="showHint && uname.touched">{{username_status}}</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md-input-container class="width100">
+                                        <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
+                                            minlength="8" maxlength="12" #pwrd="ngModel" required>
+                                        <md-hint class="errorText">
+                                            <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                                    <md2-datepicker class="width100" name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" [max]="today"
+                                        required="true" (keydown)="preventTyping($event)"></md2-datepicker>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </md-expansion-panel>
+                <md-expansion-panel>
+                    <md-expansion-panel-header>
+                        <md-panel-title>
+                            <h4>
+                                <strong>Demographics Details</strong>
+                            </h4>
+                        </md-panel-title>
+                    </md-expansion-panel-header>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myName>
+                            <md-input-container class="width100" myName>
+                                <input mdInput placeholder="Enter Father's Name" [ngModel]="fatherName" name="father_name" minlength="2" maxlength="50" #ftName="ngModel"
+                                    required>
+                                <md-hint *ngIf="ftName.touched">
+                                    <span class="errorText" [hidden]="!ftName.errors">Enter minimum 2 characters</span>
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" myName>
+                            <md-input-container class="width100" myName>
+                                <input mdInput placeholder="Enter Mother's Name" [ngModel]="motherName" name="mother_name" minlength="2" maxlength="50" #mtName="ngModel"
+                                    required>
+                                <md-hint *ngIf="mtName.touched">
+                                    <span class="errorText" [hidden]="!mtName.errors">Enter minimum 2 characters</span>
+                                </md-hint>
+                            </md-input-container>
+                        </div>
+                        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                <md-input-container class="hide_underline width100">
+                                    <input mdInput style="display:none">
+                                    <md-select placeholder="Select Community" class="width100" [ngModel]="communityID" name="community" (change)="getCommunities()"
+                                        required>
+                                        <md-option *ngFor="let item of communities" [value]="item.community">{{item.designationName}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                <md-input-container class="hide_underline width100">
+                                    <input mdInput style="display:none">
+                                    <md-select placeholder="Select Religion" class="width100" [ngModel]="designationID" name="designation" (change)="getReligion()"
+                                        required>
+                                        <md-option *ngFor="let item of religion" [value]="item.designationID">{{item.designationName}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <h4>Current Address</h4>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Address Line 1" [ngModel]="addressLine" name="father_name" minlength="2" maxlength="200"
+                                            #address1="ngModel" required>
+                                        <md-hint *ngIf="address1.touched">
+                                            <span class="errorText" [hidden]="!address1.errors">Address is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Address Line 2" [ngModel]="addressLine" name="father_name" minlength="2" maxlength="200"
+                                            #address2="ngModel">
+                                        <md-hint *ngIf="address2.touched">
+                                            <span class="errorText" [hidden]="!address2.errors">Address is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <md-input-container class="hide_underline width100">
+                                                <input mdInput style="display:none">
+                                        <md-select placeholder="Select State"  class="width100" [(ngModel)]="stateId" (change)="getStates()" name="state" required>
+                                          <md-option *ngFor="let item of states" value="{{item.stateID}}">
+                                            {{item.stateName}}
+                                          </md-option>
+                                        </md-select>
+                                        </md-input-container>
+                                      </div>                                
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select District" class="width100" [ngModel]="qualificationID" name="edu_qualification" (change)="getDistricts()"
+                                            required>
+                                            <md-option *ngFor="let item of districts" [value]="item.qualificationID">{{item.name}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Pincode" [ngModel]="pincode" name="pincode" minlength="6" maxlength="6" #pin="ngModel"
+                                            required>
+                                        <md-hint *ngIf="pin.touched">
+                                            <span class="errorText" [hidden]="!pin.errors">Pincode is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <h4>Permanent Address</h4>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <md-checkbox class="pull-right">Same as Current Address</md-checkbox>
+                            </div>
+                            <div class="clearfix"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Address Line 1" [ngModel]="addressLine" name="father_name" minlength="2" maxlength="200"
+                                            #address1="ngModel" required>
+                                        <md-hint *ngIf="address1.touched">
+                                            <span class="errorText" [hidden]="!address1.errors">Address is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Address Line 2" [ngModel]="addressLine" name="father_name" minlength="2" maxlength="200"
+                                            #address2="ngModel" required>
+                                        <md-hint *ngIf="address2.touched">
+                                            <span class="errorText" [hidden]="!address2.errors">Address is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select State" class="width100" [ngModel]="state" name="state" (change)="getStates(countryId)" required>
+                                            <md-option *ngFor="let item of states" [value]="item.statesID">{{item.stateName}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="hide_underline width100">
+                                        <input mdInput style="display:none">
+                                        <md-select placeholder="Select District" class="width100" [ngModel]="districtId" name="district_id" (change)="getDistricts()"
+                                            required>
+                                            <md-option *ngFor="let item of districts" [value]="item.districtId">{{item.districtName}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <md-input-container class="width100">
+                                        <input mdInput placeholder="Enter Pincode" [ngModel]="pincode" name="pincode" minlength="6" maxlength="6" #pin="ngModel"
+                                            required>
+                                        <md-hint *ngIf="pin.touched">
+                                            <span class="errorText" [hidden]="!pin.errors">Pincode is required</span>
+                                        </md-hint>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-expansion-panel>
+            </md-accordion>
+        </div>
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+                <div>
+                    <button md-raised-button color="primary" class="pull-right" (click)="createUser()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

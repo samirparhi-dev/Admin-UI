@@ -171,6 +171,10 @@ import { ProviderServicelineStateMappingComponent } from './provider-serviceline
 import { AuthService } from './services/authentication/auth.service';
 import { SecurityFactory } from './http.security.factory';
 import { SecurityInterceptedHttp } from './http.securityinterceptor';
+import { ProviderAdminListComponent } from './provider-admin-list/provider-admin-list.component';
+import { EditProviderAdminModal } from './provider-admin-list/provider-admin-list.component';
+import { EmployeeMasterNewComponent } from './employee-master-new/employee-master-new.component';
+import { EmployeeMasterNewServices } from './services/ProviderAdminServices/employee-master-new-services.service';
 
 
 @NgModule({
@@ -201,7 +205,8 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
-    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent
+    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent, 
+    EditProviderAdminModal, EmployeeMasterNewComponent
 
   ],
 
@@ -276,7 +281,7 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
-    UserRoleAgentID_MappingService, AuthService,
+    UserRoleAgentID_MappingService, AuthService, EmployeeMasterNewServices,
      {
 
       provide: InterceptedHttp,
@@ -307,7 +312,8 @@ import { SecurityInterceptedHttp } from './http.securityinterceptor';
     EditInstituteSubDirectory,
     EditInstituteType,
     AgentIDMappingModal,
-    EditVillageModal
+    EditVillageModal,
+    EditProviderAdminModal
   ],
 
   bootstrap: [AppComponent]
