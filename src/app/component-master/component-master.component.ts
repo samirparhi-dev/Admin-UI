@@ -228,12 +228,15 @@ export class ComponentMasterComponent implements OnInit {
         } else  {
           let index = 0;
           obj.compOpt.forEach(element => {
+            console.log(element, 'element here', element.name);
             if (!element.name || element.name == undefined || element.name == null || element.name == '') {
-              this.alertService.alert('Please Fill details for all Component Properties.');
               index++;
             }
           });
-            return false;
+          if (index) {
+            this.alertService.alert('Please Fill details for all Component Properties.');
+             return false;
+             }
         }
 
       }
