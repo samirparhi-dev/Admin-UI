@@ -15,7 +15,9 @@ export class ComponentMasterServiceService {
   common_Base_Url: any;
 
   _getComponentListURL: any;
+  _getCurrentComponentURL: any;
   _postComponentURL: any;
+  _updateComponentURL: any;
   _toggleComponentURL: any;
 
   constructor(private http: SecurityInterceptedHttp,
@@ -24,9 +26,12 @@ export class ComponentMasterServiceService {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
     this._postComponentURL = this.providerAdmin_Base_Url + 'labModule/createComponentMaster';
+    this._updateComponentURL = this.providerAdmin_Base_Url + 'labModule/updateComponentMaster ';
     this._getComponentListURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentMaster/';
+    this._getCurrentComponentURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentDetailsForComponentID/';
     this._toggleComponentURL = this.providerAdmin_Base_Url + 'labModule/updateComponentStatus';
   }
+
   getCurrentComponents(providerServiceMapID) {
     return this.http.get(`${this._getComponentListURL}${providerServiceMapID}`)
       .map(this.handleSuccess)
@@ -36,6 +41,21 @@ export class ComponentMasterServiceService {
     // console.log(JSON.stringify(reqObject, null, 4))
     // return Observable.of(reqObject);
     return this.http.post(this._postComponentURL, reqObject)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+
+  }
+
+  getCurrentComponentForEdit(componentID) {
+    return this.http.get(`${this._getCurrentComponentURL}${componentID}`)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+
+  updateComponentData(reqObject) {
+    // console.log(JSON.stringify(reqObject, null, 4))
+    // return Observable.of(reqObject);
+    return this.http.post(this._updateComponentURL, reqObject)
       .map(this.handleSuccess)
       .catch(this.handleError);
 
