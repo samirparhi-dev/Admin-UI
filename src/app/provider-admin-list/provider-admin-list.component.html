@@ -148,8 +148,7 @@
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select placeholder="Marital Status" class="width100" [(ngModel)]="marital_status" name="admin_maritalStatusId" (change)="showAllMaritalStatus()"
-                  required>
+                <md-select placeholder="Marital Status" class="width100" [(ngModel)]="marital_status" name="admin_maritalStatusId" required>
                   <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
                     {{item.status}}
                   </md-option>
@@ -161,7 +160,7 @@
                 <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                   (keyup)="checkAadhar()" #number="ngModel" required>
                 <md-hint *ngIf="number.valid || number.pristine">
-                  <span class="error_text" *ngIf="number.hasError('pattern')">Required 12 digit aadhar number</span>
+                  <span class="error_text" *ngIf="number.errors && number.touched">Required 12 digit aadhar number</span>
                   <span class="error_text" *ngIf="isExistAadhar">{{idMessage}}</span>
                 </md-hint>
               </md-input-container>
@@ -171,7 +170,7 @@
                 <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
                   #panNo="ngModel" (keyup)="checkPan()" required>
                 <md-hint *ngIf="panNo.valid || panNo.pristine">
-                  <span class="error_text" *ngIf="panNo.hasError('pattern')">Required 10 digit Pan number EX: alphanumeric</span>
+                  <span class="error_text" *ngIf="panNo.errors && panNo.touched">Required 10 digit Pan number EX: alphanumeric</span>
                   <span *ngIf="isExistPan" class="error_text">{{idMessage}}</span>
                 </md-hint>
               </md-input-container>
@@ -180,8 +179,7 @@
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select placeholder="Educational Qualification" class="width100" [(ngModel)]="edu_qualification" name="admin_edu_qualification"
-                  (change)="getEduQualification()" required>
+                <md-select placeholder="Educational Qualification" class="width100" [(ngModel)]="edu_qualification" name="admin_edu_qualification" required>
                   <md-option *ngFor="let item of eduQualification" [value]="item.qualificationID">
                     {{item.name}}
                   </md-option>
@@ -217,7 +215,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form #providerAdminForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
-              <md-input-container class="width100" PAN>
+              <md-input-container class="width100">
                 <input mdInput placeholder="Username" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
                   maxlength="50" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
                 <md-hint class="errorText">
@@ -252,7 +250,7 @@
         </div>
       </div>
       <div class="row" *ngIf="(objs.length!=0)">
-        <form #multipleObjectsForm="ngForm" autocomplete="off">
+        <form autocomplete="off">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let obj of objs; let i=index">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
               <md-chip-list>
@@ -281,6 +279,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
           <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
           <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createProviderAdmin()">Save</button>
+          <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button>
         </div>
       </div>
     </div>

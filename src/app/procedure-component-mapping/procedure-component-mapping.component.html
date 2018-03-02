@@ -1,0 +1,175 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Procedure Component Mapping</h4>
+            <div *ngIf="unfilled" class="alert alert-danger" role="alert">
+                Please fill all the details
+            </div>
+            <div style="min-height: 100px;">
+                <form #stateService="ngForm">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess required>
+                            <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+                                {{stat.stateName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" required>
+                            <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
+                                {{ser.serviceName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </form>
+            </div>
+
+            <div style="display: block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
+                        </md2-autocomplete>
+                        <md-input-container style="width: 100% " *ngIf="selectedProcedureDescription">
+                            <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription" readonly>
+                        </md-input-container>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                        <md2-autocomplete name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList" item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1" #autocompleteControl="ngModel">
+                        </md2-autocomplete>
+                        <md-input-container style="width: 100% " *ngIf="selectedComponentDescription">
+                            <input id="component-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription" readonly>
+                        </md-input-container>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-1 col-lg-1 m-t-15">
+                        <button [disabled]="!selectedComponent" id="updateButton" md-raised-button color="primary" (click)="updateComponentMapList()">Map</button>
+
+
+                    </div>
+                    <div *ngIf="selectedProcedure" class="col-xs-12 col-sm-6 col-md-5 col-lg-5 ">
+                        <md-card class="push-top-card">
+                            <md-card-header>
+                                <md-card-title>
+                                    <h3 style="margin-top:-10px;">{{selectedProcedure.procedureName}}</h3>
+                                </md-card-title>
+                            </md-card-header>
+                            <md-card-content style="min-height: 100px;">
+                                <md-chip-list>
+                                    <md-chip removable class="custom-chip" (select)="removechip(component)" *ngFor="let component of selectedComponentList"><span>{{component.testComponentName}}</span>
+                                        <md-icon class="chip-icon" (click)="removechip(component)" mdChipRemove>cancel</md-icon>
+                                    </md-chip>
+
+
+                                </md-chip-list>
+                            </md-card-content>
+                            <md-card-footer>
+                                <div align="right">
+                                    <button *ngIf="editMode == false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1" id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Save</button>
+                                    <button *ngIf="editMode != false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1" id="postMapDataButton2" md-raised-button color="primary" (click)="postMappingData()">Update</button>
+
+                                </div>
+
+                            </md-card-footer>
+
+                        </md-card>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='procedureForm'>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      
+                        <md-input-container style="width: 100% ">
+                            <input id="procedure-name" mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+                        <md-select id="procedure-type" placeholder="Procedure Type" [style.width]="'100%'" formControlName="type">
+                            <md-option value="Radiology">
+                                Radiology
+                            </md-option>
+                            <md-option value="Laboratory">
+                                Laboratory
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
+                        Gender
+                        <div>
+                            <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
+                            <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 m-t-15">
+                        <md-input-container [style.width]="'100%'">
+                            <textarea mdInput mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description" maxlength="99"></textarea>
+                        </md-input-container>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 m-t-20 step-btn" align="left">
+                        <button *ngIf="!editMode" id="saveButton" md-raised-button color="primary" (click)="saveProcedure()">Save</button>
+                        <button *ngIf="editMode" id="updateButton" md-raised-button color="primary" (click)="updateProcedure()">Update</button>
+                    </div>
+                </div>
+
+            </div> -->
+        </div>
+    </div>
+</md-card>
+
+<md-card *ngIf="providerServiceMapID  && service == '2'">
+    <div class="row">
+
+        <div #tabledData class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+            <div *ngIf="mappedList?.length > 0" class="pull-right">
+                <md-input-container id="filterbox" class="m-t-20-">
+                    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterMappingList(filterTerm.value)">
+                    <md-icon mdSuffix>search</md-icon>
+                </md-input-container>
+            </div>
+            <div class="clearfix"></div>
+            <table class="table table-striped table-hover" [md2Data]="filteredMappedList" #md2="md2DataTable" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th width="10%">S.No</th>
+                        <th width="15%">Procedure Name</th>
+                        <th width="30%">Description</th>
+                        <th width="25%">Mapped Components</th>
+                        <!-- <th width="10%">Created By</th> -->
+                        <th width="10%">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="filteredMappedList.length == 0">
+                        <td colspan="5" align="center">No Previous Record Found</td>
+                    </tr>
+                    <tr *ngFor="let item of md2.data;let i = index ">
+                        <td>{{(md2.activePage-1)*4+i+1}}</td>
+                        <td>{{item.procedureName}}</td>
+                        <td>{{item.procedureDesc}}</td>
+                        <td>{{item.compList}}</td>
+                        <!-- <td>{{item.createdBy}}</td> -->
+                        <td>
+                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedureMapping(item, i)">edit</md-icon>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                        <td colspan="1">
+                            <span>Count: <b>{{filteredMappedList.length}}</b></span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</md-card>

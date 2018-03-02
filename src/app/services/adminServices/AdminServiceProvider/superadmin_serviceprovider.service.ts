@@ -22,8 +22,17 @@ export class SuperAdmin_ServiceProvider_Service {
   service_provider_setup_url: any;
   getAllStatesUrl: any;
   getAllServiceLinesUrl: any;
-
   checkProviderNameAvailabilityUrl: any;
+
+  /* Mapping Provider Admin */
+  getAllStatesByProviderUrl: any;
+  getAllServiceLinesByProviderUrl: any;
+  getAllProviderAdminUrl: any;
+  getAllProviderAdminMappingsUrl: any;
+  providerAdminActivateUrl: any;
+  providerAdminDeactivateUrl: any;
+  providerAdminUpdateUrl: any;
+  MappingProviderAdminUrl: any;
 
   getRegistrationDataUrl: any;
   getAllProviderUrl: any;
@@ -32,7 +41,7 @@ export class SuperAdmin_ServiceProvider_Service {
   getAllStatus_URL: any;
 
   // provider admin url
-  getAllProviderAdminUrl: any;
+  getAllProviderAdmin_url: any;
   checkUserAvailabilityUrl: any;
   getAllGendersUrl: any;
   getAllTitlesUrl: any;
@@ -70,11 +79,16 @@ export class SuperAdmin_ServiceProvider_Service {
     this.getAllStatesUrl = this.commonbaseurl + 'location/states/';
     this.getAllServiceLinesUrl = this.providerAdminBaseUrl + 'getServiceline';
 
+
     this.checkProviderNameAvailabilityUrl =
       this.providerAdminBaseUrl + 'checkProvider';    
     
     this.getRegistrationDataUrl =
       this.commonbaseurl + 'beneficiary/getRegistrationData';
+
+    this.checkProviderNameAvailabilityUrl = this.providerAdminBaseUrl + 'checkProvider';
+    this.getRegistrationDataUrl = this.commonbaseurl + 'beneficiary/getRegistrationData';
+
     this.getAllProviderUrl = this.providerAdminBaseUrl + 'getAllProvider';
     this.getProviderInfoUrl = this.providerAdminBaseUrl + 'getProviderStatus';
     this.addProviderStateAndServiceLinesUrl =
@@ -84,7 +98,7 @@ export class SuperAdmin_ServiceProvider_Service {
       /*
       * Creation of provider admin URL
       */
-    this.getAllProviderAdminUrl = this. providerAdminBaseUrl + '/completeUserDetails';
+    this.getAllProviderAdmin_url = this. providerAdminBaseUrl + '/completeUserDetails';
     this.checkUserAvailabilityUrl = this.providerAdminBaseUrl + '/m/FindEmployeeByName';
     this.createProviderAdminUrl = this.providerAdminBaseUrl + '/createProviderAdmin';    
     this.getAllGendersUrl = this.providerAdminBaseUrl + '/m/AllGender';
@@ -97,7 +111,15 @@ export class SuperAdmin_ServiceProvider_Service {
   
     // 	this.updateProviderPersonalDetailsUrl = this.providerAdminBaseUrl + "/updateProvider";
 
-
+    /* Mapping Provider Admin */
+    this.getAllStatesByProviderUrl = this.providerAdminBaseUrl + '/m/location/getStatesByServiceID';
+    this.getAllServiceLinesByProviderUrl = this.providerAdminBaseUrl + 'getServiceLinesUsingProvider';
+    this.getAllProviderAdminUrl = this.providerAdminBaseUrl + '/getProviderAdmin';
+    this.getAllProviderAdminMappingsUrl = this.providerAdminBaseUrl + 'getmappingProviderAdmintoProvider';
+    this.providerAdminActivateUrl = this.providerAdminBaseUrl + 'deletemappingProviderAdmintoProvider';
+    this.providerAdminDeactivateUrl = this.providerAdminBaseUrl + 'deletemappingProviderAdmintoProvider';
+    this.providerAdminUpdateUrl = this.providerAdminBaseUrl + 'editmappingProviderAdmintoProvider';
+    this.MappingProviderAdminUrl = this.providerAdminBaseUrl + 'mappingProviderAdmintoProvider';
 
     /* new APIs */
     this.createProviderUrl = this.superadmin_base_url + 'createProvider';
@@ -133,12 +155,68 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleError);
   }
 
+
   getAllServiceLines() {
     return this._http
       .post(this.getAllServiceLinesUrl, {})
       .map(this.extractData)
       .catch(this.handleError);
   }
+  // ** Mapping Provider Admin to Provider Added by Krishna Gunti **//
+  getAllServiceLinesByProvider(serviceProviderID: any) {
+    return this._http
+      .post(this.getAllServiceLinesByProviderUrl, { "serviceProviderID": serviceProviderID })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
+    return this._http
+      .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getAllMappedProviders() {
+    return this._http
+      .post(this.getAllProviderAdminMappingsUrl, {})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  getAllProviderAdmins() {
+    debugger;
+    return this._http
+      .post(this.getAllProviderAdminUrl, {})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  public activateProviderAdmin(req_obj) {
+    return this._httpInterceptor
+      .post(this.providerAdminActivateUrl, req_obj)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  public deactivateProviderAdmin(req_obj) {
+    debugger;
+    return this._httpInterceptor
+      .post(this.providerAdminDeactivateUrl, req_obj)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  public updateProviderAdminDetails(req_obj) {
+    return this._httpInterceptor
+      .post(this.providerAdminUpdateUrl, req_obj)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+  public createMappingProviderAdmin(request_array) {
+    debugger;
+    return this._httpInterceptor
+      .post(this.MappingProviderAdminUrl, request_array)
+      .map(this.extractCustomData)
+      .catch(this.handleCustomError);
+  }
+  // ** End  **//
   getAllProvider() {
     return this._http
       .post(this.getAllProviderUrl, {})
@@ -163,7 +241,7 @@ export class SuperAdmin_ServiceProvider_Service {
   //  Provider admin related functions
   getAllProviderAdmin() {
     return this._http
-    .post(this.getAllProviderAdminUrl, {})
+    .post(this.getAllProviderAdmin_url, {})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -212,9 +290,9 @@ export class SuperAdmin_ServiceProvider_Service {
     .map(this.extractData)
     .catch(this.handleError);
   }
-  delete_toggle_activation(toggle_object) {
+  delete_toggle_activation(userID) {
     return this._http
-    .post(this.delete_toggle_activationUrl, toggle_object)
+    .post(this.delete_toggle_activationUrl, userID)
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -280,6 +358,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .map(this.extractCustomData)
       .catch(this.handleCustomError);
   }
+
 
   mapProviderServiceState(requestArray) {
     return this._httpInterceptor

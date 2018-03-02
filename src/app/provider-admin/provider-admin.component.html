@@ -1,123 +1,185 @@
 <div class="col-xs-12 col-sm-12 b-t-2-w">
-  <div class="panel-body card p-a-0 bg-white ">
-    <div class="container-fluid p-a-0 overflow-y" style="height: 580px">
-      <div class=" b-t-2-w">
-        <div class="col-xs-12 col-sm-12">
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 ">
-              <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                  <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                      aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                  </div>
-                  <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                      <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities<span class="caret"></span></a>
-                        <ul class="dropdown-menu multi-level">
-                          <li style="cursor: pointer" (click)='show("1")'><a>Job Location-ServiceLine Mapping Master</a></li>
-                          <li style="cursor: pointer" (click)='show("2")'><a>Role Master</a></li>
-                          <li style="cursor: pointer" (click)='show("3")'><a>Employee Master</a></li>
-                          <li style="cursor: pointer" (click)='show("4")'><a>Call Disposition Type Master</a></li>
-                          <li style="cursor: pointer" (click)='show("5")'><a>Category Subcategory Provisioning</a></li>
-                          <li style="cursor: pointer" (click)='show("12")'><a>Severity Type</a></li>
-                          <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
-                          <li style="cursor: pointer" (click)='show("6")'><a>Drug Master</a></li>
+    <div class="panel-body card p-a-0 bg-white ">
+        <div class="container-fluid p-a-0 overflow-y" style="height: 580px">
+            <div class=" b-t-2-w">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 ">
+                            <nav class="navbar navbar-default">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                                            aria-controls="navbar">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div id="navbar" class="navbar-collapse collapse">
+                                        <ul class="nav navbar-nav">
+                                            <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu multi-level">
+                                                    <li style="cursor: pointer" (click)='show("1")'>
+                                                        <a>Job Location-ServiceLine Mapping Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("2")'>
+                                                        <a>Role Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("3")'>
+                                                        <a>Employee Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("4")'>
+                                                        <a>Call Disposition Type Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("5")'>
+                                                        <a>Category Subcategory Provisioning</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("12")'>
+                                                        <a>Severity Type</a>
+                                                    </li>
+                                                    <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
+                                                    <li style="cursor: pointer" (click)='show("6")'>
+                                                        <a>Drug Master</a>
+                                                    </li>
 
-                           <li style="cursor: pointer" (click)='show("20")'><a>Institute Directory Master</a></li>
-                           <li style="cursor: pointer" (click)='show("22")'><a>Institute Subdirectory Master</a></li>
-
-
-                          <li style="cursor: pointer" (click)='show("18")'><a>Feedback/Complaint Type Master</a></li>
-                          <li style="cursor: pointer" (click)='show("19")'><a>Feedback/Complaint Nature Master</a></li>
-                           <li style="cursor: pointer" (click)='show("21")'><a>Institute Master</a></li>
-                           <li style="cursor: pointer" (click)='show("25")'><a>Institute Type Master</a></li>
-
-
-
-                          <li class="dropdown-submenu">
-                            <a tabindex="-1">Outreach Master</a>
-                            <ul class="dropdown-menu">
-                              <li style="cursor: pointer" (click)='show("7")'><a>Zone Master</a></li>
-                              <li style="cursor: pointer" (click)='show("8")'><a>Parking Place Master</a></li>
-                              <li style="cursor: pointer" (click)='show("9")'><a>Service Point Master</a></li>
-                              <li style="cursor: pointer" (click)='show("14")'><a>Van Master</a></li>
-                              <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
-                            </ul>
-                          </li>
-
-
-                        </ul>
-                      </li>
-                      <li style="cursor: pointer" (click)='show("10")'><a>Reports</a></li>
-                      <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurations<span class="caret"></span></a>
-                        <ul class="dropdown-menu multi-level">
-                          <li class="dropdown-submenu">
-                            <a tabindex="-1">Outreach Configrations</a>
-                            <ul class="dropdown-menu">
-                              <li style="cursor: pointer" (click)='show("11")'><a>Service Point Village Mapping</a></li>
-                              <li style="cursor: pointer" (click)='show("16")'><a>Van Service Point Mapping</a></li>
-                              <li style="cursor: pointer" (click)='show("17")'><a>User Parking Place Mapping</a></li>
-                            </ul>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("23")'><a>Hospital-Institute Directory Mapping</a></li>
-                          <li style="cursor: pointer" (click)='show("24")'><a>Agent List Creation</a></li>
-                          <li style="cursor: pointer" (click)='show("26")'><a>User-Role AgentID Mapping</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </div>
-          <div class="row">
-            <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
-              <div>
-                <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
-                <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
-                <app-employee-master *ngSwitchCase="3"></app-employee-master>
-                <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
-                <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
-                <app-drug-master *ngSwitchCase="6"></app-drug-master>
-                <app-severity-type *ngSwitchCase="12"></app-severity-type>
-                <app-feedback-type *ngSwitchCase="13"></app-feedback-type>
-                <app-zone-master *ngSwitchCase="7"></app-zone-master>
-                <app-parking-place *ngSwitchCase="8"></app-parking-place>
-                <app-service-point *ngSwitchCase="9"></app-service-point>
-                <app-van-master *ngSwitchCase="14"></app-van-master>
-                <app-van-type *ngSwitchCase="15"></app-van-type>
-                <p *ngSwitchCase="10">Reports</p>
-                <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
-                <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
-                <app-employee-parking-place-mapping *ngSwitchCase="17"></app-employee-parking-place-mapping>
-                <app-institute-directory-master *ngSwitchCase="20"></app-institute-directory-master>
-                <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
-                <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
-                <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
-                <app-institute-subdirectory-master *ngSwitchCase="22"></app-institute-subdirectory-master>
-                <app-hospital-institute-directory-subdirectory-mapping *ngSwitchCase="23"></app-hospital-institute-directory-subdirectory-mapping>
-                <app-agent-list-creation *ngSwitchCase="24"></app-agent-list-creation>
-                <app-institute-type-master *ngSwitchCase="25"></app-institute-type-master>
-                <app-user-role-agent-id-mapping *ngSwitchCase="26"></app-user-role-agent-id-mapping>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<footer class="footer" style="left: 0px">
-  <div class="row">
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-      <span class="footer-text">Powered by: WIPRO</span>
-    </div>
-    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-      <p class="footer-text t-a-c">2017
-        <md-icon color="" class="copyright_icon" style="font-size: 12px">copyright</md-icon> PSMRI</p>
-    </div>
-  </div>
-</footer>
-
+                                                    <li style="cursor: pointer" (click)='show("20")'>
+                                                        <a>Institute Directory Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("22")'>
+                                                        <a>Institute Subdirectory Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("18")'>
+                                                        <a>Feedback/Complaint Type Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("19")'>
+                                                        <a>Feedback/Complaint Nature Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("21")'>
+                                                        <a>Institute Master</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("25")'>
+                                                        <a>Institute Type Master</a>
+                                                    </li>
+                                                    <li class="dropdown-submenu">
+                                                        <a tabindex="-1">Outreach Master</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li style="cursor: pointer" (click)='show("7")'>
+                                                                <a>Zone Master</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("8")'>
+                                                                <a>Parking Place Master</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("9")'>
+                                                                <a>Service Point Master</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("14")'>
+                                                                <a>Van Master</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("29")'>
+                                                                <a>Procedure Master</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("30")'>
+                                                                <a>Component Master</a>
+                                                            </li>
+                                                            <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
+                                                        </ul>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("27")'>
+                                                        <a>Employee Master New</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("28")'>
+                                                        <a>Language Mapping</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li style="cursor: pointer" (click)='show("10")'>
+                                                <a>Reports</a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurations
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu multi-level">
+                                                    <li class="dropdown-submenu">
+                                                        <a tabindex="-1">Outreach Configrations</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li style="cursor: pointer" (click)='show("11")'>
+                                                                <a>Service Point Village Mapping</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("16")'>
+                                                                <a>Van Service Point Mapping</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("17")'>
+                                                                <a>User Parking Place Mapping</a>
+                                                            </li>
+                                                            <li style="cursor: pointer" (click)='show("31")'>
+                                                                <a>Procedure Component Mapping</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("23")'>
+                                                        <a>Hospital-Institute Directory Mapping</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("24")'>
+                                                        <a>Agent List Creation</a>
+                                                    </li>
+                                                    <li style="cursor: pointer" (click)='show("26")'>
+                                                        <a>User-Role AgentID Mapping</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
+                                        <div>
+                                            <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
+                                            <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
+                                            <app-employee-master *ngSwitchCase="3"></app-employee-master>
+                                            <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
+                                            <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
+                                            <app-drug-master *ngSwitchCase="6"></app-drug-master>
+                                            <app-severity-type *ngSwitchCase="12"></app-severity-type>
+                                            <app-feedback-type *ngSwitchCase="13"></app-feedback-type>
+                                            <app-zone-master *ngSwitchCase="7"></app-zone-master>
+                                            <app-parking-place *ngSwitchCase="8"></app-parking-place>
+                                            <app-service-point *ngSwitchCase="9"></app-service-point>
+                                            <app-van-master *ngSwitchCase="14"></app-van-master>
+                                            <app-van-type *ngSwitchCase="15"></app-van-type>
+                                            <p *ngSwitchCase="10">Reports</p>
+                                            <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
+                                            <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
+                                            <app-employee-parking-place-mapping *ngSwitchCase="17"></app-employee-parking-place-mapping>
+                                            <app-institute-directory-master *ngSwitchCase="20"></app-institute-directory-master>
+                                            <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
+                                            <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
+                                            <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
+                                            <app-institute-subdirectory-master *ngSwitchCase="22"></app-institute-subdirectory-master>
+                                            <app-hospital-institute-directory-subdirectory-mapping *ngSwitchCase="23"></app-hospital-institute-directory-subdirectory-mapping>
+                                            <app-agent-list-creation *ngSwitchCase="24"></app-agent-list-creation>
+                                            <app-institute-type-master *ngSwitchCase="25"></app-institute-type-master>
+                                            <app-user-role-agent-id-mapping *ngSwitchCase="26"></app-user-role-agent-id-mapping>
+                                            <app-employee-master-new *ngSwitchCase="27"></app-employee-master-new>
+                                            <app-component-master *ngSwitchCase="30"></app-component-master>
+                                            <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
+                                            <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
+                                            <!-- <app-language-mapping *ngSwitchCase="28"></app-language-mapping> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <footer class="footer" style="left: 0px">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <span class="footer-text">Powered by: WIPRO</span>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                            <p class="footer-text t-a-c">2017
+                                                <md-icon color="" class="copyright_icon" style="font-size: 12px">copyright</md-icon> PSMRI</p>
+                                        </div>
+                                    </div>
+                                </footer>

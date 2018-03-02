@@ -116,7 +116,12 @@ export class ProviderAdminListComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
-    // this.resetDob();
+    this.dob = new Date();
+    this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate=new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate=new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response));
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response));
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response));
@@ -142,14 +147,6 @@ export class ProviderAdminListComponent implements OnInit {
       }
     }
   }
-  // resetDob() {
-  //   this.dob = new Date();
-  //   this.dob.setFullYear(this.today.getFullYear() - 20);
-  //   this.maxdate = new Date();
-  //   this.maxdate.setFullYear(this.today.getFullYear() - 20);
-  //   this.mindate = new Date();
-  //   this.mindate.setFullYear(this.today.getFullYear() - 70);
-  // }
 
   /*
   * User name availability
@@ -162,8 +159,7 @@ export class ProviderAdminListComponent implements OnInit {
       .subscribe(response => this.checkUsernameSuccessHandeler(response));
   }
 
-  checkUsernameSuccessHandeler(response) {
-    console.log(this.username, 'uname');
+  checkUsernameSuccessHandeler(response) {   
     console.log('username existance status', response);
     if (response.response == 'userexist') {
       this.username_status = 'User Login ID Exists!! Type Different Please!';
@@ -221,40 +217,12 @@ export class ProviderAdminListComponent implements OnInit {
   /*
   * List the qualification details
   */
-  getEduQualification() {
-    this.superadminService.getAllQualifications()
-      .subscribe(response => {
-        if (response) {
-          console.log("Educational Qualification list", response);
-          this.eduQualification = response;
-        }
-      }, err => {
-        console.log("Error", err);
-      })
-  }
-  /*
-  * success handler for educational qualification 
-  */
   getEduQualificationSuccessHandler(response) {
     console.log(response, "admin qualification");
     this.eduQualification = response;
   }
   /*
   * List the marital status
-  */
-  showAllMaritalStatus() {
-    debugger;
-    this.superadminService.getAllMaritalStatus().subscribe(response => {
-      if (response) {
-        console.log("Marital Status", response);
-        this.maritalStatus = response;
-      }
-    }, err => {
-      console.log("Error", err);
-    });
-  }
-  /*
-  * Success handler for marital status
   */
   showAllMaritalSuccessHandler(response) {
     console.log(response, "marital status");
@@ -334,12 +302,11 @@ export class ProviderAdminListComponent implements OnInit {
       'admin_remarks': this.admin_remarks,
 
     }
-    console.log("add_object", tempObj);
+    console.log("add objects", tempObj);
     this.objs.push(tempObj);
     this.checkUserNameAvailability(admin_firstName);
     this.providerAdminCreationForm.resetForm();
     this.providerAdminForm.resetForm();
-    // this.adminNameExists = false;
 
   }
   /*
@@ -347,6 +314,13 @@ export class ProviderAdminListComponent implements OnInit {
   */
   remove_obj(index) {
     this.objs.splice(index, 1);
+  }
+  /*
+  * Clear all the data
+  */
+  clearAll() {
+    this.providerAdminCreationForm.resetForm();
+    this.providerAdminForm.resetForm();
   }
   /*
   * provider creation
@@ -374,7 +348,7 @@ export class ProviderAdminListComponent implements OnInit {
         'password': this.objs[i].password,
         'remarks': this.objs[i].admin_remarks,
         'createdBy': "Admin",
-        'isSupervisor': "true"
+        'isProviderAdmin': "true"
       }
       reqObject.push(tempObj);
     }
@@ -384,7 +358,6 @@ export class ProviderAdminListComponent implements OnInit {
       this.editMode = false;
       this.dialogService.alert("Provider Admin Created successfully");
       this.objs = [];
-      // this.resetDob();
       this.getAllProviderAdminDetails();
 
     })
@@ -465,7 +438,7 @@ export class EditProviderAdminModal {
   admin_lastName: any;
   gender: any;
   dob: any;
-  // age: number;
+  age: number;
   primaryMobileNumber: any;
   primaryEmail: any;
   marital_status: any;
@@ -479,6 +452,9 @@ export class EditProviderAdminModal {
   mindate: any;
   maxdate: any;
   formMode: boolean = true;
+  isExistAadhar: boolean = false;
+  isExistPan: boolean = false;
+  idMessage: string;
 
   // arrays
   genders: any = [];
@@ -513,7 +489,7 @@ export class EditProviderAdminModal {
     this.gender = this.data.genderID;
     this.primaryMobileNumber = this.data.contactNo;
     this.primaryEmail = this.data.emailID;
-    //  this.age = this.data.age;
+    this.age = this.data.age;
     this.dob = this.data.dOB;
     this.marital_status = this.data.maritalStatusID;
     this.aadharNumber = this.data.aadhaarNo;
@@ -545,33 +521,18 @@ export class EditProviderAdminModal {
     this.genders = response.m_genders;
   }
   /*
-    * List the qualification details
+    * Calculate age
     */
-  getEduQualification() {
-    this.superadminService.getAllQualifications()
-      .subscribe(response => {
-        if (response) {
-          console.log("Educational Qualification list", response);
-          this.eduQualification = response;
-        }
-      }, err => {
-        console.log("Error", err);
-      })
-  }
-  /*
-  * List the marital status
-  */
-  showAllMaritalStatus() {
-    this.superadminService.getAllMaritalStatus().subscribe(response => {
-      if (response) {
-        console.log("Marital Status", response);
-        this.maritalStatus = response;
+  calculateAge(date) {
+    if (date != undefined) {
+      this.age = this.today.getFullYear() - date.getFullYear();
+      const month = this.today.getMonth() - date.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+        this.age--; //age is ng-model of AGE
       }
-    }, err => {
-      console.log("Error", err);
-    });
+    }
   }
-  /*
+    /*
  * Success Handlers
  */
   getAllProviderAdminDetailsSuccessHandler(response) {
@@ -579,13 +540,57 @@ export class EditProviderAdminModal {
     this.allProviderAdmin = response;
   }
   getEduQualificationSuccessHandler(response) {
-    console.log(response, "admin qualification");
+    console.log("Admin qualification", response);
     this.eduQualification = response;
   }
   showAllMaritalSuccessHandler(response) {
-    console.log(response, "marital status");
+    console.log("Marital status", response);
     this.maritalStatus = response;
-    console.log("result", this.maritalStatus);
+  }
+/*
+    * Check Uniqueness in Aadhar
+    */
+   checkAadhar() {
+    if (this.aadharNumber.length == 12) {
+      this.superadminService.validateAadhar(this.aadharNumber).subscribe(
+        (response: any) => {
+          this.checkAadharSuccessHandler(response);
+        },
+        err => { console.log("Error", err); }
+      );
+    }
+  }
+  checkAadharSuccessHandler(response) {
+    if (response.response == 'true') {
+      this.isExistAadhar = true;
+      this.idMessage = 'Adhaar Number Already Exists';
+    } else {
+      this.isExistAadhar = false;
+      this.idMessage = '';
+    }
+  }
+  /*
+    * Check Uniqueness in Pan
+    */
+  checkPan() {
+    if (this.panNumber.length == 10) {
+      this.superadminService.validatePan(this.panNumber).subscribe(
+        response => {
+          console.log("pan response", response);
+          this.checkPanSuccessHandler(response);
+        },
+        err => { }
+      );
+    }
+  }
+  checkPanSuccessHandler(response) {
+    if (response.response == 'true') {
+      this.isExistPan = true;
+      this.idMessage = 'Pan Number Already Exists';
+    } else {
+      this.isExistPan = false;
+      this.idMessage = '';
+    }
   }
 
   update() {
@@ -606,15 +611,12 @@ export class EditProviderAdminModal {
       'emergencyContactPerson': this.emergency_cnt_person,
       'emergencyContactNo': this.emergencyMobileNumber,
       'remarks': this.admin_remarks,
-      'userID': this.data.userID,
-      'userName': this.data.userName,
-      'password': this.data.password,
+      'userID': this.data.userID,     
       'modifiedBy': this.data.createdBy
 
-    }
-    console.log("updated data", this.titleID, this.admin_firstName);
+    }   
     this.superadminService.updateProviderAdmin(update_tempObj).subscribe(response => {
-      console.log("closed successfully", response);
+     console.log("Data to be update", response);
       this.dialogRef.close("success");
 
     })

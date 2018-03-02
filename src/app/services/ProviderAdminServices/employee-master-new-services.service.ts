@@ -16,8 +16,9 @@ export class EmployeeMasterNewServices {
     common_base_url: any;
 
     // Urls - Fetching dropdown related data
-    getAllTitlesUrl: any;
-    getAllGendersUrl: any;
+    // getAllTitlesUrl: any;
+    // getAllGendersUrl: any;
+    getAllUsersUrl: any;
     getAllDesignationsUrl: any;
     getAllMaritalStatusesUrl: any;
     getAllQualificationsUrl: any;
@@ -28,6 +29,8 @@ export class EmployeeMasterNewServices {
     getAllDistrictsUrl: any;
     checkUserAvailabilityUrl: any;
     checkID: any;
+    createNewUserUrl: any;
+    userActivationDeactivationUrl: any;
 
     constructor(private http: InterceptedHttp,
         public basePaths: ConfigService,
@@ -35,10 +38,10 @@ export class EmployeeMasterNewServices {
         this.providerAdmin_base_url= this.basePaths.getAdminBaseUrl();
         this.common_base_url= this.basePaths.getCommonBaseURL();
 
-        // APIs - For fetching dropdown data
+        // APIs - For Employee Master New
         this.getRegistrationDataUrl= this.common_base_url + 'beneficiary/getRegistrationData';
-        // this.getAllTitlesUrl= this.providerAdmin_base_url + '/m/AllTitle';
-        // this.getAllGendersUrl= this.providerAdmin_base_url + '/m/AllGender';
+        this.checkUserAvailabilityUrl = this.providerAdmin_base_url + '/m/FindEmployeeByName';
+        this.getAllUsersUrl= this.providerAdmin_base_url + '/m/SearchEmployee5';
         this.getAllDesignationsUrl= this.providerAdmin_base_url + '/m/getDesignation';
         this.getAllMaritalStatusesUrl= this.common_base_url + '/beneficiary/getRegistrationDataV1';
         this.getAllQualificationsUrl= this.providerAdmin_base_url+ '/m/Qualification';
@@ -47,6 +50,8 @@ export class EmployeeMasterNewServices {
         this.getAllStatesUrl= this.common_base_url+ 'location/states/';
         this.getAllDistrictsUrl= this.common_base_url+ 'location/districts/';
         this.checkID = this.providerAdmin_base_url + 'm/FindEmployeeDetails';
+        this.createNewUserUrl = this.providerAdmin_base_url + '/createNewUser';
+        this.userActivationDeactivationUrl = this.providerAdmin_base_url + '/deletedUserDetails';
     }
     // User Details related methods for fetching all dropdown data
     getCommonRegistrationData() {
@@ -54,6 +59,12 @@ export class EmployeeMasterNewServices {
           .post(this.getRegistrationDataUrl, {})
           .map(this.extractData)
           .catch(this.handleError);
+      }
+      getAllUsers() {
+          return this.httpSecurity
+          .post(this.getAllUsersUrl, {})
+          .map(this.extractData)
+          .catch(this.handleError)
       }
       checkUserAvailability(name) {
         return this.httpSecurity
@@ -63,18 +74,6 @@ export class EmployeeMasterNewServices {
         .map(this.extractData)
         .catch(this.handleError)
       }
-    // getAllTitles() {
-    //     return this.httpSecurity
-    //     .post(this.getAllTitlesUrl, {})
-    //     .map(this.extractData)
-    //     .catch(this.handleError)
-    // }
-    // getAllGenders() {
-    //     return this.httpSecurity
-    //     .post(this.getAllGendersUrl, {})
-    //     .map(this.extractData)
-    //     .catch(this.handleError)
-    // }
     getAllDesignations() {
         return this.httpSecurity
         .post(this.getAllDesignationsUrl, {})
@@ -106,9 +105,9 @@ export class EmployeeMasterNewServices {
         .catch(this.handleError)
     }
     getAllStates(countryId) {
-        console.log("inside states");   
+        console.log("COuntryID:", countryId);          
         return this.httpSecurity
-        .get(this.getAllStatesUrl+ countryId)
+        .get(this.getAllStatesUrl+  countryId)
         .map(this.extractData)
         .catch(this.handleError)
     }
@@ -129,6 +128,19 @@ export class EmployeeMasterNewServices {
         .post(this.checkID, { 'pAN': idNumber })
           .map(this.extractCustomData)
           .catch(this.handleError);
+      }
+      createNewUser(reqObject) {
+          return this.httpSecurity
+          .post(this.createNewUserUrl, reqObject)
+          .map(this.extractData)
+          .catch(this.handleError)
+      }
+      userActivationDeactivation(toggle_obj) {
+          console.log("toggle_obj", toggle_obj);
+          return this.httpSecurity
+          .post( this.userActivationDeactivationUrl, toggle_obj)
+          .map( this.extractData)
+          .catch( this.handleError)
       }
 
 
