@@ -181,7 +181,7 @@ export class ProcedureMasterComponent implements OnInit {
           gender: 'Female'
         };
       }
-      console.log(apiObject, 'apiObject');
+      console.log(JSON.stringify(apiObject,null,3), 'apiObject');
       return apiObject;
     }
 
@@ -283,7 +283,7 @@ export class ProcedureMasterComponent implements OnInit {
       female = true;
     }
     this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
-
+console.log(JSON.stringify(item,null,4));
     this.procedureForm.patchValue({
       id: item.procedureID,
       name: item.procedureName,
