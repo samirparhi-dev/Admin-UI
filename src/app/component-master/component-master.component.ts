@@ -147,7 +147,7 @@ export class ComponentMasterComponent implements OnInit {
     delete apiObject.modifiedBy;
     delete apiObject.deleted;
 
-    console.log(apiObject, 'apiObject');
+    console.log(JSON.stringify(apiObject,null,4), 'apiObject');
     if (apiObject) {
       apiObject.createdBy = this.commonDataService.uname;
 
@@ -332,7 +332,7 @@ export class ComponentMasterComponent implements OnInit {
   configComponent(item, i) {
     this.componentMasterServiceService.getCurrentComponentForEdit(item.testComponentID)
       .subscribe((res) => { this.loadDataToEdit(res) })
-    console.log(item, 'item to patch');
+    console.log(JSON.stringify(item,null,4), 'item to patch');
     console.log(this.componentForm, 'form here');
     // this.editMode = item.testComponentID;
     //     this.editMode = 21;
@@ -363,7 +363,7 @@ export class ComponentMasterComponent implements OnInit {
 
 
   loadDataToEdit(res) {
-    console.log(res, 'res');
+    console.log(JSON.stringify(res,null,4), 'res');
     if (res) {
       this.editMode = res.testComponentID;
       this.componentForm.patchValue(res);
