@@ -176,7 +176,7 @@ feedbackName:any;
       else if(this.objs[i].feedbackTypeName == "Epidemic Complaints"){
         tempObj['FeedbackTypeCode'] = 'EC';
       }
-      else if(this.objs[i].feedbackTypeName == "Food Complaints"){
+      else if(this.objs[i].feedbackTypeName == "Foodsafety Complaints"){
         tempObj['FeedbackTypeCode'] = 'FC';
       }
       tempArr.push(tempObj);
@@ -314,7 +314,7 @@ export class EditFeedbackModal {
     else if(this.feedbackName == "Epidemic Complaints"){
       tempObj['FeedbackTypeCode'] = 'EC';
     }
-    else if(this.feedbackName == "Food Complaints"){
+    else if(this.feedbackName == "Foodsafety Complaints"){
       tempObj['FeedbackTypeCode'] = 'FC';
     }
     
