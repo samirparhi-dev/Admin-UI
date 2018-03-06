@@ -8,19 +8,20 @@
                             <nav class="navbar navbar-default">
                                 <div class="container-fluid">
                                     <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                    </button>
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                                            aria-controls="navbar">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
                                     </div>
                                     <div id="navbar" class="navbar-collapse collapse">
                                         <ul class="nav navbar-nav">
                                             <li class="dropdown">
                                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities
-                          <span class="caret"></span>
-                        </a>
+                                                    <span class="caret"></span>
+                                                </a>
                                                 <ul class="dropdown-menu multi-level">
                                                     <li style="cursor: pointer" (click)='show("1")'>
                                                         <a>Job Location-ServiceLine Mapping Master</a>
@@ -90,7 +91,9 @@
                                                     <li style="cursor: pointer" (click)='show("28")'>
                                                         <a>Language Mapping</a>
                                                     </li>
-
+                                                    <li style="cursor: pointer" (click)='show("32")'>
+                                                        <a>Work Location Mapping</a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                             <li style="cursor: pointer" (click)='show("10")'>
@@ -98,8 +101,8 @@
                                             </li>
                                             <li class="dropdown">
                                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurations
-                          <span class="caret"></span>
-                        </a>
+                                                    <span class="caret"></span>
+                                                </a>
                                                 <ul class="dropdown-menu multi-level">
                                                     <li class="dropdown-submenu">
                                                         <a tabindex="-1">Outreach Configrations</a>
@@ -164,7 +167,8 @@
                                             <app-component-master *ngSwitchCase="30"></app-component-master>
                                             <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
                                             <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
-                                            <!-- <app-language-mapping *ngSwitchCase="28"></app-language-mapping> -->
+                                            <app-language-mapping *ngSwitchCase="28"></app-language-mapping>
+                                            <app-work-location-mapping *ngSwitchCase="32"></app-work-location-mapping>
                                         </div>
                                     </div>
                                 </div>

@@ -180,7 +180,8 @@ import { ProcedureComponentMappingComponent } from './procedure-component-mappin
 import { MappingProviderAdminToProviderComponent } from './mapping-provider-admin-to-provider/mapping-provider-admin-to-provider.component';
 import { LanguageMappingComponent } from './language-mapping/language-mapping.component';
 import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
-
+import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
+import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
 @NgModule({
   declarations: [
 
@@ -211,7 +212,7 @@ import { LanguageMapping } from './services/ProviderAdminServices/language-mappi
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
 
-    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent
+    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
 
 
 
@@ -291,7 +292,7 @@ import { LanguageMapping } from './services/ProviderAdminServices/language-mappi
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
-    ComponentMasterServiceService, LanguageMapping,
+    ComponentMasterServiceService, LanguageMapping, WorkLocationMapping,
     {
 
       provide: InterceptedHttp,

@@ -1,0 +1,277 @@
+<md-card>
+  <div class="row" *ngIf="tableMode">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4>
+        <strong>Work-Location-Mapping</strong>
+      </h4>
+    </div>
+    <!-- pre-populated table showing the number of providers available -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+
+      <table [md2Data]="mappedWorkLocationsList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Serviceline</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Work Location</th>
+            <th>Role</th>
+            <th>Edit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="mappedWorkLocationsList.length == 0">
+            <td colspan="7" align="center">No Record Found</td>
+          </tr>
+          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+            <td>{{service.name}}</td>
+            <td>{{service.serviceName}}</td>
+            <td>{{service.stateName}}</td>
+            <td>{{service.workingDistrictName}}</td>
+            <td>{{service.workingLocationAddress}}</td>
+            <td>{{service.roleName}}</td>
+            <td>
+              <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" *ngIf="!service.userDeleted" style="font-size: 18px" (click)="editRow(service)"></i>
+            </td>
+            <td>
+              <button md-raised-button color="primary" *ngIf="service.userDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.userDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
+
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="5" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="formMode">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 *ngIf="!editMode">
+        <strong>Work-Location-Mapping</strong>
+      </h4>
+      <h4 *ngIf="editMode">
+        <strong>Edit Work-Location-Mapping</strong>
+      </h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+      <form id="workplaceForm" #workplaceform="ngForm" autocomplete="off">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" (change)="getAllServicelines(User)"
+              required>
+              <md-option *ngFor="let user of userNamesList" [value]="user">
+                {{user.userName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllStates(User,Serviceline)"
+              required>
+              <md-option *ngFor="let item of services_array" [value]="item">
+                {{item.serviceName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State)"
+              required>
+              <md-option *ngFor="let item of filteredStates" [value]="item">
+                {{item.stateName}}
+              </md-option>
+            </md-select>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="District" name="district" (change)="getAllWorkLocations(User,State,Serviceline)"
+              required>
+              <md-option *ngFor="let item of districts_array" [value]="item">
+                {{item.districtName}}
+              </md-option>
+            </md-select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(User,State,Serviceline)"
+              name="worklocation" required>
+              <md-option *ngFor="let item of workLocationsList" [value]="item">
+                {{item.locationName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+            <md-select placeholder="Select Role" [style.width]="'100%'" [multiple]="true" [(ngModel)]="Role" name="role" required>
+              <md-option *ngFor="let item of RolesList" [value]="item">
+                {{item.roleName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-32">
+            <md-input-container class="width100">
+              <input autocomplete='off' mdInput type="text" id="agentID" placeholder="Agent ID" [(ngModel)]="AgentID" name="agentID" />
+            </md-input-container>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-32">
+            <md-input-container class="width100">
+              <input autocomplete='off' mdInput type="password" id="password" placeholder="Agent Password" [(ngModel)]="Password" name="password"
+              />
+            </md-input-container>
+          </div>
+        </div>
+      </form>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+        <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value);workplaceform.reset()">Add</button>
+        <button md-raised-button color="primary" class="pull-right m-r-10" (click)="workplaceform.reset()">Clear</button>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
+      <table class="table table-striped table-hover" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="5">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>User Name</th>
+            <th>Serviceline</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Agent ID</th>
+            <th>Agent Password</th>
+            <th>Role</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of md2.data;let i = index ">
+            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{item.serviceProviderName}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.stateName}}</td>
+            <td>{{item.district}}</td>
+            <td>{{item.workingLocation}}</td>
+            <td>{{item.AgentID}}</td>
+            <td>{{item.AgentPassword}}</td>
+            <td>
+              <ul>
+                <li *ngFor="let obj of item.roleID1;let j=index ">
+                  {{obj.roleName}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(i,j)">cancel</md-icon>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="9" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="saveWorkLocations()">Save</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="editMode">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 *ngIf="!editMode">
+        <strong>Work-Location-Mapping</strong>
+      </h4>
+      <h4 *ngIf="editMode">
+        <strong>Edit Work-Location-Mapping</strong>
+      </h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+      <form id="workplaceForm" #workplaceedit_form="ngForm" autocomplete="off">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="edit_Details.userID" (change)="getAllServicelines(edit_Details.userID)"
+              name="user_name" required>
+              <md-option *ngFor="let user of userNamesList" [value]="user.userID">
+                {{user.userName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="edit_Details.serviceID" name="serviceline"
+              (change)="getAllStates(edit_Details.userID,edit_Details.serviceID)" required>
+              <md-option *ngFor="let item of services_array" [value]="item.serviceID">
+                {{item.serviceName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="edit_Details.stateID" name="state" (change)="getAllDistricts(edit_Details.stateID)"
+              required>
+              <md-option *ngFor="let item of filteredStates" [value]="item.stateID">
+                {{item.stateName}}
+              </md-option>
+            </md-select>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="edit_Details.workingDistrictID" name="district"
+              (change)="getAllWorkLocations(edit_Details.userID,edit_Details.stateID,edit_Details.ServiceID)" required>
+              <md-option *ngFor="let item of districts_array" [value]="item.workingDistrictID">
+                {{item.workingDistrictName}}
+              </md-option>
+            </md-select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="edit_Details.workLocationName" (change)="getAllRoles(edit_Details.userID,edit_Details.stateID,edit_Details.serviceID)"
+              name="worklocation" required>
+              <md-option *ngFor="let item of workLocationsList" [value]="item.workLocationName">
+                {{item.workLocationName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+            <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="edit_Details.roleID" name="role" required>
+              <md-option *ngFor="let item of RolesList" [value]="item.roleID">
+                {{item.roleName}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+
+            <input autocomplete='off' type="text" id="agentID" placeholder="Agent ID" name="agentID" />
+
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+
+            <input autocomplete='off' type="text" id="password" placeholder="Agent Password" name="password" />
+
+          </div>
+        </div>
+      </form>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+        <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+        <button md-raised-button color="primary" class="pull-right" [disabled]="workplaceedit_form.invalid" (click)="updateWorkLocation(workplaceedit_form.value);workplace_form.reset()">Update</button>
+      </div>
+    </div>
+
+  </div>
+</md-card>
