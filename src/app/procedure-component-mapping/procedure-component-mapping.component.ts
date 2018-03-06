@@ -95,7 +95,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
         if (res.length > 0) {
-          console.log(res, 'recheck')
+          console.log(JSON.stringify(res,null,4), 'recheck')
           this.editMode = index >= 0 ? true : false;
           this.loadForConfig(res);
         } else {
