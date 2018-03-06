@@ -30,6 +30,7 @@ export class EmployeeMasterNewServices {
     checkUserAvailabilityUrl: any;
     checkID: any;
     createNewUserUrl: any;
+    editUserDetailsUrl: any;
     userActivationDeactivationUrl: any;
 
     constructor(private http: InterceptedHttp,
@@ -51,6 +52,7 @@ export class EmployeeMasterNewServices {
         this.getAllDistrictsUrl= this.common_base_url+ 'location/districts/';
         this.checkID = this.providerAdmin_base_url + 'm/FindEmployeeDetails';
         this.createNewUserUrl = this.providerAdmin_base_url + '/createNewUser';
+        this.editUserDetailsUrl = this.providerAdmin_base_url + '/editUserDetails';
         this.userActivationDeactivationUrl = this.providerAdmin_base_url + '/deletedUserDetails';
     }
     // User Details related methods for fetching all dropdown data
@@ -130,8 +132,16 @@ export class EmployeeMasterNewServices {
           .catch(this.handleError);
       }
       createNewUser(reqObject) {
+          console.log("service", reqObject);
+          
           return this.httpSecurity
           .post(this.createNewUserUrl, reqObject)
+          .map(this.extractData)
+          .catch(this.handleError)
+      }
+      editUserDetails(updateObj) {
+          return this.httpSecurity
+          .post(this.editUserDetailsUrl,updateObj)
           .map(this.extractData)
           .catch(this.handleError)
       }
@@ -159,8 +169,8 @@ export class EmployeeMasterNewServices {
         }
     }
     private extractData(res: Response) {
-        if (res.json().data) {
-            console.log('Employee Master New Service', res.json().data);
+        if (res.json().data && res.json().statusCode == 200) {
+            console.log('Employee Master New Service',res.json(), res.json().data);
             return res.json().data;
         } else {
             return Observable.throw(res.json());

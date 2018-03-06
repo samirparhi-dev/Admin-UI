@@ -6,13 +6,16 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
+
 @Component({
   selector: 'app-employee-master-new',
   templateUrl: './employee-master-new.component.html',
   styleUrls: ['./employee-master-new.component.css']
 })
-export class EmployeeMasterNewComponent implements OnInit {
 
+export class EmployeeMasterNewComponent implements OnInit {
+   userId: any;
+   createdBy: any;
   //ngModel
   titleID: any;
   firstname: any;
@@ -62,7 +65,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   isPermanent: any;
 
 
-
   //array
   searchResult: any = [];
   titles: any = [];
@@ -108,9 +110,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllUsers().subscribe(response => {
       if (response) {
         console.log("All details of the user", response);
-        console.log("filtered user", response.filter((item) => {
-          return item.userID == 807;
-        }))
         this.searchResult = response;
       }
     }, err => {
@@ -473,19 +472,21 @@ export class EmployeeMasterNewComponent implements OnInit {
         // communityID
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
-        'StateID': this.objs[i].currentState,
-        'districtID': "" + this.objs[i].currentDistrict,
+        'userStateID': this.objs[i].currentState,
+        'workingDistrictID': "" + this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
         'statusID':"1",
        // 'isPermanent':'1',
         'isPresent':'1',
         'createdBy': "Janani",
+        "cityID":"1",
       }
       reqObject.push(tempObj);
     }
     console.log("Details to be saved", reqObject);
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
+      if(response.stat)
       this.editMode = false;
       this.dialogService.alert("User Created successfully");
       this.objs = [];
@@ -524,6 +525,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   edit(data) {
+ 
     this.titleID = data.titleID;
     console.log('this.titleid', this.titleID, data.titleID);
 
@@ -549,6 +551,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.currentState = data.usercurrentStateID;
     this.currentDistrict = data.workingDistrictID;
     this.currentPincode = data.currentPincode;
+    this.userId = data.userID;
+    this.createdBy = data.createdBy;
   }
   update() {
     let update_tempObj = {
@@ -574,17 +578,29 @@ export class EmployeeMasterNewComponent implements OnInit {
       'stateID': this.currentState,
       'districtID': this.currentDistrict,
       'pinCode': this.currentPincode,
-      // 'userID': data.userID,
-      // 'modifiedBy': data.createdBy
+       'userID': this.userId,
+       'modifiedBy': this.createdBy
 
     }
     console.log('updateobj', update_tempObj);
 
-    // this.employeeMasterNewService.updateProviderAdmin(update_tempObj).subscribe(response => {
-    //  console.log("Data to be update", response);
-    //   this.dialogRef.close("success");
+    this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
+     console.log("Data to be update", response);
+     this.dialogService.alert('User Details Edited Successfully');
+        /* resetting form and ngModels used in editing */
+        this.userCreationForm.resetForm();
+        this.demographicsDetailsForm.resetForm();
+        this.communicationDetailsForm.resetForm();
+       
+        this.getAllUserDetails();
+        this.showTable();
+
+      }, err => {
+        console.log('error', err);
+      });
 
   }
+  
   /*
    * Activation and deactivation of the user
   */
