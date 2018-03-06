@@ -25,6 +25,16 @@
                           <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined">
+
+                          <!-- <li style="cursor: pointer" (click)='show("1")'><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
+                          <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
+                          <li style="cursor: pointer" (click)='show("10")'><a>Update Provider</a></li>
+                          <li style="cursor: pointer" (click)='show("3")'><a>Sub Service</a></li>
+                          <li style="cursor: pointer" (click)='show("12")'><a>Village Master</a></li>
+                          <li style="cursor: pointer" (click)='show("13")'><a>Provider Master</a></li>
+                          <li style="cursor: pointer" (click)='show("14")'><a>Provider Serviceline State Mapping</a></li>
+                          <li style="cursor: pointer" (click)='show("15")'><a>Provider Admin List</a></li>                      -->
+
                           <li style="cursor: pointer" (click)='show("1")'>
                             <a>{{currentlanguage.activity_dropdown.provider_on_board}}</a>
                           </li>
@@ -46,9 +56,13 @@
                           <li style="cursor: pointer" (click)='show("14")'>
                             <a>Provider Serviceline State Mapping</a>
                           </li>
+                          <li style="cursor: pointer" (click)='show("15")'>
+                            <a>Provider Admin List</a>
+                          </li>
                           <li style="cursor: pointer" (click)='show("16")'>
                             <a>Mapping Provider Admin To Provider</a>
                           </li>
+
 
 
                           <!-- <li style="cursor: pointer" (click)='show("3")'><a>{{currentlanguage.activity_dropdown.gender_master}}</a></li>
@@ -103,7 +117,11 @@
                 <app-village-master *ngSwitchCase="12"></app-village-master>
                 <app-service-provider-master *ngSwitchCase="13"></app-service-provider-master>
                 <app-provider-serviceline-state-mapping *ngSwitchCase="14"></app-provider-serviceline-state-mapping>
+
+                <app-provider-admin-list *ngSwitchCase="15"></app-provider-admin-list>
+
                 <app-mapping-provider-admin-to-provider *ngSwitchCase="16"></app-mapping-provider-admin-to-provider>
+
               </div>
             </div>
           </div>

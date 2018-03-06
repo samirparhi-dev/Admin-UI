@@ -88,6 +88,9 @@
                                                             <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
                                                         </ul>
                                                     </li>
+                                                    <li style="cursor: pointer" (click)='show("27")'>
+                                                        <a>Employee Master New</a>
+                                                    </li>
                                                     <li style="cursor: pointer" (click)='show("28")'>
                                                         <a>Language Mapping</a>
                                                     </li>
@@ -164,6 +167,7 @@
                                             <app-agent-list-creation *ngSwitchCase="24"></app-agent-list-creation>
                                             <app-institute-type-master *ngSwitchCase="25"></app-institute-type-master>
                                             <app-user-role-agent-id-mapping *ngSwitchCase="26"></app-user-role-agent-id-mapping>
+                                            <app-employee-master-new *ngSwitchCase="27"></app-employee-master-new>
                                             <app-component-master *ngSwitchCase="30"></app-component-master>
                                             <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
                                             <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>

@@ -39,6 +39,19 @@ export class SuperAdmin_ServiceProvider_Service {
   getProviderInfoUrl: any;
   addProviderStateAndServiceLinesUrl: any;
   getAllStatus_URL: any;
+
+  // provider admin url
+  getAllProviderAdmin_url: any;
+  checkUserAvailabilityUrl: any;
+  getAllGendersUrl: any;
+  getAllTitlesUrl: any;
+  getAllQualificationsUrl: any;
+  getAllMaritalStatusUrl: any;
+  createProviderAdminUrl: any;
+  updateProviderAdminUrl: any;
+  delete_toggle_activationUrl: any;
+  getAdminDetailsUrl: any;
+  checkID: any;
   // updateProviderPersonalDetailsUrl: any;
 
 
@@ -65,13 +78,37 @@ export class SuperAdmin_ServiceProvider_Service {
       this.superadmin_base_url + 'providerCreationAndMapping';
     this.getAllStatesUrl = this.commonbaseurl + 'location/states/';
     this.getAllServiceLinesUrl = this.providerAdminBaseUrl + 'getServiceline';
+
+
+    this.checkProviderNameAvailabilityUrl =
+      this.providerAdminBaseUrl + 'checkProvider';    
+    
+    this.getRegistrationDataUrl =
+      this.commonbaseurl + 'beneficiary/getRegistrationData';
+
     this.checkProviderNameAvailabilityUrl = this.providerAdminBaseUrl + 'checkProvider';
     this.getRegistrationDataUrl = this.commonbaseurl + 'beneficiary/getRegistrationData';
+
     this.getAllProviderUrl = this.providerAdminBaseUrl + 'getAllProvider';
     this.getProviderInfoUrl = this.providerAdminBaseUrl + 'getProviderStatus';
     this.addProviderStateAndServiceLinesUrl =
       this.providerAdminBaseUrl + 'addProviderStateAndServiceLines';
-    this.getAllStatus_URL = this.providerAdminBaseUrl + 'getStatus';
+      this.getAllStatus_URL = this.providerAdminBaseUrl + 'getStatus';
+
+      /*
+      * Creation of provider admin URL
+      */
+    this.getAllProviderAdmin_url = this. providerAdminBaseUrl + '/completeUserDetails';
+    this.checkUserAvailabilityUrl = this.providerAdminBaseUrl + '/m/FindEmployeeByName';
+    this.createProviderAdminUrl = this.providerAdminBaseUrl + '/createProviderAdmin';    
+    this.getAllGendersUrl = this.providerAdminBaseUrl + '/m/AllGender';
+    this.getAllTitlesUrl = this.providerAdminBaseUrl + '/m/AllTitle';
+    this.getAllQualificationsUrl = this.providerAdminBaseUrl + '/m/Qualification';
+    this.getAllMaritalStatusUrl = this.commonbaseurl + '/beneficiary/getRegistrationDataV1';
+    this.updateProviderAdminUrl = this.providerAdminBaseUrl + '/editProviderAdmin';
+    this.delete_toggle_activationUrl = this.providerAdminBaseUrl + '/deleteProviderAdmin';
+    this.checkID = this.providerAdminBaseUrl + 'm/FindEmployeeDetails';
+  
     // 	this.updateProviderPersonalDetailsUrl = this.providerAdminBaseUrl + "/updateProvider";
 
     /* Mapping Provider Admin */
@@ -110,7 +147,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .map(this.extractData)
       .catch(this.handleError);
   }
-
+  
   getAllStates(countryID: any) {
     return this._http
       .get(this.getAllStatesUrl + countryID)
@@ -200,6 +237,85 @@ export class SuperAdmin_ServiceProvider_Service {
       .map(this.extractData)
       .catch(this.handleError);
   }
+  
+  //  Provider admin related functions
+  getAllProviderAdmin() {
+    return this._http
+    .post(this.getAllProviderAdmin_url, {})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  checkUserAvailability(admin_username) {
+    return this._http
+    .post(this.checkUserAvailabilityUrl, {
+      'userName': admin_username
+    })
+    .map(this.extractData)
+    .catch(this.handleError)
+  }
+  createProviderAdmin(reqObject) {    
+    return this._http
+    .post(this.createProviderAdminUrl, reqObject)
+    .map(this.extractData)   
+    .catch(this.handleError);    
+  }
+  getAllGenders() {
+    return this._http
+    .post(this.getAllGendersUrl, {})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  getAllTitles() {
+    return this._http
+    .post(this.getAllTitlesUrl, {})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  getAllQualifications() {
+    return this._http
+    .post(this.getAllQualificationsUrl, {})
+    .map(this.extractData)
+    .catch(this.handleError)
+  }
+  getAllMaritalStatus() {
+    return this._http
+    .post(this.getAllMaritalStatusUrl, {})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  updateProviderAdmin(update_obj) {
+    console.log("update admin", update_obj);
+    return this._http
+    .post(this.updateProviderAdminUrl, update_obj)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  delete_toggle_activation(userID) {
+    return this._http
+    .post(this.delete_toggle_activationUrl, userID)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+  getAdminDetails(user_obj) {
+    return this._http
+    .post(this.getAdminDetailsUrl, user_obj)
+    .map(this.extractData)
+    .catch(this.handleError)
+  }
+  validateAadhar(idNumber: any) {
+    return this._http
+      .post(this.checkID, { 'aadhaarNo': idNumber })
+      .map(this.extractCustomData)
+      .catch(this.handleError);
+  }
+  validatePan(idNumber: any) {
+    return this._http
+    .post(this.checkID, { 'pAN': idNumber })
+      .map(this.extractCustomData)
+      .catch(this.handleError);
+  }
+    // End of provider admin 
+
   addProviderStateAndServiceLines(obj) {
     console.log(obj);
     return this._http

@@ -174,6 +174,12 @@ import { ProviderServicelineStateMappingComponent } from './provider-serviceline
 import { AuthService } from './services/authentication/auth.service';
 import { SecurityFactory } from './http.security.factory';
 import { SecurityInterceptedHttp } from './http.securityinterceptor';
+
+import { ProviderAdminListComponent } from './provider-admin-list/provider-admin-list.component';
+import { EditProviderAdminModal } from './provider-admin-list/provider-admin-list.component';
+import { EmployeeMasterNewComponent } from './employee-master-new/employee-master-new.component';
+import { EmployeeMasterNewServices } from './services/ProviderAdminServices/employee-master-new-services.service';
+
 import { ProcedureMasterComponent } from './procedure-master/procedure-master.component';
 import { ComponentMasterComponent } from './component-master/component-master.component';
 import { ProcedureComponentMappingComponent } from './procedure-component-mapping/procedure-component-mapping.component';
@@ -210,12 +216,10 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     HospitalInstituteDirectorySubdirectoryMappingComponent, ProvideCtiMappingComponent,
     AgentListCreationComponent, VillageMasterComponent, InstituteTypeMasterComponent,
     EditInstituteType, UserRoleAgentIDMappingComponent, AgentIDMappingModal,
-    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
 
+    EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
+    EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-
-
-
 
   ],
 
@@ -292,9 +296,8 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
-    ComponentMasterServiceService, LanguageMapping, WorkLocationMapping,
+    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping,
     {
-
       provide: InterceptedHttp,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, Router, AuthService, ConfirmationDialogsService]
@@ -323,7 +326,9 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     EditInstituteSubDirectory,
     EditInstituteType,
     AgentIDMappingModal,
-    EditVillageModal
+    EditVillageModal,
+    EditProviderAdminModal
+
   ],
 
   bootstrap: [AppComponent]
