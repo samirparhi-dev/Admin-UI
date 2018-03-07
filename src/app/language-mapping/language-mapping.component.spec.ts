@@ -36,20 +36,20 @@ const providerForFakeDataService = {
 class FakeLanguageMapping {
 
   getUserName(data) {
-    return Observable.of({
+    return Observable.of([{
       userID: '1'
-    })
+    }])
   }
   getLanguageList() {
-    return Observable.of({
+    return Observable.of([{
       userLangID: '1'
-    })
+    }])
   }
   getMappedLanguagesList() {
-    return Observable.of({
+    return Observable.of([{
       languageID: '1',
       LanguageName: 'english'
-    })
+    }])
   }
 }
 

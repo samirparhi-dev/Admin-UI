@@ -81,7 +81,7 @@ function Initialize104TestBed() {
     fixture.detectChanges();
   });
 }
-describe('Sio-scheme-service', () => {
+describe('Mapping-Provider-Admin-To-Provider', () => {
 
   fdescribe('When the component is getting loaded, then ngOninit', () => {
 

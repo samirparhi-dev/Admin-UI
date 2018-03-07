@@ -14,6 +14,7 @@ export class WorkLocationMappingComponent implements OnInit {
   createdBy: any;
   uSRMappingID: any;
   workLocationID: any;
+  providerServiceMapID: any;
 
   // Arrays
   userNamesList: any = [];
@@ -44,6 +45,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.createdBy = this.createdBy = this.saved_data.uname;
     this.getAllMappedWorkLocations();
     this.getUserName(this.serviceProviderID);
+    this.getAllServicelines(this.serviceProviderID);
   }
   getAllMappedWorkLocations() {
     debugger;
@@ -71,7 +73,8 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllServicelines(serviceProvider: any) {
-    this.worklocationmapping.getAllServiceLinesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+    debugger;
+    this.worklocationmapping.getAllServiceLinesByProvider(serviceProvider)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all servicelines success handeler');
@@ -83,52 +86,20 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   getAllStates(serviceProvider: any, serviceLine: any) {
     debugger;
-    this.worklocationmapping.getAllStatesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, serviceLine.serviceID)
+    this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all states success handeler');
           this.states_array = response;
-          this.getAvailableStates(serviceProvider, serviceLine)
         }
       }, err => {
 
       });
   }
-  getAvailableStates(provider, service) {
-    debugger;
-    console.log(provider, service);
-    const alreadyMappedStates = [];
-    for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
-      if (this.mappedWorkLocationsList[i].userID === service.userID &&
-        this.mappedWorkLocationsList[i].serviceID === service.serviceID) {
-        const obj = {
-          'stateID': this.mappedWorkLocationsList[i].stateID,
-          'stateName': this.mappedWorkLocationsList[i].stateName
-        }
-        alreadyMappedStates.push(obj);
-      }
-    }
-    console.log('alredy', alreadyMappedStates);
-    const filteredStates = this.states_array.filter(function (stateFromAllState) {
-      return !alreadyMappedStates.find(function (stateFromMappedState) {
-        return stateFromAllState.stateID === stateFromMappedState.stateID
-      })
-    });
 
-    console.log(this.filteredStates, 'Filtered States');
-    console.log(filteredStates, 'const states');
-    this.filteredStates = [];
-    if (filteredStates.length === 0) {
-      this.alertService.alert('All states for this serviceline have been mapped');
-    } else {
-      this.filteredStates = filteredStates;
-
-    }
-
-  }
   getAllDistricts(state: any) {
     debugger;
-    this.worklocationmapping.getAllDistricts(state.stateID)
+    this.worklocationmapping.getAllDistricts(state.stateID || state)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all districts success handeler');
@@ -140,7 +111,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   getAllWorkLocations(user: any, state: any, service: any) {
     debugger;
-    this.worklocationmapping.getAllWorkLocations(user.serviceProviderId || user.serviceProviderID, state.stateID, service.serviceID)
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all work locations success handeler');
@@ -152,7 +123,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   getAllRoles(user: any, state: any, service: any) {
     debugger;
-    this.worklocationmapping.getAllRoles(user.serviceProviderId || user.serviceProviderID, state.stateID, service.serviceID)
+    this.worklocationmapping.getAllRoles(this.serviceProviderID, state.stateID || state, service.serviceID || service)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all roles success handeler');
@@ -188,9 +159,10 @@ export class WorkLocationMappingComponent implements OnInit {
     this.editMode = true;
   }
 
-  activate(userLangID) {
+  activate(uSRMappingID) {
+    debugger;
     const object = {
-      'userLangID': userLangID,
+      'uSRMappingID': uSRMappingID,
       'deleted': false
     };
 
@@ -206,9 +178,9 @@ export class WorkLocationMappingComponent implements OnInit {
         console.log('error', err);
       });
   }
-  deactivate(userLangID) {
+  deactivate(uSRMappingID) {
     debugger
-    const object = { 'userLangID': userLangID, 'deleted': true };
+    const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
     this.worklocationmapping.DeleteWorkLocationMapping(object)
       .subscribe(response => {
@@ -375,32 +347,38 @@ export class WorkLocationMappingComponent implements OnInit {
   editRow(rowObject) {
     debugger;
     this.showEditForm();
-    this.uSRMappingID = rowObject.uSRMappingID;
-    this.workLocationID = rowObject.workLocationID;
     this.edit_Details = rowObject;
+    this.uSRMappingID = rowObject.uSRMappingID;
+    // this.getAllServicelines(this.serviceProviderID)
+    this.getAllStates(this.serviceProviderID, this.edit_Details.serviceID)
+    this.getAllDistricts(this.edit_Details.stateID);
+    this.getAllWorkLocations(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)
+    this.getAllRoles(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)
+    this.workLocationID = rowObject.workingLocationID;
+
   }
   updateWorkLocation(workLocations: any) {
     debugger;
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
-      'userID': workLocations.user.userID,
-      'roleID': workLocations.role.roleID,
-      'providerServiceMapID': workLocations.state.providerServiceMapID,
-      'workingLocationID': workLocations.readweightage.value,
+      'userID': workLocations.user_name,
+      'roleID': workLocations.role,
+      'providerServiceMapID': workLocations.state_serviceMapID,
+      'workingLocationID': this.workLocationID,
       'modifiedBy': this.createdBy
     };
     console.log('edited request object', langObj);
-    this.worklocationmapping.UpdateWorkLocationMapping(langObj)
-      .subscribe(response => {
-        console.log(response, 'after successful mapping of work location to provider');
-        this.alertService.alert('work location mapping edited successfully');
-        this.showTable();
-        this.getAllMappedWorkLocations();
-        this.resetDropdowns();
-        this.bufferArray = [];
-      }, err => {
-        console.log(err, 'ERROR');
-      });
+    // this.worklocationmapping.UpdateWorkLocationMapping(langObj)
+    //   .subscribe(response => {
+    //     console.log(response, 'after successful mapping of work location to provider');
+    //     this.alertService.alert('work location mapping edited successfully');
+    //     this.showTable();
+    //     this.getAllMappedWorkLocations();
+    //     this.resetDropdowns();
+    //     this.bufferArray = [];
+    //   }, err => {
+    //     console.log(err, 'ERROR');
+    //   });
 
 
   }

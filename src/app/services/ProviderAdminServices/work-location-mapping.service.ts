@@ -123,7 +123,7 @@ export class WorkLocationMapping {
     }
 
     handleSuccess(res: Response) {
-        console.log(res.json().data, 'work location mapping file success response');
+        console.log(res.json().data, 'work location mapping transactions file success response');
         if (res.json().data) {
             return res.json().data;
         } else {
