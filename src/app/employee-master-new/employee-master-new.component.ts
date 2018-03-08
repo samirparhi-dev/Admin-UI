@@ -476,8 +476,12 @@ export class EmployeeMasterNewComponent implements OnInit {
  * User creation
  */
   createUser() {
+    console.log();
+    
     var reqObject = [];
     for (var i = 0; i < this.objs.length; i++) {
+      console.log("designationID", this.objs[i].designationID);
+      
       var tempObj = {
         'titleID': "" + this.objs[i].titleID,
         'firstName': this.objs[i].firstname,
@@ -504,7 +508,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
         'permanentAddress': this.objs[i].permanentAddressLine1,
-        'userStateID': this.objs[i].currentState,
+        'stateID': this.objs[i].currentState,
         'workingDistrictID': "" + this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
         'statusID':"1",
@@ -596,6 +600,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'age': this.age,
       'contactNo': this.contactNo,
       'emailID': this.emailID,
+      'designationID': this.designationID,
       'maritalStatusID': this.maritalStatusID,
       'aadhaarNo': this.aadharNumber,
       'pAN': this.panNumber,
