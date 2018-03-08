@@ -1,11 +1,8 @@
-<div class="col-xs-12 col-sm-12 b-t-2-w">
-    <div class="panel-body card p-a-0 bg-white ">
-        <div class="container-fluid p-a-0 overflow-y" style="height: 580px">
-            <div class=" b-t-2-w">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
+
+    
+                    <div class="row m-t-5">
                         <div class="col-xs-12 col-sm-12 ">
-                            <nav class="navbar navbar-default">
+                            <nav class="navbar navbar-default m-b-10">
                                 <div class="container-fluid">
                                     <div class="navbar-header">
                                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -138,44 +135,59 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
-                                        <div>
-                                            <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
-                                            <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
-                                            <app-employee-master *ngSwitchCase="3"></app-employee-master>
-                                            <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
-                                            <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
-                                            <app-drug-master *ngSwitchCase="6"></app-drug-master>
-                                            <app-severity-type *ngSwitchCase="12"></app-severity-type>
-                                            <app-feedback-type *ngSwitchCase="13"></app-feedback-type>
-                                            <app-zone-master *ngSwitchCase="7"></app-zone-master>
-                                            <app-parking-place *ngSwitchCase="8"></app-parking-place>
-                                            <app-service-point *ngSwitchCase="9"></app-service-point>
-                                            <app-van-master *ngSwitchCase="14"></app-van-master>
-                                            <app-van-type *ngSwitchCase="15"></app-van-type>
-                                            <p *ngSwitchCase="10">Reports</p>
-                                            <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
-                                            <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
-                                            <app-employee-parking-place-mapping *ngSwitchCase="17"></app-employee-parking-place-mapping>
-                                            <app-institute-directory-master *ngSwitchCase="20"></app-institute-directory-master>
-                                            <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
-                                            <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
-                                            <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
-                                            <app-institute-subdirectory-master *ngSwitchCase="22"></app-institute-subdirectory-master>
-                                            <app-hospital-institute-directory-subdirectory-mapping *ngSwitchCase="23"></app-hospital-institute-directory-subdirectory-mapping>
-                                            <app-agent-list-creation *ngSwitchCase="24"></app-agent-list-creation>
-                                            <app-institute-type-master *ngSwitchCase="25"></app-institute-type-master>
-                                            <app-user-role-agent-id-mapping *ngSwitchCase="26"></app-user-role-agent-id-mapping>
-                                            <app-employee-master-new *ngSwitchCase="27"></app-employee-master-new>
-                                            <app-component-master *ngSwitchCase="30"></app-component-master>
-                                            <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
-                                            <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
-                                            <app-language-mapping *ngSwitchCase="28"></app-language-mapping>
-                                            <app-work-location-mapping *ngSwitchCase="32"></app-work-location-mapping>
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                                 </nav>
+
+
+                        </div>
+                    </div>
+
+                    <div class="panel-body card p-a-0 bg-white ">
+                        <div class="container-fluid p-a-0 overflow-y" style="height: 580px">
+                            <div class=" b-t-2-w">
+                                <div class="col-xs-12 col-sm-12">
+
+                    <div class="row">
+                        <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
+                            <div>
+                                <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
+                                <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
+                                <app-employee-master *ngSwitchCase="3"></app-employee-master>
+                                <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
+                                <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
+                                <app-drug-master *ngSwitchCase="6"></app-drug-master>
+                                <app-severity-type *ngSwitchCase="12"></app-severity-type>
+                                <app-feedback-type *ngSwitchCase="13"></app-feedback-type>
+                                <app-zone-master *ngSwitchCase="7"></app-zone-master>
+                                <app-parking-place *ngSwitchCase="8"></app-parking-place>
+                                <app-service-point *ngSwitchCase="9"></app-service-point>
+                                <app-van-master *ngSwitchCase="14"></app-van-master>
+                                <app-van-type *ngSwitchCase="15"></app-van-type>
+                                <p *ngSwitchCase="10">Reports</p>
+                                <app-service-point-village-mapping *ngSwitchCase="11"></app-service-point-village-mapping>
+                                <app-van-service-point-mapping *ngSwitchCase="16"></app-van-service-point-mapping>
+                                <app-employee-parking-place-mapping *ngSwitchCase="17"></app-employee-parking-place-mapping>
+                                <app-institute-directory-master *ngSwitchCase="20"></app-institute-directory-master>
+                                <app-feedback-type-master *ngSwitchCase="18"></app-feedback-type-master>
+                                <app-feedback-complaint-nature-master *ngSwitchCase="19"></app-feedback-complaint-nature-master>
+                                <app-hospital-master *ngSwitchCase="21"></app-hospital-master>
+                                <app-institute-subdirectory-master *ngSwitchCase="22"></app-institute-subdirectory-master>
+                                <app-hospital-institute-directory-subdirectory-mapping *ngSwitchCase="23"></app-hospital-institute-directory-subdirectory-mapping>
+                                <app-agent-list-creation *ngSwitchCase="24"></app-agent-list-creation>
+                                <app-institute-type-master *ngSwitchCase="25"></app-institute-type-master>
+                                <app-user-role-agent-id-mapping *ngSwitchCase="26"></app-user-role-agent-id-mapping>
+                                <app-employee-master-new *ngSwitchCase="27"></app-employee-master-new>
+                                <app-component-master *ngSwitchCase="30"></app-component-master>
+                                <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
+                                <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
+                                <app-language-mapping *ngSwitchCase="28"></app-language-mapping>
+                                <app-work-location-mapping *ngSwitchCase="32"></app-work-location-mapping>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                                 <footer class="footer" style="left: 0px">
                                     <div class="row">
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -187,3 +199,8 @@
                                         </div>
                                     </div>
                                 </footer>
+                           
+                </div>
+            </div>
+        </div>
+    </div>
