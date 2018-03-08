@@ -4,7 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
 import { LanguageMapping } from '../services/ProviderAdminServices/language-mapping.service';
-
+import { MdCheckbox } from '@angular/material';
 @Component({
   selector: 'app-language-mapping',
   templateUrl: './language-mapping.component.html',
@@ -12,7 +12,6 @@ import { LanguageMapping } from '../services/ProviderAdminServices/language-mapp
 })
 export class LanguageMappingComponent implements OnInit {
   language: any;
-  weightage: any = 1;
   serviceProviderID: any;
   userLangID: any;
   edit_Details: any;
@@ -21,54 +20,56 @@ export class LanguageMappingComponent implements OnInit {
   dummy_allLanguages: any = [];// just for visual tricks
   selected_languages: any = [];
   language_weightage: any = [];
-  Weightage: any = [];
-  readWeightage: any = [];
-  writeWeightage: any = [];
-  speakWeightage: any = [];
   multiLanguages: any = [];
   LanguageMappedList: any = [];
   bufferArray: any = [];
   userNamesList: any = [];
+  canRead: any = [];
+  canSpeak: any = [];
+  canWrite: any = [];
+  languageID: any = [];
+  weightage: any = [];
+  weightage_Read: any = [];
+  weightage_Speak: any = [];
+  weightage_Write: any = [];
+  WeightageList: any = [];
+  filteredLanguages: any = [];
   lang: any;
+  createdBy: any;
   showCheckboxes: boolean = false;
   showCheckboxes1: boolean = false;
   formMode = false;
   tableMode = true;
   editMode = false;
   status: boolean;
+  isCheckedRead = false;
+  isCheckedWrite = false;
+  isCheckedSpeak = false;
+
 
 
   @ViewChild('editlanguagesForm') eForm: NgForm;
   @ViewChild('languagesForm') Form: NgForm;
-  constructor(public commonDataService: dataService, private alertService: ConfirmationDialogsService,
-    private saved_data: dataService, private languageMapping: LanguageMapping) {
+  constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
+    private languageMapping: LanguageMapping) {
   }
 
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
+    this.createdBy = this.createdBy = this.saved_data.uname;
     this.language
-    this.Weightage = [
-      { value: 1, Name: '25%' },
-      { value: 2, Name: '50%' },
-      { value: 3, Name: '75%' },
-      { value: 4, Name: '100%' }
+    this.WeightageList = [
+      { value: 10, Name: '25%' },
+      { value: 20, Name: '50%' },
+      { value: 30, Name: '75%' },
+      { value: 40, Name: '100%' }
     ];
-    // this.EmployeeMasterService.getCommonRegistrationData()
-    //   .subscribe(response => this.commonRegistrationDataSuccessHandeler(response));
     this.getUserName(this.serviceProviderID);
     this.getAllLanguagesList();
     this.getAllMappedLanguagesList();
   }
-  // commonRegistrationDataSuccessHandeler(response) {
-  //   debugger;
-  //   console.log(response, 'emp master component common reg data');
 
-  //   this.allLanguages = response.m_language;
-  //   this.dummy_allLanguages = response.m_language;
-
-  // }
   getUserName(providerId: any) {
-    debugger;
     this.languageMapping.getUserName(providerId)
 
       .subscribe(response => {
@@ -81,7 +82,6 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAllLanguagesList() {
-    debugger;
     this.languageMapping.getLanguageList()
       .subscribe(response => {
         if (response) {
@@ -96,12 +96,39 @@ export class LanguageMappingComponent implements OnInit {
     this.languageMapping.getMappedLanguagesList()
       .subscribe(response => {
         if (response) {
-          console.log('All Providers Success Handeler', response);
+          console.log('All Languages Success Handeler', response);
           this.LanguageMappedList = response;
         }
       }, err => {
         console.log('Error', err);
       });
+  }
+  getAvailableLanguages(username: any) {
+    debugger;
+    const alreadyMappedLanguages = [];
+    for (let i = 0; i < this.LanguageMappedList.length; i++) {
+      if (this.LanguageMappedList[i].userID === username.userID) {
+        const obj = {
+          'languageID': this.LanguageMappedList[i].languageID,
+          'languageName': this.LanguageMappedList[i].languageName
+        }
+        alreadyMappedLanguages.push(obj);
+      }
+    }
+    console.log('alredy', alreadyMappedLanguages);
+    const filteredLanguages = this.allLanguagesList.filter(function (allLang) {
+      return !alreadyMappedLanguages.find(function (langFromMappedLang) {
+        return allLang.languageID === langFromMappedLang.languageID
+      })
+    });
+    this.filteredLanguages = [];
+    if (filteredLanguages.length === 0) {
+      this.alertService.alert('All Languages for this user have been mapped');
+    } else {
+      this.filteredLanguages = filteredLanguages;
+
+    }
+
   }
   activate(userLangID) {
     const object = {
@@ -122,6 +149,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   deactivate(userLangID) {
+    debugger
     const object = { 'userLangID': userLangID, 'deleted': true };
 
     this.languageMapping.DeleteLanguageMapping(object)
@@ -141,8 +169,11 @@ export class LanguageMappingComponent implements OnInit {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
-
+      this.resetDropdowns();
     }
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
 
   }
   showForm() {
@@ -190,89 +221,137 @@ export class LanguageMappingComponent implements OnInit {
     }
   }
 
-  addLanguage(language: any, readWeightage: any, writeWeightage: any, speakWeightage: any) {
-    let langObj = {};
-    langObj['languageName'] = language.languageName;
-    langObj['languageID'] = language.languageID;
-    langObj['userName'] = language.userName;
-    langObj['userID'] = language.userName;
-    langObj['read'] = this.read;
-    langObj['readWeightage'] = readWeightage;
-    langObj['write'] = this.write;
-    langObj['writeWeightage'] = writeWeightage;
-    langObj['speak'] = this.speak;
-    langObj['speakWeightage'] = speakWeightage;
-    if (this.multiLanguages.length === 0) {
-      this.multiLanguages.push(langObj);
+  addLanguage(languages: any, readWeightage: any, writeWeightage: any, speakWeightage: any) {
+    debugger;
+    const langObj = {
+      'languageName': languages.language.languageName,
+      'userName': languages.username.userName,
+      'userID': languages.username.userID,
+      'createdBy': this.createdBy,
+      'weightage_Read': [] = languages.readweightage.value,
+      'weightage_Write': [] = languages.writeweightage.value,
+      'weightage_Speak': [] = languages.speakweightage.value,
+      'languageID': [] = languages.language.languageID,
+      'canRead': this.read,
+      'canWrite': this.write,
+      'canSpeak': this.speak
+    };
+    this.read = false;
+    this.write = false;
+    this.speak = false;
+    this.showCheckboxes = false;
+    this.checkDuplicates(langObj);
 
-      /*resetting*/
-      this.read = false;
-      this.write = false;
-      this.speak = false;
-      this.lang = [];
 
-      // jQuery("#languagesForm").trigger('reset');
-      this.readWeightage = [];
-      this.writeWeightage = [];
-      this.speakWeightage = [];
-      this.showCheckboxes = false;
-    } else {
-      // this.multiLanguages.push(langObj);
-      // this.multiLanguages = this.filterArray(this.multiLanguages);
-      this.checkDuplicates(langObj);
-
-      /*resetting*/
-      this.read = false;
-      this.write = false;
-      this.speak = false;
-      this.lang = [];
-
-      // jQuery("#languagesForm").trigger('reset');
-      this.readWeightage = [];
-      this.writeWeightage = [];
-      this.speakWeightage = [];
-
-      this.showCheckboxes = false;
-    }
   }
 
   deleteRow(i) {
-    this.multiLanguages.splice(i, 1);
+    this.bufferArray.splice(i, 1);
   }
 
   checkDuplicates(object) {
+    debugger;
+    // let LanguageMatched = false;
+    // let Count = 0;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
       this.bufferArray.push(object);
-      this.resetForm();
+      // this.resetForm();
+      this.resetDropdowns1();
     }
+
 
     /* case:2 If the buffer array is not empty */
     else if (this.bufferArray.length > 0) {
       let LanguageMatched = false;
       let Count = 0;
       for (let a = 0; a < this.bufferArray.length; a++) {
-        if (this.bufferArray[a].userLangID === object.languageID) {
-          Count = Count + 1;
-          if (this.bufferArray[a].usedID === object.usedID) {
+        if (this.bufferArray[a].userName === object.userName) {
+          if (this.bufferArray[a].languageID === object.languageID) {
             LanguageMatched = true;
-            if (this.bufferArray[a].languageID === object.languageID) {
-              this.bufferArray.push(object);
-              this.resetForm();
-            }
+          }
+          else {
+            continue;
           }
         }
-        else {
-          continue;
-        }
+      }
+      if (!LanguageMatched && Count === 0) {
+        this.bufferArray.push(object);
+        this.resetForm();
+        this.resetDropdowns();
       }
 
     }
   }
+  saveMapping() {
+    debugger;
+    console.log('final buffer', this.bufferArray);
+    let lang: any;
+    let langObj = {};
+    langObj['languageName'];
+    langObj['userName'];
+    langObj['userID'];
+    langObj['createdBy'];
+    langObj['weightage_Read'] = [];
+    langObj['weightage_Write'] = [];
+    langObj['weightage_Speak'] = [];
+    langObj['canRead'] = [];
+    langObj['canWrite'] = [];
+    langObj['canSpeak'] = [];
+    langObj['languageID'] = [];
+    let duplicateArray = [];
 
-  save() {
-    this.languageMapping.SaveLanguageMapping(this.bufferArray)
+    for (let i = 0; i < this.bufferArray.length; i++) {
+      const index: number = duplicateArray.indexOf(this.bufferArray[i].userID);
+      if (index == -1) {
+        langObj['languageName'] = this.bufferArray[i].languageName;
+        langObj['userName'] = this.bufferArray[i].userName;
+        langObj['userID'] = this.bufferArray[i].userID;
+        langObj['createdBy'] = this.createdBy;
+        lang = this.bufferArray[i].userID;
+        duplicateArray.push(lang);
+        for (let j = 0; j < this.bufferArray.length; j++) {
+          if (this.bufferArray[i].userID === this.bufferArray[j].userID) {
+            this.canRead.push(this.bufferArray[j].canRead);
+            this.canWrite.push(this.bufferArray[j].canWrite);
+            this.canSpeak.push(this.bufferArray[j].canSpeak);
+            this.weightage_Read.push(this.bufferArray[j].weightage_Read);
+            this.weightage_Write.push(this.bufferArray[j].weightage_Write);
+            this.weightage_Speak.push(this.bufferArray[j].weightage_Speak);
+            this.weightage.push(this.bufferArray[j].weightage_Speak);
+            this.languageID.push(this.bufferArray[j].languageID);
+          }
+
+        }
+        langObj['canRead'] = this.canRead;
+        langObj['canWrite'] = this.canWrite;
+        langObj['canSpeak'] = this.canSpeak;
+        langObj['weightage_Read'] = this.weightage_Read;
+        langObj['weightage_Write'] = this.weightage_Write;
+        langObj['weightage_Speak'] = this.weightage_Speak;
+        langObj['weightage'] = this.weightage_Speak;
+        langObj['languageID'] = this.languageID;
+
+      }
+      debugger;
+      if (langObj['userID'] !== undefined) {
+        this.multiLanguages.push(langObj);
+      }
+
+      langObj = {};
+      this.canRead = [];
+      this.canWrite = [];
+      this.canSpeak = [];
+      this.weightage_Read = [];
+      this.weightage_Write = [];
+      this.weightage_Speak = [];
+      this.languageID = [];
+
+    }
+    console.log('final array', this.multiLanguages);
+
+    this.languageMapping.SaveLanguageMapping(this.multiLanguages)
       .subscribe(response => {
         console.log(response, 'after successful mapping of language to provider');
         this.alertService.alert('language mapped successfully');
@@ -285,44 +364,66 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
+    debugger;
     this.showEditForm();
-    this.userLangID = rowObject.uSRMappingID;
+    this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
+    this.showCheckboxes = true;
+    this.getAvailableLanguages(this.edit_Details.userID)
+    this.isCheckedRead = rowObject.canRead;
+    this.isCheckedWrite = rowObject.canWrite;
+    this.isCheckedSpeak = rowObject.canSpeak;
   }
-  updateLanguage(language: any, readWeightage: any, writeWeightage: any, speakWeightage: any) {
-    let langObj = {};
-    langObj['languageName'] = language.languageName;
-    langObj['languageID'] = language.languageID;
-    langObj['userName'] = language.userName;
-    langObj['userID'] = language.userName;
-    langObj['read'] = this.read;
-    langObj['readWeightage'] = readWeightage;
-    langObj['write'] = this.write;
-    langObj['writeWeightage'] = writeWeightage;
-    langObj['speak'] = this.speak;
-    langObj['speakWeightage'] = speakWeightage;
-    if (this.multiLanguages.length === 0) {
-      this.multiLanguages.push(langObj);
+  updateLanguage(languages: any) {
+    debugger;
+    const langObj = {
+      'userLangID': this.userLangID,
+      'userID': languages.user_name,
+      'modifideBy': this.createdBy,
+      'weightage_Read': languages.read_weightage,
+      'weightage_Write': languages.write_weightage,
+      'weightage_Speak': languages.speak_weightage,
+      'languageID': languages.language,
+      'weightage': 10,
+      'canRead': this.read,
+      'canWrite': this.write,
+      'canSpeak': this.speak
+    };
+    this.languageMapping.UpdateLanguageMapping(langObj)
+      .subscribe(response => {
+        console.log(response, 'after successful mapping of language to provider');
+        this.alertService.alert('language mapping edited successfully');
+        this.showTable();
+        this.getAllMappedLanguagesList();
+        this.resetDropdowns1();
+        this.bufferArray = [];
+      }, err => {
+        console.log(err, 'ERROR');
+      });
 
-      this.languageMapping.UpdateLanguageMapping(this.multiLanguages)
-        .subscribe(response => {
-          console.log(response, 'after successful mapping of language to provider');
-          this.alertService.alert('language mapping edited successfully');
-          this.showTable();
-          this.getAllMappedLanguagesList();
-          this.resetDropdowns();
-          this.bufferArray = [];
-        }, err => {
-          console.log(err, 'ERROR');
-        });
 
-    }
   }
   resetForm() {
+    //this.Form.reset();
+    // this.eForm.reset();
     this.Form.reset();
     this.eForm.reset();
+    this.Language = undefined;
+    this.userLangID = undefined;
+    this.edit_Details = undefined;
   }
   resetDropdowns() {
+
+  }
+  resetDropdowns1() {
+    this.canRead = [];
+    this.canSpeak = [];
+    this.canWrite = [];
+    this.languageID = [];
+    this.weightage = [];
+    this.weightage_Read = [];
+    this.weightage_Speak = [];
+    this.weightage_Write = [];
   }
 }
 

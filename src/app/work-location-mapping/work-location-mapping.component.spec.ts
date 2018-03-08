@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { LanguageMappingComponent } from './language-mapping.component';
+import { WorkLocationMappingComponent } from './work-location-mapping.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -12,11 +12,9 @@ import { fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { tick } from '@angular/core/testing';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
-import { LanguageMapping } from '../services/ProviderAdminServices/language-mapping.service';
-import { not } from '@angular/compiler/src/output/output_ast';
-
-let component: LanguageMappingComponent;
-let fixture: ComponentFixture<LanguageMappingComponent>;
+import { WorkLocationMapping } from '../services/ProviderAdminServices/work-location-mapping.service';
+let component: WorkLocationMappingComponent;
+let fixture: ComponentFixture<WorkLocationMappingComponent>;
 
 const FakeConfirmationDialogsService = {
 
@@ -33,19 +31,19 @@ const FakeDataService = {
 const providerForFakeDataService = {
   provide: dataService, useValue: FakeDataService
 };
-class FakeLanguageMapping {
+class FakeWorkLocationMapping {
 
   getUserName(data) {
     return Observable.of([{
       userID: '1'
     }])
   }
-  getLanguageList() {
+  getMappedWorkLocationList() {
     return Observable.of([{
       userLangID: '1'
     }])
   }
-  getMappedLanguagesList() {
+  getAllServiceLinesByProvider(data) {
     return Observable.of([{
       languageID: '1',
       LanguageName: 'english'
@@ -53,30 +51,30 @@ class FakeLanguageMapping {
   }
 }
 
-const providerForLanguageMappingService = {
-  provide: LanguageMapping, useClass: FakeLanguageMapping
+const providerForWorkLocationMapping = {
+  provide: WorkLocationMapping, useClass: FakeWorkLocationMapping
 };
 
 
 function InitializeAdminTestBed() {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LanguageMappingComponent],
+      declarations: [WorkLocationMappingComponent],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [Md2Module, FormsModule],
       providers: [providerForFakeConfirmationDialogsService, providerForFakeDataService,
-        providerForLanguageMappingService]
+        providerForWorkLocationMapping]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LanguageMappingComponent);
+    fixture = TestBed.createComponent(WorkLocationMappingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 }
-describe('Language-mapping', () => {
+describe('Work-Location-mapping', () => {
 
   fdescribe('When the component is getting loaded, then ngOninit', () => {
 
@@ -102,16 +100,17 @@ describe('Language-mapping', () => {
       expect(component.getUserName).toHaveBeenCalled;
       expect(component.userNamesList).not.toBe('');
     });
-    it('getAllLanguagesList method should be called after OnInit', () => {
-      spyOn(component, 'getAllLanguagesList');
+    it('getAllMappedWorkLocations method should be called after OnInit', () => {
+      spyOn(component, 'getAllMappedWorkLocations');
       component.ngOnInit();
-      expect(component.getAllLanguagesList).toHaveBeenCalled;
+      expect(component.getAllMappedWorkLocations).toHaveBeenCalled;
+      expect(component.mappedWorkLocationsList).not.toBe('');
     });
-    it(' getAllMappedLanguagesList should be called after OnInit', () => {
-      spyOn(component, 'getAllMappedLanguagesList');
+    it(' getAllServicelines should be called after OnInit', () => {
+      spyOn(component, 'getAllServicelines');
       component.ngOnInit();
-      expect(component.getAllMappedLanguagesList).toHaveBeenCalled;
-      expect(component.LanguageMappedList).not.toBe('');
+      expect(component.getAllServicelines).toHaveBeenCalled;
+      expect(component.services_array).not.toBe('');
     });
   });
 

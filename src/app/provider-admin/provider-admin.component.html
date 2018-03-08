@@ -94,6 +94,9 @@
                                                     <li style="cursor: pointer" (click)='show("28")'>
                                                         <a>Language Mapping</a>
                                                     </li>
+                                                    <li style="cursor: pointer" (click)='show("32")'>
+                                                        <a>Work Location Mapping</a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                             <li style="cursor: pointer" (click)='show("10")'>
@@ -168,7 +171,8 @@
                                             <app-component-master *ngSwitchCase="30"></app-component-master>
                                             <app-procedure-master *ngSwitchCase="29"></app-procedure-master>
                                             <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
-                                            <!-- <app-language-mapping *ngSwitchCase="28"></app-language-mapping> -->
+                                            <app-language-mapping *ngSwitchCase="28"></app-language-mapping>
+                                            <app-work-location-mapping *ngSwitchCase="32"></app-work-location-mapping>
                                         </div>
                                     </div>
                                 </div>

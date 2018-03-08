@@ -123,7 +123,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (this.providerAdminList[i].userID === providerAdmin.userID &&
         this.providerAdminList[i].serviceProviderID === service.serviceProviderID &&
         this.providerAdminList[i].serviceID === service.serviceID) {
-        console.log("I am in");
         const obj = {
           'stateID': this.providerAdminList[i].stateID,
           'stateName': this.providerAdminList[i].stateName
