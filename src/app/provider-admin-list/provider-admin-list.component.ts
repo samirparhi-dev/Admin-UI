@@ -318,10 +318,10 @@ export class ProviderAdminListComponent implements OnInit {
   /*
   * Clear all the data
   */
-  clearAll() {
-    this.providerAdminCreationForm.resetForm();
-    this.providerAdminForm.resetForm();
-  }
+  // clearAll() {
+  //   this.providerAdminCreationForm.resetForm();
+  //   this.providerAdminForm.resetForm();
+  // }
   /*
   * provider creation
   */

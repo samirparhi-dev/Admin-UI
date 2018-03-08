@@ -24,7 +24,7 @@ export class EmployeeMasterNewServices {
     getAllQualificationsUrl: any;
     getRegistrationDataUrl: any;
     getAllCommunitiesUrl: any;
-    getAllReligionUrl: any;
+    getAllReligionsUrl: any;
     getAllStatesUrl: any;
     getAllDistrictsUrl: any;
     checkUserAvailabilityUrl: any;
@@ -46,8 +46,8 @@ export class EmployeeMasterNewServices {
         this.getAllDesignationsUrl= this.providerAdmin_base_url + '/m/getDesignation';
         this.getAllMaritalStatusesUrl= this.common_base_url + '/beneficiary/getRegistrationDataV1';
         this.getAllQualificationsUrl= this.providerAdmin_base_url+ '/m/Qualification';
-        this.getAllCommunitiesUrl= this.providerAdmin_base_url+ '';
-        this.getAllReligionUrl= this.providerAdmin_base_url+ '';
+        this.getAllCommunitiesUrl= this.providerAdmin_base_url+ '/getCommunity';
+        this.getAllReligionsUrl= this.providerAdmin_base_url+ '/getReligion';
         this.getAllStatesUrl= this.common_base_url+ 'location/states/';
         this.getAllDistrictsUrl= this.common_base_url+ 'location/districts/';
         this.checkID = this.providerAdmin_base_url + 'm/FindEmployeeDetails';
@@ -100,9 +100,9 @@ export class EmployeeMasterNewServices {
         .map(this.extractData)
         .catch(this.handleError)
     }
-    getAllReligion() {
+    getAllReligions() {
         return this.httpSecurity
-        .post(this.getAllReligionUrl, {})
+        .post(this.getAllReligionsUrl, {})
         .map(this.extractData)
         .catch(this.handleError)
     }

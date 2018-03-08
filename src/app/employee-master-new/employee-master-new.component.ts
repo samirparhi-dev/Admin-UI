@@ -38,6 +38,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   username: any;
   user_password: any;
   doj: any;
+  community: any;
+  religion: any;
   username_status: any;
   showHint: boolean;
   username_dependent_flag: boolean;
@@ -75,7 +77,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   states: any = [];
   districts: any = [];
   communities: any = [];
-  religion: any = [];
+  religions: any = [];
   objs: any = [];
 
   //flags
@@ -131,6 +133,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res));
     this.employeeMasterNewService.getAllQualifications().subscribe(res => this.getAllQualificationsSuccessHandler(res));
     this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
+    this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res));
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
 
 
@@ -249,16 +252,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * Get all communities
  */
-  getCommunities() {
-    this.employeeMasterNewService.getAllCommunities().subscribe(response => {
-      if (response) {
-        console.log("All communities", response);
-        this.communities = response;
-      }
-    }, err => {
-      console.log("Error", err);
-    });
-  }
   getCommunitiesSuccessHandler(response) {
     console.log("Display all Communities", response);
     this.communities = response;
@@ -266,19 +259,9 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
   * Get all religion
   */
-  getReligion() {
-    this.employeeMasterNewService.getAllReligion().subscribe(response => {
-      if (response) {
-        console.log("All Religion", response);
-        this.religion = response;
-      }
-    }, err => {
-      console.log("Error", err);
-    });
-  }
   getReligionSuccessHandler(response) {
     console.log("Display all religions", response);
-    this.religion = response;
+    this.religions = response;
   }
   /*
     * Check Uniqueness in Aadhar
@@ -389,42 +372,90 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * Method for addition of objects 
  */
-  add_object(titleID, firstname, middlename, lastname,
-    genderID, dob, contactNo, emailID, maritalStatusID, aadharNumber, panNumber, qualificationID,
-    emergency_contactNo, username, user_password, doj, fatherName, motherName, currentAddressLine1, currentAddressLine2,
-    currentStateID, currentDistrictID, currentPincode, permanentAddressLine1, permanentAddressLine2, permanentStateID,
-    permanenttDistrictID, permanentPincode) {
+  // add_object(titleID, firstname, middlename, lastname,
+  //   genderID, dob, contactNo, emailID, maritalStatusID, aadharNumber, panNumber, qualificationID,
+  //   emergency_contactNo, username, user_password, doj, fatherName, motherName, currentAddressLine1, currentAddressLine2,
+  //   currentStateID, currentDistrictID, currentPincode, permanentAddressLine1, permanentAddressLine2, permanentStateID,
+  //   permanenttDistrictID, permanentPincode) {
+  //   var tempObj = {
+  //     'titleID': this.titleID,
+  //     'firstname': this.firstname,
+  //     'middlename': this.middlename,
+  //     'lastname': this.lastname,
+  //     'genderID': this.genderID,
+  //     'dob': this.dob,
+  //     // 'age': this.age,
+  //     'contactNo': this.contactNo,
+  //     'emailID': this.emailID,
+  //     // 'designationID': this.designationID,
+  //     'maritalStatusID': this.maritalStatusID,
+  //     'aadharNumber': this.aadharNumber,
+  //     'panNumber': this.panNumber,
+  //     'qualificationID': this.qualificationID,
+  //     'emergency_contactNo': this.emergency_contactNo,
+  //     'username': this.username,
+  //     'password': this.user_password,
+  //     'doj': this.doj,
+  //     'fatherName': this.fatherName,
+  //     'motherName': this.motherName,
+  //     'currentAddressLine1': this.currentAddressLine1,
+  //     'currentAddressLine2': this.currentAddressLine2,
+  //     'currentState': this.currentState,
+  //     'currentDistrict': this.currentDistrict,
+  //     'currentPincode': this.currentPincode,
+  //     'permanentAddressLine1': this.permanentAddressLine1,
+  //     'permanentAddressLine2': this.permanentAddressLine2,
+  //     'permanentState': this.permanentState,
+  //     'permanenttDistrict': this.permanentDistrict,
+  //     'permanentPincode': this.permanentPincode
+
+  //   }
+  //   console.log("add objects", tempObj);
+  //   this.objs.push(tempObj);
+  //   this.checkUserNameAvailability(name);
+  //   this.userCreationForm.resetForm();
+  //   this.demographicsDetailsForm.resetForm();
+  //   this.communicationDetailsForm.resetForm();
+
+  // }
+  add_object(userFormValue, demographicsFormValue, communicationFormValue) {
+    console.log("form value", userFormValue);
+    console.log("titleid", userFormValue.title_Id);
+    console.log("demographics", demographicsFormValue);
+    console.log("comm", communicationFormValue);
     var tempObj = {
-      'titleID': this.titleID,
-      'firstname': this.firstname,
-      'middlename': this.middlename,
-      'lastname': this.lastname,
-      'genderID': this.genderID,
-      'dob': this.dob,
-      // 'age': this.age,
-      'contactNo': this.contactNo,
-      'emailID': this.emailID,
-      // 'designationID': this.designationID,
-      'maritalStatusID': this.maritalStatusID,
-      'aadharNumber': this.aadharNumber,
-      'panNumber': this.panNumber,
-      'qualificationID': this.qualificationID,
-      'emergency_contactNo': this.emergency_contactNo,
-      'username': this.username,
-      'password': this.user_password,
-      'doj': this.doj,
-      'fatherName': this.fatherName,
-      'motherName': this.motherName,
-      'currentAddressLine1': this.currentAddressLine1,
-      'currentAddressLine2': this.currentAddressLine2,
-      'currentState': this.currentState,
-      'currentDistrict': this.currentDistrict,
-      'currentPincode': this.currentPincode,
-      'permanentAddressLine1': this.permanentAddressLine1,
-      'permanentAddressLine2': this.permanentAddressLine2,
-      'permanentState': this.permanentState,
-      'permanenttDistrict': this.permanentDistrict,
-      'permanentPincode': this.permanentPincode
+      'titleID': userFormValue.title_Id,
+      'firstname': userFormValue.user_firstname,
+      'middlename': userFormValue.user_middlename,
+      'lastname': userFormValue.user_lastname,
+      'genderID': userFormValue.gender_Id,
+      'dob': userFormValue.user_dob,
+      'age': userFormValue.user_age,
+      'contactNo': userFormValue.primaryMobileNo,
+      'emailID': userFormValue.primaryEmail,
+      'designationID': userFormValue.designation,
+      'maritalStatusID': userFormValue.marital_status,
+      'aadharNumber': userFormValue.aadhar_number,
+      'panNumber': userFormValue.pan_number,
+      'qualificationID': userFormValue.edu_qualification,
+      'emergency_contactNo': userFormValue.emergencyContactNo,
+      'username': userFormValue.user_name,
+      'password': userFormValue.password,
+      'doj': userFormValue.doj,
+      'fatherName': demographicsFormValue.father_name,
+      'motherName': demographicsFormValue.mother_name,
+      'communityID': demographicsFormValue.community_id,
+      'religionID': demographicsFormValue.religion_id,
+      'currentAddressLine1': communicationFormValue.address.currentAddressLine1,
+      'currentAddressLine2': communicationFormValue.address.currentAddressLine2,
+      'currentState': communicationFormValue.address.currentState,
+      'currentDistrict': communicationFormValue.address.currentDistrict,
+      'currentPincode': communicationFormValue.address.currentPincode,
+      'permanentAddressLine1': communicationFormValue.permanentAddressLine1,
+      'permanentAddressLine2': communicationFormValue.permanentAddressLine2,
+      'permanentState': communicationFormValue.permanentState,
+      'permanenttDistrict': communicationFormValue.permanentDistrict,
+      'permanentPincode': communicationFormValue.permanentPincode
 
     }
     console.log("add objects", tempObj);
@@ -454,7 +485,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'lastName': this.objs[i].lastname,
         'genderID': "" + this.objs[i].genderID,
         'dOB': this.objs[i].dob,
-        //  'age': this.objs[i].age,
+        'age': this.objs[i].age,
         'contactNo': this.objs[i].contactNo,
         'emailID': this.objs[i].emailID,
         'designationID': this.objs[i].designationID,
@@ -468,10 +499,11 @@ export class EmployeeMasterNewComponent implements OnInit {
         'dOJ': this.objs[i].doj,
         'fathersName': this.objs[i].fatherName,
         'mothersName': this.objs[i].motherName,
-        // religionID
-        // communityID
+        'communityID': this.objs[i].communityID,
+        'religionID': this.objs[i].religionID,      
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
+        'permanentAddress': this.objs[i].permanentAddressLine1,
         'userStateID': this.objs[i].currentState,
         'workingDistrictID': "" + this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
@@ -479,7 +511,7 @@ export class EmployeeMasterNewComponent implements OnInit {
        // 'isPermanent':'1',
         'isPresent':'1',
         'createdBy': "Janani",
-        "cityID":"1",
+         "cityID":"1",
       }
       reqObject.push(tempObj);
     }
@@ -495,11 +527,11 @@ export class EmployeeMasterNewComponent implements OnInit {
     })
 
   }
-  clearAll() {
-    this.userCreationForm.resetForm();
-    this.demographicsDetailsForm.resetForm();
-    this.communicationDetailsForm.resetForm();
-  }
+  // clearAll() {
+  //   this.userCreationForm.resetForm();
+  //   this.demographicsDetailsForm.resetForm();
+  //   this.communicationDetailsForm.resetForm();
+  // }
  
   showEditForm() {
     this.tableMode = false;
@@ -511,31 +543,28 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     this.showEditForm();
     if (this.formMode == true && this.editMode == true) {
-
-      // console.log("Initial value", this.data);
       this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
       this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res));
       this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res));
       this.employeeMasterNewService.getAllQualifications().subscribe(res => this.getAllQualificationsSuccessHandler(res));
-      // this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
+      this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
+      this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res));
       this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
       this.edit(data);
     }
 
   }
 
-  edit(data) {
- 
+  edit(data) { 
     this.titleID = data.titleID;
-    console.log('this.titleid', this.titleID, data.titleID);
-
+    console.log('edit data', data);
     this.firstname = data.firstName;
     this.middlename = data.middleName;
     this.lastname = data.lastName;
     this.genderID = data.genderID;
     this.contactNo = data.contactNo;
     this.emailID = data.emailID;
-    // this.age = this.data.age;
+    this.age = data.age;
     this.dob = data.dOB;
     this.designationID = data.designationID;
     this.maritalStatusID = data.maritalStatusID;
@@ -544,13 +573,15 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.qualificationID = data.qualificationID;
     this.emergency_contactNo = data.emergencyContactNo;
     this.doj = data.dOJ;
-    this.fatherName = data.fatherName;
-    this.motherName = data.motherName;
-    this.currentAddressLine1 = data.userAddressLine1;
-    this.currentAddressLine2 = data.userAddressLine2;
-    this.currentState = data.usercurrentStateID;
+    this.fatherName = data.fathersName;
+    this.motherName = data.mothersName;
+    this.community = data.communityID;
+    this.religion = data.religionID;
+    this.currentAddressLine1 = data.addressLine1;
+    this.currentAddressLine2 = data.addressLine2;
+    this.currentState = data.stateID;
     this.currentDistrict = data.workingDistrictID;
-    this.currentPincode = data.currentPincode;
+    this.currentPincode = data.pinCode;
     this.userId = data.userID;
     this.createdBy = data.createdBy;
   }
@@ -561,8 +592,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       'middleName': this.middlename,
       'lastName': this.lastname,
       'genderID': this.genderID,
-      'dob': this.dob,
-      //  'age': this.age,
+      'dOB': this.dob,
+      'age': this.age,
       'contactNo': this.contactNo,
       'emailID': this.emailID,
       'maritalStatusID': this.maritalStatusID,
@@ -573,13 +604,15 @@ export class EmployeeMasterNewComponent implements OnInit {
       'dOJ': this.doj,
       'fathersName': this.fatherName,
       'mothersName': this.motherName,
+      'communityID': this.community,
+      'religionID': this.religion,
       'addressLine1': this.currentAddressLine1,
       'addressLine2': this.currentAddressLine2,
       'stateID': this.currentState,
-      'districtID': this.currentDistrict,
+      'workingDistrictID': this.currentDistrict,
       'pinCode': this.currentPincode,
-       'userID': this.userId,
-       'modifiedBy': this.createdBy
+      'userID': this.userId,
+      'modifiedBy': this.createdBy
 
     }
     console.log('updateobj', update_tempObj);
@@ -590,8 +623,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         /* resetting form and ngModels used in editing */
         this.userCreationForm.resetForm();
         this.demographicsDetailsForm.resetForm();
-        this.communicationDetailsForm.resetForm();
-       
+        this.communicationDetailsForm.resetForm();       
         this.getAllUserDetails();
         this.showTable();
 
@@ -632,8 +664,6 @@ export class EmployeeMasterNewComponent implements OnInit {
         console.log(err);
       })
   }
-
-
 }
 
 
