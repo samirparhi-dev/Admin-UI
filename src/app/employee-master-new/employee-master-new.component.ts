@@ -49,7 +49,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   idMessage: string;
   id: any;
   confirmMessage: any;
-
+  panelOpenState: boolean = true;
   //Demographics ngModel
   fatherName: any;
   motherName: any;

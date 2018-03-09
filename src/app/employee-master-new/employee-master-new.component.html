@@ -62,7 +62,7 @@
 <!-- User Details-->
 <div [hidden]="!formMode">
     <md-accordion>
-        <md-expansion-panel (opened)="panelOpenState = true">
+        <md-expansion-panel (opened)="true">
             <md-expansion-panel-header>
                 <md-panel-title>
                     <h4 *ngIf="!editMode">
@@ -226,7 +226,7 @@
                             </md-input-container>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                            <md2-datepicker class="width100" name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [min]="maxJoining" [max]="today"
+                            <md2-datepicker class="width100" name="doj" placeholder="Date of Joining" [(ngModel)]="doj" [max]="today"
                                 required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
                                 <md-hint class="errorText" *ngIf="userDoj.errors && userDoj.touched">DOB is required</md-hint>
                         </div>
@@ -375,7 +375,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <md-input-container class="hide_underline width100">
                                 <input mdInput style="display:none">
-                                <md-select placeholder="State" class="width100" [(ngModel)]="permanentState" (change)="getDistricts(stateId)" name="permanentState"
+                                <md-select placeholder="State" class="width100" [(ngModel)]="permanentState" (change)="getDistricts(permanentState)" name="permanentState"
                                     required>
                                     <md-option *ngFor="let item of states" [value]="item.stateID">
                                         {{item.stateName}}
