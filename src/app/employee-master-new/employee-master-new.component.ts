@@ -16,6 +16,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
 export class EmployeeMasterNewComponent implements OnInit {
   userId: any;
   createdBy: any;
+
   //ngModel
   titleID: any;
   firstname: any;
@@ -65,7 +66,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   permanentPincode: any;
   isPresent: any;
   isPermanent: any;
-
 
   //array
   searchResult: any = [];
@@ -135,9 +135,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
     this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res));
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
-
-
   }
+
   showTable() {
     if (this.editMode) {
       this.tableMode = true;
@@ -150,6 +149,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.editMode = false;
     }
   }
+
   /*
   * Display gender on condition
   */
@@ -170,17 +170,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.titles = response.m_Title;
     this.genders = response.m_genders;
   }
-
-  calculateAge(date) {
-    if (date != undefined) {
-      this.age = this.today.getFullYear() - date.getFullYear();
-      const month = this.today.getMonth() - date.getMonth();
-      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-        this.age--; //age is ng-model of AGE
-      }
-    }
-  }
-
   /*
   * User name availability
   */
@@ -217,14 +206,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     }
   }
-
-  /*
-  * Get all Designations
-  */
-  getAllDesignationsSuccessHandler(response) {
-    console.log("Display All Designations", response);
-    this.designations = response;
-  }
   /*
   * dob
   */
@@ -234,6 +215,25 @@ export class EmployeeMasterNewComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  /*
+  * calculate age based on the DOB
+  */
+  calculateAge(date) {
+    if (date != undefined) {
+      this.age = this.today.getFullYear() - date.getFullYear();
+      const month = this.today.getMonth() - date.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+        this.age--; //age is ng-model of AGE
+      }
+    }
+  }
+  /*
+  * Get all Designations
+  */
+  getAllDesignationsSuccessHandler(response) {
+    console.log("Display All Designations", response);
+    this.designations = response;
   }
   /*
   * Get all marital statuses
@@ -248,20 +248,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   getAllQualificationsSuccessHandler(response) {
     console.log("Display all Qualifications", response);
     this.eduQualifications = response;
-  }
-  /*
- * Get all communities
- */
-  getCommunitiesSuccessHandler(response) {
-    console.log("Display all Communities", response);
-    this.communities = response;
-  }
-  /*
-  * Get all religion
-  */
-  getReligionSuccessHandler(response) {
-    console.log("Display all religions", response);
-    this.religions = response;
   }
   /*
     * Check Uniqueness in Aadhar
@@ -309,6 +295,20 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isExistPan = false;
       this.idMessage = '';
     }
+  }
+  /*
+ * Get all communities
+ */
+  getCommunitiesSuccessHandler(response) {
+    console.log("Display all Communities", response);
+    this.communities = response;
+  }
+  /*
+  * Get all religion
+  */
+  getReligionSuccessHandler(response) {
+    console.log("Display all religions", response);
+    this.religions = response;
   }
 
   /*
@@ -368,7 +368,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.currentDistrict = [];
   }
   /*
-  * Method for addition of objects 
+  * Reset all the forms
   */
   resetAllForm() {
     this.userCreationForm.resetForm();
@@ -378,12 +378,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * Method for addition of objects 
  */
-
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
-    console.log("form value", userFormValue);
-    console.log("titleid", userFormValue.title_Id);
-    console.log("demographics", demographicsFormValue);
-    console.log("comm", communicationFormValue);
     var tempObj = {
       'titleID': userFormValue.title_Id,
       'firstname': userFormValue.user_firstname,
@@ -435,7 +430,6 @@ export class EmployeeMasterNewComponent implements OnInit {
  * User creation
  */
   createUser() {
-
     var reqObject = [];
     for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
@@ -465,7 +459,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'addressLine2': this.objs[i].currentAddressLine2,
         'permanentAddress': this.objs[i].permanentAddressLine1,
         'stateID': this.objs[i].currentState,
-        'workingDistrictID': "" + this.objs[i].currentDistrict,
+        'districtID': "" + this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
         'statusID': "1",
         // 'isPermanent':'1',
@@ -498,9 +492,11 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.formMode = true;
     this.editMode = true;
   }
+  /*
+* Edit user details
+*/
   editUserDetails(data) {
-    console.log('data to edit', data);
-
+    console.log('data to be edit', data);
     this.showEditForm();
     if (this.formMode == true && this.editMode == true) {
       this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
@@ -551,8 +547,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.userId = data.userID;
     this.createdBy = data.createdBy;
   }
-  update(demographicsValue) {
 
+  update(demographicsValue) {
     let update_tempObj = {
       'titleID': this.titleID,
       'firstName': this.firstname,
@@ -581,7 +577,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pinCode': this.currentPincode,
       'userID': this.userId,
       'modifiedBy': this.createdBy,
-      'cityID':1
+      'cityID': 1
 
     }
     console.log('updateobj', update_tempObj);
@@ -608,9 +604,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       "userID": userID,
       "deleted": flag
     }
-    if (flag) {     
+    if (flag) {
       this.confirmMessage = 'Deactivate';
-    } else {    
+    } else {
       this.confirmMessage = 'Activate';
     }
     this.dialogService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {

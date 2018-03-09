@@ -79,7 +79,7 @@ export class ProviderAdminListComponent implements OnInit {
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
   @ViewChild('providerAdminCreationForm') providerAdminCreationForm: NgForm;
-  @ViewChild('providerAdminForm') providerAdminForm: NgForm;
+  @ViewChild('adminCredentialsForm') adminCredentialsForm: NgForm;
 
   constructor(public superadminService: SuperAdmin_ServiceProvider_Service,
     public commonDataService: dataService,
@@ -274,39 +274,43 @@ export class ProviderAdminListComponent implements OnInit {
       this.idMessage = '';
     }
   }
-
+  resetAllForms() {
+    this.providerAdminCreationForm.resetForm();
+    this.adminCredentialsForm.resetForm();
+  }
   /*
    * Method for addition of objects 
    */
-  add_object(titleID, admin_firstName, admin_middleName, admin_lastName,
-    gender, dob, primaryMobileNumber, primaryEmail, marital_status, aadharNumber, panNumber, edu_qualification, emergency_cnt_person,
-    emergencyMobileNumber, userName, user_password, admin_remarks) {
+  add_object(providerAdminData, adminCredentials) {
+    console.log("providerAdmin", providerAdminData);
+    console.log("user", adminCredentials);
+    
+    
     var tempObj = {
-      'titleID': this.titleID,
-      'admin_firstName': this.admin_firstName,
-      'admin_middleName': this.admin_middleName,
-      'admin_lastName': this.admin_lastName,
-      'genderID': this.gender,
-      'dob': this.dob,
-      // 'age': this.age,
-      'primaryMobileNumber': this.primaryMobileNumber,
-      'primaryEmail': this.primaryEmail,
-      'maritalStatusID': this.marital_status,
-      'aadhaarNo': this.aadharNumber,
-      'pAN': this.panNumber,
-      'edu_qualification': this.edu_qualification,
-      'emergency_cnt_person': this.emergency_cnt_person,
-      'emergencyMobileNumber': this.emergencyMobileNumber,
-      'username': this.username,
-      'password': this.user_password,
-      'admin_remarks': this.admin_remarks,
+      'titleID': providerAdminData.title_Id,
+      'admin_firstName': providerAdminData.firstName,
+      'admin_middleName': providerAdminData.middleName,
+      'admin_lastName': providerAdminData.lastName,
+      'genderID': providerAdminData.adminGender,
+      'dob': providerAdminData.admin_dob,
+      // 'age': providerAdminData.age,
+      'primaryMobileNumber': providerAdminData.contact_number,
+      'primaryEmail': providerAdminData.email,
+      'maritalStatusID': providerAdminData.admin_maritalStatusId,
+      'aadhaarNo': providerAdminData.aadhar_number,
+      'pAN': providerAdminData.pan_number,
+      'edu_qualification': providerAdminData.admin_edu_qualification,
+      'emergency_cnt_person': providerAdminData.em_contact_person,
+      'emergencyMobileNumber': providerAdminData.em_contact_number,
+      'username': adminCredentials.user_name,
+      'password': adminCredentials.password,
+      'admin_remarks': adminCredentials.remarks,
 
     }
     console.log("add objects", tempObj);
     this.objs.push(tempObj);
-    this.checkUserNameAvailability(admin_firstName);
-    this.providerAdminCreationForm.resetForm();
-    this.providerAdminForm.resetForm();
+    this.checkUserNameAvailability(name);
+    this.resetAllForms();
 
   }
   /*
@@ -320,7 +324,7 @@ export class ProviderAdminListComponent implements OnInit {
   */
   // clearAll() {
   //   this.providerAdminCreationForm.resetForm();
-  //   this.providerAdminForm.resetForm();
+  //   this.adminCredentialsForm.resetForm();
   // }
   /*
   * provider creation
@@ -547,7 +551,7 @@ export class EditProviderAdminModal {
     console.log("Marital status", response);
     this.maritalStatus = response;
   }
-/*
+    /*
     * Check Uniqueness in Aadhar
     */
    checkAadhar() {

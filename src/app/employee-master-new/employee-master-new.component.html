@@ -1,9 +1,10 @@
+<md-card>
 <div class="row" *ngIf="tableMode">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4 class="">User's List
-            <span class="pull-right">
+            <!-- <span class="pull-right">
                 <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button>
-            </span>
+            </span> -->
         </h4>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -12,12 +13,12 @@
                 <thead>
                     <tr>
                         <th width="5%">S.NO</th>
-                        <th width="5%">UserID</th>
+                        <!-- <th width="5%">UserID</th> -->
                         <th width="10%">Title</th>
                         <th width="15%">Name</th>
                         <th width="15%">Emergency Contact No</th>
-                        <th width="10%">Email ID</th>
-                        <th width="12%">DOJ</th>
+                        <th width="20%">Email ID</th>
+                        <th width="20%">DOJ</th>
                         <th width="5%">Edit</th>
                         <th width="15%">Action</th>
                     </tr>
@@ -28,9 +29,9 @@
                     </tr>
                     <tr *ngFor="let item of md2.data ; let i= index">
                         <td>{{(md2.activePage-1)*4+i+1}}</td>
-                        <td>{{item.userID}}</td>
+                        <!-- <td>{{item.userID}}</td> -->
                         <td>{{item.titleName}}</td>
-                        <td>{{item.firstName}}</td>
+                        <td>{{item.userName}}</td>
                         <td>{{item.emergencyContactNo}}</td>
                         <td>{{item.emailID}}</td>
                         <td>{{item.dOJ}}</td>
@@ -41,7 +42,7 @@
                         <td>
                             <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.userID, false)">Activate</button>
                             <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.userID, true)">Deactivate</button>
-                        </td>
+                        </td>                        
                     </tr>
                 </tbody>
                 <tfoot>
@@ -50,15 +51,15 @@
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="6" class="p-r-0 m-t-10">
-                            <!-- <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button> -->
-                        </td>
+                            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button>
+                        </td>                        
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
 </div>
-
+<!-- User Details-->
 <div [hidden]="!formMode">
     <md-accordion>
         <md-expansion-panel (opened)="panelOpenState = true">
@@ -228,6 +229,7 @@
                 </div>
             </div>
         </md-expansion-panel>
+        <!-- User's Demographic Details-->
         <md-expansion-panel>
             <md-expansion-panel-header>
                 <md-panel-title>
@@ -281,6 +283,7 @@
                     </form>
                 </div>
             </div>
+            <!-- Communication Details of the user-->
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <form #communicationDetailsForm="ngForm" autocomplete="off">
                     <div ngModelGroup="address" #addressCtrl="ngModelGroup">
@@ -343,11 +346,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <md-checkbox color="primary" [disabled]="!addressCtrl.valid" (change)="addressCheck($event)" #myCheckBox>Same as current address</md-checkbox>
-                            <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" align="center">
-                                                    <button md-raised-button (click)="communicationDetailsForm.reset();myCheckBox.checked=false;disable_currentAddress_flag=false;reset()">Clear</button>                                                   
-                                                  </div> -->
-                            <!-- <md-checkbox ngModel *ngIf="isPresent" class="pull-right" (click)="sameAddress(false)" value="0">Same as Current Address</md-checkbox>
-                                        <md-checkbox mgModel *ngIf="!isPresent" class="pull-right" (click)="sameAddress(true)" value="1">Same as Current Address</md-checkbox> -->
+
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -440,9 +439,8 @@
             <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
             <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createUser()">Save</button>
             <!-- <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button> -->
-            <button *ngIf="editMode" md-raised-button color="primary" class="pull-right m-r-10" (click)="update(demographicsDetailsForm.value)">
-                <!-- [disabled]="editAdminCreationForm.invalid || adminNameExists" -->
-                Save Updates</button>
+            <button *ngIf="editMode" md-raised-button color="primary" class="pull-right m-r-10" (click)="update(demographicsDetailsForm.value)">Save Updates</button>
         </div>
     </div>
 </div>
+</md-card>

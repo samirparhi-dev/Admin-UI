@@ -84,7 +84,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="width100" myProviderName>
-                <input mdInput placeholder="First Name" ngModel name="providerAdmin" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
+                <input mdInput placeholder="First Name" ngModel name="firstName" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
                   #fname="ngModel" required>
                 <md-hint *ngIf="fname.touched">
                   <span class="errorText" [hidden]="!fname.errors">Enter minimum 2 characters</span>
@@ -213,7 +213,7 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form #providerAdminForm="ngForm" autocomplete="off">
+          <form #adminCredentialsForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="width100">
                 <input mdInput placeholder="Username" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
@@ -238,10 +238,8 @@
                 <input mdInput placeholder="Remarks" ngModel name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
               </md-input-container>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="providerAdminCreationForm.valid && providerAdminForm.valid">
-              <button md-mini-fab color="primary" (click)="add_object(title, firstName, middleName, lastName, 
-              gender, dob, age, primaryMobileNumber, primaryEmail, maritalStatusID, aadharNumber, panNumber, equ_qualification, 
-              emergency_cnt_person, emergencyMobileNumber, username, user_password, admin_remarks)">
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="providerAdminCreationForm.valid && adminCredentialsForm.valid">
+              <button md-mini-fab color="primary" (click)="add_object(providerAdminCreationForm.value, adminCredentialsForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
               </button>
             </div>
