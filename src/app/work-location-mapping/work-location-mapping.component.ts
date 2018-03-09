@@ -174,9 +174,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   deactivate(uSRMappingID) {
     debugger
@@ -190,9 +190,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   addWorkLocation(workLocations: any) {
     debugger;
@@ -368,17 +368,17 @@ export class WorkLocationMappingComponent implements OnInit {
       'modifiedBy': this.createdBy
     };
     console.log('edited request object', langObj);
-    // this.worklocationmapping.UpdateWorkLocationMapping(langObj)
-    //   .subscribe(response => {
-    //     console.log(response, 'after successful mapping of work location to provider');
-    //     this.alertService.alert('work location mapping edited successfully');
-    //     this.showTable();
-    //     this.getAllMappedWorkLocations();
-    //     this.resetDropdowns();
-    //     this.bufferArray = [];
-    //   }, err => {
-    //     console.log(err, 'ERROR');
-    //   });
+    this.worklocationmapping.UpdateWorkLocationMapping(langObj)
+      .subscribe(response => {
+        console.log(response, 'after successful mapping of work location to provider');
+        this.alertService.alert('work location mapping edited successfully');
+        this.showTable();
+        this.getAllMappedWorkLocations();
+        this.resetDropdowns();
+        this.bufferArray = [];
+      }, err => {
+        console.log(err, 'ERROR');
+      });
 
 
   }
