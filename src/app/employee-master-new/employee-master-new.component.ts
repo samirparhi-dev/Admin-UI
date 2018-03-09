@@ -66,6 +66,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   permanentPincode: any;
   isPresent: any;
   isPermanent: any;
+  checkAddress: any;
 
   //array
   searchResult: any = [];
@@ -86,7 +87,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   editMode = false;
 
   //constants & variables
-  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -341,11 +342,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.permanentAddressLine1 = this.currentAddressLine1;
       this.permanentAddressLine2 = this.currentAddressLine2;
       this.permanentState = this.currentState;
-
-      this.permanentDistrict = this.currentDistrict;
       this.permanentDistrict = this.currentDistrict;
       this.permanentPincode = this.currentPincode;
-
       this.isPermanent = '1';
       this.isPresent = '0';
       this.disable_permanentAddress_flag = true;
@@ -358,15 +356,16 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '0';
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
+      this.checkAddress = '';
 
-      this.permanentDistrict = [];
+     // this.permanentDistrict = [];
 
     }
   }
-  reset() {
-    this.permanentDistrict = [];
-    this.currentDistrict = [];
-  }
+  // reset() {
+  //   this.permanentDistrict = [];
+  //   this.currentDistrict = [];
+  // }
   /*
   * Reset all the forms
   */
@@ -379,6 +378,7 @@ export class EmployeeMasterNewComponent implements OnInit {
  * Method for addition of objects 
  */
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
+  
     var tempObj = {
       'titleID': userFormValue.title_Id,
       'firstname': userFormValue.user_firstname,
@@ -402,8 +402,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       'motherName': demographicsFormValue.mother_name,
       'communityID': demographicsFormValue.community_id,
       'religionID': demographicsFormValue.religion_id,
-      'currentAddressLine1': communicationFormValue.address.currentAddressLine1,
-      'currentAddressLine2': communicationFormValue.address.currentAddressLine2,
+      'currentAddressLine1': communicationFormValue.address.current_addressLine1,
+      'currentAddressLine2': communicationFormValue.address.current_addressLine2,
       'currentState': communicationFormValue.address.current_state,
       'currentDistrict': communicationFormValue.address.current_district,
       'currentPincode': communicationFormValue.address.current_pincode,
@@ -418,6 +418,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForm();
+    this.checkAddress = null;
 
   }
   /*

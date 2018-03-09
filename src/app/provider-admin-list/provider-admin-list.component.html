@@ -188,7 +188,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="width100" myName>
-                <input mdInput placeholder="Emergency Contact Person" ngModel name="em_cont_person" [(ngModel)]="emergency_cnt_person" minlength="2"
+                <input mdInput placeholder="Emergency Contact Person" ngModel name="em_contact_person" [(ngModel)]="emergency_cnt_person" minlength="2"
                   maxlength="50" #emergencyname="ngModel" required>
                 <md-hint *ngIf="emergencyname.touched">
                   <span class="errorText" [hidden]="!emergencyname.errors">Enter minimum 2 characters</span>
@@ -217,7 +217,7 @@
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
               <md-input-container class="width100">
                 <input mdInput placeholder="Username" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
-                  maxlength="50" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
+                  maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
                 <md-hint class="errorText">
                   <span *ngIf="uname.hasError('pattern')">User name is required(can't end or start with special characters,min:2)</span>
                   <span *ngIf="showHint && uname.touched">{{username_status}}</span>
