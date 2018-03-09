@@ -29,7 +29,7 @@ export class LanguageMapping {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.commonbaseurl = this.basepaths.getCommonBaseURL();
 
-        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployeeFilter';
+        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployee5';
         this.get_LanguageList_Url = this.commonbaseurl + 'beneficiary/getLanguageList';
         this.get_LanguageMappedDetails_Url = this.admin_Base_Url + '/getUserMappedLanguage';
 
@@ -40,7 +40,7 @@ export class LanguageMapping {
 
     getUserName(serviceProviderID) {
         debugger;
-        return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
+        return this.http.post(this.get_ProviderName_Url, {  })
             .map(this.handleSuccess).catch(this.handleError);
     }
 
