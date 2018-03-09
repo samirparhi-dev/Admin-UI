@@ -14,8 +14,8 @@ import { MD_DIALOG_DATA } from '@angular/material';
 })
 
 export class EmployeeMasterNewComponent implements OnInit {
-   userId: any;
-   createdBy: any;
+  userId: any;
+  createdBy: any;
   //ngModel
   titleID: any;
   firstname: any;
@@ -124,9 +124,9 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.editMode = false;
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
-    this.maxdate=new Date();
+    this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
-    this.mindate=new Date();
+    this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
     this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res));
@@ -367,9 +367,9 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.permanentDistrict = [];
     this.currentDistrict = [];
   }
- /*
- * Method for addition of objects 
- */
+  /*
+  * Method for addition of objects 
+  */
   resetAllForm() {
     this.userCreationForm.resetForm();
     this.demographicsDetailsForm.resetForm();
@@ -378,7 +378,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * Method for addition of objects 
  */
-  
+
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
     console.log("form value", userFormValue);
     console.log("titleid", userFormValue.title_Id);
@@ -435,9 +435,9 @@ export class EmployeeMasterNewComponent implements OnInit {
  * User creation
  */
   createUser() {
-    
+
     var reqObject = [];
-    for (var i = 0; i < this.objs.length; i++) {   
+    for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
         'titleID': "" + this.objs[i].titleID,
         'firstName': this.objs[i].firstname,
@@ -460,26 +460,26 @@ export class EmployeeMasterNewComponent implements OnInit {
         'fathersName': this.objs[i].fatherName,
         'mothersName': this.objs[i].motherName,
         'communityID': this.objs[i].communityID,
-        'religionID': this.objs[i].religionID,      
+        'religionID': this.objs[i].religionID,
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
         'permanentAddress': this.objs[i].permanentAddressLine1,
         'stateID': this.objs[i].currentState,
         'workingDistrictID': "" + this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
-        'statusID':"1",
-       // 'isPermanent':'1',
-        'isPresent':'1',
+        'statusID': "1",
+        // 'isPermanent':'1',
+        'isPresent': '1',
         'createdBy': "Janani",
-         "cityID":"1",
+        "cityID": "1",
       }
       reqObject.push(tempObj);
     }
     console.log("Details to be saved", reqObject);
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
-      if(response.stat)
-      this.editMode = false;
+      if (response.stat)
+        this.editMode = false;
       this.dialogService.alert("User Created successfully");
       this.objs = [];
       this.getAllUserDetails();
@@ -492,7 +492,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   //   this.demographicsDetailsForm.resetForm();
   //   this.communicationDetailsForm.resetForm();
   // }
- 
+
   showEditForm() {
     this.tableMode = false;
     this.formMode = true;
@@ -515,7 +515,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   }
 
-  edit(data) {     
+  edit(data) {
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -533,23 +533,23 @@ export class EmployeeMasterNewComponent implements OnInit {
       edu_qualification: data.qualificationID,
       doj: data.dOJ
     })
-   this.demographicsDetailsForm.form.patchValue({
-    father_name: data.fathersName,
-     mother_name: data.mothersName,
-     community_id: data.communityID,
-     religion_id: data.religionID
-   })
-   this.communicationDetailsForm.form.patchValue({
-    address: {
-    current_addressLine1: data.addressLine1,
-    current_addressLine2: data.addressLine2,
-    current_state: data.stateID,
-    current_district: data.districtID,
-    current_pincode: data.pinCode
-     }
-   })
-   this.userId = data.userID;
-   this.createdBy = data.createdBy;
+    this.demographicsDetailsForm.form.patchValue({
+      father_name: data.fathersName,
+      mother_name: data.mothersName,
+      community_id: data.communityID,
+      religion_id: data.religionID
+    })
+    this.communicationDetailsForm.form.patchValue({
+      address: {
+        current_addressLine1: data.addressLine1,
+        current_addressLine2: data.addressLine2,
+        current_state: data.stateID,
+        current_district: data.districtID,
+        current_pincode: data.pinCode
+      }
+    })
+    this.userId = data.userID;
+    this.createdBy = data.createdBy;
   }
   update(demographicsValue) {
 
@@ -581,36 +581,36 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pinCode': this.currentPincode,
       'userID': this.userId,
       'modifiedBy': this.createdBy,
-      //'cityID':1
+      'cityID':1
 
     }
     console.log('updateobj', update_tempObj);
 
     this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
-     console.log("Data to be update", response);
-     this.dialogService.alert('User Details Edited Successfully');
-        /* resetting form and ngModels used in editing */
-        this.resetAllForm();    
-        this.getAllUserDetails();
-        this.showTable();
+      console.log("Data to be update", response);
+      this.dialogService.alert('User Details Edited Successfully');
+      /* resetting form and ngModels used in editing */
+      this.resetAllForm();
+      this.getAllUserDetails();
+      this.showTable();
 
-      }, err => {
-        console.log('error', err);
-      });
+    }, err => {
+      console.log('error', err);
+    });
 
   }
-  
+
   /*
    * Activation and deactivation of the user
   */
   activateDeactivate(userID, flag) {
     let obj = {
       "userID": userID,
-      "userDeleted": flag
+      "deleted": flag
     }
-    if (flag) {
+    if (flag) {     
       this.confirmMessage = 'Deactivate';
-    } else {
+    } else {    
       this.confirmMessage = 'Activate';
     }
     this.dialogService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
