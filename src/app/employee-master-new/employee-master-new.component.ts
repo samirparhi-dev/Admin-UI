@@ -77,7 +77,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   maritalStatuses: any = [];
   eduQualifications: any = [];
   states: any = [];
-  districts: any = [];
+  currentDistricts: any = [];
+  permanentDistricts: any = [];
   communities: any = [];
   religions: any = [];
   objs: any = [];
@@ -327,19 +328,34 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.states = response;
   }
   /*
-    * Get all Districts
+    * Get all Districts for current address 
     */
-  getDistricts(currentStateID) {
+  getCurrentDistricts(currentStateID) {
     this.employeeMasterNewService.getAllDistricts(this.currentState).subscribe(response => {
-      this.getDistrictsSuccessHandler(response)
+      this.getCurrentDistrictsSuccessHandler(response)
     },
       err => {
         console.log("Error", err);
       });
   }
-  getDistrictsSuccessHandler(response) {
+  getCurrentDistrictsSuccessHandler(response) {
     console.log("Display all Districts", response);
-    this.districts = response;
+    this.currentDistricts = response;
+  }
+/*
+    * Get all Districts for permanent address 
+    */
+   getPermanentDistricts(permanentStateID) {
+    this.employeeMasterNewService.getAllDistricts(this.permanentState).subscribe(response => {
+      this.getPermanentDistrictsSuccessHandler(response)
+    },
+      err => {
+        console.log("Error", err);
+      });
+  }
+  getPermanentDistrictsSuccessHandler(response) {
+    console.log("Display all Districts", response);
+    this.permanentDistricts = response;
   }
 
   disable_permanentAddress_flag: boolean = false;
@@ -354,7 +370,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '1';
       this.isPresent = '0';
       this.disable_permanentAddress_flag = true;
-    } else {
+    } else {      
       this.permanentAddressLine1 = '';
       this.permanentAddressLine2 = '';
       this.permanentState = '';
@@ -363,13 +379,11 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '0';
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
-      this.checkAddress = '';
+      this.checkAddress = '';   
     }
   }
-  // reset() {
-  //   this.permanentDistrict = [];
-  //   this.currentDistrict = [];
-  // }
+
+
   /*
   * Reset all the forms
   */
