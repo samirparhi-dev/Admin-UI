@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ConfigService } from '../services/config/config.service';
 
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { loginService } from '../services/loginService/login.service';
+
 declare let jQuery: any;
 
 
@@ -20,7 +22,8 @@ export class SetSecurityQuestionsComponent implements OnInit {
               public http_calls: HttpServices,
               public router: Router,
               private configService: ConfigService,
-              private alertService:ConfirmationDialogsService
+              private alertService: ConfirmationDialogsService,
+              public _loginService: loginService
               ) {
 
   }
@@ -250,13 +253,28 @@ handleQuestionSaveError(response) {
 }
 
 successCallback(response) {
-
+// localStorage.removeItem('authToken'); // call logout api so that both client and server side the token is removed
   console.log(response);
   this.alertService.alert("Password changed Successfully");
-  this.router.navigate(['']);
+  // this.router.navigate(['']);
+  this.logout();
 }
 errorCallback(response) {
   console.log(response);
+}
+
+logout() {
+  this._loginService.removeTokenFromRedis()
+      .subscribe(response => {
+        if (response.response.toLowerCase() === 'success'.toLowerCase()) {
+          console.log('successfully logged out from CRM and session ended both sides');
+          localStorage.removeItem('authToken');
+          this.router.navigate(['']);
+        }
+      }, err => {
+        console.log(err, 'error while ending session both sides');
+
+      });
 }
 
 }
