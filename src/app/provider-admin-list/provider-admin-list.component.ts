@@ -352,7 +352,8 @@ export class ProviderAdminListComponent implements OnInit {
         'password': this.objs[i].password,
         'remarks': this.objs[i].admin_remarks,
         'createdBy': "Admin",
-        'isProviderAdmin': "true"
+        'isProviderAdmin': "true",
+       // "statusID": 1
       }
       reqObject.push(tempObj);
     }
