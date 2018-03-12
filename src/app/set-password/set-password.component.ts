@@ -16,6 +16,10 @@ import { loginService } from '../services/loginService/login.service';
 })
 export class SetPasswordComponent implements OnInit {
 
+
+	passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
+
+
 	constructor(
 		public http_calls: HttpServices,
 		public getUserData: dataService,
