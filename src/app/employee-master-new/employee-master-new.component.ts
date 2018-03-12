@@ -141,17 +141,21 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   showTable() {
-    this.resetAllForms();
-    if (this.editMode) {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
+    this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.resetAllForms();
+        if (this.editMode) {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+        else {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+      }
+    })   
   }
 
   /*
