@@ -1,0 +1,19 @@
+    .push-top-card {
+        margin-top: -150px;
+    }
+    
+    .chip-icon {
+        vertical-align: bottom;
+        cursor: pointer;
+    }
+    
+    .custom-chip {
+        padding: 4px 1px 4px 6px !important;
+        margin: 5px !important;
+    }
+    
+    @media only screen and (max-width: 980px) {
+        .push-top-card {
+            margin-top: unset;
+        }
+    }

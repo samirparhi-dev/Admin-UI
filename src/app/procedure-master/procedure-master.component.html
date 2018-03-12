@@ -1,0 +1,129 @@
+<md-card>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Procedure Master</h4>
+            <div *ngIf="unfilled" class="alert alert-danger" role="alert">
+                Please fill all mandatory fields
+            </div>
+            <div style="min-height: 100px;">
+                <form #stateService="ngForm">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess required>
+                            <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+                                {{stat.stateName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" required>
+                            <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
+                                {{ser.serviceName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </form>
+            </div>
+            <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='procedureForm'>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <!-- <md-form-field [style.width]=" '100%' ">
+                            <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
+                        </md-form-field> -->
+                        <md-input-container style="width: 100% ">
+                            <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
+                        <md-select id="procedure-type" required placeholder="Procedure Type" [style.width]="'100%'" formControlName="type">
+                            <md-option value="Radiology">
+                                Radiology
+                            </md-option>
+                            <md-option value="Laboratory">
+                                Laboratory
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
+                        Gender*
+                        <div>
+                            <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
+                            <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 m-t-15">
+                        <md-input-container [style.width]="'100%'">
+                            <textarea mdInput required mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description" maxlength="99"></textarea>
+                        </md-input-container>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 m-t-20 step-btn" align="left">
+                        <button *ngIf="!editMode" id="saveButton" md-raised-button color="primary" (click)="saveProcedure()">Save</button>
+                        <button *ngIf="editMode" id="updateButton" md-raised-button color="primary" (click)="updateProcedure()">Update</button>
+                        <button *ngIf="editMode" id="resetButton" md-raised-button (click)="resetProcedure()">Create New</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</md-card>
+<md-card *ngIf="providerServiceMapID  && service == '2'">
+    <div class="row">
+        <div *ngIf="procedureList?.length > 0" class="pull-right">
+            <md-input-container id="filterbox" class="m-t-20-">
+                <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterprocedureList(filterTerm.value)">
+                <md-icon mdSuffix>search</md-icon>
+            </md-input-container>
+        </div>
+        <div #tabledData class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+            <table class="table table-striped table-hover" [md2Data]="filteredprocedureList" #md2="md2DataTable" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th width="5%">S.No</th>
+                        <th width="15%">Procedure Name</th>
+                        <th width="20%">Procedure Type</th>
+                        <th width="15%">Gender</th>
+                        <th width="30%">Description</th>
+                        <th width="5%">Created By</th>
+                        <th width="5%"></th>
+                        <th width="5%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="filteredprocedureList.length == 0">
+                        <td colspan="8" align="center">No Previous Record Found</td>
+                    </tr>
+                    <tr *ngFor="let item of md2.data;let i = index ">
+                        <td>{{(md2.activePage-1)*4+i+1}}</td>
+                        <td>{{item.procedureName}}</td>
+                        <td>{{item.procedureType}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.procedureDesc}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>
+                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedure(item, i)">edit</md-icon>
+                        </td>
+                        <td>
+                            <button *ngIf="item.deleted" #enableButton md-raised-button color="primary" (click)="toggleProcedure(item.procedureID, i, false)">Enable</button>
+                            <button *ngIf="!item.deleted" #disableButton md-raised-button (click)="toggleProcedure(item.procedureID, i, true)">Disable</button>
+
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                        <td colspan="1">
+                            <span>Count: <b>{{filteredprocedureList.length}}</b></span>
+                        </td>
+
+                    </tr>
+                </tfoot>
+
+            </table>
+        </div>
+    </div>
+</md-card>
