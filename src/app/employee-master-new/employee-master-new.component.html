@@ -59,6 +59,7 @@
     </div>
 </div>
 <!-- User Details-->
+<!-- myName, myProviderName, myMobileNumber, PAN are custom directives -->
 <div [hidden]="!formMode" class="m-t-5">
     <md-accordion>
         <md-expansion-panel (opened)="true">
@@ -84,7 +85,7 @@
                                     </md-option>
                                 </md-select>
                             </md-input-container>
-                        </div>
+                        </div>                        
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <md-input-container class="width100" myName>
                                 <input mdInput placeholder="First Name" [(ngModel)]="firstname" name="user_firstname" minlength="2" maxlength="50" #fname="ngModel"

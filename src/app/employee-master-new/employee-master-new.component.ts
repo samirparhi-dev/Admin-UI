@@ -417,8 +417,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       'username': userFormValue.user_name,
       'password': userFormValue.password,
       'doj': userFormValue.doj,
-      'fatherName': demographicsFormValue.father_name,
-      'motherName': demographicsFormValue.mother_name,
+      'fatherName': demographicsFormValue.father_name.trim(),
+      'motherName': demographicsFormValue.mother_name.trim(),
       'communityID': demographicsFormValue.community_id,
       'religionID': demographicsFormValue.religion_id,
       'currentAddressLine1': communicationFormValue.address.current_addressLine1,
@@ -485,7 +485,8 @@ export class EmployeeMasterNewComponent implements OnInit {
         // 'isPermanent':'1',
         'isPresent': '1',
         'createdBy': "Janani",
-        "cityID": "1",
+        'cityID': '1',
+        'serviceProviderID': this.objs[i].serviceProviderID
       }
       reqObject.push(tempObj);
     }
