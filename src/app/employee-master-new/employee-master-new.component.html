@@ -26,7 +26,7 @@
                     <tr *ngIf="searchResult.length == 0">
                         <td colspan="12" align="center">No Record Found</td>
                     </tr>
-                    <tr *ngFor="let item of md2.data ; let i= index">
+                    <tr *ngFor="let item of md2.data; let i= index">
                         <td>{{(md2.activePage-1)*4+i+1}}</td>
                         <!-- <td>{{item.userID}}</td> -->
                         <td>{{item.titleName}}</td>
@@ -269,7 +269,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                             <md-input-container class="hide_underline width100">
                                 <input mdInput style="display:none">
-                                <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community_id">
+                                <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community_id" required>
                                     <md-option *ngFor="let item of communities" [value]="item.communityID">
                                         {{item.communityType}}
                                     </md-option>
@@ -443,7 +443,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-            <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+            <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Cancel</button>
             <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createUser()">Save</button>
             <!-- <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button> -->
             <button *ngIf="editMode" md-raised-button color="primary" class="pull-right m-r-10" (click)="update(demographicsDetailsForm.value)">Save Updates</button>

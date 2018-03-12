@@ -141,17 +141,21 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   showTable() {
-    this.resetAllForms();
-    if (this.editMode) {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
+    this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.resetAllForms();
+        if (this.editMode) {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+        else {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+      }
+    })   
   }
 
   /*
@@ -271,7 +275,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.idMessage = 'Adhaar Number Already Exists';
+      this.idMessage = 'Aadhar Number Already Exists';
     } else {
       this.isExistAadhar = false;
       this.idMessage = '';
@@ -476,7 +480,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       console.log("response", response);
       if (response.stat)
         this.editMode = false;
-      this.dialogService.alert("User Created successfully");
+      this.dialogService.alert("User created successfully");
       this.objs = [];
       this.getAllUserDetails();
 
@@ -498,7 +502,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 * Edit user details
 */
   editUserDetails(data) {
-    console.log('data to be edit', data);
+    console.log('Data to be edit', data);
     this.showEditForm();
     if (this.formMode == true && this.editMode == true) {
       this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
@@ -586,7 +590,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
       console.log("Data to be update", response);
-      this.dialogService.alert('User Details Edited Successfully');
+      this.dialogService.alert('User details edited successfully');
       /* resetting form and ngModels used in editing */
       this.resetAllForms();
       this.getAllUserDetails();
