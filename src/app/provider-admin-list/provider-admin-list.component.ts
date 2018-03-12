@@ -125,18 +125,24 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response));
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response));
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response));
+    this.calculateAge(this.dob);
   }
   showTable() {
-    if (this.editMode) {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-    }
+    this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.resetAllForms();
+        if (this.editMode) {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+        else {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+        }
+      }
+    })    
   }
   calculateAge(date) {
     if (date != undefined) {
@@ -274,6 +280,9 @@ export class ProviderAdminListComponent implements OnInit {
       this.idMessage = '';
     }
   }
+   /*
+   * Reset all the forms
+   */
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
     this.adminCredentialsForm.resetForm();
@@ -294,6 +303,7 @@ export class ProviderAdminListComponent implements OnInit {
       'genderID': providerAdminData.adminGender,
       'dob': providerAdminData.admin_dob,
       // 'age': providerAdminData.age,
+      'age': this.age,
       'primaryMobileNumber': providerAdminData.contact_number,
       'primaryEmail': providerAdminData.email,
       'maritalStatusID': providerAdminData.admin_maritalStatusId,
@@ -362,7 +372,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
       this.editMode = false;
-      this.dialogService.alert("Provider Admin Created successfully");
+      this.dialogService.alert("Provider admin created successfully");
       this.objs = [];
       this.getAllProviderAdminDetails();
 
@@ -382,7 +392,7 @@ export class ProviderAdminListComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Admin Details edited successfully");
+        this.dialogService.alert("Admin details edited successfully");
         this.getAllProviderAdminDetails();
       }
     });
@@ -569,7 +579,7 @@ export class EditProviderAdminModal {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.idMessage = 'Adhaar Number Already Exists';
+      this.idMessage = 'Aadhar Number Already Exists';
     } else {
       this.isExistAadhar = false;
       this.idMessage = '';

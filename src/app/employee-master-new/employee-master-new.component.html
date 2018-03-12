@@ -440,7 +440,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-            <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+            <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Cancel</button>
             <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createUser()">Save</button>
             <!-- <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button> -->
             <button *ngIf="editMode" md-raised-button color="primary" class="pull-right m-r-10" (click)="update(demographicsDetailsForm.value)">Save Updates</button>
