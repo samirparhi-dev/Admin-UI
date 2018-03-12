@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { loginService } from '../services/loginService/login.service';
 import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
+import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+
 
 
 @Component({
@@ -19,6 +21,7 @@ export class loginContentClass implements OnInit {
 	public loginResult: string;
 	constructor(public loginservice: loginService,
 		public router: Router,
+		private alertMessage: ConfirmationDialogsService,
 		public dataSettingService: dataService) { };
 
 	ngOnInit() {
@@ -33,12 +36,18 @@ export class loginContentClass implements OnInit {
 			this.loginservice.superAdminAuthenticate(userId, password)
 				.subscribe(response => {
 					if (response.isAuthenticated) {
-						console.log(response, "SUPERADMIN VALIDATED");
-						localStorage.setItem('authToken', response.key);
-						this.dataSettingService.Userdata = { "userName": "Super Admin" };
-						this.dataSettingService.role = "SUPERADMIN";
-						this.dataSettingService.uname = "Super Admin";
-						this.router.navigate(['/MultiRoleScreenComponent']);
+						if (response.previlegeObj.length === 0) {
+							console.log(response, "SUPERADMIN VALIDATED");
+							localStorage.setItem('authToken', response.key);
+							this.dataSettingService.Userdata = { "userName": "Super Admin" };
+							this.dataSettingService.role = "SUPERADMIN";
+							this.dataSettingService.uname = "Super Admin";
+							this.router.navigate(['/MultiRoleScreenComponent']);
+						}
+						else {
+							this.alertMessage.alert('User is not super admin');
+						}
+
 					}
 
 				}, err => {
@@ -82,11 +91,17 @@ export class loginContentClass implements OnInit {
 					console.log("VALUE SET HOGAYI");
 				}
 				else {
-					// this.router.navigate(['/MultiRoleScreenComponent']);
+					this.dataSettingService.role = "";
 				}
 				// }
 			}
-			this.router.navigate(['/MultiRoleScreenComponent']);
+			if (this.dataSettingService.role.toLowerCase() === "PROVIDERADMIN".toLowerCase()) {
+				this.router.navigate(['/MultiRoleScreenComponent']);
+			}
+			else {
+				this.alertMessage.alert('User is not a provider admin');
+			}
+
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
 			this.status = 'new';
