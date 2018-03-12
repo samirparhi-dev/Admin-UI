@@ -104,7 +104,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAvailableLanguages(username: any) {
-    debugger;
+    // debugger;
     const alreadyMappedLanguages = [];
     for (let i = 0; i < this.LanguageMappedList.length; i++) {
       if (this.LanguageMappedList[i].userID === username.userID) {
@@ -149,7 +149,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   deactivate(userLangID) {
-    debugger
+    // debugger
     const object = { 'userLangID': userLangID, 'deleted': true };
 
     this.languageMapping.DeleteLanguageMapping(object)
@@ -222,7 +222,7 @@ export class LanguageMappingComponent implements OnInit {
   }
 
   addLanguage(languages: any, readWeightage: any, writeWeightage: any, speakWeightage: any) {
-    debugger;
+    // debugger;
     const langObj = {
       'languageName': languages.language.languageName,
       'userName': languages.username.userName,
@@ -250,7 +250,7 @@ export class LanguageMappingComponent implements OnInit {
   }
 
   checkDuplicates(object) {
-    debugger;
+    // debugger;
     // let LanguageMatched = false;
     // let Count = 0;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
@@ -285,7 +285,7 @@ export class LanguageMappingComponent implements OnInit {
     }
   }
   saveMapping() {
-    debugger;
+    // debugger;
     console.log('final buffer', this.bufferArray);
     let lang: any;
     let langObj = {};
@@ -334,7 +334,7 @@ export class LanguageMappingComponent implements OnInit {
         langObj['languageID'] = this.languageID;
 
       }
-      debugger;
+      // debugger;
       if (langObj['userID'] !== undefined) {
         this.multiLanguages.push(langObj);
       }
@@ -364,7 +364,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
-    debugger;
+    // debugger;
     this.showEditForm();
     this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
@@ -375,7 +375,7 @@ export class LanguageMappingComponent implements OnInit {
     this.isCheckedSpeak = rowObject.canSpeak;
   }
   updateLanguage(languages: any) {
-    debugger;
+    // debugger;
     const langObj = {
       'userLangID': this.userLangID,
       'userID': languages.user_name,

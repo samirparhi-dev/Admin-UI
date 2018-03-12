@@ -48,7 +48,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.getAllServicelines(this.serviceProviderID);
   }
   getAllMappedWorkLocations() {
-    debugger;
+    // debugger;
     this.worklocationmapping.getMappedWorkLocationList()
       .subscribe(response => {
         if (response) {
@@ -60,7 +60,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getUserName(providerId: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getUserName(providerId)
 
       .subscribe(response => {
@@ -73,7 +73,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllServicelines(serviceProvider: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getAllServiceLinesByProvider(serviceProvider)
       .subscribe(response => {
         if (response) {
@@ -85,7 +85,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllStates(serviceProvider: any, serviceLine: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
       .subscribe(response => {
         if (response) {
@@ -98,7 +98,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   getAllDistricts(state: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getAllDistricts(state.stateID || state)
       .subscribe(response => {
         if (response) {
@@ -110,7 +110,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllWorkLocations(user: any, state: any, service: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service)
       .subscribe(response => {
         if (response) {
@@ -122,7 +122,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllRoles(user: any, state: any, service: any) {
-    debugger;
+    // debugger;
     this.worklocationmapping.getAllRoles(this.serviceProviderID, state.stateID || state, service.serviceID || service)
       .subscribe(response => {
         if (response) {
@@ -160,7 +160,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   activate(uSRMappingID) {
-    debugger;
+    // debugger;
     const object = {
       'uSRMappingID': uSRMappingID,
       'deleted': false
@@ -179,7 +179,7 @@ export class WorkLocationMappingComponent implements OnInit {
         });
   }
   deactivate(uSRMappingID) {
-    debugger
+    // debugger
     const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
     this.worklocationmapping.DeleteWorkLocationMapping(object)
@@ -195,7 +195,7 @@ export class WorkLocationMappingComponent implements OnInit {
         });
   }
   addWorkLocation(workLocations: any) {
-    debugger;
+    // debugger;
     const workLocationObj = {
       'previleges': [],
       'userID': workLocations.user.userID,
@@ -236,7 +236,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   checkDuplicates(object) {
-    debugger;
+    // debugger;
     // let LanguageMatched = false;
     // let Count = 0;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
@@ -299,7 +299,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   saveWorkLocations() {
-    debugger;
+    // debugger;
     console.log(this.bufferArray, 'Request Object');
     const requestArray = [];
     const workLocationObj = {
@@ -345,7 +345,7 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
-    debugger;
+    // debugger;
     this.showEditForm();
     this.edit_Details = rowObject;
     this.uSRMappingID = rowObject.uSRMappingID;
@@ -358,7 +358,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   updateWorkLocation(workLocations: any) {
-    debugger;
+    // debugger;
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
       'userID': workLocations.user_name,

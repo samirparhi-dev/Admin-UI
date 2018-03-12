@@ -49,6 +49,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   idMessage: string;
   id: any;
   confirmMessage: any;
+  panelOpenState: boolean = true;
 
   //Demographics ngModel
   fatherName: any;
@@ -136,9 +137,11 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
     this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res));
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
+    this.calculateAge(this.dob);
   }
 
   showTable() {
+    this.resetAllForms();
     if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
@@ -357,9 +360,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
       this.checkAddress = '';
-
-     // this.permanentDistrict = [];
-
     }
   }
   // reset() {
@@ -369,7 +369,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
   * Reset all the forms
   */
-  resetAllForm() {
+  resetAllForms() {
     this.userCreationForm.resetForm();
     this.demographicsDetailsForm.resetForm();
     this.communicationDetailsForm.resetForm();
@@ -386,7 +386,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       'lastname': userFormValue.user_lastname,
       'genderID': userFormValue.gender_Id,
       'dob': userFormValue.user_dob,
-      'age': userFormValue.user_age,
+     // 'age': userFormValue.user_age,
+      'age': this.age,
       'contactNo': userFormValue.primaryMobileNo,
       'emailID': userFormValue.primaryEmail,
       'designationID': userFormValue.designation,
@@ -417,7 +418,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     console.log("add objects", tempObj);
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
-    this.resetAllForm();
+    this.resetAllForms();
     this.checkAddress = null;
 
   }
@@ -587,7 +588,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       console.log("Data to be update", response);
       this.dialogService.alert('User Details Edited Successfully');
       /* resetting form and ngModels used in editing */
-      this.resetAllForm();
+      this.resetAllForms();
       this.getAllUserDetails();
       this.showTable();
 

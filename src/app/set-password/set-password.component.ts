@@ -4,6 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
 import { ConfigService } from '../services/config/config.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { loginService } from '../services/loginService/login.service';
 
 
 
@@ -19,7 +20,8 @@ export class SetPasswordComponent implements OnInit {
 		public http_calls: HttpServices,
 		public getUserData: dataService,
 		private configService: ConfigService,
-		public router: Router, private alertService: ConfirmationDialogsService) { }
+		public router: Router, private alertService: ConfirmationDialogsService,
+		public _loginService: loginService) { }
 
 	ngOnInit() {
 	}
@@ -29,14 +31,13 @@ export class SetPasswordComponent implements OnInit {
 
 	uname: any = this.getUserData.uname;
 
-	dynamictype:any="password";
-	
+	dynamictype: any = "password";
+
 	showPWD() {
 		this.dynamictype = 'text';
 	}
 
-	hidePWD()
-	{
+	hidePWD() {
 		this.dynamictype = 'password';
 	}
 
@@ -58,10 +59,25 @@ export class SetPasswordComponent implements OnInit {
 
 		console.log(response);
 		this.alertService.alert('Password changed Successfully');
-		this.router.navigate(['']);
+		this.logout();
+		// this.router.navigate(['']);
 	}
 	errorCallback(response) {
 		console.log(response);
+	}
+
+	logout() {
+		this._loginService.removeTokenFromRedis()
+			.subscribe(response => {
+				if (response.response.toLowerCase() === 'success'.toLowerCase()) {
+					console.log('successfully logged out from CRM and session ended both sides');
+					localStorage.removeItem('authToken');
+					this.router.navigate(['']);
+				}
+			}, err => {
+				console.log(err, 'error while ending session both sides');
+
+			});
 	}
 
 

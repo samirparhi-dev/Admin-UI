@@ -39,7 +39,7 @@ export class WorkLocationMapping {
         this.getAllServiceLinesByProviderUrl = this.admin_Base_Url + 'getServiceLinesUsingProvider';
         this.getAllDistrictsByProviderUrl = this.commonbaseurl + 'location/districts/';
         this.getAllWorkLocationsByProviderUrl = this.admin_Base_Url + '/m/location/getAlllocation';
-        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployeeFilter';
+        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployee5';
         this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + '/getUserRoleMapped';
         this.getAllRolesUrl = this.admin_Base_Url + 'm/role/search1';
 
@@ -53,14 +53,14 @@ export class WorkLocationMapping {
     }
 
     getUserName(serviceProviderID) {
-        debugger;
-        return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
+        // debugger;
+        return this.http.post(this.get_ProviderName_Url, {  })
             .map(this.handleSuccess).catch(this.handleError);
     }
 
 
     getAllServiceLinesByProvider(serviceProviderID: any) {
-        debugger;
+        // debugger;
         return this.http
             .post(this.getAllServiceLinesByProviderUrl, { "serviceProviderID": serviceProviderID })
             .map(this.handleState_n_ServiceSuccess)
@@ -68,7 +68,7 @@ export class WorkLocationMapping {
     }
 
     getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
-        debugger;
+        // debugger;
         return this.http
             .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
             .map(this.handleState_n_ServiceSuccess)
