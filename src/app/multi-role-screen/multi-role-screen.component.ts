@@ -43,10 +43,11 @@ export class MultiRoleScreenComponent implements OnInit {
     console.log("language asked for is:", language);
     this.HttpServices
       .getData(this.languageFilePath)
-      .subscribe(response => this.successhandeler(response, language));
+      .subscribe(response => this.successhandeler(response, language), err => this.successhandeler(err, language));
   }
 
   successhandeler(response, language) {
+    console.log(response, "language response");
     this.currentlanguageSet = response[language];
 
     // var languageEvent = jQuery.Event("changed_language", response[language]);
