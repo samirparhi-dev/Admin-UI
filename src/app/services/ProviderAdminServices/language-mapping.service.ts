@@ -50,8 +50,9 @@ export class LanguageMapping {
             .map(this.handleSuccess).catch(this.handleError);
     }
 
-    getMappedLanguagesList() {
-        return this.http.post(this.get_LanguageMappedDetails_Url, {})
+    getMappedLanguagesList(serviceProviderID) {
+        return this.http.post(this.get_LanguageMappedDetails_Url,
+            { 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess).catch(this.handleError);
     }
 

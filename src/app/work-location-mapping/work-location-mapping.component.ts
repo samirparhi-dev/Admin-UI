@@ -70,6 +70,11 @@ export class WorkLocationMappingComponent implements OnInit {
       .subscribe(response => this.getServicesSuccessHandeler(response));
 
   }
+    getProviderServicesInState_duringEdit(stateID) {
+    this.worklocationmapping.getProviderServicesInState(this.serviceProviderID, stateID)
+      .subscribe(response => this.getServicesSuccessHandeler(response));
+
+  }
 
   getServicesSuccessHandeler(response) {
     if (response) {
@@ -83,7 +88,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getAllMappedWorkLocations() {
     // debugger;
-    this.worklocationmapping.getMappedWorkLocationList()
+    this.worklocationmapping.getMappedWorkLocationList(this.serviceProviderID)
       .subscribe(response => {
         if (response) {
           console.log('All Mapped Work Locations List Success Handeler', response);
@@ -282,11 +287,11 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   addWorkLocation(workLocations: any) {
     debugger;
-    console.log(workLocations,"FORM VALUES");
+    console.log(workLocations, "FORM VALUES");
     const workLocationObj = {
       'previleges': [],
       'userID': workLocations.user.userID,
-      // 'serviceProviderName': workLocations.user.userName,
+      'userName': workLocations.user.userName,
       'serviceName': workLocations.serviceline.serviceName,
       'stateName': workLocations.state.stateName,
       'district': workLocations.district.districtName,
@@ -294,9 +299,9 @@ export class WorkLocationMappingComponent implements OnInit {
       'roleID1': [],
       'providerServiceMapID': workLocations.serviceline.providerServiceMapID,
       'createdBy': this.createdBy,
-      'workingLocationID': workLocations.worklocation.pSAddMapID,
-      'AgentID': workLocations.agentID,
-      'AgentPassword': workLocations.password
+      'workingLocationID': workLocations.worklocation.pSAddMapID
+      // 'AgentID': workLocations.agentID,
+      // 'AgentPassword': workLocations.password
     };
     let roleArray = [];
     if (workLocations.role.length > 0) {
@@ -392,7 +397,8 @@ export class WorkLocationMappingComponent implements OnInit {
     const workLocationObj = {
       'previleges': [],
       'userID': '',
-      'createdBy': ''
+      'createdBy': '',
+      'serviceProviderID': this.serviceProviderID
     }
     let previleges = {
       'roleID': [],
@@ -432,17 +438,18 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
-    debugger;
     this.showEditForm();
     this.edit = true;
     this.edit_Details = rowObject;
+    console.log('TO BE EDITED REQ OBJ', this.edit_Details);
     this.uSRMappingID = rowObject.uSRMappingID;
     // this.getAllServicelines(this.serviceProviderID)
     // this.getAllStates(this.serviceProviderID, this.edit_Details.serviceID)
     this.getProviderStates();
+    this.getProviderServicesInState_duringEdit(this.edit_Details.stateID);
     this.getAllDistricts(this.edit_Details.stateID);
-    this.getAllWorkLocations(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)
-    this.getAllRoles(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)
+    this.getAllWorkLocations(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID);
+    this.getAllRoles(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID);
     this.workLocationID = rowObject.workingLocationID;
 
   }
@@ -452,11 +459,11 @@ export class WorkLocationMappingComponent implements OnInit {
       'uSRMappingID': this.uSRMappingID,
       'userID': workLocations.user_name,
       'roleID': workLocations.role,
-      'providerServiceMapID': workLocations.state_serviceMapID,
-      'workingLocationID': this.workLocationID,
+      'providerServiceMapID': workLocations.providerServiceMapID,
+      'workingLocationID': workLocations.worklocation,
       'modifiedBy': this.createdBy
     };
-    console.log('edited request object', langObj);
+    console.log('edited request object to be sent to API', langObj);
     this.worklocationmapping.UpdateWorkLocationMapping(langObj)
       .subscribe(response => {
         console.log(response, 'after successful mapping of work location to provider');

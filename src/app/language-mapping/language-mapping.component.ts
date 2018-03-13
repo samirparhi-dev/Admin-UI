@@ -68,7 +68,7 @@ export class LanguageMappingComponent implements OnInit {
 
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
-    this.createdBy = this.createdBy = this.saved_data.uname;
+    this.createdBy = this.saved_data.uname;
     this.WeightageList = [
       { value: 10, Name: '25%' },
       { value: 20, Name: '50%' },
@@ -104,7 +104,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAllMappedLanguagesList() {
-    this.languageMapping.getMappedLanguagesList()
+    this.languageMapping.getMappedLanguagesList(this.serviceProviderID)
       .subscribe(response => {
         if (response) {
           console.log('All Languages Success Handeler', response);
@@ -115,7 +115,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAvailableLanguages(username: any) {
-    // debugger;    
+    // debugger;
     const alreadyMappedLanguages = [];
     for (let i = 0; i < this.LanguageMappedList.length; i++) {
       if (this.LanguageMappedList[i].userID === username.userID) {
@@ -155,9 +155,9 @@ export class LanguageMappingComponent implements OnInit {
           this.getAllMappedLanguagesList();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   deactivate(userLangID) {
     // debugger
@@ -171,9 +171,9 @@ export class LanguageMappingComponent implements OnInit {
           this.getAllMappedLanguagesList();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   showTable() {
     if (this.editMode) {
@@ -364,6 +364,7 @@ export class LanguageMappingComponent implements OnInit {
     obj['userName'];
     obj['userID'];
     obj['createdBy'];
+    obj['serviceProviderID'];
     obj['weightage_Read'] = [];
     obj['weightage_Write'] = [];
     obj['weightage_Speak'] = [];
@@ -380,6 +381,7 @@ export class LanguageMappingComponent implements OnInit {
         obj['userName'] = this.bufferArray[i].userName;
         obj['userID'] = this.bufferArray[i].userID;
         obj['createdBy'] = this.createdBy;
+        obj['serviceProviderID'] = this.serviceProviderID;
         lang = this.bufferArray[i].userID;
         duplicateArray.push(lang);
         for (let j = 0; j < this.bufferArray.length; j++) {

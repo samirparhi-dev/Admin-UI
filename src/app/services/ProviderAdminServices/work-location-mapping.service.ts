@@ -70,8 +70,9 @@ export class WorkLocationMapping {
             .catch(this.handleError);
     }
 
-    getMappedWorkLocationList() {
-        return this.http.post(this.get_WorkLocationMappedDetails_Url, {})
+    getMappedWorkLocationList(serviceProviderID) {
+        return this.http.post(this.get_WorkLocationMappedDetails_Url,
+            { 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess).catch(this.handleError);
     }
 
