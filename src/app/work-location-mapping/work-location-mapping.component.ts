@@ -15,13 +15,14 @@ export class WorkLocationMappingComponent implements OnInit {
   uSRMappingID: any;
   workLocationID: any;
   providerServiceMapID: any;
+  edit = false;
 
   // Arrays
+  filteredRoles = [];
   userNamesList: any = [];
   services_array: any = [];
   states_array: any = [];
   districts_array: any = [];
-  providerAdminList: any = [];
   filteredStates: any = [];
   mappedWorkLocationsList: any = [];
   workLocationsList: any = [];
@@ -42,7 +43,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
-    this.createdBy = this.createdBy = this.saved_data.uname;
+    this.createdBy = this.saved_data.uname;
     this.getAllMappedWorkLocations();
     this.getUserName(this.serviceProviderID);
     this.getAllServicelines(this.serviceProviderID);
@@ -67,30 +68,44 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log('All User names under this provider Success Handeler', response);
           this.userNamesList = response;
+          this.services_array = undefined;
+          this.states_array = undefined;
+          this.districts_array = undefined;
+          this.workLocationsList = undefined;
+          this.RolesList = undefined
+
         }
       }, err => {
         console.log('Error', err);
       });
   }
   getAllServicelines(serviceProvider: any) {
-    // debugger;
-    this.worklocationmapping.getAllServiceLinesByProvider(serviceProvider)
+    debugger;
+    this.worklocationmapping.getAllServiceLinesByProvider(this.serviceProviderID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all servicelines success handeler');
           this.services_array = response;
+          this.states_array = undefined;
+          this.districts_array = undefined;
+          this.workLocationsList = undefined;
+          this.RolesList = undefined
         }
       }, err => {
 
       });
   }
+
   getAllStates(serviceProvider: any, serviceLine: any) {
-    // debugger;
+    debugger;
     this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all states success handeler');
           this.states_array = response;
+          this.districts_array = undefined;
+          this.workLocationsList = undefined;
+          this.RolesList = undefined
         }
       }, err => {
 
@@ -104,6 +119,8 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all districts success handeler');
           this.districts_array = response;
+          this.workLocationsList = undefined;
+          this.RolesList = undefined
         }
       }, err => {
 
@@ -116,6 +133,7 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all work locations success handeler');
           this.workLocationsList = response;
+          this.RolesList = undefined
         }
       }, err => {
 
@@ -128,23 +146,53 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all roles success handeler');
           this.RolesList = response;
+          //  this.getAvailableMappings(user, state, service)
         }
       }, err => {
 
       });
   }
+  getAvailableMappings(formvalues) {
+    debugger;
+    const alreadyMappedWorklocations = [];
+    for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
+      if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
+        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID) {
+        const obj = {
+          'roleID': this.mappedWorkLocationsList[i].roleID,
+          'roleName': this.mappedWorkLocationsList[i].roleName
+        }
+        alreadyMappedWorklocations.push(obj);
+      }
+    }
+    console.log('alredy', alreadyMappedWorklocations);
+    const filteredRoles = this.mappedWorkLocationsList.filter(function (allLocations) {
+      return !alreadyMappedWorklocations.find(function (locationFromMappedWorkLocation) {
+        return allLocations.roleID === locationFromMappedWorkLocation.roleID
+      })
+    });
+    this.filteredRoles = [];
+    if (filteredRoles.length === 0) {
+      this.alertService.alert('All work locations for this user have been mapped');
+    } else {
+      this.filteredRoles = filteredRoles;
+    }
 
+  }
   showTable() {
     if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
-
+      this.bufferArray = [];
+      this.resetDropdowns();
     }
     else {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
+      this.bufferArray = [];
+      this.resetDropdowns();
     }
 
   }
@@ -152,11 +200,15 @@ export class WorkLocationMappingComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
+    this.edit = false;
+    // this.getUserName(this.serviceProviderID);
   }
   showEditForm() {
     this.tableMode = false;
     this.formMode = false;
     this.editMode = true;
+    this.edit = true;
+    // this.getUserName(this.serviceProviderID);
   }
 
   activate(uSRMappingID) {
@@ -169,7 +221,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.DeleteWorkLocationMapping(object)
       .subscribe(response => {
         if (response) {
-          this.alertService.alert('Worl location mapped admin activated successfully');
+          this.alertService.alert('Work location mapped admin activated successfully');
           /* refresh table */
           this.getAllMappedWorkLocations();
         }
@@ -195,15 +247,16 @@ export class WorkLocationMappingComponent implements OnInit {
         });
   }
   addWorkLocation(workLocations: any) {
-    // debugger;
+    debugger;
+    //this.getAvailableMappings(workLocations);
     const workLocationObj = {
       'previleges': [],
       'userID': workLocations.user.userID,
-      'serviceProviderName': workLocations.user.serviceProviderName,
+      'serviceProviderName': workLocations.user.userName,
       'serviceName': workLocations.serviceline.serviceName,
       'stateName': workLocations.state.stateName,
       'district': workLocations.district.districtName,
-      'workingLocation': workLocations.worklocation.workLocationName,
+      'workingLocation': workLocations.user.workLocationName,
       'roleID1': [],
       'providerServiceMapID': workLocations.state.providerServiceMapID,
       'createdBy': this.createdBy,
@@ -333,7 +386,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.SaveWorkLocationMapping(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of work-location');
-        this.alertService.alert('work location admin mapped successfully');
+        this.alertService.alert('Work location  mapped successfully');
         this.getAllMappedWorkLocations();
         this.resetDropdowns();
         this.showTable();
@@ -345,8 +398,9 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
-    // debugger;
+    debugger;
     this.showEditForm();
+    this.edit = true;
     this.edit_Details = rowObject;
     this.uSRMappingID = rowObject.uSRMappingID;
     // this.getAllServicelines(this.serviceProviderID)
@@ -371,7 +425,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.UpdateWorkLocationMapping(langObj)
       .subscribe(response => {
         console.log(response, 'after successful mapping of work location to provider');
-        this.alertService.alert('work location mapping edited successfully');
+        this.alertService.alert('Work location mapping edited successfully');
         this.showTable();
         this.getAllMappedWorkLocations();
         this.resetDropdowns();

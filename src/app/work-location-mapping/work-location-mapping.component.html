@@ -11,7 +11,7 @@
       <table [md2Data]="mappedWorkLocationsList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
         <thead>
           <tr>
-            <th>User Name</th>
+            <th md2SortBy="userName">User Name</th>
             <th>Serviceline</th>
             <th>State</th>
             <th>District</th>
@@ -26,7 +26,7 @@
             <td colspan="7" align="center">No Record Found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
-            <td>{{service.name}}</td>
+            <td>{{service.userName}}</td>
             <td>{{service.serviceName}}</td>
             <td>{{service.stateName}}</td>
             <td>{{service.workingDistrictName}}</td>
@@ -71,7 +71,8 @@
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" required>
+            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" (change)="getAllServicelines(User)" name="user"
+              required>
               <md-option *ngFor="let user of userNamesList" [value]="user">
                 {{user.userName}}
               </md-option>
@@ -121,21 +122,22 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
             <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="agentID" placeholder="Agent ID" name="agentID" required />
+              <input autocomplete='off' mdInput type="text" id="agentID" [(ngModel)]="AgentName" placeholder="Agent ID" name="agentID"
+                required />
             </md-input-container>
           </div>
 
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
             <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="password" placeholder="Agent Password" name="password" required/>
+              <input autocomplete='off' mdInput type="text" id="password" [(ngModel)]="AgentID" placeholder="Agent Password" name="password"
+                required/>
             </md-input-container>
           </div>
         </div>
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value);workplaceform.reset()">Add</button>
-        <button md-raised-button color="primary" class="pull-right m-r-10" (click)="workplaceform.reset()">Clear</button>
+        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value);this.workplaceform.reset();">Add</button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
@@ -147,8 +149,7 @@
             <th>Serviceline</th>
             <th>State</th>
             <th>District</th>
-            <th>Agent ID</th>
-            <th>Agent Password</th>
+            <th>Work Location</th>
             <th>Role</th>
             <th>Delete</th>
           </tr>
@@ -160,9 +161,7 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.stateName}}</td>
             <td>{{item.district}}</td>
-            <td>{{item.workingLocation}}</td>
-            <td>{{item.AgentID}}</td>
-            <td>{{item.AgentPassword}}</td>
+            <td>{{item.locationName}}</td>
             <td>
               <ul>
                 <li *ngFor="let obj of item.roleID1;let j=index ">
@@ -178,10 +177,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="9">
+            <td colspan="8">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="9" class="p-r-0">
+            <td colspan="8" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="saveWorkLocations()">Save</button>
             </td>
           </tr>
@@ -200,7 +199,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
 
-      <form id="workplaceForm" #workplaceedit_form="ngForm" autocomplete="off">
+      <form id="workplaceForm" #workplaceeform="ngForm" autocomplete="off">
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
@@ -239,9 +238,9 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="edit_Details.workingDistrictName" (change)="getAllRoles(edit_Details.userID,edit_Details.stateID,edit_Details.serviceID)"
+            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="edit_Details.workingLocationAddress" (change)="getAllRoles(edit_Details.userID,edit_Details.stateID,edit_Details.serviceID)"
               name="worklocation" required>
-              <md-option *ngFor="let item of workLocationsList" [value]="item.districtName">
+              <md-option *ngFor="let item of workLocationsList" [value]="item.locationName">
                 {{item.locationName}}
               </md-option>
             </md-select>
@@ -268,7 +267,7 @@
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button md-raised-button color="primary" class="pull-right" [disabled]="workplaceedit_form.invalid" (click)="updateWorkLocation(workplaceedit_form.value);workplace_form.reset()">Update</button>
+        <button *ngIf="!formMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceedit_form.value);">Update</button>
       </div>
     </div>
 
