@@ -40,6 +40,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   username: any;
   user_password: any;
   doj: any;
+  minDate_doj: any;
   community: any;
   religion: any;
   username_status: any;
@@ -130,10 +131,13 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.editMode = false;
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
+    console.log("dob", this.dob);
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    console.log("max", this.maxdate);
     this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
+    console.log("min", this.mindate);
     this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
     this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res));
     this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res));
@@ -145,21 +149,32 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   showTable() {
+    //this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    // if (res) {
+    this.resetAllForms();
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    // }
+    //  })
+  }
+
+  back() {
     this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
-        if (this.editMode) {
-          this.tableMode = true;
-          this.formMode = false;
-          this.editMode = false;
-        }
-        else {
-          this.tableMode = true;
-          this.formMode = false;
-          this.editMode = false;
-        }
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
       }
     })
+  }
+
+  calculateDoj(dob) { 
+    this.minDate_doj = new Date();
+    this.minDate_doj.setFullYear(this.dob.getFullYear() + 20);
+    this.doj = this.minDate_doj;
+    console.log("mindoj", this.minDate_doj);
   }
 
   /*
@@ -255,8 +270,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.maritalStatuses = response;
   }
   /*
- * Get all educational qualifications
- */
+  * Get all educational qualifications
+  */
   getAllQualificationsSuccessHandler(response) {
     console.log("Display all Qualifications", response);
     this.eduQualifications = response;
@@ -309,8 +324,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     }
   }
   /*
- * Get all communities
- */
+  * Get all communities
+  */
   getCommunitiesSuccessHandler(response) {
     console.log("Display all Communities", response);
     this.communities = response;
@@ -334,6 +349,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Get all Districts for current address 
     */
   getCurrentDistricts(currentStateID) {
+
     this.employeeMasterNewService.getAllDistricts(this.currentState).subscribe(response => {
       this.getCurrentDistrictsSuccessHandler(response)
     },
@@ -369,6 +385,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.permanentAddressLine2 = this.currentAddressLine2;
       this.permanentState = this.currentState;
       this.permanentDistrict = this.currentDistrict;
+      this.getPermanentDistricts(this.currentState);
       this.permanentPincode = this.currentPincode;
       this.isPermanent = '1';
       this.isPresent = '0';
@@ -396,8 +413,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.communicationDetailsForm.resetForm();
   }
   /*
- * Method for addition of objects
- */
+  * Method for addition of objects
+  */
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
 
     var tempObj = {
@@ -429,11 +446,11 @@ export class EmployeeMasterNewComponent implements OnInit {
       'currentState': communicationFormValue.address.current_state,
       'currentDistrict': communicationFormValue.address.current_district,
       'currentPincode': communicationFormValue.address.current_pincode,
-      'permanentAddressLine1': communicationFormValue.permanentAddressLine1,
-      'permanentAddressLine2': communicationFormValue.permanentAddressLine2,
-      'permanentState': communicationFormValue.permanentState,
-      'permanenttDistrict': communicationFormValue.permanentDistrict,
-      'permanentPincode': communicationFormValue.permanentPincode
+      'permanentAddressLine1': communicationFormValue.permanent_addressLine1,
+      'permanentAddressLine2': communicationFormValue.permanent_addressLine2,
+      'permanentState': communicationFormValue.permanent_state,
+      'permanenttDistrict': communicationFormValue.permanent_district,
+      'permanentPincode': communicationFormValue.permanent_pincode
 
     }
     console.log("add objects", tempObj);
@@ -450,8 +467,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.objs.splice(index, 1);
   }
   /*
- * User creation
- */
+  * User creation
+  */
   createUser() {
     var reqObject = [];
     for (var i = 0; i < this.objs.length; i++) {
@@ -482,7 +499,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'addressLine2': this.objs[i].currentAddressLine2,
         'permanentAddress': this.objs[i].permanentAddressLine1 + ' , ' + this.objs[i].permanentAddressLine2,
         'stateID': this.objs[i].currentState,
-        'districtID':  this.objs[i].currentDistrict,
+        'districtID': this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
         'statusID': "1",
         // 'isPermanent':'1',
@@ -517,8 +534,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.editMode = true;
   }
   /*
-* Edit user details
-*/
+  * Edit user details
+  */
   editUserDetails(data) {
     console.log('Data to be edit', data);
     this.showEditForm();
@@ -536,6 +553,27 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   edit(data) {
+    if (data.stateID != null && data.stateID) {
+      this.currentState = data.stateID;
+      this.getCurrentDistricts(this.currentState);
+      if (this.currentDistricts && this.currentDistricts != null) {
+        console.log("district", data.districtID);
+        this.communicationDetailsForm.form.patchValue({
+          address: {
+            current_addressLine1: data.addressLine1,
+            current_addressLine2: data.addressLine2,
+            current_state: data.stateID,
+            current_district: data.districtID,
+            current_pincode: data.pinCode
+          },
+
+          permanent_addressLine1: data.permanentAddress
+        })
+        console.log("current district", this.currentDistrict);
+
+      }
+    }
+
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -559,46 +597,45 @@ export class EmployeeMasterNewComponent implements OnInit {
       community_id: data.communityID,
       religion_id: data.religionID
     })
-    this.communicationDetailsForm.form.patchValue({
-      address: {
-        current_addressLine1: data.addressLine1,
-        current_addressLine2: data.addressLine2,
-        current_state: data.stateID,
-        current_district: data.districtID,
-        current_pincode: data.pinCode
-      }
-    })
+
     this.userId = data.userID;
     this.createdBy = data.createdBy;
   }
 
-  update(demographicsValue) {
+  update(userCreationFormValue, demographicsValue, communicationFormValue) {
+    console.log("addressLine", communicationFormValue);
+    console.log("state", communicationFormValue.current_state);
+    console.log('demogra', demographicsValue);
+
+
+
     let update_tempObj = {
-      'titleID': this.titleID,
-      'firstName': this.firstname,
-      'middleName': this.middlename,
-      'lastName': this.lastname,
-      'genderID': this.genderID,
-      'dOB': this.dob,
+      'titleID': userCreationFormValue.title_Id,
+      'firstName': userCreationFormValue.user_firstname,
+      'middleName': userCreationFormValue.user_middlename,
+      'lastName': userCreationFormValue.user_lastname,
+      'genderID': userCreationFormValue.gender_Id,
+      'dOB': userCreationFormValue.user_dob,
+      //'age': userCreationFormValue.age,
       'age': this.age,
-      'contactNo': this.contactNo,
-      'emailID': this.emailID,
-      'designationID': this.designationID,
-      'maritalStatusID': this.maritalStatusID,
-      'aadhaarNo': this.aadharNumber,
-      'pAN': this.panNumber,
-      'qualificationID': this.qualificationID,
-      'emergencyContactNo': this.emergency_contactNo,
-      'dOJ': this.doj,
+      'contactNo': userCreationFormValue.primaryMobileNo,
+      'emailID': userCreationFormValue.primaryEmail,
+      'designationID': userCreationFormValue.designation,
+      'maritalStatusID': userCreationFormValue.marital_status,
+      'aadhaarNo': userCreationFormValue.aadhar_number,
+      'pAN': userCreationFormValue.pan_number,
+      'qualificationID': userCreationFormValue.edu_qualification,
+      'emergencyContactNo': userCreationFormValue.emergencyContactNo,
+      'dOJ': userCreationFormValue.doj,
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,
       'religionID': demographicsValue.religion_id,
-      'addressLine1': this.currentAddressLine1,
-      'addressLine2': this.currentAddressLine2,
-      'stateID': this.currentState,
-      'districtID': this.currentDistrict,
-      'pinCode': this.currentPincode,
+      'addressLine1': communicationFormValue.address.current_addressLine1,
+      'addressLine2': communicationFormValue.address.current_addressLine2,
+      'stateID': communicationFormValue.address.current_state,
+      'districtID': communicationFormValue.address.current_district,
+      'pinCode': communicationFormValue.address.current_pincode,
       'userID': this.userId,
       'modifiedBy': this.createdBy,
       'cityID': 1
@@ -610,7 +647,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       console.log("Data to be update", response);
       this.dialogService.alert('User details edited successfully');
       /* resetting form and ngModels used in editing */
-      this.resetAllForms();
       this.getAllUserDetails();
       this.showTable();
 
@@ -642,9 +678,9 @@ export class EmployeeMasterNewComponent implements OnInit {
             this.dialogService.alert(this.confirmMessage + "d successfully");
             this.getAllUserDetails();
           },
-          (err) => {
-            console.log(err);
-          })
+            (err) => {
+              console.log(err);
+            })
       }
     },
       (err) => {
