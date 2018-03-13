@@ -25,6 +25,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   serviceProviderMapID: any;
   edit_Details: any;
   uSRMappingID: any;
+  serviceProviderID: any;
 
   // arrays
   providers: any = [];
@@ -32,7 +33,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   states: any = [];
   bufferArray: any = [];
   providerAdminList: any = [];
-  filteredStates: any = [];
+  filteredServiceLines: any = [];
 
   // flags
   formMode = false;
@@ -51,6 +52,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
+    this.serviceProviderID = this.commonDataService.service_providerID;
     this.getAllMappedProviders();
     this.getAllProviders();
     this.getAllProviderAdmins();
@@ -85,65 +87,95 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         if (response) {
           console.log('All Provider Admins Success Handeler', response);
           this.service_provider_admin_array = response;
+          this.filteredServiceLines = [];
         }
       }, err => {
         console.log('Error', err);
       });
   }
-  getAllServicelines(serviceProvider: any) {
-    this.superadminService.getAllServiceLinesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
-      .subscribe(response => {
-        if (response) {
-          console.log(response, 'get all servicelines success handeler');
-          this.services_array = response;
+  // getAllServicelines(serviceProvider: any) {
+  //   this.superadminService.getAllServiceLinesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+  //     .subscribe(response => {
+  //       if (response) {
+  //         console.log(response, 'get all servicelines success handeler');
+  //         this.services_array = response;
 
-        }
-      }, err => {
+  //       }
+  //     }, err => {
 
-      });
-  }
-  getAllStates(serviceProvider: any, serviceLine: any, providerAdmin: any) {
+  //     });
+  // }
+  // getAllStates(serviceProvider: any, serviceLine: any, providerAdmin: any) {
+  //   this.superadminService.getAllStatesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, serviceLine.serviceID)
+  //     .subscribe(response => {
+  //       if (response) {
+  //         console.log(response, 'get all states success handeler');
+  //         this.states_array = response;
+  //         this.getAvailableStates(serviceProvider, serviceLine, providerAdmin)
+  //       } 
+  //     }, err => {
+
+  //     });
+  // }
+  getProviderStates(state) {
     debugger;
-    this.superadminService.getAllStatesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, serviceLine.serviceID)
-      .subscribe(response => {
-        if (response) {
-          console.log(response, 'get all states success handeler');
-          this.states_array = response;
-          this.getAvailableStates(serviceProvider, serviceLine, providerAdmin)
-        }
-      }, err => {
-
-      });
+    this.superadminService.getProviderStates(state.serviceProviderId || state.serviceProviderID).
+      subscribe(response => this.getStatesSuccessHandeler(response));
   }
-  getAvailableStates(provider, service, providerAdmin) {
-    debugger;
-    console.log(provider, service);
-    const alreadyMappedStates = [];
+
+  getStatesSuccessHandeler(response) {
+    if (response) {
+      console.log(response, 'Provider States');
+      this.states_array = response;
+    }
+  }
+
+  getProviderServicesInState(state, providerAdmin, serviceProvider) {
+    this.superadminService.getProviderServicesInState(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, state.stateID)
+      .subscribe(response => this.getServicesSuccessHandeler(response));
+    this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+  }
+  // getProviderServicesInState_duringEdit(state, providerAdmin, serviceProvider) {
+  //   this.superadminService.getProviderServicesInState(state.serviceProviderID, state.stateID)
+  //     .subscribe(response => this.getServicesSuccessHandeler(response));
+  //   this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderID)
+  // }
+
+  getServicesSuccessHandeler(response) {
+    if (response) {
+      console.log('Provider Services in State', response);
+      this.services_array = response;
+    }
+  }
+
+  getAvailableServiceLines(state, providerAdmin, serviceProviderId) {
+    console.log(providerAdmin, state);
+    const alreadyMappedServiceLines = [];
     for (let i = 0; i < this.providerAdminList.length; i++) {
       if (this.providerAdminList[i].userID === providerAdmin.userID &&
-        this.providerAdminList[i].serviceProviderID === service.serviceProviderID &&
-        this.providerAdminList[i].serviceID === service.serviceID) {
+        this.providerAdminList[i].serviceProviderID === serviceProviderId &&
+        this.providerAdminList[i].stateID === state.stateID) {
         const obj = {
-          'stateID': this.providerAdminList[i].stateID,
-          'stateName': this.providerAdminList[i].stateName
+          'serviceID': this.providerAdminList[i].serviceID,
+          'serviceName': this.providerAdminList[i].serviceName
         }
-        alreadyMappedStates.push(obj);
+        alreadyMappedServiceLines.push(obj);
       }
     }
-    console.log('alredy', alreadyMappedStates);
-    const filteredStates = this.states_array.filter(function (stateFromAllState) {
-      return !alreadyMappedStates.find(function (stateFromMappedState) {
-        return stateFromAllState.stateID === stateFromMappedState.stateID
+    console.log('alredy', alreadyMappedServiceLines);
+    const filteredServiceLines = this.services_array.filter(function (serviceLinesFromAllServices) {
+      return !alreadyMappedServiceLines.find(function (serviceFromMappedservice) {
+        return serviceLinesFromAllServices.serviceID === serviceFromMappedservice.serviceID
       })
     });
 
-    console.log(this.filteredStates, 'Filtered States');
-    console.log(filteredStates, 'const states');
-    this.filteredStates = [];
-    if (filteredStates.length === 0) {
-      this.dialogService.alert('All states for this serviceline have been mapped');
+    console.log(this.filteredServiceLines, 'Filtered services');
+    console.log(filteredServiceLines, 'const services');
+    this.filteredServiceLines = [];
+    if (filteredServiceLines.length === 0) {
+      this.dialogService.alert('All servicelines for this state have been mapped');
     } else {
-      this.filteredStates = filteredStates;
+      this.filteredServiceLines = filteredServiceLines;
 
     }
 
@@ -180,23 +212,23 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       'serviceProviderMapID1': [],
       'userID': form_values.ProviderAdmin.userID,
       'createdBy': this.createdBy,
-      'serviceName': form_values.Services.serviceName,
+      'stateName': form_values.state.stateName,
       'serviceProviderName': form_values.serviceProvider.serviceProviderName,
       'userName': form_values.ProviderAdmin.userName
     };
 
-    let stateArray = [];
-    if (form_values.state.length > 0) {
-      for (let a = 0; a < form_values.state.length; a++) {
+    let servicesArray = [];
+    if (form_values.Services.length > 0) {
+      for (let a = 0; a < form_values.Services.length; a++) {
         let obj = {
-          'serviceProviderMapID1': form_values.state[a].providerServiceMapID,
-          'stateName': form_values.state[a].stateName
+          'serviceProviderMapID1': form_values.Services[a].providerServiceMapID,
+          'serviceName': form_values.Services[a].serviceName
         }
 
-        stateArray.push(obj);
+        servicesArray.push(obj);
       }
 
-      object['serviceProviderMapID1'] = stateArray;
+      object['serviceProviderMapID1'] = servicesArray;
     }
 
     this.checkDuplicates(object);
@@ -211,15 +243,15 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
     /* case:2 If the buffer array is not empty */
     else if (this.bufferArray.length > 0) {
-      let servicelineMatched = false;
+      let statesMatched = false;
       let providerCount = 0;
       for (let a = 0; a < this.bufferArray.length; a++) {
         /* if the ProviderID of object in BufferArray is same as that of new object */
         if (this.bufferArray[a].serviceProviderName === object.serviceProviderName && this.bufferArray[a].userID === object.userID) {
           providerCount = providerCount + 1;
           /* if the serviceID of object in BufferArray is same as that of new object */
-          if (this.bufferArray[a].serviceName === object.serviceName) {
-            servicelineMatched = true;
+          if (this.bufferArray[a].stateName === object.stateName) {
+            statesMatched = true;
             /* the loop will run i times , where i= no of objects in States Array
                of OBJECT sent for verification */
             for (let i = 0; i < object.serviceProviderMapID1.length; i++) {
@@ -238,7 +270,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
                 this.resetForm();
               }
               else if (count > 0) {
-                console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].stateName);
+                console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].serviceName);
                 this.resetForm();
               }
             }
@@ -248,7 +280,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           }
         }
       }
-      if (providerCount === 1 && servicelineMatched === false) {
+      if (providerCount === 1 && statesMatched === false) {
         this.bufferArray.push(object);
         this.resetForm();
       }
@@ -279,7 +311,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.showTable();
         this.getAllMappedProviders();
         this.resetDropdowns();
-        this.filteredStates = [];
+        this.filteredServiceLines = [];
         this.services_array = [];
         this.bufferArray = [];
       }, err => {
@@ -294,8 +326,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.uSRMappingID = undefined;
     this.edit_Details = undefined;
   }
-  removeState(rowIndex, stateIndex) {
-    this.bufferArray[rowIndex].serviceProviderMapID1.splice(stateIndex, 1);
+  removeService(rowIndex, serviceIndex) {
+    this.bufferArray[rowIndex].serviceProviderMapID1.splice(serviceIndex, 1);
 
     if (this.bufferArray[rowIndex].serviceProviderMapID1.length === 0) {
       this.bufferArray.splice(rowIndex, 1);
@@ -318,9 +350,9 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.getAllMappedProviders();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   deactivate(userID) {
     const object = { 'uSRMappingID': userID, 'deleted': true };
@@ -333,23 +365,22 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.getAllMappedProviders();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   editRow(rowObject) {
     debugger;
     this.showEditForm();
     this.uSRMappingID = rowObject.uSRMappingID;
     this.edit_Details = rowObject;
-    this.getAllServicelines(rowObject);
-    this.getAllStates(rowObject, rowObject, rowObject);
+    this.getProviderServicesInState(rowObject, rowObject, rowObject);
   }
   update(editedDetails: any) {
     let duplicatecount = 0;
     const object = {
       'uSRMappingID': this.uSRMappingID,
-      'providerServiceMapID': editedDetails.states,
+      'providerServiceMapID': editedDetails.Serviceline,
       'userID': editedDetails.ProviderAdmin,
       'modifiedBy': this.createdBy
     }
