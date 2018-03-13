@@ -487,6 +487,29 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
 
+  refresh1() {
+    // refreshing ngModels of district, worklocation, servicelines, roles
+    this.district_duringEdit = undefined;
+    this.workLocationID_duringEdit = undefined;
+    this.serviceID_duringEdit = undefined;
+    this.roleID_duringEdit = undefined;
+  }
+
+  refresh2() {
+    this.refresh3();
+  }
+
+  refresh3() {
+    // refreshing ngModels of worklocation, roles
+    this.workLocationID_duringEdit = undefined;
+    this.roleID_duringEdit = undefined;
+  }
+
+  refresh4() {
+    // refreshing ngModels of roles
+    this.roleID_duringEdit = undefined;
+  }
+
   getProviderServicesInState_duringEdit(stateID) {
     this.worklocationmapping.getProviderServicesInState(this.serviceProviderID, stateID)
       .subscribe(response => this.getServicesSuccessHandeler(response));
@@ -510,7 +533,6 @@ export class WorkLocationMappingComponent implements OnInit {
           console.log(response, 'get all districts success handeler');
           this.districts_array = response;
 
-
           this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
         }
       }, err => {
@@ -524,7 +546,6 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all work locations success handeler');
           this.workLocationsList = response;
-
 
           this.getAllRoles_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
 

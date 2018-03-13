@@ -220,7 +220,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state"
-              (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit)" required>
+              (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit); refresh1()" required>
               <md-option *ngFor="let item of states_array" [value]="item.stateID">
                 {{item.stateName}}
               </md-option>
@@ -228,7 +228,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="providerServiceMapID"
-             (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)"
+             (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh2()"
                required>
               <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
                 {{item.serviceName}}
@@ -239,7 +239,7 @@
 
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district"
-              (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)" required>
+              (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh3()" required>
               <md-option *ngFor="let item of districts_array" [value]="item.districtID">
                 {{item.districtName}}
               </md-option>
@@ -248,7 +248,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)"
+            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh4()"
               name="worklocation" required>
               <md-option *ngFor="let item of workLocationsList" [value]="item.pSAddMapID">
                 {{item.locationName}}
