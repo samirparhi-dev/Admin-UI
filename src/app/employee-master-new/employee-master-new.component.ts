@@ -107,16 +107,16 @@ export class EmployeeMasterNewComponent implements OnInit {
     public dialog: MdDialog) { }
 
   ngOnInit() {
-    this.getAllUserDetails();
     this.createdBy = this.dataService.uname;
     this.serviceProviderID = this.dataService.service_providerID;
+     this.getAllUserDetails();
   }
 
   /*
    * All details of the user
    */
   getAllUserDetails() {
-    this.employeeMasterNewService.getAllUsers().subscribe(response => {
+    this.employeeMasterNewService.getAllUsers(this.serviceProviderID).subscribe(response => {
       if (response) {
         console.log("All details of the user", response);
         this.searchResult = response;

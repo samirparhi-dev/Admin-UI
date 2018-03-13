@@ -46,8 +46,41 @@ export class WorkLocationMappingComponent implements OnInit {
     this.createdBy = this.saved_data.uname;
     this.getAllMappedWorkLocations();
     this.getUserName(this.serviceProviderID);
-    this.getAllServicelines(this.serviceProviderID);
+    // this.getAllServicelines(this.serviceProviderID);
   }
+
+  getProviderStates() {
+    this.worklocationmapping.getProviderStates(this.serviceProviderID).
+      subscribe(response => this.getStatesSuccessHandeler(response));
+  }
+
+  getStatesSuccessHandeler(response) {
+    if (response) {
+      console.log(response, 'Provider States');
+      this.states_array = response;
+      this.services_array = [];
+      this.districts_array = [];
+      this.workLocationsList = [];
+      this.RolesList = []
+    }
+  }
+
+  getProviderServicesInState(state_object) {
+    this.worklocationmapping.getProviderServicesInState(this.serviceProviderID, state_object.stateID)
+      .subscribe(response => this.getServicesSuccessHandeler(response));
+
+  }
+
+  getServicesSuccessHandeler(response) {
+    if (response) {
+      console.log('Provider Services in State', response);
+      this.services_array = response;
+      // this.districts_array = [];
+      this.workLocationsList = [];
+      this.RolesList = []
+    }
+  }
+
   getAllMappedWorkLocations() {
     // debugger;
     this.worklocationmapping.getMappedWorkLocationList()
@@ -68,49 +101,50 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log('All User names under this provider Success Handeler', response);
           this.userNamesList = response;
-          this.services_array = undefined;
-          this.states_array = undefined;
-          this.districts_array = undefined;
-          this.workLocationsList = undefined;
-          this.RolesList = undefined
+          this.services_array = [];
+          this.states_array = [];
+          this.districts_array = [];
+          this.workLocationsList = [];
+          this.RolesList = []
 
+          this.getProviderStates();
         }
       }, err => {
         console.log('Error', err);
       });
   }
-  getAllServicelines(serviceProvider: any) {
-    debugger;
-    this.worklocationmapping.getAllServiceLinesByProvider(this.serviceProviderID)
-      .subscribe(response => {
-        if (response) {
-          console.log(response, 'get all servicelines success handeler');
-          this.services_array = response;
-          this.states_array = undefined;
-          this.districts_array = undefined;
-          this.workLocationsList = undefined;
-          this.RolesList = undefined
-        }
-      }, err => {
+  // getAllServicelines(serviceProvider: any) {
+  //   debugger;
+  //   this.worklocationmapping.getAllServiceLinesByProvider(this.serviceProviderID)
+  //     .subscribe(response => {
+  //       if (response) {
+  //         console.log(response, 'get all servicelines success handeler');
+  //         this.services_array = response;
+  //         this.states_array = undefined;
+  //         this.districts_array = undefined;
+  //         this.workLocationsList = undefined;
+  //         this.RolesList = undefined
+  //       }
+  //     }, err => {
 
-      });
-  }
+  //     });
+  // }
 
-  getAllStates(serviceProvider: any, serviceLine: any) {
-    debugger;
-    this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
-      .subscribe(response => {
-        if (response) {
-          console.log(response, 'get all states success handeler');
-          this.states_array = response;
-          this.districts_array = undefined;
-          this.workLocationsList = undefined;
-          this.RolesList = undefined
-        }
-      }, err => {
+  // getAllStates(serviceProvider: any, serviceLine: any) {
+  //   debugger;
+  //   this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
+  //     .subscribe(response => {
+  //       if (response) {
+  //         console.log(response, 'get all states success handeler');
+  //         this.states_array = response;
+  //         this.districts_array = undefined;
+  //         this.workLocationsList = undefined;
+  //         this.RolesList = undefined
+  //       }
+  //     }, err => {
 
-      });
-  }
+  //     });
+  // }
 
   getAllDistricts(state: any) {
     // debugger;
@@ -226,9 +260,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   deactivate(uSRMappingID) {
     // debugger
@@ -242,25 +276,25 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   addWorkLocation(workLocations: any) {
     debugger;
-    //this.getAvailableMappings(workLocations);
+    console.log(workLocations,"FORM VALUES");
     const workLocationObj = {
       'previleges': [],
       'userID': workLocations.user.userID,
-      'serviceProviderName': workLocations.user.userName,
+      // 'serviceProviderName': workLocations.user.userName,
       'serviceName': workLocations.serviceline.serviceName,
       'stateName': workLocations.state.stateName,
       'district': workLocations.district.districtName,
-      'workingLocation': workLocations.user.workLocationName,
+      'workingLocation': workLocations.worklocation.locationName,
       'roleID1': [],
-      'providerServiceMapID': workLocations.state.providerServiceMapID,
+      'providerServiceMapID': workLocations.serviceline.providerServiceMapID,
       'createdBy': this.createdBy,
-      'workingLocationID': workLocations.user.workingLocationID,
+      'workingLocationID': workLocations.worklocation.pSAddMapID,
       'AgentID': workLocations.agentID,
       'AgentPassword': workLocations.password
     };
@@ -404,7 +438,8 @@ export class WorkLocationMappingComponent implements OnInit {
     this.edit_Details = rowObject;
     this.uSRMappingID = rowObject.uSRMappingID;
     // this.getAllServicelines(this.serviceProviderID)
-    this.getAllStates(this.serviceProviderID, this.edit_Details.serviceID)
+    // this.getAllStates(this.serviceProviderID, this.edit_Details.serviceID)
+    this.getProviderStates();
     this.getAllDistricts(this.edit_Details.stateID);
     this.getAllWorkLocations(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)
     this.getAllRoles(this.edit_Details.userID, this.edit_Details.stateID, this.edit_Details.serviceID)

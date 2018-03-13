@@ -29,6 +29,9 @@ export class WorkLocationMapping {
     getAllServiceLinesByProviderUrl: any;
     getAllStatesByProviderUrl: any;
 
+    getProviderStates_url: any;
+    getProviderServicesInState_url: any;
+
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
         private httpIntercept: InterceptedHttp) {
@@ -46,7 +49,27 @@ export class WorkLocationMapping {
         this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
         this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
         this.get_DeleteWorkLocationMappedDetails_Url = this.admin_Base_Url + 'deleteUserRoleMapping';
+
+        this.getProviderStates_url = this.admin_Base_Url + 'm/role/state';
+        this.getProviderServicesInState_url = this.admin_Base_Url + 'm/role/service';
     };
+
+    getProviderStates(serviceProviderID) {
+        return this.http.post(this.getProviderStates_url,
+            { 'serviceProviderID': serviceProviderID })
+            .map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+
+    getProviderServicesInState(serviceProviderID, stateID) {
+        return this.http.post(this.getProviderServicesInState_url,
+            {
+                'serviceProviderID': serviceProviderID,
+                'stateID': stateID
+            }).map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+
     getMappedWorkLocationList() {
         return this.http.post(this.get_WorkLocationMappedDetails_Url, {})
             .map(this.handleSuccess).catch(this.handleError);
@@ -54,7 +77,7 @@ export class WorkLocationMapping {
 
     getUserName(serviceProviderID) {
         // debugger;
-        return this.http.post(this.get_ProviderName_Url,  { 'serviceProviderID': serviceProviderID })
+        return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess).catch(this.handleError);
     }
 
