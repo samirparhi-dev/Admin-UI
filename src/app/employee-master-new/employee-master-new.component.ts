@@ -129,15 +129,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
-    this.dob = new Date();
-    this.dob.setFullYear(this.today.getFullYear() - 20);
-    console.log("dob", this.dob);
-    this.maxdate = new Date();
-    this.maxdate.setFullYear(this.today.getFullYear() - 20);
-    console.log("max", this.maxdate);
-    this.mindate = new Date();
-    this.mindate.setFullYear(this.today.getFullYear() - 70);
-    console.log("min", this.mindate);
+    this.resetDob();
     this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res));
     this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res));
     this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res));
@@ -145,18 +137,50 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res));
     this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res));
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
+
+  }
+   /*
+  * Reset the dob on adding multiple objects
+  */
+  resetDob() {
+    this.dob = new Date();
+    this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate = new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate = new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
   }
-
+  /*
+  * dob
+  */
+ preventTyping(e: any) {
+  if (e.keyCode === 9) {
+    return true;
+  } else {
+    return false;
+  }
+}
+/*
+* calculate age based on the DOB
+*/
+calculateAge(date) {
+  if (date != undefined) {
+    this.age = this.today.getFullYear() - date.getFullYear();
+    const month = this.today.getMonth() - date.getMonth();
+    if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+      this.age--; //age is ng-model of AGE
+    }
+  }
+}
+   /*
+  * display the added user's in the table
+  */
   showTable() {
-    //this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-    // if (res) {
     this.resetAllForms();
     this.tableMode = true;
     this.formMode = false;
     this.editMode = false;
-    // }
-    //  })
   }
 
   back() {
@@ -169,8 +193,10 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     })
   }
-
-  calculateDoj(dob) { 
+   /*
+  * calculate the doj based on dob
+  */
+  calculateDoj(dob) {
     this.minDate_doj = new Date();
     this.minDate_doj.setFullYear(this.dob.getFullYear() + 20);
     this.doj = this.minDate_doj;
@@ -233,28 +259,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     }
   }
-  /*
-  * dob
-  */
-  preventTyping(e: any) {
-    if (e.keyCode === 9) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  /*
-  * calculate age based on the DOB
-  */
-  calculateAge(date) {
-    if (date != undefined) {
-      this.age = this.today.getFullYear() - date.getFullYear();
-      const month = this.today.getMonth() - date.getMonth();
-      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-        this.age--; //age is ng-model of AGE
-      }
-    }
-  }
+  
   /*
   * Get all Designations
   */
@@ -457,7 +462,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForms();
-    this.checkAddress = null;
+    this.resetDob();
+    //this.checkAddress = null;
 
   }
   /*
