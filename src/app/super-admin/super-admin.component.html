@@ -1,32 +1,27 @@
-<div class="col-xs-12 col-sm-12 b-t-2-w">
-  <div class="panel-body card p-a-0 bg-white ">
-    <div class="container-fluid p-a-0 overflow-y" style="height: 570px">
-      <div class=" b-t-2-w">
-        <div class="col-xs-12 col-sm-12">
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 ">
-              <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                  <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                      aria-controls="navbar">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                    </button>
-                  </div>
-                  <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                      <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
-                          <!-- Activities -->
-                          {{currentlanguage.activities}}
-                          <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined">
+<div class="row m-t-5">
+  <div class="col-xs-12 col-sm-12 ">
+    <nav class="navbar navbar-default m-b-10">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+            aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
+                <!-- Activities -->
+                {{currentlanguage.activities}}
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined">
 
-                          <!-- <li style="cursor: pointer" (click)='show("1")'><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
+                <!-- <li style="cursor: pointer" (click)='show("1")'><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
                           <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
                           <li style="cursor: pointer" (click)='show("10")'><a>Update Provider</a></li>
                           <li style="cursor: pointer" (click)='show("3")'><a>Sub Service</a></li>
@@ -35,109 +30,112 @@
                           <li style="cursor: pointer" (click)='show("14")'><a>Provider Serviceline State Mapping</a></li>
                           <li style="cursor: pointer" (click)='show("15")'><a>Provider Admin List</a></li>                      -->
 
-                          <li style="cursor: pointer" (click)='show("1")'>
-                            <a>{{currentlanguage.activity_dropdown.provider_on_board}}</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("2")'>
-                            <a>{{currentlanguage.activity_dropdown.block_provider}}</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("10")'>
-                            <a>Update Provider</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("3")'>
-                            <a>Sub Service</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("12")'>
-                            <a>Village Master</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("13")'>
-                            <a>Provider Master</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("14")'>
-                            <a>Provider Serviceline State Mapping</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("15")'>
-                            <a>Provider Admin List</a>
-                          </li>
-                          <li style="cursor: pointer" (click)='show("16")'>
-                            <a>Mapping Provider Admin To Provider</a>
-                          </li>
+                <li style="cursor: pointer" (click)='show("1")'>
+                  <a>{{currentlanguage.activity_dropdown.provider_on_board}}</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("2")'>
+                  <a>{{currentlanguage.activity_dropdown.block_provider}}</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("10")'>
+                  <a>Update Provider</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("3")'>
+                  <a>Sub Service</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("12")'>
+                  <a>Village Master</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("13")'>
+                  <a>Provider Master</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("14")'>
+                  <a>Provider Serviceline State Mapping</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("15")'>
+                  <a>Provider Admin List</a>
+                </li>
+                <li style="cursor: pointer" (click)='show("16")'>
+                  <a>Mapping Provider Admin To Provider</a>
+                </li>
 
 
 
-                          <!-- <li style="cursor: pointer" (click)='show("3")'><a>{{currentlanguage.activity_dropdown.gender_master}}</a></li>
+                <!-- <li style="cursor: pointer" (click)='show("3")'><a>{{currentlanguage.activity_dropdown.gender_master}}</a></li>
                           <li style="cursor: pointer" (click)='show("4")'><a>{{currentlanguage.activity_dropdown.qualification_master}}</a></li>
                           <li style="cursor: pointer" (click)='show("5")'><a>{{currentlanguage.activity_dropdown.caste_master}}</a></li>
                           <li style="cursor: pointer" (click)='show("6")'><a>{{currentlanguage.activity_dropdown.religion_master}}</a></li>
                           <li style="cursor: pointer" (click)='show("7")'><a>{{currentlanguage.activity_dropdown.state_master}}</a></li> -->
-                        </ul>
-                      </li>
-                      <li style="cursor: pointer" (click)='show("8")'>
-                        <a>
-                          {{currentlanguage.reports}}
-                          <!-- Reports -->
-                        </a>
-                      </li>
-                      <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
-                          <!-- Activities -->
-                          Configurations
-                          <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li style="cursor: pointer" (click)='show("11")'>
-                            <a>Provider/CTI Mapping</a>
-                          </li>
+              </ul>
+            </li>
+            <li style="cursor: pointer" (click)='show("8")'>
+              <a>
+                {{currentlanguage.reports}}
+                <!-- Reports -->
+              </a>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black">
+                <!-- Activities -->
+                Configurations
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li style="cursor: pointer" (click)='show("11")'>
+                  <a>Provider/CTI Mapping</a>
+                </li>
 
-                          <!-- Configurations -->
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </div>
-          <div class="row">
-            <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
-              <div>
-                <!-- <app-provider-on-board ></app-provider-on-board> -->
-                <app-new-service-provider-setup *ngSwitchCase="1" [current_language]="currentlanguage"></app-new-service-provider-setup>
-                <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
-                <app-create-sub-service *ngSwitchCase="3"></app-create-sub-service>
-                <!-- <app-create-gender *ngSwitchCase="3"></app-create-gender> -->
-                <app-update-service-provider *ngSwitchCase="10"></app-update-service-provider>
-                <app-create-qualification *ngSwitchCase="4"></app-create-qualification>
-                <app-create-caste *ngSwitchCase="5"></app-create-caste>
-                <app-create-religion *ngSwitchCase="6"></app-create-religion>
-                <app-create-state *ngSwitchCase="7"></app-create-state>
-                <p *ngSwitchCase="8">Reports Work In PROGRESS</p>
-                <p *ngSwitchCase="9">Configurations Work In PROGRESS</p>
-                <app-provide-cti-mapping *ngSwitchCase="11"></app-provide-cti-mapping>
-                <app-village-master *ngSwitchCase="12"></app-village-master>
-                <app-service-provider-master *ngSwitchCase="13"></app-service-provider-master>
-                <app-provider-serviceline-state-mapping *ngSwitchCase="14"></app-provider-serviceline-state-mapping>
+                <!-- Configurations -->
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+<div class="panel-body card p-a-0 bg-white ">
+  <div class="container-fluid p-a-0 overflow-y" style="height: 510px">
+    <div class=" b-t-2-w">
+      <div class="col-xs-12 col-sm-12">
+        <div class="row">
+          <div [ngSwitch]="Activity_Number" class="col-xs-12 col-sm-12">
+            <div>
+              <!-- <app-provider-on-board ></app-provider-on-board> -->
+              <app-new-service-provider-setup *ngSwitchCase="1" [current_language]="currentlanguage"></app-new-service-provider-setup>
+              <app-block-service-provider *ngSwitchCase="2"></app-block-service-provider>
+              <app-create-sub-service *ngSwitchCase="3"></app-create-sub-service>
+              <!-- <app-create-gender *ngSwitchCase="3"></app-create-gender> -->
+              <app-update-service-provider *ngSwitchCase="10"></app-update-service-provider>
+              <app-create-qualification *ngSwitchCase="4"></app-create-qualification>
+              <app-create-caste *ngSwitchCase="5"></app-create-caste>
+              <app-create-religion *ngSwitchCase="6"></app-create-religion>
+              <app-create-state *ngSwitchCase="7"></app-create-state>
+              <p *ngSwitchCase="8">Reports Work In PROGRESS</p>
+              <p *ngSwitchCase="9">Configurations Work In PROGRESS</p>
+              <app-provide-cti-mapping *ngSwitchCase="11"></app-provide-cti-mapping>
+              <app-village-master *ngSwitchCase="12"></app-village-master>
+              <app-service-provider-master *ngSwitchCase="13"></app-service-provider-master>
+              <app-provider-serviceline-state-mapping *ngSwitchCase="14"></app-provider-serviceline-state-mapping>
 
-                <app-provider-admin-list *ngSwitchCase="15"></app-provider-admin-list>
+              <app-provider-admin-list *ngSwitchCase="15"></app-provider-admin-list>
 
-                <app-mapping-provider-admin-to-provider *ngSwitchCase="16"></app-mapping-provider-admin-to-provider>
+              <app-mapping-provider-admin-to-provider *ngSwitchCase="16"></app-mapping-provider-admin-to-provider>
 
-              </div>
             </div>
           </div>
         </div>
+        <footer class="footer" style="left: 0px">
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <span class="footer-text">Powered by: WIPRO</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <p class="footer-text t-a-c">2017
+                <md-icon color="" class="copyright_icon" style="font-size: 12px">copyright</md-icon> PSMRI</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   </div>
 </div>
-<footer class="footer" style="left: 0px">
-  <div class="row">
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-      <span class="footer-text">Powered by: WIPRO</span>
-    </div>
-    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-      <p class="footer-text t-a-c">2017
-        <md-icon color="" class="copyright_icon" style="font-size: 12px">copyright</md-icon> PSMRI</p>
-    </div>
-  </div>
-</footer>

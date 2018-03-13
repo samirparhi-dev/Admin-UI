@@ -32,7 +32,7 @@ export class SuperAdminComponent implements OnInit {
 
   setLanguage(language) {
     this.currentlanguage = language;
-    console.log(language, "language");
+    // console.log(language, "language");
   }
 
   Activity_Number:any="0";

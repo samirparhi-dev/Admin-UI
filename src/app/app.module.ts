@@ -180,6 +180,9 @@ import { EditProviderAdminModal } from './provider-admin-list/provider-admin-lis
 import { EmployeeMasterNewComponent } from './employee-master-new/employee-master-new.component';
 import { EmployeeMasterNewServices } from './services/ProviderAdminServices/employee-master-new-services.service';
 
+import { OrderByPipe } from './order-by.pipe';
+import { UtcDatePipe } from './utc-date.pipe';
+
 import { ProcedureMasterComponent } from './procedure-master/procedure-master.component';
 import { ComponentMasterComponent } from './component-master/component-master.component';
 import { ProcedureComponentMappingComponent } from './procedure-component-mapping/procedure-component-mapping.component';
@@ -220,6 +223,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
+    , OrderByPipe, UtcDatePipe
 
   ],
 
