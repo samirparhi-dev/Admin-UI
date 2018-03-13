@@ -29,18 +29,18 @@ export class LanguageMapping {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.commonbaseurl = this.basepaths.getCommonBaseURL();
 
-        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployee5';
+        this.get_ProviderName_Url = this.admin_Base_Url + 'm/SearchEmployee4';
         this.get_LanguageList_Url = this.commonbaseurl + 'beneficiary/getLanguageList';
-        this.get_LanguageMappedDetails_Url = this.admin_Base_Url + '/getUserMappedLanguage';
+        this.get_LanguageMappedDetails_Url = this.admin_Base_Url + 'getUserMappedLanguage';
 
-        this.get_SaveLanguageMappedDetails_Url = this.admin_Base_Url + '/userLanguageMapping';
-        this.get_UpdateLanguageMappedDetails_Url = this.admin_Base_Url + '/updateUserLanguageMapping';
-        this.get_DeleteLanguageMappedDetails_Url = this.admin_Base_Url + '/deleteUserLanguageMapping';
+        this.get_SaveLanguageMappedDetails_Url = this.admin_Base_Url + 'userLanguageMapping';
+        this.get_UpdateLanguageMappedDetails_Url = this.admin_Base_Url + 'updateUserLanguageMapping';
+        this.get_DeleteLanguageMappedDetails_Url = this.admin_Base_Url + 'deleteUserLanguageMapping';
     };
 
     getUserName(serviceProviderID) {
         // debugger;
-        return this.http.post(this.get_ProviderName_Url, {  })
+        return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess).catch(this.handleError);
     }
 

@@ -16,6 +16,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
 export class EmployeeMasterNewComponent implements OnInit {
   userId: any;
   createdBy: any;
+  serviceProviderID: any;
 
   //ngModel
   titleID: any;
@@ -106,6 +107,8 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUserDetails();
+    this.createdBy = this.dataService.uname;
+    this.serviceProviderID = this.dataService.service_providerID;
   }
 
   /*
@@ -143,7 +146,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   showTable() {
     this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if(res) {
+      if (res) {
         this.resetAllForms();
         if (this.editMode) {
           this.tableMode = true;
@@ -156,7 +159,7 @@ export class EmployeeMasterNewComponent implements OnInit {
           this.editMode = false;
         }
       }
-    })   
+    })
   }
 
   /*
@@ -342,10 +345,10 @@ export class EmployeeMasterNewComponent implements OnInit {
     console.log("Display all Districts", response);
     this.currentDistricts = response;
   }
-/*
-    * Get all Districts for permanent address 
-    */
-   getPermanentDistricts(permanentStateID) {
+  /*
+      * Get all Districts for permanent address 
+      */
+  getPermanentDistricts(permanentStateID) {
     this.employeeMasterNewService.getAllDistricts(this.permanentState).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
     },
@@ -370,7 +373,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '1';
       this.isPresent = '0';
       this.disable_permanentAddress_flag = true;
-    } else {      
+    } else {
       this.permanentAddressLine1 = '';
       this.permanentAddressLine2 = '';
       this.permanentState = '';
@@ -379,7 +382,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '0';
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
-      this.checkAddress = '';   
+      this.checkAddress = '';
     }
   }
 
@@ -393,10 +396,10 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.communicationDetailsForm.resetForm();
   }
   /*
- * Method for addition of objects 
+ * Method for addition of objects
  */
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
-  
+
     var tempObj = {
       'titleID': userFormValue.title_Id,
       'firstname': userFormValue.user_firstname,
@@ -404,7 +407,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'lastname': userFormValue.user_lastname,
       'genderID': userFormValue.gender_Id,
       'dob': userFormValue.user_dob,
-     // 'age': userFormValue.user_age,
+      // 'age': userFormValue.user_age,
       'age': this.age,
       'contactNo': userFormValue.primaryMobileNo,
       'emailID': userFormValue.primaryEmail,
@@ -453,20 +456,20 @@ export class EmployeeMasterNewComponent implements OnInit {
     var reqObject = [];
     for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
-        'titleID': "" + this.objs[i].titleID,
+        'titleID': this.objs[i].titleID,
         'firstName': this.objs[i].firstname,
         'middleName': this.objs[i].middlename,
         'lastName': this.objs[i].lastname,
-        'genderID': "" + this.objs[i].genderID,
+        'genderID': this.objs[i].genderID,
         'dOB': this.objs[i].dob,
         'age': this.objs[i].age,
         'contactNo': this.objs[i].contactNo,
         'emailID': this.objs[i].emailID,
-        'designationID': "" + this.objs[i].designationID,
-        'maritalStatusID': "" + this.objs[i].maritalStatusID,
+        'designationID': this.objs[i].designationID,
+        'maritalStatusID': this.objs[i].maritalStatusID,
         'aadhaarNo': this.objs[i].aadharNumber,
         'pAN': this.objs[i].panNumber,
-        'qualificationID': "" + this.objs[i].qualificationID,
+        'qualificationID': this.objs[i].qualificationID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
         'userName': this.objs[i].username,
         'password': this.objs[i].password,
@@ -477,16 +480,16 @@ export class EmployeeMasterNewComponent implements OnInit {
         'religionID': this.objs[i].religionID,
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
-        'permanentAddress': this.objs[i].permanentAddressLine1,
+        'permanentAddress': this.objs[i].permanentAddressLine1 + ' , ' + this.objs[i].permanentAddressLine2,
         'stateID': this.objs[i].currentState,
-        'districtID': "" + this.objs[i].currentDistrict,
+        'districtID':  this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
         'statusID': "1",
         // 'isPermanent':'1',
         'isPresent': '1',
-        'createdBy': "Janani",
+        'createdBy': this.createdBy,
         'cityID': '1',
-        'serviceProviderID': this.objs[i].serviceProviderID
+        'serviceProviderID': this.serviceProviderID
       }
       reqObject.push(tempObj);
     }
@@ -639,9 +642,9 @@ export class EmployeeMasterNewComponent implements OnInit {
             this.dialogService.alert(this.confirmMessage + "d successfully");
             this.getAllUserDetails();
           },
-            (err) => {
-              console.log(err);
-            })
+          (err) => {
+            console.log(err);
+          })
       }
     },
       (err) => {

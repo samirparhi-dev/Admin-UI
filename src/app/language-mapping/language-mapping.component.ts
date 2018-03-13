@@ -17,7 +17,7 @@ export class LanguageMappingComponent implements OnInit {
   edit_Details: any;
   // preferredlanguage: any;
   allLanguagesList: any = [];
-  dummy_allLanguages: any = [];// just for visual tricks
+  dummy_allLanguages: any = []; // just for visual tricks
   selected_languages: any = [];
   language_weightage: any = [];
   multiLanguages: any = [];
@@ -57,7 +57,6 @@ export class LanguageMappingComponent implements OnInit {
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
     this.createdBy = this.createdBy = this.saved_data.uname;
-    this.language
     this.WeightageList = [
       { value: 10, Name: '25%' },
       { value: 20, Name: '50%' },
