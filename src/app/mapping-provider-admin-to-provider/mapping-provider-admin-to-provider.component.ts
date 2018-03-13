@@ -19,6 +19,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
   providerNameBeforeEdit: any;
   ////////////////////////////////
+  service_provider_admin: any;
+  service_provider: any;
   provider: any;
   serviceline: any;
   state: any;
@@ -132,14 +134,16 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
   getProviderServicesInState(state, providerAdmin, serviceProvider) {
     this.superadminService.getProviderServicesInState(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, state.stateID)
-      .subscribe(response => this.getServicesSuccessHandeler(response));
-    this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+      .subscribe(response => {
+        if (response) {
+          console.log('Provider Services in State', response);
+          this.services_array = response;
+          this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+        }
+      });
+
   }
-  // getProviderServicesInState_duringEdit(state, providerAdmin, serviceProvider) {
-  //   this.superadminService.getProviderServicesInState(state.serviceProviderID, state.stateID)
-  //     .subscribe(response => this.getServicesSuccessHandeler(response));
-  //   this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderID)
-  // }
+
 
   getServicesSuccessHandeler(response) {
     if (response) {
@@ -155,6 +159,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (this.providerAdminList[i].userID === providerAdmin.userID &&
         this.providerAdminList[i].serviceProviderID === serviceProviderId &&
         this.providerAdminList[i].stateID === state.stateID) {
+        console.log("RHS", providerAdmin.userID, serviceProviderId, state.stateID);
+        console.log("LHS", this.providerAdminList[i].userID, this.providerAdminList[i].serviceProviderID, this.providerAdminList[i].stateID);
         const obj = {
           'serviceID': this.providerAdminList[i].serviceID,
           'serviceName': this.providerAdminList[i].serviceName
@@ -168,6 +174,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         return serviceLinesFromAllServices.serviceID === serviceFromMappedservice.serviceID
       })
     });
+
 
     console.log(this.filteredServiceLines, 'Filtered services');
     console.log(filteredServiceLines, 'const services');
@@ -420,6 +427,10 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     }
   }
   resetDropdowns() {
+    this.service_provider_admin = undefined;
+    this.service_provider = undefined;
+    this.provider = undefined
+    this.serviceline = undefined
   }
 
 }
