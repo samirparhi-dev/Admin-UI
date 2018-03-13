@@ -35,17 +35,17 @@ export class WorkLocationMapping {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.commonbaseurl = this.basepaths.getCommonBaseURL();
 
-        this.getAllStatesByProviderUrl = this.admin_Base_Url + '/m/location/getStatesByServiceID';
+        this.getAllStatesByProviderUrl = this.admin_Base_Url + 'm/location/getStatesByServiceID';
         this.getAllServiceLinesByProviderUrl = this.admin_Base_Url + 'getServiceLinesUsingProvider';
         this.getAllDistrictsByProviderUrl = this.commonbaseurl + 'location/districts/';
-        this.getAllWorkLocationsByProviderUrl = this.admin_Base_Url + '/m/location/getAlllocation';
-        this.get_ProviderName_Url = this.admin_Base_Url + '/m/SearchEmployee5';
-        this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + '/getUserRoleMapped';
+        this.getAllWorkLocationsByProviderUrl = this.admin_Base_Url + 'm/location/getAlllocation';
+        this.get_ProviderName_Url = this.admin_Base_Url + 'm/SearchEmployee4';
+        this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + 'getUserRoleMapped';
         this.getAllRolesUrl = this.admin_Base_Url + 'm/role/search1';
 
-        this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + '/userRoleMapping';
-        this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + '/updateUserRoleMapping';
-        this.get_DeleteWorkLocationMappedDetails_Url = this.admin_Base_Url + '/deleteUserRoleMapping';
+        this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
+        this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
+        this.get_DeleteWorkLocationMappedDetails_Url = this.admin_Base_Url + 'deleteUserRoleMapping';
     };
     getMappedWorkLocationList() {
         return this.http.post(this.get_WorkLocationMappedDetails_Url, {})
@@ -54,7 +54,7 @@ export class WorkLocationMapping {
 
     getUserName(serviceProviderID) {
         // debugger;
-        return this.http.post(this.get_ProviderName_Url, {  })
+        return this.http.post(this.get_ProviderName_Url,  { 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess).catch(this.handleError);
     }
 
