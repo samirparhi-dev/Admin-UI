@@ -30,7 +30,7 @@
             <td>{{service.serviceName}}</td>
             <td>{{service.stateName}}</td>
             <td>{{service.workingDistrictName}}</td>
-            <td>{{service.workingLocationAddress}}</td>
+            <td>{{service.locationName}}</td>
             <td>{{service.roleName}}</td>
             <td>
               <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" *ngIf="!service.userServciceRoleDeleted" style="font-size: 18px"
@@ -211,7 +211,7 @@
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="edit_Details.userID"
+            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="userID_duringEdit"
               name="user_name" required>
               <md-option *ngFor="let user of userNamesList | OrderBy : 'userName'" [value]="user.userID">
                 {{user.userName}}
@@ -219,17 +219,18 @@
             </md-select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="edit_Details.stateID" name="state"
-              (change)="getAllDistricts(edit_Details.stateID);getProviderServicesInState(edit_Details.stateID)" required>
+            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state"
+              (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit)" required>
               <md-option *ngFor="let item of states_array" [value]="item.stateID">
                 {{item.stateName}}
               </md-option>
             </md-select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="edit_Details.providerServiceMapID" name="providerServiceMapID"
+            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="providerServiceMapID"
+             (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)"
                required>
-              <md-option *ngFor="let item of services_array" [value]="item.providerServiceMapID">
+              <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
                 {{item.serviceName}}
               </md-option>
             </md-select>
@@ -237,9 +238,9 @@
           
 
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="edit_Details.workingDistrictName" name="district"
-              (change)="getAllWorkLocations(edit_Details.userID,edit_Details.stateID,edit_Details.serviceID)" required>
-              <md-option *ngFor="let item of districts_array" [value]="item.districtName">
+            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district"
+              (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)" required>
+              <md-option *ngFor="let item of districts_array" [value]="item.districtID">
                 {{item.districtName}}
               </md-option>
             </md-select>
@@ -247,15 +248,15 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="edit_Details.workingLocationID" (change)="getAllRoles(edit_Details.userID,edit_Details.stateID,edit_Details.serviceID)"
+            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit)"
               name="worklocation" required>
-              <md-option *ngFor="let item of workLocationsList" [value]="item.workingLocationID">
+              <md-option *ngFor="let item of workLocationsList" [value]="item.pSAddMapID">
                 {{item.locationName}}
               </md-option>
             </md-select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="edit_Details.roleName" name="role" required>
+            <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="roleID_duringEdit" name="role" required>
               <md-option *ngFor="let item of RolesList" [value]="item.roleID">
                 {{item.roleName}}
               </md-option>
@@ -276,7 +277,7 @@
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button *ngIf="!formMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceedit_form.value);">Update</button>
+        <button *ngIf="!formMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceeform.value);">Update</button>
       </div>
     </div>
 
