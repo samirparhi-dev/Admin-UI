@@ -45,7 +45,6 @@ export class LanguageMappingComponent implements OnInit {
   lang: any;
   createdBy: any;
   showCheckboxes: boolean = false;
-  showCheckboxes1: boolean = false;
   formMode = false;
   tableMode = true;
   editMode = false;
@@ -68,7 +67,7 @@ export class LanguageMappingComponent implements OnInit {
 
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
-    this.createdBy = this.saved_data.uname;
+    this.createdBy = this.createdBy = this.saved_data.uname;
     this.WeightageList = [
       { value: 10, Name: '25%' },
       { value: 20, Name: '50%' },
@@ -115,7 +114,6 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAvailableLanguages(username: any) {
-    // debugger;
     const alreadyMappedLanguages = [];
     for (let i = 0; i < this.LanguageMappedList.length; i++) {
       if (this.LanguageMappedList[i].userID === username.userID) {
@@ -155,12 +153,11 @@ export class LanguageMappingComponent implements OnInit {
           this.getAllMappedLanguagesList();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   deactivate(userLangID) {
-    // debugger
     const object = { 'userLangID': userLangID, 'deleted': true };
 
     this.languageMapping.DeleteLanguageMapping(object)
@@ -171,9 +168,9 @@ export class LanguageMappingComponent implements OnInit {
           this.getAllMappedLanguagesList();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   showTable() {
     if (this.editMode) {
@@ -195,7 +192,6 @@ export class LanguageMappingComponent implements OnInit {
     this.editMode = false;
     this.getUserName(this.serviceProviderID);
     this.getAllLanguagesList();
-    // this.showCheckboxes = true;
   }
   showEditForm() {
     this.tableMode = false;
@@ -208,7 +204,6 @@ export class LanguageMappingComponent implements OnInit {
     this.resetweightageDropdowns();
     this.isCheckedRead = false;
     this.showCheckboxes = true;
-    this.showCheckboxes1 = true;
   }
   read: boolean = false;
   setRead(value) {
@@ -216,13 +211,16 @@ export class LanguageMappingComponent implements OnInit {
       this.read = true;
       this.ReadWeightageList = this.WeightageList;
       this.readCheckBoxState = false;
-      this.resetweightageDropdowns();
+      this.readweightage = undefined;
     }
     else {
       this.read = false;
       this.ReadWeightageList = undefined;
       this.readCheckBoxState = true;
-      this.resetweightageDropdowns();
+      this.readweightage = undefined;
+      if (!this.write && !this.speak) {
+        this.addButtonState = true;
+      }
     }
   }
 
@@ -232,13 +230,16 @@ export class LanguageMappingComponent implements OnInit {
       this.write = true;
       this.WriteWeightageList = this.WeightageList;
       this.readCheckBoxState = false;
-      this.resetweightageDropdowns();
+      this.writeweightage = undefined;
     }
     else {
       this.write = false;
       this.WriteWeightageList = undefined;
       this.writeCheckBoxState = true;
-      this.resetweightageDropdowns();
+      this.writeweightage = undefined;
+      if (!this.read && !this.speak) {
+        this.addButtonState = true;
+      }
     }
   }
 
@@ -248,52 +249,38 @@ export class LanguageMappingComponent implements OnInit {
       this.speak = true;
       this.SpeakWeightageList = this.WeightageList;
       this.speakCheckBoxState = false;
-      this.resetweightageDropdowns();
+      this.speakweightage = undefined;
     }
     else {
       this.speak = false;
       this.SpeakWeightageList = undefined;
       this.speakCheckBoxState = true;
-      this.resetweightageDropdowns();
+      this.speakweightage = undefined;
+      if (!this.read && !this.write) {
+        this.addButtonState = true;
+      }
     }
   }
   readWeightage() {
-    debugger;
     if (this.readweightage && !this.readCheckBoxState) {
       this.addButtonState = false;
-      this.updateButtonState = false;
-    }
-    else {
-      this.addButtonState = true;
-      this.updateButtonState = true;
     }
 
   }
-  writeWeightage(value) {
+  writeWeightage() {
     if (this.writeweightage && !this.writeCheckBoxState) {
       this.addButtonState = false;
-      this.updateButtonState = false;
-    }
-    else {
-      this.addButtonState = true;
-      this.updateButtonState = true;
     }
 
   }
-  speakkWeightage(value) {
+  speakWeightage() {
     if (this.speakweightage && !this.speakCheckBoxState) {
       this.addButtonState = false;
-      this.updateButtonState = false;
-    }
-    else {
-      this.addButtonState = true;
-      this.updateButtonState = true;
     }
 
   }
 
   addLanguage(formValues: any) {
-    // debugger;
     const obj = {
       'languageName': formValues.language.languageName,
       'userName': formValues.username.userName,
@@ -321,9 +308,6 @@ export class LanguageMappingComponent implements OnInit {
   }
 
   checkDuplicates(object) {
-    // debugger;
-    // let LanguageMatched = false;
-    // let Count = 0;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
@@ -331,8 +315,6 @@ export class LanguageMappingComponent implements OnInit {
       // this.resetForm();
       this.resetDropdowns();
     }
-
-
     /* case:2 If the buffer array is not empty */
     else if (this.bufferArray.length > 0) {
       let LanguageMatched = false;
@@ -356,7 +338,6 @@ export class LanguageMappingComponent implements OnInit {
     }
   }
   saveMapping() {
-    // debugger;
     console.log('final buffer', this.bufferArray);
     let lang: any;
     let obj = {};
@@ -364,7 +345,6 @@ export class LanguageMappingComponent implements OnInit {
     obj['userName'];
     obj['userID'];
     obj['createdBy'];
-    obj['serviceProviderID'];
     obj['weightage_Read'] = [];
     obj['weightage_Write'] = [];
     obj['weightage_Speak'] = [];
@@ -381,7 +361,6 @@ export class LanguageMappingComponent implements OnInit {
         obj['userName'] = this.bufferArray[i].userName;
         obj['userID'] = this.bufferArray[i].userID;
         obj['createdBy'] = this.createdBy;
-        obj['serviceProviderID'] = this.serviceProviderID;
         lang = this.bufferArray[i].userID;
         duplicateArray.push(lang);
         for (let j = 0; j < this.bufferArray.length; j++) {
@@ -407,7 +386,6 @@ export class LanguageMappingComponent implements OnInit {
         obj['languageID'] = this.languageID;
 
       }
-      // debugger;
       if (obj['userID'] !== undefined) {
         this.multiLanguages.push(obj);
       }
@@ -437,21 +415,22 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
-    // debugger;
     this.showEditForm();
     this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
-    this.getAvailableLanguages(this.edit_Details.userID)
     this.isCheckedRead = rowObject.canRead;
     this.isCheckedWrite = rowObject.canWrite;
     this.isCheckedSpeak = rowObject.canSpeak;
+    this.read = rowObject.canRead;
+    this.write = rowObject.canWrite;
+    this.speak = rowObject.canSpeak;
     this.ReadWeightageList = this.WeightageList;
     this.WriteWeightageList = this.WeightageList;
     this.SpeakWeightageList = this.WeightageList;
+    this.getAvailableLanguages(this.edit_Details.userID)
   }
   updateLanguage(editFormValues: any) {
-    // debugger;
     const obj = {
       'userLangID': this.userLangID,
       'userID': editFormValues.user_name,
@@ -506,7 +485,6 @@ export class LanguageMappingComponent implements OnInit {
     this.WriteWeightageList = undefined;
     this.SpeakWeightageList = undefined;
     this.showCheckboxes = false;
-    this.showCheckboxes1 = false;
     this.resetweightageDropdowns();
   }
 }
