@@ -69,7 +69,7 @@
 
       <form id="workplaceForm" #workplaceform="ngForm" autocomplete="off">
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user"
               required>
@@ -111,8 +111,8 @@
               </md-option>
             </md-select>
           </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- </div> -->
+         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  -->
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
             <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(User,State,Serviceline)"
               name="worklocation" required>
@@ -141,9 +141,9 @@
                 required/>
             </md-input-container>
           </div> -->
-        </div>
+        <!-- </div> -->
       </form>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
         <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value);this.workplaceform.reset();">Add</button>
       </div>
@@ -185,10 +185,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="8">
+            <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="8" class="p-r-0">
+            <td colspan="4" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="saveWorkLocations()">Save</button>
             </td>
           </tr>
@@ -209,7 +209,7 @@
 
       <form id="workplaceForm" #workplaceeform="ngForm" autocomplete="off">
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="userID_duringEdit"
               name="user_name" required>
@@ -245,8 +245,8 @@
               </md-option>
             </md-select>
           </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- </div> -->
+        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
             <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh4()"
               name="worklocation" required>
@@ -273,9 +273,9 @@
               <input autocomplete='off' mdInput type="text" id="password" placeholder="Agent Password" name="password" required />
             </md-input-container>
           </div> -->
-        </div>
+        <!-- </div> -->
       </form>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
         <button *ngIf="!formMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceeform.value);">Update</button>
       </div>
