@@ -27,6 +27,8 @@ export class ProviderAdminRoleService {
 	delete_Role_Url: any;
 	edit_Role_Url: any;
 
+	updateFeatureToRole_Url: any;
+
 	getFeaturesUrl: any;
 
 	constructor(private http: SecurityInterceptedHttp,
@@ -41,6 +43,7 @@ export class ProviderAdminRoleService {
 		this.delete_Role_Url = this.admin_Base_Url + 'm/role/deleteRole';
 		this.edit_Role_Url = this.admin_Base_Url + 'm/role/editRole';
 		this.getFeaturesUrl = this.admin_Base_Url + 'm/searchFeature';
+		this.updateFeatureToRole_Url = this.admin_Base_Url + 'mapExterafeature';
 	};
 
 	getStates(serviceProviderID) {
@@ -88,6 +91,12 @@ export class ProviderAdminRoleService {
 
 	editRole(modified_Role_Object) {
 		return this.httpIntercept.post(this.edit_Role_Url, modified_Role_Object)
+			.map(this.handleSuccess)
+			.catch(this.handleError);
+	}
+
+	updateFeatureToRole(requestArray) {
+		return this.httpIntercept.post(this.updateFeatureToRole_Url, requestArray)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

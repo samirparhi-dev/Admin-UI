@@ -25,8 +25,8 @@
                 </button>
             </div> -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <button *ngIf="showAddButtonFlag
-" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button>
+      <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button>
+      <button *ngIf="showUpdateFeatureButtonFlag && service == 3" class="pull-right" md-raised-button color="primary" (click)="addMoreFeatures(toBeEditedRoleObj)" >Add More Features</button>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showAddButtonFlag">
       <div class="table-responsive m-t-10">
@@ -161,5 +161,33 @@
       <button md-raised-button color="primary" class="pull-right" [disabled]="roles.errors || othersExist" *ngIf="setEditSubmitButton" (click)="saveEditChanges()">Save Modifications</button>
     </div>
     <!-- </div> -->
+  </div>
+
+  <div class="row" *ngIf="updateFeaturesToRoleFlag">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Role" disabled='true' [(ngModel)]="role_update" minlength="1" maxlength="50" name="role">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Description" disabled='true' [(ngModel)]="description_update" name="description" maxlength="100">
+      </md-input-container>
+    </div>
+
+    <!-- in case of 104, multiselect needed in feature-->
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" >
+      <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature_update" required>
+        <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+          {{item.screenName}}
+        </md-option>
+      </md-select>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button md-raised-button color="primary" class="pull-left" (click)="setRoleFormFlag(false)">Back</button>
+      <button md-raised-button color="primary" class="pull-right" (click)="saveUpdateFeatureChanges()">Save Updated Features</button>
+    </div>
+
   </div>
 </md-card>
