@@ -164,7 +164,7 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all work locations success handeler');
           this.workLocationsList = response;
-          this.RolesList = undefined
+          this.RolesList = [];
         }
       }, err => {
 
@@ -192,7 +192,9 @@ export class WorkLocationMappingComponent implements OnInit {
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
-        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID) {
+        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID
+        && this.mappedWorkLocationsList[i].districtID === formvalues.district.districtID
+        && this.mappedWorkLocationsList[i].workingLocationName === formvalues.worklocation.locationName) {
         const obj = {
           'roleID': this.mappedWorkLocationsList[i].roleID,
           'roleName': this.mappedWorkLocationsList[i].roleName
@@ -201,7 +203,7 @@ export class WorkLocationMappingComponent implements OnInit {
       }
     }
     console.log('alredy', alreadyMappedWorklocations);
-    const filteredRoles = this.mappedWorkLocationsList.filter(function (allLocations) {
+    const filteredRoles = this.RolesList.filter(function (allLocations) {
       return !alreadyMappedWorklocations.find(function (locationFromMappedWorkLocation) {
         return allLocations.roleID === locationFromMappedWorkLocation.roleID
       })
@@ -261,9 +263,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   deactivate(uSRMappingID) {
     // debugger
@@ -277,12 +279,12 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   addWorkLocation(workLocations: any) {
-    debugger;
+    // this.getAvailableMappings(workLocations);
     console.log(workLocations, "FORM VALUES");
     const workLocationObj = {
       'previleges': [],
@@ -567,10 +569,22 @@ export class WorkLocationMappingComponent implements OnInit {
 
       });
   }
-
-
+  getAvailableMappings_duringEdit(formvalues) {
+    debugger;
+    const alreadyMappedWorklocations = [];
+    for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
+      if (this.mappedWorkLocationsList[i].userID === formvalues.user_name
+        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.providerServiceMapID
+        && this.mappedWorkLocationsList[i].workingDistrictID === formvalues.district
+        && this.mappedWorkLocationsList[i].workingLocationID === formvalues.worklocation
+        && this.mappedWorkLocationsList[i].roleID === formvalues.role) {
+        this.alertService.alert('All work locations for this user have been mapped');
+      }
+    }
+  }
   updateWorkLocation(workLocations: any) {
-    // debugger;
+    // this.getAvailableMappings_duringEdit(workLocations);
+    debugger;
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
       'userID': workLocations.user_name,
