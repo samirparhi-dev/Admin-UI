@@ -107,9 +107,9 @@ export class EmployeeMasterNewComponent implements OnInit {
     public dialog: MdDialog) { }
 
   ngOnInit() {
+    this.getAllUserDetails();
     this.createdBy = this.dataService.uname;
     this.serviceProviderID = this.dataService.service_providerID;
-     this.getAllUserDetails();
   }
 
   /*
@@ -151,28 +151,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
   }
-  /*
-  * dob
-  */
- preventTyping(e: any) {
-  if (e.keyCode === 9) {
-    return true;
-  } else {
-    return false;
-  }
-}
-/*
-* calculate age based on the DOB
-*/
-calculateAge(date) {
-  if (date != undefined) {
-    this.age = this.today.getFullYear() - date.getFullYear();
-    const month = this.today.getMonth() - date.getMonth();
-    if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-      this.age--; //age is ng-model of AGE
-    }
-  }
-}
    /*
   * display the added user's in the table
   */
@@ -196,11 +174,10 @@ calculateAge(date) {
    /*
   * calculate the doj based on dob
   */
-  calculateDoj(dob) {
+  calculateDoj() {
     this.minDate_doj = new Date();
     this.minDate_doj.setFullYear(this.dob.getFullYear() + 20);
-    this.doj = this.minDate_doj;
-    console.log("mindoj", this.minDate_doj);
+    this.today = new Date();
   }
 
   /*
@@ -259,7 +236,28 @@ calculateAge(date) {
       }
     }
   }
-  
+  /*
+  * dob
+  */
+  preventTyping(e: any) {
+    if (e.keyCode === 9) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  /*
+  * calculate age based on the DOB
+  */
+  calculateAge(date) {
+    if (date != undefined) {
+      this.age = this.today.getFullYear() - date.getFullYear();
+      const month = this.today.getMonth() - date.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+        this.age--; //age is ng-model of AGE
+      }
+    }
+  }
   /*
   * Get all Designations
   */
@@ -559,6 +557,8 @@ calculateAge(date) {
   }
 
   edit(data) {
+    console.log("edit contact no", data.contactNo);
+    
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
@@ -609,9 +609,8 @@ calculateAge(date) {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-    console.log("addressLine", communicationFormValue);
-    console.log("state", communicationFormValue.current_state);
-    console.log('demogra', demographicsValue);
+console.log("mobile no:", userCreationFormValue.primaryMobileNo);
+
 
 
 
