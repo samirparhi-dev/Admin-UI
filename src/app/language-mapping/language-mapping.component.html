@@ -96,8 +96,7 @@
                   <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setRead($event) " #readCheckbox>Read</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="readweightage" name="readweightage" (change)="readWeightage(readweightage)" placeholder="Select Weightage"
-                    [style.width]=" '100%' ">
+                  <md-select [(ngModel)]="readweightage" name="readweightage" (change)="readWeightage()" placeholder="Select Weightage" [style.width]=" '100%' ">
                     <md-option *ngFor="let item of ReadWeightageList " [value]="item ">{{item.Name}}</md-option>
                   </md-select>
                 </div>
@@ -105,7 +104,7 @@
                   <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setWrite($event)" #readCheckbox>Write</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="writeweightage" name="writeweightage" (change)="writeWeightage(writeweightage)" placeholder="Select Weightage"
+                  <md-select [(ngModel)]="writeweightage" name="writeweightage" (change)="writeWeightage()" placeholder="Select Weightage"
                     [style.width]=" '100%' ">
                     <md-option *ngFor="let item of WriteWeightageList " [value]="item ">{{item.Name}}</md-option>
                   </md-select>
@@ -114,7 +113,7 @@
                   <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setSpeak($event) " #readCheckbox>Speak</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="speakweightage" name="speakweightage" (change)="speakWeightage(speakweightage)" placeholder="Select Weightage"
+                  <md-select [(ngModel)]="speakweightage" name="speakweightage" (change)="speakWeightage()" placeholder="Select Weightage"
                     [style.width]=" '100%' ">
                     <md-option *ngFor="let item of SpeakWeightageList " [value]="item ">{{item.Name}}</md-option>
                   </md-select>
@@ -122,7 +121,7 @@
 
               </div>
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15 ">
-                <button name="langBtn " color="primary" md-raised-button class="pull-right " *ngIf="showCheckboxes " [disabled]="!addButtonState"
+                <button name="langBtn " color="primary" md-raised-button class="pull-right " *ngIf="showCheckboxes " [disabled]="addButtonState"
                   (click)="addLanguage(form.value);">Add</button>
                 <button name="backBtn " color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
               </div>
@@ -211,9 +210,8 @@
                   <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setRead($event)" #readCheckbox>Read</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="edit_Details.weightage_Read" (change)="readWeightage(edit_Details.weightage_Read)" name="read_weightage"
-                    placeholder="Select Weightage
-              " [style.width]=" '100%' " required>
+                  <md-select [(ngModel)]="edit_Details.weightage_Read" (change)="readWeightage()" name="read_weightage" placeholder="Select Weightage
+              " [style.width]=" '100%' ">
                     <md-option *ngFor="let item of ReadWeightageList" [value]="item.value">{{item.Name}}</md-option>
                   </md-select>
                 </div>
@@ -221,9 +219,8 @@
                   <md-checkbox color="primary" [checked]="isCheckedWrite" (change)="setWrite($event) " #writeCheckbox>Write</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="edit_Details.weightage_Write" (change)="writeWeightage(edit_Details.weightage_Write)" name="write_weightage"
-                    placeholder="Select Weightage
-              " [style.width]=" '100%' " required>
+                  <md-select [(ngModel)]="edit_Details.weightage_Write" (change)="writeWeightage()" name="write_weightage" placeholder="Select Weightage
+              " [style.width]=" '100%' ">
                     <md-option *ngFor="let item of WriteWeightageList" [value]="item.value">{{item.Name}}</md-option>
                   </md-select>
                 </div>
@@ -231,16 +228,16 @@
                   <md-checkbox color="primary" [checked]="isCheckedSpeak" (change)="setSpeak($event)" #speakCheckbox>Speak</md-checkbox>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 ">
-                  <md-select [(ngModel)]="edit_Details.weightage_Speak" class="pull-left" (change)="speakWeightage(edit_Details.weightage_Speak)"
-                    name="speak_weightage" placeholder="Select Weightage
-              " [style.width]=" '100%' " required>
+                  <md-select [(ngModel)]="edit_Details.weightage_Speak" class="pull-left" (change)="speakWeightage()" name="speak_weightage"
+                    placeholder="Select Weightage
+              " [style.width]=" '100%' ">
                     <md-option *ngFor="let item of SpeakWeightageList" [value]="item.value">{{item.Name}}</md-option>
                   </md-select>
                 </div>
 
               </div>
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15 " *ngIf="showCheckboxes ">
-                <button name="langBtn " color="primary" md-raised-button class="pull-right" [disabled]="updateButtonState" (click)="updateLanguage(eform.value) ">Update</button>
+                <button name="langBtn " color="primary" md-raised-button class="pull-right" [disabled]="eform.invalid" (click)="updateLanguage(eform.value) ">Update</button>
                 <button name="backBtn " color="primary" md-raised-button class="pull-left" (click)="showTable() ">Back</button>
               </div>
             </div>
@@ -248,6 +245,6 @@
         </div>
       </div>
     </md-card>
-  </div>
+  </div>s
 
 </div>
