@@ -70,15 +70,14 @@
       <form id="workplaceForm" #workplaceform="ngForm" autocomplete="off">
 
         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user"
-              required>
-              <md-option *ngFor="let user of userNamesList| OrderBy : 'userName'" [value]="user">
-                {{user.userName}}
-              </md-option>
-            </md-select>
-          </div>
-          <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" required>
+            <md-option *ngFor="let user of userNamesList| OrderBy : 'userName'" [value]="user">
+              {{user.userName}}
+            </md-option>
+          </md-select>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
             <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllStates(User,Serviceline.serviceID)"
               required>
               <md-option *ngFor="let item of services_array" [value]="item">
@@ -86,49 +85,48 @@
               </md-option>
             </md-select>
           </div> -->
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State);getProviderServicesInState(State)"
-              required>
-              <md-option *ngFor="let item of states_array" [value]="item">
-                {{item.stateName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllWorkLocations(User,State,Serviceline)"
-              required>
-              <md-option *ngFor="let item of services_array" [value]="item">
-                {{item.serviceName}}
-              </md-option>
-            </md-select>
-          </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State);getProviderServicesInState(State)"
+            required>
+            <md-option *ngFor="let item of states_array" [value]="item">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllWorkLocations(User,State,Serviceline)"
+            required>
+            <md-option *ngFor="let item of services_array" [value]="item">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="District" name="district" 
-              required>
-              <md-option *ngFor="let item of districts_array| OrderBy:'districtName'" [value]="item">
-                {{item.districtName}}
-              </md-option>
-            </md-select>
-          </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="District" name="district" required>
+            <md-option *ngFor="let item of districts_array| OrderBy:'districtName'" [value]="item">
+              {{item.districtName}}
+            </md-option>
+          </md-select>
+        </div>
         <!-- </div> -->
-         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  -->
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(User,State,Serviceline)"
-              name="worklocation" required>
-              <md-option *ngFor="let item of workLocationsList| OrderBy:'locationName'" [value]="item">
-                {{item.locationName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Role" [style.width]="'100%'" [multiple]="true" [(ngModel)]="Role" name="role" required>
-              <md-option *ngFor="let item of RolesList" [value]="item">
-                {{item.roleName}}
-              </md-option>
-            </md-select>
-          </div>
-          <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
+        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  -->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(User,State,Serviceline)"
+            name="worklocation" required>
+            <md-option *ngFor="let item of workLocationsList| OrderBy:'locationName'" [value]="item">
+              {{item.locationName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+          <md-select placeholder="Select Role" [style.width]="'100%'" [multiple]="true" [(ngModel)]="Role" name="role" required>
+            <md-option *ngFor="let item of RolesList" [value]="item">
+              {{item.roleName}}
+            </md-option>
+          </md-select>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
             <md-input-container class="width100">
               <input autocomplete='off' mdInput type="text" id="agentID" [(ngModel)]="AgentName" placeholder="Agent ID" name="agentID"
                 required />
@@ -210,59 +208,58 @@
       <form id="workplaceForm" #workplaceeform="ngForm" autocomplete="off">
 
         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="userID_duringEdit"
-              name="user_name" required>
-              <md-option *ngFor="let user of userNamesList | OrderBy : 'userName'" [value]="user.userID">
-                {{user.userName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state"
-              (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit); refresh1()" required>
-              <md-option *ngFor="let item of states_array" [value]="item.stateID">
-                {{item.stateName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="providerServiceMapID"
-             (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh2()"
-               required>
-              <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
-                {{item.serviceName}}
-              </md-option>
-            </md-select>
-          </div>
-          
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="userID_duringEdit" name="user_name" required>
+            <md-option *ngFor="let user of userNamesList | OrderBy : 'userName'" [value]="user.userID">
+              {{user.userName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state" (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit); refresh1()"
+            required>
+            <md-option *ngFor="let item of states_array" [value]="item.stateID">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="providerServiceMapID"
+            (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh2()"
+            required>
+            <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district"
-              (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh3()" required>
-              <md-option *ngFor="let item of districts_array" [value]="item.districtID">
-                {{item.districtName}}
-              </md-option>
-            </md-select>
-          </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district" (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh3()"
+            required>
+            <md-option *ngFor="let item of districts_array" [value]="item.districtID">
+              {{item.districtName}}
+            </md-option>
+          </md-select>
+        </div>
         <!-- </div> -->
         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh4()"
-              name="worklocation" required>
-              <md-option *ngFor="let item of workLocationsList" [value]="item.pSAddMapID">
-                {{item.locationName}}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
-            <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="roleID_duringEdit" name="role" required>
-              <md-option *ngFor="let item of RolesList" [value]="item.roleID">
-                {{item.roleName}}
-              </md-option>
-            </md-select>
-          </div>
-          <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh4()"
+            name="worklocation" required>
+            <md-option *ngFor="let item of workLocationsList" [value]="item.pSAddMapID">
+              {{item.locationName}}
+            </md-option>
+          </md-select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-45">
+          <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="roleID_duringEdit" name="role" required>
+            <md-option *ngFor="let item of RolesList" [value]="item.roleID">
+              {{item.roleName}}
+            </md-option>
+          </md-select>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
             <md-input-container class="width100">
               <input autocomplete='off' mdInput type="text" id="agentID" placeholder="Agent ID" name="agentID" required />
             </md-input-container>
