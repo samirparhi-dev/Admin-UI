@@ -10,7 +10,7 @@
             <tr>
               <th width="4%">S.NO</th>
               <th width="5%">Title</th>
-              <th width="15%">Provider Admin Name</th>
+              <th md2SortBy="userID" width="15%">Provider Admin Name</th>
               <th width="10%">Contact No</th>
               <th width="10%">Emergency Contact No</th>
               <th width="10%">Email</th>
@@ -82,7 +82,7 @@
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-            <md-input-container class="width100" myProviderName>
+            <md-input-container class="width100" myName>
               <input mdInput placeholder="First Name" ngModel name="firstName" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
                 #fname="ngModel" required>
               <md-hint *ngIf="fname.touched">
@@ -92,14 +92,14 @@
           </div>
           <div class="clearfix visible-sm"></div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-            <md-input-container class="width100" myProviderName>
+            <md-input-container class="width100" myName>
               <input mdInput placeholder="Middle Name" ngModel name="middleName" [(ngModel)]="admin_middleName" minlength="2" maxlength="50"
                 #name="ngModel">
             </md-input-container>
           </div>
           <div class="clearfix visible-md"></div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-            <md-input-container class="width100" myProviderName>
+            <md-input-container class="width100" myName>
               <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="2" maxlength="50"
                 #lname="ngModel" required>
               <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters
@@ -144,7 +144,7 @@
             <md-input-container class="width100" myEmail>
               <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
                 #validEmail="ngModel" required>
-              <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email is required
+              <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
               </md-hint>
             </md-input-container>
           </div>
@@ -164,7 +164,7 @@
                 (keyup)="checkAadhar()" #number="ngModel" required>
               <md-hint *ngIf="number.valid || number.pristine">
                 <span class="error_text" *ngIf="number.errors && number.touched">Required 12 digit aadhar number</span>
-                <span class="error_text" *ngIf="isExistAadhar">{{idMessage}}</span>
+                <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -174,7 +174,7 @@
                 #panNo="ngModel" (keyup)="checkPan()" required>
               <md-hint *ngIf="panNo.valid || panNo.pristine">
                 <span class="error_text" *ngIf="panNo.errors && panNo.touched">Required 10 digit Pan number EX: alphanumeric</span>
-                <span *ngIf="isExistPan" class="error_text">{{idMessage}}</span>
+                <span *ngIf="isExistPan" class="error_text">{{errorMessageForPan}}</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -234,7 +234,7 @@
               <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                 minlength="8" maxlength="12" #pwrd="ngModel" required>
               <md-hint class="errorText">
-                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
+                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
               </md-hint>
             </md-input-container>
           </div>

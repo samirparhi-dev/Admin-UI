@@ -510,7 +510,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       let reqObj = {
         'roleID': this.roleID_update,
         'providerServiceMapID': this.commonDataService.provider_serviceMapID,
-        'screenID': this.feature_update[i].screenID
+        'screenID': this.feature_update[i].screenID,
+        'createdBy':this.commonDataService.uname
       }
 
       requestArray.push(reqObj);

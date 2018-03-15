@@ -44,7 +44,8 @@ export class ProviderAdminListComponent implements OnInit {
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
   isExistPan: boolean = false;
-  idMessage: string;
+  errorMessageForAadhar: string;
+  errorMessageForPan: string;
 
   resetAge: number = 0;
   userID: any;
@@ -116,17 +117,27 @@ export class ProviderAdminListComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
-    this.dob = new Date();
-    this.dob.setFullYear(this.today.getFullYear() - 20);
-    this.maxdate=new Date();
-    this.maxdate.setFullYear(this.today.getFullYear() - 20);
-    this.mindate=new Date();
-    this.mindate.setFullYear(this.today.getFullYear() - 70);
+    this.resetDob();
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response));
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response));
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response));
-    this.calculateAge(this.dob);
+    
   }
+    /*
+  * Reset the dob on adding multiple objects
+  */
+ resetDob() {
+  this.dob = new Date();
+  this.dob.setFullYear(this.today.getFullYear() - 20);
+  this.maxdate = new Date();
+  this.maxdate.setFullYear(this.today.getFullYear() - 20);
+  this.mindate = new Date();
+  this.mindate.setFullYear(this.today.getFullYear() - 70);
+  this.calculateAge(this.dob);
+}
+ /*
+  * display the added admin's in the table
+  */
   showTable() {
     this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if(res) {
@@ -251,10 +262,10 @@ export class ProviderAdminListComponent implements OnInit {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.idMessage = 'Adhaar Number Already Exists';
+      this.errorMessageForAadhar = 'Adhaar Number Already Exists';
     } else {
       this.isExistAadhar = false;
-      this.idMessage = '';
+      this.errorMessageForAadhar = '';
     }
   }
   /*
@@ -274,10 +285,10 @@ export class ProviderAdminListComponent implements OnInit {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.idMessage = 'Pan Number Already Exists';
+      this.errorMessageForAadhar = 'Pan Number Already Exists';
     } else {
       this.isExistPan = false;
-      this.idMessage = '';
+      this.errorMessageForAadhar = '';
     }
   }
    /*
@@ -321,6 +332,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForms();
+    this.resetDob();
 
   }
   /*
@@ -470,7 +482,8 @@ export class EditProviderAdminModal {
   formMode: boolean = true;
   isExistAadhar: boolean = false;
   isExistPan: boolean = false;
-  idMessage: string;
+  errorMessageForAadhar: string;
+  errorMessageForPan: string;
 
   // arrays
   genders: any = [];
@@ -507,6 +520,7 @@ export class EditProviderAdminModal {
     this.primaryEmail = this.data.emailID;
     this.age = this.data.age;
     this.dob = this.data.dOB;
+   // this.calculateAge(this.dob);
     this.marital_status = this.data.maritalStatusID;
     this.aadharNumber = this.data.aadhaarNo;
     this.panNumber = this.data.pAN;
@@ -579,10 +593,10 @@ export class EditProviderAdminModal {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.idMessage = 'Aadhar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar Number Already Exists';
     } else {
       this.isExistAadhar = false;
-      this.idMessage = '';
+      this.errorMessageForAadhar = '';
     }
   }
   /*
@@ -602,10 +616,10 @@ export class EditProviderAdminModal {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.idMessage = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan Number Already Exists';
     } else {
       this.isExistPan = false;
-      this.idMessage = '';
+      this.errorMessageForPan = '';
     }
   }
 

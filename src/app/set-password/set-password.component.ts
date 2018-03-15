@@ -62,7 +62,7 @@ export class SetPasswordComponent implements OnInit {
 	successCallback(response) {
 
 		console.log(response);
-		this.alertService.alert('Password changed Successfully');
+		this.alertService.alert('Password changed successfully');
 		this.logout();
 		// this.router.navigate(['']);
 	}

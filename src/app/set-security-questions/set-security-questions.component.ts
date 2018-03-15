@@ -246,7 +246,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
   successCallback(response) {
     // localStorage.removeItem('authToken'); // call logout api so that both client and server side the token is removed
     console.log(response);
-    this.alertService.alert("Password changed Successfully");
+    this.alertService.alert("Password changed successfully");
     // this.router.navigate(['']);
     this.logout();
   }
