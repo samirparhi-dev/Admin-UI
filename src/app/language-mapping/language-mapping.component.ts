@@ -62,6 +62,7 @@ export class LanguageMappingComponent implements OnInit {
   speakCheckBoxState = true;
   addButtonState = true;
   updateButtonState = true;
+  disableUsername: boolean = false;
 
 
   @ViewChild('editlanguagesForm') eForm: NgForm;
@@ -428,6 +429,7 @@ export class LanguageMappingComponent implements OnInit {
   }
   editRow(rowObject) {
     this.showEditForm();
+    this.disableUsername = true;
     this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
