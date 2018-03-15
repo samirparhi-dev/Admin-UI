@@ -22,7 +22,7 @@ export class LanguageMappingComponent implements OnInit {
   weightageRead: any;
   weightageWrite: any;
   weightageSpeak: any;
-
+  userID: any;
 
 
   // preferredlanguage: any;
@@ -430,6 +430,7 @@ export class LanguageMappingComponent implements OnInit {
   editRow(rowObject) {
     this.showEditForm();
     this.disableUsername = true;
+    this.userID = rowObject.userID;
     this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
@@ -452,9 +453,10 @@ export class LanguageMappingComponent implements OnInit {
     this.getAvailableLanguages(this.edit_Details.userID)
   }
   updateLanguage(editFormValues: any) {
+    debugger;
     const obj = {
       'userLangID': this.userLangID,
-      'userID': editFormValues.user_name,
+      'userID': this.userID,
       'modifideBy': this.createdBy,
       'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
       'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
