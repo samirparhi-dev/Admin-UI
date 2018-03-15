@@ -11,6 +11,7 @@ import { MdCheckbox, MdSelect } from '@angular/material';
   styleUrls: ['./language-mapping.component.css']
 })
 export class LanguageMappingComponent implements OnInit {
+  username: any;
   language: any;
   serviceProviderID: any;
   userLangID: any;
@@ -18,6 +19,10 @@ export class LanguageMappingComponent implements OnInit {
   readweightage: any;
   writeweightage: any;
   speakweightage: any;
+  weightageRead: any;
+  weightageWrite: any;
+  weightageSpeak: any;
+
 
 
   // preferredlanguage: any;
@@ -57,6 +62,7 @@ export class LanguageMappingComponent implements OnInit {
   speakCheckBoxState = true;
   addButtonState = true;
   updateButtonState = true;
+  disableUsername: boolean = false;
 
 
   @ViewChild('editlanguagesForm') eForm: NgForm;
@@ -212,12 +218,14 @@ export class LanguageMappingComponent implements OnInit {
       this.ReadWeightageList = this.WeightageList;
       this.readCheckBoxState = false;
       this.readweightage = undefined;
+
     }
     else {
       this.read = false;
       this.ReadWeightageList = undefined;
       this.readCheckBoxState = true;
       this.readweightage = undefined;
+      this.edit_Details.weightageRead = undefined;
       if (!this.write && !this.speak) {
         this.addButtonState = true;
       }
@@ -237,6 +245,7 @@ export class LanguageMappingComponent implements OnInit {
       this.WriteWeightageList = undefined;
       this.writeCheckBoxState = true;
       this.writeweightage = undefined;
+      this.edit_Details.weightageWrite = undefined;
       if (!this.read && !this.speak) {
         this.addButtonState = true;
       }
@@ -256,6 +265,7 @@ export class LanguageMappingComponent implements OnInit {
       this.SpeakWeightageList = undefined;
       this.speakCheckBoxState = true;
       this.speakweightage = undefined;
+      this.edit_Details.weightageSpeak = undefined;
       if (!this.read && !this.write) {
         this.addButtonState = true;
       }
@@ -286,9 +296,9 @@ export class LanguageMappingComponent implements OnInit {
       'userName': formValues.username.userName,
       'userID': formValues.username.userID,
       'createdBy': this.createdBy,
-      'weightage_Read': [] = formValues.readweightage.value,
-      'weightage_Write': [] = formValues.writeweightage.value,
-      'weightage_Speak': [] = formValues.speakweightage.value,
+      'weightage_Read': [] = this.readweightage === undefined ? 0 : formValues.readweightage.value,
+      'weightage_Write': [] = this.writeweightage === undefined ? 0 : formValues.writeweightage.value,
+      'weightage_Speak': [] = this.speakweightage === undefined ? 0 : formValues.speakweightage.value,
       'languageID': [] = formValues.language.languageID,
       'canRead': this.read,
       'canWrite': this.write,
@@ -313,7 +323,7 @@ export class LanguageMappingComponent implements OnInit {
     if (this.bufferArray.length === 0) {
       this.bufferArray.push(object);
       // this.resetForm();
-      this.resetDropdowns();
+      // this.resetDropdowns();
     }
     /* case:2 If the buffer array is not empty */
     else if (this.bufferArray.length > 0) {
@@ -341,6 +351,7 @@ export class LanguageMappingComponent implements OnInit {
     console.log('final buffer', this.bufferArray);
     let lang: any;
     let obj = {};
+    obj['serviceProviderID'];
     obj['languageName'];
     obj['userName'];
     obj['userID'];
@@ -357,6 +368,7 @@ export class LanguageMappingComponent implements OnInit {
     for (let i = 0; i < this.bufferArray.length; i++) {
       const index: number = duplicateArray.indexOf(this.bufferArray[i].userID);
       if (index == -1) {
+        obj['serviceProviderID'] = this.serviceProviderID;
         obj['languageName'] = this.bufferArray[i].languageName;
         obj['userName'] = this.bufferArray[i].userName;
         obj['userID'] = this.bufferArray[i].userID;
@@ -410,12 +422,14 @@ export class LanguageMappingComponent implements OnInit {
         this.getAllMappedLanguagesList();
         this.resetDropdowns();
         this.bufferArray = [];
+        this.multiLanguages = [];
       }, err => {
         console.log(err, 'ERROR');
       });
   }
   editRow(rowObject) {
     this.showEditForm();
+    this.disableUsername = true;
     this.userLangID = rowObject.userLangID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
@@ -425,9 +439,16 @@ export class LanguageMappingComponent implements OnInit {
     this.read = rowObject.canRead;
     this.write = rowObject.canWrite;
     this.speak = rowObject.canSpeak;
-    this.ReadWeightageList = this.WeightageList;
-    this.WriteWeightageList = this.WeightageList;
-    this.SpeakWeightageList = this.WeightageList;
+    this.edit_Details.weightageRead = rowObject.weightage_Read;
+    this.edit_Details.weightageWrite = rowObject.weightage_Write;
+    this.edit_Details.weightageSpeak = rowObject.weightage_Speak;
+
+    if (rowObject.weightage_Read)
+      this.ReadWeightageList = this.WeightageList;
+    if (rowObject.weightage_Write)
+      this.WriteWeightageList = this.WeightageList;
+    if (rowObject.weightage_Speak)
+      this.SpeakWeightageList = this.WeightageList;
     this.getAvailableLanguages(this.edit_Details.userID)
   }
   updateLanguage(editFormValues: any) {
@@ -435,9 +456,9 @@ export class LanguageMappingComponent implements OnInit {
       'userLangID': this.userLangID,
       'userID': editFormValues.user_name,
       'modifideBy': this.createdBy,
-      'weightage_Read': editFormValues.read_weightage,
-      'weightage_Write': editFormValues.write_weightage,
-      'weightage_Speak': editFormValues.speak_weightage,
+      'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
+      'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
+      'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
       'languageID': editFormValues.language,
       'weightage': 10,
       'canRead': this.read,
@@ -471,8 +492,8 @@ export class LanguageMappingComponent implements OnInit {
     this.speakweightage = undefined;
   }
   resetDropdowns() {
-    this.userNamesList = undefined;
-    this.filteredLanguages = [];
+    this.username = undefined;
+    this.language = undefined;
     this.canRead = [];
     this.canSpeak = [];
     this.canWrite = [];
@@ -481,9 +502,9 @@ export class LanguageMappingComponent implements OnInit {
     this.weightage_Read = [];
     this.weightage_Speak = [];
     this.weightage_Write = [];
-    this.ReadWeightageList = undefined;
-    this.WriteWeightageList = undefined;
-    this.SpeakWeightageList = undefined;
+    this.ReadWeightageList = [];
+    this.WriteWeightageList = [];
+    this.SpeakWeightageList = [];
     this.showCheckboxes = false;
     this.resetweightageDropdowns();
   }

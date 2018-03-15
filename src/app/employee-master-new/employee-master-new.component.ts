@@ -48,7 +48,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
   isExistPan: boolean = false;
-  idMessage: string;
+  errorMessageForAadhar: string;
+  errorMessageForPan: string;
   id: any;
   confirmMessage: any;
   panelOpenState: boolean = true;
@@ -102,20 +103,22 @@ export class EmployeeMasterNewComponent implements OnInit {
   // md2.data: Observable<Array<item>>;
 
   constructor(public employeeMasterNewService: EmployeeMasterNewServices,
-    public dataService: dataService,
+    public dataServiceValue: dataService,
     public dialogService: ConfirmationDialogsService,
     public dialog: MdDialog) { }
 
   ngOnInit() {
+    this.createdBy = this.dataServiceValue.uname;
+    this.serviceProviderID = this.dataServiceValue.service_providerID;
     this.getAllUserDetails();
-    this.createdBy = this.dataService.uname;
-    this.serviceProviderID = this.dataService.service_providerID;
   }
 
   /*
    * All details of the user
    */
   getAllUserDetails() {
+    console.log("serviceProvider", this.serviceProviderID);
+
     this.employeeMasterNewService.getAllUsers(this.serviceProviderID).subscribe(response => {
       if (response) {
         console.log("All details of the user", response);
@@ -139,9 +142,9 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res));
 
   }
-   /*
-  * Reset the dob on adding multiple objects
-  */
+  /*
+ * Reset the dob on adding multiple objects
+ */
   resetDob() {
     this.dob = new Date();
     this.dob.setFullYear(this.today.getFullYear() - 20);
@@ -151,9 +154,9 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
   }
-   /*
-  * display the added user's in the table
-  */
+  /*
+ * display the added user's in the table
+ */
   showTable() {
     this.resetAllForms();
     this.tableMode = true;
@@ -171,9 +174,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     })
   }
-   /*
-  * calculate the doj based on dob
-  */
+  /*
+ * calculate the doj based on dob
+ */
   calculateDoj() {
     this.minDate_doj = new Date();
     this.minDate_doj.setFullYear(this.dob.getFullYear() + 20);
@@ -205,7 +208,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   */
 
   checkUserNameAvailability(username) {
-    console.log("user", this.username);
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response));
@@ -297,10 +299,10 @@ export class EmployeeMasterNewComponent implements OnInit {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.idMessage = 'Aadhar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar Number Already Exists';
     } else {
       this.isExistAadhar = false;
-      this.idMessage = '';
+      this.errorMessageForAadhar = '';
     }
   }
   /*
@@ -320,10 +322,10 @@ export class EmployeeMasterNewComponent implements OnInit {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.idMessage = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan Number Already Exists';
     } else {
       this.isExistPan = false;
-      this.idMessage = '';
+      this.errorMessageForPan = '';
     }
   }
   /*
@@ -453,7 +455,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       'permanentAddressLine2': communicationFormValue.permanent_addressLine2,
       'permanentState': communicationFormValue.permanent_state,
       'permanenttDistrict': communicationFormValue.permanent_district,
-      'permanentPincode': communicationFormValue.permanent_pincode
+      'permanentPincode': communicationFormValue.permanent_pincode,
+      'isPresent': this.isPresent,
+      'isPermanent': this.isPermanent
 
     }
     console.log("add objects", tempObj);
@@ -501,13 +505,17 @@ export class EmployeeMasterNewComponent implements OnInit {
         'religionID': this.objs[i].religionID,
         'addressLine1': this.objs[i].currentAddressLine1,
         'addressLine2': this.objs[i].currentAddressLine2,
-        'permanentAddress': this.objs[i].permanentAddressLine1 + ' , ' + this.objs[i].permanentAddressLine2,
         'stateID': this.objs[i].currentState,
         'districtID': this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
+        'permAddressLine1': this.objs[i].permanentAddressLine1,
+        'permAddressLine2': this.objs[i].permanentAddressLine2,
+        'permStateID': this.objs[i].permanentState,
+        'permDistrictID': this.objs[i].permanenttDistrict,
+        'permPinCode': this.objs[i].permanentPincode,
         'statusID': "1",
-        // 'isPermanent':'1',
-        'isPresent': '1',
+        'isPermanent': this.isPermanent,
+        'isPresent': this.isPresent,
         'createdBy': this.createdBy,
         'cityID': '1',
         'serviceProviderID': this.serviceProviderID
@@ -558,12 +566,11 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   edit(data) {
     console.log("edit contact no", data.contactNo);
-    
+
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
       if (this.currentDistricts && this.currentDistricts != null) {
-        console.log("district", data.districtID);
         this.communicationDetailsForm.form.patchValue({
           address: {
             current_addressLine1: data.addressLine1,
@@ -572,11 +579,12 @@ export class EmployeeMasterNewComponent implements OnInit {
             current_district: data.districtID,
             current_pincode: data.pinCode
           },
-
-          permanent_addressLine1: data.permanentAddress
+          permanent_addressLine1: data.permAddressLine1,
+          permanent_addressLine2: data.permAddressLine2,
+          permanent_state: data.permStateID,
+          permanent_district: data.permDistrictID,
+          permanent_pincode: data.permPinCode
         })
-        console.log("current district", this.currentDistrict);
-
       }
     }
 
@@ -609,11 +617,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-console.log("mobile no:", userCreationFormValue.primaryMobileNo);
-
-
-
-
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
       'firstName': userCreationFormValue.user_firstname,
@@ -641,15 +644,20 @@ console.log("mobile no:", userCreationFormValue.primaryMobileNo);
       'stateID': communicationFormValue.address.current_state,
       'districtID': communicationFormValue.address.current_district,
       'pinCode': communicationFormValue.address.current_pincode,
+      'permAddressLine1': communicationFormValue.permanent_addressLine1,
+      'permAddressLine2': communicationFormValue.permanent_addressLine2,
+      'permStateID': communicationFormValue.permanent_state,
+      'permDistrictID': communicationFormValue.permanent_district,
+      'permPinCode': communicationFormValue.permanent_pincode,
       'userID': this.userId,
       'modifiedBy': this.createdBy,
       'cityID': 1
 
     }
-    console.log('updateobj', update_tempObj);
+    console.log('Data to be update', update_tempObj);
 
     this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
-      console.log("Data to be update", response);
+      console.log("updated obj", response);
       this.dialogService.alert('User details edited successfully');
       /* resetting form and ngModels used in editing */
       this.getAllUserDetails();

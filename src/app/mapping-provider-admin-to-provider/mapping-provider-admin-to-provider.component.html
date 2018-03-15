@@ -159,7 +159,8 @@
       <form autocomplete="off" id="editForm" #eform="ngForm">
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-15">
-          <md-select required name="ProviderAdmin" placeholder="Provider Admin" [style.width]="'100%'" [(ngModel)]="edit_Details.userID">
+          <md-select required name="ProviderAdmin" placeholder="Provider Admin" [style.width]="'100%'" [disabled]="disableUsername"
+            [(ngModel)]="edit_Details.userID">
             <md-option *ngFor="let item of service_provider_admin_array" [value]="item.userID">
               {{item.userName}}
             </md-option>
