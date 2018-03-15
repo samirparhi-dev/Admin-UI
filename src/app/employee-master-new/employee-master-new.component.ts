@@ -534,6 +534,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     })
 
   }
+  
+
   // clearAll() {
   //   this.userCreationForm.resetForm();
   //   this.demographicsDetailsForm.resetForm();
@@ -562,11 +564,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.edit(data);
     }
 
-  }
-
+  }  
   edit(data) {
-    console.log("edit contact no", data.contactNo);
-
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
@@ -587,7 +586,6 @@ export class EmployeeMasterNewComponent implements OnInit {
         })
       }
     }
-
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -613,8 +611,30 @@ export class EmployeeMasterNewComponent implements OnInit {
     })
 
     this.userId = data.userID;
-    this.createdBy = data.createdBy;
+    this.createdBy = data.createdBy;    
+    this.limitDateInEdit(data.dOB);
   }
+  limitDateInEdit(dateOfBirth) {
+    this.maxdate = new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate = new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
+    this.calculateAgeInEdit(dateOfBirth);
+  }
+   /*
+  * calculate age based on the DOB
+  */
+ calculateAgeInEdit(dateOfBirth) {   
+  if (dateOfBirth != undefined) {
+    let existDobAge = new Date(dateOfBirth);
+    this.age = this.today.getFullYear() - existDobAge.getFullYear();
+    const month = this.today.getMonth() - existDobAge.getMonth();
+    if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
+      this.age--; //age is ng-model of AGE
+    }
+  }
+}
+
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
     let update_tempObj = {

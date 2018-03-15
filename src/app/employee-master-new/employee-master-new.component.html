@@ -104,7 +104,7 @@
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myName>
-                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="2" maxlength="50" #lname="ngModel"
+                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="1" maxlength="50" #lname="ngModel"
                                 required>
                             <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters</md-hint>
                         </md-input-container>
@@ -222,7 +222,7 @@
                             <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                                 minlength="8" maxlength="12" #pwrd="ngModel" required>
                             <md-hint class="errorText">
-                                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
+                                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
                             </md-hint>
                         </md-input-container>
                     </div>

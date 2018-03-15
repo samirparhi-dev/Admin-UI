@@ -16,9 +16,10 @@ export class WorkLocationMappingComponent implements OnInit {
   workLocationID: any;
   providerServiceMapID: any;
   edit = false;
+  Role: any;
 
   // Arrays
-  filteredRoles = [];
+  filteredRoles: any;
   userNamesList: any = [];
   services_array: any = [];
   states_array: any = [];
@@ -37,6 +38,7 @@ export class WorkLocationMappingComponent implements OnInit {
   tableMode = true;
   editMode = false;
   disableUsername: boolean = false;
+  saveButtonStatus: boolean = false;
 
   constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
@@ -108,38 +110,6 @@ export class WorkLocationMappingComponent implements OnInit {
         console.log('Error', err);
       });
   }
-  // getAllServicelines(serviceProvider: any) {
-  //   debugger;
-  //   this.worklocationmapping.getAllServiceLinesByProvider(this.serviceProviderID)
-  //     .subscribe(response => {
-  //       if (response) {
-  //         console.log(response, 'get all servicelines success handeler');
-  //         this.services_array = response;
-  //         this.states_array = undefined;
-  //         this.districts_array = undefined;
-  //         this.workLocationsList = undefined;
-  //         this.RolesList = undefined
-  //       }
-  //     }, err => {
-
-  //     });
-  // }
-
-  // getAllStates(serviceProvider: any, serviceLine: any) {
-  //   debugger;
-  //   this.worklocationmapping.getAllStatesByProvider(this.serviceProviderID, serviceLine || serviceLine.serviceID)
-  //     .subscribe(response => {
-  //       if (response) {
-  //         console.log(response, 'get all states success handeler');
-  //         this.states_array = response;
-  //         this.districts_array = undefined;
-  //         this.workLocationsList = undefined;
-  //         this.RolesList = undefined
-  //       }
-  //     }, err => {
-
-  //     });
-  // }
 
   getAllDistricts(state: any) {
     // debugger;
@@ -187,7 +157,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
 
-  getAvailableMappings(formvalues) {
+  getAvailableMappings(formvalues, role) {
     debugger;
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
@@ -195,24 +165,21 @@ export class WorkLocationMappingComponent implements OnInit {
         && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.serviceline.providerServiceMapID
         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district.districtID
         && this.mappedWorkLocationsList[i].workingLocationAddress === formvalues.worklocation.locationName) {
-        const obj = {
-          'roleID': this.mappedWorkLocationsList[i].roleID,
-          'roleName': this.mappedWorkLocationsList[i].roleName
+
+        for (let j = 0; j < role.length; j++) {
+          if (this.mappedWorkLocationsList[i].workingLocationAddress === role[j].roleID) {
+            if (this.filteredRoles)
+              this.filteredRoles = ',' + role[j].roleName;
+            else
+              this.filteredRoles = role[j].roleName
+          }
         }
-        alreadyMappedWorklocations.push(obj);
       }
     }
-    console.log('alredy', alreadyMappedWorklocations);
-    const filteredRoles = this.RolesList.filter(function (allLocations) {
-      return !alreadyMappedWorklocations.find(function (locationFromMappedWorkLocation) {
-        return allLocations.roleID === locationFromMappedWorkLocation.roleID
-      })
-    });
-    this.filteredRoles = [];
-    if (filteredRoles.length === 0) {
-      this.alertService.alert('All work locations for this user have been mapped');
-    } else {
-      this.filteredRoles = filteredRoles;
+
+    if (this.filteredRoles.length === 0) {
+      this.alertService.alert('This user is already mapped with these roles', this.filteredRoles);
+      this.saveButtonStatus = true;
     }
 
   }
@@ -410,6 +377,17 @@ export class WorkLocationMappingComponent implements OnInit {
     //   'workingLocationID': ''
     // };
     for (let i = 0; i < this.bufferArray.length; i++) {
+      // const workLocationObj = {
+      //   'previleges': [],
+      //   'userID': '',
+      //   'createdBy': '',
+      //   'serviceProviderID': this.serviceProviderID
+      // }
+      // let previleges = {
+      //   'roleID': [],
+      //   'providerServiceMapID': '',
+      //   'workingLocationID': ''
+      // };
       let roleArray = [];
       if (this.bufferArray[i].roleID1.length > 0) {
         for (let a = 0; a < this.bufferArray[i].roleID1.length; a++) {
@@ -444,6 +422,7 @@ export class WorkLocationMappingComponent implements OnInit {
         }
 
         requestArray.push(workLocationObj);
+        // roleArray = [];
       }
     }
     console.log(requestArray, 'after modification array');
@@ -479,10 +458,12 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   editRow(rowObject) {
+    debugger;
     this.showEditForm();
     this.edit = true;
     this.disableUsername = true;
     this.edit_Details = rowObject;
+    this.userID_duringEdit = rowObject.userID;
     console.log('TO BE EDITED REQ OBJ', this.edit_Details);
     this.uSRMappingID = rowObject.uSRMappingID;
     this.workLocationID_duringEdit = parseInt(this.edit_Details.workingLocationID, 10);
@@ -612,11 +593,11 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   updateWorkLocation(workLocations: any) {
-    this.getAvailableMappings_duringEdit(workLocations);
+    // this.getAvailableMappings_duringEdit(workLocations);
     debugger;
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
-      'userID': workLocations.user_name,
+      'userID': this.userID_duringEdit,
       'roleID': workLocations.role,
       'providerServiceMapID': this.providerServiceMapID_duringEdit,
       'workingLocationID': workLocations.worklocation,

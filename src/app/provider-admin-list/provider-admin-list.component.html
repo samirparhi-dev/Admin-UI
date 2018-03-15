@@ -100,7 +100,7 @@
           <div class="clearfix visible-md"></div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container class="width100" myName>
-              <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="2" maxlength="50"
+              <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="1" maxlength="50"
                 #lname="ngModel" required>
               <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters
               </md-hint>
@@ -162,9 +162,9 @@
             <md-input-container class="width100" myMobileNumber>
               <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                 (keyup)="checkAadhar()" #number="ngModel" required>
-              <md-hint *ngIf="number.valid || number.pristine">
-                <span class="error_text" *ngIf="number.errors && number.touched">Required 12 digit aadhar number</span>
-                <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
+                <md-hint *ngIf="number.touched">
+                  <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
+                  <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -172,9 +172,9 @@
             <md-input-container class="width100" PAN>
               <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
                 #panNo="ngModel" (keyup)="checkPan()" required>
-              <md-hint *ngIf="panNo.valid || panNo.pristine">
-                <span class="error_text" *ngIf="panNo.errors && panNo.touched">Required 10 digit Pan number EX: alphanumeric</span>
-                <span *ngIf="isExistPan" class="error_text">{{errorMessageForPan}}</span>
+                <md-hint *ngIf="panNo.touched">
+                  <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
+                  <span class="error_text" *ngIf="isExistPan">{{errorMessageForPan}}</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -234,7 +234,7 @@
               <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                 minlength="8" maxlength="12" #pwrd="ngModel" required>
               <md-hint class="errorText">
-                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 UpperCase)</span>
+                <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
               </md-hint>
             </md-input-container>
           </div>

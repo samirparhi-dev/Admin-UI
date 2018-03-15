@@ -375,7 +375,7 @@ export class ProviderAdminListComponent implements OnInit {
         'remarks': this.objs[i].admin_remarks,
         'createdBy': "Admin",
         'isProviderAdmin': "true",
-        //'statusID':"1"
+        'statusID':"1"
 
       }
       reqObject.push(tempObj);
@@ -456,7 +456,7 @@ export class ProviderAdminListComponent implements OnInit {
   templateUrl: './edit-provider-admin-list.html',
   styleUrls: ['./provider-admin-list.component.css']
 })
-export class EditProviderAdminModal {
+export class EditProviderAdminModal {  
 
   //ngModel
 
@@ -465,8 +465,8 @@ export class EditProviderAdminModal {
   admin_middleName: any;
   admin_lastName: any;
   gender: any;
-  dob: any;
-  age: number;
+  dob: Date;
+  age: any;
   primaryMobileNumber: any;
   primaryEmail: any;
   marital_status: any;
@@ -491,8 +491,7 @@ export class EditProviderAdminModal {
   titles: any = [];
   eduQualification: any = [];
   maritalStatus: any = [];
-  allProviderAdmin: any = [];
-
+  allProviderAdmin: any = [];  
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 
@@ -510,7 +509,6 @@ export class EditProviderAdminModal {
   }
 
   edit() {
-
     this.titleID = this.data.titleID;
     this.admin_firstName = this.data.firstName;
     this.admin_middleName = this.data.middleName;
@@ -518,9 +516,7 @@ export class EditProviderAdminModal {
     this.gender = this.data.genderID;
     this.primaryMobileNumber = this.data.contactNo;
     this.primaryEmail = this.data.emailID;
-    this.age = this.data.age;
     this.dob = this.data.dOB;
-   // this.calculateAge(this.dob);
     this.marital_status = this.data.maritalStatusID;
     this.aadharNumber = this.data.aadhaarNo;
     this.panNumber = this.data.pAN;
@@ -528,8 +524,19 @@ export class EditProviderAdminModal {
     this.emergency_cnt_person = this.data.emergencyContactPerson;
     this.emergencyMobileNumber = this.data.emergencyContactNo;
     this.admin_remarks = this.data.remarks;
+    this.resetDob();
 
   }
+     /*
+  * Reset the dob on adding multiple objects
+  */
+ resetDob() {    
+  this.maxdate = new Date();
+  this.maxdate.setFullYear(this.today.getFullYear() - 20);
+  this.mindate = new Date();
+  this.mindate.setFullYear(this.today.getFullYear() - 70);
+  this.calculateAge();
+}
   /*
  * Display gender on condition
  */
@@ -553,11 +560,12 @@ export class EditProviderAdminModal {
   /*
     * Calculate age
     */
-  calculateAge(date) {
-    if (date != undefined) {
-      this.age = this.today.getFullYear() - date.getFullYear();
-      const month = this.today.getMonth() - date.getMonth();
-      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+  calculateAge() {  
+    if (this.dob != undefined) {
+    let existDobAge = new Date(this.dob)      
+      this.age = this.today.getFullYear() - existDobAge.getFullYear();
+      const month = this.today.getMonth() - existDobAge.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
         this.age--; //age is ng-model of AGE
       }
     }
@@ -630,7 +638,7 @@ export class EditProviderAdminModal {
       'middleName': this.admin_middleName,
       'lastName': this.admin_lastName,
       'genderID': this.gender,
-      'dob': this.dob,
+      'dOB': this.dob,
       //  'age': this.age,
       'contactNo': this.primaryMobileNumber,
       'emailID': this.primaryEmail,
