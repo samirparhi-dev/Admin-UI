@@ -13,7 +13,7 @@
         <thead>
           <tr>
             <th md2SortBy="userName">User Name</th>
-            <th>Language Name</th>
+            <th>Language</th>
             <th>Read</th>
             <th>Write </th>
             <th>Speak</th>
@@ -37,7 +37,6 @@
             <td>
               <button md-raised-button color="primary" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
-
             </td>
           </tr>
         </tbody>
@@ -190,8 +189,9 @@
           <form id="editlanguagesForm" #eform="ngForm" autocomplete=" off ">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
               <md-select name="user_name" placeholder="Select User Name " [style.width]="
-              '100%' " [(ngModel)]="edit_Details.userID" (change)="getAvailableLanguages(edit_Details.userID);" required>
-                <md-option *ngFor="let item of userNamesList " [value]="item.userID">{{item.userName}}</md-option>
+              '100%' " [(ngModel)]="edit_Details.userID" [disabled]="disableUsername" (change)="getAvailableLanguages(edit_Details.userID);"
+                required>
+                <md-option *ngFor="let item of userNamesList" [value]="item.userID">{{item.userName}}</md-option>
               </md-select>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
