@@ -34,9 +34,9 @@ export class BlockServiceProviderComponent implements OnInit {
   status: any;
   reason: any;
   constructor(public block_provider: BlockProvider, private message: ConfirmationDialogsService) {
-    this.service_provider = '';
-    this.state = '';
-    this.serviceline = '';
+    // this.service_provider = '';
+    // this.state = '';
+    // this.serviceline = '';
     this.showTable = false;
 
     this.case_one = false;
@@ -322,7 +322,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_providerSuccessHandeler(response) {
     console.log('b u provider success handeler', response);
-    this.message.alert('Successfully Updated');
+    this.message.alert('Successfully updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderLevel(response[0].serviceProviderID);
     // }
@@ -353,7 +353,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_stateSuccessHandeler(response) {
     console.log('b u state success handeler', response);
-    this.message.alert('Successfully Updated');
+    this.message.alert('Successfully updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
     // }
@@ -384,7 +384,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceSuccessHandeler(response) {
     console.log('b u service success handeler', response);
-    this.message.alert('Successfully Updated');
+    this.message.alert('Successfully updated');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
     // }
@@ -417,7 +417,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceOfStateSuccessHandeler(response) {
     console.log('b u service of state success handeler', response);
-    this.message.alert('Successfully Updated');
+    this.message.alert('Successfully updated');
     // if (response.updatedStatusID == 2) {
     //   this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
     // }

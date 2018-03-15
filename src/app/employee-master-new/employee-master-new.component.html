@@ -104,7 +104,7 @@
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myName>
-                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="2" maxlength="50" #lname="ngModel"
+                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="1" maxlength="50" #lname="ngModel"
                                 required>
                             <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters</md-hint>
                         </md-input-container>
