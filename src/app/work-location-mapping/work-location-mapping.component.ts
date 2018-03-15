@@ -359,18 +359,19 @@ export class WorkLocationMappingComponent implements OnInit {
     debugger;
     console.log(this.bufferArray, 'Request Object');
     const requestArray = [];
-    const workLocationObj = {
-      'previleges': [],
-      'userID': '',
-      'createdBy': '',
-      'serviceProviderID': this.serviceProviderID
-    }
-    let previleges = {
-      'roleID': [],
-      'providerServiceMapID': '',
-      'workingLocationID': ''
-    };
+
     for (let i = 0; i < this.bufferArray.length; i++) {
+      const workLocationObj = {
+        'previleges': [],
+        'userID': '',
+        'createdBy': '',
+        'serviceProviderID': this.serviceProviderID
+      }
+      let previleges = {
+        'roleID': [],
+        'providerServiceMapID': '',
+        'workingLocationID': ''
+      };
       let roleArray = [];
       if (this.bufferArray[i].roleID1.length > 0) {
         for (let a = 0; a < this.bufferArray[i].roleID1.length; a++) {
@@ -384,6 +385,7 @@ export class WorkLocationMappingComponent implements OnInit {
         workLocationObj['createdBy'] = this.createdBy;
         workLocationObj['previleges'].push(previleges);
         requestArray.push(workLocationObj);
+        roleArray = [];
       }
     }
     console.log(requestArray, 'after modification array');
