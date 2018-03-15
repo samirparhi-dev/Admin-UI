@@ -36,7 +36,7 @@ export class WorkLocationMappingComponent implements OnInit {
   formMode = false;
   tableMode = true;
   editMode = false;
-
+  disableUsername: boolean = false;
 
   constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
@@ -192,9 +192,9 @@ export class WorkLocationMappingComponent implements OnInit {
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
-        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID
-        && this.mappedWorkLocationsList[i].districtID === formvalues.district.districtID
-        && this.mappedWorkLocationsList[i].workingLocationName === formvalues.worklocation.locationName) {
+        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.serviceline.providerServiceMapID
+        && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district.districtID
+        && this.mappedWorkLocationsList[i].workingLocationAddress === formvalues.worklocation.locationName) {
         const obj = {
           'roleID': this.mappedWorkLocationsList[i].roleID,
           'roleName': this.mappedWorkLocationsList[i].roleName
@@ -389,7 +389,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   saveWorkLocations() {
-    // debugger;
+    debugger;
     console.log(this.bufferArray, 'Request Object');
     const requestArray = [];
     const workLocationObj = {
@@ -454,6 +454,7 @@ export class WorkLocationMappingComponent implements OnInit {
   editRow(rowObject) {
     this.showEditForm();
     this.edit = true;
+    this.disableUsername = true;
     this.edit_Details = rowObject;
     console.log('TO BE EDITED REQ OBJ', this.edit_Details);
     this.uSRMappingID = rowObject.uSRMappingID;
@@ -574,16 +575,17 @@ export class WorkLocationMappingComponent implements OnInit {
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === formvalues.user_name
-        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.providerServiceMapID
-        && this.mappedWorkLocationsList[i].workingDistrictID === formvalues.district
-        && this.mappedWorkLocationsList[i].workingLocationID === formvalues.worklocation
+        && this.mappedWorkLocationsList[i].serviceID === formvalues.providerServiceMapID
+        && this.mappedWorkLocationsList[i].stateID === formvalues.state
+        && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district
+        && parseInt(this.mappedWorkLocationsList[i].workingLocationID) === formvalues.worklocation
         && this.mappedWorkLocationsList[i].roleID === formvalues.role) {
         this.alertService.alert('All work locations for this user have been mapped');
       }
     }
   }
   updateWorkLocation(workLocations: any) {
-    // this.getAvailableMappings_duringEdit(workLocations);
+    this.getAvailableMappings_duringEdit(workLocations);
     debugger;
     const langObj = {
       'uSRMappingID': this.uSRMappingID,

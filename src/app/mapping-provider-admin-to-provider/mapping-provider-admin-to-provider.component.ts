@@ -41,7 +41,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   formMode = false;
   tableMode = true;
   editMode = false;
-
+  disableUsername: boolean = false;
   // variables
   createdBy: any;
   toBeEditedObject: any;
@@ -83,7 +83,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       });
   }
   getAllProviderAdmins() {
-    debugger;
     this.superadminService.getAllProviderAdmins()
       .subscribe(response => {
         if (response) {
@@ -95,32 +94,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         console.log('Error', err);
       });
   }
-  // getAllServicelines(serviceProvider: any) {
-  //   this.superadminService.getAllServiceLinesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
-  //     .subscribe(response => {
-  //       if (response) {
-  //         console.log(response, 'get all servicelines success handeler');
-  //         this.services_array = response;
 
-  //       }
-  //     }, err => {
-
-  //     });
-  // }
-  // getAllStates(serviceProvider: any, serviceLine: any, providerAdmin: any) {
-  //   this.superadminService.getAllStatesByProvider(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, serviceLine.serviceID)
-  //     .subscribe(response => {
-  //       if (response) {
-  //         console.log(response, 'get all states success handeler');
-  //         this.states_array = response;
-  //         this.getAvailableStates(serviceProvider, serviceLine, providerAdmin)
-  //       } 
-  //     }, err => {
-
-  //     });
-  // }
   getProviderStates(state) {
-    debugger;
     this.superadminService.getProviderStates(state.serviceProviderId || state.serviceProviderID).
       subscribe(response => this.getStatesSuccessHandeler(response));
   }
@@ -159,8 +134,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (this.providerAdminList[i].userID === providerAdmin.userID &&
         this.providerAdminList[i].serviceProviderID === serviceProviderId &&
         this.providerAdminList[i].stateID === state.stateID) {
-        console.log("RHS", providerAdmin.userID, serviceProviderId, state.stateID);
-        console.log("LHS", this.providerAdminList[i].userID, this.providerAdminList[i].serviceProviderID, this.providerAdminList[i].stateID);
         const obj = {
           'serviceID': this.providerAdminList[i].serviceID,
           'serviceName': this.providerAdminList[i].serviceName
@@ -193,12 +166,13 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
-
+      this.resetDropdowns();
     }
     else {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
+      this.resetDropdowns();
     }
 
   }
@@ -377,10 +351,11 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         });
   }
   editRow(rowObject) {
-    debugger;
     this.showEditForm();
+    this.disableUsername = true;
     this.uSRMappingID = rowObject.uSRMappingID;
     this.edit_Details = rowObject;
+    this.getProviderStates(rowObject)
     this.getProviderServicesInState(rowObject, rowObject, rowObject);
   }
   update(editedDetails: any) {
@@ -388,43 +363,23 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     const object = {
       'uSRMappingID': this.uSRMappingID,
       'providerServiceMapID': editedDetails.Serviceline,
-      'userID': editedDetails.ProviderAdmin,
+      'userID': editedDetails.serviceProvider,
       'modifiedBy': this.createdBy
     }
 
-    for (let i = 0; i < this.providerAdminList.length; i++) {
-      const rowObject = {
-        'uSRMappingID': this.providerAdminList[i].uSRMappingID,
-        'providerServiceMapID': this.providerAdminList[i].serviceProviderMapID,
-        'userID': this.providerAdminList[i].userID,
-        'modifiedBy': this.createdBy
-      }
-
-      if (
-        object.uSRMappingID === rowObject.uSRMappingID &&
-        object.providerServiceMapID === rowObject.providerServiceMapID &&
-        object.userID === rowObject.userID) {
-        duplicatecount = duplicatecount + 1;
-        this.dialogService.alert('Mapping for this combination already exists.');
-        break;
-      }
-    }
-
-    if (duplicatecount === 0) {
-      console.log('edited request object', object);
-      this.superadminService.updateProviderAdminDetails(object)
-        .subscribe(response => {
-          console.log('Edit success callback', response);
-          this.dialogService.alert('Mapping edited successfully');
-          /* resetting form and ngModels used in editing */
-          this.resetDropdowns();
-          this.getAllMappedProviders();
-          this.showTable();
-          this.edit_Details = '';
-        }, err => {
-          console.log('error', err);
-        });
-    }
+    console.log('edited request object', object);
+    this.superadminService.updateProviderAdminDetails(object)
+      .subscribe(response => {
+        console.log('Edit success callback', response);
+        this.dialogService.alert('Mapping edited successfully');
+        /* resetting form and ngModels used in editing */
+        this.resetDropdowns();
+        this.getAllMappedProviders();
+        this.showTable();
+        this.edit_Details = '';
+      }, err => {
+        console.log('error', err);
+      });
   }
   resetDropdowns() {
     this.service_provider_admin = undefined;

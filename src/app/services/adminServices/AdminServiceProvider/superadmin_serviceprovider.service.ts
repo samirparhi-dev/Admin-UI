@@ -98,15 +98,15 @@ export class SuperAdmin_ServiceProvider_Service {
     /*
     * Creation of provider admin URL
     */
-    this.getAllProviderAdmin_url = this.providerAdminBaseUrl + '/completeUserDetails';
-    this.checkUserAvailabilityUrl = this.providerAdminBaseUrl + '/m/FindEmployeeByName';
-    this.createProviderAdminUrl = this.providerAdminBaseUrl + '/createProviderAdmin';
-    this.getAllGendersUrl = this.providerAdminBaseUrl + '/m/AllGender';
-    this.getAllTitlesUrl = this.providerAdminBaseUrl + '/m/AllTitle';
-    this.getAllQualificationsUrl = this.providerAdminBaseUrl + '/m/Qualification';
-    this.getAllMaritalStatusUrl = this.commonbaseurl + '/beneficiary/getRegistrationDataV1';
-    this.updateProviderAdminUrl = this.providerAdminBaseUrl + '/editProviderAdmin';
-    this.delete_toggle_activationUrl = this.providerAdminBaseUrl + '/deleteProviderAdmin';
+    this.getAllProviderAdmin_url = this.providerAdminBaseUrl + 'completeUserDetails';
+    this.checkUserAvailabilityUrl = this.providerAdminBaseUrl + 'm/FindEmployeeByName';
+    this.createProviderAdminUrl = this.providerAdminBaseUrl + 'createProviderAdmin';
+    this.getAllGendersUrl = this.providerAdminBaseUrl + 'm/AllGender';
+    this.getAllTitlesUrl = this.providerAdminBaseUrl + 'm/AllTitle';
+    this.getAllQualificationsUrl = this.providerAdminBaseUrl + 'm/Qualification';
+    this.getAllMaritalStatusUrl = this.commonbaseurl + 'beneficiary/getRegistrationDataV1';
+    this.updateProviderAdminUrl = this.providerAdminBaseUrl + 'editProviderAdmin';
+    this.delete_toggle_activationUrl = this.providerAdminBaseUrl + 'deleteProviderAdmin';
     this.checkID = this.providerAdminBaseUrl + 'm/FindEmployeeDetails';
 
     // 	this.updateProviderPersonalDetailsUrl = this.providerAdminBaseUrl + "/updateProvider";
