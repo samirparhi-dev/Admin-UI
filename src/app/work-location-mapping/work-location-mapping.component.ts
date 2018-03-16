@@ -17,6 +17,11 @@ export class WorkLocationMappingComponent implements OnInit {
   providerServiceMapID: any;
   edit = false;
   Role: any;
+  User: any;
+  State: any;
+  Serviceline: any;
+  District: any;
+  WorkLocation: any;
 
   // Arrays
   filteredRoles: any = '';
@@ -194,11 +199,16 @@ export class WorkLocationMappingComponent implements OnInit {
       this.resetDropdowns();
     }
     else {
+
+      // if (this.bufferArray.length > 0) {
+      //   this.alertService.confirm("You will be lost the buffer", "Continue", "Cancel")
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
+      // }
+
     }
 
   }
@@ -232,9 +242,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   deactivate(uSRMappingID) {
     // debugger
@@ -248,9 +258,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-      err => {
-        console.log('error', err);
-      });
+        err => {
+          console.log('error', err);
+        });
   }
   addWorkLocation(workLocations: any, role) {
     if (!this.getAvailableMappings(workLocations, role)) {
@@ -283,7 +293,7 @@ export class WorkLocationMappingComponent implements OnInit {
       }
 
       this.checkDuplicates(workLocationObj);
-      this.eForm.reset();
+      //this.eForm.reset();
     }
     else {
       this.duplicatestatus = false;
@@ -632,6 +642,11 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   resetDropdowns() {
-
+    this.User = undefined;
+    this.State = undefined;
+    this.Serviceline = undefined;
+    this.District = undefined;
+    this.WorkLocation = undefined;
+    this.Role = undefined;
   }
 }
