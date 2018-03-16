@@ -34,9 +34,9 @@
                         <td>{{item.emergencyContactNo}}</td>
                         <td>{{item.emailID}}</td>
                         <td>{{item.dOJ | utcDate | date : 'dd/MM/yyyy'}}</td>
-                        <td>                              
-                            <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" *ngIf="!item.deleted"
-                                (click)="editUserDetails(item)"></i>
+                        <td>
+                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"                         
+                            (click)="editUserDetails(item)"></md-icon>
                         </td>
                         <td>
                             <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.userID, false)">Activate</button>
@@ -104,9 +104,9 @@
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myName>
-                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="2" maxlength="50" #lname="ngModel"
+                            <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="1" maxlength="50" #lname="ngModel"
                                 required>
-                            <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters</md-hint>
+                            <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 1 characters</md-hint>
                         </md-input-container>
                     </div>
                     <div class="clearfix visible-lg"></div>
@@ -177,7 +177,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md-input-container class="width100" myMobileNumber>
                             <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
-                                (change)="checkAadhar()" #number="ngModel" required>
+                                (keyup)="checkAadhar()" #number="ngModel" required>
                             <md-hint *ngIf="number.touched">
                                 <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
                                 <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
@@ -415,7 +415,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="userCreationForm.valid && demographicsDetailsForm.valid && communicationDetailsForm.valid">
                 <button md-mini-fab color="primary" class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                     <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon> -->
-                    <i mdTooltip="add" class="material-icons cursorPointer">add</i>
+                    <i class="fa fa-plus" aria-hidden="true"></i>                   
                 </button>
             </div>
         </div>
@@ -441,10 +441,10 @@
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <!-- <button md-mini-fab>                            
                         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(i)">remove</md-icon>
-                    </button> -->
-                     <button md-mini-fab>                            
-                        <i mdTooltip="delete" class="material-icons cursorPointer .f-s-lg-18" (click)="remove_obj(i)">delete</i>
-                    </button>                    
+                    </button> -->                                  
+                        <!-- <i class="fa fa-times" aria-hidden="true" (click)="remove_obj(i)"></i> -->
+                        <i class="material-icons" (click)="remove_obj(i)">delete</i>
+
                 </div>
             </div>
         </form>

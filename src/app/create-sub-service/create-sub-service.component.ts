@@ -121,7 +121,7 @@ export class CreateSubServiceComponent implements OnInit {
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
-        this.message.alert('Added Sucessfully');
+        this.message.alert('Added sucessfully');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();
@@ -261,7 +261,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.getExistingSubService(this.serviceObj);
   }
   deletedSuccessHandler(res) {
-        this.message.alert(this.confirmMessage+"d Successfully");
+        this.message.alert(this.confirmMessage+"d successfully");
             this.getExistingOnSearch(this.serviceObj);
 
   }

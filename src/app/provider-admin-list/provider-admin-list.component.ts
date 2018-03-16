@@ -375,7 +375,7 @@ export class ProviderAdminListComponent implements OnInit {
         'remarks': this.objs[i].admin_remarks,
         'createdBy': "Admin",
         'isProviderAdmin': "true",
-        //'statusID':"1"
+        'statusID':"1"
 
       }
       reqObject.push(tempObj);

@@ -177,8 +177,7 @@
       </md-select>
     </div>
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3  m-t-15">
-      <md-select name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
-        <md-option [value]=""></md-option>
+      <md-select name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">        
         <md-option *ngFor="let item of states_array" [value]="item.stateID">
           {{item.stateName}}
         </md-option>
@@ -186,7 +185,6 @@
     </div>
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 m-t-15">
       <md-select name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getStatus(service_provider,state,serviceline)">
-        <md-option [value]=""></md-option>
         <md-option *ngFor="let item of services_array" [value]="item.serviceID">
           {{item.serviceName}}
         </md-option>

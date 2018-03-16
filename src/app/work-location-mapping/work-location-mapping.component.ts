@@ -232,9 +232,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   deactivate(uSRMappingID) {
     // debugger
@@ -248,9 +248,9 @@ export class WorkLocationMappingComponent implements OnInit {
           this.getAllMappedWorkLocations();
         }
       },
-        err => {
-          console.log('error', err);
-        });
+      err => {
+        console.log('error', err);
+      });
   }
   addWorkLocation(workLocations: any, role) {
     if (!this.getAvailableMappings(workLocations, role)) {
@@ -365,34 +365,71 @@ export class WorkLocationMappingComponent implements OnInit {
   saveWorkLocations() {
     debugger;
     console.log(this.bufferArray, 'Request Object');
-    const requestArray = [];
-
+    let requestArray = [];
+    let workLocationObj = {
+      'previleges': [
+        {
+          'roleID': [],
+          'providerServiceMapID': '',
+          'workingLocationID': ''
+        }
+      ],
+      'userID': '',
+      'createdBy': '',
+      'serviceProviderID': this.serviceProviderID
+    }
+    // let previleges = {
+    //   'roleID': [],
+    //   'providerServiceMapID': '',
+    //   'workingLocationID': ''
+    // };
     for (let i = 0; i < this.bufferArray.length; i++) {
-      const workLocationObj = {
-        'previleges': [],
-        'userID': '',
-        'createdBy': '',
-        'serviceProviderID': this.serviceProviderID
-      }
-      let previleges = {
-        'roleID': [],
-        'providerServiceMapID': '',
-        'workingLocationID': ''
-      };
+      // const workLocationObj = {
+      //   'previleges': [],
+      //   'userID': '',
+      //   'createdBy': '',
+      //   'serviceProviderID': this.serviceProviderID
+      // }
+      // let previleges = {
+      //   'roleID': [],
+      //   'providerServiceMapID': '',
+      //   'workingLocationID': ''
+      // };
       let roleArray = [];
       if (this.bufferArray[i].roleID1.length > 0) {
         for (let a = 0; a < this.bufferArray[i].roleID1.length; a++) {
           roleArray.push(this.bufferArray[i].roleID1[a].roleID1);
         }
-        previleges['roleID'] = roleArray;
-        previleges['providerServiceMapID'] = this.bufferArray[i].providerServiceMapID;
-        previleges['workingLocationID'] = this.bufferArray[i].workingLocationID;
-        //  this.previleges.push(previleges);
-        workLocationObj['userID'] = this.bufferArray[i].userID;
-        workLocationObj['createdBy'] = this.createdBy;
-        workLocationObj['previleges'].push(previleges);
+        // let priv = Object.assign({}, previleges); // to create new instance
+        // priv['roleID'] = roleArray;
+        // priv['providerServiceMapID'] = this.bufferArray[i].providerServiceMapID;
+        // priv['workingLocationID'] = this.bufferArray[i].workingLocationID;
+
+        // let reqObj = Object.assign({}, workLocationObj); // to create new instance
+        // let priv = Object.assign([], reqObj.previleges);
+        // priv[0].roleID = roleArray;
+        // priv[0].providerServiceMapID = this.bufferArray[i].providerServiceMapID;
+        // priv[0].workingLocationID = this.bufferArray[i].workingLocationID;
+
+        // reqObj.previleges = priv;
+        // reqObj['userID'] = this.bufferArray[i].userID;
+        // reqObj['createdBy'] = this.createdBy;
+
+        let workLocationObj = {
+          'previleges': [
+            {
+              'roleID': roleArray,
+              'providerServiceMapID': this.bufferArray[i].providerServiceMapID,
+              'workingLocationID': this.bufferArray[i].workingLocationID
+            }
+          ],
+          'userID': this.bufferArray[i].userID,
+          'createdBy': this.createdBy,
+          'serviceProviderID': this.serviceProviderID
+        }
+
         requestArray.push(workLocationObj);
-        roleArray = [];
+        // roleArray = [];
       }
     }
     console.log(requestArray, 'after modification array');

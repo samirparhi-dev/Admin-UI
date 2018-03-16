@@ -235,7 +235,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   edit_delete_RolesSuccessHandeler(response, choice) {
     if (choice == 'edit') {
-      this.alertService.alert('Role Edited successfully');
+      this.alertService.alert('Role edited successfully');
     }
     else {
       this.alertService.alert(this.confirmMessage + 'd successfully');
@@ -250,6 +250,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.tempFilterScreens = [];
     this.selectedRole = undefined;
     this.disableSelection = false;
+
+    this.showUpdateFeatureButtonFlag = false;
   }
 
   successhandeler(response) {
@@ -511,7 +513,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         'roleID': this.roleID_update,
         'providerServiceMapID': this.commonDataService.provider_serviceMapID,
         'screenID': this.feature_update[i].screenID,
-        'createdBy':this.commonDataService.uname
+        'createdBy': this.commonDataService.uname
       }
 
       requestArray.push(reqObj);
@@ -522,6 +524,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.ProviderAdminRoleService.updateFeatureToRole(requestArray)
       .subscribe(response => {
         console.log(response, 'RESPONSE AFTER UPDATING FEATURE TO ROLE');
+        if (response.length > 1) {
+          this.alertService.alert('Features added to role successfully');
+        }
+        if (response.length == 1) {
+          this.alertService.alert('Feature added to role successfully');
+        }
+
+        this.setRoleFormFlag(false);
+        this.findRoles(this.STATE_ID, this.SERVICE_ID);
+
       }, err => {
         console.log('ERROR while updating feature to role', err);
       });
