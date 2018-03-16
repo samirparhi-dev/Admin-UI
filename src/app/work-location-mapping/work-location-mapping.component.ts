@@ -19,7 +19,7 @@ export class WorkLocationMappingComponent implements OnInit {
   Role: any;
 
   // Arrays
-  filteredRoles: any;
+  filteredRoles: any = '';
   userNamesList: any = [];
   services_array: any = [];
   states_array: any = [];
@@ -39,7 +39,9 @@ export class WorkLocationMappingComponent implements OnInit {
   editMode = false;
   disableUsername: boolean = false;
   saveButtonStatus: boolean = false;
-
+  duplicatestatus: boolean = false;
+  duplicatestatus_editPart: boolean = false;
+  @ViewChild('workplaceForm') eForm: NgForm;
   constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
 
@@ -149,39 +151,39 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all roles success handeler');
           this.RolesList = response;
-          //  this.getAvailableMappings(user, state, service)
+
         }
       }, err => {
 
       });
   }
-
-
   getAvailableMappings(formvalues, role) {
-    debugger;
     const alreadyMappedWorklocations = [];
+
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
         && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.serviceline.providerServiceMapID
         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district.districtID
-        && this.mappedWorkLocationsList[i].workingLocationAddress === formvalues.worklocation.locationName) {
+        && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
 
         for (let j = 0; j < role.length; j++) {
-          if (this.mappedWorkLocationsList[i].workingLocationAddress === role[j].roleID) {
-            if (this.filteredRoles)
-              this.filteredRoles = ',' + role[j].roleName;
+          if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
+            if (this.filteredRoles != '')
+              this.filteredRoles = this.filteredRoles + ', ' + role[j].roleName;
             else
               this.filteredRoles = role[j].roleName
           }
         }
       }
     }
-
-    if (this.filteredRoles.length === 0) {
-      this.alertService.alert('This user is already mapped with these roles', this.filteredRoles);
-      this.saveButtonStatus = true;
+    var filteredRole = this.filteredRoles;
+    if (this.filteredRoles != '') {
+      this.alertService.alert('This mapping is already exist with  ' + filteredRole + ' role');
+      // this.saveButtonStatus = true;
+      this.filteredRoles = '';
+      this.duplicatestatus = true;
     }
-
+    return this.duplicatestatus;
   }
   showTable() {
     if (this.editMode) {
@@ -250,37 +252,42 @@ export class WorkLocationMappingComponent implements OnInit {
           console.log('error', err);
         });
   }
-  addWorkLocation(workLocations: any) {
-    // this.getAvailableMappings(workLocations);
-    console.log(workLocations, "FORM VALUES");
-    const workLocationObj = {
-      'previleges': [],
-      'userID': workLocations.user.userID,
-      'userName': workLocations.user.userName,
-      'serviceName': workLocations.serviceline.serviceName,
-      'stateName': workLocations.state.stateName,
-      'district': workLocations.district.districtName,
-      'workingLocation': workLocations.worklocation.locationName,
-      'roleID1': [],
-      'providerServiceMapID': workLocations.serviceline.providerServiceMapID,
-      'createdBy': this.createdBy,
-      'workingLocationID': workLocations.worklocation.pSAddMapID
-      // 'AgentID': workLocations.agentID,
-      // 'AgentPassword': workLocations.password
-    };
-    let roleArray = [];
-    if (workLocations.role.length > 0) {
-      for (let a = 0; a < workLocations.role.length; a++) {
-        let obj = {
-          'roleID1': workLocations.role[a].roleID,
-          'roleName': workLocations.role[a].roleName
+  addWorkLocation(workLocations: any, role) {
+    if (!this.getAvailableMappings(workLocations, role)) {
+      console.log(workLocations, "FORM VALUES");
+      const workLocationObj = {
+        'previleges': [],
+        'userID': workLocations.user.userID,
+        'userName': workLocations.user.userName,
+        'serviceName': workLocations.serviceline.serviceName,
+        'stateName': workLocations.state.stateName,
+        'district': workLocations.district.districtName,
+        'workingLocation': workLocations.worklocation.locationName,
+        'roleID1': [],
+        'providerServiceMapID': workLocations.serviceline.providerServiceMapID,
+        'createdBy': this.createdBy,
+        'workingLocationID': workLocations.worklocation.pSAddMapID
+        // 'AgentID': workLocations.agentID,
+        // 'AgentPassword': workLocations.password
+      };
+      let roleArray = [];
+      if (workLocations.role.length > 0) {
+        for (let a = 0; a < workLocations.role.length; a++) {
+          let obj = {
+            'roleID1': workLocations.role[a].roleID,
+            'roleName': workLocations.role[a].roleName
+          }
+          roleArray.push(obj);
         }
-        roleArray.push(obj);
+        workLocationObj['roleID1'] = roleArray;
       }
-      workLocationObj['roleID1'] = roleArray;
-    }
 
-    this.checkDuplicates(workLocationObj);
+      this.checkDuplicates(workLocationObj);
+      this.eForm.reset();
+    }
+    else {
+      this.duplicatestatus = false;
+    }
   }
   deleteRow(i) {
     this.bufferArray.splice(i, 1);
@@ -542,44 +549,46 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAvailableMappings_duringEdit(formvalues) {
-    debugger;
+
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
-      if (this.mappedWorkLocationsList[i].userID === formvalues.user_name
+      if (this.mappedWorkLocationsList[i].userID === this.userID_duringEdit
         && this.mappedWorkLocationsList[i].serviceID === formvalues.providerServiceMapID
         && this.mappedWorkLocationsList[i].stateID === formvalues.state
         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district
         && parseInt(this.mappedWorkLocationsList[i].workingLocationID) === formvalues.worklocation
         && this.mappedWorkLocationsList[i].roleID === formvalues.role) {
         this.alertService.alert('All work locations for this user have been mapped');
+        this.duplicatestatus_editPart = true;
       }
     }
+    return this.duplicatestatus_editPart;
   }
   updateWorkLocation(workLocations: any) {
-    // this.getAvailableMappings_duringEdit(workLocations);
-    debugger;
-    const langObj = {
-      'uSRMappingID': this.uSRMappingID,
-      'userID': this.userID_duringEdit,
-      'roleID': workLocations.role,
-      'providerServiceMapID': this.providerServiceMapID_duringEdit,
-      'workingLocationID': workLocations.worklocation,
-      'modifiedBy': this.createdBy
-    };
-    console.log('edited request object to be sent to API', langObj);
-    this.worklocationmapping.UpdateWorkLocationMapping(langObj)
-      .subscribe(response => {
-        console.log(response, 'after successful mapping of work location to provider');
-        this.alertService.alert('Work location mapping edited successfully');
-        this.showTable();
-        this.getAllMappedWorkLocations();
-        this.resetDropdowns();
-        this.bufferArray = [];
-      }, err => {
-        console.log(err, 'ERROR');
-      });
+    if (!this.getAvailableMappings_duringEdit(workLocations)) {
+      const langObj = {
+        'uSRMappingID': this.uSRMappingID,
+        'userID': this.userID_duringEdit,
+        'roleID': workLocations.role,
+        'providerServiceMapID': this.providerServiceMapID_duringEdit,
+        'workingLocationID': workLocations.worklocation,
+        'modifiedBy': this.createdBy
+      };
+      console.log('edited request object to be sent to API', langObj);
+      this.worklocationmapping.UpdateWorkLocationMapping(langObj)
+        .subscribe(response => {
+          console.log(response, 'after successful mapping of work location to provider');
+          this.alertService.alert('Work location mapping edited successfully');
+          this.showTable();
+          this.getAllMappedWorkLocations();
+          this.resetDropdowns();
+          this.bufferArray = [];
+        }, err => {
+          console.log(err, 'ERROR');
+        });
 
-
+    }
+    else { this.duplicatestatus_editPart = false; }
   }
 
   resetForm() {
