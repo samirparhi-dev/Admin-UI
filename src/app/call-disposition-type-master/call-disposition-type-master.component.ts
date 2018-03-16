@@ -23,6 +23,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	callSubType: any;
 	fitToBlock: boolean = false;
 	fitForFollowup: boolean = false;
+	maxRedial: any = undefined;
 
 
 	// api related 
@@ -109,6 +110,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.fitForFollowup = false;
 		this.isInbound = false;
 		this.isOutbound = false;
+		this.maxRedial = undefined;
 	}
 
 	isInbound = false;
@@ -121,6 +123,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	setIsOutbound(ev) {
 		console.log(ev, "OUTBOUND CHECKBOX");
 		this.isOutbound = ev.checked;
+		if (!ev.checked) {
+			this.maxRedial = undefined;
+		}
 	}
 
 	pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
@@ -142,6 +147,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 					"fitForFollowup": fitForFollowup,
 					"isInbound": this.isInbound,
 					"isOutbound": this.isOutbound,
+					'maxRedial': this.maxRedial,
 					"createdBy": this.commonDataService.uname
 				}
 				console.log('dummy obj', obj);
@@ -153,6 +159,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 				this.fitForFollowup = false;
 				this.isInbound = false;
 				this.isOutbound = false;
+				this.maxRedial = undefined;
 			}
 		}
 
@@ -206,14 +213,13 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	saveCallTypeSubTypeSuccessHandeler(response) {
 		console.log(response, "save call type sub type success");
-		this.alertService.alert("Saved Call type/Sub type successfully");
+		this.alertService.alert("Saved call type/sub type successfully");
 		this.hideTable(false) // going back to table view
 
 		// resetting the ngmodels  
 		this.reset();
 		this.callType = "";
 		this.request_array = [];
-
 
 		this.get_calltype_subtype_history(); // refreshing the table contents
 

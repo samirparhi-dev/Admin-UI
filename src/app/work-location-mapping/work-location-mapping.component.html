@@ -1,3 +1,4 @@
+<md-card>
   <div class="row" *ngIf="tableMode">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4>
@@ -155,7 +156,7 @@
             <th>State</th>
             <th>District</th>
             <th>Work Location</th>
-            <th width="15%">Role</th>
+            <th>Role</th>
             <th>Delete</th>
           </tr>
         </thead>
@@ -168,7 +169,7 @@
             <td>{{item.district}}</td>
             <td>{{item.workingLocation}}</td>
             <td>
-              <ul>
+              <ul class="m-l--25">
                 <li *ngFor="let obj of item.roleID1;let j=index ">
                   {{obj.roleName}}
                   <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(i,j)">cancel</md-icon>
@@ -279,3 +280,4 @@
     </div>
 
   </div>
+</md-card>
