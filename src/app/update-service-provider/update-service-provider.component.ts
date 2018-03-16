@@ -125,7 +125,7 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   }
   servicelineAddedSuccesshandler(response) {
-    this.message.alert('state & service added for this provider');
+    this.message.alert('State and service added for this provider');
     this.super_admin_service.getProviderStatus(this.provider).subscribe(response => this.providerInfo_handler(response));
     this.searchPage = true;
     this.state = '';

@@ -143,7 +143,7 @@
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value);this.workplaceform.reset();">Add</button>
+        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value,Role);this.workplaceform.reset();">Add</button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
@@ -169,7 +169,7 @@
             <td>{{item.district}}</td>
             <td>{{item.workingLocation}}</td>
             <td>
-              <ul>
+              <ul class="m-l--25">
                 <li *ngFor="let obj of item.roleID1;let j=index ">
                   {{obj.roleName}}
                   <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(i,j)">cancel</md-icon>

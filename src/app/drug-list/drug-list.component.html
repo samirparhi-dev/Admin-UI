@@ -10,14 +10,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" >
+      <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}">
         <td>{{availableDrugs.indexOf(drug)+1}}</td>
         <td>{{drug.drugName}}</td>
         <td>{{drug.drugDesc}}</td>
         <td>{{drug.remarks}}</td>
-        <td *ngIf="drug.deleted=='0'"> <button class="btn" (click)="updateDrugStatus(drug)">Deactivate</button></td>
-        <td *ngIf="drug.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugStatus(drug)">Activate</button></td>
-        <td> <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button></td>
+        <td *ngIf="drug.deleted=='0'">
+          <button class="btn" (click)="updateDrugStatus(drug)">Deactivate</button>
+        </td>
+        <td *ngIf="drug.deleted=='1'">
+          <button class="btn activateBtn" (click)="updateDrugStatus(drug)">Activate</button>
+        </td>
+        <td>
+          <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -33,9 +39,9 @@
   <h4>Create Drug</h4>
   <form #drugForm="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-      <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID" >
+      <input mdInput style="display:none;" [(ngModel)]="drugID" name="drugID">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName"  #drugN="ngModel" (blur)="checkExistance(drugName)" minlength="1" maxlength="30">
+        <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName" #drugN="ngModel" minlength="1" maxlength="30">
         <md-hint>
           <span class="error_text" *ngIf="!drugN.valid  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
           <span class="error_text" *ngIf="drugNameExist">Drug Already Exists</span>
@@ -44,14 +50,15 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <md-input-container [style.width]="'100%'">
-        <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc"  #drugD="ngModel" minlength="1" maxlength="100">
+        <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc" #drugD="ngModel" minlength="1"
+          maxlength="100">
         <md-hint [hidden]=drugD.valid>
           <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Description</span>
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-      <md-input-container  [style.width]="'100%'">
+      <md-input-container [style.width]="'100%'">
         <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
       </md-input-container>
     </div>
@@ -59,7 +66,7 @@
       <button *ngIf="!editable" [disabled]=" !drugN.valid || drugNameExist || !drugD.valid " class="btn pull-right " (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
-      <button *ngIf="editable"  class="btn pull-right " (click)="updateDrugData(drugForm.value);drugForm.reset()  ">
+      <button *ngIf="editable" class="btn pull-right " (click)="updateDrugData(drugForm.value);drugForm.reset()  ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon>
       </button>
     </div>
@@ -86,6 +93,7 @@
     <pagination-controls (pageChange)="b = $event" id="drugsResult"></pagination-controls>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   <button class="btn pull-left" (click)="clearEdit()">Back</button> <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
+    <button class="btn pull-left" (click)="clearEdit()">Back</button>
+    <button *ngIf="drugList.length>0" class="btn pull-right " (click)="storedrug()">Submit</button>
   </div>
 </div>

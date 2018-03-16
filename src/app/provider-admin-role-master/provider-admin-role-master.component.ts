@@ -235,7 +235,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   edit_delete_RolesSuccessHandeler(response, choice) {
     if (choice == 'edit') {
-      this.alertService.alert('Role Edited successfully');
+      this.alertService.alert('Role edited successfully');
     }
     else {
       this.alertService.alert(this.confirmMessage + 'd successfully');

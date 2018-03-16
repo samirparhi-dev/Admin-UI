@@ -208,8 +208,11 @@ export class LanguageMappingComponent implements OnInit {
   }
   Language(languageArray: any) {
     this.resetweightageDropdowns();
-    this.isCheckedRead = false;
-    this.showCheckboxes = true;
+
+  }
+  editLanguage(languageArray: any) {
+    this.resetEditWeightageDropdowns();
+
   }
   read: boolean = false;
   setRead(value) {
@@ -300,9 +303,9 @@ export class LanguageMappingComponent implements OnInit {
       'weightage_Write': [] = this.writeweightage === undefined ? 0 : formValues.writeweightage.value,
       'weightage_Speak': [] = this.speakweightage === undefined ? 0 : formValues.speakweightage.value,
       'languageID': [] = formValues.language.languageID,
-      'canRead': this.read,
-      'canWrite': this.write,
-      'canSpeak': this.speak
+      'canRead': this.readweightage === 0 ? false : this.read,
+      'canWrite': this.writeweightage === 0 ? false : this.write,
+      'canSpeak': this.speakweightage === 0 ? false : this.speak
     };
     this.read = false;
     this.write = false;
@@ -428,6 +431,7 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   editRow(rowObject) {
+    debugger;
     this.showEditForm();
     this.disableUsername = true;
     this.userID = rowObject.userID;
@@ -492,6 +496,19 @@ export class LanguageMappingComponent implements OnInit {
     this.readweightage = undefined;
     this.writeweightage = undefined;
     this.speakweightage = undefined;
+    this.isCheckedRead = false;
+    this.isCheckedWrite = false;
+    this.isCheckedSpeak = false;
+    this.showCheckboxes = true;
+  }
+  resetEditWeightageDropdowns() {
+    this.edit_Details.weightageRead = undefined;
+    this.edit_Details.weightageWrite = undefined;
+    this.edit_Details.weightageSpeak = undefined;
+    this.isCheckedRead = false;
+    this.isCheckedWrite = false;
+    this.isCheckedSpeak = false;
+    this.showCheckboxes = true;
   }
   resetDropdowns() {
     this.username = undefined;

@@ -102,7 +102,7 @@
             <md-input-container class="width100" myName>
               <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="1" maxlength="50"
                 #lname="ngModel" required>
-              <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 2 characters
+              <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 1 characters
               </md-hint>
             </md-input-container>
           </div>
