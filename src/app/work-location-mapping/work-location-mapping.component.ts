@@ -199,16 +199,11 @@ export class WorkLocationMappingComponent implements OnInit {
       this.resetDropdowns();
     }
     else {
-
-      // if (this.bufferArray.length > 0) {
-      //   this.alertService.confirm("You will be lost the buffer", "Continue", "Cancel")
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-      // }
-
     }
 
   }
