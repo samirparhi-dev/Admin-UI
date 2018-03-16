@@ -251,7 +251,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
-            this.messageBox.alert('Successfully Created');
+            this.messageBox.alert('Successfully created');
             this.serviceList.length = [];
             this.getCategory(providerServiceMapID, this.sub_service);
           }
@@ -279,7 +279,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
-          this.messageBox.alert('Successfully Created');
+          this.messageBox.alert('Successfully created');
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
@@ -381,7 +381,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
           .subscribe((response) => {
             if (response) {
-              this.messageBox.alert("Category " + confirmMessage + "d Successfully");
+              this.messageBox.alert("Category " + confirmMessage + "d successfully");
               this.refeshCategory(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {
@@ -405,7 +405,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           .subscribe((response) => {
             if (response) {
               // console.log(response,"after delete");
-              this.messageBox.alert("Subcategory " + confirmMessage + "d Successfully");
+              this.messageBox.alert("Subcategory " + confirmMessage + "d successfully");
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
           }, (err) => {

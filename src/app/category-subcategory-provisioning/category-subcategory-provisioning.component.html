@@ -48,7 +48,7 @@
               <span *ngIf="i.s104_CS_Type"> Well Being </span>
               <span *ngIf="!i.s104_CS_Type"> Information </span>
             </td>
-            <td width="15%">
+            <td width="10%">
               <md-icon *ngIf="i.deleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCategory(i)">edit</md-icon>
             </td>
             <td width="15%">
@@ -205,7 +205,8 @@
               <td>{{service.categoryDesc}}</td>
               <td *ngIf="service.well_being">Well Being</td>
               <td *ngIf="!service.well_being">Information</td>
-              <td><i mdTooltip="delete" class="material-icons" style="font-size: 18px" (click)="deleteRow(i)">delete</i></td>
+              <td>
+                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">clear</md-icon> ></td>
             </tr>
           </tbody>
           <tfoot>

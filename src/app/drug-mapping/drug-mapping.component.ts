@@ -177,7 +177,7 @@ export class DrugMappingComponent implements OnInit {
 
   successHandler(response){
     this.drugMapping =  [];
-    this.alertMessage.alert("Drug Mappings stored successfully");
+    this.alertMessage.alert("Drug mappings stored successfully");
     this.getAvailableMappings();
   }
 
@@ -196,7 +196,7 @@ export class DrugMappingComponent implements OnInit {
 
   updateStatusHandler(response){
     console.log("Drug Mapping status changed");
-    this.alertMessage.alert("Drug Mapping status changed");
+    this.alertMessage.alert("Drug mapping status changed");
   }
 
   clearEdit(){

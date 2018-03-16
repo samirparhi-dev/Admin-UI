@@ -38,7 +38,8 @@
               <th>Role</th>
               <th>Description</th>
               <th>Screen Name</th>
-              <th>Actions</th>
+              <th>Edit</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -53,8 +54,10 @@
               <td width=25%>{{role.roleName}}</td>
               <td width=25%>{{role.roleDesc}}</td>
               <td width="35%">{{role.screenName}}</td>
-              <td width=15%>
+              <td width=10%>
                 <md-icon mdTooltip="edit" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRole(role)">edit</md-icon>
+                </td>
+                <td width=15%>
                 <!-- <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon> -->
                 <button *ngIf="role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, false)">Activate</button>
                 <button *ngIf="!role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, true)">Deactivate</button>
@@ -66,7 +69,7 @@
               <td colspan="3">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="1">
+              <td colspan="2">
                 <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
               </td>
             </tr>
@@ -147,8 +150,8 @@
           </md-chip-list>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-          <button md-mini-fab>
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(i)">remove</md-icon>
+          <button>            
+            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(i)">clear</md-icon>
           </button>
         </div>
         <div class="clearfix"></div>

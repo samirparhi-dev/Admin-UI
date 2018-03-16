@@ -1,4 +1,3 @@
-<md-card>
   <div class="row" *ngIf="tableMode">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4><strong>Provider Master</strong></h4>
@@ -118,12 +117,12 @@
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
+        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
           (click)="save(providerCreationForm.value)">Save</button>
-        <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
+        <button *ngIf="editMode" md-raised-button color="primary" class="pull-right" [disabled]="providerCreationForm.invalid || providerNameExist"
           (click)="update(providerCreationForm.value)">Update</button>
 
       </div>
     </div>
   </div>
-</md-card>
+

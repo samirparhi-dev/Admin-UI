@@ -7,6 +7,8 @@
         <th>Drug Name</th>
         <th>Description</th>
         <th>Remarks</th>
+        <th>Edit</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -15,15 +17,15 @@
         <td>{{drug.drugName}}</td>
         <td>{{drug.drugDesc}}</td>
         <td>{{drug.remarks}}</td>
+        <td>
+            <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button>
+          </td>
         <td *ngIf="drug.deleted=='0'">
           <button class="btn" (click)="updateDrugStatus(drug)">Deactivate</button>
         </td>
         <td *ngIf="drug.deleted=='1'">
           <button class="btn activateBtn" (click)="updateDrugStatus(drug)">Activate</button>
-        </td>
-        <td>
-          <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button>
-        </td>
+        </td>       
       </tr>
     </tbody>
   </table>

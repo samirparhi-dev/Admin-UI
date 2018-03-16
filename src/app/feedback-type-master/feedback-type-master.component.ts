@@ -187,7 +187,7 @@ feedbackName:any;
     .subscribe((res)=>{
       console.log("response",res);
       this.searchForm = true;
-      this.alertService.alert("Feedback Type saved successfully");
+      this.alertService.alert("Feedback type saved successfully");
       this.previous_state_id=this.search_state;
       this.previous_service_id=this.search_serviceline;
       this.addForm.resetForm();
@@ -223,7 +223,7 @@ feedbackName:any;
       }
       else
       {
-        this.alertService.alert("Already Exists");
+        this.alertService.alert("Already exists");
       }
     }
     else
@@ -252,7 +252,7 @@ feedbackName:any;
       }
       else
       {
-        this.alertService.alert("Already Exists");
+        this.alertService.alert("Already exists");
       }
     }
 
@@ -321,7 +321,7 @@ export class EditFeedbackModal {
     this.FeedbackTypeService.editFeedback(tempObj)
     .subscribe((res)=>{
       this.dialog_Ref.close("success");
-      this.alertService.alert("Feedback Type edited successfully");
+      this.alertService.alert("Feedback type edited successfully");
     })
     
   }

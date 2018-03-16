@@ -40,7 +40,7 @@ export class ServiceProviderMasterComponent implements OnInit {
   providerNameExist = false;
 
   // constants & variables
-  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   createdBy: any;
   providerNameBeforeEdit: any;
   serviceProviderID: any;
@@ -150,7 +150,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'Provider Creation Success Handeler');
         if (response.length > 0) {
-          this.dialogService.alert('Provider Created Successfully');
+          this.dialogService.alert('Provider created successfully');
 
           /* resetting form,ngModels and Dates */
           this.providerCreationForm.reset();
@@ -184,7 +184,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.superadminService.deleteProvider(object)
       .subscribe(response => {
         if (response) {
-          this.dialogService.alert('Provider Activated Successfully');
+          this.dialogService.alert('Provider activated successfully');
           /* refresh table */
           this.getAllProviders();
         }
@@ -200,7 +200,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.superadminService.deleteProvider(object)
       .subscribe(response => {
         if (response) {
-          this.dialogService.alert('Provider Deactivated Successfully');
+          this.dialogService.alert('Provider deactivated successfully');
           /* refresh table */
           this.getAllProviders();
         }
@@ -241,7 +241,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.superadminService.updateProviderDetails(object)
       .subscribe(response => {
         console.log('Edit success callback', response);
-        this.dialogService.alert('Provider Edited Successfully');
+        this.dialogService.alert('Provider edited successfully');
         /* resetting form and ngModels used in editing */
         this.providerCreationForm.reset();
         this.resetNGmodels();

@@ -252,7 +252,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.mapProviderServiceState(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of provider to service and state');
-        this.dialogService.alert('Provider Mapped Successfully');
+        this.dialogService.alert('Provider mapped successfully');
         this.showTable();
         this.getAllMappings();
         this.bufferArray = [];
@@ -356,7 +356,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       this.superadminService.editMappedProviderServiceState(object)
         .subscribe(response => {
           console.log(response, 'edited successfully success handeler');
-          this.dialogService.alert('Updated Successfully');
+          this.dialogService.alert('Updated successfully');
           this.showTable();
           this.getAllMappings();
 
@@ -378,7 +378,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.deleteMappedProviderServiceState(object)
       .subscribe(response => {
         console.log(response, 'success handeler after activation');
-        this.dialogService.alert('Activated Successfully');
+        this.dialogService.alert('Activated successfully');
         this.getAllMappings();
 
       }, err => {
@@ -397,7 +397,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.deleteMappedProviderServiceState(object)
       .subscribe(response => {
         console.log(response, 'success handeler after deactivation');
-        this.dialogService.alert('Deactivated Successfully');
+        this.dialogService.alert('Deactivated successfully');
         this.getAllMappings();
       }, err => {
         console.log(err, 'error handeler in deactivation');
