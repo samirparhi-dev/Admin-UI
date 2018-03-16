@@ -293,11 +293,11 @@ export class WorkLocationMappingComponent implements OnInit {
       }
 
       this.checkDuplicates(workLocationObj);
-<<<<<<< HEAD
+
      // this.eForm.reset();
-=======
+
       //this.eForm.reset();
->>>>>>> 1663abf9e50fc20416d9671f30bc8879bd4a02dd
+
     }
     else {
       this.duplicatestatus = false;
