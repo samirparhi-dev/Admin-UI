@@ -142,7 +142,7 @@
       </form>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value,Role);">Add</button>
+        <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="workplaceform.invalid" (click)="addWorkLocation(workplaceform.value,Role);this.workplaceform.reset();">Add</button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
@@ -176,7 +176,7 @@
               </ul>
             </td>
             <td>
-              <i mdTooltip="delete" class="material-icons cursorPointer" style="font-size: 18px" (click)="deleteRow(i)">delete</i>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">clear</md-icon>             
             </td>
           </tr>
         </tbody>

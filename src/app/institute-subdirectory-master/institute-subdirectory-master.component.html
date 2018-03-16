@@ -41,7 +41,8 @@
             <tr>
               <th width="40%">Institute Subdirectory</th>
               <th width="40%">Description</th>
-              <th width="20%">Status</th>
+              <th width="10%">Edit</th>
+              <th width="15%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +54,8 @@
               <td>{{item.instituteSubDirectoryDesc}}</td>
               <td>
                 <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+                </td>
+                <td>
                 <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,false)">Activate</button>
                 <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,true)">Deactivate</button>
               </td>

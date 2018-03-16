@@ -41,7 +41,7 @@ export class WorkLocationMappingComponent implements OnInit {
   saveButtonStatus: boolean = false;
   duplicatestatus: boolean = false;
   duplicatestatus_editPart: boolean = false;
-  @ViewChild('workplaceForm') eForm: NgForm;
+  @ViewChild('workplaceform') eForm: NgForm;
   constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
 
@@ -283,7 +283,7 @@ export class WorkLocationMappingComponent implements OnInit {
       }
 
       this.checkDuplicates(workLocationObj);
-      this.eForm.reset();
+     // this.eForm.reset();
     }
     else {
       this.duplicatestatus = false;

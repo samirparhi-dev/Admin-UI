@@ -46,7 +46,8 @@
             <th>Contact Person</th>
             <th>Contact Number</th>
             <th>EmailID</th>
-            <th>Status</th>
+            <th>Edit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +63,8 @@
             <td>{{item.contactPerson1_Email}}</td>
             <td>
               <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+              </td>
+              <td>
               <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,false)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
             </td>

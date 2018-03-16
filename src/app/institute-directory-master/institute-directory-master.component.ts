@@ -177,7 +177,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log("response",response);
 		if(response)
 		{
-			this.alertService.alert("Institute Directory Saved Successfully!");
+			this.alertService.alert("Institute directory saved successfully!");
 			this.back();
 			this.search();
 		}
@@ -222,7 +222,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log(response,"delete Response");
 		if(response)
 		{
-			this.alertService.alert(action+" Successfully!")
+			this.alertService.alert(action+" successfully!")
 			this.search();
 		}
 	}
@@ -238,7 +238,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute Directory Edited Successfully");
+				this.alertService.alert("Institute directory edited successfully");
 				this.search();
 			}
 

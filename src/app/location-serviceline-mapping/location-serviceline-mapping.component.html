@@ -41,7 +41,8 @@
             <th>Address</th>
             <th>State</th>
             <th>District</th>
-            <th>Actions</th>
+            <th>Edit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -56,8 +57,10 @@
             <td width=15%>{{loc.address}}</td>
             <td width=15%>{{loc.stateName}}</td>
             <td width=15%>{{loc.districtName}}</td>
-            <td width=25%>
+            <td width=10%>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="editOfficeAddress(loc)">edit</md-icon>
+              </td>
+              <td width=15%>
               <!--               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="deleteOfficeAddress(loc.pSAddMapID)">delete</md-icon> -->
               <button *ngIf="loc.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, false)">Activate</button>
               <button *ngIf="loc.deleted == false" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, true)">Deactivate</button>

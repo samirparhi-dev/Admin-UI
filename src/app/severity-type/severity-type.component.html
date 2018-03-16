@@ -33,7 +33,8 @@
             <tr>
               <th>Severity Name</th>
               <th>Severity Description</th>
-              <th>Actions</th>
+              <th>Edit</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +48,8 @@
               <td>{{sev.severityDesc}}</td>
               <td>
                 <md-icon *ngIf="!sev.deleted" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon>
+                </td>
+                <td>
                 <button *ngIf="sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, false)">Activate</button>
                 <button *ngIf="!sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, true)">Deactivate</button>
               </td>

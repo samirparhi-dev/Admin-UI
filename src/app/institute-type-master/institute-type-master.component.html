@@ -33,7 +33,8 @@
           <tr>
             <th>Institute Type</th>
             <th>Description</th>
-            <th>Status</th>
+            <th>Edit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +46,8 @@
             <td>{{item.institutionTypeDesc}}</td>
             <td>
               <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
+              </td>
+              <td>
               <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.institutionTypeID,false)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.institutionTypeID,true)">Deactivate</button>
             </td>

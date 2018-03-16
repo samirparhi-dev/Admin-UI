@@ -63,7 +63,7 @@ export class ProviderAdminListComponent implements OnInit {
   // adminNameExists: boolean = false;
 
   //array
-
+  filteredValue: any = [];
   searchResult: any = [];
   titles: any = [];
   genders: any = [];
@@ -109,6 +109,12 @@ export class ProviderAdminListComponent implements OnInit {
       console.log("Error", err);
     })
   }
+  // filteredResult(searchValue) {
+  //   if(searchValue) {
+  //   // this.filteredValue = this.searchResult.filter(return )
+  //   }
+    
+  // }
 
   /*
   * Listing the default values for title, gender, marital status and educational qualification
