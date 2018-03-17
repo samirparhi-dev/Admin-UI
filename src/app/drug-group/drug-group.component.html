@@ -15,7 +15,11 @@
         <td>{{availableDrugGroups.indexOf(drugGroup)+1}}</td>
         <td>{{drugGroup.drugGroup}}</td>
         <td>{{drugGroup.drugGroupDesc}}</td>
-        <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td>
+        <td>
+          <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+          (click)="editDrugGroup(drugGroup)">edit</md-icon>
+        </td>
+        <!-- <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td> -->
         <td *ngIf="drugGroup.deleted=='0'"> <button class="btn" (click)="updateDrugGroupStatus(drugGroup)">Deactivate</button></td>
         <td *ngIf="drugGroup.deleted=='1'"> <button class="btn activateBtn" (click)="updateDrugGroupStatus(drugGroup)">Activate</button></td>
        
