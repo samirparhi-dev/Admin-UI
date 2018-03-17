@@ -291,10 +291,10 @@ export class ProviderAdminListComponent implements OnInit {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.errorMessageForAadhar = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan Number Already Exists';
     } else {
       this.isExistPan = false;
-      this.errorMessageForAadhar = '';
+      this.errorMessageForPan = '';
     }
   }
    /*

@@ -19,7 +19,7 @@
             <tr>
               <th width="4%">S.NO</th>
               <th width="5%">Title</th>
-              <th md2SortBy="userID" width="15%">Provider Admin Name</th>
+              <th md2SortBy="userName" width="15%">Provider Admin Name</th>
               <th width="10%">Contact No</th>
               <th width="10%">Emergency Contact No</th>
               <th width="10%">Email</th>
@@ -252,7 +252,7 @@
               <input mdInput placeholder="Remarks" ngModel name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
             </md-input-container>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="providerAdminCreationForm.valid && adminCredentialsForm.valid">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="providerAdminCreationForm.valid && adminCredentialsForm.valid && !isExistAadhar && !isExistPan">
             <button md-mini-fab color="primary" (click)="add_object(providerAdminCreationForm.value, adminCredentialsForm.value)">
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
