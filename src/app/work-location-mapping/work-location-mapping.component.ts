@@ -197,13 +197,28 @@ export class WorkLocationMappingComponent implements OnInit {
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
+
     }
     else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
+
+      if (this.bufferArray.length > 0) {
+        this.alertService.confirm("Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+          if (response) {
+            this.tableMode = true;
+            this.formMode = false;
+            this.editMode = false;
+            this.bufferArray = [];
+            this.resetDropdowns();
+          }
+        });
+      }
+      else {
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
+        this.bufferArray = [];
+        this.resetDropdowns();
+      }
     }
 
   }
@@ -224,38 +239,48 @@ export class WorkLocationMappingComponent implements OnInit {
 
   activate(uSRMappingID) {
     // debugger;
-    const object = {
-      'uSRMappingID': uSRMappingID,
-      'deleted': false
-    };
+    this.alertService.confirm("Are you sure want to activate?").subscribe(response => {
+      if (response) {
+        const object = {
+          'uSRMappingID': uSRMappingID,
+          'deleted': false
+        };
 
-    this.worklocationmapping.DeleteWorkLocationMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Work location mapped admin activated successfully');
-          /* refresh table */
-          this.getAllMappedWorkLocations();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.worklocationmapping.DeleteWorkLocationMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Work location mapped admin activated successfully');
+              /* refresh table */
+              this.getAllMappedWorkLocations();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   deactivate(uSRMappingID) {
     // debugger
-    const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
+    this.alertService.confirm("Are you sure want to deactivate?").subscribe(response => {
+      if (response) {
+        const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
-    this.worklocationmapping.DeleteWorkLocationMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Work location mapped deactivated successfully');
-          /* refresh table */
-          this.getAllMappedWorkLocations();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.worklocationmapping.DeleteWorkLocationMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Work location mapped deactivated successfully');
+              /* refresh table */
+              this.getAllMappedWorkLocations();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   addWorkLocation(workLocations: any, role) {
     if (!this.getAvailableMappings(workLocations, role)) {
@@ -289,7 +314,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
       this.checkDuplicates(workLocationObj);
 
-     // this.eForm.reset();
+      // this.eForm.reset();
 
       //this.eForm.reset();
 

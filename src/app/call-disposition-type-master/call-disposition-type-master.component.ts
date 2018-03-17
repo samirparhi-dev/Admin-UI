@@ -314,7 +314,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		obj['service'] = this.service;
 		let dialogReff = this.dialog.open(EditCallType, {
-			height: '450px',
+			height: '500px',
 			width: '450px',
 			disableClose: true,
 			data: obj
@@ -364,6 +364,7 @@ export class EditCallType {
 
 	isInbound: boolean;
 	isOutbound: boolean;
+	maxRedial:any;
 
 
 	ngOnInit() {
@@ -379,6 +380,7 @@ export class EditCallType {
 		this.existingName = this.data.callType;
 		this.isInbound = this.data.isInbound;
 		this.isOutbound = this.data.isOutbound;
+		this.maxRedial=this.data.maxRedial.toString();
 
 		this.get_calltype_subtype_history();
 
@@ -506,6 +508,7 @@ export class EditCallType {
 				"fitForFollowup": value.fitForFollowup,
 				"isInbound": this.isInbound,
 				"isOutbound": this.isOutbound,
+				"maxRedial": this.maxRedial,
 				"createdBy": this.commonDataService.uname
 
 			}

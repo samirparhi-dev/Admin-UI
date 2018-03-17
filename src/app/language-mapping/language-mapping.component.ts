@@ -146,37 +146,47 @@ export class LanguageMappingComponent implements OnInit {
 
   }
   activate(userLangID) {
-    const object = {
-      'userLangID': userLangID,
-      'deleted': false
-    };
+    this.alertService.confirm("Are you sure want to activate?").subscribe(response => {
+      if (response) {
+        const object = {
+          'userLangID': userLangID,
+          'deleted': false
+        };
 
-    this.languageMapping.DeleteLanguageMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Language mapped admin activated successfully');
-          /* refresh table */
-          this.getAllMappedLanguagesList();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.languageMapping.DeleteLanguageMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Language mapped admin activated successfully');
+              /* refresh table */
+              this.getAllMappedLanguagesList();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   deactivate(userLangID) {
-    const object = { 'userLangID': userLangID, 'deleted': true };
+    this.alertService.confirm("Are you sure want to deactivate?").subscribe(response => {
+      if (response) {
+        const object = { 'userLangID': userLangID, 'deleted': true };
 
-    this.languageMapping.DeleteLanguageMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Language mapped deactivated successfully');
-          /* refresh table */
-          this.getAllMappedLanguagesList();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.languageMapping.DeleteLanguageMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Language mapped deactivated successfully');
+              /* refresh table */
+              this.getAllMappedLanguagesList();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   showTable() {
     if (this.editMode) {
