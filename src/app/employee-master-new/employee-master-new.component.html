@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr *ngIf="searchResult.length == 0">
-                        <td colspan="12" align="center">No Record Found</td>
+                        <td colspan="8" align="center">No Record Found</td>
                     </tr>
                     <tr *ngFor="let item of md2.data; let i= index">
                         <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -46,10 +46,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="4">
                             <md2-pagination></md2-pagination>
                         </td>
-                        <td colspan="6" class="p-r-0 m-t-10">
+                        <td colspan="4" class="p-r-0 m-t-10">
                             <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button>
                         </td>
                     </tr>
