@@ -239,38 +239,48 @@ export class WorkLocationMappingComponent implements OnInit {
 
   activate(uSRMappingID) {
     // debugger;
-    const object = {
-      'uSRMappingID': uSRMappingID,
-      'deleted': false
-    };
+    this.alertService.confirm("Do you really want to activate?").subscribe(response => {
+      if (response) {
+        const object = {
+          'uSRMappingID': uSRMappingID,
+          'deleted': false
+        };
 
-    this.worklocationmapping.DeleteWorkLocationMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Work location mapped admin activated successfully');
-          /* refresh table */
-          this.getAllMappedWorkLocations();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.worklocationmapping.DeleteWorkLocationMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Work location mapped admin activated successfully');
+              /* refresh table */
+              this.getAllMappedWorkLocations();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   deactivate(uSRMappingID) {
     // debugger
-    const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
+    this.alertService.confirm("Do you really want to deactivate?").subscribe(response => {
+      if (response) {
+        const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
-    this.worklocationmapping.DeleteWorkLocationMapping(object)
-      .subscribe(response => {
-        if (response) {
-          this.alertService.alert('Work location mapped deactivated successfully');
-          /* refresh table */
-          this.getAllMappedWorkLocations();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.worklocationmapping.DeleteWorkLocationMapping(object)
+          .subscribe(response => {
+            if (response) {
+              this.alertService.alert('Work location mapped deactivated successfully');
+              /* refresh table */
+              this.getAllMappedWorkLocations();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
+      }
+    });
+
   }
   addWorkLocation(workLocations: any, role) {
     if (!this.getAvailableMappings(workLocations, role)) {
