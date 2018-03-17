@@ -38,6 +38,7 @@
             <th>Call Subtype </th>
             <th>Is Inbound</th>
             <th>Is Outbound</th>
+            <th>Max Redial</th>
             <th>Blocking Required</th>
             <th>FollowUp Required</th>
             <th>Edit</th>
@@ -46,7 +47,7 @@
         </thead>
         <tbody>
           <tr *ngIf="data.length == 0 ">
-            <td colspan="8">
+            <td colspan="9">
               No Records Found
             </td>
           </tr>
@@ -54,8 +55,9 @@
             <!--<td>{{i.callTypeID}}</td>-->
             <td width=10%>{{i.callGroupType}}</td>
             <td width=15%>{{i.callType}}</td>
-            <td width=15%>{{i.isInbound}}</td>
-            <td width=15%>{{i.isOutbound}}</td>
+            <td width=10%>{{i.isInbound}}</td>
+            <td width=10%>{{i.isOutbound}}</td>
+            <td width=10%>{{i.maxRedial}}</td>
             <td width=15%>{{i.fitToBlock}}</td>
             <td width=15%>{{i.fitForFollowup}}</td>
             <td width=10%>
@@ -70,7 +72,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4">
