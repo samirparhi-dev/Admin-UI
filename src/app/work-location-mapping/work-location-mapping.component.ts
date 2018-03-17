@@ -239,7 +239,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   activate(uSRMappingID) {
     // debugger;
-    this.alertService.confirm("Do you really want to activate?").subscribe(response => {
+    this.alertService.confirm("Are you sure want to activate?").subscribe(response => {
       if (response) {
         const object = {
           'uSRMappingID': uSRMappingID,
@@ -263,7 +263,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   deactivate(uSRMappingID) {
     // debugger
-    this.alertService.confirm("Do you really want to deactivate?").subscribe(response => {
+    this.alertService.confirm("Are you sure want to deactivate?").subscribe(response => {
       if (response) {
         const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
