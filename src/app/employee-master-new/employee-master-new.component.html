@@ -412,7 +412,7 @@
 
         </md-expansion-panel>
         <div class="row" *ngIf=!editMode>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="userCreationForm.valid && demographicsDetailsForm.valid && communicationDetailsForm.valid">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="userCreationForm.valid && demographicsDetailsForm.valid && communicationDetailsForm.valid && !isExistAadhar && !isExistPan">
                 <button md-mini-fab color="primary" class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>                                   
                 </button>
