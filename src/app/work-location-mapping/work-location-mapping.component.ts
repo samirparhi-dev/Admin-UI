@@ -197,13 +197,28 @@ export class WorkLocationMappingComponent implements OnInit {
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
+
     }
     else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
+
+      if (this.bufferArray.length > 0) {
+        this.alertService.confirm("Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+          if (response) {
+            this.tableMode = true;
+            this.formMode = false;
+            this.editMode = false;
+            this.bufferArray = [];
+            this.resetDropdowns();
+          }
+        });
+      }
+      else {
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
+        this.bufferArray = [];
+        this.resetDropdowns();
+      }
     }
 
   }
@@ -289,7 +304,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
       this.checkDuplicates(workLocationObj);
 
-     // this.eForm.reset();
+      // this.eForm.reset();
 
       //this.eForm.reset();
 
