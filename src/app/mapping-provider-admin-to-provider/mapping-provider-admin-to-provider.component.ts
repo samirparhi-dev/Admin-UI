@@ -318,6 +318,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.bufferArray.splice(index, 1);
   }
   activate(userID) {
+    this.dialogService.confirm("Are you sure want to activate?").subscribe(response => {
+      if (response) {
     const object = {
       'uSRMappingID': userID,
       'deleted': false
@@ -334,8 +336,12 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         err => {
           console.log('error', err);
         });
+      }
+    });
   }
   deactivate(userID) {
+    this.dialogService.confirm("Are you sure want to deactivate?").subscribe(response => {
+      if (response) {
     const object = { 'uSRMappingID': userID, 'deleted': true };
 
     this.superadminService.deactivateProviderAdmin(object)
@@ -349,6 +355,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         err => {
           console.log('error', err);
         });
+      }
+    });
   }
   editRow(rowObject) {
     this.showEditForm();

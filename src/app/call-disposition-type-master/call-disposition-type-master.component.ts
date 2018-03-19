@@ -380,7 +380,11 @@ export class EditCallType {
 		this.existingName = this.data.callType;
 		this.isInbound = this.data.isInbound;
 		this.isOutbound = this.data.isOutbound;
-		this.maxRedial=this.data.maxRedial.toString();
+		if(this.data.maxRedial.toString())
+		{
+			this.maxRedial=this.data.maxRedial.toString();
+		}
+		
 
 		this.get_calltype_subtype_history();
 
