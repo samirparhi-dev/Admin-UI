@@ -335,67 +335,66 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   checkDuplicates(object) {
     // debugger;
-    // let LanguageMatched = false;
-    // let Count = 0;
-    console.log(object, 'BEFORE TESTING THE OBJECT SENT');
-    /* case:1 If the buffer array is empty */
-    if (this.bufferArray.length === 0) {
-      this.bufferArray.push(object);
-      // this.resetForm();
-      this.resetDropdowns();
-      console.log('buffer', this.bufferArray);
-    }
-
-
-    /* case:2 If the buffer array is not empty */
-    else if (this.bufferArray.length > 0) {
-      let servicelineMatched = false;
-      let providerCount = 0;
-      for (let a = 0; a < this.bufferArray.length; a++) {
-        /* if the ProviderID of object in BufferArray is same as that of new object */
-        if (this.bufferArray[a].serviceProviderName === object.serviceProviderName && this.bufferArray[a].userID === object.userID) {
-          providerCount = providerCount + 1;
-          /* if the serviceID of object in BufferArray is same as that of new object */
-          if (this.bufferArray[a].serviceName === object.serviceName) {
-            servicelineMatched = true;
-            /* the loop will run i times , where i= no of objects in States Array
-               of OBJECT sent for verification */
-            for (let i = 0; i < object.roleID1.length; i++) {
-              let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
-
-              /* running second loop which will run j times , where j= no of objects in States Array
-               of an OBJECT in buffer array */
-              for (let j = 0; j < this.bufferArray[a].roleID1.length; j++) {
-                if (this.bufferArray[a].roleID1[j].roleID1 === object.roleID1[i].roleID1) {
-                  count = count + 1;
-                  console.log('Duplicate Combo Exists', count);
-                }
-              }
-              if (count === 0) {
-                this.bufferArray[a].roleID1.push(object.roleID1[i]);
-                this.resetForm();
-              }
-              else if (count > 0) {
-                console.log('Duplicate Entry Already exists for ' + object.roleID1[i].roleName);
-                this.resetForm();
-              }
-            }
-          }
-          else {
-            continue;
-          }
-        }
-      }
-      if (providerCount === 1 && servicelineMatched === false) {
-        this.bufferArray.push(object);
-        this.resetForm();
-      }
-      if (providerCount === 0) {
-        this.bufferArray.push(object);
-        this.resetForm();
-      }
-    }
-  }
+     // let LanguageMatched = false;
+     // let Count = 0;
+     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
+     /* case:1 If the buffer array is empty */
+     if (this.bufferArray.length === 0) {
+       this.bufferArray.push(object);
+       // this.resetForm();
+       this.resetDropdowns();
+       console.log('buffer', this.bufferArray);
+     }
+ 
+ 
+     /* case:2 If the buffer array is not empty */
+     else if (this.bufferArray.length > 0) {
+       let servicelineMatched = false;
+       let providerCount = 0;
+       for (let a = 0; a < this.bufferArray.length; a++) {
+         /* if the ProviderID of object in BufferArray is same as that of new object */
+         if (this.bufferArray[a].serviceProviderName === object.serviceProviderName && this.bufferArray[a].userID === object.userID) {
+           providerCount = providerCount + 1;
+           /* if the serviceID of object in BufferArray is same as that of new object */
+           if (this.bufferArray[a].serviceName === object.serviceName
+             && this.bufferArray[a].stateName === object.stateName
+             && this.bufferArray[a].district === object.district
+             && this.bufferArray[a].workingLocation === object.workingLocation) {
+             servicelineMatched = true;
+             /* the loop will run i times , where i= no of objects in States Array
+                of OBJECT sent for verification */
+             for (let i = 0; i < object.roleID1.length; i++) {
+               let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
+ 
+               /* running second loop which will run j times , where j= no of objects in States Array
+                of an OBJECT in buffer array */
+               for (let j = 0; j < this.bufferArray[a].roleID1.length; j++) {
+                 if (this.bufferArray[a].roleID1[j].roleID1 === object.roleID1[i].roleID1) {
+                   count = count + 1;
+                   console.log('Duplicate Combo Exists', count);
+                 }
+               }
+               if (count === 0) {
+                 this.bufferArray[a].roleID1.push(object.roleID1[i]);
+                 this.resetForm();
+               }
+               else if (count > 0) {
+                 console.log('Duplicate Entry Already exists for ' + object.roleID1[i].roleName);
+                 this.resetForm();
+               }
+             }
+           }
+           else {
+             continue;
+           }
+         }
+       }
+       if (providerCount === 1 && servicelineMatched === false) {
+         this.bufferArray.push(object);
+         this.resetForm();
+       }
+     }
+   }
   saveWorkLocations() {
     debugger;
     console.log(this.bufferArray, 'Request Object');
