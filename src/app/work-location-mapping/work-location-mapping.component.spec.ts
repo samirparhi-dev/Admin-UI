@@ -94,24 +94,24 @@ describe('Work-Location-mapping', () => {
       expect(component.serviceProviderID).not.toBe('');
       expect(component.serviceProviderID).toBe('serviceProviderID');
     });
-    it(' getUserName should be called after OnInit', () => {
-      spyOn(component, 'getUserName');
-      component.ngOnInit();
-      expect(component.getUserName).toHaveBeenCalled;
-      expect(component.userNamesList).not.toBe('');
-    });
-    it('getAllMappedWorkLocations method should be called after OnInit', () => {
-      spyOn(component, 'getAllMappedWorkLocations');
-      component.ngOnInit();
-      expect(component.getAllMappedWorkLocations).toHaveBeenCalled;
-      expect(component.mappedWorkLocationsList).not.toBe('');
-    });
-    it(' getAllServicelines should be called after OnInit', () => {
-      spyOn(component, 'getAllServicelines');
-      component.ngOnInit();
-      expect(component.getAllServicelines).toHaveBeenCalled;
-      expect(component.services_array).not.toBe('');
-    });
+    // it(' getUserName should be called after OnInit', () => {
+    //   spyOn(component, 'getUserName');
+    //   component.ngOnInit();
+    //   expect(component.getUserName).toHaveBeenCalled;
+    //   expect(component.userNamesList).not.toBe('');
+    // });
+    // it('getAllMappedWorkLocations method should be called after OnInit', () => {
+    //   spyOn(component, 'getAllMappedWorkLocations');
+    //   component.ngOnInit();
+    //   expect(component.getAllMappedWorkLocations).toHaveBeenCalled;
+    //   expect(component.mappedWorkLocationsList).not.toBe('');
+    // });
+    // it(' getAllServicelines should be called after OnInit', () => {
+    //   spyOn(component, 'getAllServicelines');
+    //   component.ngOnInit();
+    //   expect(component.getAllServicelines).toHaveBeenCalled;
+    //   expect(component.services_array).not.toBe('');
+    // });
   });
 
 });
