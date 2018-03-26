@@ -109,12 +109,28 @@ export class ProviderAdminListComponent implements OnInit {
       console.log("Error", err);
     })
   }
-  // filteredResult(searchValue) {
-  //   if(searchValue) {
-  //   // this.filteredValue = this.searchResult.filter(return )
+  // filterServicePointVan(searchTerm) {
+  //   if (searchTerm) {
+  //     this.filteredServicePoints = this.servicePointsList.filter(servicePoint => {
+  //       return servicePoint.servicePointName.toLowerCase().startsWith(searchTerm.toLowerCase());
+  //     })
+  //   } else {
+  //     this.filteredServicePoints = this.servicePointsList.slice(0, 10);
   //   }
-    
-  // }
+  // } 
+
+  filteredResult(searchValue) {
+    console.log("Search Valueeee", searchValue);
+    if(searchValue) {
+      console.log("Search Value", searchValue);
+      
+    this.filteredValue = this.searchResult.filter(item => {
+       return item.userName.toLowerCase().startsWith(searchValue.toLowerCase()) 
+      })
+    }else {
+      this.filteredValue = this.searchResult.slice(0, 10);
+    }    
+  }
 
   /*
   * Listing the default values for title, gender, marital status and educational qualification

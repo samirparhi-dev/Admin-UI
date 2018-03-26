@@ -1,10 +1,18 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p-l-0">
     <h4 class="pull-left">Edit Village Details </h4>
   </div>
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <button md-button class="pull-right" [md-dialog-close]="true">
+        <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
+        </md-icon>
+    </button>
+</div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <form #editVillageform="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'">
+      <md-input-container class="width100">
         <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance(villageName)" maxlength="30" myName2>
         <md-hint>
           <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>
@@ -13,18 +21,18 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'">
+      <md-input-container class="width100">
         <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" maxlength="30" name="panchayatName" myName2>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'">
+      <md-input-container class="width100">
         <input mdInput placeholder="Habitat" [(ngModel)]="habitat" maxlength="30" name="habitat" myName2>
       </md-input-container>
     </div>
     
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'" myMobileNumber>
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Pincode" [(ngModel)]="pinCode" name="pinCode" maxlength="6" minlength="6" #PINC="ngModel">
         <md-hint [hidden]=PINC.valid>
           <span class="error_text" *ngIf="!PINC.valid  && ( PINC.dirty || PINC.touched)">Please enter valid pincode</span>
@@ -32,17 +40,18 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'">
+      <md-input-container class="width100">
         <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" myMobileNumber>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
-      <md-input-container [style.width]="'100%'">
+      <md-input-container class="width100">
         <input mdInput placeholder="Government SubDistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6" myMobileNumber>
       </md-input-container>
     </div>
   </form>
+  </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" align="center">
     <button md-raised-button color="primary" [disabled]="editVillageform.invalid || villageExist" (click)="update(editVillageform.value)">Update</button>
   </div>
-</div>
+

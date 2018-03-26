@@ -9,7 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {
   MdDatepickerModule, MdInputModule, MdNativeDateModule, MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
-  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule
+  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule,MdAutocompleteModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -249,6 +249,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     MdDialogModule,
     MdCheckboxModule,
     MdSliderModule,
+    MdAutocompleteModule,
     RouterModule.forRoot([
       {
         path: 'resetPassword',

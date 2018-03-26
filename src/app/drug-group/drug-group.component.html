@@ -16,7 +16,7 @@
         <td>{{drugGroup.drugGroup}}</td>
         <td>{{drugGroup.drugGroupDesc}}</td>
         <td>
-          <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+          <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drugGroup.deleted"
           (click)="editDrugGroup(drugGroup)">edit</md-icon>
         </td>
         <!-- <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td> -->

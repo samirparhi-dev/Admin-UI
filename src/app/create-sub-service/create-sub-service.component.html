@@ -1,10 +1,7 @@
-<md-card *ngIf="searchForm">
-  <div class="row">
+<div class="row" *ngIf="searchForm">
     <div class="col-xs-12 col-sm-12">
       <h4 class="pull-left">Search Sub Service</h4>
-    </div>
-  </div>
-  <div class="row">
+    </div> 
     <form>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 m-t-15">
         <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider" (change)="getAllStates(serviceProvider)">
@@ -28,8 +25,6 @@
         </md-select>
       </div>
     </form>
-  </div>
-  <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="table-responsive m-t-10">
         <table class="table table-striped" *ngIf="showTable" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
@@ -76,14 +71,10 @@
 
       </div> -->
   </div>
-</md-card>
-<md-card *ngIf="!searchForm">
-  <div class="row">
+  <div class="row" *ngIf="!searchForm">
     <div class="col-xs-12 col-sm-12">
       <h4 class="pull-left">Sub Service Mapping</h4>
     </div>
-  </div>
-  <div class="row">
     <form #form="ngForm" autocomplete="off" id="addingForm">
       <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
         <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider" (change)="getStates(serviceProvider)">
@@ -171,5 +162,5 @@
 
       </div> -->
     </form>
-  </div>
-</md-card>
+</div>
+

@@ -1,5 +1,5 @@
-<md-card *ngIf="searchForm">
-  <div class="row">
+<!-- <md-card> -->
+  <div class="row" *ngIf="searchForm">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="pull-left">Search Category and SubCategory</h4>
     </div>
@@ -26,7 +26,7 @@
         </md-select>
       </div>
     </form>
-  </div>
+  <!-- </div> -->
   <div class="row m-t-20" *ngIf="showTable && showDiv">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
       <!--category table-->
@@ -108,9 +108,10 @@
       </table>
     </div>
   </div>
-</md-card>
-<md-card *ngIf="!showTable">
-  <div class="row">
+</div>
+<!-- </md-card> -->
+<!-- <md-card> -->
+  <div class="row" *ngIf="!showTable">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="pull-left">Create Category and SubCategory</h4>
     </div>
@@ -255,4 +256,4 @@
       </div>
     </form>
   </div>
-</md-card>
+<!-- </md-card> -->

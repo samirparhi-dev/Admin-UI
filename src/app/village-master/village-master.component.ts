@@ -169,6 +169,7 @@ export class VillageMasterComponent implements OnInit {
             this.villageMasterService.updateVillageStatus(JSON.stringify(this.dataObj)).subscribe(response => this.updateStatusHandler(response));
             village.deleted = !village.deleted;
         }
+        this.alertMessage.alert(status+"d successfully");
     });
 
 
@@ -176,7 +177,7 @@ export class VillageMasterComponent implements OnInit {
 
 }
 updateStatusHandler(response) {
-    console.log("Village status changed");
+    console.log("Village status changed");    
 }
 
 searchStateID:any;
@@ -246,9 +247,9 @@ updateVillageData(village) {
 
 }
 
-updateHandler(response) {
+updateHandler(response) {       
     this.editable = false;
-    this.alertMessage.alert("updated successfully");
+    this.alertMessage.alert("Updated successfully");
     this.GetBranches(this.dataObj.blockID);
 
 }
@@ -320,6 +321,7 @@ export class EditVillageModal {
     constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
                 public villageMasterService: VillageMasterService,
                 public commonDataService:dataService,
+                private alertMessage: ConfirmationDialogsService,
                 public dialogReff: MdDialogRef<EditVillageModal>) { }
 
     ngOnInit()
@@ -378,6 +380,8 @@ export class EditVillageModal {
         if(response)
         {
             this.dialogReff.close("success");
+            this.alertMessage.alert("Updated successfully");
+
         }
     }
 }
