@@ -1,6 +1,6 @@
 <div class="row m-t-5">
   <div class="col-xs-12 col-sm-12 ">
-    <nav class="navbar navbar-default m-b-10">
+    <nav class="navbar navbar-default m-b-10 cu-admin-nav-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -19,7 +19,7 @@
                 {{currentlanguage.activities}}
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu" *ngIf="currentlanguage.activity_dropdown!=undefined">
+              <ul class="dropdown-menu cu-admin-sub-nav-top" *ngIf="currentlanguage.activity_dropdown!=undefined">
 
                 <!-- <li style="cursor: pointer" (click)='show("1")'><a>{{currentlanguage.activity_dropdown.provider_on_board}}</a></li>
                           <li style="cursor: pointer" (click)='show("2")'><a>{{currentlanguage.activity_dropdown.block_provider}}</a></li>
@@ -79,7 +79,7 @@
                 Configurations
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu cu-admin-sub-nav-top">
                 <li style="cursor: pointer" (click)='show("11")'>
                   <a>Provider/CTI Mapping</a>
                 </li>

@@ -5,11 +5,11 @@
       <tr>
         <th width="5%">S.No.</th>
         <th width="20%">Zone</th>
-        <th width="15%">Service</th>
+        <th width="20%">Service</th>
         <th width="20%">State</th>
         <th width="20%">District</th>
-        <th width="10%">Edit</th>
-        <th width="15%">Action</th>
+        <!-- <th width="10%">Edit</th> -->
+        <th width="20%">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -23,10 +23,10 @@
         <td>{{zoneDistrictMapping.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
         <td>{{zoneDistrictMapping.m_providerServiceMapping.state.stateName}}</td>
         <td>{{zoneDistrictMapping.districtName}}</td>
-        <td>
+        <!-- <td>
             <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zoneDistrictMapping.deleted"
               (click)="editZoneMapping(zoneMapping)">edit</md-icon>
-          </td>
+          </td> -->
         <td>
             <button *ngIf="zoneDistrictMapping.deleted=='1'" md-raised-button color="primary" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Activate</button>
             <button *ngIf="zoneDistrictMapping.deleted=='0'" md-raised-button color="primary" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Deactivate</button>
@@ -140,9 +140,9 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-   <button *ngIf="zoneDistrictMappingList.length>0" md-raised-button color="primary" class="pull-right" (click)="storezoneMappings()">Save</button>
-   <button *ngIf="editable" md-raised-button color="primary" class="pull-right" (click)="updateZoneMapping(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">Save Updates
-      <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> -->
-    </button>
+   <button *ngIf="zoneDistrictMappingList.length>0" md-raised-button color="accent" class="pull-right" (click)="storezoneMappings()">Save</button>
+   <!-- <button *ngIf="editable" md-raised-button color="primary" class="pull-right" (click)="updateZoneMapping(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">Save Updates
+       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> 
+    </button> -->
   </div>
 </div>

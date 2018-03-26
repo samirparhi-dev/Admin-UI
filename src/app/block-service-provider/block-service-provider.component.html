@@ -195,9 +195,9 @@
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
           </button>
         </div> -->
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 m-t-15">
+    <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 m-t-15">
       <button *ngIf='showTable' md-raised-button class="pull-right" color="primary" (click)="resetForm()">Clear</button>
-    </div>
+    </div> -->
   </form>
   </div>
   
@@ -272,7 +272,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Submit</button>
+          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
         </div>
       </div>
       <div class="row" *ngIf="case_two ">
@@ -302,7 +302,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Submit</button>
+          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
         </div>
       </div>
       <div class="row" *ngIf="case_three">
@@ -332,7 +332,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Submit</button>
+          <button md-raised-button color="primary" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
         </div>
       </div>
       <div class="row" *ngIf="case_four">
@@ -362,7 +362,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="primary" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Submit</button>
+          <button md-raised-button color="primary" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
         </div>
       </div>
       <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="showUnblock">

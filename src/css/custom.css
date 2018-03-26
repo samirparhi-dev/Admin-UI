@@ -2015,7 +2015,43 @@ input:-webkit-autofill:hover {
 .mat-expansion-panel-header {
   padding: 0 15px 15px !important;
   margin-top: 5px;
+  background:#73d6eb;
+  color:#01303a;
 }
+
+
+.cu-admin-nav-top{
+  background:#048fad !important;
+  color: #fff;
+}
+.cu-admin-nav-top li a{
+  color: #fff !important;
+
+}
+
+.cu-admin-sub-nav-top{
+background:#027b95 !important;
+
+  color: #fff;
+}
+.cu-admin-sub-nav-top li{
+   padding: 2px 0px;
+   border-bottom: 1px solid #73d6eb;
+  }
+  .cu-admin-sub-nav-top li a:hover{
+    background:#06b0d4 !important;
+   }
+.cu-admin-nav-top>ul>.dropdown-menu{
+background:#027b95 !important;
+
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover{
+   background:#73d6eb !important;
+   color: #001d23 !important;
+
+  
+}
+
 @media (max-width: 317px) {}
 
 @media (min-width: 480px) {

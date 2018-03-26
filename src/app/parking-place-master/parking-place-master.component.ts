@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { ParkingPlaceMasterService } from '../services/ProviderAdminServices/parking-place-master-services.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'app-parking-place',
@@ -24,6 +25,9 @@ export class ParkingPlaceComponent implements OnInit {
     searchDistrictID:any;
     serviceID:any;
     createdBy:any;
+
+    @ViewChild('searForm') searForm: NgForm
+    @ViewChild('parkingPlaceForm') parkingPlaceForm: NgForm
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public parkingPlaceMasterService: ParkingPlaceMasterService,
@@ -189,6 +193,7 @@ export class ParkingPlaceComponent implements OnInit {
 
                 parkingPlace.deleted = !parkingPlace.deleted;
             }
+            this.alertMessage.alert(status+ "d successfully");
         });
     }
     updateStatusHandler(response) {
@@ -199,8 +204,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.searchStateID ="";
         this.searchDistrictID ="";
         this.getParkingPlaces(null,null);
-        this.showParkingPlaces=true;
-        
+        this.showParkingPlaces=true;        
         this.editable=false;
     }
 
@@ -227,6 +231,8 @@ export class ParkingPlaceComponent implements OnInit {
         this.areaHQAddress = "";
     }
     editParkingPlaceData(parkingPlace){
+        console.log("update parking place", parkingPlace);
+        
                         
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.parkingPlaceName = parkingPlace.parkingPlaceName
@@ -249,6 +255,8 @@ export class ParkingPlaceComponent implements OnInit {
     }
 
      updateParkingPlaceData(parkingPlace) {
+         console.log("dataobj", this.dataObj);    
+         console.log("updated parking place", parkingPlace);     
         this.dataObj = {};
         this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.dataObj.parkingPlaceName = parkingPlace.parkingPlaceName;
@@ -271,10 +279,18 @@ export class ParkingPlaceComponent implements OnInit {
     }
 
     updateHandler(response) {
-        this.editable = false;
+        this.editable = true;
         this.alertMessage.alert("updated successfully");
         this.getParkingPlaces(null,null);
         //this.initializeObj();
     }
-    
+    back() {
+        this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.parkingPlaceForm.resetForm();
+               this.showList();
+                this.parkingPlaceList = [];
+            }
+        })
+    }    
 }
