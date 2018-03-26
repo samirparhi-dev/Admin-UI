@@ -2009,7 +2009,13 @@ input:-webkit-autofill:hover {
 .bg-color-green {
   background: green;
 }
-
+.mat-expansion-panel-body {
+  padding: 0 15px 15px !important;
+}
+.mat-expansion-panel-header {
+  padding: 0 15px 15px !important;
+  margin-top: 5px;
+}
 @media (max-width: 317px) {}
 
 @media (min-width: 480px) {

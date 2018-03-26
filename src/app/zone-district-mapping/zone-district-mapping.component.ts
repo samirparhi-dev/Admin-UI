@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { ZoneMasterService } from '../services/ProviderAdminServices/zone-master-services.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-zone-district-mapping',
@@ -21,6 +22,8 @@ export class ZoneDistrictMappingComponent implements OnInit {
   availableZones:any = [];
   districts:any = [];
   createdBy:any;
+
+  @ViewChild('zoneDistrictMappingForm') zoneDistrictMappingForm: NgForm;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
               public commonDataService: dataService,
               public zoneMasterService:ZoneMasterService,
@@ -158,7 +161,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
             }
          }
          if(this.zoneDistrictMappingList.length<=0){
-            this.alertMessage.alert("Zone District Mapping stored successfully");
+            this.alertMessage.alert("Zone district mapping stored successfully");
          }
     }
 
@@ -170,10 +173,12 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     successHandler(response){
         this.zoneDistrictMappingList =  [];
-        this.alertMessage.alert("Zone District Mapping stored successfully");
+        this.alertMessage.alert("Zone district mapping stored successfully");
         this.getAvailableZoneDistrictMappings();
     }
-
+    remove_obj(index) {
+        this.zoneDistrictMappingList.splice(index, 1);
+    }
     dataObj: any = {};
     updateZoneMappingStatus(zoneMapping) {
 
@@ -197,6 +202,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
                 zoneMapping.deleted = !zoneMapping.deleted;
             }
+            this.alertMessage.alert(status+ "d successfully");
         });
     }
     updateStatusHandler(response) {
@@ -239,6 +245,15 @@ export class ZoneDistrictMappingComponent implements OnInit {
     clearEdit(){
         this.showMappings = true;
         this.editable=false;
+    }
+    back() {
+        this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.zoneDistrictMappingForm.resetForm();
+                this.clearEdit();
+                this.zoneDistrictMappingList = [];
+            }
+        })
     }
 
 }

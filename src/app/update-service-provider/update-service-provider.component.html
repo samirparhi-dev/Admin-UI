@@ -1,4 +1,4 @@
-<md-card>
+<!-- <md-card> -->
   <div class="row">
     <div class="col-xs-12 col-sm-12">
       <h4 class="pull-left">Update Provider</h4>
@@ -58,7 +58,7 @@
           <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>
         </div>
       </div> -->
-      <div class="row">
+      <!-- <div class="row"> -->
         <form #modifyForm="ngForm">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
             <md-select placeholder="State" [style.width]="'100%'" name="state" [(ngModel)]="state" (change)="getValidServicelines(state)">
@@ -82,7 +82,7 @@
             <button *ngIf="!allServicesMapped" color="primary" type="button" name="modify" [disabled]="!modifyForm.valid" md-raised-button class="pull-right " (click)="modifyProvider(modifyForm.value)">Submit</button>
           </div>
         </form>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
-</md-card>
+<!-- </md-card> -->

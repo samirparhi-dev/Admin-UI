@@ -1,4 +1,4 @@
-<md-card>
+<!-- <md-card> -->
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="pull-left">Institution Master</h4>
@@ -61,7 +61,7 @@
             <td>{{item.contactPerson1}}</td>
             <td>{{item.contactNo1}}</td>
             <td>{{item.contactPerson1_Email}}</td>
-            <td>
+            <td>                
               <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon>
               </td>
               <td>
@@ -75,7 +75,7 @@
             <td colspan="2">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="5">
+            <td colspan="6">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Hospital</button>
             </td>
           </tr>
@@ -184,4 +184,4 @@
       <button md-raised-button color="primary" [disabled]="(!(institutionForm1.valid) || !(institutionForm2.valid))" class="pull-right" (click)="createInstitution()">Save</button>
     </div>
   </div>
-</md-card>
+<!-- </md-card> -->

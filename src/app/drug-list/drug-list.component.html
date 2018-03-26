@@ -21,7 +21,7 @@
             <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button>
           </td> -->
           <td>
-            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drug.deleted"
             (click)="editDrugData(drug)">edit</md-icon>
           </td>
         <td *ngIf="drug.deleted=='0'">
