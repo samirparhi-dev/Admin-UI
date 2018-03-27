@@ -2143,15 +2143,15 @@ background:#027b95 !important;
     background: mat-color($mat-grey, 700, 0.9);
   }
 } */
-
-/* @mixin mat-tooltip-typography($config) { */
+/* 
+@mixin mat-tooltip-typography($config) { */ 
   .mat-tooltip {
     /* font-family: mat-font-family($config); */
     font-size: 50px;
     /* padding-top: $mat-tooltip-vertical-padding;
     padding-bottom: $mat-tooltip-vertical-padding; */
   }
-/* } */
+ /* } */
 
 @media (min-width: 992px) {
   .p-l-lg-0 {

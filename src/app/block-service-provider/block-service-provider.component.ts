@@ -1,3 +1,4 @@
+import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 declare let jQuery: any;
@@ -17,6 +18,9 @@ export class BlockServiceProviderComponent implements OnInit {
   service_provider_array: any = [];
   states_array: any = [];
   services_array: any = [];
+  stateProviderArray: any = [];
+  pastValue: any = [];
+  userEnteredWord: any;
 
   // ngModels
 
@@ -34,7 +38,7 @@ export class BlockServiceProviderComponent implements OnInit {
   status: any;
   reason: any;
   constructor(public block_provider: BlockProvider, private message: ConfirmationDialogsService) {
-    // this.service_provider = '';
+    //this.service_provider = '';
     // this.state = '';
     // this.serviceline = '';
     this.showTable = false;
@@ -51,7 +55,7 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   getSuccess(response: any) {
-    console.log("status",response);
+    console.log("status", response);
     this.status_array = response;
     let index = 0;
     for (let i = 0; i < this.status_array.length; i++) {
@@ -64,23 +68,72 @@ export class BlockServiceProviderComponent implements OnInit {
     this.status_array.splice(index, 1);
   }
 
+  // ** Smart Search Logic ** added by Krishna Gunti ** //
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    this.selectKeyPress(event);
+  }
+  selectKeyPress($event) {
+    let firstWordMatchingStatus = 0;
+    if ($event.keyCode !== 123)   // To elemenate '{' which key is 123 from the word
+    {
+      var char = String.fromCharCode($event.keyCode);
+      if ($event.keyCode === 8)  // Back space key logic
+      {
+        if (this.userEnteredWord !== undefined) this.userEnteredWord = this.userEnteredWord.slice(0, -1);
+      }
+      else  // formation of a word from user entered keys
+      {
+        this.userEnteredWord === undefined ? this.userEnteredWord = char : this.userEnteredWord += char;
+      }
+      if (/[a-zA-Z]/.test(this.userEnteredWord)) // allowing only alphabets from keys
+      {
+        for (var i = 0; i < this.service_provider_array.length; i++) {
+          if (this.service_provider_array[i].serviceProviderName.toLowerCase().startsWith(String(this.userEnteredWord.toLowerCase()))) {
+            if (firstWordMatchingStatus === 0) {
+              firstWordMatchingStatus = 1;
+              this.stateProviderArray = [];
+            }
+            this.stateProviderArray.push(this.service_provider_array[i]); // loading matched usernames
+          }
+        }
+        if (firstWordMatchingStatus === 0) {
+          this.loadingValues(); // clearing user the user entered key and reloading the array from DB
+        }
+      }
+      else {
+        this.loadingValues();
+      }
+    }
+  }
+  loadingValues() {
+    this.userEnteredWord = undefined;
+    this.stateProviderArray = Object.assign([], this.service_provider_array);
+  }
+
+  //** end **/
+
   getStates(serviceProviderID) {
     this.block_provider.getStates(serviceProviderID).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
       this.getStatus(this.service_provider, this.state, this.serviceline)
+      //-- added by krishna Gunti for smart search --//
+      this.loadingValues();
     });
   }
 
   getAllServicesOfProvider(serviceProviderID) {
     this.block_provider.getServicesOfProvider(serviceProviderID)
       .subscribe(response => this.getAllServicesOfProviderSuccesshandeler(response));
+
   }
 
   getServicesInState(serviceProviderID, stateID) {
     this.block_provider.getServicesInState(serviceProviderID, stateID)
       .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
-    
+
 
   }
   // success handelers
@@ -108,11 +161,13 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getAllProvidersSuccesshandeler(response) {
     this.service_provider_array = response;
+    this.stateProviderArray = this.service_provider_array;
   }
 
   getStatesSuccesshandeler(response) {
     this.reset();
     this.states_array = response;
+    this.stateProviderArray = this.service_provider_array;
   }
 
   getAllServicesOfProviderSuccesshandeler(response) {

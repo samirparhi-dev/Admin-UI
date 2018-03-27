@@ -24,7 +24,7 @@
                 </button>
             </div> -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button>
+      <!-- <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button> -->
       <button *ngIf="showUpdateFeatureButtonFlag && service == 3" class="pull-right" md-raised-button color="primary" (click)="addMoreFeatures(toBeEditedRoleObj)" >Add More Features</button>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showAddButtonFlag">
@@ -158,9 +158,9 @@
     </div>
     <!-- <div class="row"> -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" class="pull-left" (click)="setRoleFormFlag(false)">Back</button>
-      <button md-raised-button color="primary" class="pull-right" (click)="finalsave()" *ngIf="!setEditSubmitButton && (objs.length !=0)">Save</button>
-      <button md-raised-button color="primary" class="pull-right" [disabled]="roles.errors || othersExist" *ngIf="setEditSubmitButton" (click)="saveEditChanges()">Save Modifications</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back(false)">Back</button>
+      <button md-raised-button color="accent" class="pull-right" (click)="finalsave()" *ngIf="!setEditSubmitButton && (objs.length !=0)">Save</button>
+      <button md-raised-button color="accent" class="pull-right" [disabled]="roles.errors || othersExist" *ngIf="setEditSubmitButton" (click)="saveEditChanges()">Update</button>
     </div>
     <!-- </div> -->
   </div>
@@ -187,8 +187,8 @@
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" class="pull-left" (click)="setRoleFormFlag(false)">Back</button>
-      <button md-raised-button color="primary" class="pull-right" (click)="saveUpdateFeatureChanges()">Save Updated Features</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back(false)">Back</button>
+      <button md-raised-button color="accent" class="pull-right" (click)="saveUpdateFeatureChanges()">Update Features</button>
     </div>
 
   </div>

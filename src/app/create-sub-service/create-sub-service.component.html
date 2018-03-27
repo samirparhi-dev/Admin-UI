@@ -122,7 +122,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button md-raised-button color="primary" type="button" class="pull-left" (click)="addSubService(true)">Back</button>
-        <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="primary" type="button" class="pull-right" [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
+        <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="accent" type="button" class="pull-right" [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
 
       </div>
       <!-- <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
