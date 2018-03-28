@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-drug-list',
@@ -22,6 +23,10 @@ export class DrugListComponent implements OnInit {
   availableDrugNames: any = [];
   serviceID104: any;
   createdBy: any;
+  drugList: any = [];
+
+  @ViewChild('drugForm') drugForm: NgForm;
+  
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
     public drugMasterService: DrugMasterService,
@@ -107,7 +112,7 @@ export class DrugListComponent implements OnInit {
   //   'providerServiceMapID':'',
   //   'createdBy':''
   // };
-  drugList: any = [];
+ 
   addDrugToList(values) {
     debugger;
     if (!this.drugFilterList(values)) {
@@ -143,19 +148,30 @@ export class DrugListComponent implements OnInit {
 
   dataObj: any = {};
   updateDrugStatus(drug) {
+    let flag = !drug.deleted;
+    let status;
+    if (flag === true) {
+      status = "Deactivate";
+    }
+    if (flag === false) {
+      status = "Activate";
+    }
+    this.alertMessage.confirm("Are you sure you want to " + status + "?").subscribe(response => {
+      if (response) {
 
-    this.dataObj = {};
-    this.dataObj.drugID = drug.drugID;
-    this.dataObj.deleted = !drug.deleted;
-    this.dataObj.modifiedBy = this.createdBy;
-    this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.dataObj = {};
+        this.dataObj.drugID = drug.drugID;
+        this.dataObj.deleted = !drug.deleted;
+        this.dataObj.modifiedBy = this.createdBy;
+        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
 
-    drug.deleted = !drug.deleted;
-
+        drug.deleted = !drug.deleted;
+      }
+      this.alertMessage.alert(status + "d successfully");
+    })
   }
   updateStatusHandler(response) {
     console.log("Drug status changed");
-    this.alertMessage.alert("Drug status changed");
   }
 
   drugID: any;
@@ -204,11 +220,22 @@ export class DrugListComponent implements OnInit {
     this.drugNameExist = this.availableDrugNames.includes(drugName);
   }
 
+  remove_obj(index) {
+    this.drugList.splice(index, 1);
+}
   clearEdit() {
     this.initializeObj();
     this.showDrugs = true;
     this.editable = false;
     this.drugNameExist = false;
   }
-
+  back() {
+    this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        if (res) {
+            this.drugForm.resetForm();
+            this.clearEdit();
+            this.drugList = [];
+        }
+    })
+}
 }

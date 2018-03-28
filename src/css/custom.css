@@ -2134,25 +2134,6 @@ background:#027b95 !important;
   }
 }
 
-/* .mat-tooltip-target-height: 30px;
-.mat-tooltip-font-size: 60px;
-.mat-tooltip-vertical-padding: ($mat-tooltip-target-height - $mat-tooltip-font-size) / 2;
-
-@mixin mat-tooltip-theme($theme) {
-  .mat-tooltip {
-    background: mat-color($mat-grey, 700, 0.9);
-  }
-} */
-/* 
-@mixin mat-tooltip-typography($config) { */ 
-  .mat-tooltip {
-    /* font-family: mat-font-family($config); */
-    font-size: 50px;
-    /* padding-top: $mat-tooltip-vertical-padding;
-    padding-bottom: $mat-tooltip-vertical-padding; */
-  }
- /* } */
-
 @media (min-width: 992px) {
   .p-l-lg-0 {
     padding-left: 0px;

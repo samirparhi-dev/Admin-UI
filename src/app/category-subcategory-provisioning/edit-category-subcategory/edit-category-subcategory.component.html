@@ -62,12 +62,12 @@
   </form>
   <div class="row" *ngIf="categoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" [disabled]="f.invalid || categoryExist" type="submit" class="full-width" (click)="editCategory()">Save</button>
+      <button md-raised-button color="accent" [disabled]="f.invalid || categoryExist" type="submit" class="full-width" (click)="editCategory()">Update</button>
     </div>
   </div>
   <div class="row" *ngIf="subCategoryType">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" [disabled]="f.invalid || subCategoryExist" type="submit" class="full-width" (click)="editSubCategory()">Save</button>
+      <button md-raised-button color="accent" [disabled]="f.invalid || subCategoryExist" type="submit" class="full-width" (click)="editSubCategory()">Update</button>
     </div>
   </div>
 </div>
