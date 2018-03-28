@@ -49,11 +49,15 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.searchPage = false;
   }
   back() {
-    this.searchPage = true;
-    this.state = "";
-    this.serviceline = "";
-    this.servicelines = [];
-    this.allServicesMapped=false;
+    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.searchPage = true;
+        this.state = "";
+        this.serviceline = "";
+        this.servicelines = [];
+        this.allServicesMapped=false;
+      }
+    })
   }
   getAllStates(response) {
     this.states = response;

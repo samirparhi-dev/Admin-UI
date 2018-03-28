@@ -52,7 +52,7 @@ export class CreateSubServiceComponent implements OnInit {
   getAllStatesSuccesshandeler(response) {
 
     this.states = response;
-    this.services=[];
+    this.services = [];
     // if(this.added){
     //   this.searchState = this.state;
     //   ;
@@ -64,8 +64,8 @@ export class CreateSubServiceComponent implements OnInit {
   }
 
   getAllServicesInStatesSuccess(response) {
-    
-    this.services = response.filter(function(obj){
+
+    this.services = response.filter(function (obj) {
       return obj.serviceID == 3 || obj.serviceID == 1;
     });
   }
@@ -91,7 +91,7 @@ export class CreateSubServiceComponent implements OnInit {
     ;
     this.sub_service.getSubServiceDetails(service.providerServiceMapID)
       .subscribe(response => this.populateTable(response, service))
-  } 
+  }
   populateTable(response, service) {
     this.showTable = true;
     this.data = response;
@@ -121,7 +121,7 @@ export class CreateSubServiceComponent implements OnInit {
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
-        this.message.alert('Added sucessfully');
+        this.message.alert('Added successfully');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();
@@ -226,28 +226,34 @@ export class CreateSubServiceComponent implements OnInit {
     // });
   }
   addSubService(flag) {
-    this.searchForm = flag;
-    if (flag) {
-      this.getExistingOnSearch(this.serviceObj);
-    }
+    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.searchForm = flag;
+        if (flag) {
+          this.getExistingOnSearch(this.serviceObj);
+        }
+      }
+    })
+
+
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
     // jQuery('#addingForm').trigger('reset');
   }
   confirmMessage: any;
-  deleteSubService(subserviceID,flag) {
+  deleteSubService(subserviceID, flag) {
     ;
     let obj = {
-      "subServiceID" : subserviceID,
+      "subServiceID": subserviceID,
       "deleted": flag
     }
-    if (flag) {
-      this.confirmMessage = 'Deactivate';
-    } else {
-      this.confirmMessage = 'Activate';
+    if  (flag) {
+      this.confirmMessage  =  'Deactivate';
+    }  else  {
+      this.confirmMessage  =  'Activate';
     }
-    this.message.confirm('Are you sure want to '+this.confirmMessage+'?').subscribe((res) => {
+    this.message.confirm('Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.sub_service.deleteSubService(obj).subscribe(response => {
           this.deletedSuccessHandler(response)
@@ -261,8 +267,8 @@ export class CreateSubServiceComponent implements OnInit {
     this.getExistingSubService(this.serviceObj);
   }
   deletedSuccessHandler(res) {
-        this.message.alert(this.confirmMessage+"d successfully");
-            this.getExistingOnSearch(this.serviceObj);
+    this.message.alert(this.confirmMessage + "d successfully");
+    this.getExistingOnSearch(this.serviceObj);
 
   }
 

@@ -26,9 +26,9 @@
                         </md-select>
                     </md-input-container>
                 </div>
-                <button class="btn">
+                <!-- <button>
                     <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
-                </button>
+                </button> -->
             </form>
         </div>
        
@@ -42,14 +42,14 @@
                 <thead>
                     <tr>
                         <th width="5%">S No.</th>
-                        <th width="12%">State</th>
+                        <th width="15%">State</th>
                         <th width="12%">District</th>
                         <th width="12%">Sub District</th>
                         <th width="12%">Parking Place</th>
                         <th width="12%">Description</th>
                         <th width="15%">Address</th>
                         <th width="10%">Edit</th>
-                        <th width="15%">Action</th>
+                        <th width="12%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,7 @@
                         <td>{{parkingPlace.parkingPlaceDesc}}</td>
                         <td>{{parkingPlace.areaHQAddress}}</td>
                         <td>
-                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zone.deleted"
+                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!parkingPlace.deleted"
                                 (click)="editParkingPlaceData(parkingPlace)">edit</md-icon>
                         </td>
                         <td>
@@ -159,13 +159,13 @@
                         </md-hint>
                     </md-input-container>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                    <button *ngIf="!editable" [disabled]=" !parkingPlaceN.valid || parkingPlaceNameExist || !parkingPlaceAddress.valid || !stateVal.valid || !districtV.valid "
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">  
+                    <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !parkingPlaceN.valid || parkingPlaceNameExist || !parkingPlaceAddress.valid || !stateVal.valid || !districtV.valid "
                         class="btn pull-right " (click)="addParkingPlaceToList(parkingPlaceForm.value);parkingPlaceForm.reset()  ">
                         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-                    </button>
-                    <button *ngIf="editable" class="btn pull-right " (click)="updateParkingPlaceData(parkingPlaceForm.value);parkingPlaceForm.reset()  ">
-                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon>
+                    </button>      
+                    <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateParkingPlaceData(parkingPlaceForm.value)">Update
+                        <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> -->
                     </button>
                 </div>
             </form>
@@ -180,6 +180,7 @@
                             <th>Parking Place</th>
                             <th>Description</th>
                             <th>Address</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -191,14 +192,18 @@
                             <td>{{parkingPlace.parkingPlaceName}}</td>
                             <td>{{parkingPlace.parkingPlaceDesc}}</td>
                             <td>{{parkingPlace.areaHQAddress}}</td>
+                            <td>
+                                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(i)">clear</md-icon>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <!-- <pagination-controls (pageChange)="b = $event" id="parkingPlaceResult"></pagination-controls> -->
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button class="btn pull-left" (click)="parkingPlaceForm.reset();showList()">Back</button>
-                <button *ngIf="parkingPlaceList.length>0" class="btn pull-right " (click)="storeParkingPlaces()">Save</button>
+                <!-- <button class="btn pull-left" (click)="parkingPlaceForm.reset();showList()">Back</button> -->
+                <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+                <button *ngIf="parkingPlaceList.length>0" md-raised-button color="accent" class="pull-right" (click)="storeParkingPlaces()">Save</button>
             </div>
         </div>
     <!-- </div>

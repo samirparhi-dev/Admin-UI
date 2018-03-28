@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 declare var jQuery: any;
 
@@ -58,6 +59,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   updateFeaturesToRoleFlag = false;
   showUpdateFeatureButtonFlag = false;
+
+  @ViewChild('addingForm') addingForm: NgForm
 
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
@@ -314,6 +317,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.getFeatures(this.service);
     }
 
+  }
+  back(flag) {
+    this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.setRoleFormFlag(flag);
+      }
+    })
   }
 
 

@@ -254,6 +254,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 this.zoneDistrictMappingList = [];
             }
         })
-    }
+    }   
 
 }

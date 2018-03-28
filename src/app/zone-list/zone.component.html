@@ -57,9 +57,9 @@
     <button md-raised-button color="primary" (click)="showForm()">Add Zone </button>
   </div> -->
 </div>
-<div *ngIf="editable">
+<!-- <div *ngIf="editable">
 
-</div>
+</div> -->
 <div *ngIf="!showZones || editable">
   <h4>Create Zone </h4>
   <form #zoneForm="ngForm">
@@ -195,8 +195,8 @@
   <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button *ngIf="zoneList.length>0" md-raised-button color="primary" class="pull-right" (click)="storezone()">Save</button>
-    <button *ngIf="editable" md-raised-button color="primary" class="pull-right" (click)="updateZoneData(zoneForm.value);zoneForm.reset()  ">Save Updates
+    <button *ngIf="zoneList.length>0" md-raised-button color="accent" class="pull-right" (click)="storezone()">Save</button>
+    <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateZoneData(zoneForm.value);zoneForm.reset()  ">Update
 
         <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> -->
       </button>
