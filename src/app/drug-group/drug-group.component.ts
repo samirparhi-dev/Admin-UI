@@ -182,7 +182,7 @@ export class DrugGroupComponent implements OnInit {
 
   updateDrugGroup(drugGroup) {
     this.dataObj = {};
-    this.dataObj.drugGroupID = drugGroup.drugGroupID;
+    this.dataObj.drugGroupID = this.drugGroupID;
     this.dataObj.drugGroup = drugGroup.drugGroup;
     this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc;
     //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;

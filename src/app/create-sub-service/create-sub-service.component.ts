@@ -226,20 +226,21 @@ export class CreateSubServiceComponent implements OnInit {
     // });
   }
   addSubService(flag) {
-    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if (res) {
-        this.searchForm = flag;
-        if (flag) {
-          this.getExistingOnSearch(this.serviceObj);
-        }
-      }
-    })
-
-
+    this.searchForm = flag;
+    if (flag) {
+      this.getExistingOnSearch(this.serviceObj);
+    }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
     // jQuery('#addingForm').trigger('reset');
+  }
+  back() {
+    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.addSubService(true);
+      }
+    })
   }
   confirmMessage: any;
   deleteSubService(subserviceID, flag) {
@@ -248,10 +249,10 @@ export class CreateSubServiceComponent implements OnInit {
       "subServiceID": subserviceID,
       "deleted": flag
     }
-    if  (flag) {
-      this.confirmMessage  =  'Deactivate';
-    }  else  {
-      this.confirmMessage  =  'Activate';
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
     }
     this.message.confirm('Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {

@@ -1,12 +1,12 @@
 <!-- <md-card> -->
   <div class="row">
-    <div class="col-xs-12 col-sm-12">
-      <h4 class="pull-left">Update Provider</h4>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 >Update Provider</h4>
     </div>
     <div class="col-xs-12 col-sm-12" *ngIf="searchPage">
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
-          <md-select placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="providerSelected" (change)="selectedProvider(providerSelected)" required>
+          <md-select placeholder="Provider Name" class="width100" [(ngModel)]="providerSelected" (change)="selectedProvider(providerSelected)" required>
             <md-option *ngFor="let provider of allProviders" [value]="provider.serviceProviderId">
               {{provider.serviceProviderName}}
             </md-option>
@@ -16,9 +16,8 @@
           <button color="primary" type="button" name="Add" md-raised-button class=" pull-right" (click)="edit(providerSelected)">Edit personal details</button>
         </div>
       </div>
-      <div class="row" *ngIf="showProvider">
-        <div class="table-responsive ">
-          <table class="table" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="5">
+      <div *ngIf="showProvider">
+          <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
             <thead>
               <tr>
                 <!-- <th>Provider ID</th> -->
@@ -40,19 +39,18 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="2">
+                <td colspan="2" class="p-l-0" >
                   <md2-pagination></md2-pagination>
                 </td>
-                <td colspan="1">
+                <td colspan="1" class="p-r-0">
                   <button color="primary" type="button" name="Save" md-raised-button class=" pull-right " (click)="addOrModify()">Create Service</button>
                 </td>
               </tr>
             </tfoot>
           </table>
-        </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12" *ngIf="!searchPage">
+    <div *ngIf="!searchPage">
      <!--  <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 pull-right">
           <button color="primary" type="button" name="back" md-raised-button class="pull-right" (click)="back()">Back</button>
@@ -61,14 +59,14 @@
       <!-- <div class="row"> -->
         <form #modifyForm="ngForm">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
-            <md-select placeholder="State" [style.width]="'100%'" name="state" [(ngModel)]="state" (change)="getValidServicelines(state)">
+            <md-select placeholder="State" class="width100" name="state" [(ngModel)]="state" (change)="getValidServicelines(state)">
               <md-option *ngFor="let state of states" [value]="state.stateID">
                 {{state.stateName}}
               </md-option>
             </md-select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-15">
-            <md-select *ngIf="!allServicesMapped" multiple placeholder="ServiceLine" [style.width]="'100%'" name="serviceLine" [(ngModel)]="serviceline" required #sLine="ngModel">
+            <md-select *ngIf="!allServicesMapped" multiple placeholder="ServiceLine" class="width100" name="serviceLine" [(ngModel)]="serviceline" required #sLine="ngModel">
               <md-option *ngFor="let service of servicelines" [value]="service.serviceID">
                 {{service.serviceName}}
               </md-option>

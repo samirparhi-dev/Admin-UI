@@ -47,7 +47,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngSwitch]="conditionExpression" style="margin-top: 35px">
         <div *ngSwitchCase="1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <md-select placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider">
+                <md-select placeholder="Service Provider" class="width100" [(ngModel)]="serviceProvider">
                     <md-option value="1">
                         SriRam
                     </md-option>
@@ -65,7 +65,7 @@
         </div>
         <div *ngSwitchCase="2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <md-select placeholder="State" [style.width]="'100%'">
+                <md-select placeholder="State" class="width100">
                     <md-option *ngFor="let state of states" [value]="state.stateID" (click)="populateBlockedStateArray(state)">
                         {{ state.stateName }}
                     </md-option>
@@ -85,14 +85,14 @@
         <div *ngSwitchCase="3" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <md-select placeholder="State" [(ngModel)]="State" [style.width]="'100%'">
+                    <md-select placeholder="State" [(ngModel)]="State" class="width100">
                         <md-option *ngFor="let state of states" [value]="state.stateID">
                             {{ state.stateName }}
                         </md-option>
                     </md-select>
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <md-select placeholder="ServiceLine" [(ngModel)]="Service" [style.width]="'100%'">
+                    <md-select placeholder="ServiceLine" [(ngModel)]="Service" class="width100">
                         <md-option [value]="104" (click)="populatetoBeBlockedStatesServicesArray(Service)">
                             104
                         </md-option>
@@ -169,22 +169,22 @@
     <h4 class="pull-left">View Provider</h4>
   </div>
   <form id="myForm">
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 m-t-15" (keydown)="selectKeyPress($event)">
-      <md-select name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="service_provider" (ngModelChange)="getStates(service_provider)">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-15" (keydown)="selectKeyPress($event)">
+      <md-select name="serviceProvider" placeholder="Service Provider" class="width100" [(ngModel)]="service_provider" (ngModelChange)="getStates(service_provider)">
         <md-option *ngFor="let item of stateProviderArray" [value]="item.serviceProviderId">
           {{item.serviceProviderName}}
         </md-option>
       </md-select>
     </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3  m-t-15">
-      <md-select name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3  m-t-15">
+      <md-select name="state" placeholder="State" class="width100" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
         <md-option *ngFor="let item of states_array" [value]="item.stateID">
           {{item.stateName}}
         </md-option>
       </md-select>
     </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 m-t-15">
-      <md-select name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getStatus(service_provider,state,serviceline)">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-15">
+      <md-select name="Services" placeholder="ServiceLine" class="width100" [(ngModel)]="serviceline" (change)="getStatus(service_provider,state,serviceline)">
         <md-option *ngFor="let item of services_array" [value]="item.serviceID">
           {{item.serviceName}}
         </md-option>
@@ -203,7 +203,7 @@
 
 <div class="row" *ngIf="showTable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-    <table class="table table-striped table-hover m-t-20" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+    <table class="table table-striped table-hover m-t-20" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
         <tr>
           <!-- <th>PSMID</th> -->
@@ -243,21 +243,24 @@
       </tfoot>
     </table>
     <div class="row" *ngIf="case_one">
-      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-20">
-        <label>PROVIDER LEVEL PROVISION</label>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4>Provider Level Provision</h4>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-30">
-        <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status">
-          <md-option *ngFor="let item of status_array" [value]="item.statusID">
-            {{item.status}}
-          </md-option>
-        </md-select>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
+            <md-option *ngFor="let item of status_array" [value]="item.statusID">
+              {{item.status}}
+            </md-option>
+          </md-select>
+        </md-input-container>
         <!-- <md-hint [hidden]="statusRef.valid || statusRef.pristine">
                 <span class=" error_text" [hidden]="!statusRef.hasError('required')">Status is required</span>
               </md-hint> -->
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
-        <md-input-container style="width: 100%">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <md-input-container class="width100">
           <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
           <md-hint *ngIf="reasonRef.touched">
             <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
@@ -270,28 +273,31 @@
                   <span class="error_text" *ngIf="!reasonRef.valid && (reasonRef.dirty || reasonRef.touched)">Reason is required</span>
                 </md-hint> -->
 
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="accent" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
-        </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
+      </div>
     </div>
     <div class="row" *ngIf="case_two ">
-      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-20">
-        <label>STATE LEVEL PROVISION</label>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4>State Level Provision</h4>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  m-t-30">
-        <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+        <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
           <md-option *ngFor="let item of status_array" [value]="item.statusID">
             {{item.status}}
           </md-option>
         </md-select>
+        </md-input-container>
         <!-- <md-hint [hidden]="statusRef.valid || statusRef.pristine">
                 <span class=" error_text" [hidden]="!statusRef.hasError('required')">Status is required</span>
               </md-hint> -->
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
-        <md-input-container style="width: 100%">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <md-input-container class="width100">
           <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
           <md-hint *ngIf="reasonRef.touched">
             <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
@@ -300,28 +306,31 @@
           <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="accent" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
-        </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
+      </div>
     </div>
     <div class="row" *ngIf="case_three">
-      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-20">
-        <label>SERVICELINE LEVEL PROVISION</label>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4>Serviceline Level Provision</h4>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-30">
-        <md-select name="status" #statusRef="ngModel" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status" required>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+        <md-select name="status" #statusRef="ngModel" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
           <md-option *ngFor="let item of status_array" [value]="item.statusID">
             {{item.status}}
           </md-option>
         </md-select>
+        </md-input-container>
         <!-- <md-hint [hidden]="statusRef.valid || statusRef.pristine">
                 <span class=" error_text" [hidden]="!statusRef.hasError('required')">Status is required</span>
               </md-hint> -->
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
-        <md-input-container style="width: 100%">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <md-input-container class="width100">
           <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
           <md-hint *ngIf="reasonRef.touched">
             <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
@@ -330,28 +339,31 @@
           <!-- <md-hint *ngIf="reasonRef.errors && (reasonRef.dirty || reasonRef.touched)" [hidden]="!reasonRef.errors.required">
                   Reason is required
                 </md-hint> -->
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="accent" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
-        </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
+      </div>
     </div>
     <div class="row" *ngIf="case_four">
-      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-20">
-        <label>PROVIDER-STATE-SERVICELINE LEVEL PROVISION</label>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4>Provider State Serviceline Level Provision</h4>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-30">
-        <md-select #statusR="ngModel" name="status" placeholder="Select Status" [style.width]="'100%'" [(ngModel)]="status" required>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+        <md-select #statusR="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
           <md-option *ngFor="let item of status_array" [value]="item.statusID">
             {{item.status}}
           </md-option>
         </md-select>
+        </md-input-container>
         <!-- <md-hint [hidden]="statusRef.valid || statusRef.pristine">
                 <span class=" error_text" [hidden]="!statusRef.hasError('required')">Status is required</span>
               </md-hint> -->
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
-        <md-input-container style="width: 100%">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <md-input-container class="width100">
           <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
           <md-hint *ngIf="reasonR.touched">
             <span class="error_text" *ngIf="reasonR.errors?.required">Reason is required</span>
@@ -361,12 +373,12 @@
                   <span class="error_text" *ngIf="!reasonRef.valid && (reasonRef.dirty || reasonRef.touched)">Reason is required</span>
                 </md-hint> -->
 
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 m-t-20">
-          <button md-raised-button color="accent" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
-        </div>
-    <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="showUnblock">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <button md-raised-button color="accent" class="pull-right" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
+      </div>
+      <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="showUnblock">
             <label>UNBLOCK PROVIDER?</label>
             <button md-raised-button color="primary" (click)="unblockProvider()">UNBLOCK</button></td>
           </div>
@@ -383,22 +395,22 @@
       </div>
       <td colspan="3" *ngIf="showUnblock">UNBLOCK PROVIDER? <button md-raised-button color="primary" (click)="unblockProvider()">UNBLOCK</button></td>
           </tr> -->
-    <!-- <tr *ngIf="case_one "></tr> -->
-    <!-- <tr *ngIf="case_two ">
+      <!-- <tr *ngIf="case_one "></tr> -->
+      <!-- <tr *ngIf="case_two ">
         <td colspan="3" *ngIf="showBlock">BLOCK STATE? <button md-raised-button color="primary" (click)="blockState()">BLOCK</button></td>
         <td colspan="3" *ngIf="showUnblock">UNBLOCK STATE? <button md-raised-button color="primary" (click)="unblockState()">UNBLOCK</button></td>
       </tr> -->
-    <!-- <tr *ngIf="case_two "></tr> -->
-    <!-- <tr *ngIf="case_three ">
+      <!-- <tr *ngIf="case_two "></tr> -->
+      <!-- <tr *ngIf="case_three ">
         <td colspan="3" *ngIf="showBlock">BLOCK SERVICELINE? <button md-raised-button color="primary" (click)="blockService()">BLOCK</button></td>
         <td colspan="3" *ngIf="showUnblock">UNBLOCK SERVICELINE? <button md-raised-button color="primary" (click)="unblockService()">UNBLOCK</button></td>
 
       </tr> -->
-    <!-- <tr *ngIf="case_three "></tr> -->
-    <!-- <tr *ngIf="case_four ">
+      <!-- <tr *ngIf="case_three "></tr> -->
+      <!-- <tr *ngIf="case_four ">
         <td colspan="3" *ngIf="showBlock">BLOCK SPECIFIC SERVICE OF A STATE? <button md-raised-button color="primary" (click)="blockServiceOfState()">BLOCK</button></td>
         <td colspan="3" *ngIf="showUnblock">UNBLOCK SPECIFIC SERVICE OF A STATE?? <button md-raised-button color="primary" (click)="unblockServiceOfState()">UNBLOCK</button></td>
       </tr> -->
-    <!-- <tr *ngIf="case_four "></tr> -->
+      <!-- <tr *ngIf="case_four "></tr> -->
+    </div>
   </div>
-</div>

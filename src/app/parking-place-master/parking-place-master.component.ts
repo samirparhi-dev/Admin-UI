@@ -230,10 +230,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.talukID = "";
         this.areaHQAddress = "";
     }
-    editParkingPlaceData(parkingPlace){
-        console.log("update parking place", parkingPlace);
-        
-                        
+    editParkingPlaceData(parkingPlace){                       
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.parkingPlaceName = parkingPlace.parkingPlaceName
         this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
@@ -254,11 +251,9 @@ export class ParkingPlaceComponent implements OnInit {
         this.editable = true;
     }
 
-     updateParkingPlaceData(parkingPlace) {
-         console.log("dataobj", this.dataObj);    
-         console.log("updated parking place", parkingPlace);     
+     updateParkingPlaceData(parkingPlace) {    
         this.dataObj = {};
-        this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
+        this.dataObj.parkingPlaceID = this.parkingPlaceID;
         this.dataObj.parkingPlaceName = parkingPlace.parkingPlaceName;
         this.dataObj.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
         this.dataObj.areaHQAddress = parkingPlace.areaHQAddress;
@@ -280,7 +275,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     updateHandler(response) {
         this.editable = true;
-        this.alertMessage.alert("updated successfully");
+        this.alertMessage.alert("Updated successfully");
         this.getParkingPlaces(null,null);
         //this.initializeObj();
     }
@@ -288,7 +283,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.parkingPlaceForm.resetForm();
-               this.showList();
+                this.showList();
                 this.parkingPlaceList = [];
             }
         })

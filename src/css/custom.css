@@ -1549,6 +1549,9 @@ em {
 .overflow-x-initial {
   overflow-x: initial;
 }
+.overflow-x-auto {
+  overflow-x: auto;
+}
 
 .btn {
   background: #14508c !important;

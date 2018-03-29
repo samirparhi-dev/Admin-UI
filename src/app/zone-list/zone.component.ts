@@ -224,8 +224,7 @@ export class ZoneComponent implements OnInit {
         this.serviceID = "";
     }
     editZoneData(zone) {
-
-        this.zoneID = zone.zoneID;
+        this.zoneID = zone.zoneID;        
         this.zoneName = zone.zoneName
         this.zoneDesc = zone.zoneDesc;
         this.zoneHQAddress = zone.zoneHQAddress;
@@ -247,9 +246,9 @@ export class ZoneComponent implements OnInit {
         this.editable = true;
     }
 
-    updateZoneData(zone) {
+    updateZoneData(zone) {        
         this.dataObj = {};
-        this.dataObj.zoneID = zone.zoneID;
+        this.dataObj.zoneID = this.zoneID;
         this.dataObj.zoneName = zone.zoneName;
         this.dataObj.zoneDesc = zone.zoneDesc;
         this.dataObj.zoneHQAddress = zone.zoneHQAddress;
@@ -267,12 +266,13 @@ export class ZoneComponent implements OnInit {
             this.dataObj.districtBranchID = zone.branchID.split("-")[0];
         }
         this.dataObj.modifiedBy = this.createdBy;
+        // this.dataObj.zoneID = this.zoneID;
         this.zoneMasterService.updateZoneData(this.dataObj).subscribe(response => this.updateHandler(response));
 
     }
 
     updateHandler(response) {
-        this.editable = false;
+        // this.editable = false;
         this.alertMessage.alert("Updated successfully");
         this.getAvailableZones();
         //this.initializeObj();

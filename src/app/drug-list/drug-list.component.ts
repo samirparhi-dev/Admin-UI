@@ -137,6 +137,8 @@ export class DrugListComponent implements OnInit {
 
   storedrug() {
     let obj = { "drugMasters": this.drugList };
+    console.log("request", obj);
+    
     this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
@@ -198,7 +200,7 @@ export class DrugListComponent implements OnInit {
   updateDrugData(drug) {
     if (!this.drugFilterList(drug)) {
       this.dataObj = {};
-      this.dataObj.drugID = drug.drugID;
+      this.dataObj.drugID = this.drugID;
       this.dataObj.drugName = drug.drugName;
       this.dataObj.drugDesc = drug.drugDesc;
       this.dataObj.remarks = drug.remarks;

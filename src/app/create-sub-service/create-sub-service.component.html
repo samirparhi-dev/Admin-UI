@@ -4,21 +4,21 @@
     </div> 
     <form>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider" (change)="getAllStates(serviceProvider)">
+        <md-select required name="serviceProvider" placeholder="Service Provider" class="width100" [(ngModel)]="serviceProvider" (change)="getAllStates(serviceProvider)">
           <md-option *ngFor="let serviceProviderObj of serviceProviders" [value]="serviceProviderObj">
             {{serviceProviderObj.serviceProviderName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getAllServicesInState(serviceProvider,state)">
+        <md-select required name="state" placeholder="State" class="width100" [(ngModel)]="state" (change)="getAllServicesInState(serviceProvider,state)">
           <md-option *ngFor="let stateObj of states" [value]="stateObj">
             {{stateObj.stateName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="services" placeholder="Services" [style.width]="'100%'" [(ngModel)]="serviceObj">
+        <md-select required name="services" placeholder="Services" class="width100" [(ngModel)]="serviceObj">
           <md-option *ngFor="let service of services" [value]="service" (click)="getExistingOnSearch(service)">
             {{service.serviceName}}
           </md-option>
@@ -27,7 +27,7 @@
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="table-responsive m-t-10">
-        <table class="table table-striped" *ngIf="showTable" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
+        <table class="table table-striped" *ngIf="showTable" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
           <thead>
             <tr>
               <!-- <th>S.No</th> -->
@@ -59,7 +59,7 @@
               <td colspan="2">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="1">
+              <td colspan="1" class="p-r-0">
                 <button md-raised-button color="primary" class="pull-right" (click)="addSubService(false)">Create SubService</button>
               </td>
             </tr>
@@ -76,22 +76,22 @@
       <h4 class="pull-left">Sub Service Mapping</h4>
     </div>
     <form #form="ngForm" autocomplete="off" id="addingForm">
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="serviceProvider" placeholder="Service Provider" [style.width]="'100%'" [(ngModel)]="serviceProvider" (change)="getStates(serviceProvider)">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-select required name="serviceProvider" placeholder="Service Provider" class="width100" [(ngModel)]="serviceProvider" (change)="getStates(serviceProvider)">
           <md-option *ngFor="let serviceProviderObj of serviceProviders" [value]="serviceProviderObj">
             {{serviceProviderObj.serviceProviderName}}
           </md-option>
         </md-select>
       </div>
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" (change)="getServicesInState(serviceProvider,state)">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-select required name="state" placeholder="State" class="width100" [(ngModel)]="state" (change)="getServicesInState(serviceProvider,state)">
           <md-option *ngFor="let stateObj of states" [value]="stateObj">
             {{stateObj.stateName}}
           </md-option>
         </md-select>
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 m-t-15">
-        <md-select required name="services" placeholder="Services" [style.width]="'100%'" [(ngModel)]="serviceObj">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
+        <md-select required name="services" placeholder="Services" class="width100" [(ngModel)]="serviceObj">
           <md-option *ngFor="let service of services" [value]="service" (click)="getExistingSubService(service)">
             {{service.serviceName}}
           </md-option>
@@ -105,8 +105,8 @@
       </div>
     </form>
     <form #resetFieldsForm="ngForm" id="form2">
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4  m-t-30" *ngIf="!subServiceAvailable && !allServicesAdded">
-        <md-select name="subService" placeholder="Sub Services" [style.width]="'100%'" [(ngModel)]="subService" required>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  m-t-30" *ngIf="!subServiceAvailable && !allServicesAdded">
+        <md-select name="subService" placeholder="Sub Services" class="width100" [(ngModel)]="subService" required>
           <md-option *ngFor="let subService of subServices" [value]="subService">
             {{subService.subServiceName}}
           </md-option>
@@ -115,13 +115,13 @@
             <input required mdInput placeholder="Sub Service Name" [(ngModel)]="subService" name="subService">
           </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 m-t-15" *ngIf="!subServiceAvailable && !allServicesAdded">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" *ngIf="!subServiceAvailable && !allServicesAdded">
         <md-input-container style="width: 100% ">
           <input id="description" required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc" maxlength="50">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button md-raised-button color="primary" type="button" class="pull-left" (click)="addSubService(true)">Back</button>
+        <button md-raised-button color="primary" type="button" class="pull-left" (click)="back()">Back</button>
         <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="accent" type="button" class="pull-right" [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
 
       </div>

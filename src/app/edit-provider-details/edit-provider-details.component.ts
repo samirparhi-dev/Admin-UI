@@ -68,7 +68,7 @@ export class EditProviderDetailsComponent implements OnInit {
     this.provider_services.editProvider(providerObj).subscribe((res) => {
 
       console.log(res,"Response after edit");
-      this.message.alert('Updated Successfully');
+      this.message.alert('Updated successfully');
       
       this.dialogRef.close();
     }, (err) => {

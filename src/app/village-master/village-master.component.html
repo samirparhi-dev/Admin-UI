@@ -322,7 +322,7 @@
     </button>
   </div>
   <div class="col-xs-12 col-sm-12 m-t-10" *ngIf="villageList.length>0">
-    <table [md2Data]="villageList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+    <table [md2Data]="villageList" #md2="md2DataTable" class="table table-striped table-hover">
       <thead>
         <tr>
           <th width="15%">Village</th>
@@ -346,7 +346,7 @@
           <td>{{item.govVillageID}}</td>
           <td>{{item.govSubDistrictID}}</td>
           <td>
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">clear</md-icon>
+            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
           </td>
         </tr>
       </tbody>
