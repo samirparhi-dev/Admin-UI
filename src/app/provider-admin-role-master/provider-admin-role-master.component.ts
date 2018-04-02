@@ -38,6 +38,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   filterScreens: any;
   tempFilterScreens: any = [];
   combinedFilterArray: any = [];
+  bufferArray: any = [];
   // new content
   objs: any = [];
   finalResponse: any;
@@ -320,7 +321,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
   back(flag) {
     this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if(res) {
+      if (res) {
         this.setRoleFormFlag(flag);
       }
     })
@@ -513,6 +514,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.roleID_update = toBeEditedRoleObject.roleID;
 
   }
+  removeFeature(rowIndex, FeatureIndex) {
+    this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
+    this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
+    if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
+      this.objs.splice(rowIndex, 1);
+    }
+  }
+  removeObj(index) {
+    this.objs.splice(index, 1);
+  }
 
   saveUpdateFeatureChanges() {
     let requestArray = [];
@@ -535,10 +546,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'RESPONSE AFTER UPDATING FEATURE TO ROLE');
         if (response.length > 1) {
-          this.alertService.alert('Features added to role successfully');
+          this.alertService.alert('Features updated successfully');
         }
         if (response.length == 1) {
-          this.alertService.alert('Feature added to role successfully');
+          this.alertService.alert('Features updated successfully');
         }
 
         this.setRoleFormFlag(false);

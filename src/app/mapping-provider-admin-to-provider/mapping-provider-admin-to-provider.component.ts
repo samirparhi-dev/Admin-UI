@@ -309,7 +309,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   }
   removeService(rowIndex, serviceIndex) {
     this.bufferArray[rowIndex].serviceProviderMapID1.splice(serviceIndex, 1);
-
     if (this.bufferArray[rowIndex].serviceProviderMapID1.length === 0) {
       this.bufferArray.splice(rowIndex, 1);
     }

@@ -501,13 +501,17 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   back() {
-    this.searchForm = true;
-    this.serviceList.length = 0;
-    this.showTable = true;
-    this.cateDisabled = 'false';
-    this.getCategory(this.service, this.sub_service.subServiceID);
-    this.getSubCategory(this.service, this.sub_service.subServiceID);
+    this.messageBox.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.searchForm = true;
+        this.serviceList.length = 0;
+        this.showTable = true;
+        this.cateDisabled = 'false';
+        this.getCategory(this.service, this.sub_service.subServiceID);
+        this.getSubCategory(this.service, this.sub_service.subServiceID);
 
+      }
+    })
   }
 
   filterTable(response: any) {

@@ -24,12 +24,13 @@
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
         </button>
         </div> -->
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-10">
+    <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-10">
       <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
-    </div>
+    </div> -->
   </div>
   <div class="row m-t-30" *ngIf="showTable">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="height: 280px">
+      <div class="table-responsive">
       <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
@@ -81,6 +82,7 @@
           </tr>
         </tfoot>
       </table>
+    </div>
     </div>
     <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
@@ -157,54 +159,53 @@
           </button>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-        <div *ngFor="let item of temporarySubtypeArray;let i=index " class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-            <md-chip-list>
-              <md-chip color="accent" selected="true">{{item.callGroupType}}</md-chip>
-            </md-chip-list>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-            <md-chip-list>
-              <md-chip color="accent" selected="true">{{item.callType}}</md-chip>
-            </md-chip-list>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <div class="col-lg-6">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">Block:{{item.fitToBlock}}</md-chip>
-              </md-chip-list>
-            </div>
-            <div class="col-lg-6">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">Followup:{{item.fitForFollowup}}</md-chip>
-              </md-chip-list>
-            </div>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <div class="col-lg-6">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">Inbound:{{item.isInbound}}</md-chip>
-              </md-chip-list>
-            </div>
-            <div class="col-lg-6">
-              <md-chip-list>
-                <md-chip color="accent" selected="true">Outbound:{{item.isOutbound}}</md-chip>
-              </md-chip-list>
-            </div>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-            <button (click)="removeFromCallSubType(i)">
-              <md-icon class="cursorPointer" mdTooltip="Remove">clear</md-icon>
-            </button>
-          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(temporarySubtypeArray.length!=0)">
+          <table [md2Data]="temporarySubtypeArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+            <thead>
+              <tr>
+                <th width="5%">S.No</th>           
+                <th width="15%">Call Group Type</th>
+                <th width="15%">callType</th>
+                <th width="12%">Block</th>
+                <th width="12%">Followup</th>
+                <th width="12%">Inbound</th>
+                <th width="12%">Outbound</th>
+                <th width="15%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="temporarySubtypeArray.length == 0">
+                <td colspan="8">NO RECORD FOUND!!</td>
+              </tr>
+              <tr *ngFor="let item of temporarySubtypeArray;let i=index ">
+                <td>{{(md2.activePage-1)*4+i+1}}</td>
+                <td>{{item.callGroupType}}</td>
+                <td>{{item.callType}}</td>
+                <td>{{item.fitToBlock}}</td>
+                <td>{{item.fitForFollowup}}</td>
+                <td>{{item.isInbound}}</td>
+                <td>{{item.isOutbound}}</td>           
+                <td>
+                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <md2-pagination></md2-pagination>
+                </td>            
+              </tr>
+            </tfoot>       
+          </table>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
-          <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="primary" (click)="save()">SAVE</button>
+          <button [disabled]="temporarySubtypeArray.length == 0" class="pull-right" md-raised-button color="accent" (click)="save()">Save</button>
           <!--             <button *ngIf="editing" [disabled]="!callTypeSubCallType.valid" class="pull-right" md-raised-button color="primary" (click)="modify()">MODIFY</button> -->
-          <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button>
+          <!-- <button class="pull-left" md-raised-button color="primary" (click)="hideTable(false)">Back</button> -->
+          <button class="pull-left" md-raised-button color="primary" (click)="back()">Back</button>
         </div>
       </div>
-    </div>
+
   <!-- </div> -->
 <!-- </md-card> -->

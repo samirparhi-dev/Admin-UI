@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { CallTypeSubtypeService } from "../services/ProviderAdminServices/calltype-subtype-master-service.service";
 import { dataService } from '../services/dataService/data.service';
 declare var jQuery: any;
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-call-disposition-type-master',
@@ -45,6 +46,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	showCallType: boolean = false;
 	tempCorrespondingSubCallType: any = [];
 	subCallTypeExist: boolean = false;
+	@ViewChild('callTypeSubCallType') callTypeSubCallType: NgForm;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService, private alertService: ConfirmationDialogsService,
 		public commonDataService: dataService, public dialog: MdDialog) {
@@ -97,7 +99,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.subCallTypeExist = false;
 		this.temporarySubtypeArray = [];
 	}
+back() {
+	this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+		if(res) {
+			this.hideTable(false);
+		}
+	})
 
+}
 	hideForm() {
 		this.showTable = true;
 		this.showForm = false;
@@ -170,7 +179,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.temporarySubtypeArray.splice(index, 1);
 		console.log(this.temporarySubtypeArray);
 	}
-
+	removeObj(index) {
+		this.temporarySubtypeArray.splice(index, 1);
+	}
 	save() {
 		this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray).subscribe(response => this.saveCallTypeSubTypeSuccessHandeler(response));
 	}
