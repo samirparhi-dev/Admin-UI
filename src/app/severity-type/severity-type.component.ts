@@ -103,6 +103,13 @@ export class SeverityTypeComponent implements OnInit {
       this.severityArray=[];
     }
   }
+  back() {
+    this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if(res) {
+        this.handlingFlag(true);
+      }
+    })
+  }
   removeObj(i) {
     this.severityArray.splice(i, 1);
   }
