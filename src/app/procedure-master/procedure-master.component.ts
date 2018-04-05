@@ -18,7 +18,7 @@ export class ProcedureMasterComponent implements OnInit {
   states: any;
   services: any;
   disableSelection: boolean = false;
-  
+
   editMode: any;
   serviceProviderID: any;
 
@@ -30,6 +30,10 @@ export class ProcedureMasterComponent implements OnInit {
   procedureForm: FormGroup;
   procedureList: any;
   filteredprocedureList: any;
+  tableMode: boolean = true;
+  saveEditMode: boolean = false;
+
+  bufferArray: any = [];
 
 
   constructor(private commonDataService: dataService,
@@ -40,7 +44,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.states = [];
     this.services = [];
 
-    }
+  }
 
   ngOnInit() {
 
@@ -63,7 +67,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
 
     this.providerAdminRoleService.getStates(this.serviceProviderID)
-    .subscribe(response => this.states = this.successhandeler(response));
+      .subscribe(response => this.states = this.successhandeler(response));
 
   }
 
@@ -85,10 +89,17 @@ export class ProcedureMasterComponent implements OnInit {
   getAvailableProcedures() {
 
     this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
-    .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res);});
+      .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res); });
 
   }
-
+  showTable() {
+    this.tableMode = true;
+    this.saveEditMode = false;
+  }
+  showForm() {
+    this.tableMode = false;
+    this.saveEditMode = true;
+  }
   saveProcedure() {
     const apiObject = this.objectManipulate();
     if (apiObject) {
@@ -96,11 +107,11 @@ export class ProcedureMasterComponent implements OnInit {
       delete apiObject['procedureID'];
 
       this.procedureMasterServiceService.postProcedureData(apiObject)
-      .subscribe((res) => {
-        this.procedureList.unshift(res);
-        this.procedureForm.reset();
-        this.alertService.alert('Procedure Details saved.')
-      })
+        .subscribe((res) => {
+          this.procedureList.unshift(res);
+          this.procedureForm.reset();
+          this.alertService.alert('Procedure details saved.')
+        })
 
     }
   }
@@ -119,7 +130,7 @@ export class ProcedureMasterComponent implements OnInit {
           this.updateList(res);
           this.procedureForm.reset();
           this.editMode = false;
-          this.alertService.alert('Procedure Details updated.')
+          this.alertService.alert('Procedure details updated.')
         })
 
     }
@@ -129,7 +140,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.procedureForm.reset();
     this.editMode = false;
   }
- 
+
 
   /**
    * Manipulate Form Object to as per API Need
@@ -177,11 +188,11 @@ export class ProcedureMasterComponent implements OnInit {
           procedureType: obj.type,
           procedureDesc: obj.description,
           createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID ,
+          providerServiceMapID: this.commonDataService.provider_serviceMapID,
           gender: 'Female'
         };
       }
-      console.log(JSON.stringify(apiObject,null,3), 'apiObject');
+      console.log(JSON.stringify(apiObject, null, 3), 'apiObject');
       return apiObject;
     }
 
@@ -201,7 +212,7 @@ export class ProcedureMasterComponent implements OnInit {
   getServices(stateID) {
     console.log(this.serviceProviderID, stateID);
     this.providerAdminRoleService.getServices(this.serviceProviderID, stateID)
-    .subscribe(response => this.servicesSuccesshandeler(response));
+      .subscribe(response => this.servicesSuccesshandeler(response));
   }
 
 
@@ -212,7 +223,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.providerServiceMapID = null;
 
   }
-// For State List
+  // For State List
   successhandeler(response) {
     return response;
   }
@@ -223,16 +234,28 @@ export class ProcedureMasterComponent implements OnInit {
    *
    */
   toggleProcedure(procedureID, index, toggle) {
-    console.log(procedureID, index , 'index');
-    this.procedureMasterServiceService.toggleProcedure({procedureID: procedureID, deleted: toggle})
-      .subscribe((res) => {
-        console.log(res, 'changed');
-        if (res) {
-          this.updateList(res);
-          // this.procedureList[index] = res;
-        }
-      })
-
+    let text;
+    if (!toggle)
+      text = "Are you sure you want to Activate?";
+    else
+      text = "Are you sure you want to Deactivate?";
+    this.alertService.confirm(text).subscribe(response => {
+      if (response) {
+        console.log(procedureID, index, 'index');
+        this.procedureMasterServiceService.toggleProcedure({ procedureID: procedureID, deleted: toggle })
+          .subscribe((res) => {
+            console.log(res, 'changed');
+            if (res) {
+              if (!toggle)
+                this.alertService.confirm("Activated successfully");
+              else
+                this.alertService.confirm("Deactivated successfully");
+              this.updateList(res);
+              // this.procedureList[index] = res;
+            }
+          })
+      }
+    })
   }
 
   updateList(res) {
@@ -283,7 +306,7 @@ export class ProcedureMasterComponent implements OnInit {
       female = true;
     }
     this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
-console.log(JSON.stringify(item,null,4));
+    console.log(JSON.stringify(item, null, 4));
     this.procedureForm.patchValue({
       id: item.procedureID,
       name: item.procedureName,

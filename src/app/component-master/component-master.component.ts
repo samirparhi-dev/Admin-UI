@@ -31,6 +31,8 @@ export class ComponentMasterComponent implements OnInit {
   componentForm: FormGroup;
   componentList: any;
   filteredComponentList: any;
+  tableMode: boolean = true;
+  saveEditMode: boolean = false;
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
@@ -141,13 +143,20 @@ export class ComponentMasterComponent implements OnInit {
     })
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
-
+  showTable() {
+    this.tableMode = true;
+    this.saveEditMode = false;
+  }
+  showForm() {
+    this.tableMode = false;
+    this.saveEditMode = true;
+  }
   saveComponent() {
     const apiObject = this.objectManipulate();
     delete apiObject.modifiedBy;
     delete apiObject.deleted;
 
-    console.log(JSON.stringify(apiObject,null,4), 'apiObject');
+    console.log(JSON.stringify(apiObject, null, 4), 'apiObject');
     if (apiObject) {
       apiObject.createdBy = this.commonDataService.uname;
 
@@ -156,7 +165,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
           this.resetForm();
-          this.alertService.alert('Component saved Successfully.');
+          this.alertService.alert('Component saved successfully.');
         })
 
     }
@@ -179,7 +188,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.updateList(res);
           this.resetForm();
-          this.alertService.alert('Component updated Successfully.');
+          this.alertService.alert('Component updated successfully.');
         })
 
     }
@@ -210,7 +219,7 @@ export class ComponentMasterComponent implements OnInit {
           !obj.range_normal_max ||
           !obj.range_normal_min ||
           !obj.measurementUnit) {
-          this.alertService.alert('Please add all Input Limits');
+          this.alertService.alert('Please add all input limits');
           return false
         } else {
           obj.compOpt = null;
@@ -225,7 +234,7 @@ export class ComponentMasterComponent implements OnInit {
         } else if (obj.compOpt.length == 2 && obj.inputType == 'DropDown') {
           this.alertService.alert('You\'ve added only 2 options, please choose \'Radio Button\' as Input type.');
           return false;
-        } else  {
+        } else {
           let index = 0;
           obj.compOpt.forEach(element => {
             console.log(element, 'element here', element.name);
@@ -235,8 +244,8 @@ export class ComponentMasterComponent implements OnInit {
           });
           if (index) {
             this.alertService.alert('Please Fill details for all Component Properties.');
-             return false;
-             }
+            return false;
+          }
         }
 
       }
@@ -300,14 +309,27 @@ export class ComponentMasterComponent implements OnInit {
    *
    */
   toggleComponent(componentID, index, toggle) {
-    console.log(componentID, index, 'index');
-    this.componentMasterServiceService.toggleComponent({ componentID: componentID, deleted: toggle })
-      .subscribe((res) => {
-        console.log(res, 'changed');
-        if (res) {
-          this.updateList(res);
-        }
-      })
+    let text;
+    if (!toggle)
+      text = "Are you sure you want to Activate?";
+    else
+      text = "Are you sure you want to Deactivate?";
+    this.alertService.confirm(text).subscribe(response => {
+      if (response) {
+        console.log(componentID, index, 'index');
+        this.componentMasterServiceService.toggleComponent({ componentID: componentID, deleted: toggle })
+          .subscribe((res) => {
+            console.log(res, 'changed');
+            if (res) {
+              if (!toggle)
+                this.alertService.confirm("Activated successfully");
+              else
+                this.alertService.confirm("Deactivated successfully");
+              this.updateList(res);
+            }
+          })
+      }
+    })
 
   }
 
@@ -332,7 +354,7 @@ export class ComponentMasterComponent implements OnInit {
   configComponent(item, i) {
     this.componentMasterServiceService.getCurrentComponentForEdit(item.testComponentID)
       .subscribe((res) => { this.loadDataToEdit(res) })
-    console.log(JSON.stringify(item,null,4), 'item to patch');
+    console.log(JSON.stringify(item, null, 4), 'item to patch');
     console.log(this.componentForm, 'form here');
     // this.editMode = item.testComponentID;
     //     this.editMode = 21;
@@ -363,7 +385,7 @@ export class ComponentMasterComponent implements OnInit {
 
 
   loadDataToEdit(res) {
-    console.log(JSON.stringify(res,null,4), 'res');
+    console.log(JSON.stringify(res, null, 4), 'res');
     if (res) {
       this.editMode = res.testComponentID;
       this.componentForm.patchValue(res);

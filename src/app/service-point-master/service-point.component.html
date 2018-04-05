@@ -1,186 +1,234 @@
-<md-card>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h4>Search Service Points</h4>
-                <form #searForm="ngForm">
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+<div class="row">
+    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
+        <h4>Search Service Points</h4>
+        <form #searForm="ngForm">
+            <div class="row m-t-25">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
                         <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID);getServicePoints(searchStateID,searchDistrictID)">
                             <md-option *ngFor="let state of provider_states" [value]="state.stateID">
                                 {{state.stateName}}
                             </md-option>
                         </md-select>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
                         <md-select placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID" (change)="getParkingPlaces(searchStateID,searchDistrictID);getServicePoints(searchStateID,searchDistrictID)">
                             <md-option *ngFor="let district of districts" [value]="district.districtID">
                                 {{district.districtName}}
                             </md-option>
                         </md-select>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-select placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID" (change)="getServicePoints(searchStateID,searchDistrictID,searchParkingPlaceID)">
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID"
+                            (change)="getServicePoints(searchStateID,searchDistrictID,searchParkingPlaceID)">
                             <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
                                 {{parkingPlace.parkingPlaceName}}
                             </md-option>
                         </md-select>
-                    </div>
-                    <button class="btn">
-                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
-                    </button>
-                </form>
-            </div>
-        <!--</div>
-    </div>
-</md-card>
-<md-card>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
-            <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h4>Available Service Points</h4>
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th>S No.</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Sub District</th>
-                            <th>Parking Place</th>
-                            <th>Service Point</th>
-                            <th>Description</th>
-                            <th>Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="cursor: pointer" *ngFor="let servicePoint of availableServicePoints | paginate: {id:'servicePointListResult', itemsPerPage: 3, currentPage: b} ">
-                            <td>{{availableServicePoints.indexOf(servicePoint)+1}} </td>
-                            <td>{{servicePoint.stateName}}</td>
-                            <td>{{servicePoint.districtName}}</td>
-                            <td>{{servicePoint.blockName}}</td>
-                            <td>{{servicePoint.parkingPlaceName}}</td>
-                            <td>{{servicePoint.servicePointName}}</td>
-                            <td>{{servicePoint.servicePointDesc}}</td>
-                            <td>{{servicePoint.servicePointHQAddress}}</td>
-                            <td *ngIf="servicePoint.deleted=='0'"> <button class="btn" (click)="updateServicePointStatus(servicePoint)">Deactivate</button></td>
-                            <td *ngIf="servicePoint.deleted=='1'"> <button class="btn activateBtn" (click)="updateServicePointStatus(servicePoint)">Activate</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <pagination-controls (pageChange)="b = $event" id="servicePointListResult"></pagination-controls>
-                <div>
-                    <button class="btn pull-right " (click)="showForm()">Add Service Point </button>
+                    </md-input-container>
                 </div>
+                <!-- <button md-mini-fab color="primary">
+                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="showList()">clear</md-icon>
+                </button> -->
             </div>
-           
+        </form>
+    </div>
 
-            <div *ngIf="!showServicePoints">
-                <h4>Create Service Point </h4>
-                <form #servicePointForm="ngForm">
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12 m-t-20">
+        <h4>Available Service Points</h4>
+        <div class="table-responsive m-t-15">
+            <table [md2Data]="availableServicePoints" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th>S No.</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Sub District</th>
+                        <th>Parking Place</th>
+                        <th>Service Point</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="availableServicePoints.length == 0">
+                        <td colspan="9" align="center">No Record Found</td>
+                    </tr>
+                    <tr style="cursor: pointer" *ngFor="let servicePoint of md2.data;let i=index ">
+                        <td>{{availableServicePoints.indexOf(servicePoint)+1}} </td>
+                        <td>{{servicePoint.stateName}}</td>
+                        <td>{{servicePoint.districtName}}</td>
+                        <td>{{servicePoint.blockName}}</td>
+                        <td>{{servicePoint.parkingPlaceName}}</td>
+                        <td>{{servicePoint.servicePointName}}</td>
+                        <td>{{servicePoint.servicePointDesc}}</td>
+                        <td>{{servicePoint.servicePointHQAddress}}</td>
+                        <td *ngIf="servicePoint.deleted=='0'">
+                            <button md-raised-button color="primary" (click)="updateServicePointStatus(servicePoint)">Deactivate</button>
+                        </td>
+                        <td *ngIf="servicePoint.deleted=='1'">
+                            <button md-raised-button color="primary" (click)="updateServicePointStatus(servicePoint)">Activate</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                        <td colspan="5" class="p-r-0">
+                            <button md-raised-button color="primary" class=" pull-right " (click)="showForm()">Create New Service Point </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <div *ngIf="!showServicePoints" class="col-xs-12 col-sm-12">
+        <h4>Create Service Point </h4>
+
+        <form #servicePointForm="ngForm">
+            <div class="row m-t-25">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
                         <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0])"
                             #stateVal="ngModel">
                             <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
                                 {{item.stateName}}
                             </md-option>
                         </md-select>
-                        <md-hint [hidden]=stateVal.valid>
-                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select State</span>
-                        </md-hint>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    </md-input-container>
+                    <md-hint [hidden]=stateVal.valid>
+                        <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select State</span>
+                    </md-hint>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
                         <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="districtID" name="districtID" #districtV="ngModel"
                             (change)="GetTaluks(districtID.split('-')[0]);getParkingPlaces(stateID.split('-')[0],districtID.split('-')[0]);">
                             <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
                                 {{district.districtName}}
                             </md-option>
                         </md-select>
-                        <md-hint [hidden]=districtV.valid>
-                            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select District</span>
-                        </md-hint>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    </md-input-container>
+
+                    <md-hint [hidden]=districtV.valid>
+                        <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select District</span>
+                    </md-hint>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
                         <md-select placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="talukID" name="talukID" (change)="GetBranches(talukID.split('-')[0]);">
                             <md-option *ngFor="let taluk of taluks" value="{{taluk.blockID}}-{{taluk.blockName}}">
                                 {{taluk.blockName}}
                             </md-option>
                         </md-select>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-select required placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="parkingPlaceID" name="parkingPlaceID" #parkingPID="ngModel"> 
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select required placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="parkingPlaceID" name="parkingPlaceID"
+                            #parkingPID="ngModel">
                             <md-option *ngFor="let parkingPlace of availableParkingPlaces" value="{{parkingPlace.parkingPlaceID}}-{{parkingPlace.parkingPlaceName}}">
                                 {{parkingPlace.parkingPlaceName}}
                             </md-option>
                         </md-select>
-                        <md-hint [hidden]=parkingPID.valid>
-                            <span class="error_text" *ngIf="!parkingPID.required  && ( parkingPID.dirty || parkingPID.touched)">Please select Parking Place</span>
-                        </md-hint>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-                        <md-input-container [style.width]="'100%'">
-                            <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
-                                (blur)="checkExistance(servicePointName)">
-                            <md-hint>
-                                <span class="error_text" *ngIf="!servicePointN.valid  && ( servicePointN.dirty || servicePointN.touched)">Please enter Service Point Name</span>
-                                <span class="error_text" *ngIf="servicePointN.valid && servicePointNameExist">Service Point already exists</span>
-                            </md-hint>
-                        </md-input-container>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-input-container [style.width]="'100%'">
-                            <input mdInput placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
-                        </md-input-container>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
-                        <md-input-container [style.width]="'100%'">
-                            <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
-                            <md-hint [hidden]=servicePointAddress.valid>
-                                <span class="error_text" *ngIf="!servicePointAddress.required  && ( servicePointAddress.dirty || servicePointAddress.touched)">Please enter address</span>
-                            </md-hint>
-                        </md-input-container>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                        <button *ngIf="!editable" [disabled]=" !servicePointN.valid || servicePointNameExist || !servicePointAddress.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
-                            class="btn pull-right " (click)="addServicePointToList(servicePointForm.value);servicePointForm.reset()  ">
-                            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-                        </button>
-                    </div>
-                </form>
-                <div *ngIf="servicePointList.length>0">
-                    <table class="table ">
-                        <thead>
-                            <tr>
-                                <th>S No.</th>
-                                <th>State</th>
-                                <th>District</th>
-                                <th>Sub District</th>
-                                <th>Parking Place</th>
-                                <th>Service Point</th>
-                                <th>Description</th>
-                                <th>Address</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="cursor: pointer" *ngFor="let servicePoint of servicePointList | paginate: {id:'servicePointResult', itemsPerPage: 3, currentPage: b}">
-                                <td>{{servicePointList.indexOf(servicePoint)+1}}</td>
-                                <td>{{servicePoint.stateName}}</td>
-                                <td>{{servicePoint.districtName}}</td>
-                                <td>{{servicePoint.blockName}}</td>
-                                <td>{{servicePoint.parkingPlaceName}}</td>
-                                <td>{{servicePoint.servicePointName}}</td>
-                                <td>{{servicePoint.servicePointDesc}}</td>
-                                <td>{{servicePoint.servicePointHQAddress}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <pagination-controls (pageChange)="b = $event" id="servicePointResult"></pagination-controls>
+                    </md-input-container>
+                    <md-hint [hidden]=parkingPID.valid>
+                        <span class="error_text" *ngIf="!parkingPID.required  && ( parkingPID.dirty || parkingPID.touched)">Please select Parking Place</span>
+                    </md-hint>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="btn pull-left" (click)="servicePointForm.reset();showList()">Back</button> <button *ngIf="servicePointList.length>0"
-                        class="btn pull-right " (click)="storeServicePoints()">Submit</button>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                    <md-input-container [style.width]="'100%'">
+                        <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
+                            (blur)="checkExistance(servicePointName)">
+                        <md-hint>
+                            <span class="error_text" *ngIf="!servicePointN.valid  && ( servicePointN.dirty || servicePointN.touched)">Please enter Service Point Name</span>
+                            <span class="error_text" *ngIf="servicePointN.valid && servicePointNameExist">Service Point already exists</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                    <md-input-container [style.width]="'100%'">
+                        <input mdInput placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
+                    </md-input-container>
+                </div>
+                <div class="clearfix visible-md "></div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container [style.width]="'100%'">
+                        <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
+                        <md-hint [hidden]=servicePointAddress.valid>
+                            <span class="error_text" *ngIf="!servicePointAddress.required  && ( servicePointAddress.dirty || servicePointAddress.touched)">Please enter address</span>
+                        </md-hint>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+                    <button md-mini-fab color="primary" *ngIf="!editable" [disabled]="!servicePointN.valid || servicePointNameExist || !servicePointAddress.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
+                        class="pull-right " (click)="addServicePointToList(servicePointForm.value);servicePointForm.reset()  ">
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                    </button>
+                    <button md-raised-button color="primary" class="pull-left" (click)="servicePointForm.reset();showList()">Back</button>
                 </div>
             </div>
+        </form>
+        <div class="table-responsive  m-t-15" *ngIf="servicePointList.length>0">
+            <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th>S No.</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Sub District</th>
+                        <th>Parking Place</th>
+                        <th>Service Point</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="cursor: pointer" *ngFor="let servicePoint of md2.data;let i=index ">
+                        <td>{{servicePointList.indexOf(servicePoint)+1}}</td>
+                        <td>{{servicePoint.stateName}}</td>
+                        <td>{{servicePoint.districtName}}</td>
+                        <td>{{servicePoint.blockName}}</td>
+                        <td>{{servicePoint.parkingPlaceName}}</td>
+                        <td>{{servicePoint.servicePointName}}</td>
+                        <td>{{servicePoint.servicePointDesc}}</td>
+                        <td>{{servicePoint.servicePointHQAddress}}</td>
+                        <td>
+                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="9">
+                            <md2-pagination></md2-pagination>
+                        </td>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div>
+            <button md-raised-button *ngIf="servicePointList.length>0" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
+
         </div>
     </div>
-</md-card>
+
+</div>

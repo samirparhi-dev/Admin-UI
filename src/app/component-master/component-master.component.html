@@ -1,197 +1,212 @@
-<md-card>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h4>Component Master</h4>
-            <div *ngIf="unfilled" class="alert alert-danger" role="alert">
-                Please fill all the details
-            </div>
-            <div style="min-height: 100px;">
-                <form #stateService="ngForm">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess required>
-                            <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
-                                {{stat.stateName}}
-                            </md-option>
-                        </md-select>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4 *ngIf="!editMode">Component Master</h4>
+        <h4 *ngIf="editMode">Edit Component Master</h4>
+        <div *ngIf="unfilled" class="alert alert-danger" role="alert">
+            Please fill all the details
+        </div>
+        <div>
+            <form #stateService="ngForm">
+                <div class="row m-t-25">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
+                                name="state" #statess required>
+                                <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+                                    {{stat.stateName}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-                        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" required>
-                            <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
-                                {{ser.serviceName}}
-                            </md-option>
-                        </md-select>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
+                                #servicess="ngModel" required>
+                                <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
+                                    {{ser.serviceName}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
-                </form>
-            </div>
-            <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='componentForm'>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <!-- <md-form-field [style.width]=" '100%' ">
+                </div>
+            </form>
+        </div>
+        <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='componentForm'>
+            <div class="row" *ngIf="saveEditMode">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- <md-form-field [style.width]=" '100%' ">
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
-                        <md-input-container style="width: 100% ">
-                            <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName" maxlength="99">
-                        </md-input-container>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <md-input-container [style.width]="'100%'">
-                            <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description" maxlength="99"></textarea>
-                        </md-input-container>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                        <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type">Component Input Type*</label>
-                        <md-radio-group id="component-type" label="Input Type" [disabled]="editMode" placeholder="Input type" class="radio-group" (change)="selected()" formControlName="inputType">
-                            <md-radio-button class="radio-button" value="RadioButton" color="primary">
-
-                                Radio Button
-                            </md-radio-button>
-                            <md-radio-button class="radio-button" color="primary" value="TextBox">
-
-                                Text Box
-                            </md-radio-button>
-                            <md-radio-button color="primary" class="radio-button" value="DropDown">
-
-                                Drop Down
-                            </md-radio-button>
-                        </md-radio-group>
-                    </div>
+                    <md-input-container style="width: 100% ">
+                        <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName"
+                            maxlength="99">
+                    </md-input-container>
                 </div>
-
-                <div id="validation">
-                    <md-card class="row" *ngIf="componentForm.value.inputType == 'TextBox'">
-                        <md-card-header>
-                            <h3>Component Properties</h3>
-                        </md-card-header>
-
-                        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-
-                            <md-input-container style="width: 100% ">
-                                <input id="component-min" type="number" mdInput placeholder="Minimum Range" [style.width]="'100%'" formControlName="range_min">
-                            </md-input-container>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-
-                            <md-input-container style="width: 100% ">
-                                <input id="component-max" type="number" mdInput placeholder="Maximum Range" [style.width]="'100%'" formControlName="range_max">
-                            </md-input-container>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-
-                            <md-input-container style="width: 100% ">
-                                <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range" [style.width]="'100%'" formControlName="range_normal_min">
-                            </md-input-container>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-
-                            <md-input-container style="width: 100% ">
-                                <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range" [style.width]="'100%'" formControlName="range_normal_max">
-                            </md-input-container>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-
-                            <md-input-container style="width: 100% ">
-                                <input id="component-unit" mdInput placeholder="Measuring Unit" [style.width]="'100%'" formControlName="measurementUnit">
-                            </md-input-container>
-                        </div>
-                    </md-card>
-                    <md-card formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox'">
-                        <md-card-header>
-                            <h3>Component Properties</h3>
-
-                        </md-card-header>
-                        <div>
-                            <section *ngFor="let datum of componentForm.controls.compOpt['controls']; let i=index; let isLast=last;" class="row">
-                                <ng-container [formGroupName]='i'>
-                                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-
-                                        <md-input-container style="width: 100% ">
-                                            <input class="values" mdInput [errorStateMatcher]="myErrorStateMatcher.bind(this)" placeholder="Component Option" formControlName="name" [style.width]="'100%'" maxlength="30">
-                                        </md-input-container>
-                                    </div>
-                                    <button md-mini-fab color="warn" *ngIf="componentForm.controls.compOpt['controls'].length > 1" (click)="removeID(i);">
-                    <md-icon class="md-18" aria-label="Example icon-button with a heart icon">close</md-icon>
-                  </button>
-                                    <span>
-<button md-mini-fab color="primary" *ngIf="isLast" (click)="addID(i)">
-
-
-                      <md-icon class="md-18" aria-label="Example icon-button with a heart icon">add</md-icon>
-                    </button>
-                  </span>
-                                </ng-container>
-                            </section>
-                        </div>
-                    </md-card>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container [style.width]="'100%'">
+                        <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description"
+                            maxlength="99"></textarea>
+                    </md-input-container>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type"> -->
+                    Component Input Type*
+                    <!-- </label> -->
+                    <md-radio-group id="component-type" label="Input Type" [disabled]="editMode" placeholder="Input type" class="radio-group m-t--5 m-l-5"
+                        (change)="selected()" formControlName="inputType">
+                        <md-radio-button class="radio-button" value="RadioButton" color="primary">
 
+                            Radio Button
+                        </md-radio-button>
+                        <md-radio-button class="radio-button" color="primary" value="TextBox">
+
+                            Text Box
+                        </md-radio-button>
+                        <md-radio-button color="primary" class="radio-button" value="DropDown">
+
+                            Drop Down
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
             </div>
+
+            <div id="validation">
+                <div class="row" *ngIf="componentForm.value.inputType == 'TextBox'">
+
+                    <h4>Component Properties</h4>
+
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                        <md-input-container style="width: 100% ">
+                            <input id="component-min" type="number" mdInput placeholder="Minimum Range" [style.width]="'100%'" formControlName="range_min">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                        <md-input-container style="width: 100% ">
+                            <input id="component-max" type="number" mdInput placeholder="Maximum Range" [style.width]="'100%'" formControlName="range_max">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                        <md-input-container style="width: 100% ">
+                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range" [style.width]="'100%'" formControlName="range_normal_min">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                        <md-input-container style="width: 100% ">
+                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range" [style.width]="'100%'" formControlName="range_normal_max">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                        <md-input-container style="width: 100% ">
+                            <input id="component-unit" mdInput placeholder="Measuring Unit" [style.width]="'100%'" formControlName="measurementUnit">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox'">
+
+                    <h4>Component Properties</h4>
+
+
+                    <div>
+                        <section *ngFor="let datum of componentForm.controls.compOpt['controls']; let i=index; let isLast=last;" class="row">
+                            <ng-container [formGroupName]='i'>
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+                                    <md-input-container style="width: 100% ">
+                                        <input class="values" mdInput [errorStateMatcher]="myErrorStateMatcher.bind(this)" placeholder="Component Option" formControlName="name"
+                                            [style.width]="'100%'" maxlength="30">
+                                    </md-input-container>
+                                </div>
+                                <button md-mini-fab color="warn" *ngIf="componentForm.controls.compOpt['controls'].length > 1" (click)="removeID(i);">
+                                    <md-icon class="md-18" aria-label="Example icon-button with a heart icon">close</md-icon>
+                                </button>
+                                <span>
+                                    <button md-mini-fab color="primary" *ngIf="isLast" (click)="addID(i)">
+
+
+                                        <md-icon class="md-18" aria-label="Example icon-button with a heart icon">add</md-icon>
+                                    </button>
+                                </span>
+                            </ng-container>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+    </div>
+
+</div>
+<div *ngIf="saveEditMode">
+    <div *ngIf="providerServiceMapID && service == '2'" align="right">
+        <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="showTable();resetForm()">Back</button>
+        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" (click)="saveComponent()">Save</button>
+        <button *ngIf="editMode" id="updateButton" md-raised-button color="accent" (click)="updateComponent()">Update</button>
 
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12 m-t-20 step-btn" *ngIf="providerServiceMapID && service == '2'" align="right">
-            <button *ngIf="!editMode" id="saveButton" md-raised-button color="primary" (click)="saveComponent()">Save</button>
-            <button *ngIf="editMode" id="updateButton" md-raised-button color="primary" (click)="updateComponent()">Update</button>
-            <button *ngIf="editMode" id="resetButton" md-raised-button (click)="resetForm()">Create New</button>
-        </div>
+</div>
+<div class="row " *ngIf="tableMode && providerServiceMapID && service=='2' ">
+    <div *ngIf="componentList?.length > 0" class="pull-right">
+        <md-input-container id="filterbox" class="m-t-15">
+            <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+            <md-icon mdSuffix>search</md-icon>
+        </md-input-container>
     </div>
+    <div #tabledData class="col-xs-12 col-sm-12  table-responsive ">
+        <table class="table table-striped" [md2Data]="filteredComponentList" #md2="md2DataTable" [rowsPerPage]="4">
+            <thead>
+                <tr>
+                    <th width="5% ">S.No</th>
+                    <th width="15% ">Component Name</th>
+                    <th width="20% ">Component Type</th>
+                    <th width="35% ">Description</th>
+                    <th width="10% ">Created By</th>
+                    <th width="5% ">Edit</th>
+                    <th width="10% ">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="filteredComponentList.length==0 ">
+                    <td colspan="8" align="center">No Record Found</td>
+                </tr>
+                <tr *ngFor="let item of md2.data;let i=index">
+                    <td>{{(md2.activePage-1)*4+i+1}}</td>
+                    <td>{{item.testComponentName}}</td>
+                    <td>{{item.inputType}}</td>
+                    <td>{{item.testComponentDesc}}</td>
+                    <td>{{item.createdBy}}</td>
+                    <td>
+                        <md-icon mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" role="img" aria-hidden="true" style="font-size: 18px"
+                            (click)="showForm();configComponent(item, i)"></md-icon>
+                    </td>
+                    <td>
+                        <button md-raised-button color="primary" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, false)">Activate</button>
+                        <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, true)">Deactivate</button>
 
-</md-card>
-<md-card *ngIf="providerServiceMapID && service=='2' ">
-    <div class="row ">
-        <div *ngIf="componentList?.length > 0" class="pull-right">
-            <md-input-container id="filterbox" class="m-t-20-">
-                <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
-                <md-icon mdSuffix>search</md-icon>
-            </md-input-container>
-        </div>
-        <div #tabledData class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive ">
-            <table class="table table-striped table-hover " [md2Data]="filteredComponentList" #md2="md2DataTable" [rowsPerPage]="4 ">
-                <thead>
-                    <tr>
-                        <th width="5% ">S.No</th>
-                        <th width="15% ">Component Name</th>
-                        <th width="20% ">Component Type</th>
-                        <th width="35% ">Description</th>
-                        <th width="10% ">Created By</th>
-                        <th width="5% "></th>
-                        <th width="10% ">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="filteredComponentList.length==0 ">
-                        <td colspan="8" align="center">No Previous Record Found</td>
-                    </tr>
-                    <tr *ngFor="let item of md2.data;let i=index">
-                        <td>{{(md2.activePage-1)*4+i+1}}</td>
-                        <td>{{item.testComponentName}}</td>
-                        <td>{{item.inputType}}</td>
-                        <td>{{item.testComponentDesc}}</td>
-                        <td>{{item.createdBy}}</td>
-                        <td>
-                            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configComponent(item, i)">edit</md-icon>
-                        </td>
-                        <td>
-                            <button *ngIf="item.deleted" #enableButton md-raised-button color="primary" (click)="toggleComponent(item.testComponentID, i, false)">Enable</button>
-                            <button *ngIf="!item.deleted" #disableButton md-raised-button (click)="toggleComponent(item.testComponentID, i, true)">Disable</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <md2-pagination></md2-pagination>
+                    </td>
+                    <td colspan="6">
+                        <button *ngIf="!editMode" id="resetButton" color="primary" md-raised-button (click)="showForm();resetForm()">Create New Component</button>
 
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <md2-pagination></md2-pagination>
-                        </td>
-                        <td colspan="1">
-                            <span>Count: <b>{{filteredComponentList.length}}</b></span>
+                    </td>
 
-                        </td>
+                </tr>
+            </tfoot>
 
-                    </tr>
-                </tfoot>
-
-            </table>
-        </div>
+        </table>
     </div>
-</md-card>
+</div>
