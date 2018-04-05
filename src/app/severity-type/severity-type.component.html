@@ -1,159 +1,169 @@
 <!-- <md-card> -->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 *ngIf="firstPage" class="pull-left">Severity Type </h4>
-      <h4 *ngIf="!firstPage" class="pull-left">Add Severity Type </h4>
-      </div>
-      <form #searchForm="ngForm">
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
-          <md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess required>
-            <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
-              {{stat.stateName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
-          <md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess required>
-            <md-option *ngFor="let ser of services" value="{{ser}}" (click)="findSeverity(ser)">
-              {{ser.serviceName}}
-            </md-option>
-          </md-select>
-        </div>
-        <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 *ngIf="firstPage" class="pull-left">Severity Type </h4>
+    <h4 *ngIf="!firstPage" class="pull-left">Add Severity Type </h4>
+  </div>
+  <form #searchForm="ngForm">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" disabled={{!firstPage}} class="width100" [(ngModel)]="stateId" (change)="getServices(stateId)"
+          name="state" #statess required>
+          <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+            {{stat.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Service Line" disabled={{!firstPage}} class="width100" [(ngModel)]="service" name="service" #servicess
+          required>
+          <md-option *ngFor="let ser of services" value="{{ser}}" (click)="findSeverity(ser)">
+            {{ser.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
           <button *ngIf="search && firstPage" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
         </div> -->
-      </form>
-    
+  </form>
+
+</div>
+<div class="row" *ngIf="search && firstPage">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+    <div class="table-responsive">
+      <table class="table table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No</th>
+            <th width="30%">Severity Name</th>
+            <th width="35%">Severity Description</th>
+            <th width="10%">Edit</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0">
+            <td colspan="5" align="center">
+              No Records Found
+            </td>
+          </tr>
+          <tr *ngFor="let sev of md2.data; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{sev.severityTypeName}}</td>
+            <td>{{sev.severityDesc}}</td>
+            <td>
+              <md-icon *ngIf="!sev.deleted" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="editSeverity(sev)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, false)">Activate</button>
+              <button *ngIf="!sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showAddScreen()">Add Severity</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
-  <div class="row" *ngIf="search && firstPage">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive m-t-10">
-        <table class="table table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
-          <thead>
-            <tr>
-              <th width="5%">S.No</th>
-              <th width="25%">Severity Name</th>
-              <th width="30%">Severity Description</th>
-              <th width="10%">Edit</th>
-              <th width="15%">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="md2.data.length == 0">
-              <td colspan="5" align="center">
-                No Records Found
-              </td>
-            </tr>
-            <tr *ngFor="let sev of md2.data; let i=index">
-              <td>{{(md2.activePage-1)*4+i+1}}</td>
-              <td>{{sev.severityTypeName}}</td>
-              <td>{{sev.severityDesc}}</td>
-              <td>
-                <md-icon *ngIf="!sev.deleted" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editSeverity(sev)">edit</md-icon>
-                </td>
-                <td>
-                <button *ngIf="sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, false)">Activate</button>
-                <button *ngIf="!sev.deleted" md-raised-button color="primary" (click)="deleteSeverity(sev.severityID, true)">Deactivate</button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="2">
-                <md2-pagination></md2-pagination>
-              </td>
-              <td colspan="3" class="p-r-0">
-								<button md-raised-button color="primary" class="pull-right" (click)="showAddScreen()">Add Severity</button>
-							</td>
-            </tr>
-          </tfoot>
-        </table>
+</div>
+<div class="row" *ngIf="!firstPage">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+    <form #severityAdding="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100">
+          <input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" #newSeverity="ngModel"
+            required>
+          <md-hint *ngIf="alreadyExist && newSeverity.touched">
+            <span class="error_text">Severity already exist</span>
+          </md-hint>
+        </md-input-container>
       </div>
-    </div>
-  </div>
-  <div class="row" *ngIf="!firstPage">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 p-a-0">
-      <form #severityAdding="ngForm" autocomplete="off">
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-          <md-input-container [style.width]="'100%'">
-            <input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" #newSeverity="ngModel" required>
-            <md-hint *ngIf="alreadyExist && newSeverity.touched">
-              <span class="error_text">Severity already exist</span>
-            </md-hint>
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-          <md-input-container [style.width]="'100%'">
-            <input mdInput placeholder="Description" name="description" [(ngModel)]="description">
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="severityAdding.valid && !alreadyExist">
-          <button md-mini-fab color="primary" (click)="add(severityAdding.value)">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(severityArray?.length !=0) && !firstPage">
-      <div class="table-responsive">
-        <table [md2Data]="severityArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
-          <thead>
-            <tr>
-              <th width="5%">S.No</th>
-              <th width="15%">Severity Type</th>
-              <th width="25%">Severity Description</th>
-              <th width="15%">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="severityArray.length == 0">
-              <td colspan="5">NO RECORD FOUND!!</td>
-            </tr>
-            <tr *ngFor="let obj of severityArray; let i=index">
-              <td>{{(md2.activePage-1)*4+i+1}}</td>
-              <td>{{obj.severityTypeName}}</td>
-              <td>{{obj.severityDesc}}</td>
-              <td>             
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3">
-                <md2-pagination></md2-pagination>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100">
+          <input mdInput placeholder="Description" name="description" [(ngModel)]="description">
+        </md-input-container>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="severityAdding.valid && !alreadyExist">
+        <button md-mini-fab color="primary" (click)="add(severityAdding.value)">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="(severityArray?.length !=0) && !firstPage">
+    <div class="table-responsive">
+      <table [md2Data]="severityArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No</th>
+            <th width="15%">Severity Type</th>
+            <th width="25%">Severity Description</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="severityArray.length == 0">
+            <td colspan="5">NO RECORD FOUND!!</td>
+          </tr>
+          <tr *ngFor="let obj of severityArray; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{obj.severityTypeName}}</td>
+            <td>{{obj.severityDesc}}</td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
-  <!-- <div class="row m-t-10" *ngIf="(severityArray?.length !=0) && !firstPage">
+</div>
+<!-- <div class="row m-t-10" *ngIf="(severityArray?.length !=0) && !firstPage">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 " *ngFor="let obj of severityArray; let i=index ">
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-5">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-5">
         <md-chip-list>
           <md-chip color="accent" selected="true">{{obj.severityTypeName}}</md-chip>
         </md-chip-list>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-5">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-5">
         <md-chip-list>
           <md-chip color="accent" selected="true">{{obj.severityDesc}}</md-chip>
         </md-chip-list>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-5">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-5">
         <button md-mini-fab>
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">clear</md-icon>
         </button>
       </div>
     </div>
   </div> -->
-  <div class="row" *ngIf="!firstPage">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button *ngIf="severityArray.length>0" md-raised-button color="accent" class="pull-right" (click)="finalSubmit()">Save</button>
-    </div>
+<div class="row" *ngIf="!firstPage">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <button *ngIf="severityArray.length>0" md-raised-button color="accent" class="pull-right" (click)="finalSubmit()">Save</button>
   </div>
+</div>
 <!-- </md-card> -->

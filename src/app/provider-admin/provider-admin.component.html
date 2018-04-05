@@ -63,11 +63,21 @@
                                 </li>
                                 <li style="cursor: pointer" (click)='show("12")'>
                                     <a>Severity Type</a>
-                                </li>
-                                <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
-                                <li style="cursor: pointer" (click)='show("6")'>
-                                    <a>Drug Master</a>
-                                </li>
+                                </li>                               
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-2">Drug Groups</a>
+                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                            <li style="cursor: pointer" (click)='show("33")'>
+                                                <a>Drug Group Master</a>
+                                            </li>
+                                            <li style="cursor: pointer" (click)='show("34")'>
+                                                <a>Drug Master</a>
+                                            </li>
+                                            <li style="cursor: pointer" (click)='show("35")'>
+                                                <a>Drug Group Item Mapping</a>
+                                            </li>                                           
+                                        </ul>
+                                    </li> 
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Master</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -89,7 +99,6 @@
                                         <li style="cursor: pointer" (click)='show("30")'>
                                             <a>Component Master</a>
                                         </li>
-                                        <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
                                     </ul>
                                 </li>
 
@@ -177,6 +186,9 @@
                             <app-procedure-component-mapping *ngSwitchCase="31"></app-procedure-component-mapping>
                             <app-language-mapping *ngSwitchCase="28"></app-language-mapping>
                             <app-work-location-mapping *ngSwitchCase="32"></app-work-location-mapping>
+                            <app-drug-group *ngSwitchCase="33"></app-drug-group>
+                            <app-drug-list *ngSwitchCase="34"></app-drug-list>
+                            <app-drug-mapping *ngSwitchCase="35"></app-drug-mapping>
                         </div>
                     </div>
                 </div>

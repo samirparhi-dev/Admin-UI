@@ -99,14 +99,14 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.subCallTypeExist = false;
 		this.temporarySubtypeArray = [];
 	}
-back() {
-	this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-		if(res) {
-			this.hideTable(false);
-		}
-	})
+	back() {
+		this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+			if (res) {
+				this.hideTable(false);
+			}
+		})
 
-}
+	}
 	hideForm() {
 		this.showTable = true;
 		this.showForm = false;
@@ -356,7 +356,7 @@ back() {
 	templateUrl: './edit-call-type-model.html'
 })
 export class EditCallType {
-	constructor( @Inject(MD_DIALOG_DATA) public data: any,
+	constructor(@Inject(MD_DIALOG_DATA) public data: any,
 		public dialog: MdDialog,
 		public callTypeSubtypeService: CallTypeSubtypeService,
 		public commonDataService: dataService,
@@ -375,7 +375,7 @@ export class EditCallType {
 
 	isInbound: boolean;
 	isOutbound: boolean;
-	maxRedial:any;
+	maxRedial: any;
 
 
 	ngOnInit() {
@@ -391,11 +391,11 @@ export class EditCallType {
 		this.existingName = this.data.callType;
 		this.isInbound = this.data.isInbound;
 		this.isOutbound = this.data.isOutbound;
-		if(this.data.maxRedial.toString())
-		{
-			this.maxRedial=this.data.maxRedial.toString();
+		if (this.data.maxRedial != undefined) {
+			this.maxRedial = this.data.maxRedial.toString();
 		}
-		
+
+
 
 		this.get_calltype_subtype_history();
 

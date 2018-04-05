@@ -1,9 +1,10 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit,Inject, ViewChild } from '@angular/core';
 import { InstituteDirectoryMasterService } from '../services/ProviderAdminServices/institute-directory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 
 
@@ -33,6 +34,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	showTableFlag:boolean=false;
 	showFormFlag:boolean=false;
 	disableSelection:boolean=false;
+	@ViewChild('#instituteFields') instituteFields: NgForm;
 
 	constructor(public instituteDirectoryService:InstituteDirectoryMasterService,
 	            public commonDataService:dataService,
@@ -182,8 +184,12 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		if(response)
 		{
 			this.alertService.alert("Institute directory saved successfully!");
-			this.back();
+			//this.back();			
+			//this.instituteFields.resetForm();
 			this.search();
+			this.showTableFlag = true;
+			this.showFormFlag = false;
+			
 		}
 	}
 
