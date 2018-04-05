@@ -84,6 +84,8 @@ export class ProviderAdminRoleService {
 	}
 
 	deleteRole(obj) {
+		console.log("service obj", obj);
+		
 		return this.httpIntercept.post(this.delete_Role_Url, obj)
 			.map(this.handleSuccess)
 			.catch(this.handleError);

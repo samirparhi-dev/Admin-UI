@@ -251,7 +251,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
-            this.messageBox.alert('Successfully created');
+            this.messageBox.alert('Created successfully ');
             this.serviceList.length = [];
             this.getCategory(providerServiceMapID, this.sub_service);
           }
@@ -279,7 +279,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
-          this.messageBox.alert('Successfully created');
+          this.messageBox.alert('Created successfully');
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
@@ -556,6 +556,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   checkCategory(categoryName: string) {
     let categoriesExist;
     if (categoryName) {
+      console.log("categories", this.categories);
+      
       categoriesExist = this.categories.filter(function (item) {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });

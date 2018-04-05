@@ -314,7 +314,7 @@ back() {
 	}
 	deletedSuccess(res, action) {
 		if (res) {
-			this.alertService.alert(action + " Successfully");
+			this.alertService.alert(action + " successfully");
 			this.get_calltype_subtype_history();
 			console.log(res);
 		}
@@ -533,7 +533,7 @@ export class EditCallType {
 
 	modifySuccess(res) {
 		if (res) {
-			this.alertService.alert("Edited Call type/Sub type Successfully");
+			this.alertService.alert("Edited call type/sub type successfully");
 			this.dialogReff.close();
 		}
 	}

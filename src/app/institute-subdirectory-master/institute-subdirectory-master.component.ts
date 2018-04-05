@@ -140,14 +140,18 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	back()
 	{
-		this.showTableFlag=true;
-		this.showFormFlag=false;
-		/*reset the input fields of the form*/
-		this.institute_subdirectory="";
-		this.description="";
-		this.bufferArray=[];
-
-		this.disableSelection=false;
+		this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+			if(res) {
+				this.showTableFlag=true;
+				this.showFormFlag=false;
+				/*reset the input fields of the form*/
+				this.institute_subdirectory="";
+				this.description="";
+				this.bufferArray=[];
+		
+				this.disableSelection=false;
+			}
+		})
 	}
 
 
@@ -218,7 +222,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	{
 		if(response)
 		{
-			this.alertService.alert("Institute Subdirectory Saved Successfully");
+			this.alertService.alert("Institute subdirectory saved successfully");
 			this.back();
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
@@ -263,7 +267,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		console.log(response,"delete Response");
 		if(response)
 		{
-			this.alertService.alert(action+" Successfully!")
+			this.alertService.alert(action+" successfully!")
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
 	}
@@ -280,7 +284,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute Subdirectory Edited Successfully!");
+				this.alertService.alert("Institute subdirectory edited successfully!");
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 

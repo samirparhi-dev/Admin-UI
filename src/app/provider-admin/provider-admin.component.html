@@ -24,6 +24,15 @@
                                 <li style="cursor: pointer" (click)='show("2")'>
                                     <a>Role Master</a>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("27")'>
+                                    <a>Employee Master</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("28")'>
+                                    <a>Language Mapping</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("32")'>
+                                    <a>Work Location Mapping</a>
+                                </li>
                                 <!-- <li style="cursor: pointer" (click)='show("3")'>
                                     <a>Employee Master</a>
                                 </li> -->
@@ -33,31 +42,16 @@
                                 <li style="cursor: pointer" (click)='show("5")'>
                                     <a>Category Subcategory Provisioning</a>
                                 </li>
-                                <li style="cursor: pointer" (click)='show("12")'>
-                                    <a>Severity Type</a>
-                                </li>
-                                <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
-                                <li style="cursor: pointer" (click)='show("6")'>
-                                    <a>Drug Master</a>
-                                </li>
-
                                 <li style="cursor: pointer" (click)='show("20")'>
                                     <a>Institute Directory Master</a>
                                 </li>
                                 <li style="cursor: pointer" (click)='show("22")'>
                                     <a>Institute Subdirectory Master</a>
                                 </li>
-                                 <li style="cursor: pointer" (click)='show("18")'>
+
+                                <li style="cursor: pointer" (click)='show("18")'>
                                     <a>Feedback/Complaint Type Master</a>
-                                </li> 
-                                <!-- <li class="dropdown-submenu" (click)='show("18")'>
-                                    <a tabindex="-1">Feedback/Complaint Type Master</a>
-                                    <ul class="dropdown-menu">
-                                        <li style="cursor: pointer">
-                                            <a>Food Safety Complaint</a>
-                                        </li>
-                                    </ul>
-                                </li> -->
+                                </li>
                                 <li style="cursor: pointer" (click)='show("19")'>
                                     <a>Feedback/Complaint Nature Master</a>
                                 </li>
@@ -66,6 +60,13 @@
                                 </li>
                                 <li style="cursor: pointer" (click)='show("25")'>
                                     <a>Institute Type Master</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("12")'>
+                                    <a>Severity Type</a>
+                                </li>
+                                <!--                      <li style="cursor: pointer" (click)='show("13")'><a>Feedback Type</a></li> -->
+                                <li style="cursor: pointer" (click)='show("6")'>
+                                    <a>Drug Master</a>
                                 </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Master</a>
@@ -91,15 +92,7 @@
                                         <!--<li style="cursor: pointer" (click)='show("15")'><a>Van Type Master</a></li>-->
                                     </ul>
                                 </li>
-                                <li style="cursor: pointer" (click)='show("27")'>
-                                    <a>Employee Master New</a>
-                                </li>
-                                <li style="cursor: pointer" (click)='show("28")'>
-                                    <a>Language Mapping</a>
-                                </li>
-                                <li style="cursor: pointer" (click)='show("32")'>
-                                    <a>Work Location Mapping</a>
-                                </li>
+
                             </ul>
                         </li>
                         <li style="cursor: pointer" (click)='show("10")'>
@@ -110,6 +103,15 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu multi-level cu-admin-sub-nav-top">
+                                <li style="cursor: pointer" (click)='show("24")'>
+                                    <a>Agent List Creation</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("26")'>
+                                    <a>User-Role AgentID Mapping</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("23")'>
+                                    <a>Hospital-Institute Directory Mapping</a>
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Configrations</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -126,15 +128,6 @@
                                             <a>Procedure Component Mapping</a>
                                         </li>
                                     </ul>
-                                </li>
-                                <li style="cursor: pointer" (click)='show("23")'>
-                                    <a>Hospital-Institute Directory Mapping</a>
-                                </li>
-                                <li style="cursor: pointer" (click)='show("24")'>
-                                    <a>Agent List Creation</a>
-                                </li>
-                                <li style="cursor: pointer" (click)='show("26")'>
-                                    <a>User-Role AgentID Mapping</a>
                                 </li>
                             </ul>
                         </li>
@@ -154,7 +147,7 @@
                         <div>
                             <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
                             <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
-                            <app-employee-master *ngSwitchCase="3"></app-employee-master>
+                            <!-- <app-employee-master *ngSwitchCase="3"></app-employee-master> -->
                             <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
                             <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
                             <app-drug-master *ngSwitchCase="6"></app-drug-master>

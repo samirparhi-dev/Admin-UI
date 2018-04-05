@@ -116,14 +116,18 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	back()
 	{
-		this.showTableFlag=true;
-		this.showFormFlag=false;
-		/*reset the input fields of the form*/
-		this.instituteDirectory="";
-		this.description="";
-		this.bufferArray=[];
-
-		this.disableSelection=false;
+		this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+			if(res) {
+				this.showTableFlag=true;
+				this.showFormFlag=false;
+				/*reset the input fields of the form*/
+				this.instituteDirectory="";
+				this.description="";
+				this.bufferArray=[];
+		
+				this.disableSelection=false;
+			}
+		})
 	}
 
 	add_obj(institute_directory,description)

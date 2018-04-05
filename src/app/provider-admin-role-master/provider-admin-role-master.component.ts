@@ -180,7 +180,12 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
     this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
-        this.ProviderAdminRoleService.deleteRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, "delete"));
+        console.log("obj", obj);
+        this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
+           console.log('data',response);
+            //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
+        })
+         
       }
     },
       (err) => {

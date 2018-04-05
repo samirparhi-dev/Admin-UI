@@ -84,7 +84,6 @@ export class LocationServicelineMappingComponent implements OnInit {
       this.showForm = !flag_val;
       this.state = this.search_state;
       this.getDistricts(this.serviceProviderID, this.state);
-
       this.providerServiceMapIDs = [];
       if (this.PSMID_searchService != null && this.PSMID_searchService != undefined && this.PSMID_searchService != "") {
         this.providerServiceMapIDs.push(this.PSMID_searchService);
@@ -95,7 +94,9 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.form.resetForm();
-        this.changeTableFlag(flag_val);
+        this.changeTableFlag(true);
+      
+      
       }
     })
   }

@@ -3,21 +3,27 @@
     <h4 class="pull-left">Role Master</h4>
   </div>
   <form #stateService="ngForm">
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-      <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
-        name="state" #statess required>
-        <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
-          {{stat.stateName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
+          name="state" #statess required>
+          <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
+            {{stat.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
-      <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
-        #servicess="ngModel" (change)="findRoles(state,service)" required>
-        <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
-          {{ser.serviceName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
+          #servicess="ngModel" (change)="findRoles(state,service)" required>
+          <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
+            {{ser.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
   </form>
   <!--         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="showAddButtonFlag" >
@@ -30,8 +36,8 @@
     <button *ngIf="showUpdateFeatureButtonFlag && service == 3" class="pull-right" md-raised-button color="primary" (click)="addMoreFeatures(toBeEditedRoleObj)">Add More Features</button>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showAddButtonFlag">
-    <div class="table-responsive m-t-10">
-      <table [md2Data]="searchresultarray" #md2="md2DataTable" class="table" [rowsPerPage]="4">
+    <div class="table-responsive">
+      <table [md2Data]="searchresultarray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
           <tr>
             <!-- <th>S.No</th> -->
@@ -46,7 +52,7 @@
         </thead>
         <tbody>
           <tr *ngIf="correctInput && searchresultarray.length == 0">
-            <td colspan="3" align="center">
+            <td colspan="6" align="center">
               No Records Found
             </td>
           </tr>
@@ -73,7 +79,7 @@
             <td colspan="3">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="3">
+            <td colspan="3" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
             </td>
           </tr>
@@ -88,7 +94,7 @@
 <div class="row" *ngIf="showRoleCreationForm">
   <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10"> -->
   <form #addingForm="ngForm" id="roleAddForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Role" [(ngModel)]="role" minlength="1" maxlength="50" name="role" (keyup)="validateRole(role)"
           required #roles="ngModel">
@@ -98,37 +104,46 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="100">
       </md-input-container>
     </div>
 
     <!-- in case of 104, multiselect needed in feature-->
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="hideAdd && service == 3">
-      <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature" required>
-        <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
-          {{item.screenName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="hideAdd && service == 3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature" required>
+          <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+            {{item.screenName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
 
     <!-- incase of others, single select is needed in feature -->
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="hideAdd && service != 3">
-      <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="feature" required>
-        <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
-          {{item.screenName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="hideAdd && service != 3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="feature" required>
+          <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+            {{item.screenName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
 
 
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30" *ngIf="!hideAdd">
-      <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="editedFeatureID" required>
-        <md-option *ngFor="let item of editFeatures" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
-          {{item.screenName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="!hideAdd">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="editedFeatureID" required>
+          <md-option *ngFor="let item of editFeatures" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
+            {{item.screenName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
   </form>
   <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15" *ngIf="hideAdd && (addingForm.valid && !othersExist)">
@@ -138,49 +153,49 @@
   </div>
   <!-- </div> -->
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(objs.length!=0)">
-      <div class="table-responsive">
-        <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
-          <thead>
-            <tr>
-              <th width="5%">S.No</th>
-              <th width="15%">Role</th>
-              <th width="25%">Description</th>
-              <th width="20%">Screen Name</th>
-              <th width="15%">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="objs.length == 0">
-              <td colspan="5">NO RECORD FOUND!!</td>
-            </tr>
-            <tr *ngFor="let obj of objs; let i=index">
-              <td>{{(md2.activePage-1)*4+i+1}}</td>
-              <td>{{obj.roleName}}</td>
-              <td>{{obj.roleDesc}}</td>
-              <td>
-                  <ul class="p-l-15">
-                    <li class="p-l-5" *ngFor="let screen of obj.screen_name;let j=index ">
-                      {{screen}}
-                      <md-icon class="cursorPointer" mdTooltip="Remove {{screen}}" (click)="removeFeature(i,j)">cancel</md-icon>
-                    </li>
-                  </ul>
-                </td>
-              <td>
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3">
-                <md2-pagination></md2-pagination>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(objs.length!=0)">
+    <div class="table-responsive">
+      <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No</th>
+            <th width="15%">Role</th>
+            <th width="25%">Description</th>
+            <th width="20%">Screen Name</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="objs.length == 0">
+            <td colspan="5">NO RECORD FOUND!!</td>
+          </tr>
+          <tr *ngFor="let obj of objs; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{obj.roleName}}</td>
+            <td>{{obj.roleDesc}}</td>
+            <td>
+              <ul class="p-l-15">
+                <li class="p-l-5" *ngFor="let screen of obj.screen_name;let j=index ">
+                  {{screen}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{screen}}" (click)="removeFeature(i,j)">cancel</md-icon>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
+  </div>
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <button md-raised-button color="primary" class="pull-left" (click)="back(false)">Back</button>
@@ -192,24 +207,27 @@
 </div>
 
 <div class="row" *ngIf="updateFeaturesToRoleFlag">
-  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Role" disabled='true' [(ngModel)]="role_update" minlength="1" maxlength="50" name="role">
     </md-input-container>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Description" disabled='true' [(ngModel)]="description_update" name="description" maxlength="100">
     </md-input-container>
   </div>
 
   <!-- in case of 104, multiselect needed in feature-->
-  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3  m-t-30">
-    <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature_update" required>
-      <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
-        {{item.screenName}}
-      </md-option>
-    </md-select>
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <md-input-container class="hide_underline width100">
+      <input mdInput style="display:none">
+      <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature_update" required>
+        <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+          {{item.screenName}}
+        </md-option>
+      </md-select>
+    </md-input-container>
   </div>
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
