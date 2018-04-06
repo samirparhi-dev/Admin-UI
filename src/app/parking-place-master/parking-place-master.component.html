@@ -49,7 +49,7 @@
                 <table class="table table-striped table-hover" [md2Data]="availableParkingPlaces" #md2="md2DataTable" [rowsPerPage]="4">
                     <thead>
                         <tr>
-                            <th width="5%">S No.</th>
+                            <th width="5%">S.No.</th>
                             <th width="15%">State</th>
                             <th width="12%">District</th>
                             <th width="12%">Sub District</th>
@@ -78,7 +78,7 @@
                                     (click)="editParkingPlaceData(parkingPlace)">edit</md-icon>
                             </td>
                             <td>
-                                <button *ngIf="parkingPlace.deleted=='1'" md-raised-button color="primary" (click)="updateParkingPlaceStatus(parkingPlace)">Activate</button>
+                                <button *ngIf="parkingPlace.deleted=='1'" md-raised-button color="accent" (click)="updateParkingPlaceStatus(parkingPlace)">Activate</button>
                                 <button *ngIf="parkingPlace.deleted=='0'" md-raised-button color="primary" (click)="updateParkingPlaceStatus(parkingPlace)">Deactivate</button>
                             </td>
                         </tr>
@@ -182,12 +182,12 @@
             </div>
         </div>
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="parkingPlaceList.length>0">
-        <div class="table-responsive m-t-15">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="parkingPlaceList.length>0">
+        <div class="table-responsive">
             <table [md2Data]="parkingPlaceList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
                 <thead>
                     <tr>
-                        <th>S No.</th>
+                        <th>S.No.</th>
                         <th>State</th>
                         <th>District</th>
                         <th>Sub District</th>
@@ -213,7 +213,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="8">
                             <md2-pagination></md2-pagination>
                         </td>
                     </tr>

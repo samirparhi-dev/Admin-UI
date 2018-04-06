@@ -43,7 +43,7 @@
       <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
-            <th width="5%">S.No</th>
+            <th width="5%">S.No.</th>
             <th width="35%">Category</th>
             <th width="35%">Category Desc</th>
             <th width="20%" *ngIf="showWellBeingFlag">Sub-SubService</th>
@@ -65,7 +65,7 @@
                 (click)="editCategory(i)">edit</md-icon>
             </td>
             <td>
-              <button *ngIf="i.deleted == true" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, false)">Activate</button>
+              <button *ngIf="i.deleted == true" md-raised-button color="accent" (click)="deleteCategory(i.categoryID, false)">Activate</button>
               <button *ngIf="i.deleted == false" md-raised-button color="primary" (click)="deleteCategory(i.categoryID, true)">Deactivate</button>
             </td>
           </tr>
@@ -87,7 +87,7 @@
       <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th>S.No</th>
+            <th>S.No.</th>
             <th>Sub Category</th>
             <th>Sub Category Description</th>
             <th>Category</th>
@@ -231,12 +231,12 @@
         </button>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="serviceList.length>0 && Add_Category_Subcategory_flag">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="serviceList.length>0 && Add_Category_Subcategory_flag">
       <div class="table-responsive">
         <table [md2Data]="serviceList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
           <thead>
             <tr>
-              <th>S.No</th>
+              <th>S.No.</th>
               <th>Sub Service</th>
               <th>Category Name</th>
               <th>Category Description</th>
@@ -257,16 +257,16 @@
               </td>
             </tr>
           </tbody>
-          <!-- <tfoot>
+          <tfoot>
             <tr>
-              <td colspan="3">
+              <td colspan="6">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="2">
+           <!--    <td colspan="2">
                 <button name="btnSave" class="pull-right" md-raised-button color="accent" (click)="finalsave(service);">Save</button>
-              </td>
+              </td>-->
             </tr>
-          </tfoot> -->
+          </tfoot> 
         </table>
       </div>
     </div>
@@ -275,6 +275,7 @@
         <table [md2Data]="serviceSubCatList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
           <thead>
             <tr>
+              <th>S.No.</th>
               <th>Sub Service</th>
               <th>Category </th>
               <th>Sub Category</th>
@@ -284,6 +285,7 @@
           </thead>
           <tbody>
             <tr style="cursor: pointer" *ngFor="let service of md2.data;let k=index ">
+              <td>{{(md2.activePage-1)*4+k+1}}</td>
               <td>{{service.subServiceName}}</td>
               <td>{{service.categoryName}}</td>
               <td>{{service.subCategoryName}}</td>
@@ -293,16 +295,16 @@
               </td>
             </tr>
           </tbody>
-          <!-- <tfoot>
+           <tfoot>
             <tr>
-              <td colspan="3">
+              <td colspan="6">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="2">
+            <!--  <td colspan="2">
                 <button name="btnSave" class="pull-right" md-raised-button color="accent" (click)="finalsave(service);">Save</button>
-              </td>
+              </td> -->
             </tr>
-          </tfoot> -->
+          </tfoot>
         </table>
       </div>
     </div>

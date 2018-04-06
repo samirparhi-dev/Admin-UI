@@ -41,7 +41,7 @@
         <thead>
           <tr>
             <!--<th>ID</th>-->
-            <th>S.No</th>
+            <th>S.No.</th>
             <th>Call Type</th>
             <th>Call Subtype </th>
             <th>Is Inbound</th>
@@ -74,7 +74,7 @@
               </td>
               <td width=15%>
               <!--                   <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteSubCallType(i.callTypeID)">delete</md-icon> -->
-              <button *ngIf="i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
+              <button *ngIf="i.deleted" md-raised-button color="accent" (click)="deleteSubCallType(i.callTypeID, false)">Activate</button>
               <button *ngIf="!i.deleted" md-raised-button color="primary" (click)="deleteSubCallType(i.callTypeID, true)">Deactivate</button>
             </td>
           </tr>
@@ -85,7 +85,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="5" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New CallType/SubType</button>
+              <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New Call Type/SubType</button>
             </td>
           </tr>
         </tfoot>
@@ -215,7 +215,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="3">
+                <td colspan="8">
                   <md2-pagination></md2-pagination>
                 </td>            
               </tr>
