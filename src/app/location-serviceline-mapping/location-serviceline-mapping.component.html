@@ -5,7 +5,7 @@
     <h4 class="pull-left">Job Location-ServiceLine Mapping Master</h4>
   </div>
   <form #searchForm="ngForm" id="searchForm">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="State" class="width100" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(serviceProviderID,search_state)"
@@ -22,6 +22,27 @@
         <md-select placeholder="Service Line" class="width100" [(ngModel)]="search_serviceline" name="serviceline" (change)="findLocations()">
           <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="setPSMID(service.providerServiceMapID);servicelineSelected(service.providerServiceMapID)">
             {{service.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div> -->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Service Line" class="width100" [(ngModel)]="search_serviceline" name="serviceline" (change)="getStates(search_serviceline.serviceID,search_serviceline.isNational);saveSearchServicelineObj(search_serviceline)">
+          <md-option *ngFor="let service of servicelines" [value]="service" >
+            {{service.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" class="width100" [(ngModel)]="search_state" name="state" (change)="findLocations();"
+          required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setPSMID(item.providerServiceMapID);servicelineSelected(item.providerServiceMapID)">
+            {{item.stateName}}
           </md-option>
         </md-select>
       </md-input-container>
@@ -105,13 +126,7 @@
     <h4 class="pull-left">Add Work Location</h4>
   </div>
   <form #f="ngForm" id="locationForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-
-      <!--<md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" (change)="getDistricts(serviceProviderID,state);getServiceLines(serviceProviderID,state)" required>
-                <md-option *ngFor="let item of states" value="{{item.stateID}}">
-                  {{item.stateName}}
-                </md-option>
-              </md-select>-->
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" #State="ngModel" (change)="getDistricts(serviceProviderID,state);getServiceLines(serviceProviderID,state)"
@@ -121,10 +136,6 @@
           </md-option>
         </md-select>
       </md-input-container>
-      <!--                   <md-hint *ngIf="State.errors && State.touched">
-                        <span class="error_text">Select State</span>
-                    </md-hint>
-              </md-input-container> -->
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
@@ -133,17 +144,32 @@
           #serviceLine="ngModel" required (change)="servicelineSelected(providerServiceMapIDs)">
           <md-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID" (click)="setSL(sl.serviceID)">{{sl.serviceName}}</md-option>
         </md-select>
-        <!--                   <md-hint *ngIf="serviceLine.errors && serviceLine.touched">
-                        <span class="error_text">Select Service Line</span>
-                    </md-hint> -->
+      </md-input-container>
+    </div> -->
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select [(ngModel)]="service_id" class="p-t-14" name="serviceLine" placeholder="ServiceLine" class="width100"
+          #serviceLine="ngModel" required (change)="setSL(service_id.serviceID);getStates(service_id.serviceID,service_id.isNational)">
+          <md-option *ngFor="let sl of servicelines" [value]="sl.serviceID">{{sl.serviceName}}</md-option>
+        </md-select>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <!--<md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" required>
-                <md-option *ngFor="let item of districts" value="{{item.districtID}}">
-                  {{item.districtName}}
-                </md-option>
-              </md-select>-->
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" #State="ngModel" (change)="getDistricts(serviceProviderID,state)"
+          required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setPSMID_onStateSeletion(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" #District="ngModel" required>
@@ -151,9 +177,6 @@
             {{item.districtName}}
           </md-option>
         </md-select>
-        <!--                   <md-hint *ngIf="District.errors && District.touched">
-                        <span class="error_text">Select District</span>
-                    </md-hint> -->
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -162,7 +185,7 @@
           (keyup)="checkOfficeName(OfficeID)">
         <md-hint *ngIf="officeId.touched">
           <span [hidden]="!officeId.errors" class="error_text">Office Name is required</span>
-          <span *ngIf="!officeNameExist" class="error_text">{{msg}}</span>
+          <span *ngIf="officeNameExist" class="error_text">{{msg}}</span>
         </md-hint>
       </md-input-container>
     </div>

@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject, ViewChild} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LocationServicelineMapping } from "../services/ProviderAdminServices/location-serviceline-mapping.service";
+import { LocationServicelineMapping } from '../services/ProviderAdminServices/location-serviceline-mapping.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
@@ -15,6 +15,8 @@ declare var jQuery: any;
   styleUrls: ['./location-serviceline-mapping.component.css']
 })
 export class LocationServicelineMappingComponent implements OnInit {
+
+  userID: any;
 
   // ngModels
   state: any;
@@ -33,6 +35,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   search_state: any;
   search_serviceline: any;
+  service_id: any;
 
   // arrays
   states: any;
@@ -52,23 +55,35 @@ export class LocationServicelineMappingComponent implements OnInit {
   constructor(public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public commonDataService: dataService,
     public dialog: MdDialog, private alertService: ConfirmationDialogsService) {
+    this.userID = this.commonDataService.uid;
     this.serviceProviderID = this.commonDataService.service_providerID; //pass this value dynamically
     this.states = [];
     this.districts = [];
     this.servicelines = [];
     this.workLocations = [];
 
-
+    console.log('USER ID IS', this.userID);
     this.showForm = false;
     // this.findLocations();
   }
 
   ngOnInit() {
-    this.provider_admin_location_serviceline_mapping.getStates(this.serviceProviderID)
-      .subscribe(response => this.states = this.successhandeler(response));
+    // this.provider_admin_location_serviceline_mapping.getStates(this.serviceProviderID)
+    //   .subscribe(response => this.states = this.successhandeler(response));
+
+    this.provider_admin_location_serviceline_mapping.getServiceLinesNew(this.userID)
+      .subscribe(response => this.servicesSuccesshandeler(response), err => {
+        console.log('ERROR WHILE FETCHING SERVICES', err);
+      });
 
     // this.getAllWorkLocations();
   }
+
+  last_searchServiceobj: any;
+  saveSearchServicelineObj(obj) {
+    this.last_searchServiceobj = obj;
+  }
+
   changeTableFlag(flag_val) {
     if (flag_val === true) {
       // let confirmation = confirm("Do you really want to cancel and go back to main screen?");
@@ -82,6 +97,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     else {
       // this.showTable = !flag_val;
       this.showForm = !flag_val;
+      this.service_id = this.search_serviceline.serviceID;
       this.state = this.search_state;
       this.getDistricts(this.serviceProviderID, this.state);
       this.providerServiceMapIDs = [];
@@ -95,8 +111,8 @@ export class LocationServicelineMappingComponent implements OnInit {
       if (res) {
         this.form.resetForm();
         this.changeTableFlag(true);
-      
-      
+
+
       }
     })
   }
@@ -115,8 +131,20 @@ export class LocationServicelineMappingComponent implements OnInit {
   //   this.search_serviceline="";
   // }
 
+  getStates(serviceID, isNationalFlag) {
+    this.provider_admin_location_serviceline_mapping.getStatesNew(
+      this.userID, serviceID, isNationalFlag).subscribe(response => {
+        this.states = response;
+        console.log('states', this.states);
+      }, err => {
+        console.log('Error while fetching states', err);
+      });
+
+  }
+
   setPSMID(psmID) {
     this.PSMID_searchService = psmID;
+    console.log('PSM ID SET HO GAYI HAI BHAAAI', this.PSMID_searchService);
   }
 
   setSL(serviceID) {
@@ -144,9 +172,9 @@ export class LocationServicelineMappingComponent implements OnInit {
   findLocations() {
 
     let reqOBJ = { "serviceProviderID": this.serviceProviderID };
-    if (this.search_serviceline != "") {
+    if (this.search_serviceline.serviceID != "") {
       reqOBJ["stateID"] = this.search_state ? this.search_state : '';
-      reqOBJ["serviceID"] = this.search_serviceline ? this.search_serviceline : '';
+      reqOBJ["serviceID"] = this.search_serviceline.serviceID ? this.search_serviceline.serviceID : '';
       console.log(reqOBJ);
 
       this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
@@ -192,8 +220,8 @@ export class LocationServicelineMappingComponent implements OnInit {
       "districtID": this.district,
       "locationName": this.OfficeID,
       "address": this.office_address1 + "," + this.office_address2,
-      "createdBy": "Diamond Khanna",
-      "createdDate": "2017-07-31T00:00:00.000Z"
+      "createdBy": this.commonDataService.uname,
+      "createdDate": new Date()
     }
 
 
@@ -232,10 +260,10 @@ export class LocationServicelineMappingComponent implements OnInit {
     }
     console.log(obj);
 
-    if  (flag) {
-      this.confirmMessage  =  'Deactivate';
-    }  else  {
-      this.confirmMessage  =  'Activate';
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
     }
     // let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
     this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
@@ -275,7 +303,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log(response, "services");
     this.servicelines = response;
     if (response.length > 0) {
-      this.providerServiceMapIDs = [];
+      // this.providerServiceMapIDs = [];
       this.providerServiceMapID = response[0].providerServiceMapID;
     }
 
@@ -290,7 +318,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     //  this.resetFields();
     this.search_state = this.state;
     // this.search_serviceline=this.service_ID; we can use this also if we want to find for specific
-    this.search_serviceline = "";
+    this.search_serviceline = this.last_searchServiceobj;
     jQuery('#locationForm').trigger("reset");
 
     this.findLocations();
@@ -326,6 +354,15 @@ export class LocationServicelineMappingComponent implements OnInit {
       .subscribe(response => this.currentServicesSuccess(response));
   }
 
+  setPSMID_onStateSeletion(psmID) {
+    this.providerServiceMapIDs = [psmID];
+    let reqArray = [psmID];
+    this.OfficeID = "";
+    this.officeNameExist = false;
+    this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(reqArray)
+      .subscribe(response => this.currentServicesSuccess(response));
+  }
+
   currentServicesSuccess(res) {
     this.officeArray = res;
   }
@@ -333,7 +370,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   msg: any;
 
   checkOfficeName(value) {
-
+debugger;
     for (var i = 0; i < this.officeArray.length; i++) {
       let a = this.officeArray[i].locationName;
       console.log(value.trim(), "EDsdd");
@@ -372,7 +409,7 @@ export class EditLocationModal {
   officeNameExist: boolean = true;
   msg: any = "";
 
-  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public dialog_Ref: MdDialogRef<EditLocationModal>,
     private alertService: ConfirmationDialogsService) { }
