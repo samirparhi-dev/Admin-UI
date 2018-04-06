@@ -105,8 +105,8 @@
           <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3" *ngIf="instituteSubDir.valid">
-        <button md-mini-fab color="primary" (click)="add_obj(institute_subdirectory,description)">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="instituteSubDir.valid">
+        <button md-mini-fab color="primary" class="pull-left" (click)="add_obj(institute_subdirectory,description)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
