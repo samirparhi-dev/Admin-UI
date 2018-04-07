@@ -2,8 +2,7 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Institute Subdirectory</h4>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-l-0">
+  </div>  
     <form #searchform="ngForm">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
@@ -42,7 +41,7 @@
     <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showTableFlag">
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
       </div> -->
-  </div>
+  
 </div>
 <div class="m-t-10" *ngIf="showTableFlag">
   <div class="row">
@@ -51,7 +50,7 @@
         <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
           <thead>
             <tr>
-              <th width="5%">S.No</th>
+              <th width="5%">S.No.</th>
               <th width="40%">Institute Subdirectory</th>
               <th width="40%">Description</th>
               <th width="10%">Edit</th>
@@ -59,8 +58,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="searchResultArray.length == 0">
-              <td colspan="5" align="center">NO RECORD FOUND!!</td>
+            <tr *ngIf="searchResultArray.length == 0" class="record-not-found">
+              <td colspan="5" align="center">No records found</td>
             </tr>
             <tr *ngFor="let item of md2.data; let i=index">
               <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -81,7 +80,7 @@
               <td colspan="2">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="3">
+              <td colspan="3" class="p-r-0">
                 <button md-raised-button color="primary" [disabled]="!searchform.valid" class="pull-right" (click)="showForm()">Add Institute Subdirectory</button>
               </td>
             </tr>
@@ -93,30 +92,31 @@
 </div>
 <div *ngIf="showFormFlag">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 p-l-0">
+ 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100">
-          <input mdInput placeholder="Institute Subdirectory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="3"
-            maxlength="30" required myName2 #instituteSubDir="ngModel">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput placeholder="Institute Subdirectory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="2"
+            maxlength="50" required #instituteSubDir="ngModel">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100">
-          <input mdInput placeholder="Description" [(ngModel)]="description" name="description">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput placeholder="Description" [(ngModel)]="description" name="description" minlength="2"
+          maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="instituteSubDir.valid">
-        <button md-mini-fab color="primary" class="pull-left" (click)="add_obj(institute_subdirectory,description)">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="instituteSubDir.valid">
+        <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left" (click)="add_obj(institute_subdirectory,description)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
-    </div>
+   
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="bufferArray.length>0">
       <div class="table-responsive">
         <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
           <thead>
             <tr>
-              <th>S.No</th>
+              <th>S.No.</th>
               <th>Institute Subdirectory</th>
               <th>Description</th>
               <th>Action</th>
@@ -134,7 +134,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="3">
+              <td colspan="4">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
@@ -142,7 +142,7 @@
         </table>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12">
+    <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-10">
       <button md-raised-button class="pull-right" [disabled]="bufferArray.length<1 && !(searchform.valid)" color="accent" (click)="save()">Save</button>
       <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>

@@ -245,8 +245,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="availableVillages.length == 0">
-            <td colspan="7">NO RECORD FOUND!!</td>
+          <tr *ngIf="availableVillages.length == 0" class="record-not-found">
+              <td colspan="9" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -332,7 +332,7 @@
     </div>
   </form>
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="pull-left" color="primary" (click)="addVillageToList(villageForm.value);villageForm.reset()">
+    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-left" color="primary" (click)="addVillageToList(villageForm.value);villageForm.reset()">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
   </div>

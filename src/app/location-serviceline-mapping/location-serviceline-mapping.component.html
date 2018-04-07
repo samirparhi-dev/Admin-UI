@@ -54,8 +54,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="md2.data.length==0" align="center">
-            <td colspan="8">NO RECORD FOUND</td>
+          <tr *ngIf="md2.data.length==0" class="record-not-found">
+              <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let loc of md2.data;  let i= index">
             <!--<td>{{loc.providerServiceMapID}}</td>-->
@@ -158,18 +158,18 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" myProviderName>
-        <input mdInput placeholder="Office Name" [(ngModel)]="OfficeID" name="OfficeID" #officeId="ngModel" required maxlength="30"
+        <input mdInput placeholder="Office Name" [(ngModel)]="OfficeID" name="OfficeID" #officeId="ngModel" required maxlength="45"
           (keyup)="checkOfficeName(OfficeID)">
-        <md-hint *ngIf="officeId.touched">
-          <span [hidden]="!officeId.errors" class="error_text">Office Name is required</span>
-          <span *ngIf="!officeNameExist" class="error_text">{{msg}}</span>
+        <md-hint>
+          <span *ngIf="officeId.touched && officeId.errors" class="error_text">Office Name is required</span>
+          <span *ngIf="officeNameExist" class="error_text">{{msg}}</span>
         </md-hint>
       </md-input-container>
     </div>
     <div class="clearfix visible-sm visible-lg"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container myAddress class="width100">
-        <input mdInput placeholder="Office Address Line 1" maxlength="30" [(ngModel)]="office_address1" name="office_address1" #officeAddress1="ngModel"
+        <input mdInput placeholder="Office Address Line 1" maxlength="300" [(ngModel)]="office_address1" name="office_address1" #officeAddress1="ngModel"
           required>
         <md-hint *ngIf="officeAddress1.errors && officeAddress1.touched">
           <span class="error_text">Address1 is required</span>
@@ -178,7 +178,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container myAddress class="width100">
-        <input mdInput placeholder="Office Address Line 2" maxlength="30" [(ngModel)]="office_address2 " name="office_address2" #officeAddress2="ngModel"
+        <input mdInput placeholder="Office Address Line 2" maxlength="300" [(ngModel)]="office_address2 " name="office_address2" #officeAddress2="ngModel"
           required>
         <md-hint *ngIf="officeAddress2.errors && officeAddress2.touched">
           <span class="error_text">Address2 is required</span>

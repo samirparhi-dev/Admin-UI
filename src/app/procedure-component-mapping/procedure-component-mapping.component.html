@@ -1,32 +1,37 @@
-<md-card>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<!-- <md-card> -->
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h4>Procedure Component Mapping</h4>
             <div *ngIf="unfilled" class="alert alert-danger" role="alert">
                 Please fill all the details
             </div>
-            <div style="min-height: 100px;">
+            <div style="min-height: 100px;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <form #stateService="ngForm">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <md-input-container class="hide_underline width100">
+                                    <input mdInput style="display:none">
                         <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)" name="state" #statess required>
                             <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
                                 {{stat.stateName}}
                             </md-option>
                         </md-select>
+                        </md-input-container>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-t-15">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <md-input-container class="hide_underline width100">
+                                    <input mdInput style="display:none">
                         <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess="ngModel" required>
                             <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
                                 {{ser.serviceName}}
                             </md-option>
                         </md-select>
+                        </md-input-container>
                     </div>
                 </form>
             </div>
 
             <div style="display: block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedProcedureDescription">
@@ -34,7 +39,7 @@
                         </md-input-container>
 
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md2-autocomplete name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList" item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1" #autocompleteControl="ngModel">
                         </md2-autocomplete>
                         <md-input-container style="width: 100% " *ngIf="selectedComponentDescription">
@@ -42,7 +47,7 @@
                         </md-input-container>
 
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-1 col-lg-1 m-t-15">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <button [disabled]="!selectedComponent" id="updateButton" md-raised-button color="primary" (click)="updateComponentMapList()">Map</button>
 
 
@@ -119,10 +124,10 @@
 
             </div> -->
         </div>
-    </div>
-</md-card>
 
-<md-card *ngIf="providerServiceMapID  && service == '2'">
+<!-- </md-card> -->
+<!-- <md-card> -->
+<div *ngIf="providerServiceMapID  && service == '2'">
     <div class="row">
 
         <div #tabledData class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
@@ -172,4 +177,5 @@
             </table>
         </div>
     </div>
-</md-card>
+    </div>
+<!-- </md-card> -->
