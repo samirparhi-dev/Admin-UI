@@ -6,52 +6,53 @@
     </h4>
   </div>
   <!-- pre-populated table showing the number of providers available -->
-  <div class="col-xs-12 col-sm-12  table-responsive">
+  <div class="col-xs-12 col-sm-12">
+    <div class="table-responsive">
+      <table [md2Data]="LanguageMappedList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th md2SortBy="userName" width="25%">User Name</th>
+            <th width="15%">Language</th>
+            <th width="15%">Read</th>
+            <th width="15%">Write </th>
+            <th width="15%">Speak</th>
+            <th width="10%">Edit</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="LanguageMappedList.length == 0">
+            <td colspan="6" class="record-not-found">No records found</td>
+          </tr>
+          <tr style="cursor: pointer" *ngFor="let lang of md2.data;let i=index ">
+            <td>{{lang.userName}}</td>
+            <td>{{lang.languageName}}</td>
+            <td>{{lang.weightage_Read}}</td>
+            <td>{{lang.weightage_Write}}</td>
+            <td>{{lang.weightage_Speak}}</td>
+            <td>
 
-    <table [md2Data]="LanguageMappedList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th md2SortBy="userName" width="25%">User Name</th>
-          <th width="15%">Language</th>
-          <th width="15%">Read</th>
-          <th width="15%">Write </th>
-          <th width="15%">Speak</th>
-          <th width="10%">Edit</th>
-          <th width="15%">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="LanguageMappedList.length == 0">
-          <td colspan="6" class="record-not-found">No records found</td>
-        </tr>
-        <tr style="cursor: pointer" *ngFor="let lang of md2.data;let i=index ">
-          <td>{{lang.userName}}</td>
-          <td>{{lang.languageName}}</td>
-          <td>{{lang.weightage_Read}}</td>
-          <td>{{lang.weightage_Write}}</td>
-          <td>{{lang.weightage_Speak}}</td>
-          <td>
-
-            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!lang.deleted"
-              (click)="editRow(lang)">edit</md-icon>
-          </td>
-          <td>
-            <button md-raised-button color="primary" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
-            <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="4">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="3" class="p-r-0">
-            <button md-raised-button color="primary" class="pull-right" (click)="showForm();">Create New Mapping</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!lang.deleted"
+                (click)="editRow(lang)">edit</md-icon>
+            </td>
+            <td>
+              <button md-raised-button color="primary" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm();">Create New Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -156,41 +157,43 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-12 m-t-15 table-responsive" *ngIf="bufferArray.length>0">
-            <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>User Name</th>
-                  <th>Language Name</th>
-                  <th>Read Weightage</th>
-                  <th>Write Weightage</th>
-                  <th>Speak Weightage</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="cursor: pointer" *ngFor="let lang of md2.data; let i = index ">
-                  <td>{{(md2.activePage-1)*5+i+1}}</td>
-                  <td>{{lang.userName}}</td>
-                  <td>{{lang.languageName}}</td>
-                  <td>{{lang.weightage_Read}}</td>
-                  <td>{{lang.weightage_Write}}</td>
-                  <td>{{lang.weightage_Speak}}</td>
-                  <td>
-                    <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
-                  </td>
-                </tr>
+          <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
+            <div class="table-responsive">
+              <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>User Name</th>
+                    <th>Language Name</th>
+                    <th>Read Weightage</th>
+                    <th>Write Weightage</th>
+                    <th>Speak Weightage</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="cursor: pointer" *ngFor="let lang of md2.data; let i = index ">
+                    <td>{{(md2.activePage-1)*5+i+1}}</td>
+                    <td>{{lang.userName}}</td>
+                    <td>{{lang.languageName}}</td>
+                    <td>{{lang.weightage_Read}}</td>
+                    <td>{{lang.weightage_Write}}</td>
+                    <td>{{lang.weightage_Speak}}</td>
+                    <td>
+                      <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                    </td>
+                  </tr>
 
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="7">
-                    <md2-pagination></md2-pagination>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="7">
+                      <md2-pagination></md2-pagination>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
             <div class="col-xs-12 col-sm-12">
               <div class="row">
                 <button name="langsaveBtn " color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>

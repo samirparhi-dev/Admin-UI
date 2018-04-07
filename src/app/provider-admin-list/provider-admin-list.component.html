@@ -260,37 +260,39 @@
       </form>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 table-responsive" *ngIf="(objs.length!=0)">
-    <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th width="15%">Username</th>
-          <th width="15%">Email ID</th>
-          <th width="15%">Mobile Number</th>
-          <th width="15%">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="objs.length == 0">
-          <td colspan="4" class="record-not-found">No records found</td>
-        </tr>
-        <tr *ngFor="let obj of objs; let i=index">
-          <td>{{obj.username}}</td>
-          <td>{{obj.primaryEmail}}</td>
-          <td>{{obj.primaryMobileNumber}}</td>
-          <td>
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3">
-            <md2-pagination></md2-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+  <div class="col-xs-12 col-sm-12 " *ngIf="(objs.length!=0)">
+    <div cass="table-responsive">
+      <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="15%">Username</th>
+            <th width="15%">Email ID</th>
+            <th width="15%">Mobile Number</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="objs.length == 0">
+            <td colspan="4" class="record-not-found">No records found</td>
+          </tr>
+          <tr *ngFor="let obj of objs; let i=index">
+            <td>{{obj.username}}</td>
+            <td>{{obj.primaryEmail}}</td>
+            <td>{{obj.primaryMobileNumber}}</td>
+            <td>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">

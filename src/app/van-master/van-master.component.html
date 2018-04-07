@@ -56,7 +56,7 @@
                 </thead>
                 <tbody>
                     <tr *ngIf="availableVans.length == 0">
-                        <td colspan="8" class="record-not-found">No records found</td>
+                        <td colspan="9" class="record-not-found">No records found</td>
                     </tr>
                     <tr style="cursor: pointer" *ngFor="let van of md2.data; let i = index ">
                         <td>{{availableVans.indexOf(van)+1}} </td>
@@ -232,7 +232,7 @@
             </table>
             <!-- <pagination-controls (pageChange)="b = $event" id="vanResult"></pagination-controls> -->
         </div>
-        <div class="col-xs-12 col-sm-12 ">
+        <div>
             <button md-raised-button color="accent" *ngIf="vanList.length>0" class="pull-right " (click)="storeVans()">Save</button>
         </div>
     </div>

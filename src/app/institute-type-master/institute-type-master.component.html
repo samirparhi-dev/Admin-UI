@@ -27,6 +27,8 @@
         </md-select>
       </md-input-container>
     </div>
+    <br>
+
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Institute Type" [(ngModel)]="instituteType" name="instituteType" minlength="3" maxlength="30"
@@ -43,9 +45,8 @@
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
       </div> -->
   <!-- </div> -->
-</div>
-<div class="m-t-10" *ngIf="showTableFlag">
-  <div class="row">
+
+  <div class="m-t-10" *ngIf="showTableFlag">
     <div class=" table responsive">
       <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
         <thead>
@@ -58,7 +59,7 @@
         </thead>
         <tbody>
           <tr *ngIf="searchResultArray.length == 0">
-            <td colspan="3" class="record-not-found">No records found</td>
+            <td colspan="4" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data">
             <td>{{item.institutionType}}</td>
@@ -87,48 +88,48 @@
       </table>
     </div>
   </div>
-</div>
-<div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showFormFlag">
-  <div class="row">
-    <button md-mini-fab color="primary" [disabled]=" !(searchFields.valid)" class="pull-right" (click)="add_obj(instituteType,description)">
+  <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showFormFlag">
+    <button md-mini-fab color="primary" [disabled]=" !(searchFields.valid)" class="pull-right" (click)="add_obj(instituteType,description);this.searchFields.reset()">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
     <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
   </div>
-</div>
-<div *ngIf="showFormFlag">
-  <div class="row">
-    <div class="table-responsive" *ngIf="bufferArray.length>0">
-      <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-        <thead>
-          <tr>
-            <th>Institute Type</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of md2.data; let k=index; ">
-            <td>{{item.institutionType}}</td>
-            <td>{{item.institutionTypeDesc}}</td>
-            <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2">
-              <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="3">
-              <button md-raised-button class="pull-right" color="accent" (click)="save()">Save</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
 
+  <div *ngIf="showFormFlag">
+    <div class="col-xs-12 col-sm-12">
+      <div class="table-responsive" *ngIf="bufferArray.length>0">
+        <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th>Institute Type</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of md2.data; let k=index; ">
+              <td>{{item.institutionType}}</td>
+              <td>{{item.institutionTypeDesc}}</td>
+              <td>
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="3">
+                <button md-raised-button class="pull-right" color="accent" (click)="save()">Save</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
   </div>
+
 </div>
 <!-- </md-card> -->
