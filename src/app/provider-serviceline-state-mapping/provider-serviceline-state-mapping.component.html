@@ -1,159 +1,162 @@
-
-  <div class="row" *ngIf="tableMode">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4><strong>Provider Serviceline State Mapping</strong></h4>
-    </div>
-    <!-- pre-populated table showing the mappings available of providers to serviceline and state -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="5">
-        <thead>
-          <tr>
-            <th width="5%">S.No</th>
-            <th width="30%" md2SortBy="serviceProviderName">Provider Name</th>
-            <th width="15%">Serviceline</th>
-            <th width="30%">State</th>
-            <th width="20%">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngIf="searchResult.length == 0">
-            <td colspan="4" align="center">No Record Found</td>
-          </tr>
-          <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
-            <td>{{item.serviceProviderName}}</td>
-            <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
-            <td>
-              <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
-              <button md-raised-button color="primary" *ngIf="item.deleted" class="pull-right" (click)="activate(item.providerServiceMapID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!item.deleted" class="pull-right" (click)="deactivate(item.providerServiceMapID)">Deactivate</button>
-
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3">
-              <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="3" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+<div class="row" *ngIf="tableMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Provider Serviceline State Mapping</strong>
+    </h4>
   </div>
-  <div class='row' *ngIf="formMode">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4><strong>Provider Serviceline State Mapping</strong></h4>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
-      <form autocomplete="off" #mappingFieldsForm="ngForm">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="provider" name="provider" required (change)='getServices()'>
-            <md-option *ngFor="let item of providers" [value]='item'>
-              {{item.serviceProviderName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID)"
-            required>
-            <md-option *ngFor="let item of services" [value]='item'>
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
-            <md-option *ngFor="let item of filteredStates" [value]='item'>
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </div>
-      </form>
+  <!-- pre-populated table showing the mappings available of providers to serviceline and state -->
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+    <table class="table table-striped" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="4">
+      <thead>
+        <tr>
+          <th width="5%">S.No.</th>
+          <th width="30%" md2SortBy="serviceProviderName">Provider Name</th>
+          <th width="15%">Serviceline</th>
+          <th width="30%">State</th>
+          <th width="20%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="searchResult.length == 0">
+          <td colspan="4" class="record-not-found">No records found</td>
+        </tr>
+        <tr *ngFor="let item of md2.data;let i = index ">
+          <td>{{(md2.activePage-1)*5+i+1}}</td>
+          <td>{{item.serviceProviderName}}</td>
+          <td>{{item.serviceName}}</td>
+          <td>{{item.stateName}}</td>
+          <td>
+            <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
+            <button md-raised-button color="primary" *ngIf="item.deleted" class="pull-right" (click)="activate(item.providerServiceMapID)">Activate</button>
+            <button md-raised-button color="primary" *ngIf="!item.deleted" class="pull-right" (click)="deactivate(item.providerServiceMapID)">Deactivate</button>
+
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">
+            <md2-pagination></md2-pagination>
+          </td>
+          <td colspan="3" class="p-r-0">
+            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<div class='row' *ngIf="formMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Provider Serviceline State Mapping</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
+    <form autocomplete="off" #mappingFieldsForm="ngForm">
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button md-raised-button color="primary" [disabled]="mappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="add2bufferArray(mappingFieldsForm.value)">Add</button>
-        <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
+        <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="provider" name="provider" required (change)='getServices()'>
+          <md-option *ngFor="let item of providers" [value]='item'>
+            {{item.serviceProviderName}}
+          </md-option>
+        </md-select>
       </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="bufferArray.length>0">
-      <table class="table table-striped table-hover" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="5">
-        <thead>
-          <tr>
-            <th width="5%">S.No</th>
-            <th width="30%">Provider Name</th>
-            <th width="15%">Serviceline</th>
-            <th width="40%">State</th>
-            <th width="10%">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
-            <td>{{item.providerName}}</td>
-            <td>{{item.serviceName}}</td>
-            <td>
-              <ul>
-                <li *ngFor="let obj of item.stateID1;let j=index ">
-                  {{obj.stateName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeState(i,j)">cancel</md-icon>
-                </li>
-              </ul>
-            </td>
-            <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove Row" (click)="removeRow(i)">clear</md-icon>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3">
-              <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="3" class="p-r-0">
-              <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
-  <div class="row" *ngIf="editMode">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4><strong>Edit Provider Serviceline State Mapping</strong></h4>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
-      <form autocomplete="off" #editMappingFieldsForm="ngForm">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="edit_provider" name="provider" required >
-            <md-option *ngFor="let item of providers" [value]='item.serviceProviderId'>
-              {{item.serviceProviderName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline"
-            required>
-            <md-option *ngFor="let item of servicelines" [value]='item.serviceID'>
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="edit_state" name="state" required>
-            <md-option *ngFor="let item of states" [value]='item.stateID'>
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </div>
-      </form>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button md-raised-button color="accent" [disabled]="editMappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="update(editMappingFieldsForm.value)">Update</button>
-        <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
+        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID)"
+          required>
+          <md-option *ngFor="let item of services" [value]='item'>
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
       </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
+          <md-option *ngFor="let item of filteredStates" [value]='item'>
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      <button md-raised-button color="primary" [disabled]="mappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="add2bufferArray(mappingFieldsForm.value)">Add</button>
+      <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
     </div>
   </div>
-
+  <div class="col-xs-12 col-sm-12 table-responsive" *ngIf="bufferArray.length>0">
+    <table class="table table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+      <thead>
+        <tr>
+          <th width="5%">S.No.</th>
+          <th width="30%">Provider Name</th>
+          <th width="15%">Serviceline</th>
+          <th width="40%">State</th>
+          <th width="10%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of md2.data;let i = index ">
+          <td>{{(md2.activePage-1)*5+i+1}}</td>
+          <td>{{item.providerName}}</td>
+          <td>{{item.serviceName}}</td>
+          <td>
+            <ul>
+              <li *ngFor="let obj of item.stateID1;let j=index ">
+                {{obj.stateName}}
+                <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeState(i,j)">cancel</md-icon>
+              </li>
+            </ul>
+          </td>
+          <td>
+            <md-icon class="cursorPointer" mdTooltip="Remove Row" (click)="removeRow(i)">clear</md-icon>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">
+            <md2-pagination></md2-pagination>
+          </td>
+          <td colspan="3" class="p-r-0">
+            <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<div class="row" *ngIf="editMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Edit Provider Serviceline State Mapping</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
+    <form autocomplete="off" #editMappingFieldsForm="ngForm">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="edit_provider" name="provider" required>
+          <md-option *ngFor="let item of providers" [value]='item.serviceProviderId'>
+            {{item.serviceProviderName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline" required>
+          <md-option *ngFor="let item of servicelines" [value]='item.serviceID'>
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="edit_state" name="state" required>
+          <md-option *ngFor="let item of states" [value]='item.stateID'>
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      <button md-raised-button color="accent" [disabled]="editMappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="update(editMappingFieldsForm.value)">Update</button>
+      <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
+    </div>
+  </div>
+</div>

@@ -2057,6 +2057,7 @@ background:#027b95 !important;
    color: #001d23 !important;
  
 }
+<<<<<<< HEAD
 
 
 
@@ -2073,6 +2074,27 @@ background:#027b95 !important;
     float: right;
    }
 }
+=======
+.record-not-found
+
+{
+
+padding: 
+30px;
+
+font-size: 
+20px;
+
+font-weight: 
+bold;
+
+text-align: 
+center;
+
+}
+
+@media (max-width: 317px) {}
+>>>>>>> 1fcc3a04d5f1578c2b39de231f11cb30957591b2
 
 @media (min-width: 480px) {
   .cu-nav-top li {

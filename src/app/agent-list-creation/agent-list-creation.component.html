@@ -1,66 +1,75 @@
-<md-card>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4 class="pull-left">Agent List Creation</h4>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 class="pull-left">Agent List Creation</h4>
+  </div>
+  <form #agentListCreationForm="ngForm">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
-    <form #agentListCreationForm="ngForm">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 m-t-15">
-      <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
-        <md-option *ngFor="let item of states" value="{{item.stateID}}">
-          {{item.stateName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getCampaignNames(service)"
+          required>
+          <md-option *ngFor="let item of services" value="{{item.serviceName}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 m-t-15">
-      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getCampaignNames(service)" required>
-        <md-option *ngFor="let item of services" value="{{item.serviceName}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-          {{item.serviceName}}
-        </md-option>
-      </md-select>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Campaign Name" [style.width]="'100%'" [(ngModel)]="campaign_name" name="campaign_name" required>
+          <md-option *ngFor="let item of campaignNames" value="{{item.campaign_name}}">
+            {{item.campaign_name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 m-t-15">
-      <md-select placeholder="Campaign Name" [style.width]="'100%'" [(ngModel)]="campaign_name" name="campaign_name" required>
-        <md-option *ngFor="let item of campaignNames" value="{{item.campaign_name}}">
-          {{item.campaign_name}}
-        </md-option>
-      </md-select>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
       <md-radio-group [(ngModel)]="radio_option" name="radio_option" (change)="reset()">
-      	<md-radio-button value="1">Single</md-radio-button>
-      	<md-radio-button value="2">Multiple</md-radio-button>
-      	<md-radio-button value="3">Range</md-radio-button>
+        <md-radio-button class="radio-button" color="primary" value="1">Single</md-radio-button>
+        <md-radio-button class="radio-button" color="primary" value="2">Multiple</md-radio-button>
+        <md-radio-button class="radio-button" color="primary" value="3">Range</md-radio-button>
       </md-radio-group>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" *ngIf="radio_option==='1'">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Agent ID" [(ngModel)]="agent_ID" name="agent_ID" myMobileNumber minlength="4" maxlength="6"  required>
+        <input mdInput placeholder="Agent ID" [(ngModel)]="agent_ID" name="agent_ID" myMobileNumber minlength="4" maxlength="6" required>
         <md-hint>Eg. 2001</md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" *ngIf="radio_option==='2'">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Agent IDs" [(ngModel)]="agent_ID" name="agent_ID" agentID_one  required>
+        <input mdInput placeholder="Agent IDs" [(ngModel)]="agent_ID" name="agent_ID" agentID_one required>
         <md-hint>Eg. 2001,2002,2004 and so on</md-hint>
-        
+
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15" *ngIf="radio_option==='3'">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Agent ID Range" [(ngModel)]="agent_ID" name="agent_ID" agentID_two  required>
+        <input mdInput placeholder="Agent ID Range" [(ngModel)]="agent_ID" name="agent_ID" agentID_two required>
         <md-hint>Eg. 2001-2010</md-hint>
-        
+
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-15">
       <md-input-container style="width: 100%">
-        <input mdInput type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="3" maxlength="30" required myMobileNumber>
+        <input mdInput type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="3" maxlength="30"
+          required myMobileNumber>
 
       </md-input-container>
     </div>
   </form>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-25">
-      <button class="pull-right" type="button" md-raised-button color="primary" [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Map</button>
-    </div>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 m-t-25">
+    <button class="pull-right" type="button" md-raised-button color="primary" [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Map</button>
   </div>
-</md-card>
+</div>
