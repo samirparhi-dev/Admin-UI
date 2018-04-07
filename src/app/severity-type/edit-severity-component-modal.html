@@ -11,17 +11,17 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
     <form class="row" #severityAdding="ngForm" autocomplete="off">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<md-input-container [style.width]="'100%'">
-				<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" required>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" myProviderName>
+			<md-input-container class="width100">
+				<input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" minlength="2" maxlength="20" required>
 				<md-hint *ngIf="alreadyExist">
 					<span class="error_text">Severity already exists</span>
 				</md-hint>
 			</md-input-container>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<md-input-container [style.width]="'100%'">
-				<input mdInput placeholder="Description" name="description" [(ngModel)]="description" >
+			<md-input-container class="width100" myProviderName>
+				<input mdInput placeholder="Description" name="description" [(ngModel)]="description" minlength="2" maxlength="50" >
 			</md-input-container>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">

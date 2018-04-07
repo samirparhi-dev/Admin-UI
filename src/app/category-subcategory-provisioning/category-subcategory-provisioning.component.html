@@ -181,9 +181,9 @@
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="Add_Category_Subcategory_flag">
-        <md-input-container class="width100">
+        <md-input-container class="width100" myProviderName>
           <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " (keyup)="checkCategory(category_name)"
-            name="category_name" minlength="2" maxlength="100" required>
+            name="category_name" minlength="2" maxlength="50" required>
           <!-- <md-hint class="error_text" *ngIf="categoryExist">Category already exists </md-hint>
             <md-hint [hidden]="categoryRef.invalid" *ngIf="!categoryExist">
               <span class="error_text" *ngIf="categoryRef.hasError('required') && categoryRef.touched">Category is required</span>
@@ -198,8 +198,8 @@
       </div>
       <div class="clearfix"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="Add_Category_Subcategory_flag">
-        <md-input-container class="width100">
-          <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc" maxlength="50">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc" maxlength="100">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3  m-t-30" *ngIf="Add_Category_Subcategory_flag && showWellBeingFlag">
@@ -209,9 +209,9 @@
         </md-radio-group>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
-        <md-input-container class="width100">
+        <md-input-container class="width100" myProviderName>
           <input required mdInput placeholder="SubCategory Name" #subCategories="ngModel" [(ngModel)]="subcategory" name="subcategory"
-            (keyup)="checkSubCategory(subcategory,service,sub_service,category_ID)" minlength="2" maxlength="100">
+            (keyup)="checkSubCategory(subcategory,service,sub_service,category_ID)" minlength="2" maxlength="50">
           <md-hint class="error_text" *ngIf="subCategoryExist">Sub Category already exists </md-hint>
           <md-hint [hidden]="subCategories.valid || subCategories.pristine" *ngIf="!subCategoryExist">
             <span class=" error_text" [hidden]="!subCategories.hasError('required')">Sub Category is required</span>
@@ -220,12 +220,12 @@
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
-        <md-input-container class="width100">
-          <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="50">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="100">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 m-t-30 pull-right">
-        <button md-mini-fab color="primary" [disabled]="!form.valid || categoryExist || subCategoryExist" class="pull-right" name="subServiceName"
+        <button md-mini-fab color="primary" [disabled]="!form.valid || categoryExist || subCategoryExist" class="xs-pull-right sm-pull-right md-pull-left" name="subServiceName"
           (click)="addNew(i)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>

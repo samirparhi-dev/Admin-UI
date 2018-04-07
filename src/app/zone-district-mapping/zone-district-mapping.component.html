@@ -16,8 +16,8 @@
         </thead>
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let zoneDistrictMapping of availableZoneDistrictMappings | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b}" > -->
-          <tr *ngIf="availableZoneDistrictMappings.length == 0">
-            <td colspan="12" align="center">No Record Found</td>
+          <tr *ngIf="availableZoneDistrictMappings.length == 0"class="record-not-found">
+              <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let zoneDistrictMapping of md2.data ;let i=index">
             <td>{{availableZoneDistrictMappings.indexOf(zoneDistrictMapping)+1}}</td>
@@ -118,7 +118,7 @@
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <button md-mini-fab color="primary" [disabled]=" !serviceVal.valid || !stateVal.valid || !zoneG.valid || !districtF.valid"
-              *ngIf="!editable" class="btn pull-right " (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
+              *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
           </div>

@@ -54,10 +54,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="data.length == 0 ">
-            <td colspan="10" align="center">
-              No Records Found
-            </td>
+          <tr *ngIf="data.length == 0 "class="record-not-found">
+              <td colspan="10" align="center">No records found</td>
           </tr>
           <tr *ngFor="let i of md2.data; let k= index">
             <!--<td>{{i.callTypeID}}</td>-->
@@ -151,7 +149,7 @@
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container style="width: 100% ">
+            <md-input-container class="width100" myProviderName>
               <input mdInput placeholder="Call Subtype" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
               <md-hint class="errorText" *ngIf="subCallTypeExist">
                 This sub call type exist for this service & call type

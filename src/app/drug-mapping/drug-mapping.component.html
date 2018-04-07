@@ -17,8 +17,8 @@
         </thead>
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let drugMapping of availableDrugMappings | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" > -->
-          <tr *ngIf="availableDrugMappings.length == 0">
-            <td colspan="12" align="center">No Record Found</td>
+          <tr *ngIf="availableDrugMappings.length == 0" class="record-not-found">
+              <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let drugMapping of md2.data; let i= index">
             <td>{{availableDrugMappings.indexOf(drugMapping)+1}}</td>
@@ -98,7 +98,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="width100">
+          <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
           </md-input-container>
         </div>

@@ -50,8 +50,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="md2.data.length == 0">
-            <td colspan="4" align="center">NO RECORD FOUND</td>
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+              <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sub of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+k+1}}</td>

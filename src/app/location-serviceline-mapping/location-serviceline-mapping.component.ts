@@ -94,7 +94,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.form.resetForm();
-        this.changeTableFlag(true);
+        this.changeTableFlag(flag_val);
       
       
       }
@@ -344,6 +344,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       }
       else {
         this.officeNameExist = false;
+        this.msg = '';
       }
     }
 

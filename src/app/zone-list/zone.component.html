@@ -17,8 +17,8 @@
         </thead>
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let zone of availableZones | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b} ;let i=index" >-->
-          <tr *ngIf="availableZones.length == 0">
-            <td colspan="12" align="center">No Record Found</td>
+          <tr *ngIf="availableZones.length == 0"class="record-not-found">
+              <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let zone of md2.data ;let i=index">
             <td>{{availableZones.indexOf(zone)+1}}</td>
@@ -101,8 +101,8 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="width100">
-            <input mdInput required placeholder="Zone Name" [(ngModel)]="zoneName" name="zoneName" #zoneN="ngModel" (blur)="checkExistance(zoneName)">
+          <md-input-container class="width100" myProviderName>
+            <input mdInput required placeholder="Zone Name" [(ngModel)]="zoneName" name="zoneName" #zoneN="ngModel" (blur)="checkExistance(zoneName)" minlength="1" maxlength="50">
             <md-hint>
               <span class="error_text" *ngIf="!zoneN.valid  && ( zoneN.dirty || zoneN.touched)">Please enter Zone Name</span>
               <span class="error_text" *ngIf="zoneN.valid && zoneNameExist">Zone already exists</span>
@@ -110,9 +110,9 @@
           </md-input-container>
         </div>
         <div class="clearfix visible-md"></div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
           <md-input-container class="width100">
-            <input mdInput placeholder="Description" [(ngModel)]="zoneDesc" name="zoneDesc">
+            <input mdInput placeholder="Description" [(ngModel)]="zoneDesc" name="zoneDesc" minlength="1" maxlength="100">
           </md-input-container>
         </div>
         <div class="clearfix visible-lg"></div>
@@ -153,16 +153,16 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="width100">
-            <input required mdInput placeholder="Address" [(ngModel)]="zoneHQAddress" name="zoneHQAddress" #zoneAddress="ngModel">
+          <md-input-container class="width100" myAddress>
+            <input required mdInput placeholder="Address" [(ngModel)]="zoneHQAddress" name="zoneHQAddress" #zoneAddress="ngModel"  minlength="2" maxlength="300">
             <md-hint [hidden]=zoneAddress.valid>
               <span class="error_text" *ngIf="!zoneAddress.required  && ( zoneAddress.dirty || zoneAddress.touched)">Please enter Zone Address</span>
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 pull-right">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !zoneN.valid || zoneNameExist || !zoneAddress.valid || !stateVal.valid || !serviceVal.valid || !districtV.valid"
-            (click)="addZoneToList(zoneForm.value);zoneForm.reset()  ">
+            (click)="addZoneToList(zoneForm.value);zoneForm.reset()" class="xs-pull-right sm-pull-right md-pull-left">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
