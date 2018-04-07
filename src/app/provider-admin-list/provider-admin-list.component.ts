@@ -364,6 +364,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.objs.splice(index, 1);
   }
   /*
+  /*
   * Clear all the data
   */
   // clearAll() {

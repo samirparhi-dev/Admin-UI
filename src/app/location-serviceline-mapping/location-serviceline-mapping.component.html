@@ -43,7 +43,7 @@
           <tr>
             <!--<th>Provider-Service Map ID</th>-->
             <!--<th>Provider-Service-Address Map ID</th>-->
-            <th>S.No</th>
+            <th>S.No.</th>
             <th>OfficeName</th>
             <th>Service Line Running</th>
             <th>Address</th>
@@ -72,7 +72,7 @@
             </td>
             <td width=15%>
               <!--               <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted" (click)="deleteOfficeAddress(loc.pSAddMapID)">delete</md-icon> -->
-              <button *ngIf="loc.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, false)">Activate</button>
+              <button *ngIf="loc.deleted == true" md-raised-button color="accent" (click)="activeDeactivate(loc.pSAddMapID, false)">Activate</button>
               <button *ngIf="loc.deleted == false" md-raised-button color="primary" (click)="activeDeactivate(loc.pSAddMapID, true)">Deactivate</button>
             </td>
           </tr>

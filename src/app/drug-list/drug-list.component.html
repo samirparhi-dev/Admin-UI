@@ -33,7 +33,7 @@
                 (click)="editDrugData(drug)">edit</md-icon>
             </td>
             <td>
-              <button *ngIf="drug.deleted=='1'" md-raised-button color="primary" (click)="updateDrugStatus(drug)">Activate</button>
+              <button *ngIf="drug.deleted=='1'" md-raised-button color="accent" (click)="updateDrugStatus(drug)">Activate</button>
               <button *ngIf="drug.deleted=='0'" md-raised-button color="primary" (click)="updateDrugStatus(drug)">Deactivate</button>
             </td>
           </tr>
@@ -117,6 +117,13 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+              <tr>
+                <td colspan="5">
+                  <md2-pagination></md2-pagination>
+                </td>
+              </tr>
+            </tfoot>
         </table>
       </div>
       <!-- <pagination-controls (pageChange)="b = $event" id="drugsResult"></pagination-controls>  -->

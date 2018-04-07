@@ -42,7 +42,7 @@
           <tr>
             <!-- <th>S.No</th> -->
             <!-- <th>RoleID</th> -->
-            <th>S.No</th>
+            <th>S.No.</th>
             <th>Role</th>
             <th>Description</th>
             <th>Screen Name</th>
@@ -69,7 +69,7 @@
             </td>
             <td width=15%>
               <!-- <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon> -->
-              <button *ngIf="role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, false)">Activate</button>
+              <button *ngIf="role.deleted" md-raised-button color="accent" (click)="deleteRole(role.roleID, false)">Activate</button>
               <button *ngIf="!role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, true)">Deactivate</button>
             </td>
           </tr>
@@ -158,7 +158,7 @@
       <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th width="5%">S.No</th>
+            <th width="5%">S.No.</th>
             <th width="15%">Role</th>
             <th width="25%">Description</th>
             <th width="20%">Screen Name</th>
@@ -188,7 +188,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
           </tr>
