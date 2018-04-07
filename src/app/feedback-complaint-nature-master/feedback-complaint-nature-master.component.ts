@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { FeedbackTypeService } from '../services/ProviderAdminServices/feedback-type-master-service.service';
-import { MdDialog, MdDialogRef} from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -12,9 +12,9 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-complaint-nature-master.component.css']
 })
 export class FeedbackComplaintNatureMasterComponent implements OnInit {
-previous_state_id:any;
-  previous_service_id:any;
-  previous_feedbacktype:any;
+  previous_state_id: any;
+  previous_service_id: any;
+  previous_feedbacktype: any;
 
 
   search_state: any;
@@ -38,58 +38,58 @@ previous_state_id:any;
   msg = "Complaint Nature already exists";
 
 
-  feedbackNature:any;
-  feedbackNatureDesc:any;
+  feedbackNature: any;
+  feedbackNatureDesc: any;
 
   constructor(private commonData: dataService, private FeedbackTypeService: FeedbackTypeService, private alertService: ConfirmationDialogsService, public dialog: MdDialog) { }
 
   ngOnInit() {
     this.serviceProviderID = this.commonData.service_providerID;
     this.FeedbackTypeService.getStates(this.serviceProviderID)
-    .subscribe((response)=>{
-      console.log("states",response);
-      this.states = response;
-    })
+      .subscribe((response) => {
+        console.log("states", response);
+        this.states = response;
+      })
   }
 
-  getServiceLinesfromSearch(state){
-    this.FeedbackTypeService.getServiceLines(this.serviceProviderID,state)
-    .subscribe((response)=>{
-      console.log("services",response);
-      this.servicelines = response;
-    })
+  getServiceLinesfromSearch(state) {
+    this.FeedbackTypeService.getServiceLines(this.serviceProviderID, state)
+      .subscribe((response) => {
+        console.log("services", response);
+        this.servicelines = response;
+      })
   }
 
-  findFeedbackTypes(providerServiceMapID){
+  findFeedbackTypes(providerServiceMapID) {
     this.providerServiceMapID = providerServiceMapID;
     this.FeedbackTypeService.getFeedbackTypes({
       "providerServiceMapID": this.providerServiceMapID
-    }).subscribe((response)=>{
-      console.log("FeedbackTypes",response);
+    }).subscribe((response) => {
+      console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
     })
   }
 
-  findFeedbackNature(feedbackTypeID){
-     this.feedbackTypeID = feedbackTypeID;
-     var tempObj = {
-       "feedbackTypeID": this.feedbackTypeID
-     }
-     this.FeedbackTypeService.getFeedbackNatureTypes(tempObj)
-     .subscribe((response)=>{
-       console.log("Feedback Nature Types",response);
-       this.natureTypes = response;
-       this.showTable = true;
-     })
+  findFeedbackNature(feedbackTypeID) {
+    this.feedbackTypeID = feedbackTypeID;
+    var tempObj = {
+      "feedbackTypeID": this.feedbackTypeID
+    }
+    this.FeedbackTypeService.getFeedbackNatureTypes(tempObj)
+      .subscribe((response) => {
+        console.log("Feedback Nature Types", response);
+        this.natureTypes = response;
+        this.showTable = true;
+      })
   }
 
-  editFeedbackNature(feedbackObj){
-    console.log("feedbackObj",feedbackObj);
+  editFeedbackNature(feedbackObj) {
+    console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackNatureModal, {
       width: '500px',
       data: {
         'feedbackObj': feedbackObj,
-        'natureTypes': this.natureTypes 
+        'natureTypes': this.natureTypes
       }
     });
 
@@ -103,69 +103,69 @@ previous_state_id:any;
     });
   }
 
-  clear(){
+  clear() {
     this.searchCNForm.resetForm();
-    console.log("state",this.search_state);
-    console.log("serviceLine",this.search_serviceline);
+    console.log("state", this.search_state);
+    console.log("serviceLine", this.search_serviceline);
     this.natureTypes = [];
     this.showTable = false;
   }
 
-  activeDeactivate(id, flag){
+  activeDeactivate(id, flag) {
     let obj = {
       "feedbackNatureID": id,
       "deleted": flag
     }
-    if (flag) {
-      this.confirmMessage = 'Deactivate';
-    } else {
-      this.confirmMessage = 'Activate';
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm("Are you sure want to "+this.confirmMessage+"?").subscribe((res)=>{
+    this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
-        console.log("reqObj",obj);
+        console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedbackNatureType(obj)
-        .subscribe((res)=>{
-          this.alertService.alert(this.confirmMessage+"d successfully");
-          this.findFeedbackNature(this.feedbackTypeID);
-        },
-        (err)=>{
-          console.log(err);
-        })
+          .subscribe((res) => {
+            this.alertService.alert(this.confirmMessage + "d successfully");
+            this.findFeedbackNature(this.feedbackTypeID);
+          },
+            (err) => {
+              console.log(err);
+            })
       }
     },
-    (err)=>{
-      console.log(err);
-    })
+      (err) => {
+        console.log(err);
+      })
   }
 
-  changeTableFlag(flag){
+  changeTableFlag(flag) {
     this.searchForm = flag;
   }
 
-  validateFeedbackNature(feedbackNature){
+  validateFeedbackNature(feedbackNature) {
     // console.log("check",feedbackNature);
     this.natureExists = false;
     this.searchFeedbackNatureArray = this.natureTypes.concat(this.objs);
-    console.log("searchArray",this.searchFeedbackNatureArray);
+    console.log("searchArray", this.searchFeedbackNatureArray);
     let count = 0;
-    for(var i=0; i< this.searchFeedbackNatureArray.length;i++){
-      if(feedbackNature.toUpperCase()===this.searchFeedbackNatureArray[i].feedbackNature.toUpperCase()){
+    for (var i = 0; i < this.searchFeedbackNatureArray.length; i++) {
+      if (feedbackNature.toUpperCase() === this.searchFeedbackNatureArray[i].feedbackNature.toUpperCase()) {
         // console.log("gotcha",feedbacknature,"exists");
         count++;
       }
       // console.log(i,"iterating");
     }
-    if(count>0){
+    if (count > 0) {
       // console.log("error found");
       this.natureExists = true;
     }
   }
 
-  saveComplaintNature(){
+  saveComplaintNature() {
     // console.log("dataObj", obj);
     var tempArr = [];
-    for(var i=0; i < this.objs.length;i++){
+    for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
         "feedbackNature": this.objs[i].feedbackNature,
         "feedbackNatureDesc": this.objs[i].feedbackNatureDesc,
@@ -174,28 +174,28 @@ previous_state_id:any;
       }
       tempArr.push(tempObj);
     }
-   
+
     console.log("reqObj", tempArr);
     this.FeedbackTypeService.saveFeedbackNatureType(tempArr)
-    .subscribe((res)=>{
-      console.log("response",res);
-      this.searchForm = true;
-      this.alertService.alert("Feedback Nature Saved Successfully");
-      this.previous_state_id=this.search_state;
-      this.previous_service_id=this.search_serviceline;
-      this.previous_feedbacktype=this.search_feedbacktype;
-      this.addForm.resetForm();
-      this.objs = [];
+      .subscribe((res) => {
+        console.log("response", res);
+        this.searchForm = true;
+        this.alertService.alert("Feedback Nature Saved Successfully");
+        this.previous_state_id = this.search_state;
+        this.previous_service_id = this.search_serviceline;
+        this.previous_feedbacktype = this.search_feedbacktype;
+        this.addForm.resetForm();
+        this.objs = [];
 
-      this.search_state=this.previous_state_id;
-      this.search_serviceline=this.previous_service_id;
-      this.search_feedbacktype=this.previous_feedbacktype;
+        this.search_state = this.previous_state_id;
+        this.search_serviceline = this.previous_service_id;
+        this.search_feedbacktype = this.previous_feedbacktype;
 
-      this.findFeedbackNature(this.feedbackTypeID);
-    })
+        this.findFeedbackNature(this.feedbackTypeID);
+      })
   }
 
-  add_obj(nature,desc){
+  add_obj(nature, desc) {
     var tempObj = {
       "feedbackNature": nature,
       "feedbackNatureDesc": desc
@@ -203,14 +203,14 @@ previous_state_id:any;
     console.log(tempObj);
     this.objs.push(tempObj);
     this.validateFeedbackNature(nature);
-    
-    this.feedbackNature="";
-    this.feedbackNatureDesc="";
-    this.natureExists=false;
+
+    // this.feedbackNature = undefined;
+    // this.feedbackNatureDesc = undefined;
+    this.natureExists = false;
   }
 
-  remove_obj(index){
-    this.objs.splice(index,1);
+  remove_obj(index) {
+    this.objs.splice(index, 1);
   }
 
 }
@@ -228,48 +228,48 @@ export class EditFeedbackNatureModal {
   natureExists: boolean = false;
   msg = "Complaint Nature already exists";
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-  public FeedbackTypeService: FeedbackTypeService,
-  public dialog_Ref: MdDialogRef<EditFeedbackNatureModal>,
-  private alertService: ConfirmationDialogsService) { }
-  
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+    public FeedbackTypeService: FeedbackTypeService,
+    public dialog_Ref: MdDialogRef<EditFeedbackNatureModal>,
+    private alertService: ConfirmationDialogsService) { }
+
   ngOnInit() {
-    console.log("update this data",this.data);
+    console.log("update this data", this.data);
     this.feedbackNature = this.data.feedbackObj.feedbackNature;
     this.originalNature = this.data.feedbackObj.feedbackNature;
     this.feedbackNatureDesc = this.data.feedbackObj.feedbackNatureDesc;
     this.searchFeedbackArray = this.data.natureTypes;
   }
 
-  update(){
+  update() {
     var tempObj = {
       "feedbackNatureID": this.data.feedbackObj.feedbackNatureID,
       "feedbackNature": this.feedbackNature,
       "feedbackNatureDesc": this.feedbackNatureDesc,
       "modifiedBy": this.data.feedbackObj.createdBy
     }
-    
+
     this.FeedbackTypeService.editFeedbackNatureType(tempObj)
-    .subscribe((res)=>{
-      this.dialog_Ref.close("success");
-      // this.alertService.alert("Feedback Nature edited successfully");
-    })
-    
+      .subscribe((res) => {
+        this.dialog_Ref.close("success");
+        // this.alertService.alert("Feedback Nature edited successfully");
+      })
+
   }
 
-  validateFeedback(feedbackNature){
-    console.log("check",feedbackNature);
+  validateFeedback(feedbackNature) {
+    console.log("check", feedbackNature);
     this.natureExists = false;
-    console.log("searchArray",this.searchFeedbackArray);
+    console.log("searchArray", this.searchFeedbackArray);
     let count = 0;
-    for(var i=0; i< this.searchFeedbackArray.length;i++){
-      if(feedbackNature.toUpperCase()===this.searchFeedbackArray[i].feedbackNature.toUpperCase() && feedbackNature.toUpperCase()!=this.originalNature.toUpperCase()){
+    for (var i = 0; i < this.searchFeedbackArray.length; i++) {
+      if (feedbackNature.toUpperCase() === this.searchFeedbackArray[i].feedbackNature.toUpperCase() && feedbackNature.toUpperCase() != this.originalNature.toUpperCase()) {
         // console.log("gotcha",feedbackNature,"exists");
         count++;
       }
       // console.log(i,"iterating");
     }
-    if(count>0){
+    if (count > 0) {
       // console.log("error found");
       this.natureExists = true;
     }

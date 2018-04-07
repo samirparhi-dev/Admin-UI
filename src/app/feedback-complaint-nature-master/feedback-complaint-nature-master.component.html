@@ -44,7 +44,7 @@
   </div>
   <!--table area-->
   <div class="col-xs-12 col-sm-12  table-responsive m-t-20" *ngIf="showTable">
-    <table [md2Data]="natureTypes" class="table" #md2="md2DataTable" [rowsPerPage]="4">
+    <table [md2Data]="natureTypes" class="table table striped" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
         <tr>
           <th style="width: 35%">Feedback Nature</th>
@@ -61,7 +61,8 @@
           <td>{{item.feedbackNature}}</td>
           <td>{{item.feedbackNatureDesc}}</td>
           <td>
-            <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" style="font-size: 18px" *ngIf="!item.deleted" (click)="editFeedbackNature(item)"></i>
+            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+              (click)="editFeedbackNature(item)">edit</md-icon>
           </td>
           <td>
             <button *ngIf="item.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(item.feedbackNatureID,false)">Activate</button>
@@ -138,22 +139,25 @@
           </md-input-container>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngIf="addForm.valid && !natureExists">
-          <button md-mini-fab color="primary" (click)="add_obj(feedbackNature,feedbackNatureDesc)">
+          <button md-mini-fab color="primary" (click)="add_obj(feedbackNature,feedbackNatureDesc);this.addForm().reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
       </div>
-      <div class="row col-xs-12 col-sm-12  table-responsive" *ngIf="(objs.length !=0)">
+      <div class="table-responsive" *ngIf="(objs.length !=0)">
         <table [md2Data]="objs" #md2="md2DataTable" class="table" [rowsPerPage]="4">
           <thead>
             <tr>
-              <th>Sr. No.</th>
+              <th>S.No.</th>
               <th>Feed Nature</th>
               <th>Feedback Nature Description</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
+            <tr *ngIf="objs.length == 0">
+              <td colspan="8" class="record-not-found">No records found</td>
+            </tr>
             <tr style="cursor: pointer" *ngFor="let obj of md2.data; let i = index ">
               <td>{{(md2.activePage-1)*5+i+1}}</td>
               <td>{{obj.feedbackNature}}</td>

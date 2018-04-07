@@ -2,7 +2,7 @@
     <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
         <h4>Search Service Points</h4>
         <form #searForm="ngForm">
-            <div class="row m-t-25">
+            <div class="row m-t-20">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <md-input-container class="hide_underline" [style.width]="'100%'">
                         <input mdInput style="display:none">
@@ -41,13 +41,13 @@
         </form>
     </div>
 
-    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12 m-t-20">
+    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
         <h4>Available Service Points</h4>
         <div class="table-responsive m-t-15">
             <table [md2Data]="availableServicePoints" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
                 <thead>
                     <tr>
-                        <th>S No.</th>
+                        <th>S.No.</th>
                         <th>State</th>
                         <th>District</th>
                         <th>Sub District</th>
@@ -60,7 +60,7 @@
                 </thead>
                 <tbody>
                     <tr *ngIf="availableServicePoints.length == 0">
-                        <td colspan="9" align="center">No Record Found</td>
+                        <td colspan="9" class="record-not-found">No records found</td>
                     </tr>
                     <tr style="cursor: pointer" *ngFor="let servicePoint of md2.data;let i=index ">
                         <td>{{availableServicePoints.indexOf(servicePoint)+1}} </td>
@@ -189,7 +189,7 @@
             <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
                 <thead>
                     <tr>
-                        <th>S No.</th>
+                        <th>S.No.</th>
                         <th>State</th>
                         <th>District</th>
                         <th>Sub District</th>

@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <tr *ngIf="LanguageMappedList.length == 0">
-          <td colspan="6" align="center">No Record Found</td>
+          <td colspan="6" class="record-not-found">No records found</td>
         </tr>
         <tr style="cursor: pointer" *ngFor="let lang of md2.data;let i=index ">
           <td>{{lang.userName}}</td>
@@ -31,7 +31,9 @@
           <td>{{lang.weightage_Write}}</td>
           <td>{{lang.weightage_Speak}}</td>
           <td>
-            <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" *ngIf="!lang.deleted" style="font-size: 18px" (click)="editRow(lang)"></i>
+
+            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!lang.deleted"
+              (click)="editRow(lang)">edit</md-icon>
           </td>
           <td>
             <button md-raised-button color="primary" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
@@ -147,7 +149,7 @@
             <div class="col-xs-12 col-sm-12  m-t-15 ">
 
               <div class="row">
-                <button md-mini-fab color="primary" *ngIf="showCheckboxes " [disabled]="addButtonState" class="pull-right " (click)="addLanguage(form.value);this.form.reset()">
+                <button md-mini-fab color="primary" *ngIf="showCheckboxes" [disabled]="addButtonState" class="pull-right " (click)="addLanguage(form.value);this.form.reset()">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                 </button>
                 <button name="backBtn " color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
@@ -158,7 +160,7 @@
             <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
               <thead>
                 <tr>
-                  <th>Sr. No.</th>
+                  <th>S.No.</th>
                   <th>User Name</th>
                   <th>Language Name</th>
                   <th>Read Weightage</th>
@@ -189,8 +191,10 @@
                 </tr>
               </tfoot>
             </table>
-            <div>
-              <button name="langsaveBtn " color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
+            <div class="col-xs-12 col-sm-12">
+              <div class="row">
+                <button name="langsaveBtn " color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
+              </div>
             </div>
           </div>
         </form>

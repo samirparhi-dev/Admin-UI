@@ -43,13 +43,14 @@
       </thead>
       <tbody>
         <tr *ngIf="feedbackTypes.length == 0">
-          <td colspan="4" align="center">No Record Found</td>
+          <td colspan="4" class="record-not-found">No records found</td>
         </tr>
         <tr *ngFor="let item of  md2.data">
           <td>{{item.feedbackTypeName}}</td>
           <td>{{item.feedbackDesc}}</td>
           <td>
-            <i mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" *ngIf="!item.deleted" style="font-size: 18px" (click)="editFeedback(item)"></i>
+            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+              (click)="editFeedback(item)">edit</md-icon>
           </td>
           <td>
             <button *ngIf="item.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(item.feedbackTypeID,false)">Activate</button>
@@ -131,18 +132,18 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 ">
-          <button md-mini-fab color="primary" class="pull-right" [disabled]="!addForm.valid && !feedbackExists" type="button" (click)="add_obj(feedbackName,feedbackDesc)">
+          <button md-mini-fab color="primary" class="pull-right" [disabled]="!addForm.valid && !feedbackExists" type="button" (click)="add_obj(feedbackName,feedbackDesc);this.addForm.reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
           <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true)">Back</button>
         </div>
       </div>
-      <div class=" table-responsive m-t-15" *ngIf="(objs.length !=0)">
+      <div class="table-responsive m-t-15" *ngIf="(objs.length !=0)">
 
         <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
           <thead>
             <tr>
-              <th>Sr. No.</th>
+              <th>S.No.</th>
               <th>Feed Name</th>
               <th>Feedback Description</th>
               <th>Delete</th>
@@ -169,8 +170,10 @@
           </tfoot>
         </table>
       </div>
-      <div class="col-xs-12 col-sm-12 ">
-        <button md-raised-button color="accent" *ngIf="objs.length>0" class="pull-right " (click)="saveFeedback()">Save</button>
+      <div class="col-xs-12 col-sm-12">
+        <div class="row">
+          <button md-raised-button color="accent" *ngIf="objs.length>0" class="pull-right " (click)="saveFeedback()">Save</button>
+        </div>
       </div>
 
     </form>
