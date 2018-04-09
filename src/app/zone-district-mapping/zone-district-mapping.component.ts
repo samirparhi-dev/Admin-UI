@@ -114,12 +114,14 @@ export class ZoneDistrictMappingComponent implements OnInit {
     zoneDistrictMappingList:any= [];
     mappedDistrictIDs:any = [];
     addZoneDistrictMappingToList(values){
+        
         let districtIds = [];
         for(let districts of values.districtIdList){
             districtIds.push(districts.split("-")[0]);
         }
 
          //find district deselected from the list , and Remove zone mapping with that district
+         debugger;
         for(let mappedDistrict of this.mappedDistricts){
             this.mappedDistrictIDs.push(mappedDistrict.districtID); // fetching mapped districtID's
             

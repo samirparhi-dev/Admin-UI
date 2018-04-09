@@ -70,10 +70,10 @@ export class BlockServiceProviderComponent implements OnInit {
 
   // ** Smart Search Logic ** added by Krishna Gunti ** //
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
-    this.selectKeyPress(event);
-  }
+  // @HostListener('document:keydown', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent): void {
+  //   this.selectKeyPress(event);
+  // }
   selectKeyPress($event) {
     let firstWordMatchingStatus = 0;
     if ($event.keyCode !== 123)   // To elemenate '{' which key is 123 from the word
