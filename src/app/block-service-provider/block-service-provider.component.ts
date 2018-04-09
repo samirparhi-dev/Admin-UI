@@ -35,6 +35,7 @@ export class BlockServiceProviderComponent implements OnInit {
   case_three: boolean;
   case_four: boolean;
   show_card: boolean = false;
+  isNational = false;
   status: any;
   reason: any;
   constructor(public block_provider: BlockProvider, private message: ConfirmationDialogsService) {
@@ -52,6 +53,10 @@ export class BlockServiceProviderComponent implements OnInit {
   ngOnInit() {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
     this.block_provider.getAllStatus().subscribe(response => this.getSuccess(response));
+  }
+
+  setIsNationalFlag(value) {
+    this.isNational = value;
   }
 
   getSuccess(response: any) {
@@ -118,11 +123,12 @@ export class BlockServiceProviderComponent implements OnInit {
     this.block_provider.getStates(serviceProviderID).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
-      this.getStatus(this.service_provider, this.state, this.serviceline)
+      this.getStatus(this.service_provider, this.state, this.serviceline);
       //-- added by krishna Gunti for smart search --//
       this.loadingValues();
     });
   }
+
 
   getAllServicesOfProvider(serviceProviderID) {
     this.block_provider.getServicesOfProvider(serviceProviderID)
@@ -131,8 +137,10 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   getServicesInState(serviceProviderID, stateID) {
-    this.block_provider.getServicesInState(serviceProviderID, stateID)
-      .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
+
+ this.getStatus(this.service_provider, this.state, this.serviceline);
+    // this.block_provider.getServicesInState(serviceProviderID, stateID)
+    //   .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
 
 
   }
@@ -173,6 +181,7 @@ export class BlockServiceProviderComponent implements OnInit {
   getAllServicesOfProviderSuccesshandeler(response) {
     this.serviceline = '';
     this.services_array = response;
+    this.getStatus(this.service_provider, this.state, this.serviceline);
   }
 
   getServicesInStatesSuccesshandeler(response) {

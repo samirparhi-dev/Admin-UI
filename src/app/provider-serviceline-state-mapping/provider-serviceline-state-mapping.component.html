@@ -25,7 +25,7 @@
             <td>{{(md2.activePage-1)*5+i+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
+            <td>{{item.stateName?item.stateName:'All State'}}</td>
             <td>
               <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
               <button md-raised-button color="primary" *ngIf="item.deleted" class="pull-right" (click)="activate(item.providerServiceMapID)">Activate</button>
@@ -142,14 +142,14 @@
         </md-select>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline" required>
-          <md-option *ngFor="let item of servicelines" [value]='item.serviceID'>
+        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline"  required>
+          <md-option *ngFor="let item of servicelines" [value]='item.serviceID' (click)="setIsNationalFlag_while_edit(item.isNational)">
             {{item.serviceName}}
           </md-option>
         </md-select>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="edit_state" name="state" required>
+        <md-select placeholder="State" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="edit_state" name="state" required>
           <md-option *ngFor="let item of states" [value]='item.stateID'>
             {{item.stateName}}
           </md-option>

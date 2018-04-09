@@ -40,6 +40,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   editMode = false;
 
   isNational = false;
+  isNational_edit = false;
 
 
   // variables
@@ -323,6 +324,24 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.edit_provider = row_object.serviceProviderID;
     this.edit_serviceline = row_object.serviceID;
     this.edit_state = row_object.stateID;
+
+    // to disable the state field if the serviceline is National
+    for (let i = 0; i < this.servicelines.length; i++) {
+      if (this.servicelines[i].serviceID === this.edit_serviceline && this.servicelines[i].isNational) {
+        this.edit_state = undefined;
+        this.isNational_edit = true;
+        break;
+      }
+      else {
+        this.edit_state = row_object.stateID;
+        this.isNational_edit = false;
+      }
+    }
+  }
+
+  setIsNationalFlag_while_edit(value) {
+    this.edit_state=undefined;
+    this.isNational_edit = value;
   }
 
   update(form_values) {

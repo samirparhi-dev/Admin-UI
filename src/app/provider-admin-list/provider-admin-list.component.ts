@@ -396,7 +396,7 @@ export class ProviderAdminListComponent implements OnInit {
         'userName': this.objs[i].username,
         'password': this.objs[i].password,
         'remarks': this.objs[i].admin_remarks,
-        'createdBy': "Admin",
+        'createdBy': this.commonDataService.uname,
         'isProviderAdmin': "true",
         'statusID':"1"
 
