@@ -40,45 +40,47 @@
     </div> -->
 </div>
 <div class="row" *ngIf="showTableFlag">
-  <div class="col-xs-12 col-sm-12 m-t-20 table-responsive">
-    <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th>State</th>
-          <th>Service</th>
-          <th>Role</th>
-          <th>Employee Name</th>
-          <th>Employee ID</th>
-          <th>Agent ID</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="searchResultArray.length == 0">
-          <td colspan="7" class="record-not-found">No records found</td>
-        </tr>
-        <tr *ngFor="let item of md2.data">
-          <td>{{item.pSMStateName}}</td>
-          <td>{{item.serviceName}}</td>
-          <td>{{item.roleName}}</td>
-          <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
-          <td>{{item.userID}}</td>
-          <td>{{item.agentID}}</td>
-          <td>
-            <!-- <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
+  <div class="col-xs-12 col-sm-12 m-t-20 ">
+    <div class="table-responsive">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Service</th>
+            <th>Role</th>
+            <th>Employee Name</th>
+            <th>Employee ID</th>
+            <th>Agent ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="searchResultArray.length == 0">
+            <td colspan="7" class="record-not-found">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data">
+            <td>{{item.pSMStateName}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.roleName}}</td>
+            <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
+            <td>{{item.userID}}</td>
+            <td>{{item.agentID}}</td>
+            <td>
+              <!-- <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
               <md-icon mdTooltip="delete" *ngIf="!item.deleted"  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteUser(item.uSRMappingID)">delete</md-icon> -->
-            <button md-raised-button color="primary" (click)="openMappingModal(item)">Map AgentID
-            </button>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="7">
-            <md2-pagination></md2-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+              <button md-raised-button color="primary" (click)="openMappingModal(item)">Map AgentID
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </div>

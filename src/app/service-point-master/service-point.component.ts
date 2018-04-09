@@ -264,6 +264,7 @@ export class ServicePointComponent implements OnInit {
         this.searchParkingPlaceID = "";
         this.getServicePoints(null, null, null);
         this.showServicePoints = true;
+        this.servicePointObj = [];
     }
 
     servicePointNameExist: any = false;

@@ -5,50 +5,51 @@
     </h4>
   </div>
   <!-- pre-populated table showing the number of providers available -->
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+  <div class="col-xs-12 col-sm-12 ">
+    <div class="table-responsive">
+      <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th>Provider Name</th>
+            <th>Provider Admin Name</th>
+            <th>Service Line</th>
+            <th>State </th>
+            <th>Edit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="providerAdminList.length == 0">
+            <td colspan="6" class="record-not-found">No records found</td>
+          </tr>
+          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+            <td>{{service.serviceProviderName}}</td>
+            <td>{{service.firstName }}</td>
+            <td>{{service.serviceName}}</td>
+            <td>{{service.stateName}}</td>
+            <td>
+              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted"
+                (click)="editRow(service)">edit</md-icon>
+            </td>
+            <td>
+              <button md-raised-button color="primary" *ngIf="service.uSRMDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
-    <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table" [rowsPerPage]="3">
-      <thead>
-        <tr>
-          <th>Provider Name</th>
-          <th>Provider Admin Name</th>
-          <th>Service Line</th>
-          <th>State </th>
-          <th>Edit</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="providerAdminList.length == 0">
-          <td colspan="6" class="record-not-found">No records found</td>
-        </tr>
-        <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
-          <td>{{service.serviceProviderName}}</td>
-          <td>{{service.firstName }}</td>
-          <td>{{service.serviceName}}</td>
-          <td>{{service.stateName}}</td>
-          <td>
-            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted"
-              (click)="editRow(service)">edit</md-icon>
-          </td>
-          <td>
-            <button md-raised-button color="primary" *ngIf="service.uSRMDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
-            <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
-
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="4">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="3" class="p-r-0">
-            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </div>
 <div class="row" *ngIf="formMode">
@@ -113,48 +114,50 @@
       <button *ngIf="!editMode" md-raised-button color="primary" class="pull-right" [disabled]="form.invalid" (click)="add2bufferArray(form.value)">Add</button>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 table-responsive " *ngIf="bufferArray.length>0">
-    <table class="table table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th width="5%">S.No.</th>
-          <th width="30%">Provider Name</th>
-          <th width="15%">Provider Admin Name</th>
-          <th width="15%">State</th>
-          <th width="40%">Serviceline</th>
-          <th width="10%">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of md2.data;let i = index ">
-          <td>{{(md2.activePage-1)*5+i+1}}</td>
-          <td>{{item.serviceProviderName}}</td>
-          <td>{{item.userName}}</td>
-          <td>{{item.stateName}}</td>
-          <td>
-            <ul>
-              <li *ngFor="let obj of item.serviceProviderMapID1;let j=index ">
-                {{obj.serviceName}}
-                <md-icon class="cursorPointer" mdTooltip="Remove {{obj.serviceName}}" (click)="removeService(i,j)">cancel</md-icon>
-              </li>
-            </ul>
-          </td>
-          <td>
-            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="3" class="p-r-0">
-            <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+  <div class="col-xs-12 col-sm-12  " *ngIf="bufferArray.length>0">
+    <div class="table-responsive">
+      <table class="table table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="30%">Provider Name</th>
+            <th width="15%">Provider Admin Name</th>
+            <th width="15%">State</th>
+            <th width="40%">Serviceline</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of md2.data;let i = index ">
+            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{item.serviceProviderName}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.stateName}}</td>
+            <td>
+              <ul>
+                <li *ngFor="let obj of item.serviceProviderMapID1;let j=index ">
+                  {{obj.serviceName}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.serviceName}}" (click)="removeService(i,j)">cancel</md-icon>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0">
+              <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </div>
 <div class="row" *ngIf="editMode">

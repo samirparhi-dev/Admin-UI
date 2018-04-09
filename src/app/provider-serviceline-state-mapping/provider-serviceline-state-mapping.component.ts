@@ -39,6 +39,9 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   tableMode = true;
   editMode = false;
 
+  isNational = false;
+
+
   // variables
   createdBy: any;
   countryID: any = 1;
@@ -141,7 +144,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     };
 
     let stateArray = [];
-    if (form_values.state.length > 0) {
+    if (form_values.state != undefined && form_values.state.length > 0) {
       for (let a = 0; a < form_values.state.length; a++) {
         let obj = {
           'stateID': form_values.state[a].stateID,
@@ -278,12 +281,14 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.services = [];
   }
 
-  getAvailableStates(provider, service) {
-    console.log(provider, service);
+  getAvailableStates(provider, serviceID, service) {
+    console.log(provider, serviceID);
+    this.isNational = service.isNational;
+    console.log('is NATIONAL', this.isNational);
     const alreadyMappedStates = [];
     for (let i = 0; i < this.searchResult.length; i++) {
       if (this.searchResult[i].serviceProviderID === provider &&
-        this.searchResult[i].serviceID === service) {
+        this.searchResult[i].serviceID === serviceID) {
         const obj = {
           'stateID': this.searchResult[i].stateID,
           'stateName': this.searchResult[i].stateName
