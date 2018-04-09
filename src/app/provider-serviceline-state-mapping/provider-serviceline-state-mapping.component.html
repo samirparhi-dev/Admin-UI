@@ -59,7 +59,7 @@
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID)"
+          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID,serviceline)"
             required>
             <md-option *ngFor="let item of services" [value]='item'>
               {{item.serviceName}}
@@ -67,7 +67,7 @@
           </md-select>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
+          <md-select placeholder="State" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
             <md-option *ngFor="let item of filteredStates" [value]='item'>
               {{item.stateName}}
             </md-option>
