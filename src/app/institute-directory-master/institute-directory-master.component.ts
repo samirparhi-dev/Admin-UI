@@ -34,7 +34,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	showTableFlag:boolean=false;
 	showFormFlag:boolean=false;
 	disableSelection:boolean=false;
-	@ViewChild('#instituteFields') instituteFields: NgForm;
+	@ViewChild('instituteDir') instituteDir: NgForm;
 
 	constructor(public instituteDirectoryService:InstituteDirectoryMasterService,
 	            public commonDataService:dataService,
@@ -183,13 +183,11 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log("response",response);
 		if(response)
 		{
-			this.alertService.alert("Institute directory saved successfully!");
-			//this.back();			
-			//this.instituteFields.resetForm();
-			this.search();
-			this.showTableFlag = true;
+			this.alertService.alert("Institute directory saved successfully!");				
+			this.instituteDir.resetForm();			
 			this.showFormFlag = false;
-			
+			this.bufferArray = [];
+			this.search();			
 		}
 	}
 

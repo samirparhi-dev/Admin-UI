@@ -118,7 +118,7 @@
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <button md-mini-fab color="primary" [disabled]=" !serviceVal.valid || !stateVal.valid || !zoneG.valid || !districtF.valid"
-              *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
+              *ngIf="!editable" class="pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
               <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
           </div>

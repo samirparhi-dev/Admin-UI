@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 import { VillageMasterService } from './../services/adminServices/AdminVillage/village-master-service.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { NgForm } from '@angular/forms';
 declare let jQuery: any;
 
 @Component({
@@ -28,7 +29,7 @@ export class VillageMasterComponent implements OnInit {
     showTableFlag: boolean = false;
     showFormFlag: boolean = false;
     disable_flag: boolean = false;
-
+    @ViewChild('villageForm') villageForm: NgForm;
     constructor(
         public commonDataService: dataService,
         private alertMessage: ConfirmationDialogsService,
@@ -132,9 +133,10 @@ export class VillageMasterComponent implements OnInit {
     }
 
     successHandler(response) {
-        this.villageList = [];
         this.alertMessage.alert("Village stored successfully");
-        this.back();
+        this.villageForm.resetForm();
+        this.showFormFlag = false;
+        this.villageList = [];
         this.GetBranches(this.searchTalukID);
     }
 

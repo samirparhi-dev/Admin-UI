@@ -75,10 +75,10 @@ export class BlockServiceProviderComponent implements OnInit {
 
   // ** Smart Search Logic ** added by Krishna Gunti ** //
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
-    this.selectKeyPress(event);
-  }
+  // @HostListener('document:keydown', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent): void {
+  //   this.selectKeyPress(event);
+  // }
   selectKeyPress($event) {
     let firstWordMatchingStatus = 0;
     if ($event.keyCode !== 123)   // To elemenate '{' which key is 123 from the word
@@ -386,7 +386,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_providerSuccessHandeler(response) {
     console.log('b u provider success handeler', response);
-    this.message.alert('Successfully updated');
+    this.message.alert('Updated successfully');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderLevel(response[0].serviceProviderID);
     // }
