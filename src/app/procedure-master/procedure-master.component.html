@@ -1,13 +1,12 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 ">
-
         <h4 *ngIf="!editMode">Procedure Master</h4>
         <h4 *ngIf="editMode">Edit Procedure Master</h4>
         <div *ngIf="unfilled" class="alert alert-danger" role="alert">
             Please fill all mandatory fields
         </div>
         <form #stateService="ngForm">
-            <div class="row m-t-25">
+            <div class="row m-t-15">
 
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -57,11 +56,19 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                        Gender*
-                        <div>
-                            <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
-                            <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
-                        </div>
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <ul class="list-inline list-unstyled">
+                                <li>
+                                    <strong> Gender*</strong>
+                                </li>
+                                <li>
+                                    <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
+                                    <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
+                                </li>
+                            </ul>
+                        </md-input-container>
+
                     </div>
                     <div class="clearfix visible-md "></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -95,52 +102,54 @@
             <md-icon mdSuffix>search</md-icon>
         </md-input-container>
     </div>
-    <div #tabledData class="col-xs-12 col-sm-12  table-responsive m-t-15">
-        <table class="table table-striped" [md2Data]="filteredprocedureList" #md2="md2DataTable" [rowsPerPage]="4">
-            <thead>
-                <tr>
-                    <th width="5%">S.No</th>
-                    <th width="15%">Procedure Name</th>
-                    <th width="20%">Procedure Type</th>
-                    <th width="15%">Gender</th>
-                    <th width="25%">Description</th>
-                    <th width="10%">Created By</th>
-                    <th width="5%">Edit</th>
-                    <th width="5%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngIf="filteredprocedureList.length == 0">
-                    <td colspan="8" align="center">No Previous Record Found</td>
-                </tr>
-                <tr *ngFor="let item of md2.data;let i = index ">
-                    <td>{{(md2.activePage-1)*4+i+1}}</td>
-                    <td>{{item.procedureName}}</td>
-                    <td>{{item.procedureType}}</td>
-                    <td>{{item.gender}}</td>
-                    <td>{{item.procedureDesc}}</td>
-                    <td>{{item.createdBy}}</td>
-                    <td>
-                        <md-icon mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" role="img" aria-hidden="true" style="font-size: 18px"
-                            (click)="showForm();configProcedure(item, i)"></md-icon>
-                    </td>
-                    <td>
-                        <button *ngIf="item.deleted" color="primary" md-raised-button color="primary" (click)="toggleProcedure(item.procedureID, i, false)">Activate</button>
-                        <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleProcedure(item.procedureID, i, true)">Deactivate</button>
+    <div #tabledData class="col-xs-12 col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-striped" [md2Data]="filteredprocedureList" #md2="md2DataTable" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th width="5%">S.No.</th>
+                        <th width="15%">Procedure Name</th>
+                        <th width="20%">Procedure Type</th>
+                        <th width="15%">Gender</th>
+                        <th width="25%">Description</th>
+                        <th width="10%">Created By</th>
+                        <th width="5%">Edit</th>
+                        <th width="5%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="filteredprocedureList.length == 0">
+                        <td colspan="8" class="record-not-found">No records found</td>
+                    </tr>
+                    <tr *ngFor="let item of md2.data;let i = index ">
+                        <td>{{(md2.activePage-1)*4+i+1}}</td>
+                        <td>{{item.procedureName}}</td>
+                        <td>{{item.procedureType}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.procedureDesc}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>
+                            <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer"
+                                (click)="showForm();configProcedure(item, i)">edit</md-icon>
+                        </td>
+                        <td>
+                            <button *ngIf="item.deleted" color="primary" md-raised-button color="primary" (click)="toggleProcedure(item.procedureID, i, false)">Activate</button>
+                            <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleProcedure(item.procedureID, i, true)">Deactivate</button>
 
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6">
-                        <md2-pagination></md2-pagination>
-                    </td>
-                    <td colspan="7">
-                        <button *ngIf="!editMode" color="primary" id="resetButton" md-raised-button (click)="showForm();resetProcedure()">Create New Procedure</button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                        <td colspan="7" class="p-r-0">
+                            <button *ngIf="!editMode" class="pull-right" color="primary" id="resetButton" md-raised-button (click)="showForm();resetProcedure()">Create New Procedure</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>

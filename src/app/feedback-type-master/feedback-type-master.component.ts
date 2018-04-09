@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { FeedbackTypeService } from '../services/ProviderAdminServices/feedback-type-master-service.service';
-import { MdDialog, MdDialogRef} from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -13,10 +13,10 @@ import { MD_DIALOG_DATA } from '@angular/material';
 })
 export class FeedbackTypeMasterComponent implements OnInit {
 
-  previous_state_id:any;
-  previous_service_id:any;
-  feedbackDesc:any;
-feedbackName:any;
+  previous_state_id: any;
+  previous_service_id: any;
+  feedbackDesc: any;
+  feedbackName: any;
 
   search_state: any;
   search_serviceline: any;
@@ -40,49 +40,49 @@ feedbackName:any;
   ngOnInit() {
     this.serviceProviderID = this.commonData.service_providerID;
     this.FeedbackTypeService.getStates(this.serviceProviderID)
-    .subscribe((response)=>{
-      console.log("states",response);
-      this.states = response;
-    })
+      .subscribe((response) => {
+        console.log("states", response);
+        this.states = response;
+      })
   }
 
-  getServiceLinesfromSearch(state){
-    this.FeedbackTypeService.getServiceLines(this.serviceProviderID,state)
-    .subscribe((response)=>{
-      console.log("services",response);
-      this.search_serviceline="";
-      this.servicelines = response;
-    })
+  getServiceLinesfromSearch(state) {
+    this.FeedbackTypeService.getServiceLines(this.serviceProviderID, state)
+      .subscribe((response) => {
+        console.log("services", response);
+        this.search_serviceline = "";
+        this.servicelines = response;
+      })
   }
 
-  findFeedbackTypes(providerServiceMapID){
+  findFeedbackTypes(providerServiceMapID) {
     this.providerServiceMapID = providerServiceMapID;
     this.FeedbackTypeService.getFeedbackTypes({
       "providerServiceMapID": this.providerServiceMapID
-    }).subscribe((response)=>{
-      console.log("FeedbackTypes",response);
+    }).subscribe((response) => {
+      console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
       this.showTable = true;
     })
   }
 
-  clear(){
+  clear() {
     this.searchFTForm.resetForm();
-    this.servicelines=[];
-    console.log("state",this.search_state);
-    console.log("serviceLine",this.search_serviceline);
+    this.servicelines = [];
+    console.log("state", this.search_state);
+    console.log("serviceLine", this.search_serviceline);
     this.feedbackTypes = [];
     this.showTable = false;
   }
 
-  editFeedback(feedbackObj){
-    console.log("feedbackObj",feedbackObj);
+  editFeedback(feedbackObj) {
+    console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackModal, {
       width: '500px',
       data: {
         'feedbackObj': feedbackObj,
         'feedbackTypes': this.feedbackTypes,
-        'service':this.search_serviceline
+        'service': this.search_serviceline
       }
     });
 
@@ -95,71 +95,70 @@ feedbackName:any;
     });
   }
 
-  activeDeactivate(id, flag){
+  activeDeactivate(id, flag) {
     let obj = {
       "feedbackTypeID": id,
       "deleted": flag
     }
-    if (flag) {
-      this.confirmMessage = 'Deactivate';
-    } else {
-      this.confirmMessage = 'Activate';
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm("Are you sure want to "+this.confirmMessage+"?").subscribe((res)=>{
+    this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
-        console.log("reqObj",obj);
+        console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedback(obj)
-        .subscribe((res)=>{
-          this.alertService.alert(this.confirmMessage+"d successfully");
-          this.findFeedbackTypes(this.providerServiceMapID);
-        },
-        (err)=>{
-          console.log(err);
-        })
+          .subscribe((res) => {
+            this.alertService.alert(this.confirmMessage + "d successfully");
+            this.findFeedbackTypes(this.providerServiceMapID);
+          },
+            (err) => {
+              console.log(err);
+            })
       }
     },
-    (err)=>{
-      console.log(err);
-    })
+      (err) => {
+        console.log(err);
+      })
   }
 
-  changeTableFlag(flag){
+  changeTableFlag(flag) {
     this.searchForm = flag;
     // this.previous_state_id=this.search_state;
     // this.previous_service_id=this.search_serviceline;
-    if(flag===true)
-    {
-      this.objs=[];
+    if (flag === true) {
+      this.objs = [];
     }
   }
 
-  validateFeedback(feedback){
+  validateFeedback(feedback) {
     // console.log("check",feedback);
     this.feedbackExists = false;
     this.searchFeedbackArray = this.feedbackTypes.concat(this.objs);
-    console.log("searchArray",this.searchFeedbackArray);
+    console.log("searchArray", this.searchFeedbackArray);
     let count = 0;
-    for(var i=0; i< this.searchFeedbackArray.length;i++){
-      if(feedback.toUpperCase()==this.searchFeedbackArray[i].feedbackTypeName.toUpperCase()){
+    for (var i = 0; i < this.searchFeedbackArray.length; i++) {
+      if (feedback.toUpperCase() == this.searchFeedbackArray[i].feedbackTypeName.toUpperCase()) {
         // console.log("gotcha",feedback,"exists");
         count++;
       }
       // console.log(i,"iterating");
     }
-    if(count>0){
+    if (count > 0) {
       // console.log("error found");
       this.feedbackExists = true;
     }
 
 
 
-    
+
   }
 
-  saveFeedback(){
+  saveFeedback() {
     // console.log("dataObj", obj);
     var tempArr = [];
-    for(var i=0; i < this.objs.length;i++){
+    for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
         "feedbackTypeName": this.objs[i].feedbackTypeName,
         "feedbackDesc": this.objs[i].feedbackDesc,
@@ -167,16 +166,16 @@ feedbackName:any;
         "createdBy": "Admin"
       }
 
-      if(this.objs[i].feedbackTypeName == "Generic Complaint") {
+      if (this.objs[i].feedbackTypeName == "Generic Complaint") {
         tempObj['FeedbackTypeCode'] = 'GC';
       }
-      else if(this.objs[i].feedbackTypeName == "Asha Complaints"){
+      else if (this.objs[i].feedbackTypeName == "Asha Complaints") {
         tempObj['FeedbackTypeCode'] = 'AC';
       }
-      else if(this.objs[i].feedbackTypeName == "Epidemic Complaints"){
+      else if (this.objs[i].feedbackTypeName == "Epidemic Complaints") {
         tempObj['FeedbackTypeCode'] = 'EC';
       }
-      else if(this.objs[i].feedbackTypeName == "Foodsafety Complaints"){
+      else if (this.objs[i].feedbackTypeName == "Foodsafety Complaints") {
         tempObj['FeedbackTypeCode'] = 'FC';
       }
       tempArr.push(tempObj);
@@ -184,86 +183,74 @@ feedbackName:any;
     "FeedbackTypeCode"
     console.log("reqObj", tempArr);
     this.FeedbackTypeService.saveFeedback(tempArr)
-    .subscribe((res)=>{
-      console.log("response",res);
-      this.searchForm = true;
-      this.alertService.alert("Feedback type saved successfully");
-      this.previous_state_id=this.search_state;
-      this.previous_service_id=this.search_serviceline;
-      this.addForm.resetForm();
-      this.objs = [];
+      .subscribe((res) => {
+        console.log("response", res);
+        this.searchForm = true;
+        this.alertService.alert("Feedback type saved successfully");
+        this.previous_state_id = this.search_state;
+        this.previous_service_id = this.search_serviceline;
+        this.addForm.resetForm();
+        this.objs = [];
 
-      this.search_state=this.previous_state_id;
-      this.search_serviceline=this.previous_service_id;
+        this.search_state = this.previous_state_id;
+        this.search_serviceline = this.previous_service_id;
 
-      this.findFeedbackTypes(this.providerServiceMapID);
-    })
+        this.findFeedbackTypes(this.providerServiceMapID);
+      })
   }
 
-  add_obj(name,desc){
+  add_obj(name, desc) {
     var tempObj = {
       "feedbackTypeName": name,
       "feedbackDesc": desc
     }
     console.log(tempObj);
-    if(this.objs.length==0)
-    {
-      var count=0;
-       for(let i=0;i<this.feedbackTypes.length;i++)
-      {
-        if(this.feedbackTypes[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
-        {
-          count=count+1;
+    if (this.objs.length == 0) {
+      var count = 0;
+      for (let i = 0; i < this.feedbackTypes.length; i++) {
+        if (this.feedbackTypes[i].feedbackTypeName.toUpperCase() === tempObj.feedbackTypeName.toUpperCase()) {
+          count = count + 1;
         }
       }
 
-      if(count==0)
-      {
+      if (count == 0) {
         this.objs.push(tempObj);
       }
-      else
-      {
+      else {
         this.alertService.alert("Already exists");
       }
     }
-    else
-    {
-      var count=0;
-      for(let i=0;i<this.objs.length;i++)
-      {
+    else {
+      var count = 0;
+      for (let i = 0; i < this.objs.length; i++) {
         // console.log(this.feedbackTypes[i].feedbackTypeName,tempObj.feedbackTypeName);
-        if(this.objs[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
-        {
-          count=count+1;
+        if (this.objs[i].feedbackTypeName.toUpperCase() === tempObj.feedbackTypeName.toUpperCase()) {
+          count = count + 1;
         }
       }
 
-       for(let i=0;i<this.feedbackTypes.length;i++)
-      {
-        if(this.feedbackTypes[i].feedbackTypeName.toUpperCase()===tempObj.feedbackTypeName.toUpperCase())
-        {
-          count=count+1;
+      for (let i = 0; i < this.feedbackTypes.length; i++) {
+        if (this.feedbackTypes[i].feedbackTypeName.toUpperCase() === tempObj.feedbackTypeName.toUpperCase()) {
+          count = count + 1;
         }
       }
 
-      if(count==0)
-      {
+      if (count == 0) {
         this.objs.push(tempObj);
       }
-      else
-      {
+      else {
         this.alertService.alert("Already exists");
       }
     }
 
-    this.feedbackDesc="";
-    this.feedbackName="";
-    
+    // this.feedbackDesc = undefined;
+    // this.feedbackName = undefined;
+
     // this.validateFeedback(name);
   }
 
-  remove_obj(index){
-    this.objs.splice(index,1);
+  remove_obj(index) {
+    this.objs.splice(index, 1);
   }
 
 }
@@ -281,64 +268,64 @@ export class EditFeedbackModal {
   feedbackExists: boolean = false;
   msg = "Feedback Name already exists";
 
-  service:any;
+  service: any;
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-  public FeedbackTypeService: FeedbackTypeService,
-  public dialog_Ref: MdDialogRef<EditFeedbackModal>,
-  private alertService: ConfirmationDialogsService) { }
-  
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+    public FeedbackTypeService: FeedbackTypeService,
+    public dialog_Ref: MdDialogRef<EditFeedbackModal>,
+    private alertService: ConfirmationDialogsService) { }
+
   ngOnInit() {
-    console.log("update this data",this.data);
+    console.log("update this data", this.data);
     this.feedbackName = this.data.feedbackObj.feedbackTypeName;
     this.originalName = this.data.feedbackObj.feedbackTypeName;
     this.feedbackDesc = this.data.feedbackObj.feedbackDesc;
     this.searchFeedbackArray = this.data.feedbackTypes;
 
-    this.service=this.data.service;
+    this.service = this.data.service;
   }
 
-  update(){
+  update() {
     var tempObj = {
       "feedbackTypeID": this.data.feedbackObj.feedbackTypeID,
       "feedbackTypeName": this.feedbackName,
       "feedbackDesc": this.feedbackDesc,
       "modifiedBy": this.data.feedbackObj.createdBy
     }
-    if(this.feedbackName == "Generic Complaint") {
+    if (this.feedbackName == "Generic Complaint") {
       tempObj['FeedbackTypeCode'] = 'GC';
     }
-    else if(this.feedbackName == "Asha Complaints"){
+    else if (this.feedbackName == "Asha Complaints") {
       tempObj['FeedbackTypeCode'] = 'AC';
     }
-    else if(this.feedbackName == "Epidemic Complaints"){
+    else if (this.feedbackName == "Epidemic Complaints") {
       tempObj['FeedbackTypeCode'] = 'EC';
     }
-    else if(this.feedbackName == "Foodsafety Complaints"){
+    else if (this.feedbackName == "Foodsafety Complaints") {
       tempObj['FeedbackTypeCode'] = 'FC';
     }
-    
+
     this.FeedbackTypeService.editFeedback(tempObj)
-    .subscribe((res)=>{
-      this.dialog_Ref.close("success");
-      this.alertService.alert("Feedback type edited successfully");
-    })
-    
+      .subscribe((res) => {
+        this.dialog_Ref.close("success");
+        this.alertService.alert("Feedback type edited successfully");
+      })
+
   }
 
-  validateFeedback(feedback){
-    console.log("check",feedback);
+  validateFeedback(feedback) {
+    console.log("check", feedback);
     this.feedbackExists = false;
-    console.log("searchArray",this.searchFeedbackArray);
+    console.log("searchArray", this.searchFeedbackArray);
     let count = 0;
-    for(var i=0; i< this.searchFeedbackArray.length;i++){
-      if(feedback.toUpperCase()===this.searchFeedbackArray[i].feedbackTypeName.toUpperCase() && feedback.toUpperCase()!=this.originalName.toUpperCase()){
+    for (var i = 0; i < this.searchFeedbackArray.length; i++) {
+      if (feedback.toUpperCase() === this.searchFeedbackArray[i].feedbackTypeName.toUpperCase() && feedback.toUpperCase() != this.originalName.toUpperCase()) {
         // console.log("gotcha",feedback,"exists");
         count++;
       }
       // console.log(i,"iterating");
     }
-    if(count>0){
+    if (count > 0) {
       // console.log("error found");
       this.feedbackExists = true;
     }

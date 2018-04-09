@@ -35,8 +35,8 @@
           </thead>
           
           <tbody>
-            <tr *ngIf="md2.data.length == 0">
-              <td colspan="5" align="center">NO RECORD FOUND FOR THIS PROVIDER</td>
+            <tr *ngIf="md2.data.length == 0" class="record-not-found">
+                <td colspan="5" align="center">No records found</td>
             </tr>
             <tr *ngFor="let providerInfo of md2.data; let i=index">
               <!-- <td width=25%>{{providerInfo.serviceProviderID}}</td> -->

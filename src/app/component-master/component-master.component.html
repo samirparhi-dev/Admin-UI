@@ -7,7 +7,7 @@
         </div>
         <div>
             <form #stateService="ngForm">
-                <div class="row m-t-25">
+                <div class="row m-t-15">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="hide_underline" [style.width]="'100%'">
                             <input mdInput style="display:none">
@@ -50,32 +50,38 @@
                             maxlength="99"></textarea>
                     </md-input-container>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <!-- <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type"> -->
-                    Component Input Type*
-                    <!-- </label> -->
-                    <md-radio-group id="component-type" label="Input Type" [disabled]="editMode" placeholder="Input type" class="radio-group m-t--5 m-l-5"
-                        (change)="selected()" formControlName="inputType">
-                        <md-radio-button class="radio-button" value="RadioButton" color="primary">
+                    <ul class="list-inline list-unstyled">
+                        <li>
+                            <strong> Component Input Type*</strong>
+                        </li>
+                        <!-- </label> -->
+                        <li>
+                            <md-radio-group id="component-type" label="Input Type" [disabled]="editMode" placeholder="Input type" class="radio-group m-t--5 m-l-5"
+                                (change)="selected()" formControlName="inputType">
+                                <md-radio-button class="radio-button" value="RadioButton" color="primary">
 
-                            Radio Button
-                        </md-radio-button>
-                        <md-radio-button class="radio-button" color="primary" value="TextBox">
+                                    Radio Button
+                                </md-radio-button>
+                                <md-radio-button class="radio-button" color="primary" value="TextBox">
 
-                            Text Box
-                        </md-radio-button>
-                        <md-radio-button color="primary" class="radio-button" value="DropDown">
+                                    Text Box
+                                </md-radio-button>
+                                <md-radio-button color="primary" class="radio-button" value="DropDown">
 
-                            Drop Down
-                        </md-radio-button>
-                    </md-radio-group>
+                                    Drop Down
+                                </md-radio-button>
+                            </md-radio-group>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <div id="validation">
                 <div class="row" *ngIf="componentForm.value.inputType == 'TextBox'">
 
-                    <h4>Component Properties</h4>
+                    <h4 class="col-xs-12 col-sm-12">Component Properties</h4>
 
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -155,58 +161,60 @@
 </div>
 <div class="row " *ngIf="tableMode && providerServiceMapID && service=='2' ">
     <div *ngIf="componentList?.length > 0" class="pull-right">
-        <md-input-container id="filterbox" class="m-t-15">
+        <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
         </md-input-container>
     </div>
-    <div #tabledData class="col-xs-12 col-sm-12  table-responsive ">
-        <table class="table table-striped" [md2Data]="filteredComponentList" #md2="md2DataTable" [rowsPerPage]="4">
-            <thead>
-                <tr>
-                    <th width="5% ">S.No</th>
-                    <th width="15% ">Component Name</th>
-                    <th width="20% ">Component Type</th>
-                    <th width="35% ">Description</th>
-                    <th width="10% ">Created By</th>
-                    <th width="5% ">Edit</th>
-                    <th width="10% ">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngIf="filteredComponentList.length==0 ">
-                    <td colspan="8" align="center">No Record Found</td>
-                </tr>
-                <tr *ngFor="let item of md2.data;let i=index">
-                    <td>{{(md2.activePage-1)*4+i+1}}</td>
-                    <td>{{item.testComponentName}}</td>
-                    <td>{{item.inputType}}</td>
-                    <td>{{item.testComponentDesc}}</td>
-                    <td>{{item.createdBy}}</td>
-                    <td>
-                        <md-icon mdTooltip="edit" class="fa fa-pencil fa-lg cursorPointer" role="img" aria-hidden="true" style="font-size: 18px"
-                            (click)="showForm();configComponent(item, i)"></md-icon>
-                    </td>
-                    <td>
-                        <button md-raised-button color="primary" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, false)">Activate</button>
-                        <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, true)">Deactivate</button>
+    <div #tabledData class="col-xs-12 col-sm-12 table-responsive m-t-15">
+        <div class="table-responsive">
+            <table class="table table-striped" [md2Data]="filteredComponentList" #md2="md2DataTable" [rowsPerPage]="4">
+                <thead>
+                    <tr>
+                        <th width="5% ">S.No.</th>
+                        <th width="15% ">Component Name</th>
+                        <th width="20% ">Component Type</th>
+                        <th width="35% ">Description</th>
+                        <th width="10% ">Created By</th>
+                        <th width="5% ">Edit</th>
+                        <th width="10% ">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="filteredComponentList.length==0 ">
+                        <td colspan="7" class="record-not-found">No records found</td>
+                    </tr>
+                    <tr *ngFor="let item of md2.data;let i=index">
+                        <td>{{(md2.activePage-1)*4+i+1}}</td>
+                        <td>{{item.testComponentName}}</td>
+                        <td>{{item.inputType}}</td>
+                        <td>{{item.testComponentDesc}}</td>
+                        <td>{{item.createdBy}}</td>
+                        <td>
+                            <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer"
+                                (click)="showForm();configComponent(item, i)"></md-icon>
+                        </td>
+                        <td>
+                            <button md-raised-button color="primary" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, false)">Activate</button>
+                            <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, true)">Deactivate</button>
 
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6">
-                        <md2-pagination></md2-pagination>
-                    </td>
-                    <td colspan="6">
-                        <button *ngIf="!editMode" id="resetButton" color="primary" md-raised-button (click)="showForm();resetForm()">Create New Component</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                        <td colspan="6" class="p-r-0">
+                            <button *ngIf="!editMode" id="resetButton" class="pull-right" color="primary" md-raised-button (click)="showForm();resetForm()">Create New Component</button>
 
-                    </td>
+                        </td>
 
-                </tr>
-            </tfoot>
+                    </tr>
+                </tfoot>
 
-        </table>
+            </table>
+        </div>
     </div>
 </div>

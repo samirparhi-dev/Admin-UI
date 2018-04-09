@@ -702,7 +702,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.dialogService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("Deactivating or activating Obj", obj);
         this.employeeMasterNewService.userActivationDeactivation(obj)

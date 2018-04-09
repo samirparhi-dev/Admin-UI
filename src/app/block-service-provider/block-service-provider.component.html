@@ -227,6 +227,9 @@
           </tr>
         </thead>
         <tbody>
+            <tr *ngIf="data.length == 0" class="record-not-found">
+                <td colspan="6" align="center">No records found</td>
+        </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <!-- <td>{{i.providerServiceMapID}}</td> -->
             <td width="5%">{{(md2.activePage-1)*4+k+1}}</td>

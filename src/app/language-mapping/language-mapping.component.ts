@@ -194,12 +194,14 @@ export class LanguageMappingComponent implements OnInit {
       this.formMode = false;
       this.editMode = false;
       this.resetDropdowns();
+      this.showCheckboxes = false;
       this.bufferArray = [];
     }
     this.tableMode = true;
     this.formMode = false;
     this.editMode = false;
     this.resetDropdowns();
+    this.showCheckboxes = false;
     this.bufferArray = [];
   }
   showForm() {
@@ -226,6 +228,7 @@ export class LanguageMappingComponent implements OnInit {
   }
   read: boolean = false;
   setRead(value) {
+    debugger;
     if (value.checked) {
       this.read = true;
       this.ReadWeightageList = this.WeightageList;
@@ -238,7 +241,7 @@ export class LanguageMappingComponent implements OnInit {
       this.ReadWeightageList = undefined;
       this.readCheckBoxState = true;
       this.readweightage = undefined;
-      this.edit_Details.weightageRead = undefined;
+      // this.edit_Details.weightageRead = undefined;
       if (!this.write && !this.speak) {
         this.addButtonState = true;
       }
@@ -258,7 +261,7 @@ export class LanguageMappingComponent implements OnInit {
       this.WriteWeightageList = undefined;
       this.writeCheckBoxState = true;
       this.writeweightage = undefined;
-      this.edit_Details.weightageWrite = undefined;
+      //this.edit_Details.weightageWrite = undefined;
       if (!this.read && !this.speak) {
         this.addButtonState = true;
       }
@@ -278,7 +281,7 @@ export class LanguageMappingComponent implements OnInit {
       this.SpeakWeightageList = undefined;
       this.speakCheckBoxState = true;
       this.speakweightage = undefined;
-      this.edit_Details.weightageSpeak = undefined;
+      // this.edit_Details.weightageSpeak = undefined;
       if (!this.read && !this.write) {
         this.addButtonState = true;
       }
