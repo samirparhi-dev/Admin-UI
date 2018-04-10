@@ -39,6 +39,10 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   tableMode = true;
   editMode = false;
 
+  isNational = false;
+  isNational_edit = false;
+
+
   // variables
   createdBy: any;
   countryID: any = 1;
@@ -142,7 +146,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     };
 
     let stateArray = [];
-    if (form_values.state.length > 0) {
+    if (form_values.state != undefined && form_values.state.length > 0) {
       for (let a = 0; a < form_values.state.length; a++) {
         let obj = {
           'stateID': form_values.state[a].stateID,
@@ -279,12 +283,14 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.services = [];
   }
 
-  getAvailableStates(provider, service) {
-    console.log(provider, service);
+  getAvailableStates(provider, serviceID, service) {
+    console.log(provider, serviceID);
+    this.isNational = service.isNational;
+    console.log('is NATIONAL', this.isNational);
     const alreadyMappedStates = [];
     for (let i = 0; i < this.searchResult.length; i++) {
       if (this.searchResult[i].serviceProviderID === provider &&
-        this.searchResult[i].serviceID === service) {
+        this.searchResult[i].serviceID === serviceID) {
         const obj = {
           'stateID': this.searchResult[i].stateID,
           'stateName': this.searchResult[i].stateName
@@ -319,6 +325,24 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.edit_provider = row_object.serviceProviderID;
     this.edit_serviceline = row_object.serviceID;
     this.edit_state = row_object.stateID;
+
+    // to disable the state field if the serviceline is National
+    for (let i = 0; i < this.servicelines.length; i++) {
+      if (this.servicelines[i].serviceID === this.edit_serviceline && this.servicelines[i].isNational) {
+        this.edit_state = undefined;
+        this.isNational_edit = true;
+        break;
+      }
+      else {
+        this.edit_state = row_object.stateID;
+        this.isNational_edit = false;
+      }
+    }
+  }
+
+  setIsNationalFlag_while_edit(value) {
+    this.edit_state=undefined;
+    this.isNational_edit = value;
   }
 
   update(form_values) {

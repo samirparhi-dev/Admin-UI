@@ -42,24 +42,19 @@
           <tr>
             <th width="5%">S.No.</th>
             <th width="30%">SubService</th>
-            <!--     <th>Role</th>
-              <th>Description</th> -->
-            <!-- <th>Deleted</th> -->
             <th width="40%">Description</th>
             <th width="25%">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
-              <td colspan="4" align="center">No records found</td>
+            <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sub of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*4+k+1}}</td>
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{sub.subServiceName}}</td>
             <td>{{sub.subServiceDesc}}</td>
             <td>
-              <!--                 <md-icon mdTooltip="delete" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                  (click)="deleteSubService(sub.subServiceID)">delete</md-icon> -->
               <button *ngIf="sub.deleted" md-raised-button color="accent" (click)="deleteSubService(sub.subServiceID, false)">Activate</button>
               <button *ngIf="!sub.deleted" md-raised-button color="primary" (click)="deleteSubService(sub.subServiceID, true)">Deactivate</button>
             </td>
@@ -78,9 +73,6 @@
       </table>
     </div>
   </div>
-  <!--       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-      </div> -->
 </div>
 <div class="row" *ngIf="!searchForm">
   <div class="col-xs-12 col-sm-12">
@@ -135,12 +127,10 @@
           </md-option>
         </md-select>
       </md-input-container>
-      <!-- <md-input-container style="width: 100% ">
-            <input required mdInput placeholder="Sub Service Name" [(ngModel)]="subService" name="subService">
-          </md-input-container> -->
+    
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
-      <md-input-container style="width: 100% ">
+      <md-input-container style="width: 100% " myProviderName>
         <input id="description" required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc"
           maxlength="50">
       </md-input-container>
@@ -149,43 +139,6 @@
       <button md-raised-button color="primary" type="button" class="pull-left" (click)="back()">Back</button>
       <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="accent" type="button" class="pull-right"
         [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
-
     </div>
-    <!-- <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1  m-t-20 pull-right">
-      <button color="primary" class="pull-right" md-mini-fab (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">
-        <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-    </div> -->
-    <!--       <div class="row"></div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTable ">
-        <label>Sub Service Details</label>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="3">
-            <thead>
-              <tr>
-      
-                <th>Service Name</th>
-                <th>Sub Services Name</th>
-                <th>Sub Service Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let service_subservice of md2.data;" style="cursor:pointer ">
-                <td width=30%>{{service_subservice.serviceName}}</td>
-                <td width=30%>{{service_subservice.subServiceName}}</td>
-                <td width=30%>{{service_subservice.subServiceDesc}}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3">
-                  <md2-pagination></md2-pagination>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-      </div> -->
   </form>
 </div>

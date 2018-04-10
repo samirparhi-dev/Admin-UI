@@ -26,7 +26,7 @@
             <td>{{(md2.activePage-1)*5+i+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
+            <td>{{item.stateName?item.stateName:'All State'}}</td>
             <td>
               <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
             </td>
@@ -73,7 +73,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID)"
+          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID,serviceline)"
             required>
             <md-option *ngFor="let item of services" [value]='item'>
               {{item.serviceName}}
@@ -84,7 +84,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
+          <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" [multiple]="true" name="state"
+            required>
             <md-option *ngFor="let item of filteredStates" [value]='item'>
               {{item.stateName}}
             </md-option>
@@ -165,7 +166,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline" required>
-            <md-option *ngFor="let item of servicelines" [value]='item.serviceID'>
+            <md-option *ngFor="let item of servicelines" [value]='item.serviceID' (click)="setIsNationalFlag_while_edit(item.isNational)">
               {{item.serviceName}}
             </md-option>
           </md-select>
@@ -174,7 +175,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="edit_state" name="state" required>
+          <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational_edit" [(ngModel)]="edit_state" name="state"
+            required>
             <md-option *ngFor="let item of states" [value]='item.stateID'>
               {{item.stateName}}
             </md-option>

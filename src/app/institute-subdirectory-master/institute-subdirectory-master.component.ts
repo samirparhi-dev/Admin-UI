@@ -1,9 +1,10 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit,Inject, ViewChild } from '@angular/core';
 import { InstituteSubDirectoryMasterService } from '../services/ProviderAdminServices/institute-subdirectory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-institute-subdirectory-master',
@@ -33,7 +34,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	showTableFlag:boolean=false;
 	showFormFlag:boolean=false;
 	disableSelection:boolean=false;
-
+@ViewChild('addInstitutueSubDirForm') addInstitutueSubDirForm:NgForm;
 	constructor(public instituteSubDirectoryMasterService:InstituteSubDirectoryMasterService,
 	            public commonDataService:dataService,
 	            public dialog:MdDialog,
@@ -127,6 +128,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 			console.log("INSTITUTE SUB DIRECTORY",response);
 			this.showTableFlag=true;
 			this.searchResultArray=response;
+			console.log("searcharray", this.searchResultArray);
 		}
 	}
 
@@ -223,7 +225,9 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		if(response)
 		{
 			this.alertService.alert("Institute subdirectory saved successfully");
-			this.back();
+			this.addInstitutueSubDirForm.resetForm();
+			this.showFormFlag = false;
+			this.bufferArray = [];
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
 	}
