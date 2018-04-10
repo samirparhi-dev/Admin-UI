@@ -340,8 +340,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
 
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
-      height: '450px',
-      width: '450px',
+      width: '500px',
       disableClose: true,
       data: object
 

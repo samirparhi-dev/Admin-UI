@@ -6,7 +6,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
+        <md-select placeholder="State" disabled={{disableSelection}} class="width100" [(ngModel)]="state" (change)="getServices(state)"
           name="state" #statess required>
           <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
             {{stat.stateName}}
@@ -17,7 +17,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
+        <md-select placeholder="Serviceline" disabled={{disableSelection}} class="width100" [(ngModel)]="service" name="service"
           #servicess="ngModel" (change)="findRoles(state,service)" required>
           <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
             {{ser.serviceName}}
@@ -51,10 +51,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="correctInput && searchresultarray.length == 0">
-            <td colspan="6" align="center">
-              No Records Found
-            </td>
+          <tr *ngIf="correctInput && searchresultarray.length == 0" class="record-not-found">
+              <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let role of md2.data; let i= index">
             <!-- <td>{{i+1}}</td> -->
@@ -64,7 +62,7 @@
             <td width=30%>{{role.roleDesc}}</td>
             <td width="35%">{{role.screenName}}</td>
             <td width=10%>
-              <md-icon mdTooltip="edit" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"  *ngIf="!role.deleted"
                 (click)="editRole(role)">edit</md-icon>
             </td>
             <td width=15%>
@@ -114,7 +112,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="hideAdd && service == 3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature" required>
+        <md-select placeholder="Feature" class="width100" multiple="true" name="feature" [(ngModel)]="feature" required>
           <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
             {{item.screenName}}
           </md-option>
@@ -126,7 +124,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="hideAdd && service != 3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="feature" required>
+        <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="feature" required>
           <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
             {{item.screenName}}
           </md-option>
@@ -138,7 +136,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!hideAdd">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Feature" [style.width]="'100%'" name="feature" [(ngModel)]="editedFeatureID" required>
+        <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="editedFeatureID" required>
           <md-option *ngFor="let item of editFeatures" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
             {{item.screenName}}
           </md-option>
@@ -147,7 +145,7 @@
     </div>
   </form>
   <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3" *ngIf="hideAdd && (addingForm.valid && !othersExist)">
-    <button md-mini-fab color="primary" (click)="add_obj(role,description,feature)" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left">
+    <button md-mini-fab color="primary" (click)="add_obj(role,description,feature)" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
   </div>
@@ -222,7 +220,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline width100">
       <input mdInput style="display:none">
-      <md-select placeholder="Feature" [style.width]="'100%'" multiple="true" name="feature" [(ngModel)]="feature_update" required>
+      <md-select placeholder="Feature" class="width100" multiple="true" name="feature" [(ngModel)]="feature_update" required>
         <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
           {{item.screenName}}
         </md-option>
