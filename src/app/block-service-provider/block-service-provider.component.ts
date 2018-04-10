@@ -56,7 +56,13 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   setIsNationalFlag(value) {
+    if(value)
+      {
+        this.state= '';
+      }
     this.isNational = value;
+    this.getStatus(this.service_provider, this.state, this.serviceline);
+
   }
 
   getSuccess(response: any) {
