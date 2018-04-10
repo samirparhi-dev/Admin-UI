@@ -121,15 +121,15 @@ export class ProviderAdminListComponent implements OnInit {
 
   filteredResult(searchValue) {
     console.log("Search Valueeee", searchValue);
-    if(searchValue) {
+    if (searchValue) {
       console.log("Search Value", searchValue);
-      
-    this.filteredValue = this.searchResult.filter(item => {
-       return item.userName.toLowerCase().startsWith(searchValue.toLowerCase()) 
+
+      this.filteredValue = this.searchResult.filter(item => {
+        return item.userName.toLowerCase().startsWith(searchValue.toLowerCase())
       })
-    }else {
+    } else {
       this.filteredValue = this.searchResult.slice(0, 10);
-    }    
+    }
   }
 
   /*
@@ -143,26 +143,26 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response));
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response));
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response));
-    
+
   }
-    /*
-  * Reset the dob on adding multiple objects
-  */
- resetDob() {
-  this.dob = new Date();
-  this.dob.setFullYear(this.today.getFullYear() - 20);
-  this.maxdate = new Date();
-  this.maxdate.setFullYear(this.today.getFullYear() - 20);
-  this.mindate = new Date();
-  this.mindate.setFullYear(this.today.getFullYear() - 70);
-  this.calculateAge(this.dob);
-}
- /*
-  * display the added admin's in the table
-  */
+  /*
+* Reset the dob on adding multiple objects
+*/
+  resetDob() {
+    this.dob = new Date();
+    this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate = new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate = new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
+    this.calculateAge(this.dob);
+  }
+  /*
+   * display the added admin's in the table
+   */
   showTable() {
     this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if(res) {
+      if (res) {
         this.resetAllForms();
         if (this.editMode) {
           this.tableMode = true;
@@ -175,7 +175,7 @@ export class ProviderAdminListComponent implements OnInit {
           this.editMode = false;
         }
       }
-    })    
+    })
   }
   calculateAge(date) {
     if (date != undefined) {
@@ -198,7 +198,7 @@ export class ProviderAdminListComponent implements OnInit {
       .subscribe(response => this.checkUsernameSuccessHandeler(response));
   }
 
-  checkUsernameSuccessHandeler(response) {   
+  checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
     if (response.response == 'userexist') {
       this.username_status = 'User Login ID Exists!! Type Different Please!';
@@ -313,9 +313,9 @@ export class ProviderAdminListComponent implements OnInit {
       this.errorMessageForPan = '';
     }
   }
-   /*
-   * Reset all the forms
-   */
+  /*
+  * Reset all the forms
+  */
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
     this.adminCredentialsForm.resetForm();
@@ -326,8 +326,8 @@ export class ProviderAdminListComponent implements OnInit {
   add_object(providerAdminData, adminCredentials) {
     console.log("providerAdmin", providerAdminData);
     console.log("user", adminCredentials);
-    
-    
+
+
     var tempObj = {
       'titleID': providerAdminData.title_Id,
       'admin_firstName': providerAdminData.firstName,
@@ -396,9 +396,9 @@ export class ProviderAdminListComponent implements OnInit {
         'userName': this.objs[i].username,
         'password': this.objs[i].password,
         'remarks': this.objs[i].admin_remarks,
-        'createdBy': "Admin",
+        'createdBy': this.commonDataService.uname,
         'isProviderAdmin': "true",
-        'statusID':"1"
+        'statusID': "1"
 
       }
       reqObject.push(tempObj);
@@ -422,6 +422,7 @@ export class ProviderAdminListComponent implements OnInit {
     let dialog_Ref = this.dialog.open(EditProviderAdminModal, {
       height: '500px',
       width: '900px',
+      disableClose:  true,
       data: item
     });
     dialog_Ref.afterClosed().subscribe(result => {
@@ -479,7 +480,7 @@ export class ProviderAdminListComponent implements OnInit {
   templateUrl: './edit-provider-admin-list.html',
   styleUrls: ['./provider-admin-list.component.css']
 })
-export class EditProviderAdminModal {  
+export class EditProviderAdminModal {
 
   //ngModel
 
@@ -514,7 +515,7 @@ export class EditProviderAdminModal {
   titles: any = [];
   eduQualification: any = [];
   maritalStatus: any = [];
-  allProviderAdmin: any = [];  
+  allProviderAdmin: any = [];
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 
@@ -550,16 +551,16 @@ export class EditProviderAdminModal {
     this.resetDob();
 
   }
-     /*
-  * Reset the dob on adding multiple objects
-  */
- resetDob() {    
-  this.maxdate = new Date();
-  this.maxdate.setFullYear(this.today.getFullYear() - 20);
-  this.mindate = new Date();
-  this.mindate.setFullYear(this.today.getFullYear() - 70);
-  this.calculateAge();
-}
+  /*
+* Reset the dob on adding multiple objects
+*/
+  resetDob() {
+    this.maxdate = new Date();
+    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.mindate = new Date();
+    this.mindate.setFullYear(this.today.getFullYear() - 70);
+    this.calculateAge();
+  }
   /*
  * Display gender on condition
  */
@@ -583,9 +584,9 @@ export class EditProviderAdminModal {
   /*
     * Calculate age
     */
-  calculateAge() {  
+  calculateAge() {
     if (this.dob != undefined) {
-    let existDobAge = new Date(this.dob)      
+      let existDobAge = new Date(this.dob)
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
       const month = this.today.getMonth() - existDobAge.getMonth();
       if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
@@ -593,9 +594,9 @@ export class EditProviderAdminModal {
       }
     }
   }
-    /*
- * Success Handlers
- */
+  /*
+* Success Handlers
+*/
   getAllProviderAdminDetailsSuccessHandler(response) {
     console.log("All provider details", response);
     this.allProviderAdmin = response;
@@ -608,10 +609,10 @@ export class EditProviderAdminModal {
     console.log("Marital status", response);
     this.maritalStatus = response;
   }
-    /*
-    * Check Uniqueness in Aadhar
-    */
-   checkAadhar() {
+  /*
+  * Check Uniqueness in Aadhar
+  */
+  checkAadhar() {
     if (this.aadharNumber.length == 12) {
       this.superadminService.validateAadhar(this.aadharNumber).subscribe(
         (response: any) => {
@@ -672,12 +673,12 @@ export class EditProviderAdminModal {
       'emergencyContactPerson': this.emergency_cnt_person,
       'emergencyContactNo': this.emergencyMobileNumber,
       'remarks': this.admin_remarks,
-      'userID': this.data.userID,     
+      'userID': this.data.userID,
       'modifiedBy': this.data.createdBy
 
-    }   
+    }
     this.superadminService.updateProviderAdmin(update_tempObj).subscribe(response => {
-     console.log("Data to be update", response);
+      console.log("Data to be update", response);
       this.dialogRef.close("success");
 
     })

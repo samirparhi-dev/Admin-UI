@@ -246,7 +246,7 @@
         </thead>
         <tbody>
           <tr *ngIf="availableVillages.length == 0" class="record-not-found">
-              <td colspan="9" align="center">No records found</td>
+            <td colspan="9" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -271,8 +271,8 @@
             <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="5">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!searchFields.valid">Add Village</button>
+            <td colspan="5" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Village</button>
             </td>
           </tr>
         </tfoot>
@@ -313,7 +313,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100" myMobileNumber>
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel">
         <md-hint>
           <span class="error_text" *ngIf="!villageID.valid  && ( villageID.dirty || villageID.touched)">Please enter valid village ID</span>
@@ -331,12 +331,13 @@
       </md-input-container>
     </div>
   </form>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-left" color="primary" (click)="addVillageToList(villageForm.value);villageForm.reset()">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" color="primary"
+      (click)="addVillageToList(villageForm.value);villageForm.reset()">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
   </div>
-  <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="villageList.length>0">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="villageList.length>0">
     <div class="table-responsive">
       <table [md2Data]="villageList" #md2="md2DataTable" class="table table-striped table-hover">
         <thead>

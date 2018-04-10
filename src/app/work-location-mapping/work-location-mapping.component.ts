@@ -135,7 +135,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   getAllWorkLocations(user: any, state: any, service: any) {
-    // debugger;
+    debugger;
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service)
       .subscribe(response => {
         if (response) {

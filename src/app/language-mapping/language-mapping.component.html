@@ -22,7 +22,7 @@
         </thead>
         <tbody>
           <tr *ngIf="LanguageMappedList.length == 0">
-            <td colspan="6" class="record-not-found">No records found</td>
+            <td colspan="7" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let lang of md2.data;let i=index ">
             <td>{{lang.userName}}</td>
