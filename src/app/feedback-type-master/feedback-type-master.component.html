@@ -61,10 +61,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="2">
               <md2-pagination></md2-pagination>
             </td>
-            <td>
+            <td colspan="3" class="p-r-0">
               <button class="pull-right" md-raised-button color="primary" [disabled]="searchFTForm.invalid" (click)="changeTableFlag(false)">Add Feedback Type</button>
             </td>
             <!--<td colspan="2">
@@ -74,9 +74,9 @@
         </tfoot>
       </table>
     </div>
-    <div>
+    <!-- <div>
       <button class="pull-right" md-raised-button color="primary" [disabled]="searchFTForm.invalid" (click)="changeTableFlag(false)">Add Feedback type</button>
-    </div>
+    </div> -->
   </div>
 </div>
 <!--new feedback page-->
@@ -107,7 +107,7 @@
             </md-select>
           </md-input-container>
         </div>
-        <!-- <div class="clearfix"></div> -->
+        <div class="clearfix"></div>
 
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="search_serviceline!='3'">
           <md-input-container [style.width]="'100%'">
@@ -128,7 +128,7 @@
             </md-select>
           </md-input-container>
         </div>
-        <div class="clearfix visible-md "></div>
+        <!-- <div class="clearfix visible-md "></div> -->
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
           <md-input-container [style.width]="'100%'">
             <input mdInput placeholder="Feedback Description" name="feedbackDesc" [(ngModel)]="feedbackDesc">
@@ -143,7 +143,7 @@
           <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true)">Back</button>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="(objs.length !=0)">
+      <div class="m-t-15" *ngIf="(objs.length !=0)">
         <div class="table-responsive">
           <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
             <thead>

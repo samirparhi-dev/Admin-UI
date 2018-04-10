@@ -87,6 +87,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackNatureModal, {
       width: '500px',
+      disableClose:  true,
       data: {
         'feedbackObj': feedbackObj,
         'natureTypes': this.natureTypes

@@ -71,6 +71,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.tableMode = true;
     this.formMode = false;
     this.editMode = false;
+    this.bufferArray = [];
   }
 
   showEditForm() {

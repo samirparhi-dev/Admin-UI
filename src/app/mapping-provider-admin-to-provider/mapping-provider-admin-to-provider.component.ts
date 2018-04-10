@@ -166,12 +166,14 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
+      this.bufferArray=[];
       this.resetDropdowns();
     }
     else {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
+      this.bufferArray=[];
       this.resetDropdowns();
     }
 

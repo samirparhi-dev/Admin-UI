@@ -267,6 +267,7 @@ export class HospitalMasterComponent implements OnInit {
         let dialog_Ref = this.dialog.open(EditHospitalModal, {
             height: '500px',
             width: '700px',
+            disableClose:  true,
             data: toBeEditedObject
         });
 

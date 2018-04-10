@@ -2027,7 +2027,7 @@ input:-webkit-autofill:hover {
 }
 
 
-.cu-admin-nav-top{
+/*.cu-admin-nav-top{
   background:#048fad !important;
   color: #fff;
 }
@@ -2052,14 +2052,17 @@ background:#027b95 !important;
 background:#027b95 !important;
 
 }
+
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover{
    background:#73d6eb !important;
    color: #001d23 !important;
  
+}*/
+.mat-expansion-panel-header{
+height:44px !important;
+line-height: 42px !important;
+
 }
-<<<<<<< HEAD
-
-
 
 @media (min-width: 317px) {
 
@@ -2074,7 +2077,7 @@ background:#027b95 !important;
     float: right;
    }
 }
-=======
+
 .record-not-found
 
 {
@@ -2094,7 +2097,7 @@ center;
 }
 
 @media (max-width: 317px) {}
->>>>>>> 1fcc3a04d5f1578c2b39de231f11cb30957591b2
+
 
 @media (min-width: 480px) {
   .cu-nav-top li {

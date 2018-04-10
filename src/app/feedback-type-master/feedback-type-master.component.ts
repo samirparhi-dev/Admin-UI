@@ -79,6 +79,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackModal, {
       width: '500px',
+      disableClose:  true,
       data: {
         'feedbackObj': feedbackObj,
         'feedbackTypes': this.feedbackTypes,
