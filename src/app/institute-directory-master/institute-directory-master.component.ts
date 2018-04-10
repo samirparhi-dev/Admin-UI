@@ -238,7 +238,6 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	openEditModal(toBeEditedOBJ)
 	{
 		let dialog_Ref = this.dialog.open(EditInstituteDirectory, {
-			height: '400px',
 			width: '500px',
 			data: toBeEditedOBJ
 		});

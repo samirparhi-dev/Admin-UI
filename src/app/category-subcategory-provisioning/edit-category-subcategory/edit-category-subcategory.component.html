@@ -1,18 +1,15 @@
-<!-- <div class="container-fluid"> -->
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p-l-0">
-      <h4 class="modal-title" *ngIf="data.isCategory">Edit Category</h4>
-      <h4 class="modal-title" *ngIf="data.isSubCategory">Edit Sub-Category</h4>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <button md-button class="pull-right" [md-dialog-close]="true">
-        <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
-        </md-icon>
-      </button>
-    </div>
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <h4 class="modal-title" *ngIf="data.isCategory">Edit Category</h4>
+    <h4 class="modal-title" *ngIf="data.isSubCategory">Edit Sub-Category</h4>
   </div>
-  <!-- <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <button md-button class="pull-right p-r-0" [md-dialog-close]="true">
+      <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
+    </button>
+  </div>
+</div>
+<!-- <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
       <label class="pull-left" *ngIf="data.isCategory">Edit Category</label>
       <label class="pull-left" *ngIf="data.isSubCategory">Edit Sub-Category</label>
     </div>
@@ -22,66 +19,49 @@
                 </md-icon>
             </button>
         </div> -->
-</div>
-<form #f="ngForm" autocomplete="off">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="row">
+  <form #f="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <md-input-container class="width100">
         <input mdInput [disabled]='true' placeholder="Sub Service Name" [(ngModel)]="subService " name="subService">
       </md-input-container>
     </div>
-
-  </div>
-  <div class="row" *ngIf="categoryType">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="categoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required (keyup)="checkCategory(category_name)">
       </md-input-container>
       <!-- is me karna hai keyup  -->
     </div>
-  </div>
-  <div class="row" *ngIf="categoryType">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="categoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc" minlength="2" maxlength="100">
       </md-input-container>
     </div>
-  </div>
-  <div class="row" *ngIf="subCategoryType">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
       <md-input-container class="width100">
-        <input mdInput [disabled]='true' placeholder="Category Name" [(ngModel)]="category_name " name="category_name" minlength="2" maxlength="50" required>
+        <input mdInput [disabled]='true' placeholder="Category Name" [(ngModel)]="category_name " name="category_name" minlength="2"
+          maxlength="50" required>
       </md-input-container>
     </div>
-  </div>
-  <div class="row" *ngIf="subCategoryType">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Sub Category" [(ngModel)]="subCategory" name="subCategory" minlength="2" maxlength="50" (keyup)="checkSubCategory(subCategory)"
           required>
       </md-input-container>
       <!-- isme karna hai keyup -->
     </div>
-  </div>
-  <div class="row" *ngIf="subCategoryType">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Sub Category Desc" [(ngModel)]="subCategoryDesc" name="subCategoryDesc" minlength="2" maxlength="100">
       </md-input-container>
     </div>
-  </div>
-  <div class="clearfix"> </div>
-  <div class="clearfix"> </div>
-  <div class="clearfix"> </div>
-</form>
-<div class="row" *ngIf="categoryType">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <button md-raised-button color="accent" [disabled]="f.invalid || categoryExist" type="submit" class="full-width" (click)="editCategory()">Update</button>
-  </div>
+  </form>
 </div>
-<div class="row" *ngIf="subCategoryType">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <button md-raised-button color="accent" [disabled]="f.invalid || subCategoryExist" type="submit" class="full-width" (click)="editSubCategory()">Update</button>
-  </div>
+<div class="m-t-10" *ngIf="categoryType">
+  <button md-raised-button color="accent" class="pull-right" [disabled]="f.invalid || categoryExist" (click)="editCategory()">Update</button>
+</div>
+<div class="m-t-10" *ngIf="subCategoryType">
+  <button md-raised-button color="accent" class="pull-right" [disabled]="f.invalid || subCategoryExist" (click)="editSubCategory()">Update</button>
 </div>
 <!-- </div> -->

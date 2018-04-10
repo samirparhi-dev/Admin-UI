@@ -24,7 +24,7 @@ export class EditProviderDetailsComponent implements OnInit {
   providerName: any;
 
   constructor(public dialogRef: MdDialogRef<EditProviderDetailsComponent>, public super_admin_service: SuperAdmin_ServiceProvider_Service,
-    private message: ConfirmationDialogsService, @Inject(MD_DIALOG_DATA) public providerDetails: any,
+    private message: ConfirmationDialogsService, public dialog: MdDialog, @Inject(MD_DIALOG_DATA) public providerDetails: any,
     private provider_services: BlockProvider) { }
 
   ngOnInit() {
@@ -49,6 +49,12 @@ export class EditProviderDetailsComponent implements OnInit {
     this.secondaryAddress = providerData[0].secondaryContactAddress;
   }
   Edit(item) {
+    // let dialog_Ref = this.dialog.open(EditProviderDetailsComponent, {
+    //   height: '500px',
+    //   width: '900px',
+    //   disableClose:  true,
+    //   // data: item
+    // });
     const providerObj = {};
     providerObj['serviceProviderId'] = this.providerID;
     providerObj['serviceProviderName'] =this.providerName;

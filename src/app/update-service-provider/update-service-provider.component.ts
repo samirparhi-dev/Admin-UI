@@ -203,7 +203,7 @@ export class UpdateServiceProviderComponent implements OnInit {
   edit(providerID: any) {
     const dialogRef = this.dialog.open(EditProviderDetailsComponent, {
       height: '550px',
-      width: '450px',
+      width: '750px',
       data: this.allProviders.filter(function (item) {
         return item.serviceProviderId === providerID
       })

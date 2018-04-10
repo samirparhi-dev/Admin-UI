@@ -280,7 +280,6 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	openEditModal(toBeEditedOBJ)
 	{
 		let dialog_Ref = this.dialog.open(EditInstituteSubDirectory, {
-			height: '400px',
 			width: '500px',
 			data: toBeEditedOBJ
 		});

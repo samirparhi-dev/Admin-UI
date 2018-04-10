@@ -236,7 +236,6 @@ export class LocationServicelineMappingComponent implements OnInit {
       "offices": this.workLocations
     }
     let dialog_Ref = this.dialog.open(EditLocationModal, {
-      height: '500px',
       width: '500px',
       data: OBJ
     });
@@ -368,7 +367,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   msg: any;
 
   checkOfficeName(value) {
-debugger;
+    debugger;
     for (var i = 0; i < this.officeArray.length; i++) {
       let a = this.officeArray[i].locationName;
       console.log(value.trim(), "EDsdd");
@@ -408,7 +407,7 @@ export class EditLocationModal {
   officeNameExist: boolean = true;
   msg: any = "";
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public dialog_Ref: MdDialogRef<EditLocationModal>,
     private alertService: ConfirmationDialogsService) { }

@@ -325,8 +325,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 		obj['service'] = this.service;
 		let dialogReff = this.dialog.open(EditCallType, {
-			height: '500px',
-			width: '450px',
+			// height: '500px',
+			width: '500px',
 			disableClose: true,
 			data: obj
 
