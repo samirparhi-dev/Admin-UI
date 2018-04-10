@@ -31,7 +31,7 @@
               <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="primary" *ngIf="item.deleted" class="" (click)="activate(item.providerServiceMapID)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="item.deleted" class="" (click)="activate(item.providerServiceMapID)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!item.deleted" class="" (click)="deactivate(item.providerServiceMapID)">Deactivate</button>
 
             </td>
@@ -93,11 +93,11 @@
         </md-input-container>
       </div>
     </form>
-    <div class="col-xs-12 col-sm-12  m-t-15">
-      <button md-mini-fab class="pull-right" *ngIf="!editMode" color="primary" [disabled]="mappingFieldsForm.invalid" (click)="add2bufferArray(mappingFieldsForm.value)">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 ">
+      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && !mappingFieldsForm.invalid"
+        color="primary" (click)="add2bufferArray(mappingFieldsForm.value) ">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 " *ngIf="bufferArray.length>0">
@@ -132,16 +132,21 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="3" class="p-r-0">
-              <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
-            </td>
+
           </tr>
         </tfoot>
       </table>
     </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 m-t-15">
+
+    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="mapServicelineState()">Save</button>
+
+
   </div>
 </div>
 <div class="row" *ngIf="editMode">

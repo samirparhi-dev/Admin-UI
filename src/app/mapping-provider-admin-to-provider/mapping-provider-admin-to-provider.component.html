@@ -32,7 +32,7 @@
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="primary" *ngIf="service.uSRMDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="service.uSRMDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>
@@ -79,7 +79,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="serviceProvider" placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="service_provider"
-            (change)="getProviderStates(service_provider)">
+            (change)="getProviderServices(service_provider)">
             <md-option *ngFor="let item of service_provider_array" [value]="item">
               {{item.serviceProviderName}}
             </md-option>
@@ -89,10 +89,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="state" placeholder="State" (change)="getProviderServicesInState(state,service_provider_admin,service_provider)"
-            [style.width]="'100%'" [(ngModel)]="state">
-            <md-option *ngFor="let item of states_array" [value]="item">
-              {{item.stateName}}
+          <md-select required name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getProviderStatesInService(service_provider,serviceline);setIsNational(serviceline.isNational)">
+            <md-option *ngFor="let item of services_array" [value]="item">
+              {{item.serviceName}}
             </md-option>
           </md-select>
         </md-input-container>
@@ -100,18 +99,18 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Services" placeholder="ServiceLine" [multiple]="true" [style.width]="'100%'" [(ngModel)]="serviceline">
-            <md-option *ngFor="let item of filteredServiceLines" [value]="item">
-              {{item.serviceName}}
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="isNational" multiple [(ngModel)]="state">
+            <md-option *ngFor="let item of states_array" [value]="item">
+              {{item.stateName}}
             </md-option>
           </md-select>
         </md-input-container>
       </div>
 
+
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 ">
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-      <button md-mini-fab class="pull-right" *ngIf="!editMode" color="primary" [disabled]="form.invalid" (click)="add2bufferArray(form.value)">
+      <button md-mini-fab class="pull-right" *ngIf="!editMode && form.valid" color="primary" (click)="add2bufferArray(form.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -150,16 +149,18 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="6">
               <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="3" class="p-r-0">
-              <button md-raised-button color="accent" class="pull-right" (click)="mapServicelineState()">Save</button>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 m-t-15">
+    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="mapServicelineState()">Save</button>
+
   </div>
 </div>
 <div class="row" *ngIf="editMode">
@@ -199,10 +200,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="states" placeholder="State" [style.width]="'100%'" (change)="getProviderServicesInState(edit_Details,edit_Details,edit_Details)"
-            [(ngModel)]="edit_Details.stateID">
-            <md-option *ngFor="let item of states_array" [value]="item.stateID">
-              {{item.stateName}}
+          <md-select required name="Serviceline" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="edit_Details.providerServiceMapID">
+            <md-option *ngFor="let item of filteredServiceLines" [value]="item.providerServiceMapID">
+              {{item.serviceName}}
             </md-option>
           </md-select>
         </md-input-container>
@@ -210,9 +210,10 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Serviceline" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="edit_Details.providerServiceMapID">
-            <md-option *ngFor="let item of filteredServiceLines" [value]="item.providerServiceMapID">
-              {{item.serviceName}}
+          <md-select required name="states" placeholder="State" [style.width]="'100%'" (change)="getProviderServicesInState(edit_Details,edit_Details,edit_Details)"
+            [(ngModel)]="edit_Details.stateID">
+            <md-option *ngFor="let item of states_array" [value]="item.stateID">
+              {{item.stateName}}
             </md-option>
           </md-select>
         </md-input-container>

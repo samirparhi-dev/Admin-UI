@@ -66,7 +66,7 @@
                 (click)="editFeedbackNature(item)">edit</md-icon>
             </td>
             <td>
-              <button *ngIf="item.deleted == true" md-raised-button color="primary" (click)="activeDeactivate(item.feedbackNatureID,false)">Activate</button>
+              <button *ngIf="item.deleted == true" md-raised-button color="accent" (click)="activeDeactivate(item.feedbackNatureID,false)">Activate</button>
               <button *ngIf="item.deleted == false" md-raised-button color="primary" (click)="activeDeactivate(item.feedbackNatureID,true)">Deactivate</button>
             </td>
           </tr>
@@ -140,7 +140,7 @@
           </md-input-container>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngIf="addForm.valid && !natureExists">
-          <button md-mini-fab color="primary" (click)="add_obj(feedbackNature,feedbackNatureDesc);this.addForm().reset();">
+          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" (click)="add_obj(feedbackNature,feedbackNatureDesc);this.addForm().reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
@@ -181,7 +181,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 col-sm-12 ">
+        <div class="col-xs-12 col-sm-12 m-t-15 ">
           <button class="pull-right " md-raised-button color="accent" (click)="saveComplaintNature()" [disabled]="!(objs.length!=0)">Save</button>
           <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true)">Back</button>
         </div>

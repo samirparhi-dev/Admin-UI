@@ -87,7 +87,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackNatureModal, {
       width: '500px',
-      disableClose:  true,
+      disableClose: true,
       data: {
         'feedbackObj': feedbackObj,
         'natureTypes': this.natureTypes
@@ -97,7 +97,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Feedback Nature Edited Successfully");
+        this.alertService.alert("Feedback nature edited successfully");
         this.findFeedbackNature(this.feedbackTypeID);
       }
 
@@ -122,7 +122,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedbackNatureType(obj)
@@ -181,7 +181,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       .subscribe((res) => {
         console.log("response", res);
         this.searchForm = true;
-        this.alertService.alert("Feedback Nature Saved Successfully");
+        this.alertService.alert("Feedback nature saved successfully");
         this.previous_state_id = this.search_state;
         this.previous_service_id = this.search_serviceline;
         this.previous_feedbacktype = this.search_feedbacktype;

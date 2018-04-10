@@ -36,7 +36,7 @@
                 (click)="editRow(lang)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="primary" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
             </td>
           </tr>
@@ -146,16 +146,15 @@
 
                 </div>
               </div>
-            </div>
-            <div class="col-xs-12 col-sm-12  m-t-15 ">
-
-              <div class="row">
-                <button md-mini-fab color="primary" *ngIf="showCheckboxes" [disabled]="addButtonState" class="pull-right " (click)="addLanguage(form.value);this.form.reset()">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+                <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="showCheckboxes && !addButtonState"
+                  class="pull-right" (click)="addLanguage(form.value);this.form.reset()">
                   <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                 </button>
-                <button name="backBtn " color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
+
               </div>
             </div>
+
           </div>
           <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
             <div class="table-responsive">
@@ -194,11 +193,11 @@
                 </tfoot>
               </table>
             </div>
-            <div class="col-xs-12 col-sm-12">
-              <div class="row">
-                <button name="langsaveBtn " color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
-              </div>
-            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 m-t-15">
+            <button name="backBtn" color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
+            <button name="langsaveBtn " [disabled]="!(bufferArray.length>0)" color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
+
           </div>
         </form>
       </div>

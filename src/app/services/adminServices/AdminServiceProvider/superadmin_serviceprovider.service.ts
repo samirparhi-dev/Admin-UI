@@ -66,6 +66,10 @@ export class SuperAdmin_ServiceProvider_Service {
   deleteMappedProviderServiceStateUrl: any;
 
   getServicelinesFromProvider_url: any;
+  getAllServicesByProviderUrl: any;
+  getProvider_ServiceLineLevelStatus_Url: any;
+
+
 
   constructor(
     private _http: SecurityInterceptedHttp,
@@ -97,6 +101,7 @@ export class SuperAdmin_ServiceProvider_Service {
       this.providerAdminBaseUrl + 'addProviderStateAndServiceLines';
     this.getAllStatus_URL = this.providerAdminBaseUrl + 'getStatus';
 
+
     /*
     * Creation of provider admin URL
     */
@@ -122,6 +127,9 @@ export class SuperAdmin_ServiceProvider_Service {
     this.providerAdminDeactivateUrl = this.providerAdminBaseUrl + 'deletemappingProviderAdmintoProvider';
     this.providerAdminUpdateUrl = this.providerAdminBaseUrl + 'editmappingProviderAdmintoProvider';
     this.MappingProviderAdminUrl = this.providerAdminBaseUrl + 'mappingProviderAdmintoProvider';
+    this.getAllServicesByProviderUrl = this.superadmin_base_url + 'getServiceLinesUsingProvider';
+    this.getProvider_ServiceLineLevelStatus_Url = this.providerAdminBaseUrl + 'getProviderStatusByProviderAndServiceId';
+
 
     /* new APIs */
     this.createProviderUrl = this.superadmin_base_url + 'createProvider';
@@ -180,17 +188,32 @@ export class SuperAdmin_ServiceProvider_Service {
   //     .catch(this.handleError);
   // }
 
-  // getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
-  //   return this._http
-  //     .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
-  //     .map(this.extractData)
-  //     .catch(this.handleError);
-  // }
+  getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
+    return this._http
+      .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
   getProviderStates(serviceProviderID) {
     return this._http.post(this.getAllStatesByProviderUrl,
       { 'serviceProviderID': serviceProviderID })
       .map(this.extractData)
+      .catch(this.handleError);
+  }
+  getProviderServices(serviceProviderID) {
+    return this._http.post(this.getAllServicesByProviderUrl,
+      { 'serviceProviderID': serviceProviderID })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getProviderStatesInService(serviceProviderID, serviceID) {
+    return this._http.post(this.getProvider_ServiceLineLevelStatus_Url,
+      {
+        'serviceProviderID': serviceProviderID,
+        'serviceID': serviceID
+      }).map(this.extractData)
       .catch(this.handleError);
   }
 

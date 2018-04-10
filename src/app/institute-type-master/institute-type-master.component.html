@@ -47,53 +47,50 @@
   <!-- </div> -->
 
   <div class="m-t-10" *ngIf="showTableFlag">
-    <div class=" table responsive">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-        <thead>
-          <tr>
-            <th>Institute Type</th>
-            <th>Description</th>
-            <th>Edit</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngIf="searchResultArray.length == 0">
-            <td colspan="4" class="record-not-found">No records found</td>
-          </tr>
-          <tr *ngFor="let item of md2.data">
-            <td>{{item.institutionType}}</td>
-            <td>{{item.institutionTypeDesc}}</td>
-            <td>
-              <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                (click)="openEditModal(item)">edit</md-icon>
+    <div class="col-xs-12 col-sm-12">
+      <div class=" table responsive">
+        <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th>Institute Type</th>
+              <th>Description</th>
+              <th>Edit</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="searchResultArray.length == 0">
+              <td colspan="4" class="record-not-found">No records found</td>
+            </tr>
+            <tr *ngFor="let item of md2.data">
+              <td>{{item.institutionType}}</td>
+              <td>{{item.institutionTypeDesc}}</td>
+              <td>
+                <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="openEditModal(item)">edit</md-icon>
 
-            </td>
-            <td>
-              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.institutionTypeID,false)">Activate</button>
-              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.institutionTypeID,true)">Deactivate</button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2">
-              <md2-pagination></md2-pagination>
-            </td>
-            <td td colspan="2" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!searchFields.valid">Add Institute Type</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+              </td>
+              <td>
+                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.institutionTypeID,false)">Activate</button>
+                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.institutionTypeID,true)">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td td colspan="2" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!searchFields.valid">Add Institute Type</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showFormFlag">
-    <button md-mini-fab color="primary" [disabled]=" !(searchFields.valid)" class="pull-right" (click)="add_obj(instituteType,description);this.searchFields.reset()">
-      <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-    </button>
-    <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
-  </div>
+
 
   <div *ngIf="showFormFlag">
     <div class="col-xs-12 col-sm-12">
@@ -117,17 +114,21 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="2">
-                <md2-pagination></md2-pagination>
-              </td>
               <td colspan="3">
-                <button md-raised-button class="pull-right" color="accent" (click)="save()">Save</button>
+                <md2-pagination></md2-pagination>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
 
+    </div>
+    <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showFormFlag">
+      <button md-raised-button *ngIf="bufferArray.length>0" class="pull-right" color="accent" (click)="save()">Save</button>
+      <button md-mini-fab color="primary" *ngIf="searchFields.valid" class="pull-right" (click)="add_obj(instituteType,description);this.searchFields.reset()">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+      <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>
   </div>
 

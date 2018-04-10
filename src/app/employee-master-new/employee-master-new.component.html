@@ -39,7 +39,7 @@
                                 (click)="editUserDetails(item)">edit</md-icon>
                         </td>
                         <td>
-                            <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.userID, false)">Activate</button>
+                            <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.userID, false)">Activate</button>
                             <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.userID, true)">Deactivate</button>
                         </td>
                     </tr>

@@ -37,7 +37,7 @@
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="primary" *ngIf="service.userServciceRoleDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>
@@ -144,27 +144,14 @@
           </md-select>
         </md-input-container>
       </div>
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
-            <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="agentID" [(ngModel)]="AgentName" placeholder="Agent ID" name="agentID"
-                required />
-            </md-input-container>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
-            <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="password" [(ngModel)]="AgentID" placeholder="Agent Password" name="password"
-                required/>
-            </md-input-container>
-          </div> -->
-      <!-- </div> -->
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 m-t-20">
+        <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && !workplaceform.invalid"
+          (click)="addWorkLocation(workplaceform.value,Role);this.workplaceform.reset();">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-      <button md-mini-fab color="primary" *ngIf="!editMode" [disabled]="workplaceform.invalid" class="pull-right " (click)="addWorkLocation(workplaceform.value,Role);this.workplaceform.reset();">
-        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-    </div>
+
   </div>
   <div class="col-xs-12 col-sm-12" *ngIf="bufferArray.length>0">
     <div class="table-responsive">
@@ -204,16 +191,19 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="8">
               <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="4" class="p-r-0">
-              <button md-raised-button color="accent" class="pull-right" [disabled]="saveButtonStatus" (click)="saveWorkLocations()">Save</button>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
+
+  </div>
+  <div class="col-xs-12 col-sm-12 m-t-15">
+    <button md-raised-button color="accent" class="pull-right" [disabled]="!(bufferArray.length>0)" (click)="saveWorkLocations()">Save</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+
   </div>
 </div>
 <div class="row" *ngIf="editMode">
