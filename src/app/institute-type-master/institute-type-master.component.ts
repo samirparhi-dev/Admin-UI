@@ -203,8 +203,8 @@ export class InstituteTypeMasterComponent implements OnInit {
 
 	openEditModal(toBeEditedOBJ) {
 		let dialog_Ref = this.dialog.open(EditInstituteType, {
-			height: '400px',
 			width: '500px',
+			disableClose: true,
 			data: toBeEditedOBJ
 		});
 

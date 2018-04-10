@@ -1,11 +1,16 @@
-<div>
-  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+<div class="row">
+  <div class="pull-left m-l-15">
     <h4 class="modal-title">Edit Feedback Type</h4>
+  </div>
+  <div class="pull-right">
+    <button md-button [md-dialog-close]="true">
+      <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear</md-icon>
+    </button>
   </div>
 </div>
 <div class=" m-t-20">
   <form #f1="ngForm">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="service!='3'">
+    <div *ngIf="service!='3'">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Feedback Name" name="feedbackName" [(ngModel)]="feedbackName" (keyup)="validateFeedback(feedbackName)"
           #fbName="ngModel" required>
@@ -17,7 +22,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="service==='3'">
+    <div *ngIf="service==='3'">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="Feedback Name" [style.width]="'100%'" [(ngModel)]="feedbackName" name="feedbackName" required (change)="validateFeedback(feedbackName)"
@@ -29,7 +34,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+    <div class="m-t-10">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Feedback Desc" name="feedbackDesc" [(ngModel)]="feedbackDesc" #fbDesc="ngModel">
         <!-- <md-hint *ngIf="fbDesc.errors && fbDesc.touched">
@@ -38,11 +43,11 @@
       </md-input-container>
     </div>
 
-    <div class=" m-t-20" align="center">
-      <button md-raised-button color="accent" class="m-r-10" (click)="update()" [disabled]="f1.invalid || feedbackExists">
+    <div class=" m-t-20">
+      <button md-raised-button color="accent" class="pull-right" (click)="update()" [disabled]="f1.invalid || feedbackExists">
         Update
       </button>
-      <button md-raised-button color="primary" [md-dialog-close]="true">Cancel</button>
+
     </div>
   </form>
 </div>

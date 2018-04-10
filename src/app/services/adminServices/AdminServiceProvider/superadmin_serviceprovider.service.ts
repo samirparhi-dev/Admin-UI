@@ -65,6 +65,8 @@ export class SuperAdmin_ServiceProvider_Service {
   editMappedProviderServiceStateUrl: any;
   deleteMappedProviderServiceStateUrl: any;
 
+  getServicelinesFromProvider_url: any;
+
   constructor(
     private _http: SecurityInterceptedHttp,
     public configService: ConfigService,
@@ -130,6 +132,14 @@ export class SuperAdmin_ServiceProvider_Service {
     this.mapProviderServiceStateUrl = this.superadmin_base_url + 'mapServiceLinesAndStatetoProvider';
     this.editMappedProviderServiceStateUrl = this.superadmin_base_url + 'editMappedServiceLinesAndStatetoProvider'
     this.deleteMappedProviderServiceStateUrl = this.superadmin_base_url + 'deleteMappedServiceLinesAndStatetoProvider';
+    this.getServicelinesFromProvider_url = this.superadmin_base_url + 'getServiceLinesUsingProvider';
+  }
+
+  getServicelinesFromProvider(serviceProviderID) {
+    return this._http
+      .post(this.getServicelinesFromProvider_url, { 'serviceProviderID': serviceProviderID })
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   getCommonRegistrationData() {

@@ -13,23 +13,26 @@
             <th width="5%">S.No.</th>
             <th width="30%" md2SortBy="serviceProviderName">Provider Name</th>
             <th width="15%">Serviceline</th>
-            <th width="30%">State</th>
+            <th width="40%">State</th>
+            <th width="5%">Edit</th>
             <th width="20%">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="searchResult.length == 0">
-            <td colspan="4" class="record-not-found">No records found</td>
+            <td colspan="7" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data;let i = index ">
             <td>{{(md2.activePage-1)*5+i+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
+            <td>{{item.stateName?item.stateName:'All State'}}</td>
             <td>
               <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
-              <button md-raised-button color="primary" *ngIf="item.deleted" class="pull-right" (click)="activate(item.providerServiceMapID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!item.deleted" class="pull-right" (click)="deactivate(item.providerServiceMapID)">Deactivate</button>
+            </td>
+            <td>
+              <button md-raised-button color="primary" *ngIf="item.deleted" class="" (click)="activate(item.providerServiceMapID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!item.deleted" class="" (click)="deactivate(item.providerServiceMapID)">Deactivate</button>
 
             </td>
           </tr>
@@ -48,7 +51,6 @@
     </div>
   </div>
 </div>
-
 <div class='row' *ngIf="formMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
@@ -57,67 +59,49 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
     <form autocomplete="off" #mappingFieldsForm="ngForm">
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="Provider" class="width100" [(ngModel)]="provider" name="provider" required (change)='getServices()'>
-          <md-option *ngFor="let item of providers" [value]='item'>
-            {{item.serviceProviderName}}
-          </md-option>
-        </md-select>
-      </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID)"
-          required>
-          <md-option *ngFor="let item of services" [value]='item'>
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
-      </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="State" class="width100" [(ngModel)]="state" [multiple]="true" name="state" required>
-          <md-option *ngFor="let item of filteredStates" [value]='item'>
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </div>
-    </form>
-
-  <div class='row' *ngIf="formMode">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4><strong>Provider Serviceline State Mapping</strong></h4>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
-      <form autocomplete="off" #mappingFieldsForm="ngForm">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
           <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="provider" name="provider" required (change)='getServices()'>
             <md-option *ngFor="let item of providers" [value]='item'>
               {{item.serviceProviderName}}
             </md-option>
           </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </md-input-container>
+
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
           <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" name="serviceline" (change)="getAvailableStates(provider.serviceProviderId,serviceline.serviceID,serviceline)"
             required>
             <md-option *ngFor="let item of services" [value]='item'>
               {{item.serviceName}}
             </md-option>
           </md-select>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <md-select placeholder="State" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="state" [multiple]="true" name="state" required>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" [multiple]="true" name="state"
+            required>
             <md-option *ngFor="let item of filteredStates" [value]='item'>
               {{item.stateName}}
             </md-option>
           </md-select>
-        </div>
-      </form>
-
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      <button md-raised-button color="primary" [disabled]="mappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="add2bufferArray(mappingFieldsForm.value)">Add</button>
-      <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12  m-t-15">
+      <button md-mini-fab class="pull-right" *ngIf="!editMode" color="primary" [disabled]="mappingFieldsForm.invalid" (click)="add2bufferArray(mappingFieldsForm.value)">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 " *ngIf="bufferArray.length>0">
-    <div class="table-responsive">
+    <div class="table-responsive m-t-15">
       <table class="table table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
@@ -142,7 +126,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove Row" (click)="removeRow(i)">clear</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove Row" (click)="removeRow(i)">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -166,33 +150,43 @@
       <strong>Edit Provider Serviceline State Mapping</strong>
     </h4>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-15">
+  <div class="col-xs-12 col-sm-12  p-a-0 m-t-15">
     <form autocomplete="off" #editMappingFieldsForm="ngForm">
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="Provider" class="width100" [(ngModel)]="edit_provider" name="provider" required>
-          <md-option *ngFor="let item of providers" [value]='item.serviceProviderId'>
-            {{item.serviceProviderName}}
-          </md-option>
-        </md-select>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="Provider" [style.width]="'100%'" [(ngModel)]="edit_provider" name="provider" required>
+            <md-option *ngFor="let item of providers" [value]='item.serviceProviderId'>
+              {{item.serviceProviderName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="edit_serviceline" name="serviceline" required>
-          <md-option *ngFor="let item of servicelines" [value]='item.serviceID'>
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_serviceline" name="serviceline" required>
+            <md-option *ngFor="let item of servicelines" [value]='item.serviceID' (click)="setIsNationalFlag_while_edit(item.isNational)">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <md-select placeholder="State" class="width100" [(ngModel)]="edit_state" name="state" required>
-          <md-option *ngFor="let item of states" [value]='item.stateID'>
-            {{item.stateName}}
-          </md-option>
-        </md-select>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational_edit" [(ngModel)]="edit_state" name="state"
+            required>
+            <md-option *ngFor="let item of states" [value]='item.stateID'>
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
       </div>
     </form>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="col-xs-12 col-sm-12  m-t-15">
       <button md-raised-button color="accent" [disabled]="editMappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="update(editMappingFieldsForm.value)">Update</button>
-      <button md-raised-button color="primary" class="pull-right m-l-5 m-r-5" (click)="showTable()">Back</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     </div>
   </div>
 </div>

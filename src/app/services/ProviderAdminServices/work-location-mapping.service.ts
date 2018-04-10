@@ -107,7 +107,7 @@ export class WorkLocationMapping {
 
     getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any) {
         return this.http
-            .post(this.getAllWorkLocationsByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceID, 'stateID': stateID })
+            .post(this.getAllWorkLocationsByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceID, 'stateID': stateID, 'isNational': false })
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
