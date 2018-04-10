@@ -64,6 +64,8 @@ export class BlockProvider {
     this.getSubServiceDetails_URL = this.admin_base_url + 'm/getSubSerive';
     this.editProvider_URL = this.admin_base_url + 'updateProvider';
     this.deleteSubserviceUrl = this.admin_base_url + '/m/deleteSubSerive';
+
+
   }
 
   // all the status of Provider
@@ -89,6 +91,13 @@ export class BlockProvider {
       'serviceProviderID': serviceProviderID,
       'stateID': stateID
     }).map(this.handleState_n_ServiceSuccess)
+      .catch(this.error_handeler);
+  }
+
+  // *** new ****
+  getStatesInServices(data) {
+    return this._http.post(this.getProvider_ServiceLineLevelStatus_Url, data)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.error_handeler);
   }
 

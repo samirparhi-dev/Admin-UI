@@ -33,6 +33,8 @@ export class CreateSubServiceComponent implements OnInit {
   servicesSearched: any = [];
   existingSubService: any = [];
   added: boolean = false;
+
+  isNational = false;
   constructor(private sub_service: BlockProvider, private commonData: dataService, private message: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -43,62 +45,97 @@ export class CreateSubServiceComponent implements OnInit {
   getAllProvidersSuccesshandeler(response) {
     this.serviceProviders = response;
   }
-  getAllStates(serviceProviderID) {
-    this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
-      this.getAllStatesSuccesshandeler(response);
+  // getAllStates(serviceProviderID) {
+  //   this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
+  //     this.getAllStatesSuccesshandeler(response);
+  //   });
+  // }
+
+  // getAllStatesSuccesshandeler(response) {
+
+  //   this.states = response;
+  //   this.services = [];
+  //   // if(this.added){
+  //   //   this.searchState = this.state;
+  //   //   ;
+  //   // }
+  // }
+  // getAllServicesInState(serviceProviderObj, stateObj) {
+  //   this.sub_service.getServicesInState(serviceProviderObj.serviceProviderId, stateObj.stateID)
+  //     .subscribe(response => this.getAllServicesInStatesSuccess(response));
+  // }
+
+  // getAllServicesInStatesSuccess(response) {
+
+  //   this.services = response.filter(function (obj) {
+  //     return obj.serviceID == 3 || obj.serviceID == 1;
+  //   });
+  // }
+
+  getAllStatesInService(serviceProviderID, serviceID) {
+    let data = {
+      'serviceProviderID': serviceProviderID,
+      'serviceID': serviceID
+    };
+    this.sub_service.getStatesInServices(data).subscribe(response => {
+      console.log(response, 'successful response');
+      this.states = undefined;
+      this.states = response;
+    }, err => {
+      console.log(err, 'error response')
     });
   }
 
-  getAllStatesSuccesshandeler(response) {
-
-    this.states = response;
-    this.services = [];
-    // if(this.added){
-    //   this.searchState = this.state;
-    //   ;
-    // }
-  }
-  getAllServicesInState(serviceProviderObj, stateObj) {
-    this.sub_service.getServicesInState(serviceProviderObj.serviceProviderId, stateObj.stateID)
-      .subscribe(response => this.getAllServicesInStatesSuccess(response));
-  }
-
-  getAllServicesInStatesSuccess(response) {
-
-    this.services = response.filter(function (obj) {
-      return obj.serviceID == 3 || obj.serviceID == 1;
-    });
+  getServicesFromProvider(serviceProviderID) {
+    this.sub_service.getServicesOfProvider(serviceProviderID)
+      .subscribe(response => {
+        console.log(response, 'Success in getting Services from Provider');
+        this.serviceObj = undefined;
+        this.state = undefined;
+        this.services = response.filter(function (obj) {
+          return obj.serviceID == 3 || obj.serviceID == 1;
+        });
+      }, err => {
+        console.log(err, 'Error in getting Services from Provider');
+      });
   }
 
-  getStates(serviceProviderID) {
-    this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
-      this.getStatesSuccesshandeler(response);
-    });
+  setIsNational(value, psmID) {
+    this.isNational = value;
+
+    if (value) {
+      this.getExistingOnSearch(psmID);
+    }
   }
 
-  getStatesSuccesshandeler(response) {
-    this.states = response;
-  }
-  getServicesInState(serviceProviderObj, stateObj) {
-    this.sub_service.getServicesInState(serviceProviderObj.serviceProviderId, stateObj.stateID)
-      .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
-  }
+  // getStates(serviceProviderID) {
+  //   this.sub_service.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
+  //     this.getStatesSuccesshandeler(response);
+  //   });
+  // }
 
-  getServicesInStatesSuccesshandeler(response) {
-    this.services = response;
+  // getStatesSuccesshandeler(response) {
+  //   this.states = response;
+  // }
+  // getServicesInState(serviceProviderObj, stateObj) {
+  //   this.sub_service.getServicesInState(serviceProviderObj.serviceProviderId, stateObj.stateID)
+  //     .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
+  // }
+
+  // getServicesInStatesSuccesshandeler(response) {
+  //   this.services = response;
+  // }
+  getExistingOnSearch(providerServiceMapID) {
+    this.sub_service.getSubServiceDetails(providerServiceMapID)
+      .subscribe(response => this.populateTable(response, providerServiceMapID))
   }
-  getExistingOnSearch(service) {
-    ;
-    this.sub_service.getSubServiceDetails(service.providerServiceMapID)
-      .subscribe(response => this.populateTable(response, service))
-  }
-  populateTable(response, service) {
+  populateTable(response, providerServiceMapID) {
     this.showTable = true;
     this.data = response;
-    this.getExistingSubService(service);
+    this.getExistingSubService(providerServiceMapID);
   }
-  getExistingSubService(service) {
-    this.sub_service.getSubServiceDetails(service.providerServiceMapID)
+  getExistingSubService(providerServiceMapID) {
+    this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.existingSubServiceHandler(response))
   }
 
@@ -109,7 +146,7 @@ export class CreateSubServiceComponent implements OnInit {
 
   }
 
-  add(providerServiceMapID, state, service, subServices, subServiceDesc) {
+  add(serviceProvider, state, service, subServices, subServiceDesc) {
     const array = [];
     const obj = {};
     obj['providerServiceMapID'] = service.providerServiceMapID;
@@ -209,12 +246,12 @@ export class CreateSubServiceComponent implements OnInit {
   showSubService(response: any, serviceName) {
 
     this.added = true;
-    this.getAllStates(this.serviceProvider);
+    // this.getAllStatesInService(this.serviceProvider, this.serviceID);
     this.searchServiceProvider = this.serviceProvider;
-    this.getAllServicesInState(this.serviceProvider, this.state);
+    this.getServicesFromProvider(this.serviceProvider);
     this.searchState = this.state;
     this.searchServiceObj = this.serviceObj;
-    this.getExistingOnSearch(this.serviceObj);
+    this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
     // this.addSubService(true);
     // this.showTable = true;
     // this.data = response.map(function (element) {
@@ -228,7 +265,7 @@ export class CreateSubServiceComponent implements OnInit {
   addSubService(flag) {
     this.searchForm = flag;
     if (flag) {
-      this.getExistingOnSearch(this.serviceObj);
+      this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
     }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
@@ -265,11 +302,11 @@ export class CreateSubServiceComponent implements OnInit {
   clearFields() {
     // this.subServiceDesc = '';
     jQuery("#form2").trigger('reset');
-    this.getExistingSubService(this.serviceObj);
+    this.getExistingSubService(this.serviceObj.providerServiceMapID);
   }
   deletedSuccessHandler(res) {
     this.message.alert(this.confirmMessage + "d successfully");
-    this.getExistingOnSearch(this.serviceObj);
+    this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
 
   }
 
