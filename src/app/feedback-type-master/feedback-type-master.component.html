@@ -5,13 +5,13 @@
     <h4 class="pull-left">Feedback/Complaint Type Master</h4>
   </div>
   <form #searchFTForm="ngForm">
+    
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
-        <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)"
-          required>
-          <md-option *ngFor="let state of states" value="{{state.stateID}}">
-            {{state.stateName}}
+        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
+          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
+            {{service.serviceName}}
           </md-option>
         </md-select>
       </md-input-container>
@@ -19,9 +19,9 @@
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
-        <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
-          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
-            {{service.serviceName}}
+        <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="search_state" name="state" required>
+          <md-option *ngFor="let state of states" value="{{state.stateID}}" (click)="findFeedbackTypes(state.providerServiceMapID)">
+            {{state.stateName}}
           </md-option>
         </md-select>
       </md-input-container>
@@ -85,13 +85,14 @@
     <h4 class="width100">Add Feedback/Complaint Type</h4>
     <form #addForm="ngForm" autocomplete="off">
       <div class="row">
+        
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
-            <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(search_state)"
-              [disabled]="true" required>
-              <md-option *ngFor="let state of states" value="{{state.stateID}}">
-                {{state.stateName}}
+            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true"
+              required>
+              <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
+                {{service.serviceName}}
               </md-option>
             </md-select>
           </md-input-container>
@@ -99,10 +100,9 @@
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
-            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true"
-              required>
-              <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="findFeedbackTypes(service.providerServiceMapID)">
-                {{service.serviceName}}
+            <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="search_state" name="state" [disabled]="true" required>
+              <md-option *ngFor="let state of states" value="{{state.stateID}}" (click)="findFeedbackTypes(state.providerServiceMapID)">
+                {{state.stateName}}
               </md-option>
             </md-select>
           </md-input-container>
@@ -137,7 +137,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 ">
           <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf="addForm.valid && !feedbackExists"
-            type="button" (click)="add_obj(feedbackName,feedbackDesc);this.addForm.reset();">
+            type="button" (click)="add_obj(feedbackName,feedbackDesc)">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>

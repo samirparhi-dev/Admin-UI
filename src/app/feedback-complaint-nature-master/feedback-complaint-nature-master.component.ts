@@ -37,36 +37,62 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   searchFeedbackNatureArray = [];
   msg = "Complaint Nature already exists";
 
+  isNational = false;
+  userID: any;
+
 
   feedbackNature: any;
   feedbackNatureDesc: any;
 
-  constructor(private commonData: dataService, private FeedbackTypeService: FeedbackTypeService, private alertService: ConfirmationDialogsService, public dialog: MdDialog) { }
+  constructor(private commonData: dataService,
+    private FeedbackTypeService: FeedbackTypeService,
+    private alertService: ConfirmationDialogsService,
+    public dialog: MdDialog) { }
 
   ngOnInit() {
     this.serviceProviderID = this.commonData.service_providerID;
-    this.FeedbackTypeService.getStates(this.serviceProviderID)
+    this.userID = this.commonData.uid;
+    this.getServiceLinesfromSearch(this.userID);
+  }
+
+  setIsNational(value) {
+    this.isNational = value;
+  }
+
+  getStates(serviceID, isNational) {
+    this.FeedbackTypeService.getStates(this.userID, serviceID, isNational)
       .subscribe((response) => {
         console.log("states", response);
+        this.search_state = "";
         this.states = response;
+        this.feedbackTypes = [];
+        this.natureTypes = [];
+
+        if (isNational) {
+          this.findFeedbackTypes(this.states[0].providerServiceMapID);
+        }
       })
   }
 
-  getServiceLinesfromSearch(state) {
-    this.FeedbackTypeService.getServiceLines(this.serviceProviderID, state)
+  getServiceLinesfromSearch(userID) {
+    this.FeedbackTypeService.getServiceLines(userID)
       .subscribe((response) => {
         console.log("services", response);
+        // this.search_serviceline = "";
         this.servicelines = response;
       })
   }
 
+
   findFeedbackTypes(providerServiceMapID) {
+    this.search_feedbacktype = '';
     this.providerServiceMapID = providerServiceMapID;
     this.FeedbackTypeService.getFeedbackTypes({
       "providerServiceMapID": this.providerServiceMapID
     }).subscribe((response) => {
       console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
+      this.natureTypes = [];
     })
   }
 
@@ -130,9 +156,9 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
             this.alertService.alert(this.confirmMessage + "d successfully");
             this.findFeedbackNature(this.feedbackTypeID);
           },
-            (err) => {
-              console.log(err);
-            })
+          (err) => {
+            console.log(err);
+          })
       }
     },
       (err) => {
@@ -205,8 +231,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     this.objs.push(tempObj);
     this.validateFeedbackNature(nature);
 
-    // this.feedbackNature = undefined;
-    // this.feedbackNatureDesc = undefined;
+    this.feedbackNature = undefined;
+    this.feedbackNatureDesc = undefined;
     this.natureExists = false;
   }
 
@@ -229,7 +255,7 @@ export class EditFeedbackNatureModal {
   natureExists: boolean = false;
   msg = "Complaint Nature already exists";
 
-  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public FeedbackTypeService: FeedbackTypeService,
     public dialog_Ref: MdDialogRef<EditFeedbackNatureModal>,
     private alertService: ConfirmationDialogsService) { }

@@ -12,6 +12,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
     styleUrls: ['./hospital-master.component.css']
 })
 export class HospitalMasterComponent implements OnInit {
+    userID: any;
     /*ngModels*/
     serviceProviderID: any;
     providerServiceMapID: any;
@@ -62,7 +63,14 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.HospitalMasterService.getStates(this.serviceProviderID).subscribe(response => this.getStatesSuccessHandeler(response));
+        this.userID = this.commonDataService.uid;
+        this.getServices(this.userID);
+    }
+
+    getStates(serviceID, isNational) {
+        this.HospitalMasterService.getStates(this.userID, serviceID, isNational)
+            .subscribe(response => this.getStatesSuccessHandeler(response));
+
     }
 
     clear() {
@@ -106,17 +114,22 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     getStatesSuccessHandeler(response) {
+        this.state = "";
+        this.district = "";
+        this.taluk = "";
+        this.searchResultArray = [];
         if (response) {
             this.states = response;
         }
     }
 
     getServices(stateID) {
-        this.service = "";
-        this.district = "";
-        this.taluk = "";
+        // this.state = "";
+        // this.district = "";
+        // this.taluk = "";
 
-        this.HospitalMasterService.getServices(this.serviceProviderID, stateID).subscribe(response => this.getServiceSuccessHandeler(response));
+        this.HospitalMasterService.getServices(this.userID)
+            .subscribe(response => this.getServiceSuccessHandeler(response));
     }
 
     getServiceSuccessHandeler(response) {
@@ -125,14 +138,16 @@ export class HospitalMasterComponent implements OnInit {
                 if (item.serviceID != 6) {
                     return item;
                 }
-            });;
+            });
+            this.searchResultArray = [];
         }
     }
 
     getDistrict(stateID) {
-        this.service = "";
+
         this.district = "";
         this.taluk = "";
+        this.searchResultArray = [];
 
         this.HospitalMasterService.getDistricts(stateID).subscribe(response => this.getDistrictSuccessHandeler(response));
 
@@ -147,6 +162,8 @@ export class HospitalMasterComponent implements OnInit {
 
     getTaluk(districtID) {
         this.taluk = "";
+        this.searchResultArray = [];
+
         this.HospitalMasterService.getTaluks(districtID).subscribe(response => this.getTalukSuccessHandeler(response));
     }
 
@@ -267,7 +284,7 @@ export class HospitalMasterComponent implements OnInit {
         let dialog_Ref = this.dialog.open(EditHospitalModal, {
             height: '500px',
             width: '700px',
-            disableClose:  true,
+            disableClose: true,
             data: toBeEditedObject
         });
 
@@ -311,7 +328,7 @@ export class EditHospitalModal {
     email_expression: any = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
 
 
-    constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+    constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
         public HospitalMasterService: HospitalMasterService,
         public commonDataService: dataService,
         public dialogReff: MdDialogRef<EditHospitalModal>) { }

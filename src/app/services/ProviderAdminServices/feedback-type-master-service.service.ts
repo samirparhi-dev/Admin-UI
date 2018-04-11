@@ -30,8 +30,8 @@ export class FeedbackTypeService {
 		private httpIntercept: InterceptedHttp) {
 		this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
 
-		this.getStates_url = this.providerAdmin_Base_Url + 'm/role/state';
-		this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/role/service';
+		this.getStates_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
+		this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/role/serviceNew';
 		this.getFeedbackTypes_url = this.providerAdmin_Base_Url + 'm/getFeedbackType';
 		this.deleteFeedback_url = this.providerAdmin_Base_Url + 'm/deleteFeedbackType';
 		this.saveFeedback_url = this.providerAdmin_Base_Url + 'm/saveFeedbackType';
@@ -42,14 +42,20 @@ export class FeedbackTypeService {
 		this.editFeedbackNatureType_url = this.providerAdmin_Base_Url + 'm/editFeedbackNatureType';
 	};
 
-	getStates(serviceProviderID) {
-		return this.http.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
+	getStates(userID,serviceID,isNational) {
+		return this.http.post(this.getStates_url,
+			  {
+        'userID': userID,
+        'serviceID': serviceID,
+        'isNational': isNational
+      })
 			.map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}
 
-	getServiceLines(serviceProviderID, stateID) {
-		return this.httpIntercept.post(this.getServiceLines_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
+	getServiceLines(userID) {
+		return this.httpIntercept.post(this.getServiceLines_url,
+			 { 'userID': userID })
 			.map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}

@@ -50,6 +50,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   // flags
   showTable: boolean = false;
   showForm: boolean;
+  isNational = false;
 
   @ViewChild('f') form: NgForm;
   constructor(public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
@@ -132,7 +133,12 @@ export class LocationServicelineMappingComponent implements OnInit {
   getStates(serviceID, isNationalFlag) {
     this.provider_admin_location_serviceline_mapping.getStatesNew(
       this.userID, serviceID, isNationalFlag).subscribe(response => {
+        this.search_state = undefined;
         this.states = response;
+        if (this.states[0].providerServiceMapID) {
+          this.providerServiceMapIDs = [this.states[0].providerServiceMapID];
+          this.findLocations();
+        }
         console.log('states', this.states);
       }, err => {
         console.log('Error while fetching states', err);
@@ -143,6 +149,14 @@ export class LocationServicelineMappingComponent implements OnInit {
   setPSMID(psmID) {
     this.PSMID_searchService = psmID;
     console.log('PSM ID SET HO GAYI HAI BHAAAI', this.PSMID_searchService);
+  }
+
+  setIsNational(value) {
+    this.isNational = value;
+    if (value) {
+      this.state = '';
+      this.district = '';
+    }
   }
 
   setSL(serviceID) {
@@ -299,10 +313,10 @@ export class LocationServicelineMappingComponent implements OnInit {
   servicesSuccesshandeler(response) {
     console.log(response, "services");
     this.servicelines = response;
-    if (response.length > 0) {
-      // this.providerServiceMapIDs = [];
-      this.providerServiceMapID = response[0].providerServiceMapID;
-    }
+    // if (response.length > 0) {
+    //   // this.providerServiceMapIDs = [];
+    //   this.providerServiceMapID = response[0].providerServiceMapID;
+    // }
 
   }
 
@@ -407,7 +421,7 @@ export class EditLocationModal {
   officeNameExist: boolean = true;
   msg: any = "";
 
-  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public dialog_Ref: MdDialogRef<EditLocationModal>,
     private alertService: ConfirmationDialogsService) { }
