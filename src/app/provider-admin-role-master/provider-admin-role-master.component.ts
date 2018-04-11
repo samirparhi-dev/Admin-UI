@@ -60,7 +60,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   updateFeaturesToRoleFlag = false;
   showUpdateFeatureButtonFlag = false;
-
+  userID: any;
+  nationalFlag: boolean;
   @ViewChild('addingForm') addingForm: NgForm
 
   constructor(public ProviderAdminRoleService: ProviderAdminRoleService,
@@ -77,11 +78,17 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.services = [];
     this.searchresultarray = [];
     this.filterScreens = [];
+    
 
   }
 
   ngOnInit() {
-    this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response => this.states = this.successhandeler(response));
+    this.userID = this.commonDataService.uid;
+    // this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response => this.states = this.successhandeler(response));  // commented on 10/4/18(1097 regarding changes) Gursimran
+    this.ProviderAdminRoleService.getServiceLinesNew(this.userID).subscribe((response) => {
+    this.services = this.successhandeler(response),
+      (err) => console.log("ERROR in fetching serviceline")
+    });
     //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").
     // subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
   }
@@ -92,21 +99,49 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   }
 
-  getServices(stateID) {
-    console.log(this.serviceProviderID, stateID);
-    this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).
-      subscribe(response => this.servicesSuccesshandeler(response));
+  // getServices(stateID) {
+  //   console.log(this.serviceProviderID, stateID);
+  //   this.ProviderAdminRoleService.getServices(this.serviceProviderID, stateID).
+  //     subscribe(response => this.servicesSuccesshandeler(response));
+  // } //commented on 10/4/18(1097 regarding changes) Gursimran
+
+  getStates(value) {
+   let obj = {'userID': this.userID,
+				'serviceID': value.serviceID,
+				'isNational': value.isNational
+			}
+    this.ProviderAdminRoleService.getStatesNew(obj).
+      subscribe(response => this.statesSuccesshandeler(response,value), (err) => {
+        console.log("error in fetching states")
+      });
+      
+
   }
+
 
   setProviderServiceMapID(ProviderServiceMapID) {
     this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
     console.log('psmid', ProviderServiceMapID);
   }
 
-  servicesSuccesshandeler(response) {
-    this.service = '';
-    this.services = response;
+  // servicesSuccesshandeler(response) {
+  //   this.service = '';
+  //   this.services = response;
+  //   this.showAddButtonFlag = false;
+
+  // }// commented on 10/4/18(1097 regarding changes) Gursimran
+  statesSuccesshandeler(response,value) {
+    this.state = '';
+    this.states = response;
     this.showAddButtonFlag = false;
+
+    if(value.isNational) {
+      this.nationalFlag = value.isNational;
+      this.setProviderServiceMapID(response[0].providerServiceMapID);
+    }
+    else {
+      this.nationalFlag = value.isNational;
+    }
 
   }
 
@@ -182,10 +217,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       if (res) {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
-           console.log('data',response);
-            //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
+          console.log('data', response);
+          this.findRoles(this.state.stateID,this.service.serviceID)
+          //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
         })
-         
+
       }
     },
       (err) => {
@@ -201,7 +237,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     this.setRoleFormFlag(true);
 
-    if (this.service == 3) {
+    if (this.service.serviceID == 3) {
       this.showUpdateFeatureButtonFlag = true;
     }
 
@@ -298,7 +334,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
   setRoleFormFlag(flag) {
-    console.log('service', this.service);
+    console.log('service', this.service.serviceID);
     this.hideAdd = true;
     this.setEditSubmitButton = false;
     this.showRoleCreationForm = flag;
@@ -320,7 +356,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.updateFeaturesToRoleFlag = false;
     }
     else {
-      this.getFeatures(this.service);
+      this.getFeatures(this.service.serviceID);
     }
 
   }
@@ -373,7 +409,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         if (obj.roleName.trim().length > 0) {
           this.objs.push(obj);
           this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
-          this.getFeatures(this.service);
+          this.getFeatures(this.service.serviceID);
         }
 
         /*for(let z=0;z<feature.length;z++)
@@ -443,7 +479,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           if (obj.roleName.trim().length > 0) {
             this.objs.push(obj);
             this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
-            this.getFeatures(this.service);
+            this.getFeatures(this.service.serviceID);
           }
         }
       }
@@ -483,7 +519,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       var delIndex = this.tempFilterScreens.indexOf(this.objs[index].screen_name[k]);
       if (delIndex != -1) {
         this.tempFilterScreens.splice(delIndex, 1);
-        this.getFeatures(this.service);
+        this.getFeatures(this.service.serviceID);
       }
     }
     this.objs.splice(index, 1);

@@ -46,6 +46,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	showCallType: boolean = false;
 	tempCorrespondingSubCallType: any = [];
 	subCallTypeExist: boolean = false;
+	userID: any;
+	nationalFlag: boolean;
+
 	@ViewChild('callTypeSubCallType') callTypeSubCallType: NgForm;
 
 	constructor(public callTypeSubtypeService: CallTypeSubtypeService, private alertService: ConfirmationDialogsService,
@@ -59,8 +62,13 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.callTypeSubtypeService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+		this.userID = this.commonDataService.uid;
+		// this.callTypeSubtypeService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response)); commented on 11/4/18(1097 regarding changes) Gursimran
 
+		this.callTypeSubtypeService.getServiceLinesNew(this.userID).subscribe((response) => {
+			this.successhandeler(response),
+				(err) => console.log("ERROR in fetching serviceline")
+		});
 		this.request_array = [];
 		this.request_object = {
 			"callGroupType": "",
@@ -74,9 +82,23 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 
 	// data getters and setters for the component
-	getServices(stateID) {
-		this.showTable = false;
-		this.callTypeSubtypeService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+	// getServices(stateID) {
+	// 	this.showTable = false;
+	// 	this.callTypeSubtypeService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+	// } //commented on 11/4/18(1097 regarding changes) Gursimran
+
+	getStates(value) {
+		let obj = {
+			'userID': this.userID,
+			'serviceID': value.serviceID,
+			'isNational': value.isNational
+		}
+		this.callTypeSubtypeService.getStatesNew(obj).
+			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
+				console.log("error in fetching states")
+			});
+
+
 	}
 
 	setProviderServiceMapID(providerServiceMapID) {
@@ -204,12 +226,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	// successhandelers
 
-	getStatesSuccessHandeler(response) {
-		this.provider_states = response;
-	}
+	// getStatesSuccessHandeler(response) {
+	// 	this.provider_states = response;
+	// }  //commented on 11/4/18(1097 regarding changes) Gursimran
 
-	getServicesSuccessHandeler(response) {
-
+	successhandeler(response) {
 		this.service = "";
 		this.provider_services = response.filter(function (obj) {
 			return obj.serviceID == 1 || obj.serviceID == 3;
@@ -219,7 +240,30 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			this.alertService.alert("104 & 1097 are not working in this state");
 		}
 	}
+	// getServicesSuccessHandeler(response) {
 
+	// 	this.service = "";
+	// 	this.provider_services = response.filter(function (obj) {
+	// 		return obj.serviceID == 1 || obj.serviceID == 3;
+	// 	});
+
+	// 	if (this.provider_services.length == 0) {
+	// 		this.alertService.alert("104 & 1097 are not working in this state");
+	// 	}
+	// } //commented on 11/4/18(1097 regarding changes) Gursimran
+
+	getStatesSuccessHandeler(response, value) {
+
+		this.provider_states = response;
+		if (value.isNational) {
+			this.nationalFlag = value.isNational;
+			this.setProviderServiceMapID(response[0].providerServiceMapID);
+		}
+		else {
+			this.nationalFlag = value.isNational;
+			this.showTable = false;
+		}
+	} 
 
 
 	saveCallTypeSubTypeSuccessHandeler(response) {
@@ -323,7 +367,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
 	editCallDisposition(obj) {
 
-		obj['service'] = this.service;
+		obj['service'] = this.service.serviceID;
 		let dialogReff = this.dialog.open(EditCallType, {
 			height: '500px',
 			width: '450px',
@@ -356,7 +400,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	templateUrl: './edit-call-type-model.html'
 })
 export class EditCallType {
-	constructor(@Inject(MD_DIALOG_DATA) public data: any,
+	constructor( @Inject(MD_DIALOG_DATA) public data: any,
 		public dialog: MdDialog,
 		public callTypeSubtypeService: CallTypeSubtypeService,
 		public commonDataService: dataService,
