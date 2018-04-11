@@ -14,6 +14,9 @@ export class SeverityTypeService {
 
   admin_Base_Url: any;
   get_State_Url: any;
+  get_State_Url_new: any;
+  get_Service_Url_new: any;
+  getServicelines_url: any;
   addSeverityUrl: any;
   deleteSeverityUrl: any;
   modifySeverityUrl: any;
@@ -23,10 +26,30 @@ export class SeverityTypeService {
 
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.get_State_Url = this.admin_Base_Url + '/m/getServerity';
+
+    this.get_State_Url_new = this.admin_Base_Url + 'm/role/stateNew';
+    this.get_Service_Url_new = this.admin_Base_Url + 'm/role/serviceNew';
+
     this.addSeverityUrl = this.admin_Base_Url + '/m/saveServerity ';
     this.deleteSeverityUrl = this.admin_Base_Url + '/m/deleteServerity';
     this.modifySeverityUrl = this.admin_Base_Url + 'm/editServerity'
   };
+
+  getStates(userID, serviceID, isNationalFlag) {
+    return this.http.post(this.get_State_Url_new,
+      {
+        'userID': userID,
+        'serviceID': serviceID,
+        'isNational': isNationalFlag
+      }).map(this.handleState_n_ServiceSuccess)
+      .catch(this.handleError);
+  }
+
+  getServices(userID) {
+    return this.httpIntercept.post(this.get_Service_Url_new, { 'userID': userID })
+      .map(this.handleState_n_ServiceSuccess)
+      .catch(this.handleError);
+  }
 
   getSeverity(providerServiceMapID) {
     return this.httpIntercept.post(this.get_State_Url, { 'providerServiceMapID': providerServiceMapID })
@@ -58,6 +81,18 @@ export class SeverityTypeService {
     } else {
       return Observable.throw(res.json());
     }
+  }
+
+  handleState_n_ServiceSuccess(response: Response) {
+
+    console.log(response.json().data, 'severity service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.statusID != 4) {
+        return item;
+      }
+    });
+    return result;
   }
 
   handleError(error: Response | any) {
