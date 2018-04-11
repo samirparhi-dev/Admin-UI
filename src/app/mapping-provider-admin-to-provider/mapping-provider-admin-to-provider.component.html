@@ -12,7 +12,7 @@
           <tr>
             <th width="15%">Provider Name</th>
             <th width="20%">Provider Admin Name</th>
-            <th width="12%">Service Line</th>
+            <th width="12%">Serviceline</th>
             <th width="15%">State </th>
             <th width="5%">Edit</th>
             <th width="10%">Action</th>
@@ -26,7 +26,7 @@
             <td>{{service.serviceProviderName}}</td>
             <td>{{service.firstName }}</td>
             <td>{{service.serviceName}}</td>
-            <td>{{service.stateName}}</td>
+            <td>{{service.stateName===undefined || null ?"all states":service.stateName}}</td>
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted"
                 (click)="editRow(service)">edit</md-icon>
@@ -89,7 +89,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getProviderStatesInService(service_provider,serviceline);setIsNational(serviceline.isNational)">
+          <md-select required name="Services" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getProviderStatesInService(service_provider_admin,service_provider,serviceline,serviceline.isNational);setIsNational(serviceline.isNational)">
             <md-option *ngFor="let item of services_array" [value]="item">
               {{item.serviceName}}
             </md-option>
@@ -100,7 +100,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="isNational" multiple [(ngModel)]="state">
-            <md-option *ngFor="let item of states_array" [value]="item">
+            <md-option *ngFor="let item of filteredStates" [value]="item">
               {{item.stateName}}
             </md-option>
           </md-select>
@@ -109,8 +109,9 @@
 
 
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 ">
-      <button md-mini-fab class="pull-right" *ngIf="!editMode && form.valid" color="primary" (click)="add2bufferArray(form.value)">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-10 ">
+      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" *ngIf="!editMode && form.valid" color="primary"
+        (click)="add2bufferArray(form.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -123,8 +124,8 @@
             <th width="5%">S.No.</th>
             <th width="30%">Provider Name</th>
             <th width="20%">Provider Admin Name</th>
-            <th width="20%">State</th>
-            <th width="40%">Serviceline</th>
+            <th width="20%">Serviceline </th>
+            <th width="40%">State</th>
             <th width="10%">Action</th>
           </tr>
         </thead>
@@ -133,12 +134,12 @@
             <td>{{(md2.activePage-1)*5+i+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.userName}}</td>
-            <td>{{item.stateName}}</td>
+            <td>{{item.serviceName }}</td>
             <td>
               <ul>
                 <li *ngFor="let obj of item.serviceProviderMapID1;let j=index ">
-                  {{obj.serviceName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.serviceName}}" (click)="removeService(i,j)">cancel</md-icon>
+                  {{obj.stateName}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeService(i,j)">cancel</md-icon>
                 </li>
               </ul>
             </td>
@@ -189,7 +190,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="serviceProvider" placeholder="Provider Name" [style.width]="'100%'" (change)="getProviderStates(edit_Details)"
+          <md-select required name="serviceProvider" placeholder="Provider Name" [style.width]="'100%'" (change)="getProviderServices_Edit(edit_Details.serviceProviderID)"
             [(ngModel)]="edit_Details.serviceProviderID">
             <md-option *ngFor="let item of service_provider_array" [value]="item.serviceProviderId">
               {{item.serviceProviderName}}
@@ -200,8 +201,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Serviceline" placeholder="ServiceLine" [style.width]="'100%'" [(ngModel)]="edit_Details.providerServiceMapID">
-            <md-option *ngFor="let item of filteredServiceLines" [value]="item.providerServiceMapID">
+          <md-select required name="Serviceline" placeholder="Serviceline" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID.isNational);setIsNational(edit_Details.serviceID.isNational);"
+            [style.width]="'100%'" [(ngModel)]="edit_Details.serviceID">
+            <md-option *ngFor="let item of services_array" [value]="item">
               {{item.serviceName}}
             </md-option>
           </md-select>
@@ -210,9 +212,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="states" placeholder="State" [style.width]="'100%'" (change)="getProviderServicesInState(edit_Details,edit_Details,edit_Details)"
-            [(ngModel)]="edit_Details.stateID">
-            <md-option *ngFor="let item of states_array" [value]="item.stateID">
+          <md-select required name="states" placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="edit_Details.stateID">
+            <md-option *ngFor="let item of filteredStates" [value]="item.stateID">
               {{item.stateName}}
             </md-option>
           </md-select>

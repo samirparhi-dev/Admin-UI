@@ -56,248 +56,251 @@
   </div>
 
 </div>
-
-<div class="row" *ngIf="formMode">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 *ngIf="!editMode">
-      <strong>Language Mapping </strong>
-    </h4>
-    <h4 *ngIf="editMode">
-      <strong>Edit Language Mapping</strong>
-    </h4>
-  </div>
-  <div class="m-t-10" id="Language">
-    <div class="row">
+<div class="row">
+  <div *ngIf="formMode">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 *ngIf="!editMode">
+        <strong>Language Mapping </strong>
+      </h4>
+      <h4 *ngIf="editMode">
+        <strong>Edit Language Mapping</strong>
+      </h4>
+    </div>
+    <div class="m-t-10" id="Language">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-        <form id="languagesForm" #form="ngForm" autocomplete=" off ">
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline" [style.width]="'100%'">
-              <input mdInput style="display:none">
-              <md-select [(ngModel)]="username" name="username" (change)="getAvailableLanguages(username);" placeholder="Select User Name "
-                [style.width]="
+        <div class="row">
+          <form id="languagesForm" #form="ngForm" autocomplete=" off ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <md-input-container class="hide_underline" [style.width]="'100%'">
+                <input mdInput style="display:none">
+                <md-select [(ngModel)]="username" name="username" (change)="getAvailableLanguages(username);" placeholder="Select User Name "
+                  [style.width]="
               '100%' " required>
-                <md-option *ngFor="let item of userNamesList " [value]="item ">{{item.userName}}</md-option>
-              </md-select>
-            </md-input-container>
-          </div>
+                  <md-option *ngFor="let item of userNamesList " [value]="item ">{{item.userName}}</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline" [style.width]="'100%'">
-              <input mdInput style="display:none">
-              <md-select [(ngModel)]="language" name="language" placeholder="Languages" [style.width]="'100%'" (change)="Language(language);"
-                required>
-                <md-option *ngFor="let item of filteredLanguages " [value]="item ">{{item.languageName}}</md-option>
-              </md-select>
-            </md-input-container>
-          </div>
-          <div class="col-xs-12 col-sm-12 ">
-            <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <md-input-container class="hide_underline" [style.width]="'100%'">
+                <input mdInput style="display:none">
+                <md-select [(ngModel)]="language" name="language" placeholder="Languages" [style.width]="'100%'" (change)="Language(language);"
+                  required>
+                  <md-option *ngFor="let item of filteredLanguages " [value]="item ">{{item.languageName}}</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+            <div class="col-xs-12 col-sm-12 ">
+              <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <label>{{lang?.languageName}}</label>
               </div> -->
-            <div class="row" *ngIf="showCheckboxes">
+              <div class="row" *ngIf="showCheckboxes">
 
+                <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-4 m-t-25 ">
+                      <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setRead($event)" #readCheckbox>Read</md-checkbox>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 ">
+                      <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select [(ngModel)]="readweightage" name="readweightage" (change)="readWeightage()" placeholder="Select Weightage" [style.width]=" '100%' ">
+                          <md-option *ngFor="let item of ReadWeightageList " [value]="item ">{{item.Name}}</md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-4 m-t-25">
+                      <md-checkbox color="primary" [checked]="isCheckedWrite" (change)="setWrite($event)" #writeCheckbox>Write</md-checkbox>
+                    </div>
+                    <div class="col-xs-12 col-sm-8">
+                      <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select [(ngModel)]="writeweightage" name="writeweightage" (change)="writeWeightage()" placeholder="Select Weightage"
+                          [style.width]=" '100%' ">
+                          <md-option *ngFor="let item of WriteWeightageList " [value]="item ">{{item.Name}}</md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-4 m-t-25">
+                      <md-checkbox color="primary" [checked]="isCheckedSpeak" (change)="setSpeak($event)" #speakCheckbox>Speak</md-checkbox>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 ">
+                      <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select [(ngModel)]="speakweightage" name="speakweightage" (change)="speakWeightage()" placeholder="Select Weightage"
+                          [style.width]=" '100%' ">
+                          <md-option *ngFor="let item of SpeakWeightageList " [value]="item ">{{item.Name}}</md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3">
+                  <button md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left" *ngIf="showCheckboxes && !addButtonState"
+                    (click)="addLanguage(form.value);this.form.reset()">
+                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                  </button>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
+              <div class="table-responsive">
+                <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>User Name</th>
+                      <th>Language Name</th>
+                      <th>Read Weightage</th>
+                      <th>Write Weightage</th>
+                      <th>Speak Weightage</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="cursor: pointer" *ngFor="let lang of md2.data; let i = index ">
+                      <td>{{(md2.activePage-1)*5+i+1}}</td>
+                      <td>{{lang.userName}}</td>
+                      <td>{{lang.languageName}}</td>
+                      <td>{{lang.weightage_Read}}</td>
+                      <td>{{lang.weightage_Write}}</td>
+                      <td>{{lang.weightage_Speak}}</td>
+                      <td>
+                        <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="7">
+                        <md2-pagination></md2-pagination>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 m-t-15">
+              <button name="backBtn" color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
+              <button name="langsaveBtn " [disabled]="!(bufferArray.length>0)" color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="editMode">
+    <div class="col-xs-12 col-sm-12">
+      <h4 *ngIf="!editMode">
+        <strong>Language Mapping</strong>
+      </h4>
+      <h4 *ngIf="editMode">
+        <strong>Edit Language Mapping</strong>
+      </h4>
+    </div>
+    <!-- <div class="" > -->
+    <div class="row m-t-50" id="Language">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form id="editlanguagesForm" #eform="ngForm" autocomplete=" off ">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select name="user_name" placeholder="Select User Name " [style.width]="
+              '100%' " [(ngModel)]="edit_Details.userID" [disabled]="disableUsername" (change)="getAvailableLanguages(edit_Details.userID);"
+                required>
+                <md-option *ngFor="let item of userNamesList" [value]="item.userID">{{item.userName}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select [(ngModel)]="edit_Details.languageID" name="language" placeholder="Select Language " [style.width]="
+              '100%' " (change)="editLanguage(edit_Details.languageID);" required>
+                <md-option *ngFor="let item of filteredLanguages " [value]="item.languageID">{{item.languageName}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 ">
+
+            <div class="row" *ngIf="showCheckboxes">
               <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <div class="row">
-                  <div class="col-xs-12 col-sm-4 m-t-25 ">
+                  <div class="col-xs-12 col-sm-4 m-t-25">
                     <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setRead($event)" #readCheckbox>Read</md-checkbox>
                   </div>
                   <div class="col-xs-12 col-sm-8 ">
                     <md-input-container class="hide_underline" [style.width]="'100%'">
                       <input mdInput style="display:none">
-                      <md-select [(ngModel)]="readweightage" name="readweightage" (change)="readWeightage()" placeholder="Select Weightage" [style.width]=" '100%' ">
-                        <md-option *ngFor="let item of ReadWeightageList " [value]="item ">{{item.Name}}</md-option>
+                      <md-select [(ngModel)]="edit_Details.weightageRead" (change)="readWeightage()" name="read_weightage" placeholder="Select Weightage"
+                        [style.width]=" '100%' ">
+                        <md-option *ngFor="let item of ReadWeightageList" [value]="item.value">{{item.Name}}</md-option>
                       </md-select>
                     </md-input-container>
                   </div>
-
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+              <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <div class="row">
                   <div class="col-xs-12 col-sm-4 m-t-25">
-                    <md-checkbox color="primary" [checked]="isCheckedWrite" (change)="setWrite($event)" #writeCheckbox>Write</md-checkbox>
+                    <md-checkbox color="primary" [checked]="isCheckedWrite" (change)="setWrite($event) " #writeCheckbox>Write</md-checkbox>
                   </div>
-                  <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12 col-sm-8 ">
                     <md-input-container class="hide_underline" [style.width]="'100%'">
                       <input mdInput style="display:none">
-                      <md-select [(ngModel)]="writeweightage" name="writeweightage" (change)="writeWeightage()" placeholder="Select Weightage"
+                      <md-select [(ngModel)]="edit_Details.weightageWrite" (change)="writeWeightage()" name="write_weightage" placeholder="Select Weightage"
                         [style.width]=" '100%' ">
-                        <md-option *ngFor="let item of WriteWeightageList " [value]="item ">{{item.Name}}</md-option>
+                        <md-option *ngFor="let item of WriteWeightageList" [value]="item.value">{{item.Name}}</md-option>
                       </md-select>
                     </md-input-container>
                   </div>
-
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+              <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <div class="row">
-                  <div class="col-xs-12 col-sm-4 m-t-25">
+                  <div class="col-xs-12 col-sm-4 m-t-25 ">
                     <md-checkbox color="primary" [checked]="isCheckedSpeak" (change)="setSpeak($event)" #speakCheckbox>Speak</md-checkbox>
                   </div>
                   <div class="col-xs-12 col-sm-8 ">
                     <md-input-container class="hide_underline" [style.width]="'100%'">
                       <input mdInput style="display:none">
-                      <md-select [(ngModel)]="speakweightage" name="speakweightage" (change)="speakWeightage()" placeholder="Select Weightage"
-                        [style.width]=" '100%' ">
-                        <md-option *ngFor="let item of SpeakWeightageList " [value]="item ">{{item.Name}}</md-option>
+                      <md-select [(ngModel)]="edit_Details.weightageSpeak" class="pull-left" (change)="speakWeightage()" name="speak_weightage"
+                        placeholder="Select Weightage" [style.width]=" '100%' ">
+                        <md-option *ngFor="let item of SpeakWeightageList" [value]="item.value">{{item.Name}}</md-option>
                       </md-select>
                     </md-input-container>
                   </div>
-
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-                <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="showCheckboxes && !addButtonState"
-                  class="pull-right" (click)="addLanguage(form.value);this.form.reset()">
-                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-                </button>
-
-              </div>
             </div>
-
-          </div>
-          <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
-            <div class="table-responsive">
-              <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
-                <thead>
-                  <tr>
-                    <th>S.No.</th>
-                    <th>User Name</th>
-                    <th>Language Name</th>
-                    <th>Read Weightage</th>
-                    <th>Write Weightage</th>
-                    <th>Speak Weightage</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr style="cursor: pointer" *ngFor="let lang of md2.data; let i = index ">
-                    <td>{{(md2.activePage-1)*5+i+1}}</td>
-                    <td>{{lang.userName}}</td>
-                    <td>{{lang.languageName}}</td>
-                    <td>{{lang.weightage_Read}}</td>
-                    <td>{{lang.weightage_Write}}</td>
-                    <td>{{lang.weightage_Speak}}</td>
-                    <td>
-                      <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
-                    </td>
-                  </tr>
-
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="7">
-                      <md2-pagination></md2-pagination>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+            <div *ngIf="showCheckboxes ">
+              <button name="langBtn " color="accent" md-raised-button class="pull-right" [disabled]="eform.invalid" (click)="updateLanguage(eform.value) ">Update</button>
+              <button name="backBtn " color="primary" md-raised-button class="pull-left" (click)="showTable() ">Back</button>
             </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 m-t-15">
-            <button name="backBtn" color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
-            <button name="langsaveBtn " [disabled]="!(bufferArray.length>0)" color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
-
           </div>
         </form>
       </div>
     </div>
+    <!-- </div> -->
   </div>
-
-</div>
-<div class="row" *ngIf="editMode">
-  <div class="col-xs-12 col-sm-12">
-    <h4 *ngIf="!editMode">
-      <strong>Language Mapping</strong>
-    </h4>
-    <h4 *ngIf="editMode">
-      <strong>Edit Language Mapping</strong>
-    </h4>
-  </div>
-  <!-- <div class="" > -->
-  <div class="row m-t-50" id="Language">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <form id="editlanguagesForm" #eform="ngForm" autocomplete=" off ">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-          <md-input-container class="hide_underline" [style.width]="'100%'">
-            <input mdInput style="display:none">
-            <md-select name="user_name" placeholder="Select User Name " [style.width]="
-              '100%' " [(ngModel)]="edit_Details.userID" [disabled]="disableUsername" (change)="getAvailableLanguages(edit_Details.userID);"
-              required>
-              <md-option *ngFor="let item of userNamesList" [value]="item.userID">{{item.userName}}</md-option>
-            </md-select>
-          </md-input-container>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-          <md-input-container class="hide_underline" [style.width]="'100%'">
-            <input mdInput style="display:none">
-            <md-select [(ngModel)]="edit_Details.languageID" name="language" placeholder="Select Language " [style.width]="
-              '100%' " (change)="editLanguage(edit_Details.languageID);" required>
-              <md-option *ngFor="let item of filteredLanguages " [value]="item.languageID">{{item.languageName}}</md-option>
-            </md-select>
-          </md-input-container>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 ">
-
-          <div class="row" *ngIf="showCheckboxes">
-            <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-              <div class="row">
-                <div class="col-xs-12 col-sm-4 m-t-25">
-                  <md-checkbox color="primary" [checked]="isCheckedRead" (change)="setRead($event)" #readCheckbox>Read</md-checkbox>
-                </div>
-                <div class="col-xs-12 col-sm-8 ">
-                  <md-input-container class="hide_underline" [style.width]="'100%'">
-                    <input mdInput style="display:none">
-                    <md-select [(ngModel)]="edit_Details.weightageRead" (change)="readWeightage()" name="read_weightage" placeholder="Select Weightage"
-                      [style.width]=" '100%' ">
-                      <md-option *ngFor="let item of ReadWeightageList" [value]="item.value">{{item.Name}}</md-option>
-                    </md-select>
-                  </md-input-container>
-                </div>
-              </div>
-            </div>
-            <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-              <div class="row">
-                <div class="col-xs-12 col-sm-4 m-t-25">
-                  <md-checkbox color="primary" [checked]="isCheckedWrite" (change)="setWrite($event) " #writeCheckbox>Write</md-checkbox>
-                </div>
-                <div class="col-xs-12 col-sm-8 ">
-                  <md-input-container class="hide_underline" [style.width]="'100%'">
-                    <input mdInput style="display:none">
-                    <md-select [(ngModel)]="edit_Details.weightageWrite" (change)="writeWeightage()" name="write_weightage" placeholder="Select Weightage"
-                      [style.width]=" '100%' ">
-                      <md-option *ngFor="let item of WriteWeightageList" [value]="item.value">{{item.Name}}</md-option>
-                    </md-select>
-                  </md-input-container>
-                </div>
-              </div>
-            </div>
-            <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-              <div class="row">
-                <div class="col-xs-12 col-sm-4 m-t-25 ">
-                  <md-checkbox color="primary" [checked]="isCheckedSpeak" (change)="setSpeak($event)" #speakCheckbox>Speak</md-checkbox>
-                </div>
-                <div class="col-xs-12 col-sm-8 ">
-                  <md-input-container class="hide_underline" [style.width]="'100%'">
-                    <input mdInput style="display:none">
-                    <md-select [(ngModel)]="edit_Details.weightageSpeak" class="pull-left" (change)="speakWeightage()" name="speak_weightage"
-                      placeholder="Select Weightage" [style.width]=" '100%' ">
-                      <md-option *ngFor="let item of SpeakWeightageList" [value]="item.value">{{item.Name}}</md-option>
-                    </md-select>
-                  </md-input-container>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="showCheckboxes ">
-            <button name="langBtn " color="accent" md-raised-button class="pull-right" [disabled]="eform.invalid" (click)="updateLanguage(eform.value) ">Update</button>
-            <button name="backBtn " color="primary" md-raised-button class="pull-left" (click)="showTable() ">Back</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- </div> -->
 </div>
