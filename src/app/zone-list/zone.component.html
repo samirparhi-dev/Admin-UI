@@ -89,7 +89,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
-            <md-select required placeholder="Service Line" class="width100" [(ngModel)]="serviceID" name="serviceID" #serviceVal="ngModel">
+            <md-select required placeholder="Serviceline" class="width100" [(ngModel)]="serviceID" name="serviceID" #serviceVal="ngModel">
               <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}-{{item.providerServiceMapID}}">
                 {{item.serviceName}}
               </md-option>
@@ -160,9 +160,9 @@
             </md-hint>
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
           <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !zoneN.valid || zoneNameExist || !zoneAddress.valid || !stateVal.valid || !serviceVal.valid || !districtV.valid"
-            (click)="addZoneToList(zoneForm.value);zoneForm.reset()" class="xs-pull-right sm-pull-right md-pull-left">
+            (click)="addZoneToList(zoneForm.value);zoneForm.reset()" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
@@ -213,7 +213,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-        <button *ngIf="zoneList.length>0" md-raised-button color="accent" class="pull-right" (click)="storezone()">Save</button>
+        <button [disabled]="!(zoneList.length >0)" *ngIf="!editable" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezone()">Save</button>
         <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateZoneData(zoneForm.value);zoneForm.reset()  ">Update
 
           <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> -->
