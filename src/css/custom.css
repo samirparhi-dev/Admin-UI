@@ -2240,6 +2240,9 @@ center;
   .p-l-lg-0 {
     padding-left: 0px;
   }
+  .m-t-lg-0 {
+    margin-top: 0px;
+  }  
   .m-t-lg-10 {
     margin-top: 10px;
   }
@@ -2295,6 +2298,13 @@ center;
   .m-t-md-0{
 margin-top: 0px ;
   }
+  .m-t-md-5{
+    margin-top: 5px ;
+      }
+
+      .m-t-md-10{
+        margin-top: 10px ;
+          }
   .md-pull-left{
    float: left;
   }
@@ -2306,6 +2316,9 @@ margin-top: 0px ;
 @media (min-width: 1200px) {
   .p-l-lg-0 {
     padding-left: 0px;
+  }
+  .m-t-lg-5 {
+    margin-top: 5px;
   }
   .m-t-lg-10 {
     margin-top: 10px;

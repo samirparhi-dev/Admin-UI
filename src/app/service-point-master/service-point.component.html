@@ -177,7 +177,7 @@
                     </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                    <button md-mini-fab color="primary" *ngIf="!editable && servicePointN.valid && !servicePointNameExist && servicePointAddress.valid && stateVal.valid && districtV.valid && parkingPID.valid"
+                    <button md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-left lg-pull-left" *ngIf="!editable && servicePointN.valid && !servicePointNameExist && servicePointAddress.valid && stateVal.valid && districtV.valid && parkingPID.valid"
                         (click)="addServicePointToList(servicePointForm.value);servicePointForm.reset()  ">
                         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                     </button>

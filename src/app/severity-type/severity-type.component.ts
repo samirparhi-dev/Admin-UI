@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
 import { SeverityTypeService } from '../services/ProviderAdminServices/severity-type-service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-severity-type',
