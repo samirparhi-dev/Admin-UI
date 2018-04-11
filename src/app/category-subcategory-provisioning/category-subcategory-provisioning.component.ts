@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategorySubcategoryService } from '../services/ProviderAdminServices/category-subcategory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { EditCategorySubcategoryComponent } from './edit-category-subcategory/edit-category-subcategory.component';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-category-subcategory-provisioning',
   templateUrl: './category-subcategory-provisioning.component.html',
@@ -53,7 +54,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   categoryExist: boolean = false;
   subCategoryExist: boolean = false;
 
-
+@ViewChild('form') form: NgForm
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
@@ -175,6 +176,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     } else {
       this.addExistCategoryRow();
     }
+    this.form.resetForm();
 
   }
 
@@ -305,8 +307,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       "subcategories": this.subCat
     }
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
-      height: '450px',
-      width: '450px',
+      height: '350px',
+      width: '500px',
       disableClose: true,
       data: object
 
@@ -340,6 +342,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
 
     const dialogReff = this.dialog.open(EditCategorySubcategoryComponent, {
+      height: '400px',
       width: '500px',
       disableClose: true,
       data: object
@@ -552,20 +555,25 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         }) === index)
   }
 
-  checkCategory(categoryName: string) {
+  checkCategory(event) {
+    let categoryName = event.target.value;
     let categoriesExist;
-    if (categoryName) {
+    if (categoryName && categoryName!= "") {
+    console.log(categoryName, 'categoryName here');
       console.log("categories", this.categories);
       
       categoriesExist = this.categories.filter(function (item) {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });
     }
+    console.log("category",this.categoryExist, 'ca5tegories', categoriesExist);
+    
     if (categoriesExist != undefined && categoriesExist.length > 0) {
       this.categoryExist = true;
     }
     else if (categoryName.trim().length == 0) {
-      this.categoryExist = true;
+      this.categoryExist = false;
+      
     }
     else {
       this.categoryExist = false;

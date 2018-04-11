@@ -85,8 +85,8 @@
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3">
-          <button *ngIf="!editable" md-mini-fab color="primary" [disabled]=" !drugN.valid || drugNameExist || !drugD.valid " class="xs-pull-right sm-pull-right md-pull-right"
+        <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3" *ngIf="drugN.valid && drugD.valid ">
+          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left"
             (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
@@ -130,9 +130,9 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button *ngIf="drugList.length>0" md-raised-button color="accent" class="pull-right" (click)="storedrug()">Save</button>
+      <button [disabled]="drugList.length == 0" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storedrug()">Save</button>
       <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateDrugData(drugForm.value);drugForm.reset()">Update</button>
     </div>
   </div>

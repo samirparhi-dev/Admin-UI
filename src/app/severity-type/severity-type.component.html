@@ -19,7 +19,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Service Line" disabled={{!firstPage}} class="width100" [(ngModel)]="service" name="service" #servicess
+        <md-select placeholder="Serviceline" disabled={{!firstPage}} class="width100" [(ngModel)]="service" name="service" #servicess
           required>
           <md-option *ngFor="let ser of services" value="{{ser}}" (click)="findSeverity(ser)">
             {{ser.serviceName}}
@@ -95,7 +95,7 @@
           <input mdInput placeholder="Description" name="description" [(ngModel)]="description" minlength="2" maxlength="50">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3" *ngIf="severityAdding.valid && !alreadyExist">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="severityAdding.valid && !alreadyExist">
         <button md-mini-fab color="primary" (click)="add(severityAdding.value)" class="xs-pull-right sm-pull-right md-pull-left">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
@@ -159,9 +159,9 @@
     </div>
   </div> -->
 <div class="row" *ngIf="!firstPage">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button *ngIf="severityArray.length>0" md-raised-button color="accent" class="pull-right" (click)="finalSubmit()">Save</button>
+    <button [disabled]="severityArray.length == 0" md-raised-button color="accent" class="pull-right" (click)="finalSubmit()">Save</button>
   </div>
 </div>
 <!-- </md-card> -->

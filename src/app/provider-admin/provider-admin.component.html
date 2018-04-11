@@ -81,9 +81,20 @@
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Master</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
-                                        <li style="cursor: pointer" (click)='show("7")'>
+                                        <!-- <li style="cursor: pointer" (click)='show("7")'>
                                             <a>Zone Master</a>
-                                        </li>
+                                        </li> -->
+                                        <li class="dropdown-submenu">
+                                                <a tabindex="-3">Zone Master</a>
+                                                <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                                        <li style="cursor: pointer" (click)='show("36")'>
+                                                            <a>Zone List</a>
+                                                        </li>
+                                                        <li style="cursor: pointer" (click)='show("37")'>
+                                                            <a>Zone District Mapping</a>
+                                                        </li>                                                                                                
+                                                    </ul>
+                                                </li> 
                                         <li style="cursor: pointer" (click)='show("8")'>
                                             <a>Parking Place Master</a>
                                         </li>
@@ -189,6 +200,8 @@
                             <app-drug-group *ngSwitchCase="33"></app-drug-group>
                             <app-drug-list *ngSwitchCase="34"></app-drug-list>
                             <app-drug-mapping *ngSwitchCase="35"></app-drug-mapping>
+                            <app-zone *ngSwitchCase="36"></app-zone>
+                            <app-zone-district-mapping *ngSwitchCase="37"></app-zone-district-mapping>
                         </div>
                     </div>
                 </div>

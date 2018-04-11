@@ -454,7 +454,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceSuccessHandeler(response) {
     console.log('b u service success handeler', response);
-    this.message.alert('Successfully updated');
+    this.message.alert('Updated successfully');
     // if (response[0].updatedStatusID == 2) {
     //   this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
     // }
@@ -487,7 +487,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   block_unblock_serviceOfStateSuccessHandeler(response) {
     console.log('b u service of state success handeler', response);
-    this.message.alert('Successfully updated');
+    this.message.alert('Updated successfully');
     // if (response.updatedStatusID == 2) {
     //   this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
     // }
