@@ -3,7 +3,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Institution Master</h4>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+  <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
       <md-select placeholder="State" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state);getDistrict(state)">
@@ -16,9 +16,30 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="Service Line" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
+      <md-select placeholder="Serviceline" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
         <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
           {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+  </div> -->
+  
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <md-input-container class="hide_underline" [style.width]="'100%'">
+      <input mdInput style="display:none">
+      <md-select placeholder="Service Line" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service" >
+        <md-option *ngFor="let item of services" [value]="item.serviceID" (click)="getStates(item.serviceID,item.isNational)" >
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <md-input-container class="hide_underline" [style.width]="'100%'">
+      <input mdInput style="display:none">
+      <md-select placeholder="State" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getDistrict(state)">
+        <md-option *ngFor="let item of states" [value]="item.stateID" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+          {{item.stateName}}
         </md-option>
       </md-select>
     </md-input-container>
@@ -29,7 +50,7 @@
       <input mdInput style="display:none">
       <md-select placeholder="District" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district"
         (change)="getTaluk(district)">
-        <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+        <md-option *ngFor="let item of districts" [value]="item.districtID">
           {{item.districtName}}
         </md-option>
       </md-select>
@@ -39,7 +60,7 @@
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
       <md-select placeholder="Taluk" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
-        <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
+        <md-option *ngFor="let item of taluks" [value]="item.blockID">
           {{item.blockName}}
         </md-option>
       </md-select>
@@ -59,7 +80,7 @@
           <th>Website</th>
           <th>Contact Person</th>
           <th>Contact Number</th>
-          <th>EmailID</th>
+          <th>Email ID</th>
           <th>Edit</th>
           <th>Action</th>
         </tr>
@@ -169,7 +190,7 @@
   </form>
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container style="width: 100%">
-      <input mdInput type="email" placeholder="Secondary EmailID" [(ngModel)]="secondary_emailID" [disabled]="!institutionForm2.valid"
+      <input mdInput type="email" placeholder="Secondary Email ID" [(ngModel)]="secondary_emailID" [disabled]="!institutionForm2.valid"
         name="secondary_emailID" [pattern]="email_expression" #validEmail1="ngModel">
       <!-- <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Enter valid EmailID
           </md-hint> -->
@@ -195,7 +216,7 @@
 
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container style="width: 100%">
-      <input mdInput type="email" placeholder="Tertiary EmailID" [(ngModel)]="tertiary_emailID" [disabled]="!form2.valid" name="tertiary_emailID"
+      <input mdInput type="email" placeholder="Tertiary Email ID" [(ngModel)]="tertiary_emailID" [disabled]="!form2.valid" name="tertiary_emailID"
         [pattern]="email_expression" #validEmail2="ngModel">
       <!-- <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Enter valid EmailID
           </md-hint> -->

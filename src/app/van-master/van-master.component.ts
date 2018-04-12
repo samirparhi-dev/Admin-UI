@@ -273,6 +273,7 @@ export class VanComponent implements OnInit {
         this.showVans = true;
         this.editable = false;
         this.vanObj = [];
+        this.vanList = [];
     }
 
     vanNameExist: any = false;

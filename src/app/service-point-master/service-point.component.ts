@@ -265,6 +265,7 @@ export class ServicePointComponent implements OnInit {
         this.getServicePoints(null, null, null);
         this.showServicePoints = true;
         this.servicePointObj = [];
+        this.servicePointList = [];
     }
 
     servicePointNameExist: any = false;

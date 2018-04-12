@@ -220,6 +220,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		/*resetting fields after entering in buffer array/or if duplicate exist*/
 		this.institute_subdirectory = "";
 		this.description = "";
+		this.addInstitutueSubDirForm.resetForm();
 
 	}
 
@@ -289,7 +290,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute subdirectory edited successfully!");
+				this.alertService.alert("Institute subdirectory edited successfully");
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 

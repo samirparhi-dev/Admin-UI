@@ -32,8 +32,8 @@ export class InstituteTypeMasterService {
 		private httpIntercept: InterceptedHttp) {
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 
-		this.get_State_Url = this.admin_Base_Url + 'm/role/state';
-		this.get_Service_Url = this.admin_Base_Url + 'm/role/service';
+		this.get_State_Url = this.admin_Base_Url + 'm/role/stateNew';
+		this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
 
 		this.get_InstituteType_Url = this.admin_Base_Url + 'm/getInstituteType';
 		this.save_InstituteType_Url = this.admin_Base_Url + 'm/createInstituteType';
@@ -42,19 +42,23 @@ export class InstituteTypeMasterService {
 
 	};
 
-	getStates(serviceProviderID) {
-		return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
+	getServices(userID) {
+    return this.http.post(this.get_Service_Url, { 'userID': userID })
+    .map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
+		
+	getStates(userID, serviceID, isNationalFlag) {
+		return this.http.post(this.get_State_Url, {
+        'userID': userID,
+        'serviceID': serviceID,
+        'isNational': isNationalFlag
+      })
 			.map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}
 
-	getServices(serviceProviderID, stateID) {
-		return this.http.post(this.get_Service_Url, {
-			'serviceProviderID': serviceProviderID,
-			'stateID': stateID
-		}).map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
-	}
+	
 
 	getInstituteType(providerServiceMapID) {
 		return this.http.post(this.get_InstituteType_Url, { 'providerServiceMapID': providerServiceMapID })

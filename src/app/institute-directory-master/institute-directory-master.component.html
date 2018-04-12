@@ -25,7 +25,6 @@
           </md-select>
         </md-input-container>
       </div>
-
     </form>
     <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15" *ngIf="showTableFlag">
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
@@ -47,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="searchResultArray.length == 0"class="record-not-found">
+            <tr *ngIf="searchResultArray.length == 0" class="record-not-found">
                 <td colspan="5" align="center">No records found</td>
             </tr>
             <tr *ngFor="let item of md2.data; let i=index">
@@ -59,7 +58,7 @@
                   (click)="openEditModal(item)">edit</md-icon>
               </td>
               <td>
-                <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirectoryID,false)">Activate</button>
+                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteDirectoryID,false)">Activate</button>
                 <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirectoryID,true)">Deactivate</button>
               </td>
             </tr>

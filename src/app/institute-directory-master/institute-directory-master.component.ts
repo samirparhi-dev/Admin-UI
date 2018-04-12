@@ -201,8 +201,9 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		}
 
 		/*resetting fields after entering in buffer array/or if duplicate exist*/
-		this.instituteDirectory="";
-		this.description="";
+		// this.instituteDirectory="";
+		// this.description="";
+		this.instituteDir.resetForm();
 
 	}
 
@@ -221,7 +222,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log("response",response);
 		if(response)
 		{
-			this.alertService.alert("Institute directory saved successfully!");				
+			this.alertService.alert("Institute directory saved successfully");				
 			this.instituteDir.resetForm();			
 			this.showFormFlag = false;
 			this.bufferArray = [];
@@ -269,7 +270,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		console.log(response,"delete Response");
 		if(response)
 		{
-			this.alertService.alert(action+" successfully!")
+			this.alertService.alert(action+" successfully")
 			this.search();
 		}
 	}

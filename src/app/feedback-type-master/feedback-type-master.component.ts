@@ -12,7 +12,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-type-master.component.css']
 })
 export class FeedbackTypeMasterComponent implements OnInit {
-
+  userID: any;
   previous_state_id: any;
   previous_service_id: any;
   feedbackDesc: any;
@@ -32,25 +32,45 @@ export class FeedbackTypeMasterComponent implements OnInit {
   @ViewChild('searchFTForm') searchFTForm: NgForm;
   @ViewChild('addForm') addForm: NgForm;
   feedbackExists: boolean = false;
+  isNational = false;
   searchFeedbackArray = [];
   msg = "Feedback Name already exists";
 
-  constructor(private commonData: dataService, private FeedbackTypeService: FeedbackTypeService, private alertService: ConfirmationDialogsService, public dialog: MdDialog) { }
+  constructor(private commonData: dataService,
+    private FeedbackTypeService: FeedbackTypeService,
+    private alertService: ConfirmationDialogsService,
+    public dialog: MdDialog) { }
 
   ngOnInit() {
     this.serviceProviderID = this.commonData.service_providerID;
-    this.FeedbackTypeService.getStates(this.serviceProviderID)
+    this.userID = this.commonData.uid;
+    this.getServiceLinesfromSearch(this.userID);
+
+  }
+
+  setIsNational(value) {
+    this.isNational = value;
+  }
+
+  getStates(serviceID, isNational) {
+    this.FeedbackTypeService.getStates(this.userID, serviceID, isNational)
       .subscribe((response) => {
         console.log("states", response);
+        this.search_state = "";
         this.states = response;
+        this.feedbackTypes = [];
+
+        if (isNational) {
+          this.findFeedbackTypes(this.states[0].providerServiceMapID);
+        }
       })
   }
 
-  getServiceLinesfromSearch(state) {
-    this.FeedbackTypeService.getServiceLines(this.serviceProviderID, state)
+  getServiceLinesfromSearch(userID) {
+    this.FeedbackTypeService.getServiceLines(userID)
       .subscribe((response) => {
         console.log("services", response);
-        this.search_serviceline = "";
+        // this.search_serviceline = "";
         this.servicelines = response;
       })
   }
@@ -114,9 +134,9 @@ export class FeedbackTypeMasterComponent implements OnInit {
             this.alertService.alert(this.confirmMessage + "d successfully");
             this.findFeedbackTypes(this.providerServiceMapID);
           },
-            (err) => {
-              console.log(err);
-            })
+          (err) => {
+            console.log(err);
+          })
       }
     },
       (err) => {
@@ -244,8 +264,8 @@ export class FeedbackTypeMasterComponent implements OnInit {
       }
     }
 
-    // this.feedbackDesc = undefined;
-    // this.feedbackName = undefined;
+    this.feedbackDesc = undefined;
+    this.feedbackName = undefined;
 
     // this.validateFeedback(name);
   }
@@ -271,7 +291,7 @@ export class EditFeedbackModal {
 
   service: any;
 
-  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public FeedbackTypeService: FeedbackTypeService,
     public dialog_Ref: MdDialogRef<EditFeedbackModal>,
     private alertService: ConfirmationDialogsService) { }

@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
-import { SeverityTypeService } from "../services/ProviderAdminServices/severity-type-service";
+import { SeverityTypeService } from '../services/ProviderAdminServices/severity-type-service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-severity-type',
@@ -13,99 +14,147 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 })
 export class SeverityTypeComponent implements OnInit {
 
-  states: any= [];
+  states: any = [];
   stateId: any;
   serviceProviderID: any;
   service: any;
-  services: any =[];
+  services: any = [];
   firstPage: boolean = true;
   description: any;
   severity: any;
   data: any = [];
   searchArray: any = [];
-  search:boolean = false;
+  search: boolean = false;
   alreadyExist: boolean = false;
   providerServiceMapID: any;
   showTable: boolean = false;
-  constructor(public ProviderAdminRoleService: ProviderAdminRoleService, public commonDataService: dataService,
-    public severityTypeService: SeverityTypeService, public dialog: MdDialog, private alertService: ConfirmationDialogsService) { }
+
+  userID: any;
+  isNational: any;
+  providerServiceMapID_1097: any;
+  severityArray: any = [];
+  createdBy: any;
+
+
+
+  constructor(
+    public commonDataService: dataService,
+    public severityTypeService: SeverityTypeService,
+    public dialog: MdDialog,
+    private alertService: ConfirmationDialogsService) { }
 
   ngOnInit() {
-  	this.serviceProviderID =(this.commonDataService.service_providerID).toString();
-  	this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response=>this.states=this.successhandler(response));
+    this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+    this.userID = this.commonDataService.uid;
+    this.createdBy = this.commonDataService.uname;
+
+    this.getProviderServices();
   }
-  successhandler(response) {
-  	return response;
+
+
+  getProviderServices() {
+    this.severityTypeService.getServices(this.userID).subscribe(response => {
+      console.log('success while getting services', response);
+      this.services = response;
+    }, err => {
+      console.log('err while getting services', err);
+    })
   }
-  getServices(state) {
-    this.search = false;
-    this.service="";
-  	this.ProviderAdminRoleService.getServices(this.serviceProviderID, state).subscribe(response => this.servicesSuccesshandeler(response));
-  }
-  servicesSuccesshandeler(response) {
-  	console.log(response);
-  	this.services = response.filter(function(obj){
-  		// return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
-      return obj.serviceName == 104 || obj.serviceName == 1097
-  	});
-  }
-  findSeverity(serObj) {
-    console.log(serObj);
-    this.data=[];
-    this.providerServiceMapID = serObj.providerServiceMapID;
-     this.search = true;
-    this.severityTypeService.getSeverity(serObj.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+
+  getProviderStates(serviceID, isNational) {
+    this.severityTypeService.getStates(this.userID, serviceID, isNational).subscribe(response => {
+      console.log('success while getting states', response);
+      this.states = response;
+      this.setIsNational(isNational);
+    }, err => {
+      console.log('err while getting states', err);
+    })
+
 
   }
+
+  // getServices(state) {
+  //   this.search = false;
+  //   this.service = "";
+  //   this.ProviderAdminRoleService.getServices(this.serviceProviderID, state)
+  // .subscribe(response => this.servicesSuccesshandeler(response));
+  // }
+
+  setIsNational(value) {
+    this.isNational = value;
+
+    if (value) {
+      this.providerServiceMapID_1097 = this.states[0].providerServiceMapID;
+      this.findSeverity(this.providerServiceMapID_1097);
+    }
+  }
+
+  // servicesSuccesshandeler(response) {
+  //   console.log(response);
+  //   this.services = response.filter(function (obj) {
+  //     // return obj.serviceName == 104 || obj.serviceName == 1097 || obj.serviceName == "MCTS"
+  //     return obj.serviceName == 104 || obj.serviceName == 1097
+  //   });
+  // }
+
+  findSeverity(psmID) {
+    console.log(psmID);
+    this.data = [];
+    this.providerServiceMapID = psmID;
+    this.search = true;
+    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
+
+  }
+
   getSeveritysuccesshandler(response) {
-        this.data = response
+    this.data = response;
   }
+
   showAddScreen() {
-  	this.handlingFlag(false);
+    this.handlingFlag(false);
   }
+
   addSeverity(severity) {
     this.alreadyExist = false;
     this.searchArray = this.data.concat(this.severityArray);
-    console.log("searchArray",this.searchArray);
+    console.log("searchArray", this.searchArray);
     let count = 0;
-    for (var i=0; i<this.searchArray.length; i++) {
-          if (this.searchArray[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
-              count++;
-          }
+    for (var i = 0; i < this.searchArray.length; i++) {
+      if (this.searchArray[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
+        count++;
+      }
     }
-    if(count>0){
+    if (count > 0) {
       this.alreadyExist = true;
     }
 
   }
-  severityArray: any =[];
-  add(values) {   
-      let obj = {
-        "severityTypeName" : values.severity,
-        "severityDesc" : values.description,
-        "providerServiceMapID" : this.providerServiceMapID,
-        "createdBy" : "Admin"
-      }
-  this.severityArray.push(obj);
-  this.severity="";
-  this.description="";
+  add(values) {
+    let obj = {
+      'severityTypeName': values.severity,
+      'severityDesc': values.description,
+      'providerServiceMapID': this.providerServiceMapID,
+      'createdBy': this.createdBy
+    }
+    this.severityArray.push(obj);
+    this.severity = "";
+    this.description = "";
 
-  this.addSeverity(values.severity);
-  this.alreadyExist=false;
+    this.addSeverity(values.severity);
+    this.alreadyExist = false;
   }
   handlingFlag(flag) {
-  	this.firstPage = flag;
+    this.firstPage = flag;
 
-    if(flag)
-    {
-      this.severity="";
-      this.description="";
-      this.severityArray=[];
+    if (flag) {
+      this.severity = "";
+      this.description = "";
+      this.severityArray = [];
     }
   }
   back() {
     this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if(res) {
+      if (res) {
         this.handlingFlag(true);
       }
     })
@@ -114,74 +163,74 @@ export class SeverityTypeComponent implements OnInit {
     this.severityArray.splice(i, 1);
   }
   finalSubmit() {
-        this.severityTypeService.addSeverity(this.severityArray).subscribe(response=>this.createdSuccessHandler(response));
+    this.severityTypeService.addSeverity(this.severityArray).subscribe(response => this.createdSuccessHandler(response));
   }
-  createdSuccessHandler(res){
+  createdSuccessHandler(res) {
     // alert("severity added successfully");
-    this.alertService.alert("Severity saved successfully");
+    this.alertService.alert('Severity saved successfully');
     this.handlingFlag(true);
-    this.findSeverity(res[0]);
-    this.severityArray= [];
+    this.findSeverity(this.providerServiceMapID);
+    this.severityArray = [];
     this.severity = "";
     this.description = "";
 
   }
   //severityID
   confirmMessage: any;
-  deleteSeverity(id,flag) {
+  deleteSeverity(id, flag) {
 
     let obj = {
       "severityID": id,
       "deleted": flag
     }
- 
-      
-      if (flag) {
-        this.confirmMessage = 'Deactivate';
-      } else {
-        this.confirmMessage = 'Activate';
-      }
 
-       this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res)=>{
-         if(res){
-           this.severityTypeService.deleteSeverity(obj).subscribe(response=>this.deleteSuccessHandler(response));
-         }
-       },
-       (err)=>{
-         console.log(err);
-       })
+
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
+    }
+
+    this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+      if (res) {
+        this.severityTypeService.deleteSeverity(obj).subscribe(response => this.deleteSuccessHandler(response));
+      }
+    },
+      (err) => {
+        console.log(err);
+      })
   }
   deleteSuccessHandler(res) {
     // alert("deleted successfully");
-        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
 
-        this.alertService.alert(this.confirmMessage+"d successfully");
+    this.alertService.alert(this.confirmMessage + "d successfully");
   }
   editSeverity(obj) {
-              let dialogReff = this.dialog.open(EditSeverityModalComponent, {
-              width: '500px',
-              disableClose: true,
-              data: {
-              "severityObj":  obj,
-              "searchArray": this.data
-              }
-            });
-      //     dialogReff.afterClosed().subscribe(()=>{
-      //     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
-      // });
+    let dialogReff = this.dialog.open(EditSeverityModalComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        "severityObj": obj,
+        "searchArray": this.data
+      }
+    });
+    //     dialogReff.afterClosed().subscribe(()=>{
+    //     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+    // });
 
-      dialogReff.afterClosed().subscribe(result => {
+    dialogReff.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
         this.alertService.alert("Severity edited successfully");
-        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response=>this.getSeveritysuccesshandler(response));
+        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
       }
 
     });
   }
   clear() {
-    this.data=[];
-    this.services=[];
+    this.data = [];
+    this.services = [];
     this.search = false;
   }
 }
@@ -199,39 +248,39 @@ export class EditSeverityModalComponent {
   alreadyExist = false;
   searchArray = [];
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
-    public dialog: MdDialog,public severityTypeService: SeverityTypeService,
+    public dialog: MdDialog, public severityTypeService: SeverityTypeService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
-    ) { }
+  ) { }
   ngOnInit() {
-     this.originalSeverity = this.data.severityObj.severityTypeName;
-     this.severity = this.data.severityObj.severityTypeName;
-     this.description = this.data.severityObj.severityDesc;
-     this.searchArray = this.data.searchArray;
+    this.originalSeverity = this.data.severityObj.severityTypeName;
+    this.severity = this.data.severityObj.severityTypeName;
+    this.description = this.data.severityObj.severityDesc;
+    this.searchArray = this.data.searchArray;
   }
   modify(value) {
     let object = {
-      "severityID" :this.data.severityObj.severityID,
-      "severityTypeName" : value.severity,
-      "severityDesc" : value.description
-    } 
-    this.severityTypeService.modifySeverity(object).subscribe(response=>this.modifiedSuccessHandler(response));
+      "severityID": this.data.severityObj.severityID,
+      "severityTypeName": value.severity,
+      "severityDesc": value.description
+    }
+    this.severityTypeService.modifySeverity(object).subscribe(response => this.modifiedSuccessHandler(response));
   }
-  addSeverity(value){
-      this.alreadyExist = false;
-      console.log("searchArray",this.searchArray);
-      let count = 0;
-      for (var i=0; i<this.searchArray.length; i++) {
-            if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase()!=this.originalSeverity.toLowerCase()) {
-                count++;
-            }
+  addSeverity(value) {
+    this.alreadyExist = false;
+    console.log("searchArray", this.searchArray);
+    let count = 0;
+    for (var i = 0; i < this.searchArray.length; i++) {
+      if (this.searchArray[i].severityTypeName.toLowerCase() == value.toLowerCase() && value.toLowerCase() != this.originalSeverity.toLowerCase()) {
+        count++;
       }
-      if(count>0){
-        this.alreadyExist = true;
-      }
+    }
+    if (count > 0) {
+      this.alreadyExist = true;
+    }
   }
-  modifiedSuccessHandler(res){
+  modifiedSuccessHandler(res) {
 
     this.dialogReff.close('success');
-        
+
   }
 }

@@ -50,7 +50,7 @@
           <thead>
             <tr>
               <th width="5%">S.No.</th>
-              <th width="40%">Institute Subdirectory</th>
+              <th width="40%">Institute Sub Directory</th>
               <th width="40%">Description</th>
               <th width="10%">Edit</th>
               <th width="15%">Action</th>
@@ -69,7 +69,7 @@
                   (click)="openEditModal(item)">edit</md-icon>
               </td>
               <td>
-                <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,false)">Activate</button>
+                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteSubDirectoryID,false)">Activate</button>
                 <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,true)">Deactivate</button>
               </td>
             </tr>
@@ -80,7 +80,7 @@
                 <md2-pagination></md2-pagination>
               </td>
               <td colspan="3" class="p-r-0">
-                <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Institute Subdirectory</button>
+                <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Institute Sub Directory</button>
               </td>
             </tr>
           </tfoot>
@@ -94,7 +94,7 @@
     <form #addInstitutueSubDirForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Institute Subdirectory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="2"
+          <input mdInput placeholder="Institute Sub Directory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="2"
             maxlength="50" required #instituteSubDir="ngModel">
         </md-input-container>
       </div>
@@ -115,7 +115,7 @@
           <thead>
             <tr>
               <th>S.No.</th>
-              <th>Institute Subdirectory</th>
+              <th>Institute Sub Directory</th>
               <th>Description</th>
               <th>Action</th>
             </tr>
