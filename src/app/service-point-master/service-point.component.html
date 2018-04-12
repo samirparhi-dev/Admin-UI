@@ -44,7 +44,7 @@
     <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
         <h4>Available Service Points</h4>
         <div class="table-responsive m-t-15">
-            <table [md2Data]="availableServicePoints" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+            <table [md2Data]="availableServicePoints" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
                 <thead>
                     <tr>
                         <th>S.No.</th>
@@ -186,7 +186,7 @@
             </div>
         </form>
         <div class="table-responsive  m-t-15" *ngIf="servicePointList.length>0">
-            <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+            <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
                 <thead>
                     <tr>
                         <th>S.No.</th>

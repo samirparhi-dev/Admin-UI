@@ -29,7 +29,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   Add_Category_Subcategory_flag: boolean;
   showCategoryTable: boolean = true;
   showTable: boolean;
-  searchChoice: number = 0;
+  searchChoice: any;
   states: any = [];
   serviceLines: any = [];
   subServices: any = [];
@@ -58,6 +58,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
+    this.searchChoice = '0';
     this.Add_Category_Subcategory_flag = true;
     this.showTable = true;
     this.serviceproviderID = this.commonDataService.service_providerID;
@@ -79,6 +80,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   getServices(stateID: any) {
+    this.service = undefined;
     this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
       .subscribe((response) => {
         this.serviceLines = response.filter(function (item) {
@@ -93,6 +95,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   getSubServices(items: any) {
+    this.sub_service = undefined;
     this.CategorySubcategoryService.getSubService(items.providerServiceMapID)
       .subscribe((response) => {
         this.showWellBeingFlag = false;
@@ -171,12 +174,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   addNew(rowNumber: any) {
 
-    if (this.api_choice === '0') {
+    if (this.searchChoice === '0') {
       this.addNewCategoryRow();
     } else {
       this.addExistCategoryRow();
     }
     this.form.resetForm();
+    this.well_being = false;
 
   }
 
@@ -487,7 +491,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
   // final save to save category and sub category
   finalsave(service) {
-    if (this.api_choice === "0") {
+    if (this.searchChoice === "0") {
       this.addNewCategory(service);
     } else {
       this.addSubCategory(service);
@@ -496,6 +500,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   hideTable() {
     this.showTable = false;
     this.searchForm = false;
+    this.changeRequestObject(this.searchChoice);
   }
 
   hideForm() {

@@ -139,7 +139,7 @@
       <label class="errorText">All services Mapped </label>
     </div>
   </form>
-  <form #resetFieldsForm="ngForm" id="form2">
+  <form #resetFieldsForm="ngForm" id="form2" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
