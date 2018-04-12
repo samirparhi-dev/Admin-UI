@@ -53,8 +53,10 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   hideButton: boolean = false;
   categoryExist: boolean = false;
   subCategoryExist: boolean = false;
+  userID: any;
+  nationalFlag: boolean;
 
-@ViewChild('form') form: NgForm
+  @ViewChild('form') form: NgForm
   constructor(public commonDataService: dataService, public dialog: MdDialog, public CategorySubcategoryService: CategorySubcategoryService
     , private messageBox: ConfirmationDialogsService) {
     this.api_choice = '0';
@@ -67,36 +69,88 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getStates();
+    this.userID = this.commonDataService.uid;
+    //  this.getStates(); //commented on 12/4/18 w.r.t.1097 changes
+    this.getServiceLines();
     this.cateDisabled = 'false';
   }
 
-  getStates() {
-    this.CategorySubcategoryService.getStates(this.serviceproviderID)
-      .subscribe((response) => {
-        this.states = response;
-      }, (err) => {
+  // getStates() {
+  //   this.CategorySubcategoryService.getStates(this.serviceproviderID)
+  //     .subscribe((response) => {
+  //       this.states = response;
+  //     }, (err) => {
+  //     });
+  // } //commented on 12/4/18 w.r.t.1097 changes
+  getServiceLines() {
+    this.CategorySubcategoryService.getServiceLinesNew(this.userID).subscribe((response) => {
+      this.successhandeler(response),
+        (err) => console.log("ERROR in fetching serviceline")
+    });
+  }
+  successhandeler(res) {
+    this.serviceLines = res.filter(function (item) {
+              if (item.serviceID === 3 || item.serviceID === 1) {
+                return item;
+              }
+            });
+    //         this.subServices = [];
+//    this.serviceLines = res
+  }
+  // getServices(stateID: any) {
+  //   this.service = undefined;
+  //   this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
+  //     .subscribe((response) => {
+  //       this.serviceLines = response.filter(function (item) {
+  //         if (item.serviceID === 3 || item.serviceID === 1) {
+  //           return item;
+  //         }
+  //       });
+  //       this.subServices = [];
+  //     }, (err) => {
+
+  //     });
+  // }  //commented on 12/4/18 w.r.t.1097 change
+  getStates(value) {
+    let obj = {
+      'userID': this.userID,
+      'serviceID': value.serviceID,
+      'isNational': value.isNational
+    }
+    this.CategorySubcategoryService.getStatesNew(obj).
+      subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
+        console.log("error in fetching states")
       });
   }
+  getStatesSuccessHandeler(response, value) {
 
-  getServices(stateID: any) {
-    this.service = undefined;
-    this.CategorySubcategoryService.getServiceLines(this.serviceproviderID, stateID)
-      .subscribe((response) => {
-        this.serviceLines = response.filter(function (item) {
-          if (item.serviceID === 3 || item.serviceID === 1) {
-            return item;
-          }
-        });
-        this.subServices = [];
-      }, (err) => {
-
-      });
+    this.states = response;
+    if (value.isNational) {
+      this.nationalFlag = value.isNational;
+      this.getSubServices(value.isNational);
+    }
+    else {
+      this.nationalFlag = value.isNational;
+   //   this.getSubServices(value.isNational)
+    }
   }
 
-  getSubServices(items: any) {
+  getSubServices(value) {
     this.sub_service = undefined;
-    this.CategorySubcategoryService.getSubService(items.providerServiceMapID)
+   
+ 
+    if (value == true) {
+    
+      this.servicesGetting(this.states[0].providerServiceMapID);
+    }
+    else if(value == 'get') {
+      this.servicesGetting(this.state.providerServiceMapID);
+    }
+
+
+  }
+  servicesGetting(proServiceMapID) {
+    this.CategorySubcategoryService.getSubService(proServiceMapID)
       .subscribe((response) => {
         this.showWellBeingFlag = false;
         if (this.selected_service_id === 1) {
@@ -120,9 +174,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       }, (err) => {
 
       });
-
   }
-
   getCategory(providerserviceMapId: any, subServiceID: any) {
     this.providerServiceMapID = providerserviceMapId;
     this.sub_serviceID = subServiceID;
@@ -163,12 +215,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.showCategoryTable = true;
     }
   }
-
+  callgetDetails(subService: any, providerServiceMap: any) {
+    if (this.nationalFlag) {
+      this.getDetails(subService);
+    }
+  }
   // to get the details of category and subcategory
-  getDetails(subService: any, providerServiceMap: any) {
+  getDetails(subService: any) {
     this.showDiv = true;
-    this.getCategory(providerServiceMap, subService.subServiceID);
-    this.getSubCategory(providerServiceMap, subService.subServiceID);
+    if (this.nationalFlag) {
+      this.getCategory(this.states[0].providerServiceMapID, subService.subServiceID);
+      this.getSubCategory(this.states[0].providerServiceMapID, subService.subServiceID);
+    }
+    else {
+      this.getCategory(this.state.providerServiceMapID, subService.subServiceID);
+      this.getSubCategory(this.state.providerServiceMapID, subService.subServiceID);
+    }
 
   }
 
@@ -190,7 +252,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     obj['categoryDesc'] = this.categorydesc;
     obj['subServiceID'] = this.sub_service.subServiceID;
     obj['subServiceName'] = this.sub_service.subServiceName;
-    obj['providerServiceMapID'] = this.service;
+    if (this.nationalFlag) {
+      obj['providerServiceMapID'] = this.states[0].providerServiceMapID;
+    }
+    else {
+      obj['providerServiceMapID'] = this.state.providerServiceMapID;
+    }
     obj['createdBy'] = this.createdBy;
     obj['well_being'] = this.well_being;
 
@@ -222,7 +289,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     let obj = {};
     obj['subServiceID'] = this.sub_service.subServiceID;
     obj['subServiceName'] = this.sub_service.subServiceName;
-    obj['providerServiceMapID'] = this.service;
+    if (this.nationalFlag) {
+      obj['providerServiceMapID'] = this.states[0].providerServiceMapID;
+    }
+    else {
+      obj['providerServiceMapID'] = this.state.providerServiceMapID;
+    }
     obj['categoryName'] = this.category_ID.categoryName;
     obj['categoryID'] = this.category_ID.categoryID;
     obj['subCategoryName'] = this.subcategory;
@@ -239,7 +311,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   // add category
-  addNewCategory(providerServiceMapID) {
+  addNewCategory() {
     let categoryObj = [];
     categoryObj = this.serviceList.map(function (item) {
       return {
@@ -259,7 +331,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           if (response.length > 0) {
             this.messageBox.alert('Created successfully ');
             this.serviceList.length = [];
-            this.getCategory(providerServiceMapID, this.sub_service);
+            if (this.nationalFlag) {
+              this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+             
+            }
+            else {
+              this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+           
+            }
           }
         }
       }, (err) => {
@@ -268,7 +347,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   // add sub category
-  addSubCategory(providerServiceMapID) {
+  addSubCategory() {
     let subCategoryObj = [];
     subCategoryObj = this.serviceSubCatList.map(function (item) {
       return {
@@ -355,7 +434,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     dialogReff.componentInstance.subCategoryType = true;
     dialogReff.afterClosed().subscribe((res) => {
       if (res) {
-        ;
+        
         this.getSubCategory(subCatObj.providerServiceMapID, subCatObj.subServiceID);
       }
 
@@ -474,7 +553,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     if (flag_value === "1") {
       this.Add_Category_Subcategory_flag = false;
-      this.getCategory(this.service, this.sub_service.subServiceID);
+      if (this.nationalFlag) {
+        this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+       
+      }
+      else {
+        this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+     
+      }
       // this.resetFields();
 
       /*edited by diamond*/
@@ -490,11 +576,11 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
   }
   // final save to save category and sub category
-  finalsave(service) {
+  finalsave() {
     if (this.searchChoice === "0") {
-      this.addNewCategory(service);
+      this.addNewCategory();
     } else {
-      this.addSubCategory(service);
+      this.addSubCategory();
     }
   }
   hideTable() {
@@ -514,8 +600,16 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.serviceList.length = 0;
         this.showTable = true;
         this.cateDisabled = 'false';
-        this.getCategory(this.service, this.sub_service.subServiceID);
-        this.getSubCategory(this.service, this.sub_service.subServiceID);
+                    if (this.nationalFlag) {
+              this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+              this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+
+            }
+            else {
+              this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+              this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+
+            }
 
       }
     })
@@ -563,22 +657,22 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   checkCategory(event) {
     let categoryName = event.target.value;
     let categoriesExist;
-    if (categoryName && categoryName!= "") {
-    console.log(categoryName, 'categoryName here');
+    if (categoryName && categoryName != "") {
+      console.log(categoryName, 'categoryName here');
       console.log("categories", this.categories);
-      
+
       categoriesExist = this.categories.filter(function (item) {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });
     }
-    console.log("category",this.categoryExist, 'ca5tegories', categoriesExist);
-    
+    console.log("category", this.categoryExist, 'ca5tegories', categoriesExist);
+
     if (categoriesExist != undefined && categoriesExist.length > 0) {
       this.categoryExist = true;
     }
     else if (categoryName.trim().length == 0) {
       this.categoryExist = false;
-      
+
     }
     else {
       this.categoryExist = false;
