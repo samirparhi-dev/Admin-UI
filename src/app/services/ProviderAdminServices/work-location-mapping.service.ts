@@ -32,6 +32,9 @@ export class WorkLocationMapping {
     getProviderStates_url: any;
     getProviderServicesInState_url: any;
 
+    get_State_Url_new: any;
+    get_Service_Url_new: any;
+
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
         private httpIntercept: InterceptedHttp) {
@@ -44,7 +47,7 @@ export class WorkLocationMapping {
         this.getAllWorkLocationsByProviderUrl = this.admin_Base_Url + 'm/location/getAlllocation';
         this.get_ProviderName_Url = this.admin_Base_Url + 'm/SearchEmployee4';
         this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + 'getUserRoleMapped';
-        this.getAllRolesUrl = this.admin_Base_Url + 'm/role/search1';
+        this.getAllRolesUrl = this.admin_Base_Url + 'm/role/searchNew';
 
         this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
         this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
@@ -52,21 +55,23 @@ export class WorkLocationMapping {
 
         this.getProviderStates_url = this.admin_Base_Url + 'm/role/state';
         this.getProviderServicesInState_url = this.admin_Base_Url + 'm/role/service';
+        this.get_State_Url_new = this.admin_Base_Url + 'm/role/stateNew';
+        this.get_Service_Url_new = this.admin_Base_Url + 'm/role/serviceNew';
     };
 
-    getProviderStates(serviceProviderID) {
-        return this.http.post(this.getProviderStates_url,
-            { 'serviceProviderID': serviceProviderID })
-            .map(this.handleState_n_ServiceSuccess)
+    getStates(userID, serviceID, isNationalFlag) {
+        return this.http.post(this.get_State_Url_new,
+            {
+                'userID': userID,
+                'serviceID': serviceID,
+                'isNational': isNationalFlag
+            }).map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
 
-    getProviderServicesInState(serviceProviderID, stateID) {
-        return this.http.post(this.getProviderServicesInState_url,
-            {
-                'serviceProviderID': serviceProviderID,
-                'stateID': stateID
-            }).map(this.handleState_n_ServiceSuccess)
+    getServices(userID) {
+        return this.httpIntercept.post(this.get_Service_Url_new, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
 
@@ -83,21 +88,21 @@ export class WorkLocationMapping {
     }
 
 
-    getAllServiceLinesByProvider(serviceProviderID: any) {
-        // debugger;
-        return this.http
-            .post(this.getAllServiceLinesByProviderUrl, { "serviceProviderID": serviceProviderID })
-            .map(this.handleState_n_ServiceSuccess)
-            .catch(this.handleError);
-    }
+    // getAllServiceLinesByProvider(serviceProviderID: any) {
+    //     // debugger;
+    //     return this.http
+    //         .post(this.getAllServiceLinesByProviderUrl, { 'serviceProviderID': serviceProviderID })
+    //         .map(this.handleState_n_ServiceSuccess)
+    //         .catch(this.handleError);
+    // }
 
-    getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
-        // debugger;
-        return this.http
-            .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
-            .map(this.handleState_n_ServiceSuccess)
-            .catch(this.handleError);
-    }
+    // getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
+    //     // debugger;
+    //     return this.http
+    //         .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
+    //         .map(this.handleState_n_ServiceSuccess)
+    //         .catch(this.handleError);
+    // }
     getAllDistricts(stateID: any) {
         return this.http
             .get(this.getAllDistrictsByProviderUrl + stateID)
@@ -105,15 +110,23 @@ export class WorkLocationMapping {
             .catch(this.handleError);
     }
 
-    getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any) {
+    getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any, isNational: any) {
         return this.http
-            .post(this.getAllWorkLocationsByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceID, 'stateID': stateID, 'isNational': false })
+            .post(this.getAllWorkLocationsByProviderUrl,
+            {
+                'serviceProviderID': serviceProviderID,
+                'serviceID': serviceID,
+                'stateID': stateID,
+                'isNational': isNational
+            })
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
-    getAllRoles(serviceProviderID: any, stateID: any, serviceLineID: any) {
+    getAllRoles(providerServiceMapID) {
         return this.http
-            .post(this.getAllRolesUrl, { 'serviceProviderID': serviceProviderID, 'stateID': stateID, 'serviceID': serviceLineID })
+            .post(this.getAllRolesUrl, {
+                'providerServiceMapID': providerServiceMapID
+            })
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
