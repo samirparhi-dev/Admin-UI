@@ -201,9 +201,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Serviceline" placeholder="Serviceline" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID);"
+          <md-select required name="Serviceline" placeholder="Serviceline" [disabled]="true" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID);"
             [style.width]="'100%'" [(ngModel)]="edit_Details.serviceID">
-            <md-option *ngFor="let item of services_array" (click)=getPrividerMapID(item.providerServiceMapID) [value]="item.serviceID">
+            <md-option *ngFor="let item of services_array" [value]="item.serviceID">
               {{item.serviceName}}
             </md-option>
           </md-select>
@@ -213,7 +213,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="states" placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="edit_Details.stateID">
-            <md-option *ngFor="let item of filteredStates" [value]="item.stateID">
+            <md-option *ngFor="let item of filteredStates" (click)=getPrividerMapID(item.providerServiceMapID) [value]="item.stateID">
               {{item.stateName}}
             </md-option>
           </md-select>
