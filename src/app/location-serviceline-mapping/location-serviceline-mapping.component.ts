@@ -116,7 +116,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     }
   }
   back(flag_val) {
-    this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.form.resetForm();
         this.changeTableFlag(flag_val);
@@ -304,7 +304,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
     // let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
-    this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm',"Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log(id);
 

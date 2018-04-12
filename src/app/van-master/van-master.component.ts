@@ -243,7 +243,7 @@ export class VanComponent implements OnInit {
             this.status = "Activate";
         }
 
-        this.alertMessage.confirm("Are you sure you want to " + vanString + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm',"Are you sure you want to " + vanString + "?").subscribe(response => {
             if (response) {
 
                 this.dataObj = {};
@@ -259,9 +259,9 @@ export class VanComponent implements OnInit {
     }
     updateStatusHandler(response) {
         if (this.status === "Deactivate")
-            this.alertMessage.confirm("Deactivated successfully");
+            this.alertMessage.alert("Deactivated successfully");
         else
-            this.alertMessage.confirm("Activated successfully")
+            this.alertMessage.alert("Activated successfully")
         console.log("Van status changed");
     }
 

@@ -137,7 +137,7 @@ export class InstituteTypeMasterComponent implements OnInit {
 
   toggle_activate(institutionTypeID, isDeleted) {
     if (isDeleted === true) {
-      this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response => {
+      this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
         if (response) {
           let obj = {
             "institutionTypeID": institutionTypeID,
@@ -150,7 +150,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     }
 
     if (isDeleted === false) {
-      this.alertService.confirm("Are you sure you want to Activate?").subscribe(response => {
+      this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
         if (response) {
           let obj = {
             "institutionTypeID": institutionTypeID,

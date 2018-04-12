@@ -202,7 +202,7 @@ export class WorkLocationMappingComponent implements OnInit {
     else {
 
       if (this.bufferArray.length > 0) {
-        this.alertService.confirm("Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        this.alertService.confirm('Confirm',"Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
           if (response) {
             this.tableMode = true;
             this.formMode = false;
@@ -239,7 +239,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   activate(uSRMappingID) {
     // debugger;
-    this.alertService.confirm("Are you sure you want to Activate?").subscribe(response => {
+    this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
           'uSRMappingID': uSRMappingID,
@@ -263,7 +263,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   deactivate(uSRMappingID) {
     // debugger
-    this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response => {
+    this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 

@@ -161,7 +161,7 @@ export class ProviderAdminListComponent implements OnInit {
    * display the added admin's in the table
    */
   showTable() {
-    this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.dialogService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
         if (this.editMode) {
@@ -447,7 +447,7 @@ export class ProviderAdminListComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.dialogService.confirm('Confirm',"Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("Obj", obj);
         this.superadminService.delete_toggle_activation(obj)
