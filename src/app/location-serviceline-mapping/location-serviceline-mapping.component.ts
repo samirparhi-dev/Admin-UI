@@ -169,13 +169,13 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log('PSM ID SET HO GAYI HAI BHAAAI', this.PSMID_searchService);
   }
 
-  setIsNational(value) {
-    this.isNational = value;
-    if (value) {
-      this.state = '';
-      this.district = '';
-    }
-  }
+  // setIsNational(value) {
+  //   this.isNational = value;
+  //   if (value) {
+  //     this.state = '';
+  //     this.district = '';
+  //   }
+  // }
 
   setSL(serviceID) {
     this.service_ID = serviceID;
