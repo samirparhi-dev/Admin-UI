@@ -36,7 +36,7 @@ export class SeverityTypeComponent implements OnInit {
   createdBy: any;
 
 
-
+  @ViewChild('severityAdding') severityAdding: NgForm;
   constructor(
     public commonDataService: dataService,
     public severityTypeService: SeverityTypeService,
@@ -137,9 +137,7 @@ export class SeverityTypeComponent implements OnInit {
       'createdBy': this.createdBy
     }
     this.severityArray.push(obj);
-    this.severity = "";
-    this.description = "";
-
+    this.severityAdding.resetForm();
     this.addSeverity(values.severity);
     this.alreadyExist = false;
   }

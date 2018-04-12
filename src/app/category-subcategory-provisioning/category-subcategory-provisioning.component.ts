@@ -383,7 +383,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
           .subscribe((response) => {
             if (response) {
-              this.messageBox.alert("Category " + confirmMessage + "d successfully");
+              this.messageBox.alert( confirmMessage + "d successfully");
               this.refeshCategory(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {
