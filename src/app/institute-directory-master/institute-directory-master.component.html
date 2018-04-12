@@ -4,29 +4,28 @@
     <h4 class="pull-left">Institute Directory</h4>
   </div>
   
-    <form #searchFields="ngForm">
+    <form #searchFields="ngForm" autocomplete="off">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+              <input mdInput style="display:none">
+              <md-select placeholder="Service Line" disabled={{disableSelection}} (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service" required>
+                <md-option *ngFor="let item of services" [value]="item" >
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select placeholder="State" disabled={{disableSelection}} class="width100" [(ngModel)]="state" name="state" (change)="getServices(state)"
-            required>
-            <md-option *ngFor="let item of states" value="{{item.stateID}}">
+          <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)" name="state" required>
+            <md-option *ngFor="let item of states" [value]="item">
               {{item.stateName}}
             </md-option>
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Service Line" disabled={{disableSelection}} class="width100" [(ngModel)]="service" name="service"
-            required>
-            <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
+
     </form>
     <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15" *ngIf="showTableFlag">
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
@@ -85,7 +84,7 @@
 <div *ngIf="showFormFlag">
     <!-- <form #instituteFields="ngForm"> -->
   <div class="row">
-<form #instituteDir="ngForm">      
+<form #instituteDir="ngForm" autocomplete="off">      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" minlength="2"

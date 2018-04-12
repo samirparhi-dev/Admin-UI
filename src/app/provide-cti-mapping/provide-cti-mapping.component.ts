@@ -66,9 +66,11 @@ export class ProvideCtiMappingComponent implements OnInit {
     campignObj['cTI_CampaignName'] = campaign.campaign_name;
     campignObj['Service'] = serviceline.serviceName;
     campignObj['ServiceId'] = serviceline.serviceID;
+       
     if (this.campaignList.length > 0) {
       this.campaignList.push(campignObj);
       this.campaignList = this.filterArray(this.campaignList);
+    
     } else {
       this.campaignList.push(campignObj);
     }

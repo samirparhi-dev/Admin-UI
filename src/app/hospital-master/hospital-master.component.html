@@ -80,7 +80,7 @@
               (click)="openEditModal(item)">edit</md-icon>
           </td>
           <td>
-            <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,false)">Activate</button>
+            <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item.institutionID,false)">Activate</button>
             <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
           </td>
         </tr>

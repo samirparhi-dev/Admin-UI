@@ -17,6 +17,9 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   services_array: any = [];
   // constants & variables
 
+  isNational = false;
+  providerServiceMapID_for1097: any;
+
   providerNameBeforeEdit: any;
   ////////////////////////////////
   service_provider_admin: any;
@@ -47,6 +50,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   toBeEditedObject: any;
 
   @ViewChild('form') form: NgForm;
+
+  @ViewChild('myForm') myForm: NgForm;
 
   constructor(public superadminService: SuperAdmin_ServiceProvider_Service,
     public commonDataService: dataService,
@@ -95,29 +100,60 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       });
   }
 
-  getProviderStates(state) {
-    this.superadminService.getProviderStates(state.serviceProviderId || state.serviceProviderID).
-      subscribe(response => this.getStatesSuccessHandeler(response));
+  // getProviderStates(state) {
+  //   this.superadminService.getProviderStates(state.serviceProviderId || state.serviceProviderID).
+  //     subscribe(response => this.getStatesSuccessHandeler(response));
+  // }
+  getProviderServices(serviceProvider) {
+    this.superadminService.getProviderServices(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID).
+      subscribe(response => this.getServiceSuccessHandeler(response));
   }
-
-  getStatesSuccessHandeler(response) {
+  getServiceSuccessHandeler(response) {
     if (response) {
       console.log(response, 'Provider States');
-      this.states_array = response;
+      this.services_array = response;
     }
   }
 
-  getProviderServicesInState(state, providerAdmin, serviceProvider) {
-    this.superadminService.getProviderServicesInState(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, state.stateID)
+  // getStatesSuccessHandeler(response) {
+  //   if (response) {
+  //     console.log(response, 'Provider States');
+  //     this.states_array = response;
+  //   }
+  // }
+  getProviderStatesInService(serviceProvider, service) {
+    debugger;
+    this.superadminService.getProviderStatesInService(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service.serviceID)
       .subscribe(response => {
         if (response) {
-          console.log('Provider Services in State', response);
-          this.services_array = response;
-          this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+          console.log('Provider states in service', response);
+          this.states_array = response;
+          //this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
         }
       });
 
   }
+
+  setIsNational(value) {
+    this.isNational = value;
+    if (value) {
+      this.myForm.form.patchValue({ 'state': undefined });
+    }
+
+    this.providerServiceMapID_for1097 = this.states_array[0].providerServiceMapID;
+  }
+
+  // getProviderServicesInState(state, providerAdmin, serviceProvider) {
+  //   this.superadminService.getProviderServicesInState(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, state.stateID)
+  //     .subscribe(response => {
+  //       if (response) {
+  //         console.log('Provider Services in State', response);
+  //         this.services_array = response;
+  //         this.getAvailableServiceLines(state, providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID)
+  //       }
+  //     });
+
+  // }
 
 
   getServicesSuccessHandeler(response) {
@@ -166,14 +202,14 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
-      this.bufferArray=[];
+      this.bufferArray = [];
       this.resetDropdowns();
     }
     else {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
-      this.bufferArray=[];
+      this.bufferArray = [];
       this.resetDropdowns();
     }
 
@@ -189,32 +225,52 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.editMode = true;
   }
   add2bufferArray(form_values) {
+    debugger;
     this.resetDropdowns();
     console.log(form_values, 'form values after adding');
     const object = {
       'serviceProviderMapID1': [],
       'userID': form_values.ProviderAdmin.userID,
       'createdBy': this.createdBy,
-      'stateName': form_values.state.stateName,
+      //'stateName': form_values.state.stateName,
       'serviceProviderName': form_values.serviceProvider.serviceProviderName,
       'userName': form_values.ProviderAdmin.userName
     };
 
-    let servicesArray = [];
-    if (form_values.Services.length > 0) {
-      for (let a = 0; a < form_values.Services.length; a++) {
-        let obj = {
-          'serviceProviderMapID1': form_values.Services[a].providerServiceMapID,
-          'serviceName': form_values.Services[a].serviceName
+    let providerServiceMapIDs = [];
+    if (form_values.state != undefined) {
+      if (form_values.state.length > 0) {
+        for (let a = 0; a < form_values.state.length; a++) {
+          let obj = {
+            'serviceProviderMapID1': form_values.state[a].providerServiceMapID,
+            'serviceName': form_values.Services.serviceName
+          }
+
+          providerServiceMapIDs.push(obj);
         }
 
-        servicesArray.push(obj);
+        object['serviceProviderMapID1'] = providerServiceMapIDs;
+      }
+    }
+    else if (form_values.state === undefined) {
+
+      let obj = {
+        'serviceProviderMapID1': this.providerServiceMapID_for1097,
+        'serviceName': form_values.Services.serviceName,
       }
 
-      object['serviceProviderMapID1'] = servicesArray;
+      providerServiceMapIDs.push(obj);
+
+
+      object['serviceProviderMapID1'] = providerServiceMapIDs;
     }
 
-    this.checkDuplicates(object);
+    // if (this.bufferArray.length === 0) {
+    this.bufferArray.push(object);
+    this.resetForm();
+    // }
+
+    //this.checkDuplicates(object);
   }
   checkDuplicates(object) {
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
@@ -321,41 +377,41 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   activate(userID) {
     this.dialogService.confirm("Are you sure want to activate?").subscribe(response => {
       if (response) {
-    const object = {
-      'uSRMappingID': userID,
-      'deleted': false
-    };
+        const object = {
+          'uSRMappingID': userID,
+          'deleted': false
+        };
 
-    this.superadminService.activateProviderAdmin(object)
-      .subscribe(response => {
-        if (response) {
-          this.dialogService.alert('Provider admin activated successfully');
-          /* refresh table */
-          this.getAllMappedProviders();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.superadminService.activateProviderAdmin(object)
+          .subscribe(response => {
+            if (response) {
+              this.dialogService.alert('Provider admin activated successfully');
+              /* refresh table */
+              this.getAllMappedProviders();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
       }
     });
   }
   deactivate(userID) {
     this.dialogService.confirm("Are you sure want to deactivate?").subscribe(response => {
       if (response) {
-    const object = { 'uSRMappingID': userID, 'deleted': true };
+        const object = { 'uSRMappingID': userID, 'deleted': true };
 
-    this.superadminService.deactivateProviderAdmin(object)
-      .subscribe(response => {
-        if (response) {
-          this.dialogService.alert('Provider deactivated successfully');
-          /* refresh table */
-          this.getAllMappedProviders();
-        }
-      },
-        err => {
-          console.log('error', err);
-        });
+        this.superadminService.deactivateProviderAdmin(object)
+          .subscribe(response => {
+            if (response) {
+              this.dialogService.alert('Provider deactivated successfully');
+              /* refresh table */
+              this.getAllMappedProviders();
+            }
+          },
+            err => {
+              console.log('error', err);
+            });
       }
     });
   }
@@ -364,8 +420,9 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.disableUsername = true;
     this.uSRMappingID = rowObject.uSRMappingID;
     this.edit_Details = rowObject;
-    this.getProviderStates(rowObject)
-    this.getProviderServicesInState(rowObject, rowObject, rowObject);
+    this.getProviderServices(rowObject)
+    //this.getProviderServicesInState(rowObject, rowObject, rowObject);
+    this.getProviderStatesInService
   }
   update(editedDetails: any) {
     let duplicatecount = 0;

@@ -2,46 +2,45 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Institute Subdirectory</h4>
-  </div>  
-    <form #searchform="ngForm">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="State" disabled={{disableSelection}} class="width100" [(ngModel)]="state" name="state" (change)="getServices(state)"
-            required>
-            <md-option *ngFor="let item of states" value="{{item.stateID}}">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Service Line" disabled={{disableSelection}} class="width100" [(ngModel)]="service" name="service"
-            required>
-            <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Institute Directory" class="width100" [(ngModel)]="institute_directory" disabled={{disableSelection}}
-            name="institute_directory" (change)="getInstituteSubdirectory(institute_directory)" required>
-            <md-option *ngFor="let item of instituteDirectories" value="{{item.instituteDirectoryID}}">
-              {{item.instituteDirectoryName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-    </form>
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showTableFlag">
+  </div>
+  <form #searchform="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Service Line" disabled={{disableSelection}} class="width100" (change)="getStates(service)" [(ngModel)]="service" name="service" required>
+          <md-option *ngFor="let item of services" [value]="item" >
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" class="width100" (change)="setProviderServiceMapID(state.providerServiceMapID)" [(ngModel)]="state" name="state" required>
+          <md-option *ngFor="let item of states" [value]="item">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Institute Directory" class="width100" [(ngModel)]="institute_directory" disabled={{disableSelection}}
+          name="institute_directory" (change)="getInstituteSubdirectory(institute_directory)" required>
+          <md-option *ngFor="let item of instituteDirectories" value="{{item.instituteDirectoryID}}">
+            {{item.instituteDirectoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+  </form>
+  <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showTableFlag">
         <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
       </div> -->
-  
+
 </div>
 <div class="m-t-10" *ngIf="showTableFlag">
   <div class="row">
@@ -92,7 +91,7 @@
 </div>
 <div *ngIf="showFormFlag">
   <div class="row">
- <form #addInstitutueSubDirForm="ngForm">
+    <form #addInstitutueSubDirForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Institute Subdirectory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="2"
@@ -101,8 +100,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Description" [(ngModel)]="description" name="description" minlength="2"
-          maxlength="100">
+          <input mdInput placeholder="Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="instituteSubDir.valid">

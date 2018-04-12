@@ -79,6 +79,15 @@
       </md-select>
     </md-input-container>
   </div>
+  <div class="col-xs-12 col-sm-12 col-sm-12 col-md-3">
+    <div>
+      <button md-mini-fab *ngIf="!showTableFlag" class=" xs-pull-right sm-pull-right md-pull-right lg-pull-left" color="primary"
+        (click)="add_obj(hospital)">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+
+    </div>
+  </div>
   <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="showTableFlag">
      <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
     </div> -->
@@ -119,16 +128,7 @@
   </div>
   <div *ngIf="showFormFlag">
     <div>
-      <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-20">
-        <div>
 
-          <button md-mini-fab class="pull-right" color="primary" (click)="add_obj(hospital)">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-          </button>
-          <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
-
-        </div>
-      </div>
       <div class=" col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
         <div class="table-responsive ">
           <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped " [rowsPerPage]="4">
@@ -148,16 +148,19 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="1">
+                <td colspan="2">
                   <md2-pagination></md2-pagination>
-                </td>
-                <td colspan="3" class="p-r-0">
-                  <button md-raised-button class="pull-right" color="accent" (click)="save()">Save</button>
                 </td>
               </tr>
             </tfoot>
           </table>
         </div>
+      </div>
+      <div class="col-xs-12 col-sm-12">
+
+        <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
+        <button md-raised-button class="pull-right" [disabled]="!(bufferArray.length>0)" color="accent" (click)="save()">Save</button>
+
       </div>
     </div>
   </div>

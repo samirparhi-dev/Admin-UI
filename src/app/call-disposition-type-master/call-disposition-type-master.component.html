@@ -24,7 +24,6 @@
         </md-select>
         </md-input-container>
       </div>
-
     </form>
     <!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
           <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
@@ -44,12 +43,12 @@
             <!--<th>ID</th>-->
             <th>S.No.</th>
             <th>Call Type</th>
-            <th>Call Subtype </th>
+            <th>Call Sub Type </th>
             <th>Is Inbound</th>
             <th>Is Outbound</th>
             <th>Max Redial</th>
             <th>Blocking Required</th>
-            <th>FollowUp Required</th>
+            <th>Followup Required</th>
             <th>Edit</th>
             <th>Action</th>
           </tr>
@@ -84,7 +83,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="5" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New Call Type/SubType</button>
+              <button class="pull-right" md-raised-button color="primary" (click)="hideTable(true)">Add New Call Type/Sub Type</button>
             </td>
           </tr>
         </tfoot>
@@ -100,13 +99,15 @@
 
         <div class="row m-t-10">
 <div class="col-xs-12 col-sm-12">
+
     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">      
         <md-checkbox color="primary" [(ngModel)]="isInbound" (change)="setIsInbound($event)" #isInboundCheckbox>Is-Inbound</md-checkbox>
       </div>
       <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">     
         <md-checkbox color="primary" [(ngModel)]="isOutbound" (change)="setIsOutbound($event)" #isOutboundCheckbox>Is-Outbound</md-checkbox>
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 m-t--25">
+   
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 xs-m-t-0 sm-m-t--25 m-t-md--25 m-t-lg--25">
           <md-input-container class="hide_underline width100">
               <input mdInput style="display:none">     
         <md-select style="width: 100%" placeholder="Maximum Redial" [(ngModel)]="maxRedial" name="maxRedial" *ngIf="isOutbound">
@@ -151,7 +152,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="width100" myProviderName>
-              <input mdInput placeholder="Call Subtype" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
+              <input mdInput placeholder="Call Sub Type" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50" (keyup)="callSubTypes(callSubType)">
               <md-hint class="errorText" *ngIf="subCallTypeExist">
                 This sub call type exist for this service & call type
               </md-hint>
@@ -162,16 +163,16 @@
         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 m-t-md-25 m-t-sm-0 m-t-xs-0">
           <label class="f-s-n-b">Fit To Block</label>
           <md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)">
-            <md-radio-button color="primary" [value]="true">Yes</md-radio-button>
-            <md-radio-button color="primary" [value]="false">No</md-radio-button>
+            <md-radio-button color="primary" class="p-l-10" [value]="true">Yes</md-radio-button>
+            <md-radio-button color="primary" class="p-l-10" [value]="false">No</md-radio-button>
           </md-radio-group>
         </div>
         <div class="clearfix visible-md"></div>
         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 m-t-lg-25 m-t-md-0">
-          <label class="f-s-n-b">Fit For FollowUp</label>
+          <label class="f-s-n-b">Fit For Followup</label>
           <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
-            <md-radio-button color="primary" [value]="true">Yes</md-radio-button>
-            <md-radio-button color="primary" [value]="false">No</md-radio-button>
+            <md-radio-button color="primary" class="p-l-10" [value]="true">Yes</md-radio-button>
+            <md-radio-button color="primary" class="p-l-10" [value]="false">No</md-radio-button>
           </md-radio-group>
         </div>
          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="callTypeSubCallType.valid && !subCallTypeExist">   <!-- && (isInbound || isOutbound) --> 
@@ -185,7 +186,7 @@
           <table [md2Data]="temporarySubtypeArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
             <thead>
               <tr>
-                <th width="5%">S.No</th>           
+                <th width="5%">S.No.</th>           
                 <th width="15%">Call Group Type</th>
                 <th width="15%">callType</th>
                 <th width="12%">Block</th>

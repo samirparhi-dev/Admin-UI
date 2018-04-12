@@ -79,7 +79,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     console.log("feedbackObj", feedbackObj);
     let dialog_Ref = this.dialog.open(EditFeedbackModal, {
       width: '500px',
-      disableClose:  true,
+      disableClose: true,
       data: {
         'feedbackObj': feedbackObj,
         'feedbackTypes': this.feedbackTypes,
@@ -106,7 +106,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm("Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm("Are you sure want you to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedback(obj)

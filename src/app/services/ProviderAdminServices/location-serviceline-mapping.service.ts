@@ -53,15 +53,10 @@ export class LocationServicelineMapping {
       .catch(this.handleError);
   }
 
-  getStatesNew(userID, serviceID, isNationalFlag) {
-    return this.http.post(this.getStates_new_url,
-      {
-        'userID': userID,
-        'serviceID': serviceID,
-        'isNational': isNationalFlag
-      }).map(this.handleState_n_ServiceSuccess)
-      .catch(this.handleError);
-  }
+	getStatesNew(obj) {
+		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
 
   getServiceLinesNew(userID) {
     return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })

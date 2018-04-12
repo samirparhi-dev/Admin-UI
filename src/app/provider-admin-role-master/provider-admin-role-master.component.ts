@@ -78,7 +78,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.services = [];
     this.searchresultarray = [];
     this.filterScreens = [];
-    
+
 
   }
 
@@ -86,8 +86,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.userID = this.commonDataService.uid;
     // this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response => this.states = this.successhandeler(response));  // commented on 10/4/18(1097 regarding changes) Gursimran
     this.ProviderAdminRoleService.getServiceLinesNew(this.userID).subscribe((response) => {
-    this.services = this.successhandeler(response),
-      (err) => console.log("ERROR in fetching serviceline")
+      this.services = this.successhandeler(response),
+        (err) => console.log("ERROR in fetching serviceline")
     });
     //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").
     // subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
@@ -106,15 +106,17 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   // } //commented on 10/4/18(1097 regarding changes) Gursimran
 
   getStates(value) {
-   let obj = {'userID': this.userID,
-				'serviceID': value.serviceID,
-				'isNational': value.isNational
-			}
+    let obj = {
+      'userID': this.userID,
+      'serviceID': value.serviceID,
+      'isNational': value.isNational
+    }
+
     this.ProviderAdminRoleService.getStatesNew(obj).
-      subscribe(response => this.statesSuccesshandeler(response,value), (err) => {
+      subscribe(response => this.statesSuccesshandeler(response, value), (err) => {
         console.log("error in fetching states")
       });
-      
+
 
   }
 
@@ -130,14 +132,15 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   //   this.showAddButtonFlag = false;
 
   // }// commented on 10/4/18(1097 regarding changes) Gursimran
-  statesSuccesshandeler(response,value) {
+  statesSuccesshandeler(response, value) {
     this.state = '';
     this.states = response;
     this.showAddButtonFlag = false;
 
-    if(value.isNational) {
+    if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.setProviderServiceMapID(response[0].providerServiceMapID);
+      this.findRoles(undefined, value.serviceID)
     }
     else {
       this.nationalFlag = value.isNational;
@@ -173,9 +176,15 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.showAddButtonFlag = true;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
-
+    
+    let obj = {
+      'serviceProviderID': this.serviceProviderID,
+      'stateID': stateID,
+      'serviceID': serviceID,
+      'isNational': this.nationalFlag
+    }
     console.log(this.serviceProviderID, stateID, serviceID);
-    this.ProviderAdminRoleService.getRoles(this.serviceProviderID, stateID, serviceID).subscribe((response) => {
+    this.ProviderAdminRoleService.getRoles(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
       this.filterScreens = [];
       for (var i = 0; i < this.searchresultarray.length; i++) {
@@ -218,7 +227,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
           console.log('data', response);
-          this.findRoles(this.state.stateID,this.service.serviceID)
+          this.findRoles(this.state.stateID, this.service.serviceID)
           //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
         })
 

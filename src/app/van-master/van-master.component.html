@@ -73,7 +73,7 @@
                             <button md-raised-button color="primary" class="activateBtn" (click)="updateVanStatus(van)">Deactivate</button>
                         </td>
                         <td *ngIf="van.deleted=='1'">
-                            <button md-raised-button color="primary" class="activateBtn" (click)="updateVanStatus(van)">Activate</button>
+                            <button md-raised-button color="accent" class="activateBtn" (click)="updateVanStatus(van)">Activate</button>
                         </td>
                         <!-- <td>
                             <button md-raised-button color="primary" class="activateBtn" (click)="editVanData(van)">Edit</button>
@@ -182,8 +182,14 @@
                         </md-hint>
                     </md-input-container>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 ">
+                    <button md-mini-fab color="primary" *ngIf="!editable && vanForm.valid" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left"
+                        (click)="addVanToList(vanForm.value);vanForm.reset()  ">
+                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                    </button>
+                </div>
 
-                <div class="col-xs-12 col-sm-12  pull-right">
+                <!-- <div class="col-xs-12 col-sm-12  pull-right">
                     <button md-raised-button color="primary" class="pull-left" (click)="vanForm.reset();showList()">Back</button>
                     <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !vanN.valid || !vehicleN.valid || vehicleExist || vanNameExist || !vanTID.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
                         class="pull-right " (click)="addVanToList(vanForm.value);vanForm.reset()  ">
@@ -191,7 +197,7 @@
                     </button>
                     <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanForm.value);vanForm.reset()  ">
                         Update</button>
-                </div>
+                </div> -->
             </div>
         </form>
         <div *ngIf="vanList.length>0" class="m-t-15 table-responsive">
@@ -232,8 +238,12 @@
             </table>
             <!-- <pagination-controls (pageChange)="b = $event" id="vanResult"></pagination-controls> -->
         </div>
-        <div>
-            <button md-raised-button color="accent" *ngIf="vanList.length>0" class="pull-right " (click)="storeVans()">Save</button>
+        <div class="m-t-15">
+            <button md-raised-button color="primary" class="pull-left" (click)="vanForm.reset();showList()">Back</button>
+
+            <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanForm.value);vanForm.reset()  ">
+                Update</button>
+            <button md-raised-button color="accent" [disabled]="!(vanList.length>0)" class="pull-right " (click)="storeVans()">Save</button>
         </div>
     </div>
 </div>

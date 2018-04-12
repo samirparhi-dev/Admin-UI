@@ -81,13 +81,8 @@ export class ProviderAdminRoleService {
 			.catch(this.handleError);
 	}
 
-	getRoles(serviceProviderID, stateID, serviceID) {
-		return this.httpIntercept.post(this.find_Roles_By_State_Service_Url,
-			{
-				'serviceProviderID': serviceProviderID,
-				'stateID': stateID,
-				'serviceID': serviceID
-			})
+	getRoles(obj) {
+		return this.httpIntercept.post(this.find_Roles_By_State_Service_Url,obj)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}

@@ -285,7 +285,7 @@ export class VillageMasterComponent implements OnInit {
         }
         let dialog_Ref = this.dialog.open(EditVillageModal, {
             height: '400px',
-            width: '500px',
+            width: '700px',
             data: obj
         });
 

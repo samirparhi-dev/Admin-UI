@@ -33,7 +33,7 @@
               <md-icon class="cursorPointer" *ngIf="!item.deleted" mdTooltip="Edit" (click)='edit(item)'>mode_edit</md-icon>
             </td>
             <td>
-              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="activate(item.serviceProviderId)">Activate</button>
+              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activate(item.serviceProviderId)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="deactivate(item.serviceProviderId)">Deactivate</button>
             </td>
           </tr>
