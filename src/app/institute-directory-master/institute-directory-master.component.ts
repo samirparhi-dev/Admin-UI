@@ -34,6 +34,9 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	showTableFlag:boolean=false;
 	showFormFlag:boolean=false;
 	disableSelection:boolean=false;
+	userID: any;
+	nationalFlag: any;
+
 	@ViewChild('instituteDir') instituteDir: NgForm;
 
 	constructor(public instituteDirectoryService:InstituteDirectoryMasterService,
@@ -45,33 +48,68 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.instituteDirectoryService.getStates(this.serviceProviderID).subscribe(response=>this.getStatesSuccessHandeler(response));
+		this.userID = this.commonDataService.uid;
+
+	//	this.instituteDirectoryService.getStates(this.serviceProviderID).subscribe(response=>this.getStatesSuccessHandeler(response)); // commented on 10/4/18(1097 regarding changes) Gursimran
+	this.instituteDirectoryService.getServiceLinesNew(this.userID).subscribe((response) => {
+		this.successhandeler(response),
+		  (err) => console.log("ERROR in fetching serviceline")
+		});
 	}
 
-	getStatesSuccessHandeler(response)
-	{
-		console.log("STATE",response);
-		this.states=response;
-	}
+	// getStatesSuccessHandeler(response)
+	// {
+	// 	console.log("STATE",response);
+	// 	this.states=response;
+	// } // commented on 10/4/18(1097 regarding changes) Gursimran
 
-	getServices(stateID)
-	{
-		this.service=""; //resetting the field on changing state
-		this.instituteDirectoryService.getServices(this.serviceProviderID,stateID).subscribe(response=>this.getServicesSuccessHandeler(response));
+	successhandeler(res) {
+		this.services = res.filter(function(item) {
+			if(item.serviceID != 6) {
+				return item;
+			}
+		})
 	}
+	// getServices(stateID)
+	// {
+	// 	this.service=""; //resetting the field on changing state
+	// 	this.instituteDirectoryService.getServices(this.serviceProviderID,stateID).subscribe(response=>this.getServicesSuccessHandeler(response));
+	// }// commented on 10/4/18(1097 regarding changes) Gursimran
 
-	getServicesSuccessHandeler(response)
-	{
-		console.log("SERVICES",response);
-		this.services=response.filter(function(item)
-		                              {
-		                              	if(item.serviceID!=6)
-		                              	{
-		                              		return item;
-		                              	}
-		                              });
+	getStates(value) {
+		let obj = {
+			'userID': this.userID,
+			'serviceID': value.serviceID,
+			'isNational': value.isNational
+		}
+		this.instituteDirectoryService.getStatesNew(obj).
+			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
+				console.log("error in fetching states")
+			});
 	}
+	// getServicesSuccessHandeler(response)
+	// {
+	// 	console.log("SERVICES",response);
+	// 	this.services=response.filter(function(item)
+	// 	                              {
+	// 	                              	if(item.serviceID!=6)
+	// 	                              	{
+	// 	                              		return item;
+	// 	                              	}
+	// 	                              });
+	// }
+	getStatesSuccessHandeler(response,value) {
 
+		this.states = response;
+		if (value.isNational) {
+			this.nationalFlag = value.isNational;
+			this.setProviderServiceMapID(response[0].providerServiceMapID);
+		}
+		else {
+			this.nationalFlag = value.isNational;
+			this.showTableFlag = false;
+		}
+	}
 	setProviderServiceMapID(providerServiceMapID)
 	{
 		console.log("providerServiceMapID",providerServiceMapID);
@@ -188,7 +226,8 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 			this.instituteDir.resetForm();			
 			this.showFormFlag = false;
 			this.bufferArray = [];
-			this.search();			
+			this.search();
+			this.disableSelection = false;			
 		}
 	}
 

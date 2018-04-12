@@ -50,7 +50,8 @@ export class LocationServicelineMappingComponent implements OnInit {
   // flags
   showTable: boolean = false;
   showForm: boolean;
-  isNational = false;
+  nationalFlag: any;
+  disableSelection: boolean = false;
 
   @ViewChild('f') form: NgForm;
   constructor(public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
@@ -65,7 +66,8 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     console.log('USER ID IS', this.userID);
     this.showForm = false;
-    // this.findLocations();
+
+
   }
 
   ngOnInit() {
@@ -91,16 +93,22 @@ export class LocationServicelineMappingComponent implements OnInit {
       // if (confirmation) {
       // this.showTable = flag_val;
       this.showForm = !flag_val;
+      this.showTable = flag_val;
+      this.disableSelection = flag_val;
       // this.resetFields();
-      this.findLocations();
+      this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
       //  }
     }
     else {
       // this.showTable = !flag_val;
+      this.disableSelection = flag_val;
+      this.showTable = flag_val;
       this.showForm = !flag_val;
       this.service_id = this.search_serviceline.serviceID;
       this.state = this.search_state;
-      this.getDistricts(this.serviceProviderID, this.state);
+      if (!this.nationalFlag) {
+        this.getDistricts(this.serviceProviderID, this.search_state.stateID);
+      }
       this.providerServiceMapIDs = [];
       if (this.PSMID_searchService != null && this.PSMID_searchService != undefined && this.PSMID_searchService != "") {
         this.providerServiceMapIDs.push(this.PSMID_searchService);
@@ -130,34 +138,44 @@ export class LocationServicelineMappingComponent implements OnInit {
   //   this.search_serviceline="";
   // }
 
-  getStates(serviceID, isNationalFlag) {
-    this.provider_admin_location_serviceline_mapping.getStatesNew(
-      this.userID, serviceID, isNationalFlag).subscribe(response => {
-        this.search_state = undefined;
-        this.states = response;
-        if (this.states[0].providerServiceMapID) {
-          this.providerServiceMapIDs = [this.states[0].providerServiceMapID];
-          this.findLocations();
-        }
-        console.log('states', this.states);
-      }, err => {
-        console.log('Error while fetching states', err);
+  getStates(value) {
+    let obj = {
+      'userID': this.userID,
+      'serviceID': value.serviceID,
+      'isNational': value.isNational
+    }
+    this.provider_admin_location_serviceline_mapping.getStatesNew(obj).
+      subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
+        console.log("error in fetching states")
       });
 
   }
+  getStatesSuccessHandeler(response, value) {
+    this.search_state = "";
+    this.states = response;
+    if (value.isNational) {
+      this.nationalFlag = value.isNational;
+      this.setPSMID(response[0].providerServiceMapID);
+      this.findLocations(undefined, this.search_serviceline.serviceID);
 
+    }
+    else {
+      this.nationalFlag = value.isNational;
+      this.showTable = false;
+    }
+  }
   setPSMID(psmID) {
     this.PSMID_searchService = psmID;
     console.log('PSM ID SET HO GAYI HAI BHAAAI', this.PSMID_searchService);
   }
 
-  setIsNational(value) {
-    this.isNational = value;
-    if (value) {
-      this.state = '';
-      this.district = '';
-    }
-  }
+  // setIsNational(value) {
+  //   this.isNational = value;
+  //   if (value) {
+  //     this.state = '';
+  //     this.district = '';
+  //   }
+  // }
 
   setSL(serviceID) {
     this.service_ID = serviceID;
@@ -176,32 +194,41 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     this.search_serviceline = "";
     this.getServiceLines(serviceProviderID, stateID);
-    this.findLocations();
+    this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
   }
 
   //  CRUD functionalities
 
-  findLocations() {
+  findLocations(stateID, serviceID) {
 
-    let reqOBJ = { "serviceProviderID": this.serviceProviderID };
-    if (this.search_serviceline.serviceID != "") {
-      reqOBJ["stateID"] = this.search_state ? this.search_state : '';
-      reqOBJ["serviceID"] = this.search_serviceline.serviceID ? this.search_serviceline.serviceID : '';
-      console.log(reqOBJ);
 
-      this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
-        response => this.findLocationsSuccesshandeler(response)
-      );
+    let reqOBJ = {
+      'serviceProviderID': this.serviceProviderID,
+      'stateID': stateID,
+      'serviceID': serviceID,
+      'isNational': this.nationalFlag
     }
-    else {
-      reqOBJ["stateID"] = this.search_state ? this.search_state : '';
-      console.log(reqOBJ);
+    // if (this.search_serviceline.serviceID != "") {
+    //   reqOBJ["stateID"] = this.search_state ? this.search_state : '';
+    //   reqOBJ["serviceID"] = this.search_serviceline.serviceID ? this.search_serviceline.serviceID : '';
+    //   console.log(reqOBJ);
 
-      this.provider_admin_location_serviceline_mapping.getWorkLocationsOnState(reqOBJ).subscribe(
-        response => this.findLocationsSuccesshandeler(response)
-      );
+    //   this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
+    //     response => this.findLocationsSuccesshandeler(response)
+    //   );
+    // }
+    // else {
+    //   reqOBJ["stateID"] = this.search_state ? this.search_state : '';
+    //   console.log(reqOBJ);
 
-    }
+    //   this.provider_admin_location_serviceline_mapping.getWorkLocationsOnState(reqOBJ).subscribe(
+    //     response => this.findLocationsSuccesshandeler(response)
+    //   );
+
+    // }
+    this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
+      response => this.findLocationsSuccesshandeler(response)
+    );
     this.showTable = true;
   }
 
@@ -257,7 +284,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.findLocations();
+        this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
       }
 
     });
@@ -314,7 +341,6 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log(response, "services");
     this.servicelines = response;
     // if (response.length > 0) {
-    //   // this.providerServiceMapIDs = [];
     //   this.providerServiceMapID = response[0].providerServiceMapID;
     // }
 
@@ -327,18 +353,18 @@ export class LocationServicelineMappingComponent implements OnInit {
     // this.showTable = false;
     this.showForm = false;
     //  this.resetFields();
-    this.search_state = this.state;
+
     // this.search_serviceline=this.service_ID; we can use this also if we want to find for specific
-    this.search_serviceline = this.last_searchServiceobj;
+
     jQuery('#locationForm').trigger("reset");
 
-    this.findLocations();
+    this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
   }
 
   deleteOfficeSuccessHandeler(response) {
     this.alertService.alert(this.confirmMessage + "d successfully");
     console.log('deleted', response);
-    this.findLocations();
+    this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
   }
   clear() {
     jQuery("#searchForm").trigger("reset");

@@ -31,6 +31,9 @@ export class ProviderAdminRoleService {
 
 	getFeaturesUrl: any;
 
+	getStates_new_url: any;
+	getServiceLines_new_url: any;
+
 	constructor(private http: SecurityInterceptedHttp,
 		public basepaths: ConfigService,
 		private httpIntercept: InterceptedHttp) {
@@ -44,6 +47,10 @@ export class ProviderAdminRoleService {
 		this.edit_Role_Url = this.admin_Base_Url + 'm/role/editRole';
 		this.getFeaturesUrl = this.admin_Base_Url + 'm/searchFeature';
 		this.updateFeatureToRole_Url = this.admin_Base_Url + 'mapExterafeature';
+
+		this.getServiceLines_new_url = this.admin_Base_Url + 'm/role/serviceNew';
+		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
+
 	};
 
 	getStates(serviceProviderID) {
@@ -52,6 +59,10 @@ export class ProviderAdminRoleService {
 			.catch(this.handleError);
 	}
 
+	getStatesNew(obj) {
+		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
 	getServices(serviceProviderID, stateID) {
 		return this.http.post(this.get_Service_Url, {
 			'serviceProviderID': serviceProviderID,
@@ -59,20 +70,19 @@ export class ProviderAdminRoleService {
 		}).map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}
-
+	getServiceLinesNew(userID) {
+		return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
+			.map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
 	getFeature(serviceID) {
 		return this.http.post(this.getFeaturesUrl, { 'serviceID': serviceID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 
-	getRoles(serviceProviderID, stateID, serviceID) {
-		return this.httpIntercept.post(this.find_Roles_By_State_Service_Url,
-			{
-				'serviceProviderID': serviceProviderID,
-				'stateID': stateID,
-				'serviceID': serviceID
-			})
+	getRoles(obj) {
+		return this.httpIntercept.post(this.find_Roles_By_State_Service_Url,obj)
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
@@ -85,7 +95,7 @@ export class ProviderAdminRoleService {
 
 	deleteRole(obj) {
 		console.log("service obj", obj);
-		
+
 		return this.httpIntercept.post(this.delete_Role_Url, obj)
 			.map(this.handleSuccess)
 			.catch(this.handleError);

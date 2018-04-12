@@ -26,7 +26,8 @@ export class InstituteDirectoryMasterService {
 	save_InstituteDirectory_Url: any;
 	edit_InstituteDirectory_Url: any;
 	toggle_activate_InstituteDirectory_Url: any;
-
+	getServiceLines_new_url: any;
+	getStates_new_url: any;
 
 	constructor(private http: SecurityInterceptedHttp,
 		public basepaths: ConfigService,
@@ -40,6 +41,8 @@ export class InstituteDirectoryMasterService {
 		this.edit_InstituteDirectory_Url = this.admin_Base_Url + 'm/editInstituteDirectory';
 		this.toggle_activate_InstituteDirectory_Url = this.admin_Base_Url + 'm/deleteInstituteDirectory';
 
+		this.getServiceLines_new_url = this.admin_Base_Url + 'm/role/serviceNew';
+		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
 	};
 
 	getStates(serviceProviderID) {
@@ -47,7 +50,10 @@ export class InstituteDirectoryMasterService {
 			.map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}
-
+	getStatesNew(obj) {
+		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
 	getServices(serviceProviderID, stateID) {
 		return this.http.post(this.get_Service_Url, {
 			'serviceProviderID': serviceProviderID,
@@ -55,7 +61,11 @@ export class InstituteDirectoryMasterService {
 		}).map(this.handleState_n_ServiceSuccess)
 			.catch(this.handleError);
 	}
-
+	getServiceLinesNew(userID) {
+		return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
+			.map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
 	getInstituteDirectory(providerServiceMapID) {
 		console.log('psmID', providerServiceMapID);
 		return this.httpIntercept.post(this.get_InstituteDirectory_Url,

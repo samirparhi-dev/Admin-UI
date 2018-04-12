@@ -25,6 +25,10 @@ export class CallTypeSubtypeService {
   save_CallTypeSubType_Url: any;
   delete_SubCallType_Url: any;
   modify_CallTypeSubType_Url: any;
+  
+  getServiceLines_new_url: any;
+  getStates_new_url:  any;
+
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
     private httpIntercept: InterceptedHttp) {
@@ -35,6 +39,9 @@ export class CallTypeSubtypeService {
     this.save_CallTypeSubType_Url = this.admin_Base_Url + 'm/createCalltypedata';
     this.delete_SubCallType_Url = this.admin_Base_Url + 'm/deleteCalltype';
     this.modify_CallTypeSubType_Url = this.admin_Base_Url + 'm/updateCalltypedata';
+
+    this.getServiceLines_new_url = this.admin_Base_Url + 'm/role/serviceNew';
+		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
   };
 
   getStates(serviceProviderID) {
@@ -42,7 +49,11 @@ export class CallTypeSubtypeService {
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-
+	getServiceLinesNew(userID) {
+		return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
+			.map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
   getServices(serviceProviderID, stateID) {
     return this.http.post(this.get_Service_Url, {
       'serviceProviderID': serviceProviderID,
@@ -50,7 +61,10 @@ export class CallTypeSubtypeService {
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-
+	getStatesNew(obj) {
+		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
+			.catch(this.handleError);
+	}
   // C.R.U.D
 
   getCallTypeSubType(serviceProviderMapID) {
