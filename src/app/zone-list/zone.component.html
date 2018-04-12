@@ -70,7 +70,7 @@
     <h4 *ngIf="!editable">Create Zone </h4>
     <h4 *ngIf="editable">Edit Zone </h4>
     <form #zoneForm="ngForm">
-      <div class="row">
+     
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
@@ -166,7 +166,7 @@
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
-      </div>
+     
     </form>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="zoneList.length>0">
@@ -210,7 +210,7 @@
         <!-- <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls> -->
       </div>
     </div>
-    <div class="row">
+    
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
         <button [disabled]="!(zoneList.length >0)" *ngIf="!editable" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezone()">Save</button>
@@ -219,6 +219,6 @@
           <!-- <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">update</md-icon> -->
         </button>
       </div>
-    </div>
+   
   </div>
 </div>
