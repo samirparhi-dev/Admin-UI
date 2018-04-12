@@ -5,7 +5,7 @@
     <h4 class="f-s-b m-b-30">Feedback/Complaint Nature Master</h4>
     <form #searchCNForm="ngForm">
       <div class="row">
-       
+
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
@@ -16,7 +16,7 @@
             </md-select>
           </md-input-container>
         </div>
-         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
             <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="search_state" name="state" required>
@@ -45,7 +45,7 @@
   <!--table area-->
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="showTable">
     <div class="table-responsive">
-      <table [md2Data]="natureTypes" class="table table-striped" #md2="md2DataTable" [rowsPerPage]="4">
+      <table [md2Data]="natureTypes" class="table table-hover table-striped" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th style="width: 35%">Feedback Nature</th>
@@ -91,7 +91,7 @@
     <h4 class="width100">Add Feedback/Complaint Nature</h4>
     <form #addForm="ngForm">
       <div class="row">
-        
+
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
@@ -147,7 +147,7 @@
       </div>
       <div class="m-t-15" *ngIf="(objs.length !=0)">
         <div class="table-responsive">
-          <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+          <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
             <thead>
               <tr>
                 <th>S.No.</th>

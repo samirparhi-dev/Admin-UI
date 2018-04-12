@@ -2,12 +2,14 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">User-Role Agent ID Mapping</h4>
   </div>
+  
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="State" [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getServices(state)" required>
-        <md-option *ngFor="let item of states" value="{{item.stateID}}">
-          {{item.stateName}}
+      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service"
+        required>
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational);setIsNational(item.isNational)">
+          {{item.serviceName}}
         </md-option>
       </md-select>
     </md-input-container>
@@ -15,10 +17,9 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getRoles(state,service)"
-        required>
-        <md-option *ngFor="let item of services" value="{{item.serviceID}}">
-          {{item.serviceName}}
+      <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" name="state" required>
+        <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="getRoles(item.providerServiceMapID)">
+          {{item.stateName}}
         </md-option>
       </md-select>
     </md-input-container>
@@ -42,7 +43,7 @@
 <div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12 m-t-20 ">
     <div class="table-responsive">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th>State</th>

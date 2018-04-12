@@ -42,7 +42,7 @@ export class loginContentClass implements OnInit {
 							this.dataSettingService.Userdata = { "userName": "Super Admin" };
 							this.dataSettingService.role = "SUPERADMIN";
 							this.dataSettingService.uname = "Super Admin";
-							this.router.navigate(['/MultiRoleScreenComponent']);
+							this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
 						}
 						else {
 							this.alertMessage.alert('User is not super admin');
@@ -96,7 +96,7 @@ export class loginContentClass implements OnInit {
 				// }
 			}
 			if (this.dataSettingService.role.toLowerCase() === "PROVIDERADMIN".toLowerCase()) {
-				this.router.navigate(['/MultiRoleScreenComponent']);
+				this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
 			}
 			else {
 				this.alertMessage.alert('User is not a provider admin');

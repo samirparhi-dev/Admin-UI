@@ -29,9 +29,9 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   state: any;
   serviceProviderMapID: any;
   edit_Details: any;
-  edit_Details_service: any;
   uSRMappingID: any;
   serviceProviderID: any;
+  providermapID: any;
 
   // arrays
   providers: any = [];
@@ -40,6 +40,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   bufferArray: any = [];
   providerAdminList: any = [];
   filteredStates: any = [];
+  edit_state: any;
 
   // flags
   formMode = false;
@@ -106,12 +107,10 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   //     subscribe(response => this.getStatesSuccessHandeler(response));
   // }
   getProviderServices(serviceProvider) {
-    debugger;
     this.superadminService.getProviderServices(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID).
       subscribe(response => this.getServiceSuccessHandeler(response));
   }
   getProviderServices_Edit(serviceProvider) {
-    debugger;
     this.superadminService.getProviderServices(serviceProvider).
       subscribe(response => this.getServiceSuccessHandeler(response));
   }
@@ -129,13 +128,11 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   //   }
   // }
   getProviderStatesInService(providerAdmin, serviceProvider, service, national) {
-    debugger;
     this.superadminService.getProviderStatesInService(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service.serviceID)
       .subscribe(response => {
         if (response) {
           console.log('Provider states in service', response);
           this.states_array = response;
-          debugger;
           if (response.stateID === undefined) {
             this.providerServiceMapID_for1097 = this.states_array[0].providerServiceMapID;
 
@@ -147,30 +144,36 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
   }
   getProviderStatesInService_edit(providerAdmin, serviceProvider, service, national) {
-    debugger;
-    this.superadminService.getProviderStatesInService(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service.serviceID)
+    if (national === 1) {
+      national = true;
+      this.edit_Details.stateID = undefined;
+    }
+    else {
+      national = false;
+    }
+    this.superadminService.getProviderStatesInService(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service)
       .subscribe(response => {
         if (response) {
           console.log('Provider states in service', response);
           this.states_array = response;
-          debugger;
           if (response.stateID === undefined) {
             this.providerServiceMapID_for1097 = this.states_array.providerServiceMapID;
 
           }
         }
         this.getAvailableStates_edit(providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service, national)
+        this.setIsNational(national);
 
       });
 
   }
 
   setIsNational(value) {
-    debugger;
     this.isNational = value;
     if (value) {
       // this.myForm.form.patchValue({ 'state': undefined });
       this.state = undefined;
+      this.edit_state = undefined;
       // this.providerServiceMapID_for1097 = this.states_array[0].providerServiceMapID;
 
     }
@@ -198,7 +201,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   }
 
   getAvailableStates(providerAdmin, serviceProviderId, service, national) {
-    debugger;
     console.log(providerAdmin, service, national);
     const alreadyMappedStates = [];
     if (!national) {
@@ -236,12 +238,11 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     }
   }
   getAvailableStates_edit(providerAdmin, serviceProviderId, service, national) {
-    debugger;
     console.log(providerAdmin, service, national);
     const alreadyMappedStates = [];
     if (!national) {
       for (let i = 0; i < this.providerAdminList.length; i++) {
-        if (this.providerAdminList[i].userID === (providerAdmin) &&
+        if (this.providerAdminList[i].userID === providerAdmin &&
           this.providerAdminList[i].serviceProviderID === serviceProviderId &&
           this.providerAdminList[i].serviceID === (service)) {
           if (this.providerAdminList[i].stateID !== undefined) {
@@ -302,7 +303,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.editMode = true;
   }
   add2bufferArray(form_values) {
-    debugger;
     this.resetDropdowns();
     console.log(form_values, 'form values after adding');
     const object = {
@@ -490,30 +490,31 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     });
   }
   editRow(rowObject) {
-    debugger;
     this.showEditForm();
     this.disableUsername = true;
     this.uSRMappingID = rowObject.uSRMappingID;
+    this.providermapID = rowObject.providerServiceMapID;
     this.edit_Details = rowObject;
-    this.edit_Details_service = rowObject;
+    this.edit_state = rowObject.stateID
     this.getProviderServices(rowObject)
     //  this.getProviderServicesInState(rowObject, rowObject, rowObject);
     if (rowObject.serviceName === "1097") {
-      this.getProviderStatesInService_edit(this.edit_Details.userID, this.edit_Details, this.edit_Details.serviceID, true);
-      this.setIsNational(true);
+      this.getProviderStatesInService_edit(this.edit_Details.userID, this.edit_Details, this.edit_Details.serviceID, this.edit_Details.serviceID);
+
     }
     else {
-      this.getProviderStatesInService_edit(this.edit_Details.userID, this.edit_Details, this.edit_Details.serviceID, false);
-      this.setIsNational(false);
+      this.getProviderStatesInService_edit(this.edit_Details.userID, this.edit_Details, this.edit_Details.serviceID, this.edit_Details.serviceID);
     }
   }
+  getPrividerMapID(value) {
+    this.providermapID = value;
+  }
   update(editedDetails: any) {
-    debugger;
     let duplicatecount = 0;
     const object = {
       'uSRMappingID': this.uSRMappingID,
-      'providerServiceMapID': editedDetails.Serviceline.providerServiceMapID,
-      'userID': editedDetails.serviceProvider,
+      'providerServiceMapID': this.providermapID,
+      'userID': editedDetails.ProviderAdmin,
       'modifiedBy': this.createdBy
     }
 
@@ -527,6 +528,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.getAllMappedProviders();
         this.showTable();
         this.edit_Details = '';
+        this.uSRMappingID = '';
+        this.providermapID = '';
       }, err => {
         console.log('error', err);
       });
