@@ -45,7 +45,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
       <button md-mini-fab color="primary" *ngIf="searchFields.valid && showFormFlag" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
-        (click)="add_obj(instituteType,description);this.searchFields.reset()">
+        (click)="add_obj(instituteType,description)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -133,9 +133,9 @@
     </div>
     <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showFormFlag">
       <button md-raised-button *ngIf="bufferArray.length>0" class="pull-right" color="accent" (click)="save()">Save</button>
-      <button md-mini-fab color="primary" *ngIf="searchFields.valid" class="pull-right" (click)="add_obj(instituteType,description)">
+      <!-- <button md-mini-fab color="primary" *ngIf="searchFields.valid" class="pull-right" (click)="add_obj(instituteType,description)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
+      </button> -->
       <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>
   </div>
