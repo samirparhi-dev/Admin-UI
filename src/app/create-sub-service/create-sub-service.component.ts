@@ -296,7 +296,7 @@ export class CreateSubServiceComponent implements OnInit {
     // jQuery('#addingForm').trigger('reset');
   }
   back() {
-    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.message.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.addSubService(true);
       }
@@ -314,7 +314,7 @@ export class CreateSubServiceComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.message.confirm('Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
+    this.message.confirm('Confirm','Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.sub_service.deleteSubService(obj).subscribe(response => {
           this.deletedSuccessHandler(response)

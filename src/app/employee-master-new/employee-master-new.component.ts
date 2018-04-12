@@ -165,7 +165,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   back() {
-    this.dialogService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.dialogService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
         this.tableMode = true;
@@ -702,7 +702,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.dialogService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("Deactivating or activating Obj", obj);
         this.employeeMasterNewService.userActivationDeactivation(obj)

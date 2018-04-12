@@ -118,7 +118,7 @@ export class EmployeeMasterComponent implements OnInit {
 
   deleteUser(usrMapingId) {
     // let confirmation = confirm("do you want to delete this role ???");
-    this.alertService.confirm("Are you sure you want to delete this role ?").subscribe((res) => {
+    this.alertService.confirm('Confirm',"Are you sure you want to delete this role ?").subscribe((res) => {
       if (res) {
         this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe(response => this.userDeleteHandeler(response));
       }
@@ -130,7 +130,7 @@ export class EmployeeMasterComponent implements OnInit {
 
   editeUser(toBeEditedObject) {
     // let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
-    this.alertService.confirm("Do you want to edit the details of " + toBeEditedObject.firstName + " " + toBeEditedObject.lastName + "?").subscribe(res => {
+    this.alertService.confirm('Confirm',"Do you want to edit the details of " + toBeEditedObject.firstName + " " + toBeEditedObject.lastName + "?").subscribe(res => {
       if (res) {
         console.log(JSON.stringify(toBeEditedObject));
 

@@ -158,7 +158,7 @@ export class BlockServiceProviderComponent implements OnInit {
     this.services_array = [];
   }
   resetForm() {
-    this.message.confirm('Are you sure want to clear?').subscribe((response) => {
+    this.message.confirm('Confirm','Are you sure want to clear?').subscribe((response) => {
       if (response) {
         jQuery('#myForm').trigger('reset');
         this.data = [];

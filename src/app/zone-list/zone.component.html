@@ -1,4 +1,3 @@
-<div class="row">
   <div *ngIf="showZones && !editable">
     <h4>Available Zones</h4>
     <div class="table-responsive m-t-15">
@@ -61,16 +60,18 @@
     <button md-raised-button color="primary" (click)="showForm()">Add Zone </button>
   </div> -->
   </div>
-</div>
 <!-- <div *ngIf="editable">
 
 </div> -->
 <div class="row">
   <div *ngIf="!showZones || editable">
+
+    <div class="col-xs-12 col-sm-12">
     <h4 *ngIf="!editable">Create Zone </h4>
     <h4 *ngIf="editable">Edit Zone </h4>
+  </div>
     <form #zoneForm="ngForm">
-      <div class="row">
+     
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
@@ -166,9 +167,9 @@
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
-      </div>
+     
     </form>
-    <div class="row">
+   
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="zoneList.length>0">
         <div class="table-responsive">
           <table [md2Data]="zoneList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
@@ -209,8 +210,8 @@
         </div>
         <!-- <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls> -->
       </div>
-    </div>
-    <div class="row">
+  
+    
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
         <button [disabled]="!(zoneList.length >0)" *ngIf="!editable" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezone()">Save</button>
@@ -221,4 +222,3 @@
       </div>
     </div>
   </div>
-</div>

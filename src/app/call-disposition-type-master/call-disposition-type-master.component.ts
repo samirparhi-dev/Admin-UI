@@ -122,7 +122,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 		this.temporarySubtypeArray = [];
 	}
 	back() {
-		this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+		this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
 			if (res) {
 				this.hideTable(false);
 			}
@@ -330,7 +330,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 	}
 	deleteSubCallType(callTypeID, flag) {
 		if (flag === true) {
-			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response => {
+			this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
 				if (response) {
 					let obj = {
 						"callTypeID": callTypeID,
@@ -342,7 +342,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 			});
 		}
 		if (flag === false) {
-			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response => {
+			this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
 				if (response) {
 					let obj = {
 						"callTypeID": callTypeID,

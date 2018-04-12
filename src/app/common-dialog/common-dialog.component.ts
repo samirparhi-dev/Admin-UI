@@ -11,6 +11,7 @@ export class CommonDialogComponent implements OnInit {
   @Output() cancelEvent = new EventEmitter();
   public title: string;
   public message: string;
+  public status: string;
   public btnOkText?: string;
   public btnCancelText?: string;
   public alert: boolean;

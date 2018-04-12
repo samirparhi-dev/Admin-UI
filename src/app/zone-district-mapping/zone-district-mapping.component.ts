@@ -193,7 +193,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
             status = "Activate";
         }
 
-        this.alertMessage.confirm("Are you sure you want to "+status+"?").subscribe(response=>{
+        this.alertMessage.confirm('Confirm',"Are you sure you want to "+status+"?").subscribe(response=>{
             if(response)
             {
                 this.dataObj = {};
@@ -249,7 +249,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.editable=false;
     }
     back() {
-        this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.zoneDistrictMappingForm.resetForm();
                 this.clearEdit();

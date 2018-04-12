@@ -124,7 +124,7 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.searchPage = false;
   }
   back() {
-    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.message.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.searchPage = true;
         this.state = "";
