@@ -15,7 +15,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getRoles(state,service)"
+      <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" (change)="getRoles(state,service)"
         required>
         <md-option *ngFor="let item of services" value="{{item.serviceID}}">
           {{item.serviceName}}
@@ -42,7 +42,7 @@
 <div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12 m-t-20 ">
     <div class="table-responsive">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th>State</th>
