@@ -46,6 +46,7 @@ export class BlockProvider {
     this.getAllProviderUrl = this.admin_base_url + 'getAllProvider';
     this.getAllStatesOfProvider_Url = this.admin_base_url + 'm/role/state';
     this.getAllServicesInStateOfProvider_Url = this.admin_base_url + 'm/role/service';
+    
     this.getAllServicesOfProvider_Url = this.admin_base_url + 'getServiceLinesUsingProvider';
 
     // get status of blocked/unblocked

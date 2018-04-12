@@ -174,7 +174,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   updateListAsPerFunction(res) {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
-      this.alertService.alert('Procedure- Component Mapping has been saved successfully.');
+      this.alertService.alert('Procedure- Component mapping has been saved successfully.');
     } else if (this.editMode) {
       let index = -1;
       let filterIndex = -1;

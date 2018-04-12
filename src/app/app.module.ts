@@ -191,6 +191,7 @@ import { LanguageMappingComponent } from './language-mapping/language-mapping.co
 import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
 import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
+import { ItemMasterComponent } from './item-master/item-master.component';
 @NgModule({
   declarations: [
 
@@ -223,7 +224,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe
+    , OrderByPipe, UtcDatePipe, ItemMasterComponent
 
   ],
 

@@ -275,7 +275,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	toggleActivateSuccessHandeler(response, action) {
 		console.log(response, "delete Response");
 		if (response) {
-			this.alertService.alert(action + " successfully!")
+			this.alertService.alert(action + " successfully")
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
 	}
