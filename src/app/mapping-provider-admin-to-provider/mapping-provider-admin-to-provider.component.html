@@ -7,7 +7,7 @@
   <!-- pre-populated table showing the number of providers available -->
   <div class="col-xs-12 col-sm-12">
     <div class="table-responsive">
-      <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="3">
+      <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="15%">Provider Name</th>
@@ -118,7 +118,7 @@
   </div>
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
     <div class="table-responsive">
-      <table class="table table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -201,9 +201,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="Serviceline" placeholder="Serviceline" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID.isNational);setIsNational(edit_Details.serviceID.isNational);"
+          <md-select required name="Serviceline" placeholder="Serviceline" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID);"
             [style.width]="'100%'" [(ngModel)]="edit_Details.serviceID">
-            <md-option *ngFor="let item of services_array" [value]="item">
+            <md-option *ngFor="let item of services_array" (click)=getPrividerMapID(item.providerServiceMapID) [value]="item.serviceID">
               {{item.serviceName}}
             </md-option>
           </md-select>

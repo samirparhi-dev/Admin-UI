@@ -8,7 +8,7 @@
   <!-- pre-populated table showing the number of providers available -->
   <div class="col-xs-12 col-sm-12">
     <div class="table-responsive">
-      <table [md2Data]="LanguageMappedList" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+      <table [md2Data]="LanguageMappedList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th md2SortBy="userName" width="25%">User Name</th>
@@ -158,7 +158,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
               <div class="table-responsive">
-                <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped" [rowsPerPage]="4">
+                <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
                   <thead>
                     <tr>
                       <th>S.No.</th>
