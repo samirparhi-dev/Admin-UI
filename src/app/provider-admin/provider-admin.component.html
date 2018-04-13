@@ -63,21 +63,21 @@
                                 </li>
                                 <li style="cursor: pointer" (click)='show("12")'>
                                     <a>Severity Type</a>
-                                </li>                               
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-2">Drug Groups</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
-                                            <li style="cursor: pointer" (click)='show("33")'>
-                                                <a>Drug Group Master</a>
-                                            </li>
-                                            <li style="cursor: pointer" (click)='show("34")'>
-                                                <a>Drug Master</a>
-                                            </li>
-                                            <li style="cursor: pointer" (click)='show("35")'>
-                                                <a>Drug Group Item Mapping</a>
-                                            </li>                                           
-                                        </ul>
-                                    </li> 
+                                        <li style="cursor: pointer" (click)='show("33")'>
+                                            <a>Drug Group Master</a>
+                                        </li>
+                                        <li style="cursor: pointer" (click)='show("34")'>
+                                            <a>Drug Master</a>
+                                        </li>
+                                        <li style="cursor: pointer" (click)='show("35")'>
+                                            <a>Drug Group Item Mapping</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Master</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -85,16 +85,16 @@
                                             <a>Zone Master</a>
                                         </li> -->
                                         <li class="dropdown-submenu">
-                                                <a tabindex="-3">Zone Master</a>
-                                                <ul class="dropdown-menu cu-admin-sub-nav-top">
-                                                        <li style="cursor: pointer" (click)='show("36")'>
-                                                            <a>Zone List</a>
-                                                        </li>
-                                                        <li style="cursor: pointer" (click)='show("37")'>
-                                                            <a>Zone District Mapping</a>
-                                                        </li>                                                                                                
-                                                    </ul>
-                                                </li> 
+                                            <a tabindex="-3">Zone Master</a>
+                                            <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                                <li style="cursor: pointer" (click)='show("36")'>
+                                                    <a>Zone List</a>
+                                                </li>
+                                                <li style="cursor: pointer" (click)='show("37")'>
+                                                    <a>Zone District Mapping</a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                         <li style="cursor: pointer" (click)='show("8")'>
                                             <a>Parking Place Master</a>
                                         </li>
@@ -112,7 +112,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
                             </ul>
                         </li>
                         <li style="cursor: pointer" (click)='show("10")'>
@@ -148,6 +147,16 @@
                                             <a>Procedure Component Mapping</a>
                                         </li>
                                     </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Inventory
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu multi-level cu-admin-sub-nav-top">
+                                <li style="cursor:pointer" (click)='show("38")'>
+                                    <a>Item Master</a>
                                 </li>
                             </ul>
                         </li>
@@ -202,6 +211,7 @@
                             <app-drug-mapping *ngSwitchCase="35"></app-drug-mapping>
                             <app-zone *ngSwitchCase="36"></app-zone>
                             <app-zone-district-mapping *ngSwitchCase="37"></app-zone-district-mapping>
+                            <app-item-master *ngSwitchCase="38"></app-item-master>
                         </div>
                     </div>
                 </div>
