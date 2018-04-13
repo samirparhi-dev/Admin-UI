@@ -222,7 +222,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
     // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
-    this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
@@ -370,7 +370,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   }
   back(flag) {
-    this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.setRoleFormFlag(flag);
       }

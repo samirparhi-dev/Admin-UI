@@ -272,7 +272,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             status = "Activate";
         }
 
-        this.alertMessage.confirm("Are you sure you want to " + status + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
             if (response) {
                 this.dataObj = {};
                 this.dataObj.servicePointVillageMapID = servicePointvillageMap.servicePointVillageMapID;
@@ -300,7 +300,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.showServicePointVillageMaps = true;
     }
     back() {
-        this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.servicePointVillageMapForm.resetForm();
                 this.showList();

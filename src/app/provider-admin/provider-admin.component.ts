@@ -19,7 +19,7 @@ export class ProviderAdminComponent implements OnInit {
   {
     if(this.Activity_Number!="0" && this.Activity_Number!=value)
     {
-      this.alertService.confirm("Do you really want to navigate? Any unsaved data would be lost").subscribe(response=>{
+      this.alertService.confirm('Confirm',"Do you really want to navigate? Any unsaved data would be lost").subscribe(response=>{
         if(response)
         {
           this.Activity_Number=value;

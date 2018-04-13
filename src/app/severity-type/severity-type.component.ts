@@ -36,7 +36,7 @@ export class SeverityTypeComponent implements OnInit {
   createdBy: any;
 
 
-
+  @ViewChild('severityAdding') severityAdding: NgForm;
   constructor(
     public commonDataService: dataService,
     public severityTypeService: SeverityTypeService,
@@ -137,9 +137,7 @@ export class SeverityTypeComponent implements OnInit {
       'createdBy': this.createdBy
     }
     this.severityArray.push(obj);
-    this.severity = "";
-    this.description = "";
-
+    this.severityAdding.resetForm();
     this.addSeverity(values.severity);
     this.alreadyExist = false;
   }
@@ -153,7 +151,7 @@ export class SeverityTypeComponent implements OnInit {
     }
   }
   back() {
-    this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.handlingFlag(true);
       }
@@ -191,7 +189,7 @@ export class SeverityTypeComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
 
-    this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         this.severityTypeService.deleteSeverity(obj).subscribe(response => this.deleteSuccessHandler(response));
       }

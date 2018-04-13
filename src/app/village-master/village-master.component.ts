@@ -141,7 +141,7 @@ export class VillageMasterComponent implements OnInit {
     }
 
     back() {
-        this.alertMessage.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 jQuery("#villageForm").trigger("reset");
                 this.villageList = [];
@@ -165,7 +165,7 @@ export class VillageMasterComponent implements OnInit {
             status = "Activate";
         }
 
-        this.alertMessage.confirm("Are you sure you want to " + status + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
             if (response) {
                 this.dataObj = {};
                 this.dataObj.districtBranchID = village.districtBranchID;

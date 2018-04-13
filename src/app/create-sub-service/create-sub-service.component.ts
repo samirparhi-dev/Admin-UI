@@ -77,6 +77,7 @@ export class CreateSubServiceComponent implements OnInit {
       'serviceProviderID': serviceProviderID,
       'serviceID': serviceID
     };
+    this.state= undefined;
     this.sub_service.getStatesInServices(data).subscribe(response => {
       console.log(response, 'successful response');
       this.states = undefined;
@@ -142,19 +143,29 @@ export class CreateSubServiceComponent implements OnInit {
   existingSubServiceHandler(response) {
     this.existingSubService = [];
     this.existingSubService = response;
-    this.getSubServices(this.serviceObj);
+    if(this.state) {
+    this.getSubServices(this.state);
+    }
+    else {
+      this.getSubServices(this.serviceObj);
+    }
 
   }
 
   add(serviceProvider, state, service, subServices, subServiceDesc) {
     const array = [];
     const obj = {};
-    obj['providerServiceMapID'] = service.providerServiceMapID;
+    if (state) {
+      obj['providerServiceMapID'] = state.providerServiceMapID;
+    }
+    else {
+      obj['providerServiceMapID'] = this.states[0].providerServiceMapID;
+    }
     obj['serviceID'] = service.serviceID;
     obj['subServiceDetails'] = [
       { 'subServiceName': subServices.subServiceName, 'subServiceDesc': subServiceDesc }
     ];
-    obj['createdBy'] = 'neeraj';
+    obj['createdBy'] = this.commonData.uname;
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
@@ -251,7 +262,13 @@ export class CreateSubServiceComponent implements OnInit {
     this.getServicesFromProvider(this.serviceProvider);
     this.searchState = this.state;
     this.searchServiceObj = this.serviceObj;
-    this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
+    if (this.state) {
+     
+      this.getExistingOnSearch(this.state.providerServiceMapID);
+    }
+    else {
+      this.getExistingOnSearch(this.states[0].providerServiceMapID);
+    }
     // this.addSubService(true);
     // this.showTable = true;
     // this.data = response.map(function (element) {
@@ -265,7 +282,13 @@ export class CreateSubServiceComponent implements OnInit {
   addSubService(flag) {
     this.searchForm = flag;
     if (flag) {
-      this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
+      if (this.state) {
+     
+        this.getExistingOnSearch(this.state.providerServiceMapID);
+      }
+      else {
+        this.getExistingOnSearch(this.states[0].providerServiceMapID);
+      }
     }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
@@ -273,7 +296,7 @@ export class CreateSubServiceComponent implements OnInit {
     // jQuery('#addingForm').trigger('reset');
   }
   back() {
-    this.message.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.message.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.addSubService(true);
       }
@@ -291,7 +314,7 @@ export class CreateSubServiceComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.message.confirm('Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
+    this.message.confirm('Confirm','Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.sub_service.deleteSubService(obj).subscribe(response => {
           this.deletedSuccessHandler(response)
@@ -302,11 +325,23 @@ export class CreateSubServiceComponent implements OnInit {
   clearFields() {
     // this.subServiceDesc = '';
     jQuery("#form2").trigger('reset');
-    this.getExistingSubService(this.serviceObj.providerServiceMapID);
+    if (this.state) {
+     
+      this.getExistingSubService(this.state.providerServiceMapID);
+    }
+    else {
+      this.getExistingSubService(this.states[0].providerServiceMapID);
+    }
   }
   deletedSuccessHandler(res) {
     this.message.alert(this.confirmMessage + "d successfully");
-    this.getExistingOnSearch(this.serviceObj.providerServiceMapID);
+    if (this.state) {
+     
+      this.getExistingOnSearch(this.state.providerServiceMapID);
+    }
+    else {
+      this.getExistingOnSearch(this.states[0].providerServiceMapID);
+    }
 
   }
 

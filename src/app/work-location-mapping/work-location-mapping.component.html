@@ -81,29 +81,12 @@
           </md-select>
         </md-input-container>
       </div>
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-            <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllStates(User,Serviceline.serviceID)"
-              required>
-              <md-option *ngFor="let item of services_array" [value]="item">
-                {{item.serviceName}}
-              </md-option>
-            </md-select>
-          </div> -->
+      
+      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State);getProviderServicesInState(State)"
-            required>
-            <md-option *ngFor="let item of states_array" [value]="item">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
-          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getAllWorkLocations(User,State,Serviceline)"
+          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getStates(Serviceline.serviceID,Serviceline.isNational);setIsNational(Serviceline.isNational)"
             required>
             <md-option *ngFor="let item of services_array" [value]="item">
               {{item.serviceName}}
@@ -115,7 +98,19 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="District" (change)="getAllWorkLocations(User,State,Serviceline)"
+          <md-select placeholder="Select State" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State)"
+            required>
+            <md-option *ngFor="let item of states_array" [value]="item">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="Select District" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="District" (change)="getAllWorkLocations(State,Serviceline,isNational)"
             name="district" required>
             <md-option *ngFor="let item of districts_array| OrderBy:'districtName'" [value]="item">
               {{item.districtName}}
@@ -126,7 +121,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(User,State,Serviceline)"
+          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(State.providerServiceMapID)"
             name="worklocation" required>
             <md-option *ngFor="let item of workLocationsList| OrderBy:'locationName'" [value]="item">
               {{item.locationName}}
@@ -206,7 +201,7 @@
 
   </div>
 </div>
-<div class="row" *ngIf="editMode">
+ <div class="row" *ngIf="editMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 *ngIf="!editMode">
       <strong>Work-Location-Mapping</strong>
@@ -219,7 +214,6 @@
 
     <form id="workplaceForm" #workplaceeform="ngForm" autocomplete="off">
 
-      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -231,35 +225,37 @@
           </md-select>
         </md-input-container>
       </div>
+     
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select State" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state" (change)="getAllDistricts(stateID_duringEdit);getProviderServicesInState_duringEdit(stateID_duringEdit); refresh1()"
+          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="serviceID"
+            (change)="refresh2()"
             required>
-            <md-option *ngFor="let item of states_array" [value]="item.stateID">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
-          <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID_duringEdit" name="providerServiceMapID"
-            (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh2()"
-            required>
-            <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
+            <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="getProviderStates_duringEdit(item.serviceID,item.isNational);setIsNational_edit(item.isNational)" >
               {{item.serviceName}}
             </md-option>
           </md-select>
         </md-input-container>
       </div>
 
+       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select placeholder="Select State" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit" name="state" (change)="getAllDistricts(stateID_duringEdit); refresh1()"
+            required>
+            <md-option *ngFor="let item of states_array" [value]="item.stateID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
-          <md-select placeholder="Select District" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district" (change)="getAllWorkLocations_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh3()"
+          <input mdInput style="display:none"> 
+          <md-select placeholder="Select District" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="district_duringEdit" name="district" (change)="getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit); refresh3()"
             required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">
               {{item.districtName}}
@@ -267,12 +263,11 @@
           </md-select>
         </md-input-container>
       </div>
-      <!-- </div> -->
-      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
+      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="getAllRoles_duringEdit(userID_duringEdit,stateID_duringEdit,serviceID_duringEdit); refresh4()"
+          <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="workLocationID_duringEdit" (change)="refresh4()"
             name="worklocation" required>
             <md-option *ngFor="let item of workLocationsList" [value]="item.pSAddMapID">
               {{item.locationName}}
@@ -290,22 +285,11 @@
           </md-select>
         </md-input-container>
       </div>
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
-            <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="agentID" placeholder="Agent ID" name="agentID" required />
-            </md-input-container>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-27">
-            <md-input-container class="width100">
-              <input autocomplete='off' mdInput type="text" id="password" placeholder="Agent Password" name="password" required />
-            </md-input-container>
-          </div> -->
-      <!-- </div> -->
+      
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
       <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
       <button *ngIf="!formMode" md-raised-button color="accent" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceeform.value);">Update</button>
     </div>
   </div>
-</div>
+</div> 

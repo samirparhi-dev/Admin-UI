@@ -156,7 +156,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	back()
 	{
-		this.alertService.confirm("Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+		this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
 			if(res) {
 				this.showTableFlag=true;
 				this.showFormFlag=false;
@@ -235,7 +235,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	{
 		if(isDeleted===true)
 		{
-			this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response=>{
+			this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response=>{
 				if(response)
 				{
 					let obj={
@@ -250,7 +250,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 		if(isDeleted===false)
 		{
-			this.alertService.confirm("Are you sure you want to Activate?").subscribe(response=>{
+			this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response=>{
 				if(response)
 				{
 					let obj={

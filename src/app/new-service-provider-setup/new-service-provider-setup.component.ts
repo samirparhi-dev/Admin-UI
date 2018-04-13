@@ -661,7 +661,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     );
   }
   clearProviderForm() {
-    this.message.confirm('Are you sure want to clear?').subscribe(
+    this.message.confirm('Confirm','Are you sure want to clear?').subscribe(
       response => {
         if (response) {
           jQuery('#detailedForm').trigger('reset');
@@ -679,7 +679,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     // jQuery('#providerForm').trigger('reset');
   }
   clearDetailedForm() {
-    this.message.confirm('Are you sure want to clear?').subscribe(
+    this.message.confirm('Confirm','Are you sure want to clear?').subscribe(
       response => {
         if (response) {
           jQuery('#providerForm').trigger('reset');

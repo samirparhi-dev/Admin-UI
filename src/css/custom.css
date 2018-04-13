@@ -1536,7 +1536,26 @@ em {
   padding-left: 0;
   margin-top: 25px;
 }
+.popupHeader {
+  margin: 0;
+  padding: 10px;
+  margin-bottom: 30px;
+  color: white;
+}
+.headerDiv {
+  margin: -24px;
+  background-color: #0277bd;
+}
 
+.successHeaderDiv {
+margin: -24px;
+background-color: #43A047;
+}
+
+.errorHeaderDiv {
+margin: -24px;
+background-color: #F44336;
+}
 .symptomsList li {
   border: 1px solid black;
   display: inline-block;
@@ -2062,6 +2081,10 @@ background:#027b95 !important;
 height:44px !important;
 line-height: 42px !important;
 
+}
+.center-btn {
+  justify-content: center;
+  display: flex;
 }
 .record-not-found
 

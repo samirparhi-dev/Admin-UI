@@ -146,7 +146,7 @@ export class LanguageMappingComponent implements OnInit {
 
   }
   activate(userLangID) {
-    this.alertService.confirm("Are you sure you want to Activate?").subscribe(response => {
+    this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
           'userLangID': userLangID,
@@ -169,7 +169,7 @@ export class LanguageMappingComponent implements OnInit {
 
   }
   deactivate(userLangID) {
-    this.alertService.confirm("Are you sure you want to Deactivate?").subscribe(response => {
+    this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'userLangID': userLangID, 'deleted': true };
 

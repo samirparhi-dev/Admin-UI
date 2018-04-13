@@ -314,7 +314,7 @@ export class ComponentMasterComponent implements OnInit {
       text = "Are you sure you want to Activate?";
     else
       text = "Are you sure you want to Deactivate?";
-    this.alertService.confirm(text).subscribe(response => {
+    this.alertService.confirm('Confirm',text).subscribe(response => {
       if (response) {
         console.log(componentID, index, 'index');
         this.componentMasterServiceService.toggleComponent({ componentID: componentID, deleted: toggle })
@@ -322,9 +322,9 @@ export class ComponentMasterComponent implements OnInit {
             console.log(res, 'changed');
             if (res) {
               if (!toggle)
-                this.alertService.confirm("Activated successfully");
+                this.alertService.alert("Activated successfully");
               else
-                this.alertService.confirm("Deactivated successfully");
+                this.alertService.alert("Deactivated successfully");
               this.updateList(res);
             }
           })

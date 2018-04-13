@@ -9,7 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {
   MdDatepickerModule, MdInputModule, MdNativeDateModule, MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
-  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule,MdAutocompleteModule
+  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule, MdAutocompleteModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -192,7 +192,8 @@ import { LanguageMapping } from './services/ProviderAdminServices/language-mappi
 import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
 import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
-import{ FacilityMasterService } from './services/Inventory/facilitytypemaster.service'
+import { FacilityMasterService } from './services/Inventory/facilitytypemaster.service';
+import { ItemMasterComponent } from './item-master/item-master.component';
 @NgModule({
   declarations: [
 
@@ -225,7 +226,7 @@ import{ FacilityMasterService } from './services/Inventory/facilitytypemaster.se
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent
+    , OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent
 
   ],
 
@@ -303,7 +304,7 @@ import{ FacilityMasterService } from './services/Inventory/facilitytypemaster.se
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
-    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping,FacilityMasterService,
+    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, FacilityMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

@@ -148,7 +148,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm("Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedbackNatureType(obj)

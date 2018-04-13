@@ -22,6 +22,8 @@ export class ProvideCtiMappingComponent implements OnInit {
   campaign_array: any = [];
   campaign: any;
   campaignList: any = [];
+  isNational: any = false;
+  providerServiceMapID: any;
 
   @ViewChild('form') mapping_form: NgForm;
 
@@ -32,22 +34,33 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
   }
 
+  getServices(serviceProviderID) {
+    this.block_provider.getServicesOfProvider(serviceProviderID.serviceProviderId)
+      .subscribe(response => this.getServicesSuccesshandeler(response));
+  }
 
-  getStates(serviceProviderID) {
-    this.block_provider.getStates(serviceProviderID.serviceProviderId).subscribe(response => {
-      this.getStatesSuccesshandeler(response);
-      // this.getAllServicesOfProvider(serviceProviderID);
-    });
-  }
-  getServicesInState(serviceProviderID, stateID) {
-    this.block_provider.getServicesInState(serviceProviderID.serviceProviderId, stateID)
-      .subscribe(response => this.getServicesInStatesSuccesshandeler(response));
-  }
-  getCampaign(service_provider, state, serviceline) {
+  getCampaign(serviceline) {
     this._callServices.getCapmaign(serviceline.serviceName).subscribe((res) => {
       this.campaign_array = res.campaign;
+      this.setIsNational(serviceline.isNational);
+      this.getStatesInService(this.service_provider.serviceProviderId, serviceline.serviceID);
     }, (err) => {
 
+    });
+  }
+
+  setIsNational(value) {
+    this.isNational = value;
+  }
+
+  getStatesInService(serviceProviderID, serviceID) {
+    const data = {
+      'serviceProviderID': serviceProviderID,
+      'serviceID': serviceID
+    }
+    this.block_provider.getStatesInServices(data).subscribe(response => {
+      this.getStatesSuccesshandeler(response);
+      // this.getAllServicesOfProvider(serviceProviderID);
     });
   }
   getAllProvidersSuccesshandeler(response) {
@@ -55,8 +68,12 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
   getStatesSuccesshandeler(response) {
     this.states_array = response;
+
+    if (this.isNational) {
+      this.providerServiceMapID = this.states_array[0].providerServiceMapID;
+    }
   }
-  getServicesInStatesSuccesshandeler(response) {
+  getServicesSuccesshandeler(response) {
     this.services_array = response;
   }
   addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
@@ -66,11 +83,11 @@ export class ProvideCtiMappingComponent implements OnInit {
     campignObj['cTI_CampaignName'] = campaign.campaign_name;
     campignObj['Service'] = serviceline.serviceName;
     campignObj['ServiceId'] = serviceline.serviceID;
-       
+
     if (this.campaignList.length > 0) {
       this.campaignList.push(campignObj);
       this.campaignList = this.filterArray(this.campaignList);
-    
+
     } else {
       this.campaignList.push(campignObj);
     }
@@ -111,7 +128,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     })
   }
   resetForm() {
-    // this.message.confirm('Are you sure want to reset?').subscribe((response) => {
+    // this.message.confirm('Confirm','Are you sure want to reset?').subscribe((response) => {
     //   if (response) {
     jQuery('#myForm').trigger('reset');
     this.states_array = [];

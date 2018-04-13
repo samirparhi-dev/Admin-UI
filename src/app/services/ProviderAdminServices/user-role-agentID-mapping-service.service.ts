@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import { InterceptedHttp } from './../../http.interceptor';
 import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 
-import { ConfigService } from "../config/config.service";
+import { ConfigService } from '../config/config.service';
 
 
 
@@ -39,38 +39,42 @@ export class UserRoleAgentID_MappingService {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
-    this.get_State_Url = this.admin_Base_Url + "m/role/state";
-    this.get_Service_Url = this.admin_Base_Url + "m/role/service";
-    this.get_Roles_Url = this.admin_Base_Url + "m/role/search";
-    this.get_Roles_Url_new = this.admin_Base_Url + 'm/role/search1';
+    this.get_State_Url = this.admin_Base_Url + 'm/role/stateNew';
+    this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
+    // this.get_Roles_Url = this.admin_Base_Url + 'm/role/search';
+    // this.get_Roles_Url_new = this.admin_Base_Url + 'm/role/search1';
+    this.get_Roles_Url = this.admin_Base_Url + 'm/role/searchNew';
 
-    this.get_Campaigns_Url = this.admin_Base_Url + "getAvailableCampaigns";
-    this.get_AgentIDs_Url = this.admin_Base_Url + "getAvailableAgentIds";
+    this.get_Campaigns_Url = this.admin_Base_Url + 'getAvailableCampaigns';
+    this.get_AgentIDs_Url = this.admin_Base_Url + 'getAvailableAgentIds';
 
-    this.getEmployeeUrl = this.admin_Base_Url + "m/SearchEmployeeFilter";
-    this.mapAgentID_Url = this.admin_Base_Url + "usrRoleAndCtiMapping";
+    this.getEmployeeUrl = this.admin_Base_Url + 'm/SearchEmployeeFilter';
+    this.mapAgentID_Url = this.admin_Base_Url + 'usrRoleAndCtiMapping';
   };
 
-  getStates(serviceProviderID) {
-    return this.http.post(this.get_State_Url, { "serviceProviderID": serviceProviderID })
+  getStates(userID, serviceID, isNational) {
+    return this.http.post(this.get_State_Url,
+      {
+        'userID': userID,
+        'serviceID': serviceID,
+        'isNational': isNational
+      })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
-  getServices(serviceProviderID, stateID) {
+  getServices(userID) {
     return this.http.post(this.get_Service_Url, {
-      "serviceProviderID": serviceProviderID,
-      "stateID": stateID
+      'userID': userID
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
-  getRoles(serviceProviderID, stateID, serviceID) {
-    return this.http.post(this.get_Roles_Url_new,
+  getRoles(providerServiceMapID) {
+    return this.http.post(this.get_Roles_Url,
       {
-        "serviceProviderID": serviceProviderID,
-        "stateID": stateID,
-        "serviceID": serviceID
+        'providerServiceMapID': providerServiceMapID
+
       })
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -83,7 +87,7 @@ export class UserRoleAgentID_MappingService {
   }
 
   getAvailableCampaigns(providerServiceMapID) {
-    return this.http.post(this.get_Campaigns_Url, { "providerServiceMapID": providerServiceMapID })
+    return this.http.post(this.get_Campaigns_Url, { 'providerServiceMapID': providerServiceMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
@@ -91,8 +95,8 @@ export class UserRoleAgentID_MappingService {
   getAgentIDs(providerServiceMapID, campaign_name) {
     return this.http.post(this.get_AgentIDs_Url,
       {
-        "providerServiceMapID": providerServiceMapID,
-        "cti_CampaignName": campaign_name
+        'providerServiceMapID': providerServiceMapID,
+        'cti_CampaignName': campaign_name
       })
       .map(this.handleSuccess)
       .catch(this.handleError);
@@ -107,7 +111,7 @@ export class UserRoleAgentID_MappingService {
 
   handleState_n_ServiceSuccess(response: Response) {
 
-    console.log(response.json().data, "role service file success response");
+    console.log(response.json().data, 'role service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.statusID != 4) {
@@ -118,7 +122,7 @@ export class UserRoleAgentID_MappingService {
   }
 
   handleSuccess(response: Response) {
-    console.log(response.json().data, "--- in User-Role-AgentID-Mapping SERVICE");
+    console.log(response.json().data, '--- in User-Role-AgentID-Mapping SERVICE');
     if (response.json().data) {
       return response.json().data;
     } else {
