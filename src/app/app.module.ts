@@ -191,6 +191,8 @@ import { LanguageMappingComponent } from './language-mapping/language-mapping.co
 import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
 import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
+import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
+import{ FacilityMasterService } from './services/Inventory/facilitytypemaster.service'
 @NgModule({
   declarations: [
 
@@ -223,7 +225,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe
+    , OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent
 
   ],
 
@@ -301,7 +303,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
-    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping,
+    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping,FacilityMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

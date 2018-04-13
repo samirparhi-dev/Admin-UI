@@ -1,0 +1,205 @@
+<div class="row" *ngIf="tableMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Facility Type Master</strong>
+    </h4>
+  </div>
+  <!-- pre-populated table showing the number of providers available -->
+  <div class="col-xs-12 col-sm-12">
+    <div class="table-responsive">
+      <table [md2Data]="facilityMasterList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="20%">Serviceline</th>
+            <th width="15%">State</th>
+            <th width="20%">Facility&nbsp;Type&nbsp;Code </th>
+            <th width="20%">Facility&nbsp;Type&nbsp;Discription</th>
+            <th width="5%">Edit</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="providerAdminList.length == 0">
+            <td colspan="6" class="record-not-found">No records found</td>
+          </tr>
+          <tr style="cursor: pointer" *ngFor="let facility of md2.data;let i=index ">
+            <td>{{facility.serviceName}}</td>
+            <td>{{facility.stateName }}</td>
+            <td>{{facility.facilityTypeCode}}</td>
+            <td>{{facility.facilityTypeDescription}}</td>
+            <td>
+              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!facility.uSRMDeleted"
+                (click)="editRow(facility)">edit</md-icon>
+            </td>
+            <td>
+              <button md-raised-button color="accent" *ngIf="facility.uSRMDeleted" class=" m-r-10" (click)="activate(facility.uSRMappingID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!facility.uSRMDeleted" class=" m-r-10" (click)="deactivate(facility.uSRMappingID)">Deactivate</button>
+
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Facility Type</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="formMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Facility Type Master</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+    <form id="form" #facilityAddForm="ngForm">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getstates(serviceline)">
+            <md-option *ngFor="let item of services_array" [value]="item">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
+            <md-option *ngFor="let item of states_array" [value]="item">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Facility Type Code" PAN [(ngModel)]="facilityCode" name="facilityCode" #facilityTypeCode="ngModel">
+          <md-hint>
+            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Facility Discription" PAN [(ngModel)]="facilityDiscription" name="facilitydescription">
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-10 ">
+      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" *ngIf="!editMode && form.valid" color="primary"
+        (click)="add2bufferArray(facilityAddForm.value)">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="30%">State</th>
+            <th width="20%">Serviceline</th>
+            <th width="20%">Facility Type Code </th>
+            <th width="40%">Facility Type Description</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of md2.data;let i = index ">
+            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>
+              <ul>
+                <li *ngFor="let obj of item.serviceProviderMapID1;let j=index ">
+                  {{obj.stateName}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeService(i,j)">cancel</md-icon>
+                </li>
+              </ul>
+            </td>
+            <td>{{item.facilityTypeCode}}</td>
+            <td>{{item.faciltyDescription }}</td>
+
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 m-t-15">
+    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveFacilityTypes()">Save</button>
+
+  </div>
+</div>
+<div class="row" *ngIf="editMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Edit Mapping Provider Admin To Provider</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+    <form autocomplete="off" id="editform" #faciliTypEditForm="ngForm">
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="edit_Serviceline" (change)="getProviderStatesInService()">
+            <md-option *ngFor="let item of services_array" [value]="item.serviceID">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="edit_State">
+            <md-option *ngFor="let item of states_array" [value]="item">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Facility Type Code" PAN [(ngModel)]="edit_facilityCode" name="facilityCode" #facilityTypeCode="ngModel">
+          <md-hint>
+            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Facility Discription" PAN [(ngModel)]="edit_facilityDiscription" name="facilitydescription">
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+      <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="faciliTypEditForm.invalid" (click)="update(faciliTypEditForm.value)">Update</button>
+
+    </div>
+  </div>
+</div>
