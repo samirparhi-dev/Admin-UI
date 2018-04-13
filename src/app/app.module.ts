@@ -179,7 +179,6 @@ import { ProviderAdminListComponent } from './provider-admin-list/provider-admin
 import { EditProviderAdminModal } from './provider-admin-list/provider-admin-list.component';
 import { EmployeeMasterNewComponent } from './employee-master-new/employee-master-new.component';
 import { EmployeeMasterNewServices } from './services/ProviderAdminServices/employee-master-new-services.service';
-
 import { OrderByPipe } from './order-by.pipe';
 import { UtcDatePipe } from './utc-date.pipe';
 
@@ -191,7 +190,14 @@ import { LanguageMappingComponent } from './language-mapping/language-mapping.co
 import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
 import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
+
+/* Inventory*/
 import { ItemMasterComponent } from './item-master/item-master.component';
+
+/*Inventory Services*/
+import { CommonServices } from './services/inventory-services/commonServices';
+import { ItemService } from './services/inventory-services/item.service';
+
 @NgModule({
   declarations: [
 
@@ -302,7 +308,8 @@ import { ItemMasterComponent } from './item-master/item-master.component';
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
-    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping,
+    ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
+    CommonServices,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
