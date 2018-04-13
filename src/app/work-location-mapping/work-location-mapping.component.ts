@@ -77,6 +77,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   getStatesSuccessHandeler(response, isNational) {
+    this.State = '';
     if (response) {
       console.log(response, 'Provider States');
       this.states_array = response;
@@ -226,7 +227,7 @@ export class WorkLocationMappingComponent implements OnInit {
     else {
 
       if (this.bufferArray.length > 0) {
-        this.alertService.confirm('Confirm',"Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
           if (response) {
             this.tableMode = true;
             this.formMode = false;
@@ -263,7 +264,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   activate(uSRMappingID) {
     // debugger;
-    this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+    this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
           'uSRMappingID': uSRMappingID,
@@ -287,7 +288,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   deactivate(uSRMappingID) {
     // debugger
-    this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+    this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
@@ -521,178 +522,220 @@ export class WorkLocationMappingComponent implements OnInit {
   //################### EDIT SECTION ##########################
 
 
-  //   userID_duringEdit: any;
-  //   stateID_duringEdit: any;
-  //   providerServiceMapID_duringEdit: any;
-  //   district_duringEdit: any;
-  //   workLocationID_duringEdit: any;
-  //   roleID_duringEdit: any;
-  //   serviceID_duringEdit: any;
+  userID_duringEdit: any;
+  stateID_duringEdit: any;
+  providerServiceMapID_duringEdit: any;
+  district_duringEdit: any;
+  workLocationID_duringEdit: any;
+  roleID_duringEdit: any;
+  serviceID_duringEdit: any;
 
-  //   set_currentPSM_ID_duringEdit(psmID) {
-  //     this.providerServiceMapID_duringEdit = psmID;
-  //   }
+  isNational_edit = false;
 
-  //   editRow(rowObject) {
-  //     debugger;
-  //     this.showEditForm();
-  //     this.edit = true;
-  //     this.disableUsername = true;
-  //     this.edit_Details = rowObject;
-  //     this.userID_duringEdit = rowObject.userID;
-  //     console.log('TO BE EDITED REQ OBJ', this.edit_Details);
-  //     this.uSRMappingID = rowObject.uSRMappingID;
-  //     this.workLocationID_duringEdit = parseInt(this.edit_Details.workingLocationID, 10);
-  //     this.userID_duringEdit = this.edit_Details.userID;
-  //     this.stateID_duringEdit = this.edit_Details.stateID;
-  //     this.providerServiceMapID_duringEdit = this.edit_Details.providerServiceMapID;
-  //     this.district_duringEdit = parseInt(this.edit_Details.workingDistrictID, 10);
-  //     this.roleID_duringEdit = this.edit_Details.roleID;
-  //     this.serviceID_duringEdit = this.edit_Details.serviceID;
+  set_currentPSM_ID_duringEdit(psmID) {
+    this.providerServiceMapID_duringEdit = psmID;
+  }
+
+  editRow(rowObject) {
+    debugger;
+    this.showEditForm();
+    this.edit = true;
+    this.disableUsername = true;
+    this.edit_Details = rowObject;
+    this.userID_duringEdit = rowObject.userID;
+    console.log('TO BE EDITED REQ OBJ', this.edit_Details);
+    this.uSRMappingID = rowObject.uSRMappingID;
+    this.workLocationID_duringEdit = parseInt(this.edit_Details.workingLocationID, 10);
+    this.userID_duringEdit = this.edit_Details.userID;
+    this.stateID_duringEdit = this.edit_Details.stateID;
+    this.providerServiceMapID_duringEdit = this.edit_Details.providerServiceMapID;
+    this.district_duringEdit = parseInt(this.edit_Details.workingDistrictID, 10);
+    this.roleID_duringEdit = this.edit_Details.roleID;
+    this.serviceID_duringEdit = this.edit_Details.serviceID;
 
 
-  //     this.getProviderStates_duringEdit();
-  //     this.getProviderServicesInState_duringEdit(this.edit_Details.stateID);
-  //     this.getAllDistricts_duringEdit(this.edit_Details.stateID);
-  //     this.getAllWorkLocations_duringEdit(this.edit_Details.userID, this.edit_Details.stateID, this.serviceID_duringEdit);
-  //     this.getAllRoles_duringEdit(this.edit_Details.userID, this.edit_Details.stateID, this.serviceID_duringEdit);
+    this.getProviderServices(this.userID);
+    this.checkService_forIsNational();
+    this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
+    this.getAllDistricts_duringEdit(this.edit_Details.stateID);
+    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit);
+    this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
 
-  //   }
+  }
+  // autoPopulateDropdowns() {
+  //   this.worklocationmapping.getServices(this.userID)
+  //     .subscribe(response => {
+  //       this.services_array=
+  //     });
 
-  //   getProviderStates_duringEdit() {
-  //     this.worklocationmapping.getProviderStates(this.serviceProviderID).
-  //       subscribe(response => this.getStatesSuccessHandeler_duringEdit(response));
-  //   }
+  // }
 
-  //   getStatesSuccessHandeler_duringEdit(response) {
-  //     if (response) {
-  //       console.log(response, 'Provider States');
-  //       this.states_array = response;
+  checkService_forIsNational() {
+    for (let i = 0; i < this.services_array.length; i++) {
+      if (this.serviceID_duringEdit === this.services_array[i].serviceID && this.services_array[i].isNational) {
+        this.isNational_edit = this.services_array[i].isNational;
+        break;
+      }
+      else {
+        this.isNational_edit = false;
+      }
+    }
+  }
 
-  //       this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
-  //       this.getAllDistricts_duringEdit(this.stateID_duringEdit);
-  //     }
-  //   }
+  setIsNational_edit(value) {
+    this.isNational_edit = value;
+  }
 
-  //   refresh1() {
-  //     // refreshing ngModels of district, worklocation, servicelines, roles
-  //     this.district_duringEdit = undefined;
-  //     this.workLocationID_duringEdit = undefined;
-  //     this.serviceID_duringEdit = undefined;
-  //     this.roleID_duringEdit = undefined;
-  //   }
+  getProviderServices_edit(userID) {
+    this.worklocationmapping.getServices(this.userID)
+      .subscribe(response => this.getServicesSuccessHandeler(response));
 
-  //   refresh2() {
-  //     this.refresh3();
-  //   }
+  }
 
-  //   refresh3() {
-  //     // refreshing ngModels of worklocation, roles
-  //     this.workLocationID_duringEdit = undefined;
-  //     this.roleID_duringEdit = undefined;
-  //   }
+  getServicesSuccessHandeler(response) {
+    if (response) {
+      console.log('Provider Services in State', response);
+      this.services_array = response;
 
-  //   refresh4() {
-  //     // refreshing ngModels of roles
-  //     this.roleID_duringEdit = undefined;
-  //   }
+    }
+  }
 
-  //   getProviderServicesInState_duringEdit(stateID) {
-  //     this.worklocationmapping.getProviderServicesInState(this.serviceProviderID, stateID)
-  //       .subscribe(response => this.getServicesSuccessHandeler(response));
+  getProviderStates_duringEdit(serviceID, isNational) {
+    this.worklocationmapping.getStates(this.userID, serviceID, isNational).
+      subscribe(response => this.getStatesSuccessHandeler_duringEdit(response, isNational));
+  }
 
-  //   }
+  getStatesSuccessHandeler_duringEdit(response, isNational) {
+    // this.stateID_duringEdit = '';
+    if (response) {
+      console.log(response, 'Provider States');
+      this.states_array = response;
+      this.districts_array = [];
+      this.workLocationsList = [];
+      this.RolesList = []
 
-  //   getServicesSuccessHandeler(response) {
-  //     if (response) {
-  //       console.log('Provider Services in State', response);
-  //       this.services_array = response;
+      if (isNational) {
+        this.set_currentPSM_ID_duringEdit(this.states_array[0].providerServiceMapID);
+        this.stateID_duringEdit = '';
+        this.district_duringEdit = '';
+        this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit);
+        this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
+      }
+      // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
+      // this.getAllDistricts_duringEdit(this.stateID_duringEdit);
+    }
 
-  //     }
-  //   }
+  }
 
-  //   getAllDistricts_duringEdit(state: any) {
-  //     this.worklocationmapping.getAllDistricts(state)
-  //       .subscribe(response => {
-  //         if (response) {
-  //           console.log(response, 'get all districts success handeler');
-  //           this.districts_array = response;
+  refresh1() {
+    // refreshing ngModels of district, worklocation, servicelines, roles
+    this.district_duringEdit = undefined;
+    this.workLocationID_duringEdit = undefined;
+    // this.serviceID_duringEdit = undefined;
+    this.roleID_duringEdit = undefined;
+  }
 
-  //           this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
-  //         }
-  //       }, err => {
+  refresh2() {
+    this.refresh3();
+  }
 
-  //       });
-  //   }
-  //   getAllWorkLocations_duringEdit(user: any, stateID: any, serviceID: any) {
-  //     // debugger;
-  //     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID)
-  //       .subscribe(response => {
-  //         if (response) {
-  //           console.log(response, 'get all work locations success handeler');
-  //           this.workLocationsList = response;
+  refresh3() {
+    // refreshing ngModels of worklocation, roles
+    this.workLocationID_duringEdit = undefined;
+    this.roleID_duringEdit = undefined;
+  }
 
-  //           this.getAllRoles_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
+  refresh4() {
+    // refreshing ngModels of roles
+    this.roleID_duringEdit = undefined;
+  }
 
-  //         }
-  //       }, err => {
 
-  //       });
-  //   }
-  //   getAllRoles_duringEdit(user: any, stateID: any, serviceID: any) {
-  //     // debugger;
-  //     this.worklocationmapping.getAllRoles(this.serviceProviderID, stateID, serviceID)
-  //       .subscribe(response => {
-  //         if (response) {
-  //           console.log(response, 'get all roles success handeler');
-  //           this.RolesList = response;
-  //         }
-  //       }, err => {
 
-  //       });
-  //   }
-  //   getAvailableMappings_duringEdit(formvalues) {
+  getAllDistricts_duringEdit(state: any) {
+    this.worklocationmapping.getAllDistricts(state)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all districts success handeler');
+          this.districts_array = response;
 
-  //     const alreadyMappedWorklocations = [];
-  //     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
-  //       if (this.mappedWorkLocationsList[i].userID === this.userID_duringEdit
-  //         && this.mappedWorkLocationsList[i].serviceID === formvalues.providerServiceMapID
-  //         && this.mappedWorkLocationsList[i].stateID === formvalues.state
-  //         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district
-  //         && parseInt(this.mappedWorkLocationsList[i].workingLocationID) === formvalues.worklocation
-  //         && this.mappedWorkLocationsList[i].roleID === formvalues.role) {
-  //         this.alertService.alert('All work locations for this user have been mapped');
-  //         this.duplicatestatus_editPart = true;
-  //       }
-  //     }
-  //     return this.duplicatestatus_editPart;
-  //   }
-  //   updateWorkLocation(workLocations: any) {
-  //     if (!this.getAvailableMappings_duringEdit(workLocations)) {
-  //       const langObj = {
-  //         'uSRMappingID': this.uSRMappingID,
-  //         'userID': this.userID_duringEdit,
-  //         'roleID': workLocations.role,
-  //         'providerServiceMapID': this.providerServiceMapID_duringEdit,
-  //         'workingLocationID': workLocations.worklocation,
-  //         'modifiedBy': this.createdBy
-  //       };
-  //       console.log('edited request object to be sent to API', langObj);
-  //       this.worklocationmapping.UpdateWorkLocationMapping(langObj)
-  //         .subscribe(response => {
-  //           console.log(response, 'after successful mapping of work location to provider');
-  //           this.alertService.alert('Work location mapping edited successfully');
-  //           this.showTable();
-  //           this.getAllMappedWorkLocations();
-  //           this.resetDropdowns();
-  //           this.bufferArray = [];
-  //         }, err => {
-  //           console.log(err, 'ERROR');
-  //         });
+          // this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
+        }
+      }, err => {
 
-  //     }
-  //     else { this.duplicatestatus_editPart = false; }
-  //   }
+      });
+  }
+  getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit) {
+    // debugger;
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all work locations success handeler');
+          this.workLocationsList = response;
+
+          // this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
+
+        }
+      }, err => {
+
+      });
+  }
+
+
+  getAllRoles_duringEdit(psmID) {
+    // debugger;
+    this.worklocationmapping.getAllRoles(psmID)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all roles success handeler');
+          this.RolesList = response;
+        }
+      }, err => {
+
+      });
+  }
+  getAvailableMappings_duringEdit(formvalues) {
+
+    const alreadyMappedWorklocations = [];
+    for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
+      if (this.mappedWorkLocationsList[i].userID === this.userID_duringEdit
+        && this.mappedWorkLocationsList[i].serviceID === formvalues.serviceID
+        && this.mappedWorkLocationsList[i].stateID === formvalues.state
+        && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district
+        && parseInt(this.mappedWorkLocationsList[i].workingLocationID) === formvalues.worklocation
+        && this.mappedWorkLocationsList[i].roleID === formvalues.role) {
+        this.alertService.alert('All work locations for this user have been mapped');
+        this.duplicatestatus_editPart = true;
+      }
+    }
+    return this.duplicatestatus_editPart;
+  }
+  updateWorkLocation(workLocations: any) {
+    if (!this.getAvailableMappings_duringEdit(workLocations)) {
+      const langObj = {
+        'uSRMappingID': this.uSRMappingID,
+        'userID': this.userID_duringEdit,
+        'roleID': workLocations.role,
+        'providerServiceMapID': this.providerServiceMapID_duringEdit,
+        'workingLocationID': workLocations.worklocation,
+        'modifiedBy': this.createdBy
+      };
+      console.log('edited request object to be sent to API', langObj);
+      this.worklocationmapping.UpdateWorkLocationMapping(langObj)
+        .subscribe(response => {
+          console.log(response, 'after successful mapping of work location to provider');
+          this.alertService.alert('Work location mapping edited successfully');
+          this.showTable();
+          this.getAllMappedWorkLocations();
+          this.resetDropdowns();
+          this.bufferArray = [];
+        }, err => {
+          console.log(err, 'ERROR');
+        });
+
+    }
+    else { this.duplicatestatus_editPart = false; }
+  }
 
   resetForm() {
 
