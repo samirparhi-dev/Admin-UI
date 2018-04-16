@@ -144,7 +144,7 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   getServicelinesFromProvider(serviceProviderID) {
-    return this._http
+    return this._httpInterceptor
       .post(this.getServicelinesFromProvider_url, { 'serviceProviderID': serviceProviderID })
       .map(this.extractData)
       .catch(this.handleError);
@@ -167,7 +167,7 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   getAllStates(countryID: any) {
-    return this._http
+    return this._httpInterceptor
       .get(this.getAllStatesUrl + countryID)
       .map(this.extractData)
       .catch(this.handleError);
@@ -175,7 +175,7 @@ export class SuperAdmin_ServiceProvider_Service {
 
 
   getAllServiceLines() {
-    return this._http
+    return this._httpInterceptor
       .post(this.getAllServiceLinesUrl, {})
       .map(this.extractData)
       .catch(this.handleError);
@@ -189,27 +189,27 @@ export class SuperAdmin_ServiceProvider_Service {
   // }
 
   getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
-    return this._http
+    return this._httpInterceptor
       .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getProviderStates(serviceProviderID) {
-    return this._http.post(this.getAllStatesByProviderUrl,
+    return this._httpInterceptor.post(this.getAllStatesByProviderUrl,
       { 'serviceProviderID': serviceProviderID })
       .map(this.extractData)
       .catch(this.handleError);
   }
   getProviderServices(serviceProviderID) {
-    return this._http.post(this.getAllServicesByProviderUrl,
+    return this._httpInterceptor.post(this.getAllServicesByProviderUrl,
       { 'serviceProviderID': serviceProviderID })
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getProviderStatesInService(serviceProviderID, serviceID) {
-    return this._http.post(this.getProvider_ServiceLineLevelStatus_Url,
+    return this._httpInterceptor.post(this.getProvider_ServiceLineLevelStatus_Url,
       {
         'serviceProviderID': serviceProviderID,
         'serviceID': serviceID
@@ -218,7 +218,7 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   getProviderServicesInState(serviceProviderID, stateID) {
-    return this._http.post(this.getAllServiceLinesByProviderUrl,
+    return this._httpInterceptor.post(this.getAllServiceLinesByProviderUrl,
       {
         'serviceProviderID': serviceProviderID,
         'stateID': stateID
@@ -233,7 +233,6 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleError);
   }
   getAllProviderAdmins() {
-    debugger;
     return this._http
       .post(this.getAllProviderAdminUrl, {})
       .map(this.extractData)
@@ -259,7 +258,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleCustomError);
   }
   public createMappingProviderAdmin(request_array) {
-    debugger;
+    
     return this._httpInterceptor
       .post(this.MappingProviderAdminUrl, request_array)
       .map(this.extractCustomData)
@@ -289,7 +288,7 @@ export class SuperAdmin_ServiceProvider_Service {
 
   //  Provider admin related functions
   getAllProviderAdmin() {
-    return this._http
+    return this._httpInterceptor
       .post(this.getAllProviderAdmin_url, {})
       .map(this.extractData)
       .catch(this.handleError);
@@ -303,7 +302,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleError)
   }
   createProviderAdmin(reqObject) {
-    return this._http
+    return this._httpInterceptor
       .post(this.createProviderAdminUrl, reqObject)
       .map(this.extractData)
       .catch(this.handleError);
@@ -334,13 +333,13 @@ export class SuperAdmin_ServiceProvider_Service {
   }
   updateProviderAdmin(update_obj) {
     console.log("update admin", update_obj);
-    return this._http
+    return this._httpInterceptor
       .post(this.updateProviderAdminUrl, update_obj)
       .map(this.extractData)
       .catch(this.handleError);
   }
   delete_toggle_activation(userID) {
-    return this._http
+    return this._httpInterceptor
       .post(this.delete_toggle_activationUrl, userID)
       .map(this.extractData)
       .catch(this.handleError);

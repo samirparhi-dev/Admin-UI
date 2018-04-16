@@ -86,8 +86,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.userID = this.commonDataService.uid;
     // this.ProviderAdminRoleService.getStates(this.serviceProviderID).subscribe(response => this.states = this.successhandeler(response));  // commented on 10/4/18(1097 regarding changes) Gursimran
     this.ProviderAdminRoleService.getServiceLinesNew(this.userID).subscribe((response) => {
-      this.services = this.successhandeler(response),
-        (err) => console.log("ERROR in fetching serviceline")
+      this.services = this.successhandeler(response)
+    }, (err) => {
+      console.log('ERROR in fetching serviceline');
+      this.alertService.alert(err, 'error');
+
     });
     //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").
     // subscribe(response => this.searchresultarray = this.fetchRoleSuccessHandeler(response));
@@ -95,7 +98,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   getFeatures(serviceID) {
     console.log(serviceID, 'b4 feature get');
-    this.ProviderAdminRoleService.getFeature(serviceID).subscribe(response => this.getFeaturesSuccessHandeler(response));
+    this.ProviderAdminRoleService.getFeature(serviceID)
+      .subscribe(response => this.getFeaturesSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      });
 
   }
 
@@ -114,7 +120,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     this.ProviderAdminRoleService.getStatesNew(obj).
       subscribe(response => this.statesSuccesshandeler(response, value), (err) => {
-        console.log("error in fetching states")
+        console.log('error in fetching states');
+        this.alertService.alert(err, 'error');
       });
 
 
@@ -176,7 +183,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.showAddButtonFlag = true;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
-    
+
     let obj = {
       'serviceProviderID': this.serviceProviderID,
       'stateID': stateID,
@@ -190,6 +197,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       for (var i = 0; i < this.searchresultarray.length; i++) {
         this.filterScreens.push(this.searchresultarray[i].screenName);
       }
+    }, err => {
+      this.alertService.alert(err, 'error');
     });
 
     if (serviceID == "" || serviceID == undefined) {
@@ -206,7 +215,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   finalsave() {
     console.log(this.objs);
 
-    this.ProviderAdminRoleService.createRoles(this.objs).subscribe(response => this.createRolesSuccessHandeler(response));
+    this.ProviderAdminRoleService.createRoles(this.objs)
+      .subscribe(response => this.createRolesSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      });
 
   }
   confirmMessage : any;
@@ -222,13 +234,15 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
     // let confirmation=confirm("Do you really want to delete the role with id:"+roleID+"?");
-    this.alertService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm', 'Are you sure you want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
           console.log('data', response);
           this.findRoles(this.state.stateID, this.service.serviceID)
           //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
+        }, err => {
+          this.alertService.alert(err, 'error');
         })
 
       }
@@ -284,15 +298,19 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
 
-    this.ProviderAdminRoleService.editRole(obj).subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'));
+    this.ProviderAdminRoleService.editRole(obj)
+      .subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'),
+      err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
   edit_delete_RolesSuccessHandeler(response, choice) {
     if (choice == 'edit') {
-      this.alertService.alert('Role edited successfully');
+      this.alertService.alert('Role edited successfully', 'success');
     }
     else {
-      this.alertService.alert(this.confirmMessage + 'd successfully');
+      this.alertService.alert(this.confirmMessage + 'd successfully', 'success');
     }
     console.log(response, 'edit/delete response');
     this.showRoleCreationForm = false;
@@ -329,7 +347,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   createRolesSuccessHandeler(response) {
-    this.alertService.alert('Role created successfully');
+    this.alertService.alert('Role created successfully', 'success');
     console.log(response, 'in create role success in component.ts');
     this.finalResponse = response;
     if (this.finalResponse[0].roleID) {
@@ -370,7 +388,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   }
   back(flag) {
-    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.setRoleFormFlag(flag);
       }
@@ -607,6 +625,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
       }, err => {
         console.log('ERROR while updating feature to role', err);
+        this.alertService.alert(err, 'error');
       });
 
   }

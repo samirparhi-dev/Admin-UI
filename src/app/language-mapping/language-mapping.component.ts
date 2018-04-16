@@ -95,6 +95,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
+        this.alertService.alert(err, 'error');
       });
   }
   getAllLanguagesList() {
@@ -106,6 +107,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
+        this.alertService.alert(err, 'error');
       });
   }
   getAllMappedLanguagesList() {
@@ -117,6 +119,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
+        this.alertService.alert(err, 'error');
       });
   }
   getAvailableLanguages(username: any) {
@@ -146,7 +149,7 @@ export class LanguageMappingComponent implements OnInit {
 
   }
   activate(userLangID) {
-    this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+    this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
           'userLangID': userLangID,
@@ -156,34 +159,36 @@ export class LanguageMappingComponent implements OnInit {
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped admin activated successfully');
+              this.alertService.alert('Language mapped admin activated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+            this.alertService.alert(err, 'error');
+          });
       }
     });
 
   }
   deactivate(userLangID) {
-    this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+    this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'userLangID': userLangID, 'deleted': true };
 
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped deactivated successfully');
+              this.alertService.alert('Language mapped deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+            this.alertService.alert(err, 'error');
+          });
       }
     });
 
@@ -433,7 +438,7 @@ export class LanguageMappingComponent implements OnInit {
     this.languageMapping.SaveLanguageMapping(this.multiLanguages)
       .subscribe(response => {
         console.log(response, 'after successful mapping of language to provider');
-        this.alertService.alert('Language mapped successfully');
+        this.alertService.alert('Language mapped successfully', 'success');
         this.showTable();
         this.getAllMappedLanguagesList();
         this.resetDropdowns();
@@ -441,6 +446,7 @@ export class LanguageMappingComponent implements OnInit {
         this.multiLanguages = [];
       }, err => {
         console.log(err, 'ERROR');
+        this.alertService.alert(err, 'error');
       });
   }
   editRow(rowObject) {
@@ -487,13 +493,14 @@ export class LanguageMappingComponent implements OnInit {
     this.languageMapping.UpdateLanguageMapping(obj)
       .subscribe(response => {
         console.log(response, 'after successful mapping of language to provider');
-        this.alertService.alert('Language mapping edited successfully');
+        this.alertService.alert('Language mapping edited successfully', 'success');
         this.showTable();
         this.getAllMappedLanguagesList();
         this.resetDropdowns();
         this.bufferArray = [];
       }, err => {
         console.log(err, 'ERROR');
+        this.alertService.alert(err, 'error');
       });
 
 

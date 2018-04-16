@@ -49,7 +49,8 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj = {};
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.serviceID = this.serviceID104;
-    this.drugMasterService.getDrugMappings(this.drugObj).subscribe(response => this.getDrugMappingsSuccessHandeler(response));
+    this.drugMasterService.getDrugMappings(this.drugObj).subscribe(response => this.getDrugMappingsSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
 
   getDrugMappingsSuccessHandeler(response) {
@@ -60,7 +61,8 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj = {};
     this.drugObj.deleted = false;
     this.drugObj.serviceProviderID = this.service_provider_id;
-    this.drugMasterService.getDrugGroups(this.drugObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response));
+    this.drugMasterService.getDrugGroups(this.drugObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
   getDrugGroupsSuccessHandeler(response) {
     this.availableDrugGroups = response;
@@ -70,7 +72,8 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj = {};
     this.drugObj.deleted = false;
     this.drugObj.serviceProviderID = this.service_provider_id;
-    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response));
+    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
 
   getDrugsSuccessHandeler(response) {
@@ -78,15 +81,18 @@ export class DrugMappingComponent implements OnInit {
   }
 
   getServices(stateID) {
-    this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+    this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
 
   getStates() {
-    this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
 
   getStatesByServiceID() {
-    this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
+      (err) => this.alertMessage.alert(err, 'error'));
   }
 
 
@@ -137,10 +143,12 @@ export class DrugMappingComponent implements OnInit {
       this.dataObj.modifiedBy = this.createdBy;
       if (drugIdList.indexOf(mappedDrug.drugId.toString()) == -1) {
         this.dataObj.deleted = true;
-        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response),
+          (err) => this.alertMessage.alert(err, 'error'));
       } else if (mappedDrug.deleted) {
         this.dataObj.deleted = false;
-        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response),
+          (err) => this.alertMessage.alert(err, 'error'));
       }
     }
 
@@ -179,7 +187,7 @@ export class DrugMappingComponent implements OnInit {
 
   successHandler(response) {
     this.drugMapping = [];
-    this.alertMessage.alert("Drug mappings stored successfully");
+    this.alertMessage.alert("Drug mappings stored successfully",'success');
     this.getAvailableMappings();
   }
 
@@ -193,19 +201,19 @@ export class DrugMappingComponent implements OnInit {
     if (flag === false) {
       status = "Activate";
     }
-    this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
+    this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
       if (response) {
 
         this.dataObj = {};
         this.dataObj.drugMapID = drugMapping.drugMapID;
         this.dataObj.deleted = !drugMapping.deleted;
         this.dataObj.modifiedBy = this.createdBy;
-        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
-
-        drugMapping.deleted = !drugMapping.deleted;
+        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
+          this.alertMessage.alert(status + "d successfully",'success')
+          drugMapping.deleted = !drugMapping.deleted
+        }), (err) => this.alertMessage.alert(err, 'error');
       }
-      this.alertMessage.alert(status + "d successfully");
-    })
+    });
   }
 
   updateStatusHandler(response) {
@@ -219,7 +227,7 @@ export class DrugMappingComponent implements OnInit {
     this.editable = false;
   }
   back() {
-    this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.drugMappingForm.resetForm();
         this.clearEdit();

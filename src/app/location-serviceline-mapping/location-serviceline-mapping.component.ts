@@ -77,6 +77,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.provider_admin_location_serviceline_mapping.getServiceLinesNew(this.userID)
       .subscribe(response => this.servicesSuccesshandeler(response), err => {
         console.log('ERROR WHILE FETCHING SERVICES', err);
+        this.alertService.alert(err, 'error');
       });
 
     // this.getAllWorkLocations();
@@ -116,7 +117,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     }
   }
   back(flag_val) {
-    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.form.resetForm();
         this.changeTableFlag(flag_val);
@@ -146,7 +147,8 @@ export class LocationServicelineMappingComponent implements OnInit {
     }
     this.provider_admin_location_serviceline_mapping.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-        console.log("error in fetching states")
+        console.log("error in fetching states");
+        this.alertService.alert(err, 'error');
       });
 
   }
@@ -183,12 +185,14 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   getDistricts(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getDistricts(serviceProviderID, stateID)
-      .subscribe(response => this.getDistrictsSuccessHandeler(response));
+      .subscribe(response => this.getDistrictsSuccessHandeler(response),
+      (err) => this.alertService.alert(err, 'error'));
   }
 
   getServiceLines(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getServiceLines(serviceProviderID, stateID)
-      .subscribe(response => this.servicesSuccesshandeler(response));
+      .subscribe(response => this.servicesSuccesshandeler(response),
+      (err) => this.alertService.alert(err, 'error'));
   }
   getServiceLinesfromSearch(serviceProviderID, stateID) {
 
@@ -227,9 +231,11 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     // }
     this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
-      response => this.findLocationsSuccesshandeler(response)
-    );
-    this.showTable = true;
+      response => {
+        this.showTable = true;
+        this.findLocationsSuccesshandeler(response)
+      },
+      (err) => this.alertService.alert(err, 'error'));
   }
 
   saveOfficeAddress(requestObject) {
@@ -242,8 +248,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       "districtID": this.district,
       "locationName": this.OfficeID,
       "address": this.office_address1 + "," + this.office_address2,
-      "createdBy": this.commonDataService.uname,
-      "createdDate": new Date()
+      "createdBy": this.commonDataService.uname
     }
 
     // for (let i = 0; i < this.serviceLine.length;i++)
@@ -259,8 +264,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       "districtID": this.district,
       "locationName": this.OfficeID,
       "address": this.office_address1 + "," + this.office_address2,
-      "createdBy": this.commonDataService.uname,
-      "createdDate": new Date()
+      "createdBy": this.commonDataService.uname
     }
 
 
@@ -268,7 +272,8 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log(newreqobj, "new requestOBJ");
 
     this.provider_admin_location_serviceline_mapping.addWorkLocation(newreqobj)
-      .subscribe(response => this.saveOfficeSuccessHandeler(response));
+      .subscribe(response => this.saveOfficeSuccessHandeler(response),
+    (err) => this.alertService.alert(err, 'error'));
   }
 
   editOfficeAddress(toBeEditedOBJ) {
@@ -304,12 +309,13 @@ export class LocationServicelineMappingComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
     // let confirmation = confirm("do you really want to delete the location with psaddmapid:" + id + "??");
-    this.alertService.confirm('Confirm',"Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm', "Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log(id);
 
         this.provider_admin_location_serviceline_mapping.deleteWorkLocation(obj)
-          .subscribe(response => this.deleteOfficeSuccessHandeler(response));
+          .subscribe(response => this.deleteOfficeSuccessHandeler(response),
+        (err) => this.alertService.alert(err, 'error'));
 
       }
     },
@@ -348,7 +354,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   saveOfficeSuccessHandeler(response) {
     // alert("location successfully created");
-    this.alertService.alert("Location created successfully");
+    this.alertService.alert("Location created successfully",'success');
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
@@ -362,7 +368,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   }
 
   deleteOfficeSuccessHandeler(response) {
-    this.alertService.alert(this.confirmMessage + "d successfully");
+    this.alertService.alert(this.confirmMessage + "d successfully", 'success');
     console.log('deleted', response);
     this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
   }
@@ -388,7 +394,8 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.OfficeID = "";
     this.officeNameExist = false;
     this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(req_array)
-      .subscribe(response => this.currentServicesSuccess(response));
+      .subscribe(response => this.currentServicesSuccess(response),
+    (err) => this.alertService.alert(err, 'error'));
   }
 
   setPSMID_onStateSeletion(psmID) {
@@ -397,7 +404,8 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.OfficeID = "";
     this.officeNameExist = false;
     this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(reqArray)
-      .subscribe(response => this.currentServicesSuccess(response));
+      .subscribe(response => this.currentServicesSuccess(response),
+    (err) => this.alertService.alert(err, 'error'));
   }
 
   currentServicesSuccess(res) {
@@ -496,20 +504,19 @@ export class EditLocationModal {
         "locationName": this.officeID,
         "address": this.address,
         "districtID": this.data.toBeEditedOBJ.districtID,
-        "createdBy": this.data.toBeEditedOBJ.CreatedBy,
-        "createdDate": "2017-02-28T00:00:00.000Z"
-
+        "createdBy": this.data.toBeEditedOBJ.CreatedBy
       }
 
     console.log(editedObj, "edit rwq obj in modal");
 
     this.provider_admin_location_serviceline_mapping.editWorkLocation(editedObj)
-      .subscribe(response => this.editOfficeSuccessHandeler(response));
+      .subscribe(response => this.editOfficeSuccessHandeler(response),
+      (err) => this.alertService.alert(err, 'error'));
 
   }
 
   editOfficeSuccessHandeler(response) {
-    this.alertService.alert("Location edited successfully");
+    this.alertService.alert("Location edited successfully",'success');
     console.log('edited', response);
     this.dialog_Ref.close("success");
   }

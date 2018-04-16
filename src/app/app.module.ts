@@ -9,7 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {
   MdDatepickerModule, MdInputModule, MdNativeDateModule, MdTooltipModule,
   MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
-  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule,MdAutocompleteModule
+  MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule, MdAutocompleteModule
 } from '@angular/material';
 import { Md2Module } from 'md2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -190,14 +190,18 @@ import { LanguageMappingComponent } from './language-mapping/language-mapping.co
 import { LanguageMapping } from './services/ProviderAdminServices/language-mapping.service';
 import { WorkLocationMappingComponent } from './work-location-mapping/work-location-mapping.component';
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
-
-/* Inventory*/
+import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
 import { ItemMasterComponent } from './item-master/item-master.component';
+import { MainStoreAndSubStoreComponent } from './main-store-and-sub-store/main-store-and-sub-store.component';
+
 
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { CreateItemComponent } from './item-master/create-item/create-item.component';
+
+import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
+import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
 
 @NgModule({
   declarations: [
@@ -230,8 +234,9 @@ import { CreateItemComponent } from './item-master/create-item/create-item.compo
 
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
-    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent
+    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent, 
+    OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent
+
 
   ],
 
@@ -310,7 +315,7 @@ import { CreateItemComponent } from './item-master/create-item/create-item.compo
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices,
+    CommonServices,FacilityMasterService,Mainstroreandsubstore,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

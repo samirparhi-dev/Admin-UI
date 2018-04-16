@@ -75,6 +75,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.providerAdminList = response;
         }
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log('Error', err);
       });
   }
@@ -85,9 +86,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           console.log('All Providers Success Handeler', response);
           this.service_provider_array = response;
         }
-      }, err => {
-        console.log('Error', err);
-      });
+      }, (err) => this.dialogService.alert(err,'error'));
   }
   getAllProviderAdmins() {
     this.superadminService.getAllProviderAdmins()
@@ -98,6 +97,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.filteredStates = [];
         }
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log('Error', err);
       });
   }
@@ -108,11 +108,13 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   // }
   getProviderServices(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID).
-      subscribe(response => this.getServiceSuccessHandeler(response));
+      subscribe(response => this.getServiceSuccessHandeler(response),
+    (err) => this.dialogService.alert(err,'error'));
   }
   getProviderServices_Edit(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider).
-      subscribe(response => this.getServiceSuccessHandeler(response));
+      subscribe(response => this.getServiceSuccessHandeler(response),
+    (err) => this.dialogService.alert(err,'error'));
   }
   getServiceSuccessHandeler(response) {
     if (response) {
@@ -164,7 +166,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.getAvailableStates_edit(providerAdmin, serviceProvider.serviceProviderId || serviceProvider.serviceProviderID, service, national)
         this.setIsNational(national);
 
-      });
+      },
+    (err) => this.dialogService.alert(err,'error'));
 
   }
 
@@ -419,7 +422,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.superadminService.createMappingProviderAdmin(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of provider to service and state');
-        this.dialogService.alert('Provider admin mapped successfully');
+        this.dialogService.alert('Provider admin mapped successfully','success');
         this.showTable();
         this.getAllMappedProviders();
         this.resetDropdowns();
@@ -459,12 +462,13 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.superadminService.activateProviderAdmin(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Provider admin activated successfully');
+              this.dialogService.alert('Provider admin activated successfully','success');
               /* refresh table */
               this.getAllMappedProviders();
             }
           },
             err => {
+              this.dialogService.alert(err,'error');
               console.log('error', err);
             });
       }
@@ -478,12 +482,13 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.superadminService.deactivateProviderAdmin(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Provider deactivated successfully');
+              this.dialogService.alert('Provider deactivated successfully','success');
               /* refresh table */
               this.getAllMappedProviders();
             }
           },
             err => {
+              this.dialogService.alert(err,'error');
               console.log('error', err);
             });
       }
@@ -522,7 +527,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.superadminService.updateProviderAdminDetails(object)
       .subscribe(response => {
         console.log('Edit success callback', response);
-        this.dialogService.alert('Mapping edited successfully');
+        this.dialogService.alert('Mapping edited successfully','success');
         /* resetting form and ngModels used in editing */
         this.resetDropdowns();
         this.getAllMappedProviders();
@@ -531,6 +536,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.uSRMappingID = '';
         this.providermapID = '';
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log('error', err);
       });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { InstituteDirectoryMasterService } from '../services/ProviderAdminServices/institute-directory-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
@@ -16,44 +16,47 @@ import { NgForm } from '@angular/forms';
 export class InstituteDirectoryMasterComponent implements OnInit {
 
 	/*ngModels*/
-	serviceProviderID:any;
-	providerServiceMapID:any;
-	state:any;
-	service:any;
-	instituteDirectory:any;
-	description:any;
+	serviceProviderID: any;
+	providerServiceMapID: any;
+	state: any;
+	service: any;
+	instituteDirectory: any;
+	description: any;
 
 	/*arrays*/
-	states:any=[];
-	services:any=[];
+	states: any = [];
+	services: any = [];
 
-	searchResultArray:any=[];
-	bufferArray:any=[];
+	searchResultArray: any = [];
+	bufferArray: any = [];
 
 	/*flags*/
-	showTableFlag:boolean=false;
-	showFormFlag:boolean=false;
-	disableSelection:boolean=false;
+	showTableFlag: boolean = false;
+	showFormFlag: boolean = false;
+	disableSelection: boolean = false;
 	userID: any;
 	nationalFlag: any;
 
 	@ViewChild('instituteDir') instituteDir: NgForm;
 
-	constructor(public instituteDirectoryService:InstituteDirectoryMasterService,
-	            public commonDataService:dataService,
-	            public dialog:MdDialog,
-	            public alertService:ConfirmationDialogsService) {
-		this.serviceProviderID =this.commonDataService.service_providerID;
+	constructor(public instituteDirectoryService: InstituteDirectoryMasterService,
+		public commonDataService: dataService,
+		public dialog: MdDialog,
+		public alertService: ConfirmationDialogsService) {
+		this.serviceProviderID = this.commonDataService.service_providerID;
 
 	}
 
 	ngOnInit() {
 		this.userID = this.commonDataService.uid;
 
-	//	this.instituteDirectoryService.getStates(this.serviceProviderID).subscribe(response=>this.getStatesSuccessHandeler(response)); // commented on 10/4/18(1097 regarding changes) Gursimran
-	this.instituteDirectoryService.getServiceLinesNew(this.userID).subscribe((response) => {
-		this.successhandeler(response),
-		  (err) => console.log("ERROR in fetching serviceline")
+		//	this.instituteDirectoryService.getStates(this.serviceProviderID).subscribe(response=>this.getStatesSuccessHandeler(response)); // commented on 10/4/18(1097 regarding changes) Gursimran
+		this.instituteDirectoryService.getServiceLinesNew(this.userID).subscribe((response) => {
+			this.successhandeler(response),
+				(err) => {
+					console.log("ERROR in fetching serviceline")
+					this.alertService.alert(err, 'error');
+				}
 		});
 	}
 
@@ -64,10 +67,10 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	// } // commented on 10/4/18(1097 regarding changes) Gursimran
 
 	successhandeler(res) {
-		this.services = res.filter(function(item) {
-			console.log("item",item);
-			
-			if(item.serviceID != 6) {
+		this.services = res.filter(function (item) {
+			console.log("item", item);
+
+			if (item.serviceID != 6) {
 				return item;
 			}
 		})
@@ -87,6 +90,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		this.instituteDirectoryService.getStatesNew(obj).
 			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
 				console.log("error in fetching states")
+				this.alertService.alert(err, 'error');
 			});
 	}
 	// getServicesSuccessHandeler(response)
@@ -100,7 +104,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	// 	                              	}
 	// 	                              });
 	// }
-	getStatesSuccessHandeler(response,value) {
+	getStatesSuccessHandeler(response, value) {
 
 		this.states = response;
 		if (value.isNational) {
@@ -112,92 +116,80 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 			this.showTableFlag = false;
 		}
 	}
-	setProviderServiceMapID(providerServiceMapID)
-	{
-		console.log("providerServiceMapID",providerServiceMapID);
-		this.providerServiceMapID=providerServiceMapID;
+	setProviderServiceMapID(providerServiceMapID) {
+		console.log("providerServiceMapID", providerServiceMapID);
+		this.providerServiceMapID = providerServiceMapID;
 		this.search();
 	}
 
-	search()
-	{
-		this.instituteDirectoryService.getInstituteDirectory(this.providerServiceMapID).subscribe(response=>this.getInstituteDirectorySuccessHandeler(response));
+	search() {
+		this.instituteDirectoryService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
+		(err) => this.alertService.alert(err, 'error'));
 	}
 
-	getInstituteDirectorySuccessHandeler(response)
-	{
-		console.log("search result",response);
-		if(response)
-		{
-		this.showTableFlag=true;
-		this.searchResultArray=response;
+	getInstituteDirectorySuccessHandeler(response) {
+		console.log("search result", response);
+		if (response) {
+			this.showTableFlag = true;
+			this.searchResultArray = response;
 		}
 	}
 
-	clear()
-	{
+	clear() {
 		/*resetting the search fields*/
-		this.state="";
-		this.service="";
-		this.providerServiceMapID="";
+		this.state = "";
+		this.service = "";
+		this.providerServiceMapID = "";
 
-		this.services=[];
+		this.services = [];
 		/*resetting the flag*/
-		this.showTableFlag=false;
+		this.showTableFlag = false;
 		/*resetting the search result array*/
-		this.searchResultArray=[];
+		this.searchResultArray = [];
 	}
 
-	showForm()
-	{
-		this.showTableFlag=false;
-		this.showFormFlag=true;
+	showForm() {
+		this.showTableFlag = false;
+		this.showFormFlag = true;
 
-		this.disableSelection=true;
+		this.disableSelection = true;
 	}
 
-	back()
-	{
-		this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-			if(res) {
-				this.showTableFlag=true;
-				this.showFormFlag=false;
+	back() {
+		this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+			if (res) {
+				this.showTableFlag = true;
+				this.showFormFlag = false;
 				/*reset the input fields of the form*/
-				this.instituteDirectory="";
-				this.description="";
-				this.bufferArray=[];
-		
-				this.disableSelection=false;
+				this.instituteDirectory = "";
+				this.description = "";
+				this.bufferArray = [];
+
+				this.disableSelection = false;
 			}
 		})
 	}
 
-	add_obj(institute_directory,description)
-	{
-		let obj={
+	add_obj(institute_directory, description) {
+		let obj = {
 
-			"instituteDirectoryName" : institute_directory,
-			"instituteDirectoryDesc" : description,
-			"providerServiceMapId" : this.providerServiceMapID,
-			"createdBy" : this.commonDataService.uname
+			"instituteDirectoryName": institute_directory,
+			"instituteDirectoryDesc": description,
+			"providerServiceMapId": this.providerServiceMapID,
+			"createdBy": this.commonDataService.uname
 		}
 
-		if(this.bufferArray.length==0 && (obj.instituteDirectoryName!="" && obj.instituteDirectoryName!=undefined))
-		{
+		if (this.bufferArray.length == 0 && (obj.instituteDirectoryName != "" && obj.instituteDirectoryName != undefined)) {
 			this.bufferArray.push(obj);
 		}
-		else
-		{
-			let count=0;
-			for(let i=0;i<this.bufferArray.length;i++)
-			{
-				if(obj.instituteDirectoryName===this.bufferArray[i].instituteDirectoryName)
-				{
-					count=count+1;
+		else {
+			let count = 0;
+			for (let i = 0; i < this.bufferArray.length; i++) {
+				if (obj.instituteDirectoryName === this.bufferArray[i].instituteDirectoryName) {
+					count = count + 1;
 				}
 			}
-			if(count==0  && (obj.instituteDirectoryName!="" && obj.instituteDirectoryName!=undefined))
-			{
+			if (count == 0 && (obj.instituteDirectoryName != "" && obj.instituteDirectoryName != undefined)) {
 				this.bufferArray.push(obj);
 			}
 		}
@@ -209,76 +201,67 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	}
 
-	removeObj(index)
-	{
-		this.bufferArray.splice(index,1);
+	removeObj(index) {
+		this.bufferArray.splice(index, 1);
 	}
 
-	save()
-	{
-		this.instituteDirectoryService.saveInstituteDirectory(this.bufferArray).subscribe(response=>this.saveSuccessHandeler(response));
+	save() {
+		this.instituteDirectoryService.saveInstituteDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response),
+		(err) => this.alertService.alert(err, 'error'));
 	}
 
-	saveSuccessHandeler(response)
-	{
-		console.log("response",response);
-		if(response)
-		{
-			this.alertService.alert("Institute directory saved successfully");				
-			this.instituteDir.resetForm();			
+	saveSuccessHandeler(response) {
+		console.log("response", response);
+		if (response) {
+			this.alertService.alert("Institute directory saved successfully",'success');
+			this.instituteDir.resetForm();
 			this.showFormFlag = false;
 			this.bufferArray = [];
 			this.search();
-			this.disableSelection = false;			
+			this.disableSelection = false;
 		}
 	}
 
-	toggle_activate(instituteDirectoryID,isDeleted)
-	{
-		if(isDeleted===true)
-		{
-			this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response=>{
-				if(response)
-				{
-					let obj={
-						"instituteDirectoryID":instituteDirectoryID,
-						"deleted":isDeleted
+	toggle_activate(instituteDirectoryID, isDeleted) {
+		if (isDeleted === true) {
+			this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
+				if (response) {
+					let obj = {
+						"instituteDirectoryID": instituteDirectoryID,
+						"deleted": isDeleted
 					};
 
-					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response=>this.toggleActivateSuccessHandeler(response,"Deactivated"))
+					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"),
+					(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
 
-		if(isDeleted===false)
-		{
-			this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response=>{
-				if(response)
-				{
-					let obj={
-						"instituteDirectoryID":instituteDirectoryID,
-						"deleted":isDeleted
+		if (isDeleted === false) {
+			this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+				if (response) {
+					let obj = {
+						"instituteDirectoryID": instituteDirectoryID,
+						"deleted": isDeleted
 					};
 
-					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response=>this.toggleActivateSuccessHandeler(response,"Activated"))
+					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"),
+					(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
-		
+
 	}
 
-	toggleActivateSuccessHandeler(response,action)
-	{
-		console.log(response,"delete Response");
-		if(response)
-		{
-			this.alertService.alert(action+" successfully")
+	toggleActivateSuccessHandeler(response, action) {
+		console.log(response, "delete Response");
+		if (response) {
+			this.alertService.alert(action + " successfully", 'success')
 			this.search();
 		}
 	}
 
-	openEditModal(toBeEditedOBJ)
-	{
+	openEditModal(toBeEditedOBJ) {
 		let dialog_Ref = this.dialog.open(EditInstituteDirectory, {
 			width: '500px',
 			data: toBeEditedOBJ
@@ -287,7 +270,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute directory edited successfully");
+				this.alertService.alert("Institute directory edited successfully",'success');
 				this.search();
 			}
 
@@ -304,40 +287,37 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 })
 export class EditInstituteDirectory {
 
-	instituteDirectory:any;
-	description:any;
+	instituteDirectory: any;
+	description: any;
 
 	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-	            public instituteDirectoryService: InstituteDirectoryMasterService,
-	            public commonDataService:dataService,
-	            public dialogReff: MdDialogRef<EditInstituteDirectory>) { }
+		public instituteDirectoryService: InstituteDirectoryMasterService,
+		public commonDataService: dataService, public alertService: ConfirmationDialogsService,
+		public dialogReff: MdDialogRef<EditInstituteDirectory>) { }
 
-	ngOnInit()
-	{
-		console.log("dialog data",this.data);
-		this.instituteDirectory=this.data.instituteDirectoryName;
-		this.description=this.data.instituteDirectoryDesc;
+	ngOnInit() {
+		console.log("dialog data", this.data);
+		this.instituteDirectory = this.data.instituteDirectoryName;
+		this.description = this.data.instituteDirectoryDesc;
 	}
 
 
-	update(edited_directory_name,edited_description)
-	{
-		let obj={
-			
-			"instituteDirectoryID" : this.data.instituteDirectoryID,	
-			"instituteDirectoryName" : edited_directory_name,
-			"instituteDirectoryDesc" : edited_description,
-			"modifiedBy" : this.commonDataService.uname
+	update(edited_directory_name, edited_description) {
+		let obj = {
+
+			"instituteDirectoryID": this.data.instituteDirectoryID,
+			"instituteDirectoryName": edited_directory_name,
+			"instituteDirectoryDesc": edited_description,
+			"modifiedBy": this.commonDataService.uname
 
 		}
-		this.instituteDirectoryService.editInstituteDirectory(obj).subscribe(response=>this.updateSuccessHandeler(response));
+		this.instituteDirectoryService.editInstituteDirectory(obj).subscribe(response => this.updateSuccessHandeler(response),
+		(err) => this.alertService.alert(err, 'error'));
 	}
 
-	updateSuccessHandeler(response)
-	{
-		console.log(response,"edit response success");
-		if(response)
-		{
+	updateSuccessHandeler(response) {
+		console.log(response, "edit response success");
+		if (response) {
 			this.dialogReff.close("success");
 		}
 	}

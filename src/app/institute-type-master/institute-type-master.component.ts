@@ -36,7 +36,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   disableSelection: boolean = false;
   isNational = false;
 
-  constructor(public InstituteTypeMasterService: InstituteTypeMasterService,
+  constructor(public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialog: MdDialog,
     public alertService: ConfirmationDialogsService) {
@@ -56,8 +56,10 @@ export class InstituteTypeMasterComponent implements OnInit {
 
 
   getServices(userID) {
-    this.InstituteTypeMasterService.getServices(userID)
-      .subscribe(response => this.getServicesSuccessHandeler(response));
+    this._instituteTypeMasterService.getServices(userID)
+      .subscribe(response => this.getServicesSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
   getServicesSuccessHandeler(response) {
@@ -70,8 +72,10 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
 
   getStates(serviceID, isNational) {
-    this.InstituteTypeMasterService.getStates(this.userID, serviceID, isNational)
-      .subscribe(response => this.getStatesSuccessHandeler(response, isNational));
+    this._instituteTypeMasterService.getStates(this.userID, serviceID, isNational)
+      .subscribe(response => this.getStatesSuccessHandeler(response, isNational), err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
   getStatesSuccessHandeler(response, isNational) {
@@ -93,7 +97,10 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
 
   search(providerServiceMapID) {
-    this.InstituteTypeMasterService.getInstituteType(providerServiceMapID).subscribe(response => this.searchSuccessHandeler(response))
+    this._instituteTypeMasterService.getInstituteType(providerServiceMapID)
+      .subscribe(response => this.searchSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      })
   }
 
   searchSuccessHandeler(response) {
@@ -137,27 +144,33 @@ export class InstituteTypeMasterComponent implements OnInit {
 
   toggle_activate(institutionTypeID, isDeleted) {
     if (isDeleted === true) {
-      this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+      this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
         if (response) {
           let obj = {
             "institutionTypeID": institutionTypeID,
             "deleted": isDeleted
           };
 
-          this.InstituteTypeMasterService.toggle_activate_InstituteType(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"))
+          this._instituteTypeMasterService.toggle_activate_InstituteType(obj)
+            .subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"), err => {
+              this.alertService.alert(err, 'error');
+            })
         }
       });
     }
 
     if (isDeleted === false) {
-      this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
         if (response) {
           let obj = {
             "institutionTypeID": institutionTypeID,
             "deleted": isDeleted
           };
 
-          this.InstituteTypeMasterService.toggle_activate_InstituteType(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"))
+          this._instituteTypeMasterService.toggle_activate_InstituteType(obj)
+            .subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"), err => {
+              this.alertService.alert(err, 'error');
+            })
         }
       });
     }
@@ -167,7 +180,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   toggleActivateSuccessHandeler(response, action) {
     console.log(response, "delete Response");
     if (response) {
-      this.alertService.alert(action + " successfully!")
+      this.alertService.alert(action + " successfully", 'success')
       this.search(this.providerServiceMapID);
     }
   }
@@ -208,13 +221,16 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
 
   save() {
-    this.InstituteTypeMasterService.saveInstituteType(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response));
+    this._instituteTypeMasterService.saveInstituteType(this.bufferArray)
+      .subscribe(response => this.saveSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
   saveSuccessHandeler(response) {
     console.log("response", response);
     if (response) {
-      this.alertService.alert("Institute type saved successfully");
+      this.alertService.alert("Institute type saved successfully", 'success');
       this.back();
       this.search(this.providerServiceMapID);
     }
@@ -231,7 +247,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Institute type edited successfully")
+        this.alertService.alert("Institute type edited successfully", 'success')
         this.search(this.providerServiceMapID);
       }
 
@@ -252,7 +268,7 @@ export class EditInstituteType {
   description: any;
 
   constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-    public InstituteTypeMasterService: InstituteTypeMasterService,
+    public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialogReff: MdDialogRef<EditInstituteType>) { }
 
@@ -272,7 +288,10 @@ export class EditInstituteType {
       "modifiedBy": this.commonDataService.uname
 
     }
-    this.InstituteTypeMasterService.editInstituteType(obj).subscribe(response => this.updateSuccessHandeler(response));
+    this._instituteTypeMasterService.editInstituteType(obj)
+      .subscribe(response => this.updateSuccessHandeler(response), err => {
+        console.log(err, 'Error');
+      });
   }
 
   updateSuccessHandeler(response) {

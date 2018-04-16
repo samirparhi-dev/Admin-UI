@@ -48,7 +48,7 @@ export class LocationServicelineMapping {
   };
 
   getStates(serviceProviderID) {
-    return this.http.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
+    return this.httpIntercept.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
@@ -65,7 +65,7 @@ export class LocationServicelineMapping {
   }
 
   getDistricts(serviceProviderID, stateID) {
-    return this.http.post(this.getDistricts_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
+    return this.httpIntercept.post(this.getDistricts_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }

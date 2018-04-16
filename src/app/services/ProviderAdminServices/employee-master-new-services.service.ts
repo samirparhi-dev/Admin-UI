@@ -63,7 +63,7 @@ export class EmployeeMasterNewServices {
             .catch(this.handleError);
     }
     getAllUsers(serviceProviderID) {
-        return this.httpSecurity
+        return this.http
             .post(this.getAllUsersUrl, { 'serviceProviderID': serviceProviderID })
             .map(this.extractData)
             .catch(this.handleError)
@@ -134,20 +134,20 @@ export class EmployeeMasterNewServices {
     createNewUser(reqObject) {
         console.log("service", reqObject);
 
-        return this.httpSecurity
+        return this.http
             .post(this.createNewUserUrl, reqObject)
             .map(this.extractData)
             .catch(this.handleError)
     }
     editUserDetails(updateObj) {
-        return this.httpSecurity
+        return this.http
             .post(this.editUserDetailsUrl, updateObj)
             .map(this.extractData)
             .catch(this.handleError)
     }
     userActivationDeactivation(toggle_obj) {
         console.log("toggle_obj", toggle_obj);
-        return this.httpSecurity
+        return this.http
             .post(this.userActivationDeactivationUrl, toggle_obj)
             .map(this.extractData)
             .catch(this.handleError)

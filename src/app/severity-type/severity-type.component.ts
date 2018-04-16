@@ -57,6 +57,7 @@ export class SeverityTypeComponent implements OnInit {
       console.log('success while getting services', response);
       this.services = response;
     }, err => {
+      this.alertService.alert(err,'error');
       console.log('err while getting services', err);
     })
   }
@@ -67,6 +68,7 @@ export class SeverityTypeComponent implements OnInit {
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
+      this.alertService.alert(err,'error');
       console.log('err while getting states', err);
     })
 
@@ -102,7 +104,8 @@ export class SeverityTypeComponent implements OnInit {
     this.data = [];
     this.providerServiceMapID = psmID;
     this.search = true;
-    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
+    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
+  (err) => this.alertService.alert(err,'error'));
 
   }
 
@@ -161,11 +164,12 @@ export class SeverityTypeComponent implements OnInit {
     this.severityArray.splice(i, 1);
   }
   finalSubmit() {
-    this.severityTypeService.addSeverity(this.severityArray).subscribe(response => this.createdSuccessHandler(response));
+    this.severityTypeService.addSeverity(this.severityArray).subscribe(response => this.createdSuccessHandler(response),
+  (err) => this.alertService.alert(err,'error'));
   }
   createdSuccessHandler(res) {
     // alert("severity added successfully");
-    this.alertService.alert('Severity saved successfully');
+    this.alertService.alert('Severity saved successfully','success');
     this.handlingFlag(true);
     this.findSeverity(this.providerServiceMapID);
     this.severityArray = [];
@@ -195,14 +199,16 @@ export class SeverityTypeComponent implements OnInit {
       }
     },
       (err) => {
+        this.alertService.alert(err,'error');
         console.log(err);
       })
   }
   deleteSuccessHandler(res) {
     // alert("deleted successfully");
-    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
+    this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
+  (err) => this.alertService.alert(err,'error'));
 
-    this.alertService.alert(this.confirmMessage + "d successfully");
+    this.alertService.alert(this.confirmMessage + "d successfully",'success');
   }
   editSeverity(obj) {
     let dialogReff = this.dialog.open(EditSeverityModalComponent, {
@@ -220,8 +226,9 @@ export class SeverityTypeComponent implements OnInit {
     dialogReff.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Severity edited successfully");
-        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response));
+        this.alertService.alert("Severity edited successfully",'success');
+        this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
+      (err) => this.alertService.alert(err,'error'));
       }
 
     });
@@ -246,7 +253,7 @@ export class EditSeverityModalComponent {
   alreadyExist = false;
   searchArray = [];
   constructor( @Inject(MD_DIALOG_DATA) public data: any,
-    public dialog: MdDialog, public severityTypeService: SeverityTypeService,
+    public dialog: MdDialog, public severityTypeService: SeverityTypeService, public alertService: ConfirmationDialogsService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
   ) { }
   ngOnInit() {
@@ -261,7 +268,8 @@ export class EditSeverityModalComponent {
       "severityTypeName": value.severity,
       "severityDesc": value.description
     }
-    this.severityTypeService.modifySeverity(object).subscribe(response => this.modifiedSuccessHandler(response));
+    this.severityTypeService.modifySeverity(object).subscribe(response => this.modifiedSuccessHandler(response),
+  (err) => this.alertService.alert(err,'error'));
   }
   addSeverity(value) {
     this.alreadyExist = false;

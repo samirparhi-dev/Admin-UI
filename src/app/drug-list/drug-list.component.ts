@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
+import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { dataService } from '../services/dataService/data.service';
 import { DrugMasterService } from '../services/ProviderAdminServices/drug-master-services.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
@@ -11,8 +11,8 @@ import { NgForm } from '@angular/forms';
 })
 export class DrugListComponent implements OnInit {
 
-  showDrugs: any = true;
-  duplicateDrugs: boolean = false;
+  showDrugs = true;
+  duplicateDrugs = false;
   availableDrugs: any = [];
   data: any;
   providerServiceMapID: any;
@@ -26,7 +26,7 @@ export class DrugListComponent implements OnInit {
   drugList: any = [];
 
   @ViewChild('drugForm') drugForm: NgForm;
-  
+
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
     public drugMasterService: DrugMasterService,
@@ -48,7 +48,9 @@ export class DrugListComponent implements OnInit {
   getAvailableDrugs() {
     this.drugObj = {};
     this.drugObj.serviceProviderID = this.service_provider_id;
-    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response));
+    this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response), err => {
+      this.alertMessage.alert(err, 'error');
+    });
   }
 
   getDrugsSuccessHandeler(response) {
@@ -60,15 +62,24 @@ export class DrugListComponent implements OnInit {
   }
 
   getServices(stateID) {
-    this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+    this.providerAdminRoleService.getServices(this.service_provider_id, stateID)
+      .subscribe(response => this.getServicesSuccessHandeler(response), err => {
+        this.alertMessage.alert(err, 'error');
+      });
   }
 
   getStates() {
-    this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    this.providerAdminRoleService.getStates(this.service_provider_id)
+      .subscribe(response => this.getStatesSuccessHandeler(response), err => {
+        this.alertMessage.alert(err, 'error');
+      });
   }
 
   getStatesByServiceID() {
-    this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id)
+      .subscribe(response => this.getStatesSuccessHandeler(response), err => {
+        this.alertMessage.alert(err, 'error');
+      });
   }
 
   getStatesSuccessHandeler(response) {
@@ -88,7 +99,7 @@ export class DrugListComponent implements OnInit {
     for (let i = 0; i < this.availableDrugs.length; i++) {
       if (this.availableDrugs[i].drugName === formValues.drugName
         && this.availableDrugs[i].providerServiceMapID === formValues.providerServiceMapID) {
-        this.alertMessage.alert("This drug is already available");
+        this.alertMessage.alert('This drug is already available');
         this.duplicateDrugs = true;
       }
     }
@@ -112,7 +123,7 @@ export class DrugListComponent implements OnInit {
   //   'providerServiceMapID':'',
   //   'createdBy':''
   // };
- 
+
   addDrugToList(values) {
     debugger;
     if (!this.drugFilterList(values)) {
@@ -136,15 +147,17 @@ export class DrugListComponent implements OnInit {
   }
 
   storedrug() {
-    let obj = { "drugMasters": this.drugList };
-    console.log("request", obj);
-    
-    this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
+    let obj = { 'drugMasters': this.drugList };
+    console.log('request', obj);
+
+    this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response), err => {
+      this.alertMessage.alert(err, 'error');
+    });
   }
 
   successHandler(response) {
     this.drugList = [];
-    this.alertMessage.alert("Drugs stored successfully");
+    this.alertMessage.alert('Drugs saved successfully', 'success');
     this.getAvailableDrugs();
   }
 
@@ -153,27 +166,30 @@ export class DrugListComponent implements OnInit {
     let flag = !drug.deleted;
     let status;
     if (flag === true) {
-      status = "Deactivate";
+      status = 'Deactivate';
     }
     if (flag === false) {
-      status = "Activate";
+      status = 'Activate';
     }
-    this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
+    this.alertMessage.confirm('Confirm', 'Are you sure you want to ' + status + '?').subscribe(response => {
       if (response) {
 
         this.dataObj = {};
         this.dataObj.drugID = drug.drugID;
         this.dataObj.deleted = !drug.deleted;
         this.dataObj.modifiedBy = this.createdBy;
-        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(res => this.updateStatusHandler(res, status), err => {
+          this.alertMessage.alert(err, 'error');
+        });
 
         drug.deleted = !drug.deleted;
       }
-      this.alertMessage.alert(status + "d successfully");
+      // this.alertMessage.alert(status + 'd successfully');
     })
   }
-  updateStatusHandler(response) {
-    console.log("Drug status changed");
+  updateStatusHandler(response, status) {
+    console.log('Drug status changed');
+    this.alertMessage.alert(status + 'd successfully', 'success');
   }
 
   drugID: any;
@@ -193,7 +209,7 @@ export class DrugListComponent implements OnInit {
     this.drugName = drug.drugName
     this.drugDesc = drug.drugDesc;
     this.remarks = drug.remarks;
-    //this.stateID = drug.m_providerServiceMapping.state.stateID;
+    // this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
   }
 
@@ -206,14 +222,15 @@ export class DrugListComponent implements OnInit {
       this.dataObj.remarks = drug.remarks;
       this.dataObj.providerServiceMapID = drug.providerServiceMapID;
       this.dataObj.modifiedBy = this.createdBy;
-      this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response));
-    }
-    else { this.duplicateDrugs = false; }
+      this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response), err => {
+        this.alertMessage.alert(err, 'error');
+      });
+    } else { this.duplicateDrugs = false; }
   }
 
   updateHandler(response) {
     this.editable = false;
-    this.alertMessage.alert("Updated successfully");
+    this.alertMessage.alert('Updated successfully', 'success');
     this.getAvailableDrugs();
   }
 
@@ -224,7 +241,7 @@ export class DrugListComponent implements OnInit {
 
   remove_obj(index) {
     this.drugList.splice(index, 1);
-}
+  }
   clearEdit() {
     this.initializeObj();
     this.showDrugs = true;
@@ -232,12 +249,12 @@ export class DrugListComponent implements OnInit {
     this.drugNameExist = false;
   }
   back() {
-    this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-        if (res) {
-            this.drugForm.resetForm();
-            this.clearEdit();
-            this.drugList = [];
-        }
+    this.alertMessage.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
+      if (res) {
+        this.drugForm.resetForm();
+        this.clearEdit();
+        this.drugList = [];
+      }
     })
-}
+  }
 }

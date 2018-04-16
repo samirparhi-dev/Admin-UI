@@ -51,9 +51,11 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		//	this.instituteSubDirectoryMasterService.getStates(this.serviceProviderID).subscribe(response=>this.getStatesSuccessHandeler(response)); // commented on 10/4/18(1097 regarding changes) Gursimran
 		this.instituteSubDirectoryMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
 			this.successhandeler(response),
-				(err) => console.log("ERROR in fetching serviceline")
+				(err) => {
+					console.log("ERROR in fetching serviceline")
+					this.alertService.alert(err, 'error')
+				}
 		});
-
 	}
 
 	// getStatesSuccessHandeler(response) {
@@ -95,9 +97,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		this.instituteSubDirectoryMasterService.getStatesNew(obj).
 			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
 				console.log("error in fetching states")
+				this.alertService.alert(err, 'error')
 			});
 	}
-	getStatesSuccessHandeler(response,value) {
+	getStatesSuccessHandeler(response, value) {
 		this.states = response;
 		this.instituteDirectories = [];
 		this.institute_directory = "";
@@ -119,7 +122,8 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	getInstituteDirectories() {
 		this.institute_directory = "";
-		this.instituteSubDirectoryMasterService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response));
+		this.instituteSubDirectoryMasterService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
+	(err) => this.alertService.alert(err, 'error'));
 
 	}
 
@@ -140,7 +144,8 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 			"providerServiceMapId": this.providerServiceMapID
 		}
 
-		this.instituteSubDirectoryMasterService.getInstituteSubDirectory(data).subscribe(response => this.getInstituteSubDirectorySuccessHandeler(response));
+		this.instituteSubDirectoryMasterService.getInstituteSubDirectory(data).subscribe(response => this.getInstituteSubDirectorySuccessHandeler(response),
+	(err) => this.alertService.alert(err, 'error'));
 
 
 	}
@@ -162,7 +167,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	}
 
 	back() {
-		this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+		this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
 			if (res) {
 				this.showTableFlag = true;
 				this.showFormFlag = false;
@@ -229,12 +234,13 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	}
 
 	save() {
-		this.instituteSubDirectoryMasterService.saveInstituteSubDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response));
+		this.instituteSubDirectoryMasterService.saveInstituteSubDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response),
+	(err) => this.alertService.alert(err, 'error'));
 	}
 
 	saveSuccessHandeler(response) {
 		if (response) {
-			this.alertService.alert("Institute subdirectory saved successfully");
+			this.alertService.alert("Institute subdirectory saved successfully", 'success');
 			this.addInstitutueSubDirForm.resetForm();
 			this.showFormFlag = false;
 			this.bufferArray = [];
@@ -245,27 +251,29 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	toggle_activate(instituteSubDirectoryID, isDeleted) {
 		if (isDeleted === true) {
-			this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+			this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
 				if (response) {
 					let obj = {
 						"instituteSubDirectoryID": instituteSubDirectoryID,
 						"deleted": isDeleted
 					};
 
-					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"))
+					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"),
+				(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
 
 		if (isDeleted === false) {
-			this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+			this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
 				if (response) {
 					let obj = {
 						"instituteSubDirectoryID": instituteSubDirectoryID,
 						"deleted": isDeleted
 					};
 
-					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"))
+					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"),
+					(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
@@ -275,7 +283,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	toggleActivateSuccessHandeler(response, action) {
 		console.log(response, "delete Response");
 		if (response) {
-			this.alertService.alert(action + " successfully")
+			this.alertService.alert(action + " successfully",'success')
 			this.getInstituteSubdirectory(this.institute_directory);
 		}
 	}
@@ -290,7 +298,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute subdirectory edited successfully");
+				this.alertService.alert("Institute subdirectory edited successfully",'success');
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 
@@ -315,7 +323,7 @@ export class EditInstituteSubDirectory {
 
 	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
 		public instituteSubDirectoryMasterService: InstituteSubDirectoryMasterService,
-		public commonDataService: dataService,
+		public commonDataService: dataService, public alertService : ConfirmationDialogsService,
 		public dialogReff: MdDialogRef<EditInstituteSubDirectory>) { }
 
 	ngOnInit() {
@@ -334,7 +342,8 @@ export class EditInstituteSubDirectory {
 			"modifiedBy": this.commonDataService.uname
 
 		}
-		this.instituteSubDirectoryMasterService.editInstituteSubDirectory(obj).subscribe(response => this.updateSuccessHandeler(response));
+		this.instituteSubDirectoryMasterService.editInstituteSubDirectory(obj).subscribe(response => this.updateSuccessHandeler(response),
+	(err) => this.alertService.alert(err, 'error'));
 	}
 
 	updateSuccessHandeler(response) {
