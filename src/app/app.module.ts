@@ -197,6 +197,7 @@ import { ItemMasterComponent } from './item-master/item-master.component';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { CreateItemComponent } from './item-master/create-item/create-item.component';
 
 @NgModule({
   declarations: [
@@ -230,7 +231,7 @@ import { ItemService } from './services/inventory-services/item.service';
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe, ItemMasterComponent
+    , OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent
 
   ],
 

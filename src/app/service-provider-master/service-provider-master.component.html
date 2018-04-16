@@ -69,7 +69,7 @@
             minlength="2" maxlength="50" #name="ngModel" (keyup)="checkProviderNameAvailability(name.value)">
           <md-hint *ngIf="name.touched">
             <span class="errorText" [hidden]="!name.errors">Enter atleast 2 characters</span>
-            <span class="errorText" [hidden]="!providerNameExist">Provider Exists</span>
+            <span class="errorText" [hidden]="!providerNameExist">Provider exists</span>
           </md-hint>
         </md-input-container>
       </div>
