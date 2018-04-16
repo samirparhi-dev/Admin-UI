@@ -75,7 +75,7 @@ export class BlockProvider {
   }
 
   getAllProviders() {
-    return this._http.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
+    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
   }
   getAllSubService(serviceID) {
     return this._http.post(this.getAllSubService_URL, { 'serviceID': serviceID })

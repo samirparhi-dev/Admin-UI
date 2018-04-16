@@ -31,12 +31,16 @@ export class ProvideCtiMappingComponent implements OnInit {
   constructor(private block_provider: BlockProvider, private message: ConfirmationDialogsService, private _callServices: CallServices) { }
 
   ngOnInit() {
-    this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
+    this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
+      this.message.alert(err, 'error');
+    });
   }
 
   getServices(serviceProviderID) {
     this.block_provider.getServicesOfProvider(serviceProviderID.serviceProviderId)
-      .subscribe(response => this.getServicesSuccesshandeler(response));
+      .subscribe(response => this.getServicesSuccesshandeler(response), err => {
+        this.message.alert(err, 'error');
+      });
   }
 
   getCampaign(serviceline) {
@@ -45,7 +49,7 @@ export class ProvideCtiMappingComponent implements OnInit {
       this.setIsNational(serviceline.isNational);
       this.getStatesInService(this.service_provider.serviceProviderId, serviceline.serviceID);
     }, (err) => {
-
+      this.message.alert(err, 'error');
     });
   }
 
@@ -61,6 +65,8 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.block_provider.getStatesInServices(data).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       // this.getAllServicesOfProvider(serviceProviderID);
+    }, err => {
+      this.message.alert(err, 'error');
     });
   }
   getAllProvidersSuccesshandeler(response) {
@@ -124,7 +130,7 @@ export class ProvideCtiMappingComponent implements OnInit {
 
       // }
     }, (err) => {
-
+      this.message.alert(err, 'error');
     })
   }
   resetForm() {

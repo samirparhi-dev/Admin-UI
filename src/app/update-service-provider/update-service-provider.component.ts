@@ -34,8 +34,12 @@ export class UpdateServiceProviderComponent implements OnInit {
     public commonAppData: dataService) { }
 
   ngOnInit() {
-    this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
-    this.super_admin_service.getAllStates(this.countryID).subscribe(response => this.getAllStates(response));
+    this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response), err => {
+      this.message.alert(err, 'error');
+    });
+    this.super_admin_service.getAllStates(this.countryID).subscribe(response => this.getAllStates(response), err => {
+      this.message.alert(err, 'error');
+    });
 
     this.getAllServicelines_new();
 
@@ -50,6 +54,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       this.servicelines = response;
     }, err => {
       console.log('Servicelines fetching error', err);
+      this.message.alert(err, 'error');
     });
   }
 
@@ -114,7 +119,10 @@ export class UpdateServiceProviderComponent implements OnInit {
   selectedProvider(provider) {
     this.showProvider = true;
     this.provider = provider;
-    this.super_admin_service.getProviderStatus(provider).subscribe(response => this.providerInfo_handler(response));
+    this.super_admin_service.getProviderStatus(provider)
+      .subscribe(response => this.providerInfo_handler(response), err => {
+        this.message.alert(err, 'error');
+      });
   }
   providerInfo_handler(response) {
     console.log(response);
@@ -124,15 +132,18 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.searchPage = false;
   }
   back() {
-    this.message.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if (res) {
-        this.searchPage = true;
-        this.state = "";
-        this.serviceline = "";
-        // this.servicelines = [];
-        this.allServicesMapped = false;
-      }
-    })
+    this.message.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost')
+      .subscribe(res => {
+        if (res) {
+          this.searchPage = true;
+          this.state = "";
+          this.serviceline = "";
+          // this.servicelines = [];
+          this.allServicesMapped = false;
+        }
+      }, err => {
+
+      })
   }
 
   // getAllServicelines(response) {
@@ -189,12 +200,17 @@ export class UpdateServiceProviderComponent implements OnInit {
       'statusID': 2
     }
     console.log('REQUEST OBJ', obj);
-    this.super_admin_service.addProviderStateAndServiceLines(obj).subscribe(response => this.servicelineAddedSuccesshandler(response));
+    this.super_admin_service.addProviderStateAndServiceLines(obj)
+      .subscribe(response => this.servicelineAddedSuccesshandler(response), err => {
+        this.message.alert(err, 'error');
+      });
 
   }
   servicelineAddedSuccesshandler(response) {
-    this.message.alert('State and service added for this provider');
-    this.super_admin_service.getProviderStatus(this.provider).subscribe(response => this.providerInfo_handler(response));
+    this.message.alert('State and service added for this provider', 'success');
+    this.super_admin_service.getProviderStatus(this.provider).subscribe(res => this.providerInfo_handler(res), err => {
+      this.message.alert(err, 'error');
+    });
     this.searchPage = true;
     this.state = '';
     this.serviceline = '';
@@ -209,7 +225,10 @@ export class UpdateServiceProviderComponent implements OnInit {
       })
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response));
+      this.super_admin_service.getAllProvider()
+        .subscribe(response => this.providerData_successHandler(response), err => {
+          this.message.alert(err, 'error');
+        });
 
 
     });

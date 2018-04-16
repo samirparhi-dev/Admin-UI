@@ -30,7 +30,7 @@ export class EditProviderDetailsComponent implements OnInit {
   ngOnInit() {
     const providerData = this.providerDetails;
     this.setProviderDetails(providerData);
-    this.emailPattern =  /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+    this.emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
 
   }
@@ -57,7 +57,7 @@ export class EditProviderDetailsComponent implements OnInit {
     // });
     const providerObj = {};
     providerObj['serviceProviderId'] = this.providerID;
-    providerObj['serviceProviderName'] =this.providerName;
+    providerObj['serviceProviderName'] = this.providerName;
 
     providerObj['primaryContactName'] = item.primaryName;
     providerObj['primaryContactNo'] = item.primaryNo;
@@ -69,22 +69,24 @@ export class EditProviderDetailsComponent implements OnInit {
     providerObj['secondaryContactNo'] = item.secondaryNo;
     providerObj['secondaryContactAddress'] = item.secondaryAddress;
 
-    console.log(providerObj,"EDITED OBJ");
+    console.log(providerObj, "EDITED OBJ");
 
     this.provider_services.editProvider(providerObj).subscribe((res) => {
 
-      console.log(res,"Response after edit");
-      this.message.alert('Updated successfully');
-      
+      console.log(res, "Response after edit");
+      this.message.alert('Updated successfully', 'success');
+
       this.dialogRef.close();
     }, (err) => {
-      this.message.alert('error');
+      this.message.alert(err, 'error');
     })
   }
   checkProviderNameAvailability(service_provider_name) {
 
     this.super_admin_service.checkProviderNameAvailability(service_provider_name)
-      .subscribe(response => this.checkProviderNameAvailibilityHandeler(response));
+      .subscribe(response => this.checkProviderNameAvailibilityHandeler(response), err => {
+        this.message.alert(err, 'error');
+      });
   }
 
   checkProviderNameAvailibilityHandeler(response) {

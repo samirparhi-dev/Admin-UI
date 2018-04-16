@@ -51,7 +51,8 @@ export class WorkLocationMappingComponent implements OnInit {
   isNational = false;
 
   @ViewChild('workplaceform') eForm: NgForm;
-  constructor(private alertService: ConfirmationDialogsService, private saved_data: dataService,
+  constructor(private alertService: ConfirmationDialogsService,
+    private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
 
   ngOnInit() {
@@ -72,7 +73,9 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getStates(serviceID, isNational) {
     this.worklocationmapping.getStates(this.userID, serviceID, isNational).
-      subscribe(response => this.getStatesSuccessHandeler(response, isNational));
+      subscribe(response => this.getStatesSuccessHandeler(response, isNational), err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
 
@@ -100,6 +103,8 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.getServices(userID)
       .subscribe(response => {
         this.services_array = response;
+      }, err => {
+        this.alertService.alert(err, 'error');
       });
 
   }
@@ -116,6 +121,7 @@ export class WorkLocationMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
+        this.alertService.alert(err, 'error');
       });
   }
   getUserName(serviceProviderID) {
@@ -135,6 +141,7 @@ export class WorkLocationMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
+        this.alertService.alert(err, 'error');
       });
   }
 
@@ -149,13 +156,12 @@ export class WorkLocationMappingComponent implements OnInit {
           this.RolesList = [];
         }
       }, err => {
-
+        this.alertService.alert(err, 'error');
       });
   }
 
 
   getAllWorkLocations(state: any, service: any, isNational) {
-    debugger;
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service, isNational)
       .subscribe(response => {
         if (response) {
@@ -164,7 +170,7 @@ export class WorkLocationMappingComponent implements OnInit {
           this.RolesList = [];
         }
       }, err => {
-
+        this.alertService.alert(err, 'error');
       });
   }
 
@@ -181,7 +187,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
         }
       }, err => {
-
+        this.alertService.alert(err, 'error');
       });
   }
   getAvailableMappings(formvalues, role) {
@@ -208,7 +214,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
     var filteredRole = this.filteredRoles;
     if (this.filteredRoles != '') {
-      this.alertService.alert('This mapping is already exist with  ' + filteredRole + ' role');
+      this.alertService.alert('This mapping already exists with  ' + filteredRole + ' role');
       // this.saveButtonStatus = true;
       this.filteredRoles = '';
       this.duplicatestatus = true;
@@ -274,13 +280,14 @@ export class WorkLocationMappingComponent implements OnInit {
         this.worklocationmapping.DeleteWorkLocationMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Work location mapped admin activated successfully');
+              this.alertService.alert('Work location mapped admin activated successfully', 'success');
               /* refresh table */
               this.getAllMappedWorkLocations();
             }
           },
           err => {
             console.log('error', err);
+            this.alertService.alert(err, 'error');
           });
       }
     });
@@ -293,15 +300,16 @@ export class WorkLocationMappingComponent implements OnInit {
         const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
 
         this.worklocationmapping.DeleteWorkLocationMapping(object)
-          .subscribe(response => {
-            if (response) {
-              this.alertService.alert('Work location mapped deactivated successfully');
+          .subscribe(res => {
+            if (res) {
+              this.alertService.alert('Work location mapped deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedWorkLocations();
             }
           },
           err => {
             console.log('error', err);
+            this.alertService.alert(err, 'error');
           });
       }
     });
@@ -507,7 +515,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.SaveWorkLocationMapping(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of work-location');
-        this.alertService.alert('Work location  mapped successfully');
+        this.alertService.alert('Work location  mapped successfully', 'success');
         this.getAllMappedWorkLocations();
         this.resetDropdowns();
         this.showTable();
@@ -516,6 +524,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.bufferArray = [];
       }, err => {
         console.log(err, 'ERROR');
+        this.alertService.alert(err, 'error');
       });
   }
 
@@ -537,7 +546,7 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   editRow(rowObject) {
-    debugger;
+
     this.showEditForm();
     this.edit = true;
     this.disableUsername = true;
@@ -588,7 +597,9 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getProviderServices_edit(userID) {
     this.worklocationmapping.getServices(this.userID)
-      .subscribe(response => this.getServicesSuccessHandeler(response));
+      .subscribe(response => this.getServicesSuccessHandeler(response), err => {
+        this.alertService.alert(err, 'error');
+      });
 
   }
 
@@ -602,7 +613,9 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getProviderStates_duringEdit(serviceID, isNational) {
     this.worklocationmapping.getStates(this.userID, serviceID, isNational).
-      subscribe(response => this.getStatesSuccessHandeler_duringEdit(response, isNational));
+      subscribe(response => this.getStatesSuccessHandeler_duringEdit(response, isNational), err => {
+        this.alertService.alert(err, 'error');
+      });
   }
 
   getStatesSuccessHandeler_duringEdit(response, isNational) {
@@ -662,7 +675,7 @@ export class WorkLocationMappingComponent implements OnInit {
           // this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
         }
       }, err => {
-
+        this.alertService.alert(err, 'error');
       });
   }
   getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit) {
@@ -677,6 +690,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
         }
       }, err => {
+        this.alertService.alert(err, 'error');
 
       });
   }
@@ -691,6 +705,7 @@ export class WorkLocationMappingComponent implements OnInit {
           this.RolesList = response;
         }
       }, err => {
+        this.alertService.alert(err, 'error');
 
       });
   }
@@ -724,13 +739,14 @@ export class WorkLocationMappingComponent implements OnInit {
       this.worklocationmapping.UpdateWorkLocationMapping(langObj)
         .subscribe(response => {
           console.log(response, 'after successful mapping of work location to provider');
-          this.alertService.alert('Work location mapping edited successfully');
+          this.alertService.alert('Work location mapping edited successfully', 'success');
           this.showTable();
           this.getAllMappedWorkLocations();
           this.resetDropdowns();
           this.bufferArray = [];
         }, err => {
           console.log(err, 'ERROR');
+          this.alertService.alert(err, 'error');
         });
 
     }

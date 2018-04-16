@@ -38,7 +38,7 @@ export class CallServices {
 
   getCapmaign(serviceName: any) {
     const obj = { 'serviceName': serviceName };
-    return this._http.post(this._getCampaign, obj).map(this.extractData).catch(this.handleError);
+    return this._httpInterceptor.post(this._getCampaign, obj).map(this.extractData).catch(this.handleError);
   }
 
   addCampaign(campaignObj) {

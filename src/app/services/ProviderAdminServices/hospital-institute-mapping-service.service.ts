@@ -55,28 +55,28 @@ export class HospitalInstituteMappingService {
   };
 
   getStates(userID, serviceID, isNational) {
-    return this.http.post(this.get_State_Url,
+    return this.httpIntercept.post(this.get_State_Url,
       { 'userID': userID, 'serviceID': serviceID, 'isNational': isNational })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getServices(userID) {
-    return this.http.post(this.get_Service_Url, {
+    return this.httpIntercept.post(this.get_Service_Url, {
       'userID': userID
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getDistricts(stateId) {
-    return this.http.get(this.get_District_Url + stateId)
+    return this.httpIntercept.get(this.get_District_Url + stateId)
       .map(this.handleSuccess)
       .catch(this.handleError);
 
   }
 
   getTaluks(districtId) {
-    return this.http.get(this.get_Taluk_Url + districtId)
+    return this.httpIntercept.get(this.get_Taluk_Url + districtId)
       .map(this.handleSuccess)
       .catch(this.handleError);
 
@@ -84,36 +84,36 @@ export class HospitalInstituteMappingService {
 
 
   getInstitutions(data) {
-    return this.http.post(this.get_Institution_Url, data)
+    return this.httpIntercept.post(this.get_Institution_Url, data)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   getInstituteDirectory(providerServiceMapID) {
     console.log('psmID', providerServiceMapID);
-    return this.http.post(this.get_InstituteDirectory_Url,
+    return this.httpIntercept.post(this.get_InstituteDirectory_Url,
       { 'providerServiceMapId': providerServiceMapID })
       .map(this.handleSuccess).catch(this.handleError);
   }
 
   getInstituteSubDirectory(data) {
-    return this.http.post(this.get_InstituteSubDirectory_Url, data)
+    return this.httpIntercept.post(this.get_InstituteSubDirectory_Url, data)
       .map(this.handleSuccess).catch(this.handleError);
 
   }
 
   getMappingList(data) {
-    return this.http.post(this.getMappingList_Url, data)
+    return this.httpIntercept.post(this.getMappingList_Url, data)
       .map(this.handleSuccess).catch(this.handleError);
   }
 
   createMapping(data) {
-    return this.http.post(this.createMapping_Url, data)
+    return this.httpIntercept.post(this.createMapping_Url, data)
       .map(this.handleSuccess).catch(this.handleError);
   }
 
   toggleMappingStatus(data) {
-    return this.http.post(this.toggleMappingStatus_Url, data)
+    return this.httpIntercept.post(this.toggleMappingStatus_Url, data)
       .map(this.handleSuccess).catch(this.handleError);
 
   }
