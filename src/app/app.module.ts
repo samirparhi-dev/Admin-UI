@@ -192,11 +192,16 @@ import { WorkLocationMappingComponent } from './work-location-mapping/work-locat
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
 import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
 import { ItemMasterComponent } from './item-master/item-master.component';
+import { MainStoreAndSubStoreComponent } from './main-store-and-sub-store/main-store-and-sub-store.component';
 
 
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
+import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
+
+
 
 @NgModule({
   declarations: [
@@ -230,7 +235,7 @@ import { ItemService } from './services/inventory-services/item.service';
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent
-    , OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent
+    , OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent
 
   ],
 
@@ -309,7 +314,7 @@ import { ItemService } from './services/inventory-services/item.service';
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices,
+    CommonServices,FacilityMasterService,Mainstroreandsubstore,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
