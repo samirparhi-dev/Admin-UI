@@ -35,11 +35,17 @@ export class CreateSubServiceComponent implements OnInit {
   added: boolean = false;
 
   isNational = false;
-  constructor(private sub_service: BlockProvider, private commonData: dataService, private message: ConfirmationDialogsService) { }
+  constructor(private sub_service: BlockProvider,
+    private commonData: dataService,
+    private message: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.subServiceAvailable = false;
-    this.sub_service.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response));
+    this.sub_service.getAllProviders()
+      .subscribe(response => this.getAllProvidersSuccesshandeler(response),
+      err => {
+        this.message.alert(err, 'error');
+      });
 
   }
   getAllProvidersSuccesshandeler(response) {
@@ -77,13 +83,14 @@ export class CreateSubServiceComponent implements OnInit {
       'serviceProviderID': serviceProviderID,
       'serviceID': serviceID
     };
-    this.state= undefined;
+    this.state = undefined;
     this.sub_service.getStatesInServices(data).subscribe(response => {
       console.log(response, 'successful response');
       this.states = undefined;
       this.states = response;
     }, err => {
-      console.log(err, 'error response')
+      console.log(err, 'error response');
+      this.message.alert(err, 'error');
     });
   }
 
@@ -98,6 +105,7 @@ export class CreateSubServiceComponent implements OnInit {
         });
       }, err => {
         console.log(err, 'Error in getting Services from Provider');
+        this.message.alert(err, 'error');
       });
   }
 
@@ -128,7 +136,10 @@ export class CreateSubServiceComponent implements OnInit {
   // }
   getExistingOnSearch(providerServiceMapID) {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
-      .subscribe(response => this.populateTable(response, providerServiceMapID))
+      .subscribe(response => this.populateTable(response, providerServiceMapID),
+      err => {
+        this.message.alert(err, 'error');
+      });
   }
   populateTable(response, providerServiceMapID) {
     this.showTable = true;
@@ -137,14 +148,17 @@ export class CreateSubServiceComponent implements OnInit {
   }
   getExistingSubService(providerServiceMapID) {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
-      .subscribe(response => this.existingSubServiceHandler(response))
+      .subscribe(response => this.existingSubServiceHandler(response),
+      err => {
+        this.message.alert(err, 'error');
+      })
   }
 
   existingSubServiceHandler(response) {
     this.existingSubService = [];
     this.existingSubService = response;
-    if(this.state) {
-    this.getSubServices(this.state);
+    if (this.state) {
+      this.getSubServices(this.state);
     }
     else {
       this.getSubServices(this.serviceObj);
@@ -169,18 +183,18 @@ export class CreateSubServiceComponent implements OnInit {
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
-        this.message.alert('Added successfully');
+        this.message.alert('Sub Service saved successfully', 'success');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();
         }, (err) => {
-
+          this.message.alert(err, 'error');
         })
       } else {
-        this.message.alert('Something went wrong');
+        this.message.alert('Something went wrong', 'error');
       }
     }, (err) => {
-
+      this.message.alert(err, 'error');
     });
     // const data_obj = {
     //   'providerServiceId': providerService.serviceProviderId,
@@ -250,7 +264,7 @@ export class CreateSubServiceComponent implements OnInit {
         }
       }
     }, (err) => {
-
+      this.message.alert(err, 'error');
     })
   }
 
@@ -263,7 +277,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.searchState = this.state;
     this.searchServiceObj = this.serviceObj;
     if (this.state) {
-     
+
       this.getExistingOnSearch(this.state.providerServiceMapID);
     }
     else {
@@ -283,7 +297,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.searchForm = flag;
     if (flag) {
       if (this.state) {
-     
+
         this.getExistingOnSearch(this.state.providerServiceMapID);
       }
       else {
@@ -296,37 +310,37 @@ export class CreateSubServiceComponent implements OnInit {
     // jQuery('#addingForm').trigger('reset');
   }
   back() {
-    this.message.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-      if (res) {
-        this.addSubService(true);
-      }
-    })
+    this.message.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost')
+      .subscribe(res => {
+        if (res) {
+          this.addSubService(true);
+        }
+      })
   }
   confirmMessage: any;
   deleteSubService(subserviceID, flag) {
-    ;
     let obj = {
-      "subServiceID": subserviceID,
-      "deleted": flag
+      'subServiceID': subserviceID,
+      'deleted': flag
     }
     if (flag) {
       this.confirmMessage = 'Deactivate';
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.message.confirm('Confirm','Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
+    this.message.confirm('Confirm', 'Are you sure want to ' + this.confirmMessage + '?').subscribe((res) => {
       if (res) {
         this.sub_service.deleteSubService(obj).subscribe(response => {
           this.deletedSuccessHandler(response)
         })
       }
-    }, (err) => { });
+    }, (err) => { this.message.alert(err, 'error'); });
   }
   clearFields() {
     // this.subServiceDesc = '';
     jQuery("#form2").trigger('reset');
     if (this.state) {
-     
+
       this.getExistingSubService(this.state.providerServiceMapID);
     }
     else {
@@ -334,9 +348,9 @@ export class CreateSubServiceComponent implements OnInit {
     }
   }
   deletedSuccessHandler(res) {
-    this.message.alert(this.confirmMessage + "d successfully");
+    this.message.alert(this.confirmMessage + 'd successfully', 'success');
     if (this.state) {
-     
+
       this.getExistingOnSearch(this.state.providerServiceMapID);
     }
     else {

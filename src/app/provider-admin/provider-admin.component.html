@@ -155,8 +155,13 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu multi-level cu-admin-sub-nav-top">
-                                <li style="cursor:pointer" (click)='show("38")'>
-                                    <a>Item Master</a>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-4">Master</a>
+                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                        <li style="cursor:pointer" (click)='show("38")'>
+                                            <a>Item Master</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>

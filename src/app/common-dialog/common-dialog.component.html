@@ -47,7 +47,7 @@
   <md-dialog-content>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  center-btn m-t-5 m-b-5"  >
-        <button md-raised-button color="primary" class="m-b-10" (click)="dialogRef.close(true) ">{{btnOkText}}</button>
+        <button md-raised-button [color]="(status=='info')? 'primary': ''" [ngClass]="{'borderClass': status!='info'}" class="m-b-10" (click)="dialogRef.close(true) ">{{btnOkText}}</button>
       </div>
     </div>
   </md-dialog-content>

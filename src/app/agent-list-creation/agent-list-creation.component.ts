@@ -279,16 +279,15 @@ export class AgentListCreationComponent implements OnInit {
         .subscribe(response => this.saveSuccessHandeler(response));
     }
     else {
-      this.alertService.alert('INVALID ENTRY IN AGENT ID');
+      this.alertService.alert('Invalid entry in agent ID', 'error');
     }
 
   }
 
   saveSuccessHandeler(response) {
-    console.log(response, 'DIAMOND KA RESPONSE');
     if (response) {
       if (response.length > 0) {
-        this.alertService.alert('Mapping Done Successfully for ' + response.length + ' Agent ID');
+        this.alertService.alert('Mapping done successfully for ' + response.length + ' Agent ID','success');
         this.resetFields();
       }
       if (response.length == 0) {
@@ -309,7 +308,7 @@ export class AgentListCreationComponent implements OnInit {
     this.agentListForm.reset();
 
 
-      this.radio_option = '1';
+  //    this.radio_option = '1';
 
     this.states = [];
     this.campaignNames = [];
