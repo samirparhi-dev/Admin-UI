@@ -84,8 +84,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   // } //commented on 12/4/18 w.r.t.1097 changes
   getServiceLines() {
     this.CategorySubcategoryService.getServiceLinesNew(this.userID).subscribe((response) => {
-      this.successhandeler(response),
-        (err) => console.log("ERROR in fetching serviceline")
+      this.successhandeler(response),(err) => this.messageBox.alert(err,'error')
     });
   }
   successhandeler(res) {
@@ -118,9 +117,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       'isNational': value.isNational
     }
     this.CategorySubcategoryService.getStatesNew(obj).
-      subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-        console.log("error in fetching states")
-      });
+      subscribe(response => this.getStatesSuccessHandeler(response, value),
+      (err) => this.messageBox.alert(err,'error'));
   }
   getStatesSuccessHandeler(response, value) {
 
@@ -171,9 +169,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
         console.log(this.subServices, "The array after filter");
 
-      }, (err) => {
-
-      });
+      },(err) => this.messageBox.alert(err,'error'));
   }
   getCategory(providerserviceMapId: any, subServiceID: any) {
     this.providerServiceMapID = providerserviceMapId;
@@ -186,9 +182,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           });
           this.data = response;
         }
-      }, (err) => {
-
-      });
+      },(err) => this.messageBox.alert(err,'error'));
   }
   getSubCategory(providerserviceMapId: any, subServiceID: any) {
     this.providerServiceMapID = providerserviceMapId;
@@ -201,9 +195,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             return obj !== null;
           });
         }
-      }, (err) => {
-
-      });
+      },(err) => this.messageBox.alert(err,'error'));
   }
 
   searchReqObjChange(choice) {
@@ -329,7 +321,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
-            this.messageBox.alert('Created successfully ');
+            this.messageBox.alert('Created successfully','success');
             this.serviceList.length = [];
             if (this.nationalFlag) {
               this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
@@ -341,9 +333,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             }
           }
         }
-      }, (err) => {
-
-      });
+      },(err) => this.messageBox.alert(err,'error'));
   }
 
   // add sub category
@@ -364,7 +354,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
-          this.messageBox.alert('Created successfully');
+          this.messageBox.alert('Created successfully','success');
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
@@ -466,7 +456,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.CategorySubcategoryService.deleteCategory(id, isActivate)
           .subscribe((response) => {
             if (response) {
-              this.messageBox.alert( confirmMessage + "d successfully");
+              this.messageBox.alert( confirmMessage + "d successfully",'success');
               this.refeshCategory(response.subServiceID, response.providerServiceMapID);
             }
           }, (err) => {
@@ -490,7 +480,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           .subscribe((response) => {
             if (response) {
               // console.log(response,"after delete");
-              this.messageBox.alert("Subcategory " + confirmMessage + "d successfully");
+              this.messageBox.alert("Subcategory " + confirmMessage + "d successfully",'success');
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
           }, (err) => {
@@ -513,9 +503,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             return item.deleted !== true;
           });
         }
-      }, (err) => {
+      },(err) => this.messageBox.alert(err,'error'));
 
-      });
     this.CategorySubcategoryService.getCategorybySubService(providerServiceMap, subService)
       .subscribe((response) => {
         if (response) {
@@ -525,9 +514,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           });
           console.log(this.subCat);
         }
-      }, (err) => {
-
-      });
+      },(err) => this.messageBox.alert(err,'error'));
   }
 
 
@@ -702,9 +689,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
               this.subCategoryExist = false;
             }
           }
-        }, (err) => {
-
-        });
+        },(err) => this.messageBox.alert(err,'error'));
     }
   }
 }

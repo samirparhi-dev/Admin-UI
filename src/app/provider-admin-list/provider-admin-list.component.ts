@@ -106,6 +106,7 @@ export class ProviderAdminListComponent implements OnInit {
         this.searchResult = response;
       }
     }, err => {
+      this.dialogService.alert(err, 'error');
       console.log("Error", err);
     })
   }
@@ -140,9 +141,14 @@ export class ProviderAdminListComponent implements OnInit {
     this.formMode = true;
     this.editMode = false;
     this.resetDob();
-    this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response));
-    this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response));
-    this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response));
+    this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response),
+      (err) => this.dialogService.alert(err, 'error'));
+
+    this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response),
+      (err) => this.dialogService.alert(err, 'error'));
+
+    this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response),
+      (err) => this.dialogService.alert(err, 'error'));
 
   }
   /*
@@ -161,7 +167,7 @@ export class ProviderAdminListComponent implements OnInit {
    * display the added admin's in the table
    */
   showTable() {
-    this.dialogService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
         if (this.editMode) {
@@ -195,7 +201,8 @@ export class ProviderAdminListComponent implements OnInit {
     console.log("user", this.username);
     this.superadminService
       .checkUserAvailability(username)
-      .subscribe(response => this.checkUsernameSuccessHandeler(response));
+      .subscribe(response => this.checkUsernameSuccessHandeler(response),
+      (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -277,7 +284,9 @@ export class ProviderAdminListComponent implements OnInit {
         (response: any) => {
           this.checkAadharSuccessHandler(response);
         },
-        err => { console.log("Error", err); }
+    
+        err => { console.log("Error", err); 
+        this.dialogService.alert(err, 'error')}
       );
     }
   }
@@ -300,8 +309,7 @@ export class ProviderAdminListComponent implements OnInit {
           console.log("pan response", response);
           this.checkPanSuccessHandler(response);
         },
-        err => { }
-      );
+        (err) => this.dialogService.alert(err, 'error'));
     }
   }
   checkPanSuccessHandler(response) {
@@ -407,11 +415,12 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
       this.editMode = false;
-      this.dialogService.alert("Provider admin created successfully");
+      this.dialogService.alert("Provider admin created successfully",'success');
       this.objs = [];
       this.getAllProviderAdminDetails();
 
-    })
+    },
+    (err) =>  this.dialogService.alert(err, 'error'));
 
   }
   /*
@@ -422,13 +431,13 @@ export class ProviderAdminListComponent implements OnInit {
     let dialog_Ref = this.dialog.open(EditProviderAdminModal, {
       height: '500px',
       width: '900px',
-      disableClose:  true,
+      disableClose: true,
       data: item
     });
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Admin details edited successfully");
+        this.dialogService.alert("Admin details edited successfully",'success');
         this.getAllProviderAdminDetails();
       }
     });
@@ -447,18 +456,19 @@ export class ProviderAdminListComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm('Confirm',"Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.dialogService.confirm('Confirm', "Are you sure want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("Obj", obj);
         this.superadminService.delete_toggle_activation(obj)
           .subscribe((res) => {
             console.log('response', res);
-            this.dialogService.alert(this.confirmMessage + "d successfully");
+            this.dialogService.alert(this.confirmMessage + "d successfully",'success');
             this.getAllProviderAdminDetails();
           },
-            (err) => {
-              console.log(err);
-            })
+          (err) => {
+            this.dialogService.alert(err, 'error');
+            console.log(err);
+          })
       }
     },
       (err) => {
@@ -519,7 +529,7 @@ export class EditProviderAdminModal {
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 
-  constructor(@Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
     public superadminService: SuperAdmin_ServiceProvider_Service,
     public dialogRef: MdDialogRef<EditProviderAdminModal>,
     public dialogService: ConfirmationDialogsService) { }

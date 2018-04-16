@@ -93,37 +93,37 @@ export class CategorySubcategoryService {
   }
 
   saveCategory(categoryObj: any) {
-    return this.http.post(this.saveCategory_url, categoryObj)
+    return this._httpInterceptor.post(this.saveCategory_url, categoryObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   saveSubCategory(categoryObj: any) {
-    return this.http.post(this.saveExistCategory_url, categoryObj)
+    return this._httpInterceptor.post(this.saveExistCategory_url, categoryObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   getCategory(serviceProviderMapID: any, id: any) {
-    return this.http.post(this.getCategory_url, { 'providerServiceMapID': serviceProviderMapID, 'subServiceID': id })
+    return this._httpInterceptor.post(this.getCategory_url, { 'providerServiceMapID': serviceProviderMapID, 'subServiceID': id })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   deleteCategory(id: any, isActivate: boolean) {
-    return this.http.post(this.deleteCategory_url, { 'categoryID': id, 'deleted': isActivate })
+    return this._httpInterceptor.post(this.deleteCategory_url, { 'categoryID': id, 'deleted': isActivate })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   deleteSubCategory(id, isActivate) {
-    return this.http.post(this.deleteSubCategory_url, { 'subCategoryID': id, 'deleted': isActivate })
+    return this._httpInterceptor.post(this.deleteSubCategory_url, { 'subCategoryID': id, 'deleted': isActivate })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   editCategory(catObj: any) {
-    return this.http.post(this.editCategory_url, catObj)
+    return this._httpInterceptor.post(this.editCategory_url, catObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   editSubCategory(subCatObj) {
-    return this.http.post(this.editSubCategory_url, subCatObj)
+    return this._httpInterceptor.post(this.editSubCategory_url, subCatObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }

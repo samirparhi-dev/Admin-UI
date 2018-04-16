@@ -65,10 +65,10 @@ export class EditCategorySubcategoryComponent implements OnInit {
     ;
     this.catService.editCategory(catObj).subscribe((response) => {
       if (response) {
-        this.message.alert('Updated successfully');
+        this.message.alert('Updated successfully','success');
         this.dialogRef.close(true);
       }
-    }, (err) => { });
+    }, (err) => this.message.alert(err,'error'));
   }
   editSubCategory() {
     const catObj = {};
@@ -79,10 +79,10 @@ export class EditCategorySubcategoryComponent implements OnInit {
     catObj['modifiedBy'] = this.commonData.uname;
     this.catService.editSubCategory(catObj).subscribe((response) => {
       if (response) {
-        this.message.alert('Updated successfully');
+        this.message.alert('Updated successfully','success');
         this.dialogRef.close(true);
       }
-    }, (err) => { });
+    }, (err) => this.message.alert(err,'error'));
   }
 
 

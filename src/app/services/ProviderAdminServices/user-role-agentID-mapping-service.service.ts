@@ -53,7 +53,7 @@ export class UserRoleAgentID_MappingService {
   };
 
   getStates(userID, serviceID, isNational) {
-    return this.http.post(this.get_State_Url,
+    return this.httpIntercept.post(this.get_State_Url,
       {
         'userID': userID,
         'serviceID': serviceID,

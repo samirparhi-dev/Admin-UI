@@ -51,6 +51,7 @@ export class loginContentClass implements OnInit {
 					}
 
 				}, err => {
+					this.alertMessage.alert(err,'error')
 					console.log(err, "ERR while superadmin validation");
 				});
 
@@ -63,7 +64,10 @@ export class loginContentClass implements OnInit {
 		else {
 			this.loginservice.authenticateUser(userId, password).subscribe(
 				(response: any) => this.successCallback(response),
-				(error: any) => this.errorCallback(error));
+				(error: any) => {
+					this.errorCallback(error)
+					this.alertMessage.alert(error,'error');
+				});
 		}
 
 	};
@@ -80,7 +84,8 @@ export class loginContentClass implements OnInit {
 		if (response.isAuthenticated === true && response.Status === "Active") {
 			localStorage.setItem('authToken', response.key);
 			console.log("response.previlegeObj[0].serviceID", response.previlegeObj[0].serviceID);
-			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response));
+			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response),
+		(err) => this.alertMessage.alert(err,'error'));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {
 
