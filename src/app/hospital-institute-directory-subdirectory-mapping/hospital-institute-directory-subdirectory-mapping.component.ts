@@ -271,7 +271,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     }
 
     if (reqObj.blockID === undefined || reqObj.blockID === null || reqObj.blockID === "") {
-      this.alertService.alert("Please Select Taluk as well");
+      this.alertService.alert("Please select taluk as well");
     }
     else {
       console.log("GET REQ OBJ FOR GETTING MAPPINGS", reqObj);
@@ -306,7 +306,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         this.bufferArray.push(obj);
       }
       else {
-        this.alertService.alert("Mapping for this Hopital Already Exists");
+        this.alertService.alert("Mapping for this Hopital already exists");
         this.hospital = "";
       }
 
@@ -326,7 +326,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
       }
       else {
-        this.alertService.alert("Mapping for this Hopital Already Exists");
+        this.alertService.alert("Mapping for this Hopital already exists");
         this.hospital = "";
       }
 
@@ -380,7 +380,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   saveSuccessHandeler(response) {
     console.log("response", response);
     if (response) {
-      this.alertService.alert("Mapping Saved Successfully!");
+      this.alertService.alert("Mapping saved successfully!");
       this.back();
       this.getMappingHistory();
     }
@@ -389,7 +389,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
   toggle_activate(instituteDirMapID, isDeleted) {
     if (isDeleted === true) {
-      this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+      this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
         if (response) {
           let obj = {
             "instituteDirMapID": instituteDirMapID,
@@ -402,7 +402,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     }
 
     if (isDeleted === false) {
-      this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
         if (response) {
           let obj = {
             "instituteDirMapID": instituteDirMapID,
@@ -419,7 +419,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   toggleMappingStatusSuccessHandeler(response, action) {
     console.log(response, "delete Response");
     if (response) {
-      this.alertService.alert(action + " Successfully!")
+      this.alertService.alert(action + " successfully!")
       this.getMappingHistory();
     }
   }
