@@ -48,7 +48,7 @@ export class AgentListCreationService {
   }
 
   getServices(userID) {
-    return this.http.post(this.get_Service_Url,
+    return this.httpIntercept.post(this.get_Service_Url,
       {
         'userID': userID
 
@@ -64,7 +64,7 @@ export class AgentListCreationService {
   }
 
   saveAgentListMapping(data) {
-    return this.http.post(this.save_AgentListMapping_Url, data)
+    return this.httpIntercept.post(this.save_AgentListMapping_Url, data)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }

@@ -35,7 +35,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-      <md-radio-group [(ngModel)]="radio_option" name="radio_option" (change)="reset()">
+      <md-radio-group required [(ngModel)]="radio_option" name="radio_option" (change)="reset()">
         <md-radio-button class="radio-button m-r-5" color="primary" value="1">Single</md-radio-button>
         <md-radio-button class="radio-button m-r-5" color="primary" value="2">Multiple</md-radio-button>
         <md-radio-button class="radio-button m-r-5" color="primary" value="3">Range</md-radio-button>
@@ -72,7 +72,7 @@
     </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-    <button class="lg-pull-left md-pull-right sm-pull-right xs-pull-right" type="button" md-raised-button color="primary" [disabled]="!agentListCreationForm.valid"
+    <button class="lg-pull-left md-pull-right sm-pull-right xs-pull-right m-t-10" type="button" md-raised-button color="accent" [disabled]="!agentListCreationForm.valid"
       (click)="map(radio_option)">Map</button>
   </div>
 </div>
