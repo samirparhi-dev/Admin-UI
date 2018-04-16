@@ -51,7 +51,10 @@ export class SetPasswordComponent implements OnInit {
 				{ 'userName': this.uname, 'password': new_pwd }
 			).subscribe(
 				(response: any) => this.successCallback(response),
-				(error: any) => this.errorCallback(error)
+				(error: any) => {
+					this.errorCallback(error);
+					this.alertService.alert(error, 'error');
+				}
 				);
 		}
 		else {
@@ -62,7 +65,7 @@ export class SetPasswordComponent implements OnInit {
 	successCallback(response) {
 
 		console.log(response);
-		this.alertService.alert('Password changed successfully');
+		this.alertService.alert('Password changed successfully','success');
 		this.logout();
 		// this.router.navigate(['']);
 	}
@@ -79,6 +82,7 @@ export class SetPasswordComponent implements OnInit {
 					this.router.navigate(['']);
 				}
 			}, err => {
+				this.alertService.alert(err, 'error');
 				console.log(err, 'error while ending session both sides');
 
 			});

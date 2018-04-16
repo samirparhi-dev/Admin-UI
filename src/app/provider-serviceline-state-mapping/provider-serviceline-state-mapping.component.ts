@@ -92,6 +92,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.providers = response;
         }
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log('Error', err);
       });
   }
@@ -104,6 +105,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.searchResult = response;
         }
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log('Error', err);
       });
   }
@@ -116,7 +118,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.states = response;
         }
       }, err => {
-
+        this.dialogService.alert(err,'error');
       });
   }
 
@@ -128,7 +130,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.servicelines = response;
         }
       }, err => {
-
+        this.dialogService.alert(err,'error');
       });
   }
 
@@ -257,13 +259,14 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.mapProviderServiceState(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of provider to service and state');
-        this.dialogService.alert('Provider mapped successfully');
+        this.dialogService.alert('Provider mapped successfully','success');
         this.showTable();
         this.getAllMappings();
         this.bufferArray = [];
         this.services = [];
         this.filteredStates = [];
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log(err, 'ERROR');
       });
   }
@@ -371,7 +374,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         object.serviceID === rowObject.serviceID &&
         object.stateID === rowObject.stateID) {
         duplicatecount = duplicatecount + 1;
-        this.dialogService.alert('Mapping for this combination already exists.');
+        this.dialogService.alert('Mapping for this combination already exists');
         break;
       }
     }
@@ -381,11 +384,12 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       this.superadminService.editMappedProviderServiceState(object)
         .subscribe(response => {
           console.log(response, 'edited successfully success handeler');
-          this.dialogService.alert('Updated successfully');
+          this.dialogService.alert('Updated successfully','success');
           this.showTable();
           this.getAllMappings();
 
         }, err => {
+          this.dialogService.alert(err,'error');
           console.log(err, 'update error handeler');
         });
     }
@@ -403,10 +407,11 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.deleteMappedProviderServiceState(object)
       .subscribe(response => {
         console.log(response, 'success handeler after activation');
-        this.dialogService.alert('Activated successfully');
+        this.dialogService.alert('Activated successfully','success');
         this.getAllMappings();
 
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log(err, 'error handeler in activation');
 
       })
@@ -422,9 +427,10 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.superadminService.deleteMappedProviderServiceState(object)
       .subscribe(response => {
         console.log(response, 'success handeler after deactivation');
-        this.dialogService.alert('Deactivated successfully');
+        this.dialogService.alert('Deactivated successfully','success');
         this.getAllMappings();
       }, err => {
+        this.dialogService.alert(err,'error');
         console.log(err, 'error handeler in deactivation');
 
       })

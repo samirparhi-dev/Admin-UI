@@ -49,14 +49,14 @@ export class HospitalMasterService {
 
 
   getServices(userID) {
-    return this.http.post(this.get_Service_Url, {
+    return this.httpIntercept.post(this.get_Service_Url, {
       'userID': userID
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
 
   getStates(userID, serviceID, isNational) {
-    return this.http.post(this.get_State_Url,
+    return this.httpIntercept.post(this.get_State_Url,
       {
         'userID': userID,
         'serviceID': serviceID,
@@ -67,14 +67,14 @@ export class HospitalMasterService {
   }
 
   getDistricts(stateId) {
-    return this.http.get(this.get_District_Url + stateId)
+    return this.httpIntercept.get(this.get_District_Url + stateId)
       .map(this.handleSuccess)
       .catch(this.handleError);
 
   }
 
   getTaluks(districtId) {
-    return this.http.get(this.get_Taluk_Url + districtId)
+    return this.httpIntercept.get(this.get_Taluk_Url + districtId)
       .map(this.handleSuccess)
       .catch(this.handleError);
 

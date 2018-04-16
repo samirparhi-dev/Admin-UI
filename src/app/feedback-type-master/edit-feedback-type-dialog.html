@@ -9,7 +9,7 @@
   </div>
 </div>
 <div class=" m-t-20">
-  <form #f1="ngForm">
+  <form #f1="ngForm" autocomplete="off">
     <div *ngIf="service!='3'">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Feedback Name" name="feedbackName" [(ngModel)]="feedbackName" (keyup)="validateFeedback(feedbackName)"

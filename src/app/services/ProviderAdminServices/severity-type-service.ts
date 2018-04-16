@@ -36,7 +36,7 @@ export class SeverityTypeService {
   };
 
   getStates(userID, serviceID, isNationalFlag) {
-    return this.http.post(this.get_State_Url_new,
+    return this.httpIntercept.post(this.get_State_Url_new,
       {
         'userID': userID,
         'serviceID': serviceID,
