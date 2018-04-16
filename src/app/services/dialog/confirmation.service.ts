@@ -56,8 +56,8 @@ export class ConfirmationDialogsService {
         dialogRef = this.dialog.open(CommonDialogComponent, config);
         dialogRef.componentInstance.message = message;
         dialogRef.componentInstance.btnOkText = btnOkText;
-        dialogRef.componentInstance.confirmAlert = true;
-        dialogRef.componentInstance.alert = false;
+        dialogRef.componentInstance.confirmAlert = false;
+        dialogRef.componentInstance.alert = true;
         dialogRef.componentInstance.status = status;
     }
 }
