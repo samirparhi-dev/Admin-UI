@@ -2,19 +2,19 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Hospital-Institute Directory Mapping</h4>
   </div>
- 
+
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
       <md-select placeholder="Serviceline" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="service" name="service"
         required>
-        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational)" >
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational)">
           {{item.serviceName}}
         </md-option>
       </md-select>
     </md-input-container>
   </div>
-   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
       <md-select placeholder="State" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="state" name="state" (change)="getDistrict(state)"
@@ -93,7 +93,7 @@
     </div> -->
   <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showTableFlag">
     <div class="table-responsive ">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-striped " [rowsPerPage]="4">
+      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped " [rowsPerPage]="4">
         <thead>
           <tr>
             <th>Institution Name</th>
@@ -108,7 +108,7 @@
             <td>{{item.institute.institutionName}}</td>
             <td>
               <!--  <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon> -->
-              <button *ngIf="item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirMapID,false)">Activate</button>
+              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteDirMapID,false)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirMapID,true)">Deactivate</button>
             </td>
           </tr>

@@ -46,7 +46,7 @@ export class BlockProvider {
     this.getAllProviderUrl = this.admin_base_url + 'getAllProvider';
     this.getAllStatesOfProvider_Url = this.admin_base_url + 'm/role/state';
     this.getAllServicesInStateOfProvider_Url = this.admin_base_url + 'm/role/service';
-    
+
     this.getAllServicesOfProvider_Url = this.admin_base_url + 'getServiceLinesUsingProvider';
 
     // get status of blocked/unblocked
@@ -111,14 +111,14 @@ export class BlockProvider {
 
   // status apis
   getProviderLevelStatus(serviceProviderID) {
-    return this._http.post(this.getProviderLevelStatus_Url, {
+    return this.httpInterceptor.post(this.getProviderLevelStatus_Url, {
       'serviceProviderID': serviceProviderID
     })
       .map(this.success_handeler).catch(this.error_handeler);
   }
 
   getProvider_StateLevelStatus(serviceProviderID, stateID) {
-    return this._http.post(this.getProvider_StateLevelStatus_Url, {
+    return this.httpInterceptor.post(this.getProvider_StateLevelStatus_Url, {
       'serviceProviderID': serviceProviderID,
       'stateID': stateID
     })
@@ -126,7 +126,7 @@ export class BlockProvider {
   }
 
   getProvider_ServiceLineLevelStatus(serviceProviderID, serviceID) {
-    return this._http.post(this.getProvider_ServiceLineLevelStatus_Url, {
+    return this.httpInterceptor.post(this.getProvider_ServiceLineLevelStatus_Url, {
       'serviceProviderID': serviceProviderID,
       'serviceID': serviceID
     })
@@ -134,7 +134,7 @@ export class BlockProvider {
   }
 
   getProvider_State_ServiceLineLevelStatus(serviceProviderID, stateID, serviceID) {
-    return this._http.post(this.getProvider_State_ServiceLineLevelStatus_Url, {
+    return this.httpInterceptor.post(this.getProvider_State_ServiceLineLevelStatus_Url, {
       'serviceProviderID': serviceProviderID,
       'stateID': stateID,
       'serviceID': serviceID
@@ -146,7 +146,7 @@ export class BlockProvider {
   // blocking unblocking apis
   block_unblock_provider(serviceProviderID, statusID, reason) {
 
-    return this._http.post(this.block_unblock_provider_url, {
+    return this.httpInterceptor.post(this.block_unblock_provider_url, {
       'serviceProviderID': serviceProviderID,
       'statusID': statusID,
       'reason': reason
@@ -155,7 +155,7 @@ export class BlockProvider {
   }
 
   block_unblock_state(serviceProviderID, stateID, statusID, reason) {
-    return this._http.post(this.block_unblock_state_url, {
+    return this.httpInterceptor.post(this.block_unblock_state_url, {
       'serviceProviderID': serviceProviderID,
 
       'stateID': stateID,
@@ -167,7 +167,7 @@ export class BlockProvider {
   }
 
   block_unblock_serviceline(serviceProviderID, serviceID, statusID, reason) {
-    return this._http.post(this.block_unblock_serviceline_url, {
+    return this.httpInterceptor.post(this.block_unblock_serviceline_url, {
       'serviceProviderID': serviceProviderID,
       'statusID': statusID,
       'serviceID': serviceID,
@@ -178,7 +178,7 @@ export class BlockProvider {
   }
 
   block_unblock_serviceOfState(serviceProviderID, stateID, serviceID, statusID, reason) {
-    return this._http.post(this.block_unblock_serviceOfState_url, {
+    return this.httpInterceptor.post(this.block_unblock_serviceOfState_url, {
       'serviceProviderID': serviceProviderID,
       'statusID': statusID,
       'stateID': stateID,
@@ -192,18 +192,18 @@ export class BlockProvider {
       .catch(this.customErrorHandler);
   }
   getSubServiceDetails(providerServiceMapID: any) {
-    return this._http.post(this.getSubServiceDetails_URL, {
+    return this.httpInterceptor.post(this.getSubServiceDetails_URL, {
       'providerServiceMapID': providerServiceMapID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }
 
   deleteSubService(obj) {
-    return this._http.post(this.deleteSubserviceUrl, obj).map(this.success_handeler)
+    return this.httpInterceptor.post(this.deleteSubserviceUrl, obj).map(this.success_handeler)
       .catch(this.error_handeler);
   }
   editProvider(serviceProviderObj: any) {
-    return this._http.post(this.editProvider_URL, serviceProviderObj).map(this.success_handeler)
+    return this.httpInterceptor.post(this.editProvider_URL, serviceProviderObj).map(this.success_handeler)
       .catch(this.error_handeler);
   }
   success_handeler(res: Response) {
