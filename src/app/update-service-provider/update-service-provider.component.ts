@@ -197,6 +197,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       'stateID1': value.state,
       'createdBy': this.commonAppData.uname,
       'serviceID': value.serviceLine,
+      'isNational': this.isNational,
       'statusID': 2
     }
     console.log('REQUEST OBJ', obj);
