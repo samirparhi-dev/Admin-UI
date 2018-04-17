@@ -100,6 +100,7 @@
         </tfoot>
       </table>
     </div>
+    <form #statusSettingFields='ngForm'>
     <div class="row" *ngIf="case_one">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4>Provider Level Provision</h4>
@@ -208,4 +209,5 @@
         <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
       </div>
     </div>
+    </form>
   </div>

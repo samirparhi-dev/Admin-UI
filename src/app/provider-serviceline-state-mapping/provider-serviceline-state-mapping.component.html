@@ -123,6 +123,9 @@
                   {{obj.stateName}}
                   <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeState(i,j)">cancel</md-icon>
                 </li>
+                <li *ngIf="item.stateID1.length==0">
+                  {{'All State'}}
+                </li>
               </ul>
             </td>
             <td>

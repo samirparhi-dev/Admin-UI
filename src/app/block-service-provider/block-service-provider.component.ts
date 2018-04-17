@@ -1,5 +1,6 @@
 import { HostListener } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 declare let jQuery: any;
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
@@ -38,6 +39,9 @@ export class BlockServiceProviderComponent implements OnInit {
   isNational = false;
   status: any;
   reason: any;
+
+  @ViewChild('statusSettingFields') _statusSettingFields: NgForm;
+
   constructor(public block_provider: BlockProvider, private message: ConfirmationDialogsService) {
     //this.service_provider = '';
     // this.state = '';
@@ -193,6 +197,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getAllServicesOfProviderSuccesshandeler(response) {
     this.serviceline = '';
+    this.isNational = false;
     this.services_array = response;
     this.getStatus(this.service_provider, this.state, this.serviceline);
   }
@@ -277,6 +282,7 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   successhandeler1(response) {
+    this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
     // if (this.data.length > 0) {
@@ -312,6 +318,8 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   successhandeler2(response) {
+        this._statusSettingFields.reset();
+
     console.log(response, 'RESPONSE');
     this.data = response;
     // if (this.data.length > 0) {
@@ -337,6 +345,8 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   successhandeler3(response) {
+        this._statusSettingFields.reset();
+
     console.log(response, 'RESPONSE');
     this.data = response;
     // if (this.data.length > 0) {
@@ -362,6 +372,8 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   successhandeler4(response) {
+        this._statusSettingFields.reset();
+
     console.log(response, 'RESPONSE');
     this.data = response;
 
