@@ -17,6 +17,7 @@ export class loginService {
 
 	superadmin_auth_url = this._baseURL + 'user/superUserAuthenticate';
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
+	_authorisedUser = this._baseURL + 'user/getLoginResponse';
 	admin_base_path: any;
 	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
 	newlogin = this._baseURL + "user/userAuthenticate";
@@ -35,7 +36,11 @@ export class loginService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	};
-
+	public checkAuthorisedUser() {
+		return this._httpInterceptor.post(this._authorisedUser, {})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
 	superAdminAuthenticate(uname, pwd) {
 		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd })
 			.map(this.extractData)

@@ -25,13 +25,23 @@ export class loginContentClass implements OnInit {
 		public dataSettingService: dataService) { };
 
 	ngOnInit() {
-		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-		//Add 'implements OnInit' to the class.
-
+		if (localStorage.getItem('authToken')) {
+			this.loginservice.checkAuthorisedUser().subscribe((response) => this.gotLoginRes(response),
+				(err) => console.log("Getting login response through auth token failed" + err));
+		}
 	}
-
+	gotLoginRes(res: any) {
+		if (res.userName == "Super  Admin") {
+			this.dataSettingService.Userdata = { "userName": 'Super Admin' };
+			this.dataSettingService.role = "SUPERADMIN";
+			this.dataSettingService.uname = 'Super Admin';
+			this.router.navigate(['/MultiRoleScreenComponent']);
+		}
+		else {
+			this.successCallback(res);
+		}
+	}
 	login(userId: any, password: any) {
-		// console.log(userId, password);
 		if (userId.toLowerCase() === "SUPERADMIN".toLowerCase()) {
 			this.loginservice.superAdminAuthenticate(userId, password)
 				.subscribe(response => {
@@ -39,10 +49,10 @@ export class loginContentClass implements OnInit {
 						if (response.previlegeObj.length === 0) {
 							console.log(response, "SUPERADMIN VALIDATED");
 							localStorage.setItem('authToken', response.key);
-							this.dataSettingService.Userdata = { "userName": "Super Admin" };
+							this.dataSettingService.Userdata = { "userName": 'Super Admin' };
 							this.dataSettingService.role = "SUPERADMIN";
-							this.dataSettingService.uname = "Super Admin";
-							this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
+							this.dataSettingService.uname = 'Super Admin';
+							this.router.navigate(['/MultiRoleScreenComponent']);
 						}
 						else {
 							this.alertMessage.alert('User is not super admin');
@@ -51,7 +61,7 @@ export class loginContentClass implements OnInit {
 					}
 
 				}, err => {
-					this.alertMessage.alert(err,'error')
+					this.alertMessage.alert(err, 'error')
 					console.log(err, "ERR while superadmin validation");
 				});
 
@@ -63,10 +73,13 @@ export class loginContentClass implements OnInit {
 		// }
 		else {
 			this.loginservice.authenticateUser(userId, password).subscribe(
-				(response: any) => this.successCallback(response),
+				(response: any) => {
+					localStorage.setItem('authToken', response.key);
+					this.successCallback(response);
+				},
 				(error: any) => {
 					this.errorCallback(error)
-					this.alertMessage.alert(error,'error');
+					this.alertMessage.alert(error, 'error');
 				});
 		}
 
@@ -82,10 +95,10 @@ export class loginContentClass implements OnInit {
 		console.log("array", response.previlegeObj);
 
 		if (response.isAuthenticated === true && response.Status === "Active") {
-			localStorage.setItem('authToken', response.key);
+		//		localStorage.setItem('authToken', response.key);
 			console.log("response.previlegeObj[0].serviceID", response.previlegeObj[0].serviceID);
 			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response),
-		(err) => this.alertMessage.alert(err,'error'));
+				(err) => this.alertMessage.alert(err, 'error'));
 			// this.router.navigate(['/MultiRoleScreenComponent']);
 			for (let i = 0; i < response.Previlege.length; i++) {
 
@@ -101,7 +114,7 @@ export class loginContentClass implements OnInit {
 				// }
 			}
 			if (this.dataSettingService.role.toLowerCase() === "PROVIDERADMIN".toLowerCase()) {
-				this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
+				this.router.navigate(['/MultiRoleScreenComponent']);
 			}
 			else {
 				this.alertMessage.alert('User is not a provider admin');
@@ -110,7 +123,7 @@ export class loginContentClass implements OnInit {
 		}
 		if (response.isAuthenticated === true && response.Status === "New") {
 			this.status = 'new';
-			localStorage.setItem('authToken', response.key);
+				localStorage.setItem('authToken', response.key);
 			this.router.navigate(['/setQuestions']);
 		}
 	};
