@@ -55,13 +55,14 @@ export class MultiRoleScreenComponent implements OnInit {
   }
 
   logOut() {
-    this.router.navigate([""]);
+    
 
     this._loginService.removeTokenFromRedis()
       .subscribe(response => {
         if (response.response.toLowerCase() === 'success'.toLowerCase()) {
           console.log('successfully logged out from CRM and session ended both sides');
           localStorage.removeItem('authToken');
+          this.router.navigate([""]);
         }
       }, err => {
         console.log(err, 'error while ending session both sides');
