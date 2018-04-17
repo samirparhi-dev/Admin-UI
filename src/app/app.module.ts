@@ -193,6 +193,7 @@ import { WorkLocationMapping } from './services/ProviderAdminServices/work-locat
 import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
 import { ItemMasterComponent } from './item-master/item-master.component';
 import { MainStoreAndSubStoreComponent } from './main-store-and-sub-store/main-store-and-sub-store.component';
+import { AuthGuard } from './services/authGuardService/auth-guard.services';
 
 
 /*Inventory Services*/
@@ -275,6 +276,7 @@ import { Mainstroreandsubstore } from './services/inventory-services/mainstorean
       {
         path: 'MultiRoleScreenComponent',
         component: MultiRoleScreenComponent,
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'superAdmin',
@@ -313,7 +315,7 @@ import { Mainstroreandsubstore } from './services/inventory-services/mainstorean
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
-    ProcedureComponentMappingServiceService,
+    ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices,FacilityMasterService,Mainstroreandsubstore,
     {

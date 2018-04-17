@@ -87,13 +87,13 @@ export class UserRoleAgentID_MappingService {
   }
 
   getAvailableCampaigns(providerServiceMapID) {
-    return this.http.post(this.get_Campaigns_Url, { 'providerServiceMapID': providerServiceMapID })
+    return this.httpIntercept.post(this.get_Campaigns_Url, { 'providerServiceMapID': providerServiceMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   getAgentIDs(providerServiceMapID, campaign_name) {
-    return this.http.post(this.get_AgentIDs_Url,
+    return this.httpIntercept.post(this.get_AgentIDs_Url,
       {
         'providerServiceMapID': providerServiceMapID,
         'cti_CampaignName': campaign_name
@@ -103,7 +103,7 @@ export class UserRoleAgentID_MappingService {
   }
 
   mapAgentID(data) {
-    return this.http.post(this.mapAgentID_Url, data)
+    return this.httpIntercept.post(this.mapAgentID_Url, data)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }

@@ -268,6 +268,7 @@ export class AgentIDMappingModal {
 
   mapAgentIDSuccessHandeler(response) {
     if (response) {
+      this.alertService.alert('Mapped successfully','success');
       this.dialogReff.close("success");
     }
   }

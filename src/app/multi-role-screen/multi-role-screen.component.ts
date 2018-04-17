@@ -3,6 +3,7 @@ import { dataService } from "../services/dataService/data.service";
 import { loginService } from '../services/loginService/login.service';
 import { Router } from "@angular/router";
 import { HttpServices } from "../services/http-services/http_services.service";
+import { PlatformLocation } from '@angular/common';
 
 declare var jQuery: any;
 
@@ -15,10 +16,14 @@ export class MultiRoleScreenComponent implements OnInit {
   role: any;
   constructor(
     public getCommonData: dataService,
-    public router: Router,
+    public router: Router, location: PlatformLocation,
     public HttpServices: HttpServices,
     public _loginService: loginService
   ) {
+    location.onPopState((e: any) => {
+      window.history.forward();
+
+    })
     this.role = this.getCommonData.role;
     console.log(this.role, "ROLE NAME AS OF NOW");
   }
