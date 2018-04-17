@@ -95,7 +95,7 @@ export class loginContentClass implements OnInit {
 		console.log("array", response.previlegeObj);
 
 		if (response.isAuthenticated === true && response.Status === "Active") {
-		//		localStorage.setItem('authToken', response.key);
+		//		localStorage.setItem('authToken', response.key); //moved above due to authorization scenario 17/4/18
 			console.log("response.previlegeObj[0].serviceID", response.previlegeObj[0].serviceID);
 			this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID).subscribe(response => this.getServiceProviderMapIDSuccessHandeler(response),
 				(err) => this.alertMessage.alert(err, 'error'));
