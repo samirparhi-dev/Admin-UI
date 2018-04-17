@@ -1,0 +1,24 @@
+<div class="row">
+  <form [formGroup]='itemCreationForm'>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Category" class="width100" formControlName="category" required>
+          <md-option *ngFor="let item of categories" [value]="item">
+            {{item.itemCategoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Dose From" class="width100" formControlName="dose" required>
+          <md-option *ngFor="let item of dosages" [value]="item">
+            {{item.itemForm}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+  </form>
+</div>

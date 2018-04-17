@@ -161,6 +161,12 @@
                                         <li style="cursor:pointer" (click)='show("38")'>
                                             <a>Item Master</a>
                                         </li>
+                                        <li style="cursor:pointer" (click)='show("39")'>
+                                            <a>Facility Type Master</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("40")'>
+                                            <a>Main Store & Sub Store</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -217,6 +223,8 @@
                             <app-zone *ngSwitchCase="36"></app-zone>
                             <app-zone-district-mapping *ngSwitchCase="37"></app-zone-district-mapping>
                             <app-item-master *ngSwitchCase="38"></app-item-master>
+                            <app-facility-type-master *ngSwitchCase="39"></app-facility-type-master>
+                            <app-main-store-and-sub-store *ngSwitchCase="40"></app-main-store-and-sub-store>
                         </div>
                     </div>
                 </div>

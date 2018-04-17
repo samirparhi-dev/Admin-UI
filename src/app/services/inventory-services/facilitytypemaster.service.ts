@@ -22,6 +22,10 @@ export class FacilityMasterService {
 
     get_State_Url: any;
     get_Service_Url: any;
+    get_facilities_Url: any;
+    save_facilities_Url: any;
+    update_facilities_Url: any;
+    delete_facilities_Url: any;
 
 
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
@@ -30,13 +34,32 @@ export class FacilityMasterService {
 
         this.get_State_Url = this.admin_Base_Url + 'm/role/stateNew';
         this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
+        this.get_facilities_Url = this.admin_Base_Url + '/getFacility';
+        this.save_facilities_Url = this.admin_Base_Url + '/addFacility';
+        this.update_facilities_Url = this.admin_Base_Url + '/editFacility';
+        this.delete_facilities_Url = this.admin_Base_Url + '/deleteFacility';
     };
-    getfacilities(serviceProviderID) {
-        return this.http.post(this.get_Service_Url,
+    getfacilities(providerServiceMapID) {
+        return this.http.post(this.get_facilities_Url,
             {
-                'serviceProviderID': serviceProviderID
+                'providerServiceMapID': providerServiceMapID
 
             }).map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    deleteFacility(deleteObj) {
+        return this.http.post(this.delete_facilities_Url, deleteObj
+        ).map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    savefacilities(obj) {
+        return this.http.post(this.save_facilities_Url, obj
+        ).map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    updateFacility(editobj) {
+        return this.http.post(this.update_facilities_Url, editobj
+        ).map(this.handleSuccess)
             .catch(this.handleError);
     }
 
