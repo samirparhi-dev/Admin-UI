@@ -15,6 +15,8 @@ export class ItemService {
     getItemsUrl: any;
     getItemsCategoryUrl: any;
     getDosageUrl: any;
+    getAllPharmacologyCategoryUrl: any;
+    getAllManufacturersUrl: any;
 
 
     constructor(private http: SecurityInterceptedHttp,
@@ -48,14 +50,36 @@ export class ItemService {
     }
     getAllDosages(flag) {
         this.bool = flag;
-        this.getDosageUrl = this.adminBaseUrl + 'getItemForm/' + '/' + this.bool;
+        this.getDosageUrl = this.adminBaseUrl + 'getItemForm' + '/' + this.bool;
         return this.http
             .get(this.getDosageUrl)
             .map(this.extractData)
             .catch(this.handleError)
 
     }
+    getAllPharmacologyCategory(serviceMapId) {
+      console.log("pharmacology list", serviceMapId);
+        
+        this.getAllPharmacologyCategoryUrl = this.adminBaseUrl + 'getPharmacologicalcategory';
+        return this.http
+            .post(this.getAllPharmacologyCategoryUrl, {"providerServiceMapID": serviceMapId})
+            .map(this.extractData)
+            .catch(this.handleError)
 
+    }
+    getAllManufacturers(serviceMapId) {
+        console.log("manufacturer list", serviceMapId);
+        
+        this.getAllManufacturersUrl = this.adminBaseUrl + 'editManufacturer';
+        return this.http
+            .post(this.getAllManufacturersUrl, {"providerServiceMapID": serviceMapId})
+            .map(this.extractData)
+            .catch(this.handleError)
+
+    }
+    getAllUnits() {
+
+    }
 
     private extractCustomData(res: Response) {
         if (res.json().data) {

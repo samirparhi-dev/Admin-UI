@@ -1,13 +1,13 @@
-<div class="row">
+ <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Item Master</h4>
   </div>
-  <form [formGroup]='searchForm'>
+  <form #searchForm='ngForm' autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
-            <md-select placeholder="Serviceline" class="width100" formControlName="service" disabled={{disableSelection}}
-              (change)="getStates()" required>
+            <md-select placeholder="Serviceline" class="width100" [ngModel]="service" name="service" disabled={{disableSelection}}
+              (change)="getStates(service)" required>
               <md-option *ngFor="let item of services" [value]="item" >
                 {{item.serviceName}}
               </md-option>
@@ -17,16 +17,15 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" formControlName="state" [disabled]="disableSelection || nationalFlag || (searchForm.value.service && searchForm.value.service.serviceName == '1097')" (change)="getAllItemsList()" 
-            [required]="searchForm.value.service && !(searchForm.value.service.serviceName == '1097')">
-            <!-- (searchForm.value.service && searchForm.value.service.serviceName) -->
+        <md-select placeholder="State" class="width100" [ngModel]="state" name="state" [disabled]="disableSelection || nationalFlag " (change)="setProviderServiceMapID(state.providerServiceMapID)" 
+            required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+ <!--   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <label class="f-s-n-b">Item type</label>
       <md-radio-group formControlName="itemType">
         <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
@@ -44,10 +43,10 @@
         <input mdInput placeholder="Item Name" formControlName="name" (change)="getAllItems()" minlength="2"
           maxlength="10" required>
       </md-input-container>
-    </div> -->
+    </div>-->
   </form>
 </div>
-<div class="row" *ngIf="showTableFlag">
+<!--<div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="itemsList" #md2="md2DataTable" [rowsPerPage]="4">
@@ -80,7 +79,7 @@
             <td>
               <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteSubDirectoryID,false)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteSubDirectoryID,true)">Deactivate</button>
-            </td>-->
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -96,5 +95,59 @@
       </table>
     </div>
   </div>
+</div>  -->
+<div class="row" *ngIf="showFormFlag">
+  <form #itemCreationForm='ngForm'  autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Category" class="width100" [ngModel]="category" name="category" required>
+          <md-option *ngFor="let item of categories" [value]="item">
+            {{item.itemCategoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Dose From" class="width100" [ngModel]="dose" name="dose" required>
+          <md-option *ngFor="let item of dosages" [value]="item">
+            {{item.itemForm}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="Pharmacology Category" class="width100" [ngModel]="pharmacology" name="pharmacology" required>
+            <md-option *ngFor="let item of pharmacologies" [value]="item">
+              {{item.categoryName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="Manufacturer" class="width100" [ngModel]="manufacturer" name="manufacturer" required>
+            <md-option *ngFor="let item of manufacturers" [value]="item">
+              {{item.manufacturerName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="UOM" class="width100" [ngModel]="uom" name="uom" required>
+            <md-option *ngFor="let item of measures" [value]="item">
+              {{item.manufacturerName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+  </form>
 </div>
-<app-create-item [searchForm]='searchForm' *ngIf="showFormFlag"></app-create-item>
+
