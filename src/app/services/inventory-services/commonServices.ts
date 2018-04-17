@@ -10,6 +10,7 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 @Injectable()
 export class CommonServices {
     adminBaseUrl: any;
+    getServiceLinesUrl: any;
     getStatesUrl: any;
 
 
@@ -18,12 +19,19 @@ export class CommonServices {
 		public basepaths: ConfigService,
 		private httpIntercept: InterceptedHttp) {
             this.adminBaseUrl = this.basepaths.getAdminBaseUrl();
-            this.getStatesUrl = this.adminBaseUrl+ 'm/role/state';
+            this.getServiceLinesUrl = this.adminBaseUrl + 'm/role/serviceNew';
+            this.getStatesUrl = this.adminBaseUrl+ 'm/role/stateNew';
         };
 
-        getStates(serviceProviderID) {
+        getServiceLines(userID) {
             return this.http
-            .post(this.getStatesUrl, {'serviceProviderID': serviceProviderID})
+            .post(this.getServiceLinesUrl, { 'userID': userID })
+                .map(this.extractData)
+                .catch(this.handleError);
+        }
+        getStatesOnServices(obj) {
+            return this.http
+            .post(this.getStatesUrl, obj)
             .map(this.extractData)
             .catch(this.handleError)
         }
