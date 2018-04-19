@@ -97,13 +97,13 @@
   <form #itemCreationForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <label class="f-s-n-b">Item Type</label>
-      <md-radio-group [(ngModel)]="itemType" name="itemType" >
+      <md-radio-group [(ngModel)]="itemType" name="itemType" required>
         <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
         <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
       </md-radio-group>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100" PAN>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
           <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
@@ -111,7 +111,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100">
+      <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty">
           <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
@@ -119,7 +119,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100">
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
           required>
         <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
@@ -186,7 +186,7 @@
       </md-radio-group>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100">
+      <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
           maxlength="300" required>
         <md-hint *ngIf="itemComposition.touched || itemComposition.dirty">
@@ -205,7 +205,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100">
+        <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
             required>
         </md-input-container>
@@ -252,8 +252,8 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" class="pull-right" [disabled]="itemCreationForm.invalid" (click)="saveItem()">Save</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem()">Save</button>
   </div>
 </div>

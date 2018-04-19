@@ -224,6 +224,10 @@ export class ItemMasterComponent implements OnInit {
     this.routes = routeResponse;
     console.log("routes", this.routes);
   }
+  resetAllForms() {
+    this.searchForm.resetForm();
+    this.itemCreationForm.resetForm();
+  }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
 
@@ -247,11 +251,9 @@ export class ItemMasterComponent implements OnInit {
       "providerServiceMapID": this.providerServiceMapID,
       "status": "active"
     }
-    console.log("multipleItem", multipleItem);
-
-    this.itemArrayObj.push(multipleItem);
+    console.log("multipleItem", multipleItem);    
     this.checkDuplicates(multipleItem);
-
+    this.itemCreationForm.resetForm();
   }
   checkDuplicates(multipleItem) {
     let duplicateStatus = 0
@@ -260,7 +262,7 @@ export class ItemMasterComponent implements OnInit {
     }
     else {
       for (let i = 0; i < this.itemArrayObj.length; i++) {
-        if (this.itemArrayObj[i].facilityTypeCode === multipleItem.facilityTypeCode
+        if (this.itemArrayObj[i].itemCode === multipleItem.itemCode
         ) {
           duplicateStatus = duplicateStatus + 1;
         }
