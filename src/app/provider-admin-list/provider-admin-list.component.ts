@@ -293,7 +293,7 @@ export class ProviderAdminListComponent implements OnInit {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.errorMessageForAadhar = 'Adhaar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar number already exists';
     } else {
       this.isExistAadhar = false;
       this.errorMessageForAadhar = '';
@@ -315,7 +315,7 @@ export class ProviderAdminListComponent implements OnInit {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.errorMessageForPan = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan number already exists';
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';
@@ -635,7 +635,7 @@ export class EditProviderAdminModal {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.errorMessageForAadhar = 'Aadhar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar number already exists';
     } else {
       this.isExistAadhar = false;
       this.errorMessageForAadhar = '';
@@ -658,7 +658,7 @@ export class EditProviderAdminModal {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.errorMessageForPan = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan number already exists';
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';

@@ -194,14 +194,15 @@ export class UpdateServiceProviderComponent implements OnInit {
 
     let obj = {
       'serviceProviderID': this.providerSelected,
-      'stateID1': value.state,
+      'stateID1': value.state ? value.state : [],
       'createdBy': this.commonAppData.uname,
       'serviceID': value.serviceLine,
-      'isNational': this.isNational,
       'statusID': 2
     }
-    console.log('REQUEST OBJ', obj);
-    this.super_admin_service.addProviderStateAndServiceLines(obj)
+    const reqArray = [];
+    reqArray.push(obj);
+    console.log('REQUEST Array', reqArray);
+    this.super_admin_service.addProviderStateAndServiceLines(reqArray)
       .subscribe(response => this.servicelineAddedSuccesshandler(response), err => {
         this.message.alert(err, 'error');
       });
