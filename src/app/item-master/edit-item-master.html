@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="pull-left m-l-15">
+        <h4 class="modal-title">Edit Item Master</h4>
+    </div>
+    <div class="pull-right">
+        <button md-button class="pull-right" [md-dialog-close]="true">
+            <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
+            </md-icon>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <form #editItemCreationForm='ngForm' autocomplete="off">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+            <label class="f-s-n-b">Item Type</label>
+            <md-radio-group [(ngModel)]="itemType" name="itemType" disabled="true">
+                <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
+                <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
+            </md-radio-group>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="width100">
+                <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" #itemCode="ngModel"
+                disabled="true" required>
+                <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
+                    <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
+                </md-hint>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="width100">
+                <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel"
+                disabled="true" required>
+                <md-hint *ngIf="itemName.touched || itemName.dirty">
+                    <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
+                </md-hint>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="Category" class="width100" [(ngModel)]="category" name="category" disabled="true" required>
+                    <md-option *ngFor="let item of categories" [value]="item">
+                        {{item.itemCategoryName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="Dose From" class="width100" [(ngModel)]="dose" name="dose" disabled="true" required>
+                    <md-option *ngFor="let item of dosages" [value]="item">
+                        {{item.itemForm}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="pharmacology" name="pharmacology" disabled="true"
+                    required>
+                    <md-option *ngFor="let item of pharmacologies" [value]="item">
+                        {{item.categoryName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="manufacturer" name="manufacturer" disabled="true" required>
+                    <md-option *ngFor="let item of manufacturers" [value]="item">
+                        {{item.manufacturerName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="width100">
+                <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
+                    disabled="true" required>
+                <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
+                    <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
+                </md-hint>
+            </md-input-container>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" disabled="true" required>
+                    <md-option *ngFor="let item of measures" [value]="item">
+                        {{item.uOMName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="f-s-n-b">Drug Type</label>
+            <md-radio-group [(ngModel)]="drugType" name="drugType" disabled="true">
+                <md-radio-button color="primary" class="p-l-10" [value]="true">Scheduled Drug</md-radio-button>
+                <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Scheduled Drug</md-radio-button>
+            </md-radio-group>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container class="width100" myProviderName>
+                <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
+                    maxlength="300" disabled="true" required>
+                <md-hint *ngIf="itemComposition.touched || itemComposition.dirty">
+                    <span class="errorText" [hidden]="!itemComposition.errors">Enter minimum 2 characters</span>
+                </md-hint>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select placeholder="Route Of Admin" class="width100" [(ngModel)]="route" name="route" disabled="true" required>
+                    <md-option *ngFor="let item of routes" [value]="item">
+                        {{item.routeName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
+            <md-input-container class="width100">
+                <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
+                    required>
+            </md-input-container>
+        </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+        <button md-raised-button color="accent" class="pull-right" (click)="update()">Update</button>
+    </div>
+</div>
