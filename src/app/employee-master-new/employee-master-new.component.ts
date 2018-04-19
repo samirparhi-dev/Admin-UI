@@ -367,7 +367,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     */
   getCurrentDistricts(currentStateID) {
 
-    this.employeeMasterNewService.getAllDistricts(this.currentState).subscribe(response => {
+    this.employeeMasterNewService.getAllDistricts(currentStateID).subscribe(response => {
       this.getCurrentDistrictsSuccessHandler(response)
     }, (err) => this.dialogService.alert(err, 'error'));
   }
@@ -379,7 +379,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       * Get all Districts for permanent address 
       */
   getPermanentDistricts(permanentStateID) {
-    this.employeeMasterNewService.getAllDistricts(this.permanentState).subscribe(response => {
+    this.employeeMasterNewService.getAllDistricts(permanentStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
     }, (err) => this.dialogService.alert(err, 'error'));
   }
@@ -583,12 +583,13 @@ export class EmployeeMasterNewComponent implements OnInit {
 
       this.edit(data);
     }
-
   }
+
   edit(data) {
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
+      this.getPermanentDistricts(data.permStateID);
       if (this.currentDistricts && this.currentDistricts != null) {
         this.communicationDetailsForm.form.patchValue({
           address: {
