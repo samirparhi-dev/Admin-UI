@@ -170,6 +170,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
+        this.objs = [];
         if (this.editMode) {
           this.tableMode = true;
           this.formMode = false;
