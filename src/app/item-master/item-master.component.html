@@ -68,7 +68,7 @@
             <td>{{item.itemName}}</td>
             <td>
               <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true"
-               style="cursor: pointer">edit</md-icon>
+               style="cursor: pointer" (click)="editItem(item)">edit</md-icon>
             </td>
             <td>
               <md-checkbox color="primary" [(ngModel)]="discontinue" (change)="setDiscontinue(item.itemID)" [value]="item.discontinued" #isDiscontinued="ngModel"></md-checkbox>
@@ -103,7 +103,7 @@
       </md-radio-group>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100">
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
           <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
@@ -117,7 +117,27 @@
           <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
         </md-hint>
       </md-input-container>
-    </div>   
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <md-input-container class="width100">
+        <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
+          required>
+        <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
+          <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <!-- <div class="clearfix"></div> -->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" required>
+          <md-option *ngFor="let item of measures" [value]="item">
+            {{item.uOMName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>  
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -157,27 +177,7 @@
           </md-option>
         </md-select>
       </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100">
-        <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
-          required>
-        <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
-          <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" required>
-          <md-option *ngFor="let item of measures" [value]="item">
-            {{item.uOMName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
+    </div>   
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <label class="f-s-n-b">Drug Type</label>
       <md-radio-group [(ngModel)]="drugType" name="drugType">

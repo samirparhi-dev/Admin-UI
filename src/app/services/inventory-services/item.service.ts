@@ -18,6 +18,7 @@ export class ItemService {
     getAllUomUrl: any;
     getAllRoutesUrl: any;
     createItemUrl: any;
+    updateItemUrl: any;
     itemActivationDeactivationUrl: any;
 
     constructor(private http: SecurityInterceptedHttp,
@@ -41,8 +42,8 @@ export class ItemService {
             .map(this.extractData)
             .catch(this.handleError)
     }
-    getAllDosages(flag) {       
-        this.getDosageUrl = this.adminBaseUrl + 'getItemForm' + '/' + flag;
+    getAllDosages(serviceMapID) {       
+        this.getDosageUrl = this.adminBaseUrl + 'getItemForm' + '/' + serviceMapID;
         return this.http
             .get(this.getDosageUrl)
             .map(this.extractData)
@@ -77,9 +78,9 @@ export class ItemService {
             .catch(this.handleError)
 
     }
-    getAllRoutes(serviceMapId, bool) {
+    getAllRoutes(serviceMapId) {
         console.log("route list", serviceMapId);
-        this.getAllRoutesUrl = this.adminBaseUrl + 'getItemRoute' + '/' + bool;
+        this.getAllRoutesUrl = this.adminBaseUrl + 'getItemRoute' + '/' + serviceMapId;
         return this.http
             .get(this.getAllRoutesUrl)
             .map(this.extractData)
@@ -92,6 +93,14 @@ export class ItemService {
             .post(this.createItemUrl, bufferItem)
             .map(this.extractData)
             .catch(this.handleError)
+    }
+    updateItem(updateItemObject) {
+        this.updateItemUrl = this.adminBaseUrl + 'editItemMaster';
+        return this.http
+            .post(this.updateItemUrl, updateItemObject)
+            .map(this.extractData)
+            .catch(this.handleError)
+
     }
     itemActivationDeactivation(itemID, flag) {
         this.itemActivationDeactivationUrl = this.adminBaseUrl + 'blockItemMaster' + '/'+ itemID + '/' + flag;

@@ -47,7 +47,8 @@ export class ItemMasterComponent implements OnInit {
   constructor(public commonDataService: dataService,
     public itemService: ItemService,
     public commonServices: CommonServices,
-    public dialogService: ConfirmationDialogsService) {
+    public dialogService: ConfirmationDialogsService,
+    public dialog: MdDialog) {
     this.providerID = this.commonDataService.service_providerID;
   }
 
@@ -55,7 +56,7 @@ export class ItemMasterComponent implements OnInit {
     debugger;
     this.createdBy = this.commonDataService.uname;
     console.log("this.createdBy", this.createdBy);
-    
+
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
 
@@ -122,12 +123,11 @@ export class ItemMasterComponent implements OnInit {
     this.showFormFlag = true;
     this.disableSelection = true;
     this.getCategoriesList(this.providerServiceMapID);
-    this.getDosageList(this.bool);
-
+    this.getDosageList(this.providerServiceMapID);
     this.pharmacologiesList(this.providerServiceMapID);
     this.manufacturerList(this.providerServiceMapID);
     this.unitOfMeasuresList(this.providerServiceMapID);
-    this.routeAdminList(this.providerServiceMapID, this.bool);
+    this.routeAdminList(this.providerServiceMapID);
   }
   filterItemFromList(searchTerm?: string) {
     if (!searchTerm) {
@@ -146,9 +146,9 @@ export class ItemMasterComponent implements OnInit {
     }
 
   }
-  setDiscontinue(discontinue,itemID) {
-    console.log("value", discontinue,itemID);   
-     
+  setDiscontinue(discontinue, itemID) {
+    console.log("value", discontinue, itemID);
+
   }
 
   getCategoriesList(providerServiceMapID) {
@@ -161,8 +161,8 @@ export class ItemMasterComponent implements OnInit {
     this.categories = categoryResponse
     console.log("categories List", this.categories);
   }
-  getDosageList(bool) {
-    this.itemService.getAllDosages(0).subscribe((dosageResponse) => {
+  getDosageList(providerServiceMapID) {
+    this.itemService.getAllDosages(this.providerServiceMapID).subscribe((dosageResponse) => {
       this.dosageSuccesshandler(dosageResponse),
         (err) => console.log("ERROR in fetching dosage list")
     });
@@ -212,9 +212,9 @@ export class ItemMasterComponent implements OnInit {
     this.measures = uomResponse;
     console.log("measures", this.measures);
   }
-  routeAdminList(providerServiceMapID, bool) {
+  routeAdminList(providerServiceMapID) {
     console.log('check inside route');
-    this.itemService.getAllRoutes(this.providerServiceMapID, 0).subscribe((routeResponse) => {
+    this.itemService.getAllRoutes(this.providerServiceMapID).subscribe((routeResponse) => {
       console.log("routeResponse", routeResponse);
       this.routeSuccesshandler(routeResponse),
         (err) => console.log("ERROR in fetching route list")
@@ -225,7 +225,7 @@ export class ItemMasterComponent implements OnInit {
     console.log("routes", this.routes);
   }
   addMultipleItemArray(formValue) {
-console.log("formValue", formValue);
+    console.log("formValue", formValue);
 
     const multipleItem = {
       // "serviceName": this.service.serviceName,
@@ -242,14 +242,13 @@ console.log("formValue", formValue);
       "uomID": formValue.uom.uOMID,
       "isScheduledDrug": formValue.drugType,
       "composition": formValue.composition,
-      "routeID": formValue.route.routeID,     
-      "createdBy": this.createdBy,
-      "deleted": false,
+      "routeID": formValue.route.routeID,
+      "createdBy": this.createdBy,      
       "providerServiceMapID": this.providerServiceMapID,
-      "status": "Active"
+      "status": "active"
     }
     console.log("multipleItem", multipleItem);
-    
+
     this.itemArrayObj.push(multipleItem);
     this.checkDuplicates(multipleItem);
 
@@ -276,14 +275,15 @@ console.log("formValue", formValue);
   }
   showTable() {
     this.showTableFlag = true;
+    this.showFormFlag = false;
   }
   saveItem() {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
       if (response) {
         console.log(response, 'item created');
-        this.dialogService.alert('Item created successfully');
         this.itemCreationForm.resetForm();
-        this.itemArrayObj = [];       
+        this.itemArrayObj = [];
+        this.dialogService.alert('Item created successfully');        
         this.showTable();
         this.getAllItemsList(this.providerServiceMapID);
       }
@@ -302,21 +302,38 @@ console.log("formValue", formValue);
       }
     })
   }
-  activateDeactivate(itemID, flag) {   
+  editItem(item) {
+    console.log("Existing Data", item);
+    let dialog_Ref = this.dialog.open(EditItemMasterModal, {
+      height: '500px',
+      width: '900px',
+      disableClose: true,
+      data: item
+    });
+    dialog_Ref.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === "success") {
+        this.dialogService.alert("Item edited successfully", 'success');
+        this.getAllItemsList(this.providerServiceMapID);
+      }
+    });
+
+  }
+  activateDeactivate(itemID, flag) {
     if (flag) {
       this.confirmMessage = 'Deactivate';
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("Deactivating or activating Obj", itemID, flag);
         this.itemService.itemActivationDeactivation(itemID, flag)
           .subscribe((res) => {
             console.log('Activation or deactivation response', res);
-            this.dialogService.alert(this.confirmMessage + "d successfully",'success');
+            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllItemsList(this.providerServiceMapID);
-          },(err) => this.dialogService.alert(err,'error'))
+          }, (err) => this.dialogService.alert(err, 'error'))
       }
     },
       (err) => {
@@ -340,14 +357,166 @@ console.log("formValue", formValue);
 })
 export class EditItemMasterModal {
 
+  providerServiceMapID: any;
+  bool: any;
+  itemType: any;
+  code: any;
+  name: any;
+  category: any;
+  dose: any;
+  pharmacology: any;
+  manufacturer: any;
+  strength: any;
+  uom: any;
+  drugType: any;
+  composition: any;
+  route: any;
+  description: any;
+
+  categories: any = [];
+  dosages: any = [];
+  pharmacologies: any = [];
+  manufacturers: any = [];
+  measures: any = [];
+  routes: any = [];
+
   @ViewChild('editItemCreationForm') editItemCreationForm: NgForm;
 
-  constructor( @Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
     public itemService: ItemService,
     public dialogRef: MdDialogRef<EditItemMasterModal>,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
-    
+    console.log("Initial value", this.data);
+    this.setProviderServiceMapID(this.data); 
+  }
+  setProviderServiceMapID(data) {   
+    this.providerServiceMapID = this.data.providerServiceMapID;
+    console.log('psmid', this.providerServiceMapID);
+    this.getCategoriesList(this.providerServiceMapID);
+    this.getDosageList(this.providerServiceMapID);
+    this.pharmacologiesList(this.providerServiceMapID);
+    this.manufacturerList(this.providerServiceMapID);
+    this.unitOfMeasuresList(this.providerServiceMapID);
+    this.routeAdminList(this.providerServiceMapID);
+    this.edit();  
+  }
+  getCategoriesList(providerServiceMapID) {
+    this.itemService.getAllItemsCategory(this.providerServiceMapID, 0).subscribe((categoryResponse) => {
+      this.categoriesSuccesshandler(categoryResponse),
+        (err) => console.log("ERROR in fetching category list")
+    });
+  }
+  categoriesSuccesshandler(categoryResponse) {
+    this.categories = categoryResponse
+    console.log("categories List", this.categories);
+  }
+  getDosageList(providerServiceMapID) {
+    this.itemService.getAllDosages(this.providerServiceMapID).subscribe((dosageResponse) => {
+      this.dosageSuccesshandler(dosageResponse),
+        (err) => console.log("ERROR in fetching dosage list")
+    });
+  }
+  dosageSuccesshandler(dosageResponse) {
+    this.dosages = dosageResponse;
+    console.log("dosage list", this.dosages);
+  }
+  pharmacologiesList(providerServiceMapID) {
+    console.log('check inside pharma');
+
+    this.itemService.getAllPharmacologyCategory(this.providerServiceMapID).subscribe((pharmacologyResponse) => {
+      console.log("pharmacologyResponse", pharmacologyResponse);
+
+      this.pharmacologySuccesshandler(pharmacologyResponse),
+        (err) => console.log("ERROR in fetching pharmacological list")
+    });
+  }
+  pharmacologySuccesshandler(pharmacologyResponse) {
+    this.pharmacologies = pharmacologyResponse;
+    console.log("pharmacology", this.pharmacologies);
+  }
+  manufacturerList(providerServiceMapID) {
+    console.log('check inside manufacturer');
+
+    this.itemService.getAllManufacturers(this.providerServiceMapID).subscribe((manufacturerResponse) => {
+      console.log("manufacturerResponse", manufacturerResponse);
+
+      this.manufacturerSuccesshandler(manufacturerResponse),
+        (err) => console.log("ERROR in fetching manufacturer list")
+    });
+  }
+  manufacturerSuccesshandler(manufacturerResponse) {
+    this.manufacturers = manufacturerResponse;
+    console.log("manufacturers", this.manufacturers);
+  }
+  unitOfMeasuresList(providerServiceMapID) {
+    console.log('check inside Uom');
+    this.itemService.getAllUoms(this.providerServiceMapID).subscribe((uomResponse) => {
+      console.log("uomResponse", uomResponse);
+
+      this.uomSuccesshandler(uomResponse),
+        (err) => console.log("ERROR in fetching Uom list")
+    });
+  }
+  uomSuccesshandler(uomResponse) {
+    this.measures = uomResponse;
+    console.log("measures", this.measures);
+  }
+  routeAdminList(providerServiceMapID) {
+    console.log('check inside route');
+    this.itemService.getAllRoutes(this.providerServiceMapID).subscribe((routeResponse) => {
+      console.log("routeResponse", routeResponse);
+      this.routeSuccesshandler(routeResponse),
+        (err) => console.log("ERROR in fetching route list")
+    });
+  }
+  routeSuccesshandler(routeResponse) {
+    this.routes = routeResponse;
+    console.log("routes", this.routes);
+  }
+  edit() {
+    this.itemType = this.data.isMedical;
+    this.code = this.data.itemCode;
+    this.name = this.data.itemName;
+    this.category = this.data.itemCategoryID;
+    this.dose = this.data.itemFormID;
+    this.pharmacology = this.data.pharmacologyCategoryID;
+    this.manufacturer = this.data.manufacturerID;
+    this.strength = this.data.strength;
+    this.uom = this.data.uomID;
+    this.drugType = this.data.isScheduledDrug;
+    this.composition = this.data.composition;
+    this.route = this.data.routeID;
+    this.description = this.data.itemDesc;
+
+  }
+  update() {
+    let updateItemObject = {
+      "isMedical": this.itemType,
+      "itemCode": this.code,
+      "itemName": this.name,
+      "itemDesc": this.description,
+      "itemCategoryID": this.category,
+      "itemFormID": this.dose,
+      "pharmacologyCategoryID": this.pharmacology,
+      "manufacturerID": this.manufacturer,
+      "strength": this.strength,
+      "uomID": this.uom,
+      "isScheduledDrug": this.drugType,
+      "composition": this.composition,
+      "routeID": this.route,     
+      "status": "active",
+      "providerServiceMapID": this.data.providerServiceMapID,
+      "itemID": this.data.itemID,
+      'modifiedBy': this.data.createdBy
+
+    }    
+    this.itemService.updateItem(updateItemObject).subscribe(response => {
+      console.log("Data to be update", response);
+      this.dialogRef.close("success");
+
+    })
   }
 }
+
