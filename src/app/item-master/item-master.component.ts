@@ -23,6 +23,7 @@ export class ItemMasterComponent implements OnInit {
   discontinue: boolean;
   createdBy: any;
   confirmMessage: any;
+  itemCodeExist: any;
   editMode: boolean = false;
   showTableFlag: boolean = false;
   showFormFlag: boolean = false;
@@ -41,6 +42,7 @@ export class ItemMasterComponent implements OnInit {
   measures: any = [];
   routes: any = [];
   itemArrayObj: any = [];
+  availableItemCodeInList: any = [];
 
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
@@ -81,7 +83,6 @@ export class ItemMasterComponent implements OnInit {
     })
   }
 
-
   setProviderServiceMapID(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
@@ -117,6 +118,9 @@ export class ItemMasterComponent implements OnInit {
     this.itemsList = itemListResponse;
     this.filteredItemList = itemListResponse;
     this.showTableFlag = true;
+    for (let availableItemCode of this.itemsList) {
+      this.availableItemCodeInList.push(availableItemCode.itemCode);
+    }
   }
   showForm() {
     this.showTableFlag = false;
@@ -150,7 +154,10 @@ export class ItemMasterComponent implements OnInit {
     console.log("value", discontinue, itemID);
 
   }
-
+  checkCodeExistance(code) { 
+    this.itemCodeExist = this.availableItemCodeInList.includes(code);
+    console.log(this.itemCodeExist);
+  }
   getCategoriesList(providerServiceMapID) {
     this.itemService.getAllItemsCategory(this.providerServiceMapID, 0).subscribe((categoryResponse) => {
       this.categoriesSuccesshandler(categoryResponse),
