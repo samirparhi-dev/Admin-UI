@@ -13,19 +13,15 @@ export class dataService
 	Userdata: any;
 	userPriveliges: any;
 	uid: any;
-	uname: any;
+	uname: any;	
 	benData: any;
-
 	role: any;
-
 	beneficiaryData: any = {};
 	callData: any = {};
-
 	service_providerID: any;
 	provider_serviceMapID:any;
 	serviceID104:any = 3;
 	serviceIDMMU:any = 2;
-
 	currentLanguage: any;
 };
 

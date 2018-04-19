@@ -89,6 +89,8 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	// }
 	getStates(value) {
+		console.log("value", value);
+		
 		let obj = {
 			'userID': this.userID,
 			'serviceID': value.serviceID,
