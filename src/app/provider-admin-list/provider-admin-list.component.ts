@@ -361,12 +361,28 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    this.objs.push(tempObj);
+    this.checkDuplicates(tempObj);
     this.checkUserNameAvailability(name);
-    this.resetAllForms();
-    // this.resetDob();
-
+    this.resetAllForms();   
   }
+  checkDuplicates(object) {
+    let duplicateStatus = 0
+    if (this.objs.length === 0) {
+        this.objs.push(object);                   
+    }
+    else {
+        for (let i = 0; i < this.objs.length; i++) {
+            if (this.objs[i].username === object.username
+            ) {
+                duplicateStatus = duplicateStatus + 1;
+                console.log("this.duplicateStatus", duplicateStatus);
+            }
+        }
+        if (duplicateStatus === 0) {
+            this.objs.push(object);
+        }
+    }
+}
   /*
   * Removing single object
   */
