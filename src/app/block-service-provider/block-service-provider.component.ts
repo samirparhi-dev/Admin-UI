@@ -254,7 +254,6 @@ export class BlockServiceProviderComponent implements OnInit {
     this.block_provider.getProviderLevelStatus(service_provider).subscribe(response => this.successhandeler1(response), err => {
       this.message.alert(err, 'error');
     });
-
   }
 
   getStatusOnProviderServiceLevel(service_provider, serviceline) {
@@ -262,7 +261,6 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.successhandeler2(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
 
   getStatusOnProviderStateLevel(service_provider, state) {
@@ -270,7 +268,6 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.successhandeler3(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
 
   getStatusOnProviderStateServiceLevel(service_provider, state, serviceline) {
@@ -278,125 +275,31 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.successhandeler4(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
 
   successhandeler1(response) {
     this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
-    // if (this.data.length > 0) {
-    //   let blocked = 0;
-    //   let unblocked = 0;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     if (this.data[i].statusID == 1) {
-    //       unblocked = unblocked + 1;
-    //     }
-    //   }
-    //   if (unblocked > 0 && unblocked <= this.data.length) {
-    //     this.showBlock = true;
-    //     this.showUnblock = false;
-    //   }
-    //   if (unblocked == 0) {
-    //     this.showBlock = false;
-    //     this.showUnblock = true;
-    //   }
-    // }
-    // else {
-    //   console.log('array blank');
-    // }
-
-    // if (this.data[0].statusID==1)
-    // {
-    // 	this.showBlock = true;
-    // 	this.showUnblock = false;
-    // }
-    // if (this.data[0].statusID == 2) {
-    // 	this.showBlock = false;
-    // 	this.showUnblock = true;
-    // }
   }
 
   successhandeler2(response) {
-        this._statusSettingFields.reset();
-
+    this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
-    // if (this.data.length > 0) {
-    //   let blocked = 0;
-    //   let unblocked = 0;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     if (this.data[i].statusID == 1) {
-    //       unblocked = unblocked + 1;
-    //     }
-    //   }
-    //   if (unblocked > 0 && unblocked <= this.data.length) {
-    //     this.showBlock = true;
-    //     this.showUnblock = false;
-    //   }
-    //   if (unblocked == 0) {
-    //     this.showBlock = false;
-    //     this.showUnblock = true;
-    //   }
-    // }
-    // else {
-    //   console.log('array blank');
-    // }
   }
 
   successhandeler3(response) {
-        this._statusSettingFields.reset();
-
+    this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
-    this.data = response;
-    // if (this.data.length > 0) {
-    //   let blocked = 0;
-    //   let unblocked = 0;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     if (this.data[i].statusID == 1) {
-    //       unblocked = unblocked + 1;
-    //     }
-    //   }
-    //   if (unblocked > 0 && unblocked <= this.data.length) {
-    //     this.showBlock = true;
-    //     this.showUnblock = false;
-    //   }
-    //   if (unblocked == 0) {
-    //     this.showBlock = false;
-    //     this.showUnblock = true;
-    //   }
-    // }
-    // else {
-    //   console.log('array blank');
-    // }
+    this.data = response; 
   }
 
   successhandeler4(response) {
-        this._statusSettingFields.reset();
+    this._statusSettingFields.reset();
 
     console.log(response, 'RESPONSE');
     this.data = response;
-
-    // if (this.data.length > 0) {
-    //   let blocked = 0;
-    //   let unblocked = 0;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     if (this.data[i].statusID == 1) {
-    //       unblocked = unblocked + 1;
-    //     }
-    //   }
-    //   if (unblocked > 0 && unblocked <= this.data.length) {
-    //     this.showBlock = true;
-    //     this.showUnblock = false;
-    //   }
-    //   if (unblocked == 0) {
-    //     this.showBlock = false;
-    //     this.showUnblock = true;
-    //   }
-    // }
-    // else {
-    //   console.log('array blank');
-    // }
   }
 
   // blocking
@@ -409,25 +312,11 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.block_unblock_providerSuccessHandeler(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
-
-  // unblockProvider() {
-  //   let serviceProviderID = this.data[0].serviceProviderID;
-  //   let statusID = 1;
-  //   this.block_provider.block_unblock_provider(serviceProviderID, statusID)
-  //     .subscribe(response => this.block_unblock_providerSuccessHandeler(response));
-  // }
 
   block_unblock_providerSuccessHandeler(response) {
     console.log('b u provider success handeler', response);
     this.message.alert('Updated successfully', 'success');
-    // if (response[0].updatedStatusID == 2) {
-    //   this.getStatusOnProviderLevel(response[0].serviceProviderID);
-    // }
-    // if (response[0].updatedStatusID == 1) {
-    //   this.getStatusOnProviderLevel(response[0].serviceProviderID);
-    // }
     this.getStatusOnProviderLevel(response[0].serviceProviderID);
   }
 
@@ -440,27 +329,11 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.block_unblock_stateSuccessHandeler(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
-
-  // unblockState() {
-  //   let serviceProviderID = this.data[0].serviceProviderID;
-  //   let statusID = 1;
-  //   let stateID = this.data[0].stateID;
-  //   this.block_provider.block_unblock_state(serviceProviderID, stateID, statusID)
-  //     .subscribe(response => this.block_unblock_stateSuccessHandeler(response));
-
-  // }
 
   block_unblock_stateSuccessHandeler(response) {
     console.log('b u state success handeler', response);
     this.message.alert('Updated successfully', 'success');
-    // if (response[0].updatedStatusID == 2) {
-    //   this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
-    // }
-    // if (response[0].updatedStatusID == 1) {
-    //   this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
-    // }
     this.getStatusOnProviderStateLevel(response[0].serviceProviderID, response[0].stateID);
   }
 
@@ -476,24 +349,9 @@ export class BlockServiceProviderComponent implements OnInit {
 
   }
 
-  // unblockService() {
-  //   let serviceProviderID = this.data[0].serviceProviderID;
-  //   let statusID = 1;
-  //   let serviceID = this.data[0].serviceID;
-  //   this.block_provider.block_unblock_serviceline(serviceProviderID, serviceID, statusID).
-  //     subscribe(response => this.block_unblock_serviceSuccessHandeler(response));
-
-  // }
-
   block_unblock_serviceSuccessHandeler(response) {
     console.log('b u service success handeler', response);
     this.message.alert('Updated successfully', 'success');
-    // if (response[0].updatedStatusID == 2) {
-    //   this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
-    // }
-    // if (response[0].updatedStatusID == 1) {
-    //   this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
-    // }
     this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
   }
 
@@ -507,156 +365,11 @@ export class BlockServiceProviderComponent implements OnInit {
       .subscribe(response => this.block_unblock_serviceOfStateSuccessHandeler(response), err => {
         this.message.alert(err, 'error');
       });
-
   }
-
-  // unblockServiceOfState() {
-  //   let serviceProviderID = this.data[0].serviceProviderID;
-  //   let serviceID = this.data[0].serviceID;
-  //   let stateID = this.data[0].stateID;
-  //   let statusID = 1;
-  //   this.block_provider.block_unblock_serviceOfState(serviceProviderID, stateID, serviceID, statusID)
-  //     .subscribe(response => this.block_unblock_serviceOfStateSuccessHandeler(response));
-
-  // }
 
   block_unblock_serviceOfStateSuccessHandeler(response) {
     console.log('b u service of state success handeler', response);
     this.message.alert('Updated successfully', 'success');
-    // if (response.updatedStatusID == 2) {
-    //   this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
-    // }
-    // if (response.updatedStatusID == 1) {
-    //   this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
-    // }
     this.getStatusOnProviderStateServiceLevel(response.serviceProviderID, response.stateID, response.serviceID);
   }
-
-
 }
-
-
-// OLD CODE : diamond khanna
-
-	/*showUnblockIcon:boolean=true;
-	showBlockIcon:boolean=false;
-
-	blocking_area: boolean = false;
-	unblocking_area: boolean = false;
-
-
-	serviceProvider: any = "";
-	toggleAction(val:any)
-	{	
-		if(val==='1')
-		{
-			this.showBlockIcon=true;
-			this.showUnblockIcon=false;
-			this.unblocking_area = true;
-			this.blocking_area = false;
-		}
-		if(val==='2')
-		{
-			this.showBlockIcon=false;
-			this.showUnblockIcon=true;
-			this.unblocking_area = false;
-			this.blocking_area = true;
-		}
-
-	}
-
-
-	block_type:any="";
-	unblock_type: any = "";
-
-	conditionExpression:any="";
-	conditionExpression_Unblock: any = "";
-
-	radioVal(val)
-	{
-		console.log(val);
-		this.conditionExpression=val;
-	}
-	radioValUnblock(val)
-	{
-		this.conditionExpression_Unblock = val;
-	}
-
-	states:any=[{'stateID':'1','stateName':'Punjab'},{'stateID':'2','stateName':'Karnataka'},
-							{'stateID':'3','stateName':'Assam'},{'stateID':'4','stateName':'Tamil Nadu'},
-							{'stateID':'5','stateName':'Andhra Pradesh'}
-						];
-
-	blockedStatesArray:any=[];
-	populateBlockedStateArray(state)
-	{
-		this.blockedStatesArray.push(state);
-	}
-
-	deleteRecipient(index)
-	{
-		this.blockedStatesArray.splice(index,1);
-	}
-
-
-
-	------------------------------state n service blocking code----------------------
-	whenNotAdded: boolean = true;
-	whenAdded: boolean = false;
-
-	toBeBlockedStateServicesArray: any = [];
-
-	requestArray: any = [];
-
-	showReqTable: boolean = false;
-
-	populatetoBeBlockedStatesServicesArray(serviceline)
-	{
-		this.toBeBlockedStateServicesArray.push(serviceline);
-	}
-	deleteService(index)
-	{
-		this.toBeBlockedStateServicesArray.splice(index, 1);
-	}
-
-	addToRequestArray(state,servicesArray)
-	{
-		let reqobj={
-			"state":state,
-			"services":servicesArray
-		}
-		this.requestArray.push(reqobj);
-		this.toBeBlockedStateServicesArray = [];
-
-		this.showReqTable = true;
-	}
-
-	removeFromRequestArray(index)
-	{
-		this.requestArray.splice(index, 1);
-		if(this.requestArray.length==0)
-		{
-			this.showReqTable = false;
-		}
-	}
-
-
-	Block(array)
-	{
-		var ans = confirm('do you want to block ' + array + "??");
-		console.log(ans);
-		if(ans==true)
-		{
-			this.showReqTable = false;
-			alert("Services in selected States Blocked");
-		}
-
-	}*/
-
-
-
-
-
-
-
-
