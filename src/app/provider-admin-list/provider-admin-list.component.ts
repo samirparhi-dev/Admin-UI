@@ -328,6 +328,7 @@ export class ProviderAdminListComponent implements OnInit {
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
     this.adminCredentialsForm.resetForm();
+    this.resetDob();
   }
   /*
    * Method for addition of objects 
@@ -363,7 +364,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForms();
-    this.resetDob();
+    // this.resetDob();
 
   }
   /*

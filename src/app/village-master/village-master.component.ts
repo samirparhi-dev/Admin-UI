@@ -117,11 +117,28 @@ export class VillageMasterComponent implements OnInit {
         this.villageObj.govSubDistrictID = values.govSubDistrictID;
 
         this.villageObj.createdBy = this.createdBy;
-
-        this.villageList.push(this.villageObj);
-        //}
+        this.checkDuplicates(this.villageObj);
+        console.log("this.villageObj", this.villageObj);        
+       
     }
-
+    checkDuplicates(object) {
+        let duplicateStatus = 0
+        if (this.villageList.length === 0) {
+            this.villageList.push(object);            
+        }
+        else {
+            for (let i = 0; i < this.villageList.length; i++) {
+                if (this.villageList[i].blockID === object.blockID
+                ) {
+                    duplicateStatus = duplicateStatus + 1;
+                    console.log("this.duplicateStatus", duplicateStatus);
+                }
+            }
+            if (duplicateStatus === 0) {
+                this.villageList.push(object);
+            }
+        }
+    }
     removeObj(index) {
         this.villageList.splice(index, 1);
     }
@@ -141,7 +158,7 @@ export class VillageMasterComponent implements OnInit {
     }
 
     back() {
-        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 jQuery("#villageForm").trigger("reset");
                 this.villageList = [];
@@ -165,7 +182,7 @@ export class VillageMasterComponent implements OnInit {
             status = "Activate";
         }
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
             if (response) {
                 this.dataObj = {};
                 this.dataObj.districtBranchID = village.districtBranchID;
