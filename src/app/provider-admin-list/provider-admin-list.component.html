@@ -278,13 +278,13 @@
             <td>{{obj.primaryEmail}}</td>
             <td>{{obj.primaryMobileNumber}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(k)">delete</md-icon>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
           </tr>
@@ -297,7 +297,5 @@
 
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createProviderAdmin()">Save</button>
-    <!-- <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button> -->
-
   </div>
 </div>

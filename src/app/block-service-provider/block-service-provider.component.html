@@ -100,6 +100,7 @@
         </tfoot>
       </table>
     </div>
+    <form #statusSettingFields='ngForm'>
     <div class="row" *ngIf="case_one">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4>Provider Level Provision</h4>
@@ -123,8 +124,8 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
       </div>
     </div>
     <div class="row" *ngIf="case_two ">
@@ -150,8 +151,8 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
       </div>
     </div>
     <div class="row" *ngIf="case_three">
@@ -177,8 +178,8 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <button md-raised-button color="accent" class="pull-right" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
       </div>
     </div>
     <div class="row" *ngIf="case_four">
@@ -208,4 +209,5 @@
         <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
       </div>
     </div>
+    </form>
   </div>
