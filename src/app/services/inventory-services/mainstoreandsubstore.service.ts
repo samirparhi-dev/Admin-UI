@@ -20,7 +20,8 @@ export class Mainstroreandsubstore {
     update_stores_Url: any;
     delete_stores_Url: any;
     get_facilities_Url: any;
-
+    get_itemCategory_Url: any;
+    save_itemCategory_Url: any;
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
@@ -32,6 +33,8 @@ export class Mainstroreandsubstore {
         this.update_stores_Url = this.admin_Base_Url + '/editStore';
         this.delete_stores_Url = this.admin_Base_Url + '/deleteFacility';
         this.get_facilities_Url = this.admin_Base_Url + '/getFacility';
+        this.get_itemCategory_Url = this.admin_Base_Url + '/getItemCategory';
+        this.save_itemCategory_Url = this.admin_Base_Url + '/configItemIssue';
 
     };
     getAllStores(providerServiceMapID) {
@@ -84,6 +87,18 @@ export class Mainstroreandsubstore {
                 'serviceID': serviceID,
                 'isNational': isNational
             })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getItemCategory(providerServiceMapID) {
+        return this.http.get(this.get_itemCategory_Url + '/' + providerServiceMapID + '/' + 0, {}
+        )
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    saveItemIssueConfig(obj) {
+        return this.http.post(this.save_itemCategory_Url, obj
+        )
             .map(this.handleSuccess)
             .catch(this.handleError);
     }

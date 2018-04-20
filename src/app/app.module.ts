@@ -203,6 +203,10 @@ import { CreateItemComponent } from './item-master/create-item/create-item.compo
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
 import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
+import { SuppliermasterService } from './services/inventory-services/suppliermaster.service';
+import { ItemIssueMethodConfigComponent } from './item-issue-method-config/item-issue-method-config.component';
+import { ItemToStoreMappingComponent } from './item-to-store-mapping/item-to-store-mapping.component';
+import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
 
 @NgModule({
   declarations: [
@@ -236,7 +240,7 @@ import { Mainstroreandsubstore } from './services/inventory-services/mainstorean
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent, 
-    OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent
+    OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent, ItemIssueMethodConfigComponent, ItemToStoreMappingComponent, SupplierMasterComponent
 
 
   ],
@@ -317,7 +321,7 @@ import { Mainstroreandsubstore } from './services/inventory-services/mainstorean
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices,FacilityMasterService,Mainstroreandsubstore,
+    CommonServices,FacilityMasterService,Mainstroreandsubstore,SuppliermasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
