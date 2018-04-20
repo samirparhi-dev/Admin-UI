@@ -192,6 +192,7 @@ import { WorkLocationMappingComponent } from './work-location-mapping/work-locat
 import { WorkLocationMapping } from './services/ProviderAdminServices/work-location-mapping.service';
 import { FacilityTypeMasterComponent } from './facility-type-master/facility-type-master.component';
 import { ItemMasterComponent } from './item-master/item-master.component';
+import { EditItemMasterModal } from './item-master/item-master.component';
 import { MainStoreAndSubStoreComponent } from './main-store-and-sub-store/main-store-and-sub-store.component';
 import { AuthGuard } from './services/authGuardService/auth-guard.services';
 
@@ -199,7 +200,7 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
-import { CreateItemComponent } from './item-master/create-item/create-item.component';
+
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
 import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
@@ -239,8 +240,8 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
-    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent, 
-    OrderByPipe, UtcDatePipe, ItemMasterComponent, CreateItemComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent, ItemIssueMethodConfigComponent, ItemToStoreMappingComponent, SupplierMasterComponent
+    ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent,
+    OrderByPipe, UtcDatePipe, ItemMasterComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent, ItemIssueMethodConfigComponent, EditItemMasterModal, ItemToStoreMappingComponent, SupplierMasterComponent
 
 
   ],
@@ -321,7 +322,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices,FacilityMasterService,Mainstroreandsubstore,SuppliermasterService,
+    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -352,7 +353,8 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     EditInstituteType,
     AgentIDMappingModal,
     EditVillageModal,
-    EditProviderAdminModal
+    EditProviderAdminModal,
+    EditItemMasterModal
 
   ],
 

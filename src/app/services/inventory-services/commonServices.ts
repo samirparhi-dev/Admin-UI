@@ -13,52 +13,67 @@ export class CommonServices {
     getServiceLinesUrl: any;
     getStatesUrl: any;
 
-
-
     constructor(private http: SecurityInterceptedHttp,
-		public basepaths: ConfigService,
-		private httpIntercept: InterceptedHttp) {
-            this.adminBaseUrl = this.basepaths.getAdminBaseUrl();
-            this.getServiceLinesUrl = this.adminBaseUrl + 'm/role/serviceNew';
-            this.getStatesUrl = this.adminBaseUrl+ 'm/role/stateNew';
-        };
+        public basepaths: ConfigService,
+        private httpIntercept: InterceptedHttp) {
+        this.adminBaseUrl = this.basepaths.getAdminBaseUrl();
+        this.getServiceLinesUrl = this.adminBaseUrl + 'm/role/serviceNew';
+        this.getStatesUrl = this.adminBaseUrl + 'm/role/stateNew';
+    };
+    /*
+    * Servicelines based on service provider ID
+    */
 
-        getServiceLines(userID) {
-            return this.http
-            .post(this.getServiceLinesUrl, { 'userID': userID })
-                .map(this.extractData)
-                .catch(this.handleError);
+    getServiceLines(userID) {
+        return this.http.post(this.getServiceLinesUrl,
+            {
+                'userID': userID
+
+            }).map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+     /*
+    * States based on service lines and service provider 
+    */
+
+    getStatesOnServices(userID, serviceID, isNational) {
+        return this.http.post(this.getStatesUrl,
+            {
+                'userID': userID,
+                'serviceID': serviceID,
+                'isNational': isNational
+            })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    /*
+    * Success and Error Handlers
+    */
+
+    handleSuccess(res: Response) {
+        console.log(res.json().data, 'Item master state success response');
+        if (res.json().data) {
+            return res.json().data;
+        } else {
+            return Observable.throw(res.json());
         }
-        getStatesOnServices(obj) {
-            return this.http
-            .post(this.getStatesUrl, obj)
-            .map(this.extractData)
-            .catch(this.handleError)
-        }
+    }
 
+    handleState_n_ServiceSuccess(response: Response) {
 
-
-
-        private extractCustomData(res: Response) {
-            if (res.json().data) {
-                console.log('Item master service', res.json().data);
-                return res.json().data;
-            } else {
-                return Observable.throw(res.json());
+        console.log(response.json().data, 'Item master service line success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceID != 1) {
+                return item;
             }
-        }
-        private extractData(res: Response) {
-            if (res.json().data && res.json().statusCode == 200) {
-                console.log('Item master service', res.json(), res.json().data);
-                return res.json().data;
-            } else {
-                return Observable.throw(res.json());
-            }
-        }
-        private handleCustomError(error: Response | any) {
-            return Observable.throw(error.json());
-        }
-        private handleError(error: Response | any) {
-            return Observable.throw(error.json());
-        }
+        });
+        return result;
+    }
+
+    handleError(error: Response | any) {
+        return Observable.throw(error.json());
+    }
+
 }

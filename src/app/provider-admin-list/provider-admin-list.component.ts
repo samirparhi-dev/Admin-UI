@@ -170,6 +170,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.resetAllForms();
+        this.objs = [];
         if (this.editMode) {
           this.tableMode = true;
           this.formMode = false;
@@ -293,7 +294,7 @@ export class ProviderAdminListComponent implements OnInit {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.errorMessageForAadhar = 'Adhaar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar number already exists';
     } else {
       this.isExistAadhar = false;
       this.errorMessageForAadhar = '';
@@ -315,7 +316,7 @@ export class ProviderAdminListComponent implements OnInit {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.errorMessageForPan = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan number already exists';
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';
@@ -327,6 +328,7 @@ export class ProviderAdminListComponent implements OnInit {
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
     this.adminCredentialsForm.resetForm();
+    this.resetDob();
   }
   /*
    * Method for addition of objects 
@@ -359,12 +361,28 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    this.objs.push(tempObj);
+    this.checkDuplicates(tempObj);
     this.checkUserNameAvailability(name);
-    this.resetAllForms();
-    this.resetDob();
-
+    this.resetAllForms();   
   }
+  checkDuplicates(object) {
+    let duplicateStatus = 0
+    if (this.objs.length === 0) {
+        this.objs.push(object);                   
+    }
+    else {
+        for (let i = 0; i < this.objs.length; i++) {
+            if (this.objs[i].username === object.username
+            ) {
+                duplicateStatus = duplicateStatus + 1;
+                console.log("this.duplicateStatus", duplicateStatus);
+            }
+        }
+        if (duplicateStatus === 0) {
+            this.objs.push(object);
+        }
+    }
+}
   /*
   * Removing single object
   */
@@ -635,7 +653,7 @@ export class EditProviderAdminModal {
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistAadhar = true;
-      this.errorMessageForAadhar = 'Aadhar Number Already Exists';
+      this.errorMessageForAadhar = 'Aadhar number already exists';
     } else {
       this.isExistAadhar = false;
       this.errorMessageForAadhar = '';
@@ -658,7 +676,7 @@ export class EditProviderAdminModal {
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
       this.isExistPan = true;
-      this.errorMessageForPan = 'Pan Number Already Exists';
+      this.errorMessageForPan = 'Pan number already exists';
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';
