@@ -667,9 +667,16 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   checkSubCategory(subCategoryName: string, providerServiceMapId: any, subService: any, category: any) {
-    if (subCategoryName && providerServiceMapId && subService && category) {
+    if (subCategoryName  && subService && category) {
       let subCategoriesExist;
-      this.CategorySubcategoryService.getCategorybySubService(providerServiceMapId, subService.subServiceID)
+      let pServiceMapID
+      if (this.nationalFlag) {
+        pServiceMapID  = this.states[0].providerServiceMapID;
+      }
+      else {
+        pServiceMapID = this.state.providerServiceMapID;
+      }
+      this.CategorySubcategoryService.getCategorybySubService(pServiceMapID, subService.subServiceID)
         .subscribe((response) => {
           if (response) {
             //  console.log(response, "subcat response");

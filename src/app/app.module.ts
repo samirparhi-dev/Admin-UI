@@ -241,9 +241,8 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent, ProviderAdminListComponent,
     EditProviderAdminModal, EmployeeMasterNewComponent, EditVillageModal, ServiceProviderMasterComponent, ProviderServicelineStateMappingComponent,
     ProcedureMasterComponent, ComponentMasterComponent, ProcedureComponentMappingComponent, MappingProviderAdminToProviderComponent, LanguageMappingComponent, WorkLocationMappingComponent,
-    OrderByPipe, UtcDatePipe, ItemMasterComponent, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent, ItemIssueMethodConfigComponent, EditItemMasterModal, ItemToStoreMappingComponent, SupplierMasterComponent
-
-
+    OrderByPipe, UtcDatePipe, OrderByPipe, UtcDatePipe, FacilityTypeMasterComponent, ItemMasterComponent, MainStoreAndSubStoreComponent, ItemIssueMethodConfigComponent, ItemToStoreMappingComponent,
+    SupplierMasterComponent, EditItemMasterModal
   ],
 
   imports: [
