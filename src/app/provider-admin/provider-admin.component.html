@@ -167,6 +167,15 @@
                                         <li style="cursor:pointer" (click)='show("40")'>
                                             <a>Main Store & Sub Store</a>
                                         </li>
+                                        <li style="cursor:pointer" (click)='show("41")'>
+                                            <a>Item Issue Method Config</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("42")'>
+                                            <a>Item To Store Mapping</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("43")'>
+                                            <a>Supplier Master</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -225,6 +234,9 @@
                             <app-item-master *ngSwitchCase="38"></app-item-master>
                             <app-facility-type-master *ngSwitchCase="39"></app-facility-type-master>
                             <app-main-store-and-sub-store *ngSwitchCase="40"></app-main-store-and-sub-store>
+                            <app-item-issue-method-config *ngSwitchCase="41"></app-item-issue-method-config>
+                            <app-item-to-store-mapping *ngSwitchCase="42"></app-item-to-store-mapping>
+                            <app-supplier-master *ngSwitchCase="43"></app-supplier-master>
                         </div>
                     </div>
                 </div>

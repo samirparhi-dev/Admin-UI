@@ -31,6 +31,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   facilityMasterList: any = [];
   bufferArray: any = [];
   filteredfacilityMasterList: any = [];
+  availableFacilityTypeCode: any = [];
 
   tableMode: boolean = true;
   formMode: boolean = false;
@@ -46,7 +47,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
-     this.getServices();
+    this.getServices();
   }
 
   getServices() {
@@ -72,6 +73,9 @@ export class FacilityTypeMasterComponent implements OnInit {
         console.log('All services success', response);
         this.facilityMasterList = response;
         this.filteredfacilityMasterList = response;
+        for (let availableFacilityCode of this.facilityMasterList) {
+          this.availableFacilityTypeCode.push(availableFacilityCode.facilityTypeCode);
+        }
       }
     })
   }
@@ -254,5 +258,11 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.edit_facilityName = undefined;
     this.edit_facilityCode = undefined;
     this.edit_facilityDiscription = undefined;
+  }
+  FacilityCodeExist: any = false;
+  checkExistance(facilityCode) {
+    debugger;
+    this.FacilityCodeExist = this.availableFacilityTypeCode.includes(facilityCode);
+    console.log(this.FacilityCodeExist);
   }
 }

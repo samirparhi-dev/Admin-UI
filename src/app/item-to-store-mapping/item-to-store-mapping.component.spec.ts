@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateItemComponent } from './create-item.component';
+import { ItemToStoreMappingComponent } from './item-to-store-mapping.component';
 
-describe('CreateItemComponent', () => {
-  let component: CreateItemComponent;
-  let fixture: ComponentFixture<CreateItemComponent>;
+describe('ItemToStoreMappingComponent', () => {
+  let component: ItemToStoreMappingComponent;
+  let fixture: ComponentFixture<ItemToStoreMappingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateItemComponent ]
+      declarations: [ ItemToStoreMappingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateItemComponent);
+    fixture = TestBed.createComponent(ItemToStoreMappingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

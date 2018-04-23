@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Item Issue Method Configuration</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+    <form id="form" #ItemIssueForm="ngForm">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getstates(serviceline)">
+            <md-option *ngFor="let item of services_array" [value]="item">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
+            <md-option *ngFor="let item of states_array" [value]="item" (click)="getItemCategory(item.providerServiceMapID)">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="itemcotegory" placeholder="Item Category Type" [style.width]="'100%'" [(ngModel)]="category">
+            <md-option *ngFor="let item of itemCategory_array" [value]="item">
+              {{item.itemCategoryName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="itemissue" placeholder="Item Issue Type" [style.width]="'100%'" [(ngModel)]="itemIssue">
+            <md-option *ngFor="let item of ItemIssue_array" [value]="item">
+              {{item.Name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 m-t-15">
+        <button md-raised-button color="accent" (click)="saveConfig()" [disabled]="!ItemIssueForm.valid" class="pull-right">Save</button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

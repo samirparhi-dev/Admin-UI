@@ -157,7 +157,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   }
 
   pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
-    if (this.isInbound === false && this.isOutbound === false) {
+    if (this.isInbound === false && this.isOutbound === false && this.service.serviceID != 6) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
       this.fitToBlock = false;
       this.fitForFollowup = false;
@@ -236,7 +236,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   successhandeler(response) {
     this.service = "";
     this.provider_services = response.filter(function (obj) {
-      return obj.serviceID == 1 || obj.serviceID == 3;
+      return obj.serviceID == 1 || obj.serviceID == 3 || obj.serviceID == 6;
     });
 
     if (this.provider_services.length == 0) {

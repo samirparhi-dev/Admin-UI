@@ -364,10 +364,10 @@ export class SuperAdmin_ServiceProvider_Service {
   }
   // End of provider admin 
 
-  addProviderStateAndServiceLines(obj) {
-    console.log(obj);
+  addProviderStateAndServiceLines(array) {
+    console.log(array);
     return this._http
-      .post(this.addProviderStateAndServiceLinesUrl, obj)
+      .post(this.addProviderStateAndServiceLinesUrl, array)
       .map(this.extractData)
       .catch(this.handleError);
   }

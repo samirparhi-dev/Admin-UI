@@ -109,7 +109,7 @@
       <md-input-container class="width100" myName>
         <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="1" maxlength="50"
           #lname="ngModel" required>
-        <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 1 characters
+        <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 1 character
         </md-hint>
       </md-input-container>
     </div>
@@ -151,7 +151,7 @@
       <md-input-container class="width100" myEmail>
         <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
           #validEmail="ngModel" required>
-        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
+        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid email ID is required
         </md-hint>
       </md-input-container>
     </div>
@@ -170,7 +170,7 @@
         <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
           (keyup)="checkAadhar()" #number="ngModel" required>
         <md-hint *ngIf="number.touched">
-          <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
+          <span class="error_text" [hidden]="!number.errors">Required 12 digit Aadhar number</span>
           <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
         </md-hint>
       </md-input-container>
@@ -180,7 +180,7 @@
         <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
           #panNo="ngModel" (keyup)="checkPan()" required>
         <md-hint *ngIf="panNo.touched">
-          <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
+          <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number</span>
           <span class="error_text" *ngIf="isExistPan">{{errorMessageForPan}}</span>
         </md-hint>
       </md-input-container>
@@ -278,13 +278,13 @@
             <td>{{obj.primaryEmail}}</td>
             <td>{{obj.primaryMobileNumber}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(k)">delete</md-icon>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
           </tr>
@@ -297,7 +297,5 @@
 
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createProviderAdmin()">Save</button>
-    <!-- <button md-raised-button color="primary" class="pull-right m-r-10" (click)="clearAll()">Clear</button> -->
-
   </div>
 </div>
