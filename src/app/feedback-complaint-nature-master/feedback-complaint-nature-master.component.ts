@@ -131,7 +131,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert('Feedback nature edited successfully', 'success');
+        this.alertService.alert('Updated successfully', 'success');
         this.findFeedbackNature(this.feedbackTypeID);
       }
 
@@ -217,7 +217,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       .subscribe((res) => {
         console.log("response", res);
         this.searchForm = true;
-        this.alertService.alert('Feedback nature saved successfully', 'success');
+        this.alertService.alert('Saved successfully', 'success');
         this.previous_state_id = this.search_state;
         this.previous_service_id = this.search_serviceline;
         this.previous_feedbacktype = this.search_feedbacktype;

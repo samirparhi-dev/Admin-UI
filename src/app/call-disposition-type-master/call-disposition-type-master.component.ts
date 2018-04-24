@@ -271,7 +271,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   saveCallTypeSubTypeSuccessHandeler(response) {
     console.log(response, "save call type sub type success");
-    this.alertService.alert('Call disposition updated successfully', 'success');
+    this.alertService.alert('Call disposition saved successfully', 'success');
     this.hideTable(false) // going back to table view
 
     // resetting the ngmodels

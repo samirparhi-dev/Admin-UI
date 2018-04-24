@@ -242,7 +242,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	saveSuccessHandeler(response) {
 		if (response) {
-			this.alertService.alert("Institute subdirectory saved successfully", 'success');
+			this.alertService.alert("Saved successfully", 'success');
 			this.addInstitutueSubDirForm.resetForm();
 			this.showFormFlag = false;
 			this.bufferArray = [];
@@ -300,7 +300,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute subdirectory edited successfully",'success');
+				this.alertService.alert("Updated successfully",'success');
 				this.getInstituteSubdirectory(this.institute_directory);
 			}
 

@@ -116,7 +116,7 @@ export class ServiceProviderMasterComponent implements OnInit {
           this.providerNameExist = false;
         }
       }, err => {
-        this.dialogService.alert(err,'error');
+        this.dialogService.alert(err, 'error');
         console.log(err, 'Error');
       });
   }
@@ -151,7 +151,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'Provider Creation Success Handeler');
         if (response.length > 0) {
-          this.dialogService.alert('Provider created successfully','success');
+          this.dialogService.alert('Provider created successfully', 'success');
 
           /* resetting form,ngModels and Dates */
           this.providerCreationForm.reset();
@@ -163,7 +163,7 @@ export class ServiceProviderMasterComponent implements OnInit {
           this.getAllProviders();
         }
       }, err => {
-        this.dialogService.alert(err,'error');
+        this.dialogService.alert(err, 'error');
         console.log(err, 'Error');
       });
   }
@@ -176,43 +176,49 @@ export class ServiceProviderMasterComponent implements OnInit {
           this.searchResult = response;
         }
       }, err => {
-        this.dialogService.alert(err,'error');
+        this.dialogService.alert(err, 'error');
         console.log('Error', err);
       });
   }
 
   activate(serviceProviderID) {
     const object = { 'serviceProviderId': serviceProviderID, 'deleted': false };
-
-    this.superadminService.deleteProvider(object)
-      .subscribe(response => {
-        if (response) {
-          this.dialogService.alert('Provider activated successfully','success');
-          /* refresh table */
-          this.getAllProviders();
-        }
-      },
-      err => {
-        this.dialogService.alert(err,'error');
-        console.log('error', err);
-      });
+    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
+      if (res) {
+        this.superadminService.deleteProvider(object)
+          .subscribe(response => {
+            if (response) {
+              this.dialogService.alert('Activated successfully', 'success');
+              /* refresh table */
+              this.getAllProviders();
+            }
+          },
+            (err) => {
+              this.dialogService.alert(err, 'error');
+              console.log(err);
+            })
+      }
+    })
   }
 
   deactivate(serviceProviderID) {
     const object = { 'serviceProviderId': serviceProviderID, 'deleted': true };
-
-    this.superadminService.deleteProvider(object)
-      .subscribe(response => {
-        if (response) {
-          this.dialogService.alert('Provider deactivated successfully','success');
-          /* refresh table */
-          this.getAllProviders();
-        }
-      },
-      err => {
-        this.dialogService.alert(err,'error');
-        console.log('error', err);
-      });
+    this.dialogService.confirm('Confirm', "Are you sure want to Deactivate?").subscribe((res) => {
+      if (res) {
+        this.superadminService.deleteProvider(object)
+          .subscribe(response => {
+            if (response) {
+              this.dialogService.alert('Deactivated successfully', 'success');
+              /* refresh table */
+              this.getAllProviders();
+            }
+          },
+            (err) => {
+              this.dialogService.alert(err, 'error');
+              console.log(err);
+            })
+      }
+    })
   }
 
   edit(row) {
@@ -246,7 +252,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.superadminService.updateProviderDetails(object)
       .subscribe(response => {
         console.log('Edit success callback', response);
-        this.dialogService.alert('Provider edited successfully','success');
+        this.dialogService.alert('Provider edited successfully', 'success');
         /* resetting form and ngModels used in editing */
         this.providerCreationForm.reset();
         this.resetNGmodels();
@@ -259,7 +265,7 @@ export class ServiceProviderMasterComponent implements OnInit {
         this.showTable();
 
       }, err => {
-        this.dialogService.alert(err,'error');
+        this.dialogService.alert(err, 'error');
         console.log('error', err);
       });
   }

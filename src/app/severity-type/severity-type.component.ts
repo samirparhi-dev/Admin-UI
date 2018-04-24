@@ -169,7 +169,7 @@ export class SeverityTypeComponent implements OnInit {
   }
   createdSuccessHandler(res) {
     // alert("severity added successfully");
-    this.alertService.alert('Severity saved successfully','success');
+    this.alertService.alert('Saved successfully','success');
     this.handlingFlag(true);
     this.findSeverity(this.providerServiceMapID);
     this.severityArray = [];
@@ -226,7 +226,7 @@ export class SeverityTypeComponent implements OnInit {
     dialogReff.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Severity edited successfully",'success');
+        this.alertService.alert("Updated successfully",'success');
         this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
       (err) => this.alertService.alert(err,'error'));
       }

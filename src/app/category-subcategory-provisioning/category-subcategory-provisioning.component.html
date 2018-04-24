@@ -176,7 +176,7 @@
       </div>
     </form>
     <form #form="ngForm" autocomplete="off">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!Add_Category_Subcategory_flag">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="!Add_Category_Subcategory_flag">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
           <md-select [disabled]="cateDisabled" [(ngModel)]="category_ID" name="category Name" class="width100" placeholder="Category"
@@ -185,7 +185,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="Add_Category_Subcategory_flag">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="Add_Category_Subcategory_flag">
         <md-input-container class="width100" myProviderName>
           <input #categoryRef="ngModel" mdInput placeholder="Category Name" [(ngModel)]="category_name " (keyup)="checkCategory($event)"
             name="category_name" minlength="2" maxlength="50" required>
