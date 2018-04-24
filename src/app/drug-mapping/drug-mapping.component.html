@@ -102,7 +102,7 @@
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="drugMappingForm.valid">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="stateVal.valid && drugG.valid && drug.valid">
           <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
