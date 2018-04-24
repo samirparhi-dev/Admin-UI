@@ -209,7 +209,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.facility.savefacilities(this.bufferArray).subscribe(response => {
       if (response) {
         console.log(response, 'after successful creation of facility type master');
-        this.dialogService.alert('Facility Type created successfully');
+        this.dialogService.alert('Facility Type created successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllFacilities(this.providerServiceMapID);

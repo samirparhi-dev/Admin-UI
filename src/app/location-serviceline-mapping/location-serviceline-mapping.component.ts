@@ -186,13 +186,13 @@ export class LocationServicelineMappingComponent implements OnInit {
   getDistricts(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getDistricts(serviceProviderID, stateID)
       .subscribe(response => this.getDistrictsSuccessHandeler(response),
-      (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
   }
 
   getServiceLines(serviceProviderID, stateID) {
     this.provider_admin_location_serviceline_mapping.getServiceLines(serviceProviderID, stateID)
       .subscribe(response => this.servicesSuccesshandeler(response),
-      (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
   }
   getServiceLinesfromSearch(serviceProviderID, stateID) {
 
@@ -273,7 +273,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
     this.provider_admin_location_serviceline_mapping.addWorkLocation(newreqobj)
       .subscribe(response => this.saveOfficeSuccessHandeler(response),
-    (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
   }
 
   editOfficeAddress(toBeEditedOBJ) {
@@ -315,7 +315,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
         this.provider_admin_location_serviceline_mapping.deleteWorkLocation(obj)
           .subscribe(response => this.deleteOfficeSuccessHandeler(response),
-        (err) => this.alertService.alert(err, 'error'));
+            (err) => this.alertService.alert(err, 'error'));
 
       }
     },
@@ -354,7 +354,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   saveOfficeSuccessHandeler(response) {
     // alert("location successfully created");
-    this.alertService.alert("Location created successfully",'success');
+    this.alertService.alert("Location created successfully", 'success');
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
@@ -395,7 +395,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.officeNameExist = false;
     this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(req_array)
       .subscribe(response => this.currentServicesSuccess(response),
-    (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
   }
 
   setPSMID_onStateSeletion(psmID) {
@@ -405,7 +405,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.officeNameExist = false;
     this.provider_admin_location_serviceline_mapping.getWorklocationOnProviderArray(reqArray)
       .subscribe(response => this.currentServicesSuccess(response),
-    (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
   }
 
   currentServicesSuccess(res) {
@@ -452,10 +452,10 @@ export class EditLocationModal {
   officeID: any;
 
   originalOfficeID: any;
-  officeNameExist: boolean = true;
+  officeNameExist: boolean = false;
   msg: any = "";
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public provider_admin_location_serviceline_mapping: LocationServicelineMapping,
     public dialog_Ref: MdDialogRef<EditLocationModal>,
     private alertService: ConfirmationDialogsService) { }
@@ -511,12 +511,12 @@ export class EditLocationModal {
 
     this.provider_admin_location_serviceline_mapping.editWorkLocation(editedObj)
       .subscribe(response => this.editOfficeSuccessHandeler(response),
-      (err) => this.alertService.alert(err, 'error'));
+        (err) => this.alertService.alert(err, 'error'));
 
   }
 
   editOfficeSuccessHandeler(response) {
-    this.alertService.alert("Location edited successfully",'success');
+    this.alertService.alert("Location edited successfully", 'success');
     console.log('edited', response);
     this.dialog_Ref.close("success");
   }
