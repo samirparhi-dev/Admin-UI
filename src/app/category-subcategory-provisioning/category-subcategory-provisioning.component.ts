@@ -321,7 +321,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.length > 0) {
-            this.messageBox.alert('Created successfully', 'success');
+            this.messageBox.alert('Saved successfully', 'success');
             this.serviceList.length = [];
             if (this.nationalFlag) {
               this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);

@@ -205,7 +205,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       .subscribe((res) => {
         console.log("response", res);
         this.searchForm = true;
-        this.alertService.alert("Feedback type saved successfully", 'success');
+        this.alertService.alert("Saved successfully", 'success');
         this.previous_state_id = this.search_state;
         this.previous_service_id = this.search_serviceline;
         this.addForm.resetForm();
@@ -335,7 +335,7 @@ export class EditFeedbackModal {
     this.FeedbackTypeService.editFeedback(tempObj)
       .subscribe((res) => {
         this.dialog_Ref.close("success");
-        this.alertService.alert("Feedback type edited successfully", 'success');
+        this.alertService.alert("Updated successfully", 'success');
       }, (err) => this.alertService.alert(err, 'error'));
 
   }

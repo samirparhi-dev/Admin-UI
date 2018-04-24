@@ -347,7 +347,7 @@ export class VanComponent implements OnInit {
 
     updateHandler(response) {
         this.editable = false;
-        this.alertMessage.alert("updated successfully", 'success');
+        this.alertMessage.alert("Updated successfully", 'success');
         this.getVans(null, null, null);
         //this.initializeObj();
     }

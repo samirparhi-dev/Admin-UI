@@ -452,7 +452,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.bufferArray.splice(index, 1);
   }
   activate(userID) {
-    this.dialogService.confirm('Confirm',"Are you sure want to activate?").subscribe(response => {
+    this.dialogService.confirm('Confirm',"Are you sure want to Activate?").subscribe(response => {
       if (response) {
         const object = {
           'uSRMappingID': userID,
@@ -462,7 +462,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.superadminService.activateProviderAdmin(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Provider admin activated successfully','success');
+              this.dialogService.alert('Activated successfully','success');
               /* refresh table */
               this.getAllMappedProviders();
             }
@@ -475,14 +475,14 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     });
   }
   deactivate(userID) {
-    this.dialogService.confirm('Confirm',"Are you sure want to deactivate?").subscribe(response => {
+    this.dialogService.confirm('Confirm',"Are you sure want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'uSRMappingID': userID, 'deleted': true };
 
         this.superadminService.deactivateProviderAdmin(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Provider deactivated successfully','success');
+              this.dialogService.alert('Deactivated successfully','success');
               /* refresh table */
               this.getAllMappedProviders();
             }

@@ -230,7 +230,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   saveSuccessHandeler(response) {
     console.log("response", response);
     if (response) {
-      this.alertService.alert("Institute type saved successfully", 'success');
+      this.alertService.alert("Saved successfully", 'success');
       this.back();
       this.search(this.providerServiceMapID);
     }
@@ -247,7 +247,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Institute type edited successfully", 'success')
+        this.alertService.alert("Updated successfully", 'success')
         this.search(this.providerServiceMapID);
       }
 
