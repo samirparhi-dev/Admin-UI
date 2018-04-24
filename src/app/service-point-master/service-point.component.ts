@@ -160,7 +160,7 @@ export class ServicePointComponent implements OnInit {
 
     servicePointSuccessHandler(response) {
         this.servicePointList = [];
-        this.alertMessage.alert("Service Points stored successfully");
+        this.alertMessage.alert("Service Points stored successfully", 'success');
     }
 
     stateSelection(stateID) {
