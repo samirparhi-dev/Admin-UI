@@ -172,7 +172,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
         // this.storeService.deleteStore(object)
         //   .subscribe(response => {
         //     if (response) {
-        //       this.dialogService.alert('Store  activated successfully');
+        //       this.dialogService.alert('Store  activated successfully','success');
         //       this.getAllStores(this.providerServiceMapID);
         //     }
         //   },
@@ -194,7 +194,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
         // this.storeService.deleteStore(object)
         //   .subscribe(response => {
         //     if (response) {
-        //       this.dialogService.alert('Store Deactivated successfully');
+        //       this.dialogService.alert('Store Deactivated successfully','success');
         //       this.getAllStores(this.providerServiceMapID);
         //     }
         //   },

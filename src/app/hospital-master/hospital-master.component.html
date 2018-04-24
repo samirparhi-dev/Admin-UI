@@ -27,7 +27,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="Serviceline" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
+      <md-select placeholder="Serviceline" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
         <md-option *ngFor="let item of services" [value]="item.serviceID" (click)="getStates(item.serviceID,item.isNational)">
           {{item.serviceName}}
         </md-option>
@@ -37,7 +37,8 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="State" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state" (change)="getDistrict(state)">
+      <md-select placeholder="State" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state"
+        (change)="getDistrict(state)">
         <md-option *ngFor="let item of states" [value]="item.stateID" (click)="setProviderServiceMapID(item.providerServiceMapID)">
           {{item.stateName}}
         </md-option>
@@ -48,7 +49,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="District" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district"
+      <md-select placeholder="District" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district"
         (change)="getTaluk(district)">
         <md-option *ngFor="let item of districts" [value]="item.districtID">
           {{item.districtName}}
@@ -59,7 +60,8 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <md-input-container class="hide_underline" [style.width]="'100%'">
       <input mdInput style="display:none">
-      <md-select placeholder="Taluk" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
+      <md-select placeholder="Taluk" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk"
+        (change)="getInstitutions()">
         <md-option *ngFor="let item of taluks" [value]="item.blockID">
           {{item.blockName}}
         </md-option>
@@ -97,7 +99,7 @@
           <td>{{item.contactNo1}}</td>
           <td>{{item.contactPerson1_Email}}</td>
           <td>
-            <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+            <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
               (click)="openEditModal(item)">edit</md-icon>
           </td>
           <td>

@@ -95,11 +95,11 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
         if (res.length > 0) {
-          console.log(JSON.stringify(res,null,4), 'recheck')
+          console.log(JSON.stringify(res, null, 4), 'recheck')
           this.editMode = index >= 0 ? true : false;
           this.loadForConfig(res);
         } else {
-          this.editMode =  false;
+          this.editMode = false;
           this.selectedComponentList = [];
         }
       })
@@ -130,22 +130,22 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   updateComponentMapList() {
     if (this.selectedComponent) {
-    // const index = this.selectedComponentList.indexOf(this.selectedComponent);
-    let index = -1;
-     this.selectedComponentList.forEach((component, i) => {
-       if (component.testComponentID === this.selectedComponent.testComponentID) {
-         index = i;
-       }
-    })
-    if (index < 0) {
+      // const index = this.selectedComponentList.indexOf(this.selectedComponent);
+      let index = -1;
+      this.selectedComponentList.forEach((component, i) => {
+        if (component.testComponentID === this.selectedComponent.testComponentID) {
+          index = i;
+        }
+      })
+      if (index < 0) {
 
-      this.selectedComponentList.push(this.selectedComponent);
+        this.selectedComponentList.push(this.selectedComponent);
 
-      this.clearComponentValue();
-    } else {
-      this.alertService.alert('This Component is already mapped with selected Procedure.');
+        this.clearComponentValue();
+      } else {
+        this.alertService.alert('This Component is already mapped with selected Procedure.');
+      }
     }
-  }
   }
 
 
@@ -157,8 +157,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.procedureComponentMappingServiceService.saveProcedureComponentMapping(apiObject)
       .subscribe((res) => {
         if (res && res.length > 0) {
-        this.updateListAsPerFunction(res);
-       }
+          this.updateListAsPerFunction(res);
+        }
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
@@ -174,13 +174,13 @@ export class ProcedureComponentMappingComponent implements OnInit {
   updateListAsPerFunction(res) {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
-      this.alertService.alert('Procedure- Component mapping has been saved successfully.');
+      this.alertService.alert('Procedure- Component mapping has been saved successfully', 'success');
     } else if (this.editMode) {
       let index = -1;
       let filterIndex = -1;
       this.mappedList.forEach((procedure, i) => {
         if (procedure.procedureID == res[0].procedureID) {
-            index = i;
+          index = i;
         }
       })
       this.filteredMappedList.forEach((procedure, i) => {
@@ -191,8 +191,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
       if (index >= 0) {
         this.mappedList[index] = res[0];
         this.filteredMappedList[filterIndex] = res[0];
-        this.alertService.alert('Procedure- Component Mapping has been updated successfully.');
-        
+        this.alertService.alert('Procedure Component Mapping has been updated successfully', 'success');
+
       } else {
         this.mappedList.unshift(res[0]);
       }

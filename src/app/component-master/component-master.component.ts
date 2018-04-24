@@ -165,7 +165,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
           this.resetForm();
-          this.alertService.alert('Component saved successfully.');
+          this.alertService.alert('Component saved successfully', 'success');
         })
 
     }
@@ -188,7 +188,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.updateList(res);
           this.resetForm();
-          this.alertService.alert('Component updated successfully.');
+          this.alertService.alert('Component updated successfully', 'success');
         })
 
     }
@@ -314,7 +314,7 @@ export class ComponentMasterComponent implements OnInit {
       text = "Are you sure you want to Activate?";
     else
       text = "Are you sure you want to Deactivate?";
-    this.alertService.confirm('Confirm',text).subscribe(response => {
+    this.alertService.confirm('Confirm', text).subscribe(response => {
       if (response) {
         console.log(componentID, index, 'index');
         this.componentMasterServiceService.toggleComponent({ componentID: componentID, deleted: toggle })
@@ -322,9 +322,9 @@ export class ComponentMasterComponent implements OnInit {
             console.log(res, 'changed');
             if (res) {
               if (!toggle)
-                this.alertService.alert("Activated successfully");
+                this.alertService.alert("Activated successfully", 'success');
               else
-                this.alertService.alert("Deactivated successfully");
+                this.alertService.alert("Deactivated successfully", 'success');
               this.updateList(res);
             }
           })

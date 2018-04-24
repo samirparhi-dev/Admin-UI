@@ -239,7 +239,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
           console.log('data', response);
-          this.findRoles(this.state.stateID, this.service.serviceID)
+          this.findRoles(this.state.stateID, this.service.serviceID);
+          this.edit_delete_RolesSuccessHandeler('response', 'delete');
           //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
         }, err => {
           this.alertService.alert(err, 'error');
@@ -300,9 +301,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     this.ProviderAdminRoleService.editRole(obj)
       .subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'),
-      err => {
-        this.alertService.alert(err, 'error');
-      });
+        err => {
+          this.alertService.alert(err, 'error');
+        });
   }
 
   edit_delete_RolesSuccessHandeler(response, choice) {

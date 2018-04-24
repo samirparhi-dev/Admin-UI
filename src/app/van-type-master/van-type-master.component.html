@@ -18,8 +18,12 @@
                             <!--<td>{{vanType.stateName}}</td>-->
                             <td>{{vanType.vanType}}</td>
                             <td>{{vanType.vanTypeDesc}}</td>
-                            <td *ngIf="vanType.deleted=='0'"> <button class="btn" (click)="updateVanTypeStatus(vanType)">Deactivate</button></td>
-                            <td *ngIf="vanType.deleted=='1'"> <button class="btn activateBtn" (click)="updateVanTypeStatus(vanType)">Activate</button></td>
+                            <td *ngIf="vanType.deleted=='0'">
+                                <button class="btn" color="accent" (click)="updateVanTypeStatus(vanType)">Deactivate</button>
+                            </td>
+                            <td *ngIf="vanType.deleted=='1'">
+                                <button class="btn activateBtn" color="accent" (click)="updateVanTypeStatus(vanType)">Activate</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -28,7 +32,7 @@
                     <button class="btn pull-right " (click)="showForm()">Add Van Type </button>
                 </div>
             </div>
-           
+
 
             <div *ngIf="!showVanTypes">
                 <h4>Create Van Type </h4>
@@ -46,8 +50,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <md-input-container [style.width]="'100%'">
-                            <input mdInput required placeholder="Van Type" [(ngModel)]="vanType" name="vanType" #vanTypeN="ngModel"
-                                (blur)="checkExistance(vanType)">
+                            <input mdInput required placeholder="Van Type" [(ngModel)]="vanType" name="vanType" #vanTypeN="ngModel" (blur)="checkExistance(vanType)">
                             <md-hint>
                                 <span class="error_text" *ngIf="!vanTypeN.valid  && ( vanTypeN.dirty || vanTypeN.touched)">Please enter Van Type Name</span>
                                 <span class="error_text" *ngIf="vanTypeN.valid && vanTypeNameExist">Van Type already exists</span>
@@ -60,8 +63,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
-                        <button *ngIf="!editable" [disabled]=" !vanTypeN.valid || vanTypeNameExist || !stateVal.valid"
-                            class="btn pull-right " (click)="addVanTypeToList(vanTypeForm.value);vanTypeForm.reset()  ">
+                        <button *ngIf="!editable" [disabled]=" !vanTypeN.valid || vanTypeNameExist || !stateVal.valid" class="btn pull-right " (click)="addVanTypeToList(vanTypeForm.value);vanTypeForm.reset()  ">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>
                     </div>
@@ -88,8 +90,8 @@
                     <pagination-controls (pageChange)="b = $event" id="vanTypeResult"></pagination-controls>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="btn pull-left" (click)="vanTypeForm.reset();showList()">Back</button> <button *ngIf="vanTypeList.length>0"
-                        class="btn pull-right " (click)="storeVanTypes()">Submit</button>
+                    <button class="btn pull-left" (click)="vanTypeForm.reset();showList()">Back</button>
+                    <button *ngIf="vanTypeList.length>0" class="btn pull-right " (click)="storeVanTypes()">Submit</button>
                 </div>
             </div>
         </div>

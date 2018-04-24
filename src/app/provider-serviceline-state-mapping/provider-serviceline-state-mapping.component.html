@@ -28,7 +28,7 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.stateName?item.stateName:'All State'}}</td>
             <td>
-              <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
+              <md-icon mdTooltip="Edit" class="cursorPointer" *ngIf="!item.deleted" (click)="edit(item)">mode_edit</md-icon>
             </td>
             <td>
               <button md-raised-button color="accent" *ngIf="item.deleted" class="" (click)="activate(item.providerServiceMapID)">Activate</button>
@@ -129,7 +129,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove Row" (click)="removeRow(i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
             </td>
           </tr>
         </tbody>

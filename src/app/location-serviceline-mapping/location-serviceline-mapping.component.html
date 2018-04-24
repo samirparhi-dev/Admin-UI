@@ -1,6 +1,6 @@
 <!-- first page starts -->
 <!-- search panel -->
-<div class="row" >
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Job Location Serviceline Mapping Master</h4>
   </div>
@@ -29,8 +29,9 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select [disabled]="disableSelection"  placeholder="Serviceline" class="width100"  required [(ngModel)]="search_serviceline" name="serviceline" (change)="getStates(search_serviceline)">
-          <md-option *ngFor="let service of servicelines" [value]="service" >
+        <md-select [disabled]="disableSelection" placeholder="Serviceline" class="width100" required [(ngModel)]="search_serviceline"
+          name="serviceline" (change)="getStates(search_serviceline)">
+          <md-option *ngFor="let service of servicelines" [value]="service">
             {{service.serviceName}}
           </md-option>
         </md-select>
@@ -39,9 +40,10 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select [disabled]="disableSelection || nationalFlag"  placeholder="State" class="width100" [(ngModel)]="search_state" name="state" (change)="findLocations(search_state.stateID,search_serviceline.serviceID);setPSMID(search_state.providerServiceMapID)"
+        <md-select [disabled]="disableSelection || nationalFlag" placeholder="State" class="width100" [(ngModel)]="search_state"
+          name="state" (change)="findLocations(search_state.stateID,search_serviceline.serviceID);setPSMID(search_state.providerServiceMapID)"
           required>
-          <md-option *ngFor="let item of states" [value]="item" >
+          <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
         </md-select>
@@ -76,7 +78,7 @@
         </thead>
         <tbody>
           <tr *ngIf="md2.data.length==0" class="record-not-found">
-              <td colspan="8" align="center">No records found</td>
+            <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let loc of md2.data;  let i= index">
             <!--<td>{{loc.providerServiceMapID}}</td>-->
@@ -88,7 +90,7 @@
             <td width=20%>{{loc.stateName}}</td>
             <td width=15%>{{loc.districtName}}</td>
             <td width=10%>
-              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted"
                 (click)="editOfficeAddress(loc)">edit</md-icon>
             </td>
             <td width=15%>
@@ -167,12 +169,13 @@
         </md-select>
       </md-input-container>
     </div> -->
- <!-- above code commented on 11/4/18 - gursimran -->
+    <!-- above code commented on 11/4/18 - gursimran -->
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!nationalFlag">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="District" class="width100" [disabled]="isNational" [(ngModel)]="district" name="district" #District="ngModel" required>
+        <md-select placeholder="District" class="width100" [disabled]="isNational" [(ngModel)]="district" name="district" #District="ngModel"
+          required>
           <md-option *ngFor="let item of districts" value="{{item.districtID}}">
             {{item.districtName}}
           </md-option>
@@ -202,8 +205,8 @@
     <div class="clearfix visible-md"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container myAddress class="width100">
-        <input mdInput placeholder="Office Address Line 2" maxlength="300" [(ngModel)]="office_address2 " name="office_address2" #officeAddress2="ngModel"
-          required>
+        <input mdInput placeholder="Office Address Line 2" maxlength="300" [(ngModel)]="office_address2 " name="office_address2"
+          #officeAddress2="ngModel" required>
         <md-hint *ngIf="officeAddress2.errors && officeAddress2.touched">
           <span class="error_text">Address2 is required</span>
         </md-hint>

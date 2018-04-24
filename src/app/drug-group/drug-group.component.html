@@ -17,14 +17,14 @@
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let drugGroup of availableDrugGroups | paginate: {id:'searchResult', itemsPerPage: 3, currentPage: b}" > -->
           <tr *ngIf="availableDrugGroups.length == 0" class="record-not-found">
-              <td colspan="5" align="center">No records found</td>
+            <td colspan="5" align="center">No records found</td>
           </tr>
           <tr *ngFor="let drugGroup of md2.data; let i= index">
             <td>{{availableDrugGroups.indexOf(drugGroup)+1}}</td>
             <td>{{drugGroup.drugGroup}}</td>
             <td>{{drugGroup.drugGroupDesc}}</td>
             <td>
-              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drugGroup.deleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drugGroup.deleted"
                 (click)="editDrugGroup(drugGroup)">edit</md-icon>
             </td>
             <!-- <td> <button class="btn activateBtn" (click)="editDrugGroup(drugGroup)">Edit</button></td> -->
@@ -56,35 +56,34 @@
   <h4 *ngIf="!editable">Create Drug Group</h4>
   <h4 *ngIf="editable">Edit Drug Group</h4>
   <div class="row">
-   
-      <form #drugGroupForm="ngForm" autocomplete="off">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="width100" myProviderName>
-            <input mdInput required placeholder="Drug Group " [(ngModel)]="drugGroup" name="drugGroup" #drugG="ngModel" (blur)="checkExistance(drugGroup)"
-              minlength="1" maxlength="50">
-            <md-hint>
-              <span class="error_text" *ngIf="!drugG.valid  && ( drugG.dirty || drugG.touched)">Please enter drug Group Name</span>
-              <span class="error_text" *ngIf="groupNameExist">Drug Group Already Exists</span>
-            </md-hint>
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="width100" myProviderName>
-            <input mdInput required placeholder="Drug Group Description" [(ngModel)]="drugGroupDesc" name="drugGroupDesc" #drugD="ngModel"
-              minlength="1" maxlength="100">
-            <md-hint [hidden]=drugD.valid>
-              <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Group Description</span>
-            </md-hint>
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid">
-          <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left"
-            (click)="addDrugGroupToList(drugGroupForm.value);drugGroupForm.reset() ">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-          </button>
-        </div>
-      </form>
-   
+
+    <form #drugGroupForm="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput required placeholder="Drug Group " [(ngModel)]="drugGroup" name="drugGroup" #drugG="ngModel" (blur)="checkExistance(drugGroup)"
+            minlength="1" maxlength="50">
+          <md-hint>
+            <span class="error_text" *ngIf="!drugG.valid  && ( drugG.dirty || drugG.touched)">Please enter drug Group Name</span>
+            <span class="error_text" *ngIf="groupNameExist">Drug Group Already Exists</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100" myProviderName>
+          <input mdInput required placeholder="Drug Group Description" [(ngModel)]="drugGroupDesc" name="drugGroupDesc" #drugD="ngModel"
+            minlength="1" maxlength="100">
+          <md-hint [hidden]=drugD.valid>
+            <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched)">Please enter drug Group Description</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid">
+        <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left" (click)="addDrugGroupToList(drugGroupForm.value);drugGroupForm.reset() ">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
+    </form>
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="drugGroupList.length>0">
       <div class="table-responsive">
         <table [md2Data]="drugGroupList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
@@ -97,7 +96,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr  *ngFor="let drugGroup of md2.data; let i= index">
+            <tr *ngFor="let drugGroup of md2.data; let i= index">
               <td>{{drugGroupList.indexOf(drugGroup)+1}}</td>
               <td>{{drugGroup.drugGroup}}</td>
               <td>{{drugGroup.drugGroupDesc}}</td>
@@ -121,7 +120,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button  [disabled]="drugGroupList.length == 0" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storeDrugGroup()">Save</button>
+      <button [disabled]="drugGroupList.length == 0" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storeDrugGroup()">Save</button>
       <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateDrugGroup(drugGroupForm.value);drugGroupForm.reset() ">Update</button>
     </div>
   </div>

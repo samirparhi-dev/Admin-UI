@@ -129,7 +129,7 @@
                             <td>{{item.procedureDesc}}</td>
                             <td>{{item.createdBy}}</td>
                             <td>
-                                <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer"
+                                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer"
                                     (click)="showForm();configProcedure(item, i)">edit</md-icon>
                             </td>
                             <td>

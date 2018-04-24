@@ -118,13 +118,13 @@ export class VillageMasterComponent implements OnInit {
 
         this.villageObj.createdBy = this.createdBy;
         this.checkDuplicates(this.villageObj);
-        console.log("this.villageObj", this.villageObj);        
-       
+        console.log("this.villageObj", this.villageObj);
+
     }
     checkDuplicates(object) {
         let duplicateStatus = 0
         if (this.villageList.length === 0) {
-            this.villageList.push(object);            
+            this.villageList.push(object);
         }
         else {
             for (let i = 0; i < this.villageList.length; i++) {
@@ -150,7 +150,7 @@ export class VillageMasterComponent implements OnInit {
     }
 
     successHandler(response) {
-        this.alertMessage.alert("Village stored successfully");
+        this.alertMessage.alert("Village stored successfully", 'success');
         this.villageForm.resetForm();
         this.showFormFlag = false;
         this.villageList = [];
@@ -191,7 +191,7 @@ export class VillageMasterComponent implements OnInit {
                 this.villageMasterService.updateVillageStatus(JSON.stringify(this.dataObj)).subscribe(response => this.updateStatusHandler(response));
                 village.deleted = !village.deleted;
             }
-            this.alertMessage.alert(status + "d successfully");
+            this.alertMessage.alert(status + "d successfully", 'success');
         });
 
 
@@ -271,7 +271,7 @@ export class VillageMasterComponent implements OnInit {
 
     updateHandler(response) {
         this.editable = false;
-        this.alertMessage.alert("Updated successfully");
+        this.alertMessage.alert("Updated successfully", 'success');
         this.GetBranches(this.dataObj.blockID);
 
     }
@@ -395,7 +395,7 @@ export class EditVillageModal {
         console.log(response, "edit response success");
         if (response) {
             this.dialogReff.close("success");
-            this.alertMessage.alert("Updated successfully");
+            this.alertMessage.alert("Updated successfully", 'success');
 
         }
     }

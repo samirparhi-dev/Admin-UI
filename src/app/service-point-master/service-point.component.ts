@@ -237,7 +237,7 @@ export class ServicePointComponent implements OnInit {
         }
 
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to " + vanString + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + vanString + "?").subscribe(response => {
             if (response) {
                 this.dataObj = {};
                 this.dataObj.servicePointID = servicePoint.servicePointID;
@@ -252,9 +252,9 @@ export class ServicePointComponent implements OnInit {
     }
     updateStatusHandler(response) {
         if (this.status === "Deactivate")
-            this.alertMessage.alert("Deactivated successfully");
+            this.alertMessage.alert("Deactivated successfully", 'success');
         else
-            this.alertMessage.alert("Activated successfully")
+            this.alertMessage.alert("Activated successfully", 'success')
         console.log("Service Point status changed");
     }
 

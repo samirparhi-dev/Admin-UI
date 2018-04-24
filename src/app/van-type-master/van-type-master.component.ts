@@ -20,11 +20,11 @@ export class VanTypeComponent implements OnInit {
     editable: any = false;
     availableVanTypeNames: any = [];
     countryID: any;
-    searchStateID:any;
-    searchDistrictID:any;
-    searchParkingPlaceID:any;
-    serviceID:any;
-    createdBy:any;
+    searchStateID: any;
+    searchDistrictID: any;
+    searchParkingPlaceID: any;
+    serviceID: any;
+    createdBy: any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public vanTypeMasterService: VanTypeMasterService,
@@ -40,14 +40,14 @@ export class VanTypeComponent implements OnInit {
         this.showVanTypes = false;
     }
     ngOnInit() {
-       
+
         //this.getStates();
         this.getStatesByServiceID();
         this.getVanTypes();
     }
 
-    obj:any;
-    getVanTypes(){
+    obj: any;
+    getVanTypes() {
         this.obj = {};
         this.obj.providerServiceMapID = this.providerServiceMapID;
         this.vanTypeMasterService.getVanTypes(this.obj).subscribe(response => this.getVanTypeSuccessHandler(response));
@@ -61,37 +61,37 @@ export class VanTypeComponent implements OnInit {
 
     vanTypeObj: any;
     vanTypeList: any = [];
-    addVanTypeToList(values){
+    addVanTypeToList(values) {
 
-            this.vanTypeObj = {};
-            if(values.stateID!=undefined){
-                this.vanTypeObj.stateID = values.stateID.split("-")[0];
-                this.vanTypeObj.stateName = values.stateID.split("-")[1];
-            }
+        this.vanTypeObj = {};
+        if (values.stateID != undefined) {
+            this.vanTypeObj.stateID = values.stateID.split("-")[0];
+            this.vanTypeObj.stateName = values.stateID.split("-")[1];
+        }
 
-            this.vanTypeObj.vanType = values.vanType;
-            this.vanTypeObj.vanTypeDesc = values.vanTypeDesc;
-            
-            this.vanTypeObj.providerServiceMapID = this.providerServiceMapID;
-                
-            this.vanTypeObj.createdBy = this.createdBy;
+        this.vanTypeObj.vanType = values.vanType;
+        this.vanTypeObj.vanTypeDesc = values.vanTypeDesc;
 
-            this.vanTypeList.push(this.vanTypeObj);
- 
-        if(this.vanTypeList.length<=0){
+        this.vanTypeObj.providerServiceMapID = this.providerServiceMapID;
+
+        this.vanTypeObj.createdBy = this.createdBy;
+
+        this.vanTypeList.push(this.vanTypeObj);
+
+        if (this.vanTypeList.length <= 0) {
             this.alertMessage.alert("No Service available with the state selected");
         }
     }
 
-    storeVanTypes(){
+    storeVanTypes() {
         let obj = { "vanTypeMaster": this.vanTypeList };
         console.log(obj);
         this.vanTypeMasterService.saveVanType(obj).subscribe(response => this.vanTypeSuccessHandler(response));
     }
 
-    vanTypeSuccessHandler(response){
+    vanTypeSuccessHandler(response) {
         this.vanTypeList = [];
-        this.alertMessage.alert("VanTypes stored successfully");
+        this.alertMessage.alert("VanTypes stored successfully", 'success');
     }
 
     stateSelection(stateID) {
@@ -102,14 +102,14 @@ export class VanTypeComponent implements OnInit {
         this.vanTypeMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
     }
 
-    getStatesByServiceID(){
-        this.vanTypeMasterService.getStatesByServiceID(this.serviceID,this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    getStatesByServiceID() {
+        this.vanTypeMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
-    
+
     getStatesSuccessHandeler(response) {
         this.provider_states = response;
     }
-    
+
 
     getServicesSuccessHandeler(response) {
         this.provider_services = response;
@@ -118,12 +118,12 @@ export class VanTypeComponent implements OnInit {
                 this.providerServiceMapID = provider_service.providerServiceMapID;
             }
         }
-        if(this.providerServiceMapID=="" || this.providerServiceMapID ==undefined){
+        if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
             this.alertMessage.alert("No Service available with the state selected");
         }
     }
 
-     dataObj: any = {};
+    dataObj: any = {};
     updateVanTypeStatus(vanType) {
 
         this.dataObj = {};
@@ -136,12 +136,12 @@ export class VanTypeComponent implements OnInit {
 
     }
     updateStatusHandler(response) {
-        console.log("VanType status changed");
-    } 
+        console.log("VanType updated changed", 'success');
+    }
 
-    showList(){
+    showList() {
         this.getVanTypes();
-        this.showVanTypes=true;
+        this.showVanTypes = true;
     }
 
     vanTypeNameExist: any = false;
@@ -149,5 +149,5 @@ export class VanTypeComponent implements OnInit {
         this.vanTypeNameExist = this.availableVanTypeNames.includes(vanTypeName);
         console.log(this.vanTypeNameExist);
     }
-    
+
 }
