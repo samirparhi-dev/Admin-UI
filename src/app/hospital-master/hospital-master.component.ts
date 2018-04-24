@@ -281,7 +281,7 @@ export class HospitalMasterComponent implements OnInit {
     saveInstitutionSuccessHandeler(response) {
         console.log(response, "SAVE INSTITUTION SUCCESS HANDELER");
         if (response) {
-            this.alertService.alert("Institution saved successfully",'success');
+            this.alertService.alert("Saved successfully",'success');
             this.back();
             this.getInstitutions();
         }
@@ -298,7 +298,7 @@ export class HospitalMasterComponent implements OnInit {
         dialog_Ref.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
             if (result === "success") {
-                this.alertService.alert("Institution edited successfully",'success')
+                this.alertService.alert("Updated successfully",'success')
                 this.getInstitutions();
             }
 

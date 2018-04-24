@@ -428,18 +428,20 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       'providerServiceMapID': providerServiceMapID,
       'deleted': false
     }
-
-    this.superadminService.deleteMappedProviderServiceState(object)
-      .subscribe(response => {
-        console.log(response, 'success handeler after activation');
-        this.dialogService.alert('Activated successfully', 'success');
-        this.getAllMappings();
-
-      }, err => {
-        this.dialogService.alert(err, 'error');
-        console.log(err, 'error handeler in activation');
-
-      })
+    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
+      if (res) {
+        this.superadminService.deleteMappedProviderServiceState(object)
+          .subscribe(response => {
+            console.log(response, 'success handeler after activation');
+            this.dialogService.alert('Activated successfully', 'success');
+            this.getAllMappings();
+          },
+            (err) => {
+              this.dialogService.alert(err, 'error');
+              console.log(err);
+            })
+      }
+    })
   }
 
   deactivate(providerServiceMapID) {
@@ -448,18 +450,20 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       'providerServiceMapID': providerServiceMapID,
       'deleted': true
     }
-
-    this.superadminService.deleteMappedProviderServiceState(object)
-      .subscribe(response => {
-        console.log(response, 'success handeler after deactivation');
-        this.dialogService.alert('Deactivated successfully', 'success');
-        this.getAllMappings();
-      }, err => {
-        this.dialogService.alert(err, 'error');
-        console.log(err, 'error handeler in deactivation');
-
-      })
+    this.dialogService.confirm('Confirm', "Are you sure want to Deactivate?").subscribe((res) => {
+      if (res) {
+        this.superadminService.deleteMappedProviderServiceState(object)
+          .subscribe(response => {
+            console.log(response, 'success handeler after deactivation');
+            this.dialogService.alert('Deactivated successfully', 'success');
+            this.getAllMappings();
+          },
+            (err) => {
+              this.dialogService.alert(err, 'error');
+              console.log(err);
+            })
+      }
+    })
   }
 
 }
-

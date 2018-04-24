@@ -159,7 +159,7 @@ export class LanguageMappingComponent implements OnInit {
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped admin activated successfully', 'success');
+              this.alertService.alert('Activated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }
@@ -180,7 +180,7 @@ export class LanguageMappingComponent implements OnInit {
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped deactivated successfully', 'success');
+              this.alertService.alert('Deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }

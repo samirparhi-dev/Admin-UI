@@ -213,7 +213,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	saveSuccessHandeler(response) {
 		console.log("response", response);
 		if (response) {
-			this.alertService.alert("Institute directory saved successfully",'success');
+			this.alertService.alert("Saved successfully",'success');
 			this.instituteDir.resetForm();
 			this.showFormFlag = false;
 			this.bufferArray = [];
@@ -270,7 +270,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Institute directory edited successfully",'success');
+				this.alertService.alert("Updated successfully",'success');
 				this.search();
 			}
 

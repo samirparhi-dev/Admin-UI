@@ -271,7 +271,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   saveCallTypeSubTypeSuccessHandeler(response) {
     console.log(response, "save call type sub type success");
-    this.alertService.alert('Saved call type/sub type successfully', 'success');
+    this.alertService.alert('Call disposition saved successfully', 'success');
     this.hideTable(false) // going back to table view
 
     // resetting the ngmodels
@@ -422,7 +422,7 @@ export class EditCallType {
 
 
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any,
     public dialog: MdDialog,
     public callTypeSubtypeService: CallTypeSubtypeService,
     public commonDataService: dataService,
@@ -587,7 +587,7 @@ export class EditCallType {
 
   modifySuccess(res) {
     if (res) {
-      this.alertService.alert('Edited call type/sub type successfully', 'success');
+      this.alertService.alert('Call disposition updated successfully', 'success');
       this.dialogReff.close();
     }
   }

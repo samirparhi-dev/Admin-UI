@@ -185,7 +185,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             }
         }
         if (this.servicePointVillageMapList.length <= 0) {
-            this.alertMessage.alert("Villages Mapped Succesfully");
+            this.alertMessage.alert("Villages Mapped Succesfully", 'success');
         }
     }
 

@@ -12,6 +12,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-type-master.component.css']
 })
 export class FeedbackTypeMasterComponent implements OnInit {
+  feedbackNameExist: boolean = false;
   userID: any;
   previous_state_id: any;
   previous_service_id: any;
@@ -63,7 +64,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         if (isNational) {
           this.findFeedbackTypes(this.states[0].providerServiceMapID);
         }
-      },(err) => this.alertService.alert(err,'error'));
+      }, (err) => this.alertService.alert(err, 'error'));
   }
 
   getServiceLinesfromSearch(userID) {
@@ -72,7 +73,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         console.log("services", response);
         // this.search_serviceline = "";
         this.servicelines = response;
-      },(err) => this.alertService.alert(err,'error'));
+      }, (err) => this.alertService.alert(err, 'error'));
   }
 
   findFeedbackTypes(providerServiceMapID) {
@@ -83,7 +84,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
       this.showTable = true;
-    },(err) => this.alertService.alert(err,'error'));
+    }, (err) => this.alertService.alert(err, 'error'));
   }
 
   clear() {
@@ -126,14 +127,14 @@ export class FeedbackTypeMasterComponent implements OnInit {
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.alertService.confirm('Confirm',"Are you sure want you to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm', "Are you sure want you to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         console.log("reqObj", obj);
         this.FeedbackTypeService.deleteFeedback(obj)
           .subscribe((res) => {
-            this.alertService.alert(this.confirmMessage + "d successfully",'success');
+            this.alertService.alert(this.confirmMessage + "d successfully", 'success');
             this.findFeedbackTypes(this.providerServiceMapID);
-          },(err) => this.alertService.alert(err,'error'));
+          }, (err) => this.alertService.alert(err, 'error'));
       }
     },
       (err) => {
@@ -204,7 +205,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       .subscribe((res) => {
         console.log("response", res);
         this.searchForm = true;
-        this.alertService.alert("Feedback type saved successfully",'success');
+        this.alertService.alert("Saved successfully", 'success');
         this.previous_state_id = this.search_state;
         this.previous_service_id = this.search_serviceline;
         this.addForm.resetForm();
@@ -214,7 +215,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.search_serviceline = this.previous_service_id;
 
         this.findFeedbackTypes(this.providerServiceMapID);
-      },(err) => this.alertService.alert(err,'error'));
+      }, (err) => this.alertService.alert(err, 'error'));
   }
 
   add_obj(name, desc) {
@@ -233,9 +234,12 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
       if (count == 0) {
         this.objs.push(tempObj);
+        this.feedbackDesc = undefined;
+        this.feedbackName = undefined;
       }
       else {
-        this.alertService.alert("Already exists");
+        this.feedbackNameExist = true;
+        //this.alertService.alert("Already exists");
       }
     }
     else {
@@ -255,16 +259,21 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
       if (count == 0) {
         this.objs.push(tempObj);
+        this.feedbackDesc = undefined;
+        this.feedbackName = undefined;
       }
       else {
-        this.alertService.alert("Already exists");
+        this.feedbackNameExist = true;
+        // this.alertService.alert("Already exists");
       }
     }
 
-    this.feedbackDesc = undefined;
-    this.feedbackName = undefined;
+
 
     // this.validateFeedback(name);
+  }
+  checkExistance() {
+    this.feedbackNameExist = false;
   }
 
   remove_obj(index) {
@@ -288,7 +297,7 @@ export class EditFeedbackModal {
 
   service: any;
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public FeedbackTypeService: FeedbackTypeService,
     public dialog_Ref: MdDialogRef<EditFeedbackModal>,
     private alertService: ConfirmationDialogsService) { }
@@ -326,8 +335,8 @@ export class EditFeedbackModal {
     this.FeedbackTypeService.editFeedback(tempObj)
       .subscribe((res) => {
         this.dialog_Ref.close("success");
-        this.alertService.alert("Feedback type edited successfully",'success');
-      },(err) => this.alertService.alert(err,'error'));
+        this.alertService.alert("Updated successfully", 'success');
+      }, (err) => this.alertService.alert(err, 'error'));
 
   }
 
@@ -348,4 +357,5 @@ export class EditFeedbackModal {
       this.feedbackExists = true;
     }
   }
+
 }
