@@ -136,7 +136,7 @@ export class HospitalMasterComponent implements OnInit {
     getServiceSuccessHandeler(response) {
         if (response) {
             this.services = response.filter(function (item) {
-                if (item.serviceID != 6) {
+                if (item.serviceID) {
                     return item;
                 }
             });

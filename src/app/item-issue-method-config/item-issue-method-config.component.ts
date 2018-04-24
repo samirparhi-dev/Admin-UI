@@ -20,6 +20,8 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   createdBy: any;
   category: any;
   itemIssue: any;
+  state: any;
+  serviceline: any;
 
   constructor(private storeService: Mainstroreandsubstore, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }

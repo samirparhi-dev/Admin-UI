@@ -101,7 +101,7 @@ export class SecurityInterceptedHttp extends Http {
         } else if (response.json().statusCode === 5002) {
 
             this.router.navigate(['']);
-            this.message.alert(response.json().errorMessage);
+            this.message.alert(response.json().errorMessage,'error');
             this.authService.removeToken();
             return Observable.empty();
         } else {
