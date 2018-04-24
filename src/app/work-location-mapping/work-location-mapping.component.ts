@@ -280,15 +280,15 @@ export class WorkLocationMappingComponent implements OnInit {
         this.worklocationmapping.DeleteWorkLocationMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Work location mapped admin activated successfully', 'success');
+              this.alertService.alert('Activated successfully', 'success');
               /* refresh table */
               this.getAllMappedWorkLocations();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 
@@ -302,15 +302,15 @@ export class WorkLocationMappingComponent implements OnInit {
         this.worklocationmapping.DeleteWorkLocationMapping(object)
           .subscribe(res => {
             if (res) {
-              this.alertService.alert('Work location mapped deactivated successfully', 'success');
+              this.alertService.alert('Deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedWorkLocations();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 

@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class FacilityTypeMasterComponent implements OnInit {
 
+  createButton: boolean = false;
   providerServiceMapID: any;
   facilityCode: any;
   facilityDiscription: any;
@@ -51,7 +52,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
 
   getServices() {
-    this.facility.getServices(this.serviceProviderID).subscribe(response => {
+    this.facility.getServices(this.commonDataService.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
@@ -59,7 +60,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     })
   }
   getstates(service) {
-    this.facility.getStates(this.serviceProviderID, service.serviceID, false).subscribe(response => {
+    this.facility.getStates(this.commonDataService.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
         this.states_array = response;
@@ -67,6 +68,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     })
   }
   getAllFacilities(providerServiceMapID) {
+    this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.facility.getfacilities(providerServiceMapID).subscribe(response => {
       if (response) {

@@ -159,15 +159,15 @@ export class LanguageMappingComponent implements OnInit {
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped admin activated successfully', 'success');
+              this.alertService.alert('Activated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 
@@ -180,15 +180,15 @@ export class LanguageMappingComponent implements OnInit {
         this.languageMapping.DeleteLanguageMapping(object)
           .subscribe(response => {
             if (response) {
-              this.alertService.alert('Language mapped deactivated successfully', 'success');
+              this.alertService.alert('Deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedLanguagesList();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 

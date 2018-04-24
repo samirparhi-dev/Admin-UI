@@ -85,7 +85,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create Store</button>
+              <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create Store</button>
             </td>
           </tr>
         </tfoot>

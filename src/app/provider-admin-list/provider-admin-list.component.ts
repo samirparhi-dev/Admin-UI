@@ -75,7 +75,7 @@ export class ProviderAdminListComponent implements OnInit {
   searchResultArray: any = [];
   allProviderAdmin: any = [];
 
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
+  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]{2,20}$/;
   emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -329,7 +329,7 @@ export class ProviderAdminListComponent implements OnInit {
   */
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
-    this.adminCredentialsForm.resetForm();
+    //this.adminCredentialsForm.resetForm();
     this.resetDob();
   }
   /*

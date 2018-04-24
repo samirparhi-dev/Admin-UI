@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class SupplierMasterComponent implements OnInit {
 
+  createButton: boolean = false;
   supplierID: any;
   state: any;
   edit_emergencyContactNo: any;
@@ -30,6 +31,7 @@ export class SupplierMasterComponent implements OnInit {
   edit_state: any;
   edit_serviceline: any;
   serviceline: any;
+  uid: any;
   emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
 
@@ -56,10 +58,11 @@ export class SupplierMasterComponent implements OnInit {
     this.createdBy = this.commonDataService.uname;
     console.log(this.createdBy, "CreatedBy");
     this.serviceProviderID = this.commonDataService.service_providerID;
+    this.uid = this.commonDataService.uid;
     this.getServices();
   }
   getServices() {
-    this.supplierService.getServices(this.serviceProviderID).subscribe(response => {
+    this.supplierService.getServices(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
@@ -68,7 +71,7 @@ export class SupplierMasterComponent implements OnInit {
   }
   getstates(service) {
     debugger;
-    this.supplierService.getStates(this.serviceProviderID, service.serviceID, false).subscribe(response => {
+    this.supplierService.getStates(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
         this.states_array = response;
@@ -86,6 +89,7 @@ export class SupplierMasterComponent implements OnInit {
     this.districts_array = response;
   }
   getAllSuppliers(providerServiceMapID) {
+    this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.supplierService.getAllSuppliers(providerServiceMapID).subscribe(response => {
       if (response) {
