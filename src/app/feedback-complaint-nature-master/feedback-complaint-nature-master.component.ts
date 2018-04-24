@@ -243,9 +243,11 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     this.objs.push(tempObj);
     this.validateFeedbackNature(nature);
 
-    this.feedbackNature = undefined;
-    this.feedbackNatureDesc = undefined;
+    this.feedbackNature = null;
+    this.feedbackNatureDesc = null;
     this.natureExists = false;
+    console.log("this.feedbackNature", this.feedbackNature);
+    
   }
 
   remove_obj(index) {

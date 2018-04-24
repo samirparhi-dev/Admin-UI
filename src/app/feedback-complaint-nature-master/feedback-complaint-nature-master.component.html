@@ -9,7 +9,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
-            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
+            <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" required>
               <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
                 {{service.serviceName}}
               </md-option>
@@ -95,7 +95,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
-            <md-select placeholder="Service Line" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
+            <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="search_serviceline" name="serviceline" [disabled]="true">
               <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
                 {{service.serviceName}}
               </md-option>
@@ -129,7 +129,7 @@
             <input mdInput name="feedbackNature" placeholder="Nature of Complaint" [(ngModel)]="feedbackNature" #newFeedbackNature="ngModel"
               (keyup)="validateFeedbackNature(feedbackNature)" required>
             <md-hint>
-              <span class="error_text" *ngIf="newFeedbackNature.touched && newFeedbackNature.errors">Nature of Complaint is required</span>
+              <span class="error_text" *ngIf="newFeedbackNature.touched && newFeedbackNature.errors && newFeedbackNature!=null">Nature of Complaint is required</span>
               <span class="error_text" *ngIf="natureExists">{{msg}}</span>
             </md-hint>
           </md-input-container>

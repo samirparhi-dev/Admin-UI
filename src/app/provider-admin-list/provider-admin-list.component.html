@@ -241,7 +241,7 @@
         <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
           minlength="8" maxlength="12" #pwrd="ngModel" required>
         <md-hint class="errorText">
-          <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern'))">Password is required</span>
+          <span *ngIf="pwrd.errors || pwrd.touched">Password is required</span>
           <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
         </md-hint>
       </md-input-container>

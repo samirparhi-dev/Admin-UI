@@ -107,7 +107,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceSuccessHandler(response) {
         this.parkingPlaceList = [];
-        this.alertMessage.alert("Parking Places stored successfully", 'success');
+        this.alertMessage.alert("Parking place saved successfully", 'success');
     }
 
     stateSelection(stateID) {
@@ -196,7 +196,7 @@ export class ParkingPlaceComponent implements OnInit {
         });
     }
     updateStatusHandler(response) {
-        console.log("Parking Place status changed");
+        console.log("Parking place status changed");
     }
 
     showList() {

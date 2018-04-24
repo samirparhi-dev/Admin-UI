@@ -36,7 +36,7 @@
                         <td>{{item.dOJ | utcDate | date : 'dd/MM/yyyy'}}</td>
                         <td>
                             <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
-                                (click)="editUserDetails(item)">Edit</md-icon>
+                                (click)="editUserDetails(item)">edit</md-icon>
                         </td>
                         <td>
                             <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.userID, false)">Activate</button>
