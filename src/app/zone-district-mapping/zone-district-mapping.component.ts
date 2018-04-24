@@ -6,34 +6,34 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-zone-district-mapping',
-  templateUrl: './zone-district-mapping.component.html'
+    selector: 'app-zone-district-mapping',
+    templateUrl: './zone-district-mapping.component.html'
 })
 export class ZoneDistrictMappingComponent implements OnInit {
 
-  showMappings:any = true;
-  availableZoneDistrictMappings:any =[];
-  data:any;
-  providerServiceMapID:any;
-  provider_states:any;
-  provider_services:any;
-  service_provider_id:any;
-  editable:any = false;
-  availableZones:any = [];
-  districts:any = [];
-  createdBy:any;
+    showMappings: any = true;
+    availableZoneDistrictMappings: any = [];
+    data: any;
+    providerServiceMapID: any;
+    provider_states: any;
+    provider_services: any;
+    service_provider_id: any;
+    editable: any = false;
+    availableZones: any = [];
+    districts: any = [];
+    createdBy: any;
 
-  @ViewChild('zoneDistrictMappingForm') zoneDistrictMappingForm: NgForm;
-  constructor(public providerAdminRoleService: ProviderAdminRoleService,
-              public commonDataService: dataService,
-              public zoneMasterService:ZoneMasterService,
-              private alertMessage: ConfirmationDialogsService) { 
-    this.data = [];
-    this.service_provider_id =this.commonDataService.service_providerID;
-    this.createdBy = this.commonDataService.uname;
-   }
+    @ViewChild('zoneDistrictMappingForm') zoneDistrictMappingForm: NgForm;
+    constructor(public providerAdminRoleService: ProviderAdminRoleService,
+        public commonDataService: dataService,
+        public zoneMasterService: ZoneMasterService,
+        private alertMessage: ConfirmationDialogsService) {
+        this.data = [];
+        this.service_provider_id = this.commonDataService.service_providerID;
+        this.createdBy = this.commonDataService.uname;
+    }
 
-  showForm(){
+    showForm() {
         this.showMappings = false;
     }
     ngOnInit() {
@@ -55,12 +55,12 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
 
-    getServiceLines(){
+    getServiceLines() {
         this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
     }
 
-    getStatesByServiceID(serviceID){
-        this.zoneMasterService.getStatesByServiceID(serviceID,this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    getStatesByServiceID(serviceID) {
+        this.zoneMasterService.getStatesByServiceID(serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
 
     getStatesSuccessHandeler(response) {
@@ -77,7 +77,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getAvailableZoneDistrictMappings() {
-        this.zoneMasterService.getZoneDistrictMappings({"serviceProviderID":this.service_provider_id}).subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
+        this.zoneMasterService.getZoneDistrictMappings({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
     }
 
     getZoneDistrictMappingsSuccessHandler(response) {
@@ -86,61 +86,59 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getAvailableZones() {
-        this.dataObj = {"serviceProviderID":this.service_provider_id};
+        this.dataObj = { "serviceProviderID": this.service_provider_id };
         this.dataObj.deleted = false;
         this.zoneMasterService.getZones(this.dataObj).subscribe(response => this.getZonesSuccessHandler(response));
     }
 
     getZonesSuccessHandler(response) {
-        if(response!=undefined){
-            for(let zone of response){
-                if(!zone.deleted){
+        if (response != undefined) {
+            for (let zone of response) {
+                if (!zone.deleted) {
                     this.availableZones.push(zone);
                 }
             }
         }
     }
 
-    getDistricts(stateID)
-	{
-		this.zoneMasterService.getDistricts(stateID).subscribe(response=>this.getDistrictsSuccessHandeler(response));
-	}
-    getDistrictsSuccessHandeler(response)
-	{
-		this.districts = response;
-	}
+    getDistricts(stateID) {
+        this.zoneMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    }
+    getDistrictsSuccessHandeler(response) {
+        this.districts = response;
+    }
 
-    zoneDistrictMappingObj:any ;
-    zoneDistrictMappingList:any= [];
-    mappedDistrictIDs:any = [];
-    addZoneDistrictMappingToList(values){
-        
+    zoneDistrictMappingObj: any;
+    zoneDistrictMappingList: any = [];
+    mappedDistrictIDs: any = [];
+    addZoneDistrictMappingToList(values) {
+
         let districtIds = [];
-        for(let districts of values.districtIdList){
+        for (let districts of values.districtIdList) {
             districtIds.push(districts.split("-")[0]);
         }
 
-         //find district deselected from the list , and Remove zone mapping with that district
-         debugger;
-        for(let mappedDistrict of this.mappedDistricts){
+        //find district deselected from the list , and Remove zone mapping with that district
+        debugger;
+        for (let mappedDistrict of this.mappedDistricts) {
             this.mappedDistrictIDs.push(mappedDistrict.districtID); // fetching mapped districtID's
-            
+
             this.dataObj = {};
             this.dataObj.zoneDistrictMapID = mappedDistrict.zoneDistrictMapID;
             this.dataObj.modifiedBy = this.createdBy;
-            if(districtIds.indexOf(mappedDistrict.districtID.toString())==-1){
-                this.dataObj.deleted =  true;
+            if (districtIds.indexOf(mappedDistrict.districtID.toString()) == -1) {
+                this.dataObj.deleted = true;
                 this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
-            }else if(mappedDistrict.deleted){
-                this.dataObj.deleted =  false;
+            } else if (mappedDistrict.deleted) {
+                this.dataObj.deleted = false;
                 this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
             }
         }
 
-         for(let districts of values.districtIdList){
-             let districtId = districts.split("-")[0];
-             //make a map of zone with District, If the districtId not in the mappedDistrictIDs( already mapped districtID's)
-            if(this.mappedDistrictIDs.indexOf(parseInt(districtId))==-1){
+        for (let districts of values.districtIdList) {
+            let districtId = districts.split("-")[0];
+            //make a map of zone with District, If the districtId not in the mappedDistrictIDs( already mapped districtID's)
+            if (this.mappedDistrictIDs.indexOf(parseInt(districtId)) == -1) {
                 this.zoneDistrictMappingObj = {};
                 this.zoneDistrictMappingObj.zoneID = values.zoneID.split("-")[0];
                 this.zoneDistrictMappingObj.zoneName = values.zoneID.split("-")[1];
@@ -158,24 +156,24 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
                 this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
                 console.log(this.zoneDistrictMappingList);
-            }else{
+            } else {
                 console.log("already mapped with these districts");
             }
-         }
-         if(this.zoneDistrictMappingList.length<=0){
+        }
+        if (this.zoneDistrictMappingList.length <= 0) {
             this.alertMessage.alert("Zone district mapping stored successfully");
-         }
+        }
     }
 
-    storezoneMappings(){
+    storezoneMappings() {
         console.log(this.zoneDistrictMappingList);
-        let obj = {"zoneDistrictMappings":this.zoneDistrictMappingList};
+        let obj = { "zoneDistrictMappings": this.zoneDistrictMappingList };
         this.zoneMasterService.saveZoneDistrictMappings(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
     }
 
-    successHandler(response){
-        this.zoneDistrictMappingList =  [];
-        this.alertMessage.alert("Zone district mapping stored successfully");
+    successHandler(response) {
+        this.zoneDistrictMappingList = [];
+        this.alertMessage.alert("Zone district mapping stored successfully", 'success');
         this.getAvailableZoneDistrictMappings();
     }
     remove_obj(index) {
@@ -186,16 +184,15 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
         let flag = !zoneMapping.deleted;
         let status;
-        if(flag===true){
+        if (flag === true) {
             status = "Deactivate";
         }
-        if(flag===false) {
+        if (flag === false) {
             status = "Activate";
         }
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to "+status+"?").subscribe(response=>{
-            if(response)
-            {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
+            if (response) {
                 this.dataObj = {};
                 this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
                 this.dataObj.deleted = !zoneMapping.deleted;
@@ -204,58 +201,58 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
                 zoneMapping.deleted = !zoneMapping.deleted;
             }
-            this.alertMessage.alert(status+ "d successfully");
+            this.alertMessage.alert(status + "d successfully", 'success');
         });
     }
     updateStatusHandler(response) {
         console.log("Zone District Mapping status changed");
     }
 
-    mappedDistricts:any = [];
-    districtIdList:any = [];
-    existingDistricts:any = [];
-    checkExistance(serviceID,zoneID){
+    mappedDistricts: any = [];
+    districtIdList: any = [];
+    existingDistricts: any = [];
+    checkExistance(serviceID, zoneID) {
         this.mappedDistricts = [];
         this.districtIdList = [];
         this.existingDistricts = [];
         //this.mappedDistricts = this.districts;
         let providerServiceMapID = "";
-        if(serviceID!=undefined){
+        if (serviceID != undefined) {
             providerServiceMapID = serviceID.split("-")[1];
         }
-        if(zoneID!=undefined){
+        if (zoneID != undefined) {
             zoneID = zoneID.split("-")[0];
         }
-        
-        for(let zoneDistrictMappings of this.availableZoneDistrictMappings){
-            if(zoneDistrictMappings.providerServiceMapID == providerServiceMapID && zoneDistrictMappings.zoneID == zoneID){
+
+        for (let zoneDistrictMappings of this.availableZoneDistrictMappings) {
+            if (zoneDistrictMappings.providerServiceMapID == providerServiceMapID && zoneDistrictMappings.zoneID == zoneID) {
                 // finding exsting zone mappings with districts
                 this.mappedDistricts.push(zoneDistrictMappings);
                 // this.mappedDistricts.push(zoneDistrictMappings.districtID);
-                if(!zoneDistrictMappings.deleted){
-                    this.existingDistricts.push(zoneDistrictMappings.districtID+"-"+zoneDistrictMappings.districtName);
-                }   
+                if (!zoneDistrictMappings.deleted) {
+                    this.existingDistricts.push(zoneDistrictMappings.districtID + "-" + zoneDistrictMappings.districtName);
+                }
             }
         }
-        
+
         console.log(this.mappedDistricts);
         this.districtIdList = this.existingDistricts;
         console.log(this.districtIdList);
-       
+
     }
 
-    clearEdit(){
+    clearEdit() {
         this.showMappings = true;
-        this.editable=false;
+        this.editable = false;
     }
     back() {
-        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.zoneDistrictMappingForm.resetForm();
                 this.clearEdit();
                 this.zoneDistrictMappingList = [];
             }
         })
-    }   
+    }
 
 }

@@ -44,7 +44,7 @@
             <td>{{item.pAN}}</td>
             <td>{{item.remarks}}</td>
             <td>
-              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
                 (click)="editProviderAdmin(item)">edit</md-icon>
             </td>
             <td>
@@ -170,8 +170,8 @@
         <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
           (keyup)="checkAadhar()" #number="ngModel" required>
         <md-hint *ngIf="number.touched">
-          <span class="error_text" [hidden]="!number.errors">Required 12 digit Aadhar number</span>
-          <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
+          <span class="error_text" *ngIf="number.errors ">Required 12 digit Aadhar number</span>
+          <span class="error_text" *ngIf="isExistAadhar && ! number.errors">{{errorMessageForAadhar}}</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -180,8 +180,8 @@
         <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
           #panNo="ngModel" (keyup)="checkPan()" required>
         <md-hint *ngIf="panNo.touched">
-          <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number</span>
-          <span class="error_text" *ngIf="isExistPan">{{errorMessageForPan}}</span>
+          <span class="error_text" *ngIf="panNo.errors">Required 10 digit Pan number</span>
+          <span class="error_text" *ngIf="isExistPan && ! panNo.errors">{{errorMessageForPan}}</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -230,8 +230,9 @@
         <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
           maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
         <md-hint class="errorText">
-          <span *ngIf="uname.hasError('pattern')">User name is required(can't end or start with special characters,min:2)</span>
+          <span *ngIf="uname.errors && !(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
           <span *ngIf="showHint && uname.touched">{{username_status}}</span>
+          <span *ngIf="!showHint && uname.touched && uname.hasError('pattern')"> User name can't end or start with special characters,min:2</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -240,7 +241,8 @@
         <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
           minlength="8" maxlength="12" #pwrd="ngModel" required>
         <md-hint class="errorText">
-          <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
+          <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern'))">Password is required</span>
+          <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -278,7 +280,7 @@
             <td>{{obj.primaryEmail}}</td>
             <td>{{obj.primaryMobileNumber}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(k)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(i)">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -293,7 +295,7 @@
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
 
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createProviderAdmin()">Save</button>

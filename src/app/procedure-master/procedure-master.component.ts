@@ -110,7 +110,7 @@ export class ProcedureMasterComponent implements OnInit {
         .subscribe((res) => {
           this.procedureList.unshift(res);
           this.procedureForm.reset();
-          this.alertService.alert('Procedure details saved.')
+          this.alertService.alert('Procedure details saved successfully', 'success')
         })
 
     }
@@ -130,7 +130,7 @@ export class ProcedureMasterComponent implements OnInit {
           this.updateList(res);
           this.procedureForm.reset();
           this.editMode = false;
-          this.alertService.alert('Procedure details updated.')
+          this.alertService.alert('Procedure details updated successfully', 'success')
         })
 
     }
@@ -239,7 +239,7 @@ export class ProcedureMasterComponent implements OnInit {
       text = "Are you sure you want to Activate?";
     else
       text = "Are you sure you want to Deactivate?";
-    this.alertService.confirm('Confirm',text).subscribe(response => {
+    this.alertService.confirm('Confirm', text).subscribe(response => {
       if (response) {
         console.log(procedureID, index, 'index');
         this.procedureMasterServiceService.toggleProcedure({ procedureID: procedureID, deleted: toggle })
@@ -247,9 +247,9 @@ export class ProcedureMasterComponent implements OnInit {
             console.log(res, 'changed');
             if (res) {
               if (!toggle)
-                this.alertService.alert("Activated successfully");
+                this.alertService.alert("Activated successfully", 'success');
               else
-                this.alertService.alert("Deactivated successfully");
+                this.alertService.alert("Deactivated successfully", 'success');
               this.updateList(res);
               // this.procedureList[index] = res;
             }

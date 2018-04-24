@@ -164,7 +164,7 @@ export class ZoneComponent implements OnInit {
 
     successHandler(response) {
         this.zoneList = [];
-        this.alertMessage.alert("Zone stored successfully");
+        this.alertMessage.alert("Zone stored successfully", 'success');
         this.getAvailableZones();
     }
     remove_obj(index) {
@@ -183,7 +183,7 @@ export class ZoneComponent implements OnInit {
             status = "Activate";
         }
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to " + status + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
             if (response) {
 
                 this.dataObj = {};
@@ -194,7 +194,7 @@ export class ZoneComponent implements OnInit {
 
                 zone.deleted = !zone.deleted;
             }
-            this.alertMessage.alert(status + "d successfully");
+            this.alertMessage.alert(status + "d successfully", 'success');
         });
 
     }
@@ -224,7 +224,7 @@ export class ZoneComponent implements OnInit {
         this.serviceID = "";
     }
     editZoneData(zone) {
-        this.zoneID = zone.zoneID;        
+        this.zoneID = zone.zoneID;
         this.zoneName = zone.zoneName
         this.zoneDesc = zone.zoneDesc;
         this.zoneHQAddress = zone.zoneHQAddress;
@@ -246,7 +246,7 @@ export class ZoneComponent implements OnInit {
         this.editable = true;
     }
 
-    updateZoneData(zone) {        
+    updateZoneData(zone) {
         this.dataObj = {};
         this.dataObj.zoneID = this.zoneID;
         this.dataObj.zoneName = zone.zoneName;
@@ -273,7 +273,7 @@ export class ZoneComponent implements OnInit {
 
     updateHandler(response) {
         // this.editable = false;
-        this.alertMessage.alert("Updated successfully");
+        this.alertMessage.alert("Updated successfully", 'success');
         this.getAvailableZones();
         //this.initializeObj();
     }
@@ -284,7 +284,7 @@ export class ZoneComponent implements OnInit {
         this.editable = false;
     }
     back() {
-        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.ZoneForm.resetForm();
                 this.clearEdit();

@@ -203,13 +203,13 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+        (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
     if (response.response == 'userexist') {
-      this.username_status = 'User Login ID Exists!! Type Different Please!';
+      this.username_status = 'User login ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
       this.username = null;
@@ -285,9 +285,11 @@ export class ProviderAdminListComponent implements OnInit {
         (response: any) => {
           this.checkAadharSuccessHandler(response);
         },
-    
-        err => { console.log("Error", err); 
-        this.dialogService.alert(err, 'error')}
+
+        err => {
+          console.log("Error", err);
+          this.dialogService.alert(err, 'error')
+        }
       );
     }
   }
@@ -363,26 +365,26 @@ export class ProviderAdminListComponent implements OnInit {
     console.log("add objects", tempObj);
     this.checkDuplicates(tempObj);
     this.checkUserNameAvailability(name);
-    this.resetAllForms();   
+    this.resetAllForms();
   }
   checkDuplicates(object) {
     let duplicateStatus = 0
     if (this.objs.length === 0) {
-        this.objs.push(object);                   
+      this.objs.push(object);
     }
     else {
-        for (let i = 0; i < this.objs.length; i++) {
-            if (this.objs[i].username === object.username
-            ) {
-                duplicateStatus = duplicateStatus + 1;
-                console.log("this.duplicateStatus", duplicateStatus);
-            }
+      for (let i = 0; i < this.objs.length; i++) {
+        if (this.objs[i].username === object.username
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+          console.log("this.duplicateStatus", duplicateStatus);
         }
-        if (duplicateStatus === 0) {
-            this.objs.push(object);
-        }
+      }
+      if (duplicateStatus === 0) {
+        this.objs.push(object);
+      }
     }
-}
+  }
   /*
   * Removing single object
   */
@@ -433,12 +435,12 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
       this.editMode = false;
-      this.dialogService.alert("Provider admin created successfully",'success');
+      this.dialogService.alert("Provider admin created successfully", 'success');
       this.objs = [];
       this.getAllProviderAdminDetails();
 
     },
-    (err) =>  this.dialogService.alert(err, 'error'));
+      (err) => this.dialogService.alert(err, 'error'));
 
   }
   /*
@@ -455,7 +457,7 @@ export class ProviderAdminListComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Admin details edited successfully",'success');
+        this.dialogService.alert("Admin details edited successfully", 'success');
         this.getAllProviderAdminDetails();
       }
     });
@@ -480,13 +482,13 @@ export class ProviderAdminListComponent implements OnInit {
         this.superadminService.delete_toggle_activation(obj)
           .subscribe((res) => {
             console.log('response', res);
-            this.dialogService.alert(this.confirmMessage + "d successfully",'success');
+            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllProviderAdminDetails();
           },
-          (err) => {
-            this.dialogService.alert(err, 'error');
-            console.log(err);
-          })
+            (err) => {
+              this.dialogService.alert(err, 'error');
+              console.log(err);
+            })
       }
     },
       (err) => {
@@ -547,7 +549,7 @@ export class EditProviderAdminModal {
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 
-  constructor( @Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
     public superadminService: SuperAdmin_ServiceProvider_Service,
     public dialogRef: MdDialogRef<EditProviderAdminModal>,
     public dialogService: ConfirmationDialogsService) { }

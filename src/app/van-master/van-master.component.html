@@ -67,7 +67,7 @@
                         <td>{{van.vehicalNo}}</td>
                         <td>{{van.vanType}}</td>
                         <td>
-                            <md-icon mdTooltip="edit" class="cursorPointer" *ngIf="van.deleted=='0'" (click)="editVanData(van)">mode_edit</md-icon>
+                            <md-icon mdTooltip="Edit" class="cursorPointer" *ngIf="van.deleted=='0'" (click)="editVanData(van)">mode_edit</md-icon>
                         </td>
                         <td *ngIf="van.deleted=='0'">
                             <button md-raised-button color="primary" class="activateBtn" (click)="updateVanStatus(van)">Deactivate</button>

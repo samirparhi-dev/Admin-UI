@@ -1,25 +1,27 @@
 <md-card>
 	<div class="row">
-		<h4  *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Feedback Type (Work in progress)</h4>
-		<h4  *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Feedback Type (Work in progress)</h4>
+		<h4 *ngIf="firstPage" class="width100 t-a-c m-b-20 f-s-b">Feedback Type (Work in progress)</h4>
+		<h4 *ngIf="!firstPage" class="width100 t-a-c m-b-20 f-s-b">Add Feedback Type (Work in progress)</h4>
 		<form>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)" name="state" #statess>
+				<md-select placeholder="State" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="stateId" (change)="getServices(stateId)"
+				 name="state" #statess>
 					<md-option *ngFor="let stat of states" value="{{stat.stateID}}">
 						{{stat.stateName}}
 					</md-option>
 				</md-select>
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service" #servicess>
+				<md-select placeholder="Service Line" disabled={{!firstPage}} [style.width]="'100%'" [(ngModel)]="service" name="service"
+				 #servicess>
 					<md-option *ngFor="let ser of services" value="{{ser.serviceID}}">
 						{{ser.serviceName}}
 					</md-option>
 				</md-select>
 			</div>
-			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage" >
-				<button md-mini-fab (click)="findSeverity(stateId,service)" color="primary" >
-					<md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
+			<div class="col-xs-12 col-sm-2 col-md-4 col-lg-4" *ngIf="firstPage">
+				<button md-mini-fab (click)="findSeverity(stateId,service)" color="primary">
+					<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
 				</button>
 			</div>
 		</form>
@@ -27,7 +29,7 @@
 	<div class="row" *ngIf="firstPage">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive m-t-10">
-				<table class="table table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4" >
+				<table class="table table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
 					<thead>
 						<tr>
 							<!-- <th>S.No</th> -->
@@ -39,52 +41,52 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr >
-							NO RECORD FOUND!!
+						<tr *ngIf="data.length == 0">
+							<td colspan="4" class="record-not-found">No records found</td>
 						</tr>
-		<!-- 				<tr>
+						<!-- 				<tr>
 						<td>cda</td>
 						<td>dcds</td>
 						<td>dda</td>
 						<td>asdaasd</td>
 						</tr> -->
-						
+
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="2" align="center">
 								<md2-pagination></md2-pagination>
 							</td>
-							<td colspan="2" >
+							<td colspan="2">
 								<button md-raised-button color="primary" class="pull-right" (click)="addSeverity()">Add Feedback</button>
 							</td>
 						</tr>
 					</tfoot>
-					</table>
-				</div>
+				</table>
 			</div>
 		</div>
-		<div class="row m-t-10" *ngIf="!firstPage">
-			<form >
-				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-					<md-input-container [style.width]="'100%'">
-						<input mdInput placeholder="Feedback" name="feebback" [(ngModel)]="feebback" >
-					</md-input-container>
-				</div>
-				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-					<md-input-container [style.width]="'100%'">
-						<input mdInput placeholder="Description" name="description" [(ngModel)]="description" >
-					</md-input-container>
-				</div>
-				<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-					<button md-mini-fab  color="primary">
-						<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"(click)="add()">add</md-icon>
-					</button>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button md-raised-button color="primary" class="pull-left" type="button" (click)="handlingFlag(true)">Back</button>	
-					<button md-raised-button color="primary" class="pull-right" type="button" (click)="finalSubmit()">Submit</button>	
-				</div>
-			</form>
-		</div>
+	</div>
+	<div class="row m-t-10" *ngIf="!firstPage">
+		<form>
+			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+				<md-input-container [style.width]="'100%'">
+					<input mdInput placeholder="Feedback" name="feebback" [(ngModel)]="feebback">
+				</md-input-container>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+				<md-input-container [style.width]="'100%'">
+					<input mdInput placeholder="Description" name="description" [(ngModel)]="description">
+				</md-input-container>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+				<button md-mini-fab color="primary">
+					<md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="add()">add</md-icon>
+				</button>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<button md-raised-button color="primary" class="pull-left" type="button" (click)="handlingFlag(true)">Back</button>
+				<button md-raised-button color="primary" class="pull-right" type="button" (click)="finalSubmit()">Submit</button>
+			</div>
+		</form>
+	</div>
 </md-card>

@@ -18,7 +18,7 @@
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}"> -->
           <tr *ngIf="availableDrugs.length == 0" class="record-not-found">
-              <td colspan="6" align="center">No records found</td>
+            <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let drug of md2.data; let i= index">
             <td>{{availableDrugs.indexOf(drug)+1}}</td>
@@ -29,7 +29,7 @@
             <button class="btn activateBtn" (click)="editDrugData(drug)">Edit</button>
           </td> -->
             <td>
-              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drug.deleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!drug.deleted"
                 (click)="editDrugData(drug)">edit</md-icon>
             </td>
             <td>
@@ -86,8 +86,7 @@
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3" *ngIf="drugN.valid && drugD.valid ">
-          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left"
-            (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
+          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left" (click)="addDrugToList(drugForm.value);drugForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
@@ -118,12 +117,12 @@
             </tr>
           </tbody>
           <tfoot>
-              <tr>
-                <td colspan="5">
-                  <md2-pagination></md2-pagination>
-                </td>
-              </tr>
-            </tfoot>
+            <tr>
+              <td colspan="5">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <!-- <pagination-controls (pageChange)="b = $event" id="drugsResult"></pagination-controls>  -->

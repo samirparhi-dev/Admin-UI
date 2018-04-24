@@ -7,8 +7,9 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" disabled={{disableSelection}} class="width100" (change)="getStates(service)" [(ngModel)]="service" name="service" required>
-          <md-option *ngFor="let item of services" [value]="item" >
+        <md-select placeholder="Serviceline" disabled={{disableSelection}} class="width100" (change)="getStates(service)" [(ngModel)]="service"
+          name="service" required>
+          <md-option *ngFor="let item of services" [value]="item">
             {{item.serviceName}}
           </md-option>
         </md-select>
@@ -17,7 +18,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" class="width100" (change)="setProviderServiceMapID(state.providerServiceMapID)" [(ngModel)]="state" name="state" required>
+        <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" class="width100" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+          [(ngModel)]="state" name="state" required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
@@ -65,7 +67,7 @@
               <td>{{item.instituteSubDirectoryName}}</td>
               <td>{{item.instituteSubDirectoryDesc}}</td>
               <td>
-                <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                   (click)="openEditModal(item)">edit</md-icon>
               </td>
               <td>

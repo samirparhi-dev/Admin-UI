@@ -292,7 +292,7 @@ export class BlockServiceProviderComponent implements OnInit {
   successhandeler3(response) {
     this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
-    this.data = response; 
+    this.data = response;
   }
 
   successhandeler4(response) {

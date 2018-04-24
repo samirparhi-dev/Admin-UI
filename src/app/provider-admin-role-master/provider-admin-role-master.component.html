@@ -7,8 +7,8 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Service Line" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
-          #servicess="ngModel"  required (change)="getStates(service)">
-          <md-option *ngFor="let ser of services" [value]="ser" >
+          #servicess="ngModel" required (change)="getStates(service)">
+          <md-option *ngFor="let ser of services" [value]="ser">
             {{ser.serviceName}}
           </md-option>
         </md-select>
@@ -17,8 +17,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" [style.width]="'100%'" [(ngModel)]="state" 
-          name="state" #statess required (change)="findRoles(state.stateID,service.serviceID);setProviderServiceMapID(state.providerServiceMapID)">
+        <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" [style.width]="'100%'" [(ngModel)]="state" name="state"
+          #statess required (change)="findRoles(state.stateID,service.serviceID);setProviderServiceMapID(state.providerServiceMapID)">
           <md-option *ngFor="let stat of states" [value]="stat">
             {{stat.stateName}}
           </md-option>
@@ -31,9 +31,10 @@
                     <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
                 </button>
             </div> -->
-  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"  *ngIf="showRoleCreationForm">
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="showRoleCreationForm">
     <!-- <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button> -->
-    <button *ngIf="showUpdateFeatureButtonFlag && service.serviceID == 3" class="pull-right" md-raised-button color="primary" (click)="addMoreFeatures(toBeEditedRoleObj)">Add More Features</button>
+    <button *ngIf="showUpdateFeatureButtonFlag && service.serviceID == 3" class="pull-right" md-raised-button color="primary"
+      (click)="addMoreFeatures(toBeEditedRoleObj)">Add More Features</button>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showAddButtonFlag">
     <div class="table-responsive">
@@ -52,7 +53,7 @@
         </thead>
         <tbody>
           <tr *ngIf="correctInput && searchresultarray.length == 0" class="record-not-found">
-              <td colspan="6" align="center">No records found</td>
+            <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let role of md2.data; let i= index">
             <!-- <td>{{i+1}}</td> -->
@@ -62,7 +63,7 @@
             <td width=30%>{{role.roleDesc}}</td>
             <td width="35%">{{role.screenName}}</td>
             <td width=10%>
-                <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"  *ngIf="!role.deleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!role.deleted"
                 (click)="editRole(role)">edit</md-icon>
             </td>
             <td width=15%>

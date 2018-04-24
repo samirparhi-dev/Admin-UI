@@ -21,10 +21,10 @@ export class ParkingPlaceComponent implements OnInit {
     editable: any = false;
     availableParkingPlaceNames: any = [];
     countryID: any;
-    searchStateID:any;
-    searchDistrictID:any;
-    serviceID:any;
-    createdBy:any;
+    searchStateID: any;
+    searchDistrictID: any;
+    serviceID: any;
+    createdBy: any;
 
     @ViewChild('searForm') searForm: NgForm
     @ViewChild('parkingPlaceForm') parkingPlaceForm: NgForm
@@ -35,20 +35,20 @@ export class ParkingPlaceComponent implements OnInit {
         this.data = [];
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
-        this.serviceID =  this.commonDataService.serviceIDMMU;
+        this.serviceID = this.commonDataService.serviceIDMMU;
         this.createdBy = this.commonDataService.uname;
     }
 
     showForm() {
         this.showParkingPlaces = false;
-        this.districts =[];
+        this.districts = [];
     }
     ngOnInit() {
-        this.getParkingPlaces(null,null);
+        this.getParkingPlaces(null, null);
         //this.getStates();
         this.getStatesByServiceID();
     }
-    getParkingPlaces(stateID,districtID){
+    getParkingPlaces(stateID, districtID) {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
@@ -66,48 +66,48 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
-    addParkingPlaceToList(values){
+    addParkingPlaceToList(values) {
         for (let provider_service of this.provider_services) {
             if ("MMU" == provider_service.serviceName) {
                 this.parkingPlaceObj = {};
                 this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
                 this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
                 this.parkingPlaceObj.countryID = this.countryID;
-               
-                if(values.districtID!=undefined){
+
+                if (values.districtID != undefined) {
                     this.parkingPlaceObj.districtID = values.districtID.split("-")[0];
                     this.parkingPlaceObj.districtName = values.districtID.split("-")[1];
                 }
-                if(values.talukID!=undefined){
+                if (values.talukID != undefined) {
                     this.parkingPlaceObj.districtBlockID = values.talukID.split("-")[0];
                     this.parkingPlaceObj.blockName = values.talukID.split("-")[1];
                 }
                 this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
 
                 this.parkingPlaceObj.providerServiceMapID = provider_service.providerServiceMapID;
-                if(values.stateID!=undefined){
+                if (values.stateID != undefined) {
                     this.parkingPlaceObj.stateID = values.stateID.split("-")[0];
                     this.parkingPlaceObj.stateName = values.stateID.split("-")[1];
                 }
-                    
+
                 this.parkingPlaceObj.createdBy = this.createdBy;
 
                 this.parkingPlaceList.push(this.parkingPlaceObj);
             }
         }
-        if(this.parkingPlaceList.length<=0){
+        if (this.parkingPlaceList.length <= 0) {
             this.alertMessage.alert("No Service available with the state selected");
         }
     }
 
-    storeParkingPlaces(){
+    storeParkingPlaces() {
         let obj = { "parkingPlaces": this.parkingPlaceList };
         this.parkingPlaceMasterService.saveParkingPlace(obj).subscribe(response => this.parkingPlaceSuccessHandler(response));
     }
 
-    parkingPlaceSuccessHandler(response){
+    parkingPlaceSuccessHandler(response) {
         this.parkingPlaceList = [];
-        this.alertMessage.alert("Parking Places stored successfully");
+        this.alertMessage.alert("Parking Places stored successfully", 'success');
     }
 
     stateSelection(stateID) {
@@ -126,10 +126,10 @@ export class ParkingPlaceComponent implements OnInit {
         this.provider_states = response;
     }
 
-    getStatesByServiceID(){
-        this.parkingPlaceMasterService.getStatesByServiceID(this.serviceID,this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    getStatesByServiceID() {
+        this.parkingPlaceMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
-    
+
 
     districts: any = [];
     getDistricts(stateID) {
@@ -165,26 +165,25 @@ export class ParkingPlaceComponent implements OnInit {
                 this.providerServiceMapID = provider_service.providerServiceMapID;
             }
         }
-        if(this.providerServiceMapID=="" || this.providerServiceMapID ==undefined){
+        if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
             this.alertMessage.alert("No Service available with the state selected");
         }
     }
 
-     dataObj: any = {};
+    dataObj: any = {};
     updateParkingPlaceStatus(parkingPlace) {
 
         let flag = !parkingPlace.deleted;
         let status;
-        if(flag===true){
+        if (flag === true) {
             status = "Deactivate";
         }
-        if(flag===false) {
+        if (flag === false) {
             status = "Activate";
         }
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to "+status+"?").subscribe(response=>{
-            if(response)
-            {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
+            if (response) {
                 this.dataObj = {};
                 this.dataObj.parkingPlaceID = parkingPlace.parkingPlaceID;
                 this.dataObj.deleted = !parkingPlace.deleted;
@@ -193,19 +192,19 @@ export class ParkingPlaceComponent implements OnInit {
 
                 parkingPlace.deleted = !parkingPlace.deleted;
             }
-            this.alertMessage.alert(status+ "d successfully");
+            this.alertMessage.alert(status + "d successfully", 'success');
         });
     }
     updateStatusHandler(response) {
         console.log("Parking Place status changed");
     }
 
-    showList(){
-        this.searchStateID ="";
-        this.searchDistrictID ="";
-        this.getParkingPlaces(null,null);
-        this.showParkingPlaces=true;        
-        this.editable=false;
+    showList() {
+        this.searchStateID = "";
+        this.searchDistrictID = "";
+        this.getParkingPlaces(null, null);
+        this.showParkingPlaces = true;
+        this.editable = false;
     }
 
     parkingPlaceNameExist: any = false;
@@ -230,18 +229,18 @@ export class ParkingPlaceComponent implements OnInit {
         this.talukID = "";
         this.areaHQAddress = "";
     }
-    editParkingPlaceData(parkingPlace){                       
+    editParkingPlaceData(parkingPlace) {
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.parkingPlaceName = parkingPlace.parkingPlaceName
         this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
         this.areaHQAddress = parkingPlace.areaHQAddress;
-        this.stateID = parkingPlace.stateID+"-"+ parkingPlace.stateName;
+        this.stateID = parkingPlace.stateID + "-" + parkingPlace.stateName;
         this.districtID = parkingPlace.districtID + "-" + parkingPlace.districtName;
-        if(parkingPlace.districtBlockID!=undefined){
+        if (parkingPlace.districtBlockID != undefined) {
             this.talukID = parkingPlace.districtBlockID + "-" + parkingPlace.blockName;
         }
-      
-        this.serviceID = parkingPlace.m_providerServiceMapping.m_serviceMaster.serviceID+"-"+parkingPlace.providerServiceMapID;
+
+        this.serviceID = parkingPlace.m_providerServiceMapping.m_serviceMaster.serviceID + "-" + parkingPlace.providerServiceMapID;
         this.getDistricts(parkingPlace.stateID);
         this.GetTaluks(parkingPlace.districtID);
         this.GetBranches(parkingPlace.districtBlockID);
@@ -251,23 +250,23 @@ export class ParkingPlaceComponent implements OnInit {
         this.editable = true;
     }
 
-     updateParkingPlaceData(parkingPlace) {    
+    updateParkingPlaceData(parkingPlace) {
         this.dataObj = {};
         this.dataObj.parkingPlaceID = this.parkingPlaceID;
         this.dataObj.parkingPlaceName = parkingPlace.parkingPlaceName;
         this.dataObj.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
         this.dataObj.areaHQAddress = parkingPlace.areaHQAddress;
         //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];
-        if(parkingPlace.stateID!=undefined){
+        if (parkingPlace.stateID != undefined) {
             this.dataObj.stateID = parkingPlace.stateID.split("-")[0];
         }
-        if(parkingPlace.districtID!=undefined){
+        if (parkingPlace.districtID != undefined) {
             this.dataObj.districtID = parkingPlace.districtID.split("-")[0];
         }
-        if(parkingPlace.talukID!=undefined){
+        if (parkingPlace.talukID != undefined) {
             this.dataObj.districtBlockID = parkingPlace.talukID.split("-")[0];
         }
-       
+
         this.dataObj.modifiedBy = this.createdBy;
         this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
 
@@ -275,17 +274,17 @@ export class ParkingPlaceComponent implements OnInit {
 
     updateHandler(response) {
         this.editable = true;
-        this.alertMessage.alert("Updated successfully");
-        this.getParkingPlaces(null,null);
+        this.alertMessage.alert("Updated successfully", 'success');
+        this.getParkingPlaces(null, null);
         //this.initializeObj();
     }
     back() {
-        this.alertMessage.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.parkingPlaceForm.resetForm();
                 this.showList();
                 this.parkingPlaceList = [];
             }
         })
-    }    
+    }
 }

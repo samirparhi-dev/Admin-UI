@@ -164,7 +164,7 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredMappedList.length == 0" class="record-not-found">
-                                <td colspan="5" align="center">No records found</td>
+                            <td colspan="5" align="center">No records found</td>
                         </tr>
                         <tr *ngFor="let item of md2.data;let i = index ">
                             <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -173,7 +173,7 @@
                             <td>{{item.compList}}</td>
                             <!-- <td>{{item.createdBy}}</td> -->
                             <td>
-                                <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedureMapping(item, i)">edit</md-icon>
+                                <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedureMapping(item, i)">edit</md-icon>
                             </td>
                         </tr>
                     </tbody>

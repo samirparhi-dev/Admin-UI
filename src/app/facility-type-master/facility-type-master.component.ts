@@ -136,7 +136,7 @@ export class FacilityTypeMasterComponent implements OnInit {
         this.facility.deleteFacility(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Facility Type activated successfully');
+              this.dialogService.alert('Facility Type activated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
             }
           },
@@ -158,7 +158,7 @@ export class FacilityTypeMasterComponent implements OnInit {
         this.facility.deleteFacility(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Facility Type Deactivated successfully');
+              this.dialogService.alert('Facility Type Deactivated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
             }
           },

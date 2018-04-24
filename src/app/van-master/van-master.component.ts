@@ -167,7 +167,7 @@ export class VanComponent implements OnInit {
 
     vanSuccessHandler(response) {
         this.vanList = [];
-        this.alertMessage.alert("Vans stored successfully");
+        this.alertMessage.alert("Vans stored successfully", 'success');
     }
 
     stateSelection(stateID) {
@@ -243,7 +243,7 @@ export class VanComponent implements OnInit {
             this.status = "Activate";
         }
 
-        this.alertMessage.confirm('Confirm',"Are you sure you want to " + vanString + "?").subscribe(response => {
+        this.alertMessage.confirm('Confirm', "Are you sure you want to " + vanString + "?").subscribe(response => {
             if (response) {
 
                 this.dataObj = {};
@@ -259,9 +259,9 @@ export class VanComponent implements OnInit {
     }
     updateStatusHandler(response) {
         if (this.status === "Deactivate")
-            this.alertMessage.alert("Deactivated successfully");
+            this.alertMessage.alert("Deactivated successfully", 'success');
         else
-            this.alertMessage.alert("Activated successfully")
+            this.alertMessage.alert("Activated successfully", 'success')
         console.log("Van status changed");
     }
 
@@ -347,7 +347,7 @@ export class VanComponent implements OnInit {
 
     updateHandler(response) {
         this.editable = false;
-        this.alertMessage.alert("updated successfully");
+        this.alertMessage.alert("updated successfully", 'success');
         this.getVans(null, null, null);
         //this.initializeObj();
     }

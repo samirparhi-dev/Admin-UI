@@ -257,7 +257,7 @@
             <td>{{item.govVillageID}}</td>
             <td>{{item.govSubDistrictID}}</td>
             <td>
-              <md-icon mdTooltip="edit" *ngIf="item.deleted=='0'" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+              <md-icon mdTooltip="Edit" *ngIf="item.deleted=='0'" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                 (click)="openEditModal(item)">edit</md-icon>
             </td>
             <td>
@@ -332,8 +332,8 @@
     </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" color="primary"
-      (click)="addVillageToList(villageForm.value);villageForm.reset()">
+    <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left"
+      color="primary" (click)="addVillageToList(villageForm.value);villageForm.reset()">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
   </div>

@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col-xs-12 col-sm-12">
     <h4 class="pull-left">View Provider</h4>
@@ -23,8 +22,8 @@
           </md-option>
         </md-select>
       </md-input-container>
-    </div> 
-     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select name="state" placeholder="State" [disabled]="isNational" class="width100" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
@@ -34,8 +33,8 @@
         </md-select>
       </md-input-container>
     </div>
-    
-    
+
+
     <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -68,26 +67,24 @@
             <!-- <th>PSMID</th> -->
             <th>S.No.</th>
             <th>Provider Name</th>
-            
+
             <th>Serviceline</th>
             <th>State</th>
-            <th>Campaign</th>
             <th>Status</th>
             <!-- <th>Actions</th> -->
           </tr>
         </thead>
         <tbody>
-            <tr *ngIf="data.length == 0" class="record-not-found">
-                <td colspan="6" align="center">No records found</td>
-        </tr>
+          <tr *ngIf="data.length == 0" class="record-not-found">
+            <td colspan="6" align="center">No records found</td>
+          </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <!-- <td>{{i.providerServiceMapID}}</td> -->
             <td width="5%">{{(md2.activePage-1)*4+k+1}}</td>
             <td width=20%>{{i.serviceProviderName}}</td>
-            
+
             <td width=20%>{{i.serviceName}}</td>
             <td width=20%>{{i.stateName?i.stateName:'All State'}}</td>
-            <td width=20%>{{i.cTI_CampaignName}}</td>
             <td width=20%>{{i.status}}</td>
           </tr>
         </tbody>
@@ -101,113 +98,117 @@
       </table>
     </div>
     <form #statusSettingFields='ngForm'>
-    <div class="row" *ngIf="case_one">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>Provider Level Provision</h4>
+      <div class="row" *ngIf="case_one">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h4>Provider Level Provision</h4>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
+              <md-option *ngFor="let item of status_array" [value]="item.statusID">
+                {{item.status}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100" myProviderName>
+            <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+          <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
+            (click)="blockProvider()">Update</button>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
-            <md-option *ngFor="let item of status_array" [value]="item.statusID">
-              {{item.status}}
-            </md-option>
-          </md-select>
-        </md-input-container>
+      <div class="row" *ngIf="case_two ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h4>State Level Provision</h4>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
+              <md-option *ngFor="let item of status_array" [value]="item.statusID">
+                {{item.status}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100" myProviderName>
+            <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+          <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
+            (click)="blockState()">Update</button>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100" myProviderName>
-          <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
-          <md-hint *ngIf="reasonRef.touched">
-            <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
-            <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
-          </md-hint>
-        </md-input-container>
+      <div class="row" *ngIf="case_three">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h4>Serviceline Level Provision</h4>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select name="status" #statusRef="ngModel" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
+              <md-option *ngFor="let item of status_array" [value]="item.statusID">
+                {{item.status}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100" myProviderName>
+            <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
+            <md-hint *ngIf="reasonRef.touched">
+              <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+          <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
+            (click)="blockService()">Update</button>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockProvider()">Update</button>
+      <div class="row" *ngIf="case_four">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h4>Provider State Serviceline Level Provision</h4>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select #statusR="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
+              <md-option *ngFor="let item of status_array" [value]="item.statusID">
+                {{item.status}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100" myProviderName>
+            <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
+            <md-hint *ngIf="reasonR.touched">
+              <span class="error_text" *ngIf="reasonR.errors?.required">Reason is required</span>
+              <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+          <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusR.errors || reasonR.errors"
+            (click)="blockServiceOfState()">Update</button>
+        </div>
       </div>
-    </div>
-    <div class="row" *ngIf="case_two ">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>State Level Provision</h4>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
-            <md-option *ngFor="let item of status_array" [value]="item.statusID">
-              {{item.status}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100" myProviderName>
-          <input mdInput required placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
-          <md-hint *ngIf="reasonRef.touched">
-            <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
-            <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockState()">Update</button>
-      </div>
-    </div>
-    <div class="row" *ngIf="case_three">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>Serviceline Level Provision</h4>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select name="status" #statusRef="ngModel" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
-            <md-option *ngFor="let item of status_array" [value]="item.statusID">
-              {{item.status}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonRef="ngModel">
-          <md-hint *ngIf="reasonRef.touched">
-            <span class="error_text" *ngIf="reasonRef.errors?.required">Reason is required</span>
-            <span class="error_text" *ngIf="reasonRef.errors?.minlength">Enter minimum 5 characters</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid" (click)="blockService()">Update</button>
-      </div>
-    </div>
-    <div class="row" *ngIf="case_four">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>Provider State Serviceline Level Provision</h4>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select #statusR="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
-            <md-option *ngFor="let item of status_array" [value]="item.statusID">
-              {{item.status}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
-          <md-hint *ngIf="reasonR.touched">
-            <span class="error_text" *ngIf="reasonR.errors?.required">Reason is required</span>
-            <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-        <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusR.errors || reasonR.errors" (click)="blockServiceOfState()">Update</button>
-      </div>
-    </div>
     </form>
   </div>
