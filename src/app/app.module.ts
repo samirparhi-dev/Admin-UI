@@ -68,7 +68,6 @@ import { DrugMasterComponent } from './drug-master/drug-master.component';
 import { DrugGroupComponent } from './drug-group/drug-group.component';
 import { DrugListComponent } from './drug-list/drug-list.component';
 import { DrugMappingComponent } from './drug-mapping/drug-mapping.component';
-import { ZoneMasterComponent } from './zone-master/zone-master.component';
 import { ZoneComponent } from './zone-list/zone.component';
 import { ZoneDistrictMappingComponent } from './zone-district-mapping/zone-district-mapping.component';
 import { ParkingPlaceComponent } from './parking-place-master/parking-place-master.component';
@@ -225,7 +224,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent,
-    EditProviderDetailsComponent, ZoneMasterComponent, ZoneComponent,
+    EditProviderDetailsComponent, ZoneComponent,
     ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent,
     SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,

@@ -163,9 +163,8 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
-        <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !zoneN.valid || zoneNameExist || !zoneAddress.valid || !stateVal.valid || !serviceVal.valid || !districtV.valid"
-          (click)="addZoneToList(zoneForm.value);zoneForm.reset()" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="zoneN.valid && !zoneNameExist && zoneAddress.valid && stateVal.valid && serviceVal.valid && districtV.valid">
+        <button md-mini-fab color="primary" *ngIf="!editable" (click)="addZoneToList(zoneForm.value);zoneForm.reset()" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>

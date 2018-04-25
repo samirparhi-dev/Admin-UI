@@ -164,7 +164,7 @@ export class ZoneComponent implements OnInit {
 
     successHandler(response) {
         this.zoneList = [];
-        this.alertMessage.alert("Zone stored successfully", 'success');
+        this.alertMessage.alert("Saved successfully", 'success');
         this.getAvailableZones();
     }
     remove_obj(index) {

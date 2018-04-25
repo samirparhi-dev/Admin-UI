@@ -157,7 +157,7 @@ export class DrugListComponent implements OnInit {
 
   successHandler(response) {
     this.drugList = [];
-    this.alertMessage.alert('Drugs saved successfully', 'success');
+    this.alertMessage.alert('Saved successfully', 'success');
     this.getAvailableDrugs();
   }
 

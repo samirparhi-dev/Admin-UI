@@ -229,10 +229,15 @@
       <md-input-container class="width100">
         <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
           maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
-        <md-hint class="errorText">
+        <!-- <md-hint class="errorText">
           <span *ngIf="uname.errors && !(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
           <span *ngIf="showHint && uname.touched">{{username_status}}</span>
           <span *ngIf="!showHint && uname.touched && uname.hasError('pattern')"> User name can't end or start with special characters,min:2</span>
+        </md-hint> -->
+        <md-hint class="errorText">
+          <span *ngIf="uname.touched && uname == null">User name is required</span>
+          <span *ngIf="showHint">{{username_status}}</span>
+          <span *ngIf="uname != null && uname.hasError('pattern')"> User name can't end or start with special characters,min:2</span>         
         </md-hint>
       </md-input-container>
     </div>
@@ -240,10 +245,14 @@
       <md-input-container class="width100">
         <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
           minlength="8" maxlength="12" #pwrd="ngModel" required>
-        <md-hint class="errorText">
-          <span *ngIf="pwrd.errors || pwrd.touched">Password is required</span>
+        <!-- <md-hint class="errorText">
+          <span *ngIf="pwrd.errors && pwrd.touched">Password is required</span>
           <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
-        </md-hint>
+        </md-hint> -->
+        <md-hint class="errorText">
+            <span *ngIf="pwrd.touched">Password is required</span>
+            <span *ngIf="pwrd!=null && pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
+          </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
