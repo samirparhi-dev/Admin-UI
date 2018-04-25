@@ -176,6 +176,15 @@
                                         <li style="cursor:pointer" (click)='show("43")'>
                                             <a>Supplier Master</a>
                                         </li>
+                                        <li style="cursor:pointer" (click)='show("44")'>
+                                            <a>Manufacturer Master</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("45")'>
+                                            <a>Pharmacological Category Master</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("46")'>
+                                            <a>Item Category Master</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -237,6 +246,9 @@
                             <app-item-issue-method-config *ngSwitchCase="41"></app-item-issue-method-config>
                             <app-item-to-store-mapping *ngSwitchCase="42"></app-item-to-store-mapping>
                             <app-supplier-master *ngSwitchCase="43"></app-supplier-master>
+                            <app-manufacturer-master *ngSwitchCase="44"></app-manufacturer-master>
+                            <app-pharmacological-category-master *ngSwitchCase="45"></app-pharmacological-category-master>
+                            <app-item-category-master *ngSwitchCase="46"></app-item-category-master>
                         </div>
                     </div>
                 </div>
