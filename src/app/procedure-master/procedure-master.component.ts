@@ -110,7 +110,7 @@ export class ProcedureMasterComponent implements OnInit {
         .subscribe((res) => {
           this.procedureList.unshift(res);
           this.procedureForm.reset();
-          this.alertService.alert('Procedure details saved successfully', 'success')
+          this.alertService.alert('Saved successfully', 'success')
         })
 
     }
@@ -130,7 +130,7 @@ export class ProcedureMasterComponent implements OnInit {
           this.updateList(res);
           this.procedureForm.reset();
           this.editMode = false;
-          this.alertService.alert('Procedure details updated successfully', 'success')
+          this.alertService.alert('Updated successfully', 'success')
         })
 
     }

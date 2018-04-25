@@ -422,7 +422,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.superadminService.createMappingProviderAdmin(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of provider to service and state');
-        this.dialogService.alert('Provider admin mapped successfully','success');
+        this.dialogService.alert('Mapping saved successfully','success');
         this.showTable();
         this.getAllMappedProviders();
         this.resetDropdowns();
@@ -527,7 +527,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.superadminService.updateProviderAdminDetails(object)
       .subscribe(response => {
         console.log('Edit success callback', response);
-        this.dialogService.alert('Mapping edited successfully','success');
+        this.dialogService.alert('Mapping updated successfully','success');
         /* resetting form and ngModels used in editing */
         this.resetDropdowns();
         this.getAllMappedProviders();

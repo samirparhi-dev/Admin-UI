@@ -207,6 +207,9 @@ import { SuppliermasterService } from './services/inventory-services/suppliermas
 import { ItemIssueMethodConfigComponent } from './item-issue-method-config/item-issue-method-config.component';
 import { ItemToStoreMappingComponent } from './item-to-store-mapping/item-to-store-mapping.component';
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
+import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-master.component';
+import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
+import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 
 @NgModule({
   declarations: [
@@ -250,7 +253,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     ItemMasterComponent, MainStoreAndSubStoreComponent,
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
-    SupplierMasterComponent, EditItemMasterModal
+    SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent
   ],
 
   imports: [

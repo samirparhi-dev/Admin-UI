@@ -236,12 +236,12 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     employeeParkingPlaceMappingSuccessHandler(response) {
         this.employeeParkingPlaceMappingList = [];
-        this.alertMessage.alert(" Mapped successfully", 'success');
+        this.alertMessage.alert(" Mapping saved successfully", 'success');
     }
 
     saveMappingSuccessHandler(response) {
         if (response.length > 0) {
-            this.alertMessage.alert(" Mapped successfully", 'success');
+            this.alertMessage.alert(" Mapping saved successfully", 'success');
             this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID, this.designationID);
         }
     }

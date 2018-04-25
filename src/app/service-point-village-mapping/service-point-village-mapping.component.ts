@@ -185,7 +185,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             }
         }
         if (this.servicePointVillageMapList.length <= 0) {
-            this.alertMessage.alert("Villages Mapped Succesfully", 'success');
+            this.alertMessage.alert("Mapping saved Succesfully", 'success');
         }
     }
 
@@ -198,7 +198,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     servicePointSuccessHandler(response) {
         this.servicePointVillageMapList = [];
-        this.alertMessage.alert("Service Point Village Mapping stored successfully", 'success');
+        this.alertMessage.alert("Mapping saved successfully", 'success');
     }
 
     stateSelection(stateID) {

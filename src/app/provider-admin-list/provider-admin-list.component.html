@@ -227,20 +227,9 @@
   <form #adminCredentialsForm="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
       <md-input-container class="width100">
-<<<<<<< HEAD
+
         <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
-          maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
-        <!-- <md-hint class="errorText">
-          <span *ngIf="uname.errors && !(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
-=======
-        <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" maxlength="20"
-          #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
-        <md-hint class="errorText">
-          <span *ngIf="uname.errors && uname.touched&&!(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
->>>>>>> b2bd9a61bf3c8dcf27ee18c8f730f2eee25dc4b3
-          <span *ngIf="showHint && uname.touched">{{username_status}}</span>
-          <span *ngIf="!showHint && uname.touched && uname.hasError('pattern')"> User name can't end or start with special characters,min:2</span>
-        </md-hint> -->
+          maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>   
         <md-hint class="errorText">
           <span *ngIf="uname.touched && uname == null">User name is required</span>
           <span *ngIf="showHint">{{username_status}}</span>
@@ -251,17 +240,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
       <md-input-container class="width100">
         <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
-<<<<<<< HEAD
           minlength="8" maxlength="12" #pwrd="ngModel" required>
-        <!-- <md-hint class="errorText">
-          <span *ngIf="pwrd.errors && pwrd.touched">Password is required</span>
-=======
-          #pwrd="ngModel" required>
-        <md-hint class="errorText">
-          <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
->>>>>>> b2bd9a61bf3c8dcf27ee18c8f730f2eee25dc4b3
-          <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
-        </md-hint> -->
         <md-hint class="errorText">
             <span *ngIf="pwrd.touched">Password is required</span>
             <span *ngIf="pwrd!=null && pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>

@@ -183,7 +183,7 @@ export class CreateSubServiceComponent implements OnInit {
     array.push(obj);
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
-        this.message.alert('Sub Service saved successfully', 'success');
+        this.message.alert('Saved successfully', 'success');
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();

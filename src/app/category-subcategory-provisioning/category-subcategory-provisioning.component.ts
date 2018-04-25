@@ -354,7 +354,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     this.CategorySubcategoryService.saveSubCategory(subCategoryObj)
       .subscribe((response) => {
         if (response.length > 0) {
-          this.messageBox.alert('Created successfully', 'success');
+          this.messageBox.alert('Saved successfully', 'success');
           this.serviceSubCatList.length = [];
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }

@@ -452,7 +452,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
       this.editMode = false;
-      this.dialogService.alert("Provider admin created successfully", 'success');
+      this.dialogService.alert("Saved successfully", 'success');
       this.objs = [];
       this.getAllProviderAdminDetails();
 
@@ -474,7 +474,7 @@ export class ProviderAdminListComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Admin details edited successfully", 'success');
+        this.dialogService.alert("Updated  successfully", 'success');
         this.getAllProviderAdminDetails();
       }
     });

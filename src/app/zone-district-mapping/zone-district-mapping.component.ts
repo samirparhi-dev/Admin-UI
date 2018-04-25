@@ -173,7 +173,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     successHandler(response) {
         this.zoneDistrictMappingList = [];
-        this.alertMessage.alert("Zone district mapping stored successfully", 'success');
+        this.alertMessage.alert("Mapping saved successfully", 'success');
         this.getAvailableZoneDistrictMappings();
     }
     remove_obj(index) {

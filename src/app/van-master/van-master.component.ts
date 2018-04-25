@@ -167,7 +167,7 @@ export class VanComponent implements OnInit {
 
     vanSuccessHandler(response) {
         this.vanList = [];
-        this.alertMessage.alert("Vans stored successfully", 'success');
+        this.alertMessage.alert("Saved successfully", 'success');
     }
 
     stateSelection(stateID) {

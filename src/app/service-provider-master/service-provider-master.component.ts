@@ -151,7 +151,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'Provider Creation Success Handeler');
         if (response.length > 0) {
-          this.dialogService.alert('Provider created successfully', 'success');
+          this.dialogService.alert('Saved successfully', 'success');
 
           /* resetting form,ngModels and Dates */
           this.providerCreationForm.reset();
@@ -252,7 +252,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.superadminService.updateProviderDetails(object)
       .subscribe(response => {
         console.log('Edit success callback', response);
-        this.dialogService.alert('Provider edited successfully', 'success');
+        this.dialogService.alert('Updated successfully', 'success');
         /* resetting form and ngModels used in editing */
         this.providerCreationForm.reset();
         this.resetNGmodels();

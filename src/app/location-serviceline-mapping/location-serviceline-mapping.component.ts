@@ -354,7 +354,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   saveOfficeSuccessHandeler(response) {
     // alert("location successfully created");
-    this.alertService.alert("Location created successfully", 'success');
+    this.alertService.alert("Saved successfully", 'success');
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
@@ -516,7 +516,7 @@ export class EditLocationModal {
   }
 
   editOfficeSuccessHandeler(response) {
-    this.alertService.alert("Location edited successfully", 'success');
+    this.alertService.alert("Updated successfully", 'success');
     console.log('edited', response);
     this.dialog_Ref.close("success");
   }

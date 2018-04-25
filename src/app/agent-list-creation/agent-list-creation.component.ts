@@ -288,7 +288,7 @@ export class AgentListCreationComponent implements OnInit {
   saveSuccessHandeler(response) {
     if (response) {
       if (response.length > 0) {
-        this.alertService.alert('Mapping done successfully for ' + response.length + ' Agent ID','success');
+        this.alertService.alert('Mapping saved successfully for ' + response.length + ' Agent ID','success');
         this.resetFields();
       }
       if (response.length == 0) {
