@@ -25,82 +25,84 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
   constructor(public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService,
     public commonServices: CommonServices) 
-    { this.providerID = this.commonDataService.service_providerID;}
+    { 
+     // this.providerID = this.commonDataService.service_providerID;
+    }
 
   ngOnInit() {
-    this.createdBy = this.commonDataService.uname;
-    this.userID = this.commonDataService.uid;
-    this.getAllServices();
+    // this.createdBy = this.commonDataService.uname;
+    // this.userID = this.commonDataService.uid;
+    // this.getAllServices();
   }
-  getAllServices() {
-    this.commonServices.getServiceLines(this.userID).subscribe((response) => {
-      console.log("serviceline", response);
-      this.servicesSuccesshandler(response),
-        (err) => console.log("ERROR in fetching serviceline")
-    });
-  }
-  servicesSuccesshandler(res) {
-    this.services = res.filter((item) => {
-      console.log('item', item);
-      if (item.serviceID != 6) {
-        return item;
-      }
-    })
-  }
+  // getAllServices() {
+  //   this.commonServices.getServiceLines(this.userID).subscribe((response) => {
+  //     console.log("serviceline", response);
+  //     this.servicesSuccesshandler(response),
+  //       (err) => console.log("ERROR in fetching serviceline")
+  //   });
+  // }
+  // servicesSuccesshandler(res) {
+  //   this.services = res.filter((item) => {
+  //     console.log('item', item);
+  //     if (item.serviceID != 6) {
+  //       return item;
+  //     }
+  //   })
+  // }
 
-  setProviderServiceMapID(providerServiceMapID) {  
-    this.providerServiceMapID = providerServiceMapID;
-    console.log('psmid', this.providerServiceMapID);   
-  }
+  // setProviderServiceMapID(providerServiceMapID) {  
+  //   this.providerServiceMapID = providerServiceMapID;
+  //   console.log('psmid', this.providerServiceMapID);   
+  // }
 
-  getStates(service) {
-    debugger;
-    console.log("value", service);
-    this.commonServices.getStatesOnServices(this.providerID, service.serviceID, false).
-      subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
-        console.log("error in fetching states")
-      });
+  // getStates(service) {
+  //   debugger;
+  //   console.log("value", service);
+  //   this.commonServices.getStatesOnServices(this.providerID, service.serviceID, false).
+  //     subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
+  //       console.log("error in fetching states")
+  //     });
 
 
-  }
-  getStatesSuccessHandeler(response, service) {
-    this.states = response;
-    console.log("states", this.states);
+  // }
+  // getStatesSuccessHandeler(response, service) {
+  //   this.states = response;
+  //   console.log("states", this.states);
     
-  }
-  showForm() {
-    this.showFormFlag = true;
-    this.showTableFlag = false;
-  }
-  add_pharmaObj(formValue) {
+  // }
+  // showForm() {
+  //   this.showFormFlag = true;
+  //   this.showTableFlag = false;
+  // }
+  // add_pharmaObj(formValue) {
 
-    let pharmaObj = {
-      "pharmCategoryCode" : formValue.code,
-			"pharmCategoryName" : formValue.name,
-      "pharmCategoryDesc" : formValue.description,
-      "status"   : "Active",
-      "providerServiceMapID" : this.providerServiceMapID,		
-			"createdBy": this.commonDataService.uname
-		}
+  //   let pharmaObj = {
+  //     "pharmCategoryCode" : formValue.code,
+	// 		"pharmCategoryName" : formValue.name,
+  //     "pharmCategoryDesc" : formValue.description,
+  //     "status"   : "Active",
+  //     "providerServiceMapID" : this.providerServiceMapID,		
+	// 		"createdBy": this.commonDataService.uname
+	// 	}
 
-		if (this.pharmaCategoryArrayObj.length == 0 && (pharmaObj.pharmCategoryCode != "" && pharmaObj.pharmCategoryCode != undefined)) {
-			this.pharmaCategoryArrayObj.push(pharmaObj);
-		}
-		else {
-			let count = 0;
-			for (let i = 0; i < this.pharmaCategoryArrayObj.length; i++) {
-				if (pharmaObj.pharmCategoryCode === this.pharmaCategoryArrayObj[i].pharmCategoryCode) {
-					count = count + 1;
-				}
-			}
-			if (count == 0 && (pharmaObj.pharmCategoryCode != "" && pharmaObj.pharmCategoryCode != undefined)) {
-				this.pharmaCategoryArrayObj.push(pharmaObj);
-			}
-		}
+	// 	if (this.pharmaCategoryArrayObj.length == 0 && (pharmaObj.pharmCategoryCode != "" && pharmaObj.pharmCategoryCode != undefined)) {
+	// 		this.pharmaCategoryArrayObj.push(pharmaObj);
+	// 	}
+	// 	else {
+	// 		let count = 0;
+	// 		for (let i = 0; i < this.pharmaCategoryArrayObj.length; i++) {
+	// 			if (pharmaObj.pharmCategoryCode === this.pharmaCategoryArrayObj[i].pharmCategoryCode) {
+	// 				count = count + 1;
+	// 			}
+	// 		}
+	// 		if (count == 0 && (pharmaObj.pharmCategoryCode != "" && pharmaObj.pharmCategoryCode != undefined)) {
+	// 			this.pharmaCategoryArrayObj.push(pharmaObj);
+	// 		}
+	// 	}
 
 
-  }
-  removeRow(index) {
-    this.pharmaCategoryArrayObj.splice(index, 1);
-  }
+  // }
+  // removeRow(index) {
+  //   this.pharmaCategoryArrayObj.splice(index, 1);
+  // }
 }

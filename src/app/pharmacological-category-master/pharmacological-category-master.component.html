@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Pharmacological Category Master</h4>
   </div>
@@ -43,12 +43,12 @@
           <!-- <tr *ngIf=".length == 0" class="record-not-found">
             <td colspan="8" align="center">No records found</td>
           </tr> -->
-          <tr *ngFor="let item of md2.data; let i=index">
+<!-- <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.pharmCategoryCode}}</td>
             <td>{{item.pharmCategoryName}}</td>
-            <td>{{item.pharmCategoryDesc}}</td>
-            <!-- <td>
+            <td>{{item.pharmCategoryDesc}}</td> -->
+<!-- <td>
                 <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                   (click)="editItem(item)">edit</md-icon>
               </td>             
@@ -56,7 +56,7 @@
                 <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
                 <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
               </td> -->
-          </tr>
+<!-- </tr>
         </tbody>
         <tfoot>
           <tr>
@@ -135,4 +135,4 @@
       <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>
   </div>
-</div>
+</div>  -->
