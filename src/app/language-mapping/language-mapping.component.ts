@@ -164,10 +164,10 @@ export class LanguageMappingComponent implements OnInit {
               this.getAllMappedLanguagesList();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 
@@ -185,10 +185,10 @@ export class LanguageMappingComponent implements OnInit {
               this.getAllMappedLanguagesList();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 

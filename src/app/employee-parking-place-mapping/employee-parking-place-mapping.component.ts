@@ -22,12 +22,12 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     editable: any = false;
     availableEmployeeNames: any = [];
     countryID: any;
-    searchStateID:any;
-    searchDistrictID:any;
-    searchParkingPlaceID:any;
-    serviceID:any;
+    searchStateID: any;
+    searchDistrictID: any;
+    searchParkingPlaceID: any;
+    serviceID: any;
     formBuilder: FormBuilder = new FormBuilder();
-	MappingForm: FormGroup;
+    MappingForm: FormGroup;
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
@@ -50,12 +50,12 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.getDesignations();
     }
 
-    getDesignations(){
-         this.employeeParkingPlaceMappingService.getDesignations().subscribe(response => this.getDesignationsSuccessHandeler(response));
+    getDesignations() {
+        this.employeeParkingPlaceMappingService.getDesignations().subscribe(response => this.getDesignationsSuccessHandeler(response));
     }
-    
-    designations:any;
-    getDesignationsSuccessHandeler(response){
+
+    designations: any;
+    getDesignationsSuccessHandeler(response) {
         this.designations = response;
     }
 
@@ -67,8 +67,8 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     //     //this.employeeParkingPlaceMappingService.getEmployeeParkingPlaceMappings(this.employeeObj).subscribe(response => this.getEmployeeParkingPlaceMappingsSuccessHandler(response));
     // }
 
-    employeeObj:any = {};
-    getEmployeeParkingPlaceMappings(stateID,districtID,designationID){
+    employeeObj: any = {};
+    getEmployeeParkingPlaceMappings(stateID, districtID, designationID) {
         this.employeeObj = {};
         this.employeeObj.serviceProviderID = this.service_provider_id;
         this.employeeObj.stateID = stateID;
@@ -80,14 +80,14 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     }
 
-    parkingPlaceID:any;
-    selectedParkingPlace(parkingPlace){
+    parkingPlaceID: any;
+    selectedParkingPlace(parkingPlace) {
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
     }
 
-    
-    availableEmployeeParkingPlaceMappings:any =[];
-    remainingMaps:any =[];
+
+    availableEmployeeParkingPlaceMappings: any = [];
+    remainingMaps: any = [];
     getEmployeeParkingPlaceMappingsSuccessHandler(response) {
         this.availableEmployeeParkingPlaceMappings = [];
         this.availableEmployeeParkingPlaceMappings = response;
@@ -96,14 +96,14 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             mappings: this.formBuilder.array([])
         });
         this.parkingPlaceIDList = [];
-        
+
         for (var i = 0; i < this.availableEmployeeParkingPlaceMappings.length; i++) {
-            
-            if(this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID == undefined || 
-            (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].deleted==true) ||
-            (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID== this.parkingPlaceID)
-            ){
-                    this.parkingPlaceIDList.push(this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID);
+
+            if (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID == undefined ||
+                (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].deleted == true) ||
+                (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID == this.parkingPlaceID)
+            ) {
+                this.parkingPlaceIDList.push(this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID);
                 (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.availableEmployeeParkingPlaceMappings[i]));
             }
         }
@@ -114,40 +114,40 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         //             (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
         //         }
         // }
-  
+
     }
-    parkingPlaceIDList:any= [];
+    parkingPlaceIDList: any = [];
     createItem(obj): FormGroup {
 
-            let userParkingPlaceMapID:any;
-            // if(this.parkingPlaceID == obj.parkingPlaceID || obj.parkingPlaceID == undefined){
-            //     userParkingPlaceMapID = obj.userParkingPlaceMapID;
-            // }
-            return this.formBuilder.group({
-                userParkingPlaceMapID: obj.userParkingPlaceMapID,
-                parkingPlaceID: this.parkingPlaceID,
-                genderName: obj.m_user.genderName,
-                userID: obj.userID,
-                firstName: obj.m_user.firstName,
-                lastName: obj.m_user.lastName,
-                userName: obj.m_user.userName,
-                stateID: obj.stateID,
-                districtID: obj.districtID,
-                roleID: obj.m_user.m_userServiceRoleMapping.roleID,
-                roleName: obj.m_user.m_userServiceRoleMapping.roleName,
-                providerServiceMapID: obj.providerServiceMapID,
-                emergencyContactNo: obj.m_user.emergencyContactNo,
-                deleted: obj.deleted,
-                designationID: obj.m_user.designationID,
-                userMapped:(obj.deleted!=undefined &&  !obj.deleted)
+        let userParkingPlaceMapID: any;
+        // if(this.parkingPlaceID == obj.parkingPlaceID || obj.parkingPlaceID == undefined){
+        //     userParkingPlaceMapID = obj.userParkingPlaceMapID;
+        // }
+        return this.formBuilder.group({
+            userParkingPlaceMapID: obj.userParkingPlaceMapID,
+            parkingPlaceID: this.parkingPlaceID,
+            genderName: obj.m_user.genderName,
+            userID: obj.userID,
+            firstName: obj.m_user.firstName,
+            lastName: obj.m_user.lastName,
+            userName: obj.m_user.userName,
+            stateID: obj.stateID,
+            districtID: obj.districtID,
+            roleID: obj.m_user.m_userServiceRoleMapping.roleID,
+            roleName: obj.m_user.m_userServiceRoleMapping.roleName,
+            providerServiceMapID: obj.providerServiceMapID,
+            emergencyContactNo: obj.m_user.emergencyContactNo,
+            deleted: obj.deleted,
+            designationID: obj.m_user.designationID,
+            userMapped: (obj.deleted != undefined && !obj.deleted)
 
-            })
-    
-	}
+        })
 
-    
-    getStatesByServiceID(){
-        this.employeeParkingPlaceMappingService.getStatesByServiceID(this.serviceID,this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    }
+
+
+    getStatesByServiceID() {
+        this.employeeParkingPlaceMappingService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
 
     getStatesSuccessHandeler(response) {
@@ -166,10 +166,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             }
         }
     }
-    designationID:any;
+    designationID: any;
     districts: any = [];
     getDistricts(stateID) {
-        this.designationID ="";
+        this.designationID = "";
         this.employeeParkingPlaceMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
@@ -177,8 +177,8 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.districts = response;
     }
 
-    parkingPlaceObj:any;
-    getParkingPlaces(stateID,districtID){
+    parkingPlaceObj: any;
+    getParkingPlaces(stateID, districtID) {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
@@ -187,27 +187,27 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.employeeParkingPlaceMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
     }
 
-    availableParkingPlaces:any;
+    availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
-        for(let availableParkingPlaces of this.availableParkingPlaces){
-            if(availableParkingPlaces.deleted){
+        for (let availableParkingPlaces of this.availableParkingPlaces) {
+            if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
                 if (index !== -1) {
                     this.availableParkingPlaces.splice(index, 1);
-                } 
-            }     
-        }  
+                }
+            }
+        }
     }
 
-    employeeID:any;
-    selectedEmployee(employee){
+    employeeID: any;
+    selectedEmployee(employee) {
         this.employeeID = employee.employeeID
     }
 
-    employeeParkingPlaceMappingObj:any;
+    employeeParkingPlaceMappingObj: any;
     employeeParkingPlaceMappingList: any = [];
-    storeEmployeeParkingPlaceMapping(){
+    storeEmployeeParkingPlaceMapping() {
         console.log(this.MappingForm.value);
         let mappings = this.MappingForm.value.mappings;
         let mappingArray = <FormArray>this.MappingForm.controls.mappings;
@@ -215,8 +215,8 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
             let mappingGroup = <FormGroup>(mappingArray).controls[i];
             console.log(mappingGroup.controls.userMapped.touched);
-            if((mappingGroup.controls.userMapped.touched)){
-            //if(mappings[i].userMapped || mappings[i].userParkingPlaceMapID!= undefined){
+            if ((mappingGroup.controls.userMapped.touched)) {
+                //if(mappings[i].userMapped || mappings[i].userParkingPlaceMapID!= undefined){
                 this.employeeParkingPlaceMappingObj = {};
                 this.employeeParkingPlaceMappingObj.userParkingPlaceMapID = mappings[i].userParkingPlaceMapID
                 this.employeeParkingPlaceMappingObj.userID = mappings[i].userID;
@@ -230,19 +230,19 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
                 this.employeeParkingPlaceMappingList.push(this.employeeParkingPlaceMappingObj);
             }
         }
-      let obj = { "userParkingPlaceMaps": this.employeeParkingPlaceMappingList };
-      this.employeeParkingPlaceMappingService.saveEmployeeParkingPlaceMappings(obj).subscribe(response => this.saveMappingSuccessHandler(response));  
+        let obj = { "userParkingPlaceMaps": this.employeeParkingPlaceMappingList };
+        this.employeeParkingPlaceMappingService.saveEmployeeParkingPlaceMappings(obj).subscribe(response => this.saveMappingSuccessHandler(response));
     }
 
-    employeeParkingPlaceMappingSuccessHandler(response){
+    employeeParkingPlaceMappingSuccessHandler(response) {
         this.employeeParkingPlaceMappingList = [];
-        this.alertMessage.alert("Employee ParkingPlace Mappings stored successfully");
+        this.alertMessage.alert(" Mapped successfully", 'success');
     }
 
-    saveMappingSuccessHandler(response){
-        if(response.length>0){
-            this.alertMessage.alert("Employee Parking Place Mapping done successfully");
-            this.getEmployeeParkingPlaceMappings(this.searchStateID,this.searchDistrictID,this.designationID);
+    saveMappingSuccessHandler(response) {
+        if (response.length > 0) {
+            this.alertMessage.alert(" Mapped successfully", 'success');
+            this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID, this.designationID);
         }
     }
 }

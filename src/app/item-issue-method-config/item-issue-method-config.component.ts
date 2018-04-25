@@ -22,6 +22,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   itemIssue: any;
   state: any;
   serviceline: any;
+  uid: any;
 
   constructor(private storeService: Mainstroreandsubstore, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
@@ -29,6 +30,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
+    this.uid = this.commonDataService.uid
     this.ItemIssue_array = [
       { value: 1, Name: 'First In First Out' },
       { value: 2, Name: 'First Expiry First Out' },
@@ -38,7 +40,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   }
 
   getServices() {
-    this.storeService.getServices(this.serviceProviderID).subscribe(response => {
+    this.storeService.getServices(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
@@ -46,7 +48,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
     })
   }
   getstates(service) {
-    this.storeService.getStates(this.serviceProviderID, service.serviceID, false).subscribe(response => {
+    this.storeService.getStates(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
         this.states_array = response;

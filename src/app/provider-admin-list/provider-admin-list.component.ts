@@ -75,7 +75,7 @@ export class ProviderAdminListComponent implements OnInit {
   searchResultArray: any = [];
   allProviderAdmin: any = [];
 
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
+  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]{2,20}$/;
   emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -140,7 +140,9 @@ export class ProviderAdminListComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
+
     this.resetDob();
+   
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response),
       (err) => this.dialogService.alert(err, 'error'));
 
@@ -186,10 +188,25 @@ export class ProviderAdminListComponent implements OnInit {
   }
   calculateAge(date) {
     if (date != undefined) {
-      this.age = this.today.getFullYear() - date.getFullYear();
+      let age = this.today.getFullYear() - date.getFullYear();
+      if(this.objs.length == 0) {
+        this.age = age;
+      }
+      else{
+    this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
+
+      }
+
       const month = this.today.getMonth() - date.getMonth();
       if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-        this.age--; //age is ng-model of AGE
+        age--; //age is ng-model of AGE
+        if(this.objs.length == 0) {
+          this.age = age;
+        }
+        else{
+      this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
+  
+        }
       }
     }
   }
@@ -329,7 +346,7 @@ export class ProviderAdminListComponent implements OnInit {
   */
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
-    this.adminCredentialsForm.resetForm();
+    //this.adminCredentialsForm.resetForm();
     this.resetDob();
   }
   /*

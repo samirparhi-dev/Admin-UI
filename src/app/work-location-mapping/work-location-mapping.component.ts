@@ -285,10 +285,10 @@ export class WorkLocationMappingComponent implements OnInit {
               this.getAllMappedWorkLocations();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 
@@ -307,10 +307,10 @@ export class WorkLocationMappingComponent implements OnInit {
               this.getAllMappedWorkLocations();
             }
           },
-          err => {
-            console.log('error', err);
-            this.alertService.alert(err, 'error');
-          });
+            err => {
+              console.log('error', err);
+              this.alertService.alert(err, 'error');
+            });
       }
     });
 

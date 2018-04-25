@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class MainStoreAndSubStoreComponent implements OnInit {
 
+  createButton: boolean = false;
   create_store: any;
   facilityID: any;
   edit_facilityName: any;
@@ -24,6 +25,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   edit_location: any;
   edit_facilityDiscription: any;
   edit_facilityCode: any;
+  uid: any;
 
   state: any;
   serviceline: any;
@@ -59,10 +61,11 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
+    this.uid = this.commonDataService.uid;
     this.getServices();
   }
   getServices() {
-    this.storeService.getServices(this.serviceProviderID).subscribe(response => {
+    this.storeService.getServices(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
@@ -70,7 +73,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     })
   }
   getstates(service) {
-    this.storeService.getStates(this.serviceProviderID, service.serviceID, false).subscribe(response => {
+    this.storeService.getStates(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
         this.states_array = response;
@@ -78,6 +81,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     })
   }
   getAllStores(providerServiceMapID) {
+    this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.storeService.getAllStores(providerServiceMapID).subscribe(response => {
       if (response) {
