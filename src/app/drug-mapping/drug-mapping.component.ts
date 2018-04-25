@@ -22,6 +22,8 @@ export class DrugMappingComponent implements OnInit {
   editable: any = false;
   serviceID104: any;
   createdBy: any;
+  mappedDrugs: any = [];
+
 
   @ViewChild('drugMappingForm') drugMappingForm: NgForm;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -129,9 +131,12 @@ export class DrugMappingComponent implements OnInit {
   drugIdList: any = [];
   mappedDrugIDs: any = [];
   addDrugToList(values) {
+    
     let drugIdList = [];
     for (let drugs of values.drugIdList) {
       drugIdList.push(drugs.split("-")[0]);
+      console.log("drugIdList", this.drugIdList);
+      
     }
 
     //find drug deselected from the list , and Remove drugGroup mapping with that drug
@@ -171,13 +176,31 @@ export class DrugMappingComponent implements OnInit {
         // } 
 
         this.drugObj.createdBy = this.createdBy;
-        this.drugMapping.push(this.drugObj);
+        this.checkDuplicates(this.drugObj);       
+       // this.drugMapping.push(this.drugObj);
       } else {
         console.log("already mapped with these drugs");
         this.alertMessage.alert("Already mapped with these drugs");
       }
     }
 
+  }
+  checkDuplicates(object) {
+    let duplicateStatus = 0
+    if (this.drugMapping.length === 0) {
+      this.drugMapping.push(object);
+    }
+    else {
+      debugger;
+      for (let i = 0; i < this.drugMapping.length; i++) {
+        if (this.drugMapping[i].drugId === object.drugId && this.drugMapping[i].drugGroupID === object.drugGroupID) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+      }
+      if (duplicateStatus === 0) {
+        this.drugMapping.push(object);
+      }
+    }
   }
 
   storedrugMappings() {
@@ -235,16 +258,17 @@ export class DrugMappingComponent implements OnInit {
       }
     })
   }
-  mappedDrugs: any = [];
+ 
   existingDrugs: any = [];
   checkExistance(stateID, drugGroupID) {
+    debugger;
     this.mappedDrugs = [];
     this.drugIdList = [];
     this.existingDrugs = [];
     if (drugGroupID != undefined) {
       drugGroupID = drugGroupID.split("-")[0];
     }
-
+    
     for (let availableDrugMapping of this.availableDrugMappings) {
       if (availableDrugMapping.providerServiceMapID == this.providerServiceMapID && availableDrugMapping.drugGroupID == drugGroupID) {
         // finding exsting drug group mappings with drugs
