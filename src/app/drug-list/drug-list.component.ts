@@ -140,7 +140,7 @@ export class DrugListComponent implements OnInit {
       this.drugObj.serviceProviderID = this.service_provider_id;
       this.drugObj.createdBy = this.createdBy;
       this.checkDuplicates(this.drugObj);
-      // this.drugList.push(this.drugObj);
+    
   //  }
 
   }

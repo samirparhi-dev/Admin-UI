@@ -226,7 +226,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+        (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -267,30 +267,30 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
   * calculate age based on the DOB
   */
- calculateAge(date) {
-  if (date != undefined) {
-    let age = this.today.getFullYear() - date.getFullYear();
-    if(this.objs.length == 0) {
-      this.age = age;
-    }
-    else{
-  this.userCreationForm.form.patchValue({ 'person_age': age });
-
-    }
-
-    const month = this.today.getMonth() - date.getMonth();
-    if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-      age--; //age is ng-model of AGE
-      if(this.objs.length == 0) {
+  calculateAge(date) {
+    if (date != undefined) {
+      let age = this.today.getFullYear() - date.getFullYear();
+      if (this.objs.length == 0) {
         this.age = age;
       }
-      else{
-    this.userCreationForm.form.patchValue({ 'person_age': age });
+      else {
+        this.userCreationForm.form.patchValue({ 'user_age': age });
 
+      }
+
+      const month = this.today.getMonth() - date.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+        age--; //age is ng-model of AGE
+        if (this.objs.length == 0) {
+          this.age = age;
+        }
+        else {
+          this.userCreationForm.form.patchValue({ 'user_age': age });
+
+        }
       }
     }
   }
-}
   /*
   * Get all Designations
   */
@@ -486,7 +486,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForms();
-   // this.resetDob();
+    // this.resetDob();
     //this.checkAddress = null;
 
   }
