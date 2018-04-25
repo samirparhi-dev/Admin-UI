@@ -308,7 +308,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   edit_delete_RolesSuccessHandeler(response, choice) {
     if (choice == 'edit') {
-      this.alertService.alert('Role edited successfully', 'success');
+      this.alertService.alert('Updated successfully', 'success');
     }
     else {
       this.alertService.alert(this.confirmMessage + 'd successfully', 'success');
@@ -348,7 +348,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   createRolesSuccessHandeler(response) {
-    this.alertService.alert('Role created successfully', 'success');
+    this.alertService.alert('Saved successfully', 'success');
     console.log(response, 'in create role success in component.ts');
     this.finalResponse = response;
     if (this.finalResponse[0].roleID) {
@@ -615,10 +615,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'RESPONSE AFTER UPDATING FEATURE TO ROLE');
         if (response.length > 1) {
-          this.alertService.alert('Features updated successfully');
+          this.alertService.alert('Updated successfully', 'success');
         }
         if (response.length == 1) {
-          this.alertService.alert('Features updated successfully');
+          this.alertService.alert('Updated successfully', 'success');
         }
 
         this.setRoleFormFlag(false);

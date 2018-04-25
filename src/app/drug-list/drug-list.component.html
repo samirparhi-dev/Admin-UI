@@ -64,7 +64,8 @@
       <form #drugForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>
-            <input mdInput required placeholder="Drug Name " [(ngModel)]="drugName" name="drugName" #drugN="ngModel" minlength="1" maxlength="50">
+            <input mdInput required placeholder="Drug Name " [disabled]="editable" [(ngModel)]="drugName" name="drugName" #drugN="ngModel"
+              minlength="1" maxlength="50">
             <md-hint>
               <span class="error_text" *ngIf="!drugN.valid  && ( drugN.dirty || drugN.touched)">Please enter drug Name</span>
               <span class="error_text" *ngIf="drugNameExist">Drug Already Exists</span>

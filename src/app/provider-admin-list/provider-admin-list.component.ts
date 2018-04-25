@@ -142,7 +142,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.editMode = false;
 
     this.resetDob();
-   
+
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response),
       (err) => this.dialogService.alert(err, 'error'));
 
@@ -189,23 +189,23 @@ export class ProviderAdminListComponent implements OnInit {
   calculateAge(date) {
     if (date != undefined) {
       let age = this.today.getFullYear() - date.getFullYear();
-      if(this.objs.length == 0) {
+      if (this.objs.length == 0) {
         this.age = age;
       }
-      else{
-    this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
+      else {
+        this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
 
       }
 
       const month = this.today.getMonth() - date.getMonth();
       if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
         age--; //age is ng-model of AGE
-        if(this.objs.length == 0) {
+        if (this.objs.length == 0) {
           this.age = age;
         }
-        else{
-      this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
-  
+        else {
+          this.providerAdminCreationForm.form.patchValue({ 'person_age': age });
+
         }
       }
     }
@@ -244,7 +244,7 @@ export class ProviderAdminListComponent implements OnInit {
         console.log("else response", response);
         this.showHint = true;
         this.username_dependent_flag = true;
-        this.username_status = 'Username can\'t be blank';
+        this.username_status = 'Username is required';
       }
     }
   }
@@ -452,7 +452,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
       this.editMode = false;
-      this.dialogService.alert("Provider admin created successfully", 'success');
+      this.dialogService.alert("Saved successfully", 'success');
       this.objs = [];
       this.getAllProviderAdminDetails();
 
@@ -474,7 +474,7 @@ export class ProviderAdminListComponent implements OnInit {
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Admin details edited successfully", 'success');
+        this.dialogService.alert("Updated successfully", 'success');
         this.getAllProviderAdminDetails();
       }
     });

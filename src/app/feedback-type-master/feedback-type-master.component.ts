@@ -32,6 +32,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
   objs = [];
   @ViewChild('searchFTForm') searchFTForm: NgForm;
   @ViewChild('addForm') addForm: NgForm;
+  @ViewChild('editForm') editForm: NgForm;
   feedbackExists: boolean = false;
   isNational = false;
   searchFeedbackArray = [];
@@ -234,8 +235,9 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
       if (count == 0) {
         this.objs.push(tempObj);
-        this.feedbackDesc = undefined;
-        this.feedbackName = undefined;
+        this.editForm.resetForm();
+        //this.feedbackDesc = undefined;
+        //this.feedbackName = undefined;
       }
       else {
         this.feedbackNameExist = true;

@@ -165,7 +165,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
           this.resetForm();
-          this.alertService.alert('Component saved successfully', 'success');
+          this.alertService.alert('Saved successfully', 'success');
         })
 
     }
@@ -188,7 +188,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.updateList(res);
           this.resetForm();
-          this.alertService.alert('Component updated successfully', 'success');
+          this.alertService.alert('Updated successfully', 'success');
         })
 
     }
