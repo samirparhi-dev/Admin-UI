@@ -474,7 +474,7 @@ export class EditLocationModal {
   }
 
   checkOfficeName(value) {
-
+    debugger;
     for (var i = 0; i < this.data.offices.length; i++) {
       let a = this.data.offices[i].locationName;
 

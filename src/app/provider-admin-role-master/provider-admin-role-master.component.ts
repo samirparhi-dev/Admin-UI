@@ -172,9 +172,9 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       return this.combinedFilterArray.indexOf(obj.screenName) == -1 || obj.screenName == this.editScreenName;
     }, this);
     console.log("editFeatures", this.editFeatures);
-    if (this.features.length == 0 && this.hideAdd) {
-      this.alertService.alert("No features available for mapping");
-    }
+    // if (this.features.length == 0 && this.hideAdd) {
+    //   this.alertService.alert("No features available for mapping");
+    // }
   }
   correctInput: boolean = false;
   showAddButton: boolean = false;
