@@ -130,7 +130,7 @@ export class HospitalMasterComponent implements OnInit {
 
         this.HospitalMasterService.getServices(this.userID)
             .subscribe(response => this.getServiceSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+                (err) => this.alertService.alert(err, 'error'));
     }
 
     getServiceSuccessHandeler(response) {
@@ -151,7 +151,7 @@ export class HospitalMasterComponent implements OnInit {
         this.searchResultArray = [];
 
         this.HospitalMasterService.getDistricts(stateID).subscribe(response => this.getDistrictSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+            (err) => this.alertService.alert(err, 'error'));
 
     }
 
@@ -167,7 +167,7 @@ export class HospitalMasterComponent implements OnInit {
         this.searchResultArray = [];
 
         this.HospitalMasterService.getTaluks(districtID).subscribe(response => this.getTalukSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+            (err) => this.alertService.alert(err, 'error'));
     }
 
     getTalukSuccessHandeler(response) {
@@ -195,7 +195,7 @@ export class HospitalMasterComponent implements OnInit {
             "blockID": this.taluk
         }
         this.HospitalMasterService.getInstitutions(request_obj).subscribe(response => this.getInstitutionSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+            (err) => this.alertService.alert(err, 'error'));
     }
 
     getInstitutionSuccessHandeler(response) {
@@ -209,7 +209,7 @@ export class HospitalMasterComponent implements OnInit {
     /*activate/deactivate an institution*/
     toggleActivate(institutionID, toBeDeactivatedFlag) {
         if (toBeDeactivatedFlag === true) {
-            this.alertService.confirm('Confirm',"Are you sure you want to Deactivate?").subscribe(response => {
+            this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
                 if (response) {
                     let obj = {
                         "institutionID": institutionID,
@@ -217,14 +217,14 @@ export class HospitalMasterComponent implements OnInit {
                     };
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Deactivated"),
-                    (err) => this.alertService.alert(err,'error'));
+                        (err) => this.alertService.alert(err, 'error'));
                 }
             })
 
         }
 
         if (toBeDeactivatedFlag === false) {
-            this.alertService.confirm('Confirm',"Are you sure you want to Activate?").subscribe(response => {
+            this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
                 if (response) {
                     let obj = {
                         "institutionID": institutionID,
@@ -232,7 +232,7 @@ export class HospitalMasterComponent implements OnInit {
                     };
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Activated"),
-                    (err) => this.alertService.alert(err,'error'));
+                        (err) => this.alertService.alert(err, 'error'));
                 }
             })
 
@@ -241,7 +241,7 @@ export class HospitalMasterComponent implements OnInit {
 
     deleteInstitutionSuccessHandeler(response, action) {
         if (response) {
-            this.alertService.alert(action + " successfully",'success');
+            this.alertService.alert(action + " successfully", 'success');
             this.getInstitutions();
         }
     }
@@ -274,14 +274,14 @@ export class HospitalMasterComponent implements OnInit {
         request_Array.push(request_obj);
 
         this.HospitalMasterService.saveInstitution(request_Array).subscribe(response => this.saveInstitutionSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+            (err) => this.alertService.alert(err, 'error'));
 
     }
 
     saveInstitutionSuccessHandeler(response) {
         console.log(response, "SAVE INSTITUTION SUCCESS HANDELER");
         if (response) {
-            this.alertService.alert("Saved successfully",'success');
+            this.alertService.alert("Saved successfully", 'success');
             this.back();
             this.getInstitutions();
         }
@@ -298,7 +298,7 @@ export class HospitalMasterComponent implements OnInit {
         dialog_Ref.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
             if (result === "success") {
-                this.alertService.alert("Updated successfully",'success')
+                this.alertService.alert("Updated successfully", 'success')
                 this.getInstitutions();
             }
 
@@ -335,7 +335,7 @@ export class EditHospitalModal {
     email_expression: any = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
 
 
-    constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+    constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
         public HospitalMasterService: HospitalMasterService,
         public commonDataService: dataService, public alertService: ConfirmationDialogsService,
         public dialogReff: MdDialogRef<EditHospitalModal>) { }
@@ -380,7 +380,7 @@ export class EditHospitalModal {
         }
 
         this.HospitalMasterService.editInstitution(edit_request_obj).subscribe(response => this.editInstitutionSuccessHandeler(response),
-        (err) => this.alertService.alert(err,'error'));
+            (err) => this.alertService.alert(err, 'error'));
     }
 
 

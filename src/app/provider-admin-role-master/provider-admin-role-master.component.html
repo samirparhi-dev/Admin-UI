@@ -114,7 +114,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Feature" class="width100" multiple="true" name="feature" [(ngModel)]="feature" required>
-          <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+          <md-option *ngFor="let item of features|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item">
             {{item.screenName}}
           </md-option>
         </md-select>
@@ -126,7 +126,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="feature" required>
-          <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
+          <md-option *ngFor="let item of features|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item">
             {{item.screenName}}
           </md-option>
         </md-select>
@@ -138,7 +138,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="editedFeatureID" required>
-          <md-option *ngFor="let item of editFeatures" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
+          <md-option *ngFor="let item of editFeatures|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
             {{item.screenName}}
           </md-option>
         </md-select>
