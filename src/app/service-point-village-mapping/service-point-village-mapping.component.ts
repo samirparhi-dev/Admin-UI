@@ -185,7 +185,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             }
         }
         if (this.servicePointVillageMapList.length <= 0) {
-            this.alertMessage.alert("Mapping saved Succesfully", 'success');
+            this.alertMessage.alert("Mapping already exists");
         }
     }
 

@@ -118,7 +118,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     this.CategorySubcategoryService.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value),
-      (err) => this.messageBox.alert(err, 'error'));
+        (err) => this.messageBox.alert(err, 'error'));
   }
   getStatesSuccessHandeler(response, value) {
 
@@ -667,11 +667,11 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   checkSubCategory(subCategoryName: string, providerServiceMapId: any, subService: any, category: any) {
-    if (subCategoryName  && subService && category) {
+    if (subCategoryName && subService && category) {
       let subCategoriesExist;
       let pServiceMapID
       if (this.nationalFlag) {
-        pServiceMapID  = this.states[0].providerServiceMapID;
+        pServiceMapID = this.states[0].providerServiceMapID;
       }
       else {
         pServiceMapID = this.state.providerServiceMapID;

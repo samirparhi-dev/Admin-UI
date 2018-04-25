@@ -230,18 +230,17 @@ export class DrugListComponent implements OnInit {
   }
 
   updateDrugData(drug) {
-   // if (!this.drugFilterList(drug)) {
-      this.dataObj = {};
-      this.dataObj.drugID = this.drugID;
-      this.dataObj.drugName = drug.drugName;
-      this.dataObj.drugDesc = drug.drugDesc;
-      this.dataObj.remarks = drug.remarks;
-      this.dataObj.providerServiceMapID = drug.providerServiceMapID;
-      this.dataObj.modifiedBy = this.createdBy;
-      this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response), err => {
-        this.alertMessage.alert(err, 'error');
-      });
-  //  } else { this.duplicateDrugs = false; }
+    this.dataObj = {};
+    this.dataObj.drugID = this.drugID;
+    this.dataObj.drugName = this.drugName;
+    this.dataObj.drugDesc = drug.drugDesc;
+    this.dataObj.remarks = drug.remarks;
+    this.dataObj.providerServiceMapID = drug.providerServiceMapID;
+    this.dataObj.modifiedBy = this.createdBy;
+    this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response), err => {
+      this.alertMessage.alert(err, 'error');
+    });
+
   }
 
   updateHandler(response) {

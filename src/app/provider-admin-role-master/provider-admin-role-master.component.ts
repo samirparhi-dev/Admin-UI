@@ -615,10 +615,10 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       .subscribe(response => {
         console.log(response, 'RESPONSE AFTER UPDATING FEATURE TO ROLE');
         if (response.length > 1) {
-          this.alertService.alert('Features updated successfully');
+          this.alertService.alert('Updated successfully', 'success');
         }
         if (response.length == 1) {
-          this.alertService.alert('Features updated successfully');
+          this.alertService.alert('Updated successfully', 'success');
         }
 
         this.setRoleFormFlag(false);

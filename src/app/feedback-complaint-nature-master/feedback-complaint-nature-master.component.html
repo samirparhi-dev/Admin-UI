@@ -121,6 +121,8 @@
           </md-input-container>
         </div>
       </div>
+    </form>
+    <form #editForm="ngForm" autocomplete="off">
       <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="width100">
@@ -137,8 +139,8 @@
             <input mdInput name="feedbackDesc" placeholder="Feedback Nature Description" [(ngModel)]="feedbackNatureDesc" #newFeedbackNatureDesc="ngModel">
           </md-input-container>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngIf="addForm.valid && !natureExists">
-          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" (click)="add_obj(feedbackNature,feedbackNatureDesc)">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngIf="editForm.valid && !natureExists">
+          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" (click)="add_obj(feedbackNature,feedbackNatureDesc);this.editForm.reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
@@ -158,7 +160,7 @@
               <tr *ngIf="objs.length == 0">
                 <td colspan="4" class="record-not-found">No records found</td>
               </tr>
-              <tr style="cursor: pointer" *ngFor="let obj of md2.data; let i = index ">
+              <tr *ngFor="let obj of md2.data; let i = index ">
                 <td>{{(md2.activePage-1)*5+i+1}}</td>
                 <td>{{obj.feedbackNature}}</td>
                 <td>{{obj.feedbackNatureDesc}}</td>
@@ -180,8 +182,8 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 m-t-15 ">
-          <button class="pull-right " md-raised-button color="accent" (click)="saveComplaintNature()" [disabled]="!(objs.length!=0)">Save</button>
-          <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true)">Back</button>
+          <button class="pull-right " md-raised-button color="accent" (click)="saveComplaintNature();" [disabled]="!(objs.length!=0)">Save</button>
+          <button class="pull-left" md-raised-button color="primary" (click)="changeTableFlag(true);this.editForm.reset();">Back</button>
         </div>
       </div>
     </form>

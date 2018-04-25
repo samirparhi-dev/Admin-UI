@@ -164,10 +164,10 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
             this.alertService.alert(this.confirmMessage + 'd successfully', 'success');
             this.findFeedbackNature(this.feedbackTypeID);
           },
-          (err) => {
-            console.log(err);
-            this.alertService.alert(err, 'error');
-          })
+            (err) => {
+              console.log(err);
+              this.alertService.alert(err, 'error');
+            })
       }
     },
       (err) => {
@@ -243,11 +243,11 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     this.objs.push(tempObj);
     this.validateFeedbackNature(nature);
 
-    this.feedbackNature = null;
-    this.feedbackNatureDesc = null;
+    //this.feedbackNature = null;
+    // this.feedbackNatureDesc = null;
     this.natureExists = false;
     console.log("this.feedbackNature", this.feedbackNature);
-    
+
   }
 
   remove_obj(index) {
@@ -269,7 +269,7 @@ export class EditFeedbackNatureModal {
   natureExists: boolean = false;
   msg = "Complaint nature already exists";
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public _feedbackTypeService: FeedbackTypeService,
     public dialog_Ref: MdDialogRef<EditFeedbackNatureModal>,
     private alertService: ConfirmationDialogsService) { }
