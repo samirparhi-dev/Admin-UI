@@ -164,7 +164,7 @@ export class ZoneComponent implements OnInit {
 
     successHandler(response) {
         this.zoneList = [];
-        this.alertMessage.alert("Zone stored successfully", 'success');
+        this.alertMessage.alert("Saved successfully", 'success');
         this.getAvailableZones();
     }
     remove_obj(index) {
@@ -287,8 +287,9 @@ export class ZoneComponent implements OnInit {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.ZoneForm.resetForm();
-                this.clearEdit();
                 this.zoneList = [];
+                this.clearEdit();
+                
             }
         })
     }

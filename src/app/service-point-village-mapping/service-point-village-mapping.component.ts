@@ -198,7 +198,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     servicePointSuccessHandler(response) {
         this.servicePointVillageMapList = [];
-        this.alertMessage.alert("Service Point Village Mapping stored successfully", 'success');
+        this.alertMessage.alert("Mapping saved successfully", 'success');
     }
 
     stateSelection(stateID) {

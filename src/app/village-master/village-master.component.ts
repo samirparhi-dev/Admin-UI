@@ -150,7 +150,7 @@ export class VillageMasterComponent implements OnInit {
     }
 
     successHandler(response) {
-        this.alertMessage.alert("Village stored successfully", 'success');
+        this.alertMessage.alert("Saved successfully", 'success');
         this.villageForm.resetForm();
         this.showFormFlag = false;
         this.villageList = [];

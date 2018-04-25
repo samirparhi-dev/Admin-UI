@@ -267,15 +267,30 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
   * calculate age based on the DOB
   */
-  calculateAge(date) {
-    if (date != undefined) {
-      this.age = this.today.getFullYear() - date.getFullYear();
-      const month = this.today.getMonth() - date.getMonth();
-      if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
-        this.age--; //age is ng-model of AGE
+ calculateAge(date) {
+  if (date != undefined) {
+    let age = this.today.getFullYear() - date.getFullYear();
+    if(this.objs.length == 0) {
+      this.age = age;
+    }
+    else{
+  this.userCreationForm.form.patchValue({ 'person_age': age });
+
+    }
+
+    const month = this.today.getMonth() - date.getMonth();
+    if (month < 0 || (month === 0 && this.today.getDate() < date.getDate())) {
+      age--; //age is ng-model of AGE
+      if(this.objs.length == 0) {
+        this.age = age;
+      }
+      else{
+    this.userCreationForm.form.patchValue({ 'person_age': age });
+
       }
     }
   }
+}
   /*
   * Get all Designations
   */
@@ -422,6 +437,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.userCreationForm.resetForm();
     this.demographicsDetailsForm.resetForm();
     this.communicationDetailsForm.resetForm();
+    this.resetDob();
   }
   /*
   * Method for addition of objects
@@ -470,7 +486,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.resetAllForms();
-    this.resetDob();
+   // this.resetDob();
     //this.checkAddress = null;
 
   }
@@ -533,7 +549,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       console.log("response", response);
       if (response.stat)
         this.editMode = false;
-      this.dialogService.alert("User created successfully", "success");
+      this.dialogService.alert("Saved successfully", "success");
       this.objs = [];
       this.getAllUserDetails();
 
@@ -699,7 +715,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
       console.log("updated obj", response);
-      this.dialogService.alert('User details edited successfully', 'success');
+      this.dialogService.alert('Updated successfully', 'success');
       /* resetting form and ngModels used in editing */
       this.getAllUserDetails();
       this.showTable();

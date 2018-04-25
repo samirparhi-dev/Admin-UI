@@ -68,7 +68,6 @@ import { DrugMasterComponent } from './drug-master/drug-master.component';
 import { DrugGroupComponent } from './drug-group/drug-group.component';
 import { DrugListComponent } from './drug-list/drug-list.component';
 import { DrugMappingComponent } from './drug-mapping/drug-mapping.component';
-import { ZoneMasterComponent } from './zone-master/zone-master.component';
 import { ZoneComponent } from './zone-list/zone.component';
 import { ZoneDistrictMappingComponent } from './zone-district-mapping/zone-district-mapping.component';
 import { ParkingPlaceComponent } from './parking-place-master/parking-place-master.component';
@@ -208,6 +207,9 @@ import { SuppliermasterService } from './services/inventory-services/suppliermas
 import { ItemIssueMethodConfigComponent } from './item-issue-method-config/item-issue-method-config.component';
 import { ItemToStoreMappingComponent } from './item-to-store-mapping/item-to-store-mapping.component';
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
+import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-master.component';
+import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
+import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 
 @NgModule({
   declarations: [
@@ -225,7 +227,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     ProviderAdminComponent, EditLocationModal, EditEmployeeDetailsModal,
     CallDispositionTypeMasterComponent, EditSeverityModalComponent, EditCallType,
     CategorySubcategoryProvisioningComponent, DrugMasterComponent, CreateSubServiceComponent,
-    EditProviderDetailsComponent, ZoneMasterComponent, ZoneComponent,
+    EditProviderDetailsComponent, ZoneComponent,
     ZoneDistrictMappingComponent, ParkingPlaceComponent, ServicePointComponent,
     CommonDialogComponent, LoaderComponent, ServicePointVillageMapComponent,
     SeverityTypeComponent, FeedbackTypeComponent, EditFeedbackModal, EditFeedbackNatureModal,
@@ -251,7 +253,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
     ItemMasterComponent, MainStoreAndSubStoreComponent,
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
-    SupplierMasterComponent, EditItemMasterModal
+    SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent
   ],
 
   imports: [

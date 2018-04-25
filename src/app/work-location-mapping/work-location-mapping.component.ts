@@ -514,7 +514,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.SaveWorkLocationMapping(requestArray)
       .subscribe(response => {
         console.log(response, 'after successful mapping of work-location');
-        this.alertService.alert('Work location  mapped successfully', 'success');
+        this.alertService.alert('Mapping saved successfully', 'success');
         this.getAllMappedWorkLocations();
         this.resetDropdowns();
         this.showTable();
@@ -738,7 +738,7 @@ export class WorkLocationMappingComponent implements OnInit {
       this.worklocationmapping.UpdateWorkLocationMapping(langObj)
         .subscribe(response => {
           console.log(response, 'after successful mapping of work location to provider');
-          this.alertService.alert('Work location mapping edited successfully', 'success');
+          this.alertService.alert('Mapping updated successfully', 'success');
           this.showTable();
           this.getAllMappedWorkLocations();
           this.resetDropdowns();

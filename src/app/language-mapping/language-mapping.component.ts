@@ -438,7 +438,7 @@ export class LanguageMappingComponent implements OnInit {
     this.languageMapping.SaveLanguageMapping(this.multiLanguages)
       .subscribe(response => {
         console.log(response, 'after successful mapping of language to provider');
-        this.alertService.alert('Language mapped successfully', 'success');
+        this.alertService.alert('Mapping saved successfully', 'success');
         this.showTable();
         this.getAllMappedLanguagesList();
         this.resetDropdowns();
@@ -493,7 +493,7 @@ export class LanguageMappingComponent implements OnInit {
     this.languageMapping.UpdateLanguageMapping(obj)
       .subscribe(response => {
         console.log(response, 'after successful mapping of language to provider');
-        this.alertService.alert('Language mapping edited successfully', 'success');
+        this.alertService.alert('Mapping updated successfully', 'success');
         this.showTable();
         this.getAllMappedLanguagesList();
         this.resetDropdowns();

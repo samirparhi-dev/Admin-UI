@@ -68,7 +68,7 @@ export class ItemMasterComponent implements OnInit {
 
   }
   getAllServices() {
-    this.commonServices.getServiceLines(this.providerID).subscribe((response) => {
+    this.commonServices.getServiceLines(this.userID).subscribe((response) => {
       console.log("serviceline", response);
       this.servicesSuccesshandler(response),
         (err) => console.log("ERROR in fetching serviceline")

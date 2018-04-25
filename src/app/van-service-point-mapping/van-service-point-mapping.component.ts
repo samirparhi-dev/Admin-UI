@@ -54,7 +54,7 @@ export class VanServicePointMappingComponent implements OnInit {
 
     vanServicePointMappingSuccessHandler(response) {
         this.vanServicePointMappingList = [];
-        this.alertMessage.alert("Van ServicePoint Mappings stored successfully", 'success');
+        this.alertMessage.alert("Mapping saved successfully", 'success');
     }
 
     getVanServicePointMappings(stateID, districtID, parkingPlaceID) {
@@ -265,7 +265,7 @@ export class VanServicePointMappingComponent implements OnInit {
     saveMappingSuccessHandler(response) {
         if (response.length > 0) {
             this.getVanServicePointMappings(this.searchStateID, this.searchDistrictID, this.searchParkingPlaceID);
-            this.alertMessage.alert("Van Service Mapping done successfully", 'success');
+            this.alertMessage.alert("Mapping saved successfully", 'success');
         }
     }
 }
