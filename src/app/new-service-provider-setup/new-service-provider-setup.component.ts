@@ -495,7 +495,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       'in TS, the response after having sent req for creating service provider'
     );
     if (response.response.toLowerCase() === 'true'.toLowerCase()) {
-      this.message.alert('PROVIDER CREATED SUCCESSFULLY');
+      this.message.alert('Saved successfully');
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;

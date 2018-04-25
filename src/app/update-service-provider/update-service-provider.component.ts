@@ -209,7 +209,7 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   }
   servicelineAddedSuccesshandler(response) {
-    this.message.alert('State and service added successfully', 'success');
+    this.message.alert('Saved successfully', 'success');
     this.super_admin_service.getProviderStatus(this.provider).subscribe(res => this.providerInfo_handler(res), err => {
       this.message.alert(err, 'error');
     });

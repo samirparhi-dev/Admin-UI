@@ -187,7 +187,7 @@ export class DrugMappingComponent implements OnInit {
 
   successHandler(response) {
     this.drugMapping = [];
-    this.alertMessage.alert("Drug mappings stored successfully",'success');
+    this.alertMessage.alert("Saved successfully", 'success');
     this.getAvailableMappings();
   }
 
@@ -209,7 +209,7 @@ export class DrugMappingComponent implements OnInit {
         this.dataObj.deleted = !drugMapping.deleted;
         this.dataObj.modifiedBy = this.createdBy;
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
-          this.alertMessage.alert(status + "d successfully",'success')
+          this.alertMessage.alert(status + "d successfully", 'success')
           drugMapping.deleted = !drugMapping.deleted
         }), (err) => this.alertMessage.alert(err, 'error');
       }

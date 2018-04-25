@@ -159,7 +159,7 @@ export class SupplierMasterComponent implements OnInit {
         this.supplierService.deleteSupplier(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Supplier  activated successfully', 'success');
+              this.dialogService.alert('Activated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
             }
           },
@@ -181,7 +181,7 @@ export class SupplierMasterComponent implements OnInit {
         this.supplierService.deleteSupplier(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Supplier Deactivated successfully', 'success');
+              this.dialogService.alert('Deactivated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
             }
           },
@@ -251,7 +251,7 @@ export class SupplierMasterComponent implements OnInit {
     this.supplierService.saveSupplier(this.bufferArray).subscribe(response => {
       if (response) {
         console.log(response, 'after successful creation of store');
-        this.dialogService.alert('Store created successfully', 'success');
+        this.dialogService.alert('Saved successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllSuppliers(this.providerServiceMapID);
@@ -293,7 +293,7 @@ export class SupplierMasterComponent implements OnInit {
     this.supplierService.updateSupplier(editObj).subscribe(response => {
       if (response) {
         console.log(response, 'after successful updation of Store');
-        this.dialogService.alert('Store updated successfully', 'success');
+        this.dialogService.alert('Updated successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllSuppliers(this.providerServiceMapID);

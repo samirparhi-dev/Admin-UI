@@ -289,7 +289,7 @@ export class ZoneComponent implements OnInit {
                 this.ZoneForm.resetForm();
                 this.zoneList = [];
                 this.clearEdit();
-                
+
             }
         })
     }

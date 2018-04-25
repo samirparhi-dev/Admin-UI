@@ -84,6 +84,7 @@ export class AgentListCreationComponent implements OnInit {
   }
 
   getCampaignNames(serviceName) {
+    debugger;
     this._AgentListCreationService.getCampaignNames(serviceName)
       .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
 
