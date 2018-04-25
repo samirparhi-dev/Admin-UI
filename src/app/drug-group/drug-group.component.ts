@@ -111,17 +111,32 @@ export class DrugGroupComponent implements OnInit {
 
     this.drugGroupObj.serviceProviderID = this.service_provider_id;
     //this.drugGroupObj.stateName = provider_service.stateName;
-
     this.drugGroupObj.createdBy = this.createdBy;
-
-    this.drugGroupList.push(this.drugGroupObj);
+    this.checkDuplicates(this.drugGroupObj);
+    //this.drugGroupList.push(this.drugGroupObj);
     //  }
     // } 
     // if(this.drugGroupList.length<=0){
     //     this.alertMessage.alert("No Service available with the state selected");
     // }
   }
-
+  checkDuplicates(object) {
+    let duplicateStatus = 0
+    if (this.drugGroupList.length === 0) {
+      this.drugGroupList.push(object);
+    }
+    else {
+      for (let i = 0; i < this.drugGroupList.length; i++) {
+        if (this.drugGroupList[i].drugGroup === object.drugGroup
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+      }
+      if (duplicateStatus === 0) {
+        this.drugGroupList.push(object);
+      }
+    }
+  }
   storeDrugGroup() {
     let obj = { "drugGroups": this.drugGroupList };
     this.drugMasterService.saveDrugGroups(JSON.stringify(obj)).subscribe(response => this.successHandler(response));

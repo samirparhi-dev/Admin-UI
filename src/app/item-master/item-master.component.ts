@@ -26,8 +26,7 @@ export class ItemMasterComponent implements OnInit {
   itemCodeExist: any;
   editMode: boolean = false;
   showTableFlag: boolean = false;
-  showFormFlag: boolean = false;
-  nationalFlag: boolean;
+  showFormFlag: boolean = false; 
   disableSelection: boolean = false;
 
   /*Arrays*/
@@ -61,9 +60,6 @@ export class ItemMasterComponent implements OnInit {
 
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
-
-    this.providerID = this.commonDataService.service_providerID;
-    console.log('this.providerID', this.providerID);
     this.getAllServices();
 
   }

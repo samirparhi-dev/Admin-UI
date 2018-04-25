@@ -95,16 +95,16 @@ export class DrugListComponent implements OnInit {
     }
   }
 
-  drugFilterList(formValues) {
-    for (let i = 0; i < this.availableDrugs.length; i++) {
-      if (this.availableDrugs[i].drugName === formValues.drugName
-        && this.availableDrugs[i].providerServiceMapID === formValues.providerServiceMapID) {
-        this.alertMessage.alert('This drug is already available');
-        this.duplicateDrugs = true;
-      }
-    }
-    return this.duplicateDrugs;
-  }
+  // drugFilterList(formValues) {
+  //   for (let i = 0; i < this.availableDrugs.length; i++) {
+  //     if (this.availableDrugs[i].drugName === formValues.drugName
+  //       && this.availableDrugs[i].providerServiceMapID === formValues.providerServiceMapID) {
+  //       this.alertMessage.alert('This drug is already available');
+  //       this.duplicateDrugs = true;
+  //     }
+  //   }
+  //   return this.duplicateDrugs;
+  // }
 
 
   responseHandler(response) {
@@ -126,7 +126,7 @@ export class DrugListComponent implements OnInit {
 
   addDrugToList(values) {
     debugger;
-    if (!this.drugFilterList(values)) {
+   // if (!this.drugFilterList(values)) {
       this.drugObj = {};
       this.drugObj.drugName = values.drugName;
       this.drugObj.drugDesc = values.drugDesc;
@@ -139,11 +139,27 @@ export class DrugListComponent implements OnInit {
       // } 
       this.drugObj.serviceProviderID = this.service_provider_id;
       this.drugObj.createdBy = this.createdBy;
+      this.checkDuplicates(this.drugObj);
+      // this.drugList.push(this.drugObj);
+  //  }
 
-      this.drugList.push(this.drugObj);
+  }
+  checkDuplicates(object) {
+    let duplicateStatus = 0
+    if (this.drugList.length === 0) {
+      this.drugList.push(object);
     }
-    else { this.duplicateDrugs = false; }
-
+    else {
+      for (let i = 0; i < this.drugList.length; i++) {
+        if (this.drugList[i].drugName === object.drugName
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+      }
+      if (duplicateStatus === 0) {
+        this.drugList.push(object);
+      }
+    }
   }
 
   storedrug() {

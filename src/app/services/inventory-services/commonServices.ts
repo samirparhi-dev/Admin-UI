@@ -52,7 +52,7 @@ export class CommonServices {
     */
 
     handleSuccess(res: Response) {
-        console.log(res.json().data, 'Item master state success response');
+        console.log(res.json().data, 'state success response');
         if (res.json().data) {
             return res.json().data;
         } else {
@@ -62,10 +62,10 @@ export class CommonServices {
 
     handleState_n_ServiceSuccess(response: Response) {
 
-        console.log(response.json().data, 'Item master service line success response');
+        console.log(response.json().data, 'service line success response');
         let result = [];
         result = response.json().data.filter(function (item) {
-            if (item.serviceID != 1) {
+            if (item.serviceID != 1 && item.serviceID != 3) {
                 return item;
             }
         });
