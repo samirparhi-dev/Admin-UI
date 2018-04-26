@@ -216,8 +216,11 @@ export class InstituteTypeMasterComponent implements OnInit {
       if (count == 0 && (obj.institutionType != "" && obj.institutionType != undefined)) {
         this.bufferArray.push(obj);
       }
+      else {
+        this.alertService.alert("Already exists");
+      }
     }
-   // this.entryField.resetForm();
+    // this.entryField.resetForm();
 
     /*resetting fields after entering in buffer array/or if duplicate exist*/
     this.instituteType = "";
