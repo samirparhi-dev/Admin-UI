@@ -46,279 +46,281 @@ export class AgentListCreationComponent implements OnInit {
   ngOnInit() {
     this.radio_option = '1';
     this.userID = this.commonDataService.uid;
-    this.getServices(this.userID);
+    //this.getServices(this.userID);
   }
 
-  setIsNational(value) {
-    this.isNational = value;
-    if (value) {
-      this.state = '';
-    }
-  }
+//   setIsNational(value) {
+//     this.isNational = value;
+//     if (value) {
+//       this.state = '';
+//     }
+//   }
 
-  getStates(serviceID, isNational) {
-    this.state = '';
-    this._AgentListCreationService.getStates(this.userID, serviceID, isNational)
-      .subscribe(response => this.getStatesSuccessHandeler(response, isNational), (err) => this.alertService.alert(err, 'error'));
+//   getStates(serviceID, isNational) {
+//     this.state = '';
+//     this._AgentListCreationService.getStates(this.userID, serviceID, isNational)
+//       .subscribe(response => this.getStatesSuccessHandeler(response, isNational), (err) => this.alertService.alert(err, 'error'));
 
-  }
+//   }
 
-  getStatesSuccessHandeler(response, isNational) {
-    console.log('STATE', response);
-    this.states = response;
-    if (isNational) {
-      this.setProviderServiceMapID(this.states[0].providerServiceMapID);
-    }
-  }
+//   getStatesSuccessHandeler(response, isNational) {
+//     console.log('STATE', response);
+//     this.states = response;
+//     if (isNational) {
+//       this.setProviderServiceMapID(this.states[0].providerServiceMapID);
+//     }
+//   }
 
-  getServices(userID) {
-    // this.service = '';
-    this._AgentListCreationService.getServices(userID)
-      .subscribe(response => this.getServicesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
-  }
+//   getServices(userID) {
+//     // this.service = '';
+//     this._AgentListCreationService.getServices(userID)
+//       .subscribe(response => this.getServicesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
+//   }
 
-  getServicesSuccessHandeler(response) {
-    console.log('SERVICES', response);
-    this.services = response;
-  }
+//   getServicesSuccessHandeler(response) {
+//     console.log('SERVICES', response);
+//     this.services = response;
+//   }
 
-  setProviderServiceMapID(providerServiceMapID) {
-    console.log('providerServiceMapID', providerServiceMapID);
-    this.providerServiceMapID = providerServiceMapID;
-    this.getAllAgents(this.providerServiceMapID);
-  }
+//   setProviderServiceMapID(providerServiceMapID) {
+//     console.log('providerServiceMapID', providerServiceMapID);
+//     this.providerServiceMapID = providerServiceMapID;
+//     //this.getAllAgents(this.providerServiceMapID);
+//   }
 
-  getAllAgents(providerServiceMapID) {
-    this._AgentListCreationService.getAllAgents(providerServiceMapID).subscribe((agentsResponse) => 
-    this.agentsListSuccessHandler(agentsResponse),
-    (err) => { console.log("Error", err) });     
-}
-agentsListSuccessHandler(agentsResponse) {
-  console.log('Agents list', agentsResponse);
-      this.agentLists = agentsResponse;
-      this.showTableFlag = true;
+//   getAllAgents(providerServiceMapID) {
+//     console.log("providerServiceMapID", providerServiceMapID);
+    
+//     this._AgentListCreationService.getAllAgents(providerServiceMapID).subscribe((agentsResponse) => 
+//     this.agentsListSuccessHandler(agentsResponse),
+//     (err) => { console.log("Error", err) });     
+// }
+// agentsListSuccessHandler(agentsResponse) {
+//   console.log('Agents list', agentsResponse);
+//       this.agentLists = agentsResponse;
+//       this.showTableFlag = true;
 
-}
-  getCampaignNames(serviceName) {
-    debugger;
-    this._AgentListCreationService.getCampaignNames(serviceName)
-      .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
+// }
+//   getCampaignNames(serviceName) {
+//     debugger;
+//     this._AgentListCreationService.getCampaignNames(serviceName)
+//       .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
 
-  }
+//   }
 
-  getCampaignNamesSuccessHandeler(response) {
-    if (response) {
-      this.campaignNames = response.campaign;
-    }
-  }
+//   getCampaignNamesSuccessHandeler(response) {
+//     if (response) {
+//       this.campaignNames = response.campaign;
+//     }
+//   }
 
-  reset() {
-    this.agent_ID = '';
-    this.resultArray = [];
-  }
+//   reset() {
+//     this.agent_ID = '';
+//     this.resultArray = [];
+//   }
 
-  showForm() {
-    this.showFormFlag = true;
-    this.showTableFlag = false;
-    this.disableSelection = true;
+//   showForm() {
+//     this.showFormFlag = true;
+//     this.showTableFlag = false;
+//     this.disableSelection = true;
 
-  }
+//   }
 
-  validate_one(agentID) {
-    this.resultArray = [];
+//   validate_one(agentID) {
+//     this.resultArray = [];
 
-    if (agentID != '' || agentID != null || agentID != undefined) {
-      // var obj=
-      // {
-      // 	"agentID":agentID
-      // }
+//     if (agentID != '' || agentID != null || agentID != undefined) {
+//       // var obj=
+//       // {
+//       // 	"agentID":agentID
+//       // }
 
-      var obj = {
-        'agentID': parseInt(agentID),
-        'agentPassword': this.password,
-        'providerServiceMapID': this.providerServiceMapID,
-        'cti_CampaignName': this.campaign_name,
-        'createdBy': this.commonDataService.uname
-      }
+//       var obj = {
+//         'agentID': parseInt(agentID),
+//         'agentPassword': this.password,
+//         'providerServiceMapID': this.providerServiceMapID,
+//         'cti_CampaignName': this.campaign_name,
+//         'createdBy': this.commonDataService.uname
+//       }
 
-      this.resultArray.push(obj);
-    }
+//       this.resultArray.push(obj);
+//     }
 
-    console.log('Result from 1', this.resultArray);
-
-
-    if (this.resultArray.length > 0) {
-      let tick = 0;
-      for (let z = 0; z < this.resultArray.length; z++) {
-        if (this.resultArray[z].agentID.toString()[0] === "2" ||
-          this.resultArray[z].agentID.toString()[0] === "3" ||
-          this.resultArray[z].agentID.toString()[0] === "4") {
-          console.log(this.resultArray[z].agentID.toString()[0]);
-          tick = tick + 1;
-        }
-      }
-
-      if (tick > 0) {
-
-        return 'GO';
-      }
-
-    }
-
-  }
-
-  validate_two(agentID) {
-    this.resultArray = [];
-
-    var items = agentID.split(",");
-    for (let i = 0; i < items.length; i++) {
-
-      // let obj=
-      // {
-      // 	"agentID":parseInt(items[i])
-      // }
-
-      if (items[i].length === 0) {
-        continue;
-      }
-
-      var obj = {
-        'agentID': parseInt(items[i]),
-        'agentPassword': this.password,
-        'providerServiceMapID': this.providerServiceMapID,
-        'cti_CampaignName': this.campaign_name,
-        'createdBy': this.commonDataService.uname
-      }
-
-      if (this.resultArray.length == 0) {
-        this.resultArray.push(obj);
-      } else {
-        var count = 0;
-        for (var k = 0; k < this.resultArray.length; k++) {
-          if (this.resultArray[k].agentID === obj.agentID) {
-            count = count + 1;
-          }
-        }
-
-        if (count === 0) {
-          this.resultArray.push(obj);
-        }
-      }
+//     console.log('Result from 1', this.resultArray);
 
 
-    }
-    console.log('Result from 2', this.resultArray);
+//     if (this.resultArray.length > 0) {
+//       let tick = 0;
+//       for (let z = 0; z < this.resultArray.length; z++) {
+//         if (this.resultArray[z].agentID.toString()[0] === "2" ||
+//           this.resultArray[z].agentID.toString()[0] === "3" ||
+//           this.resultArray[z].agentID.toString()[0] === "4") {
+//           console.log(this.resultArray[z].agentID.toString()[0]);
+//           tick = tick + 1;
+//         }
+//       }
 
-    if (this.resultArray.length > 0) {
-      let tick = 0;
-      for (let z = 0; z < this.resultArray.length; z++) {
-        if (this.resultArray[z].agentID.toString()[0] === "2" ||
-          this.resultArray[z].agentID.toString()[0] === "3" ||
-          this.resultArray[z].agentID.toString()[0] === "4") {
-          console.log(this.resultArray[z].agentID.toString()[0]);
-          tick = tick + 1;
-        }
-      }
+//       if (tick > 0) {
 
-      if (tick > 0) {
+//         return 'GO';
+//       }
 
-        return "GO";
-      }
-    }
-  }
+//     }
 
-  validate_three(agentID) {
-    this.resultArray = [];
+//   }
 
-    var hyphen_items = agentID.split("-");
-    if (hyphen_items.length == 2 && hyphen_items[0].length > 0 && hyphen_items[1].length > 0 && parseInt(hyphen_items[1]) > parseInt(hyphen_items[0])) {
-      var no_of_items = (parseInt(hyphen_items[1]) - parseInt(hyphen_items[0])) + 1;
-      for (let j = 0; j < no_of_items; j++) {
+//   validate_two(agentID) {
+//     this.resultArray = [];
+
+//     var items = agentID.split(",");
+//     for (let i = 0; i < items.length; i++) {
+
+//       // let obj=
+//       // {
+//       // 	"agentID":parseInt(items[i])
+//       // }
+
+//       if (items[i].length === 0) {
+//         continue;
+//       }
+
+//       var obj = {
+//         'agentID': parseInt(items[i]),
+//         'agentPassword': this.password,
+//         'providerServiceMapID': this.providerServiceMapID,
+//         'cti_CampaignName': this.campaign_name,
+//         'createdBy': this.commonDataService.uname
+//       }
+
+//       if (this.resultArray.length == 0) {
+//         this.resultArray.push(obj);
+//       } else {
+//         var count = 0;
+//         for (var k = 0; k < this.resultArray.length; k++) {
+//           if (this.resultArray[k].agentID === obj.agentID) {
+//             count = count + 1;
+//           }
+//         }
+
+//         if (count === 0) {
+//           this.resultArray.push(obj);
+//         }
+//       }
+
+
+//     }
+//     console.log('Result from 2', this.resultArray);
+
+//     if (this.resultArray.length > 0) {
+//       let tick = 0;
+//       for (let z = 0; z < this.resultArray.length; z++) {
+//         if (this.resultArray[z].agentID.toString()[0] === "2" ||
+//           this.resultArray[z].agentID.toString()[0] === "3" ||
+//           this.resultArray[z].agentID.toString()[0] === "4") {
+//           console.log(this.resultArray[z].agentID.toString()[0]);
+//           tick = tick + 1;
+//         }
+//       }
+
+//       if (tick > 0) {
+
+//         return "GO";
+//       }
+//     }
+//   }
+
+//   validate_three(agentID) {
+//     this.resultArray = [];
+
+//     var hyphen_items = agentID.split("-");
+//     if (hyphen_items.length == 2 && hyphen_items[0].length > 0 && hyphen_items[1].length > 0 && parseInt(hyphen_items[1]) > parseInt(hyphen_items[0])) {
+//       var no_of_items = (parseInt(hyphen_items[1]) - parseInt(hyphen_items[0])) + 1;
+//       for (let j = 0; j < no_of_items; j++) {
         // let obj=
         // {
         // 	"agentID":parseInt(hyphen_items[0])+j
         // }
 
-        var obj = {
-          'agentID': parseInt(hyphen_items[0]) + j,
-          'agentPassword': this.password,
-          'providerServiceMapID': this.providerServiceMapID,
-          'cti_CampaignName': this.campaign_name,
-          'createdBy': this.commonDataService.uname
-        }
+  //       var obj = {
+  //         'agentID': parseInt(hyphen_items[0]) + j,
+  //         'agentPassword': this.password,
+  //         'providerServiceMapID': this.providerServiceMapID,
+  //         'cti_CampaignName': this.campaign_name,
+  //         'createdBy': this.commonDataService.uname
+  //       }
 
-        if (this.resultArray.length == 0) {
-          this.resultArray.push(obj);
-        } else {
-          var count = 0;
-          for (var i = 0; i < this.resultArray.length; i++) {
-            if (this.resultArray[i].agentID === obj.agentID) {
-              count = count + 1;
-            }
-          }
+  //       if (this.resultArray.length == 0) {
+  //         this.resultArray.push(obj);
+  //       } else {
+  //         var count = 0;
+  //         for (var i = 0; i < this.resultArray.length; i++) {
+  //           if (this.resultArray[i].agentID === obj.agentID) {
+  //             count = count + 1;
+  //           }
+  //         }
 
-          if (count === 0) {
-            this.resultArray.push(obj);
-          }
-        }
-      }
-    }
+  //         if (count === 0) {
+  //           this.resultArray.push(obj);
+  //         }
+  //       }
+  //     }
+  //   }
 
-    if (this.resultArray.length > 0) {
-      let tick = 0;
-      for (let z = 0; z < this.resultArray.length; z++) {
-        if (this.resultArray[z].agentID.toString()[0] === "2" ||
-          this.resultArray[z].agentID.toString()[0] === "3" ||
-          this.resultArray[z].agentID.toString()[0] === "4") {
-          console.log(this.resultArray[z].agentID.toString()[0]);
-          tick = tick + 1;
-        }
-      }
+  //   if (this.resultArray.length > 0) {
+  //     let tick = 0;
+  //     for (let z = 0; z < this.resultArray.length; z++) {
+  //       if (this.resultArray[z].agentID.toString()[0] === "2" ||
+  //         this.resultArray[z].agentID.toString()[0] === "3" ||
+  //         this.resultArray[z].agentID.toString()[0] === "4") {
+  //         console.log(this.resultArray[z].agentID.toString()[0]);
+  //         tick = tick + 1;
+  //       }
+  //     }
 
-      if (tick > 0) {
-        return "GO";
-      }
-    }
-
-
-    console.log('Result from 3', this.resultArray);
-  }
+  //     if (tick > 0) {
+  //       return "GO";
+  //     }
+  //   }
 
 
-  map(choice) {
-    var result = '';
-    if (choice === "1") {
-      result = this.validate_one(this.agent_ID);
-    }
-    if (choice === "2") {
-      result = this.validate_two(this.agent_ID);
-    }
-    if (choice === "3") {
-      result = this.validate_three(this.agent_ID);
-    }
+  //   console.log('Result from 3', this.resultArray);
+  // }
 
-    if (result === "GO") {
-      this._AgentListCreationService.saveAgentListMapping(this.resultArray)
-        .subscribe(response => this.saveSuccessHandeler(response),
-          (err) => this.alertService.alert(err, 'error'));
-    }
-    else {
-      this.alertService.alert('Invalid entry in agent ID', 'error');
-    }
 
-  }
+  // map(choice) {
+  //   var result = '';
+  //   if (choice === "1") {
+  //     result = this.validate_one(this.agent_ID);
+  //   }
+  //   if (choice === "2") {
+  //     result = this.validate_two(this.agent_ID);
+  //   }
+  //   if (choice === "3") {
+  //     result = this.validate_three(this.agent_ID);
+  //   }
 
-  saveSuccessHandeler(response) {
-    if (response) {
-      if (response.length > 0) {
-        this.alertService.alert('Mapping saved successfully');
-        this.resetFields();
-      }
-      if (response.length == 0) {
-        this.alertService.alert('Mapping  already exists');
-      }
-    }
-  }
+  //   if (result === "GO") {
+  //     this._AgentListCreationService.saveAgentListMapping(this.resultArray)
+  //       .subscribe(response => this.saveSuccessHandeler(response),
+  //         (err) => this.alertService.alert(err, 'error'));
+  //   }
+  //   else {
+  //     this.alertService.alert('Invalid entry in agent ID', 'error');
+  //   }
+
+  // }
+
+  // saveSuccessHandeler(response) {
+  //   if (response) {
+  //     if (response.length > 0) {
+  //       this.alertService.alert('Mapping saved successfully');
+  //       this.resetFields();
+  //     }
+  //     if (response.length == 0) {
+  //       this.alertService.alert('Mapping  already exists');
+  //     }
+  //   }
+  // }
 
 
   resetFields() {
