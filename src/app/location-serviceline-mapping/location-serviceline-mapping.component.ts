@@ -422,7 +422,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       console.log(value.trim(), "EDsdd");
       if (a.trim().toLowerCase() == value.trim().toLowerCase()) {
         this.officeNameExist = true;
-        this.msg = "OfficeName exist for " + this.officeArray[i].serviceName + ", deselect " + this.officeArray[i].serviceName;
+        this.msg = "Office name exists"
         break;
       }
       else {
