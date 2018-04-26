@@ -1,4 +1,4 @@
-<!-- <div class="row">
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Pharmacological Category Master</h4>
   </div>
@@ -6,7 +6,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" name="services"
+        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" name="services" [disabled]="disableSelection"
           (change)="getStates(service)" required>
           <md-option *ngFor="let item of services" [value]="item">
             {{item.serviceName}}
@@ -17,8 +17,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" [disabled]="disableSelection"
-          required>
+        <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" [disabled]="disableSelection" required>
           <md-option *ngFor="let item of states" [value]="item" (click)="setProviderServiceMapID(item.providerServiceMapID)">
             {{item.stateName}}
           </md-option>
@@ -39,24 +38,12 @@
             <th width="15%">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- <tr *ngIf=".length == 0" class="record-not-found">
-            <td colspan="8" align="center">No records found</td>
-          </tr> -->
-<!-- <tr *ngFor="let item of md2.data; let i=index">
+        <tbody>         
+          <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.pharmCategoryCode}}</td>
             <td>{{item.pharmCategoryName}}</td>
-            <td>{{item.pharmCategoryDesc}}</td> -->
-<!-- <td>
-                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                  (click)="editItem(item)">edit</md-icon>
-              </td>             
-              <td>
-                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
-                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
-              </td> -->
-<!-- </tr>
+            <td>{{item.pharmCategoryDesc}}</td>           
         </tbody>
         <tfoot>
           <tr>
@@ -77,12 +64,13 @@
     <form #pharmacologicalCategoryForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Category Code" [(ngModel)]="code" name="code" minlength="2" maxlength="10" required #categoryCode="ngModel">
+          <input mdInput placeholder="Category Code" [(ngModel)]="code" name="code" minlength="2" maxlength="10" #categoryCode="ngModel"
+            required>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
-          <input mdInput placeholder="Category Name" [(ngModel)]="name" name="name" minlength="2" maxlength="50">
+          <input mdInput placeholder="Category Name" [(ngModel)]="name" name="name" minlength="2" maxlength="50" #categoryName="ngModel" required>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -90,15 +78,15 @@
           <input mdInput placeholder="Category Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="code.valid && name.valid && description.valid">
-        <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left" (click)="add_obj(pharmacologicalCategoryForm.value)">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf= "categoryCode.valid && categoryName.valid">
+        <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left" (click)="add_pharmaObj(pharmacologicalCategoryForm.value)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="bufferArray.length>0">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="pharmaCategoryArrayObj.length>0">
       <div class="table-responsive">
-        <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+        <table [md2Data]="pharmaCategoryArrayObj" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
           <thead>
             <tr>
               <th>S.No.</th>
@@ -121,7 +109,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4">
+              <td colspan="5">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
@@ -129,10 +117,9 @@
         </table>
       </div>
     </div>
-
     <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-10">
       <button md-raised-button class="pull-right" color="accent" (click)="save()">Save</button>
       <button md-raised-button class="pull-left" color="primary" (click)="back()">Back</button>
     </div>
   </div>
-</div>  -->
+</div>

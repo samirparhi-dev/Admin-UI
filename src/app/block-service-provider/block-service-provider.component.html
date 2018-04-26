@@ -199,9 +199,9 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
-            <md-hint *ngIf="reasonR.touched">
-              <span class="error_text" *ngIf="reasonR.errors?.required">Reason is required</span>
-              <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span>
+            <md-hint>
+              <span class="error_text"  *ngIf="!reasonR.valid && reasonR.touched && reasonR.errors ">Required minimum 5 characters</span>
+              <!-- <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span> -->
             </md-hint>
           </md-input-container>
         </div>

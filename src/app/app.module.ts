@@ -199,6 +199,7 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
 
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
@@ -332,7 +333,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService,
+    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

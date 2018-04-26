@@ -4,7 +4,7 @@
         <h4>Van Service Point Mapping</h4>
     </div>
 
-    <form #searForm="ngForm">
+    <form #searForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
@@ -106,7 +106,7 @@
                     </div>
                 </form>
             </div> -->
-<form class="c-b p-t-30" [formGroup]="MappingForm">
+<form class="c-b p-t-30" [formGroup]="MappingForm" autocomplete="off">
     <div class="form-group" *ngIf="availableVanServicePointMappings.length!=0">
         <table [md2Data]="MappingForm.get('mappings').controls" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
             <thead>

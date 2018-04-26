@@ -128,7 +128,14 @@ export class ServiceProviderMasterComponent implements OnInit {
       return false;
     }
   }
-
+  back() {
+    this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.showTable();
+        this.providerCreationForm.resetForm();
+      }
+    })
+  }
   save(form_value) {
     console.log(form_value, 'Form Value');
     const object = {

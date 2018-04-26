@@ -116,3 +116,22 @@ export class PAN {
 
 
 }
+@Directive({
+	selector: '[vehicleNo]'
+})
+export class vehicleNo {
+	constructor(element: ElementRef) {
+
+	}
+
+
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[~!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]*$/);
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+
+
+}

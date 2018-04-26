@@ -72,10 +72,7 @@ export class ItemMasterComponent implements OnInit {
   }
   servicesSuccesshandler(res) {
     this.services = res.filter((item) => {
-      console.log('item', item);
-      if (item.serviceID != 6) {
-        return item;
-      }
+      console.log('item', item);     
     })
   }
 
@@ -89,7 +86,7 @@ export class ItemMasterComponent implements OnInit {
   getStates(service) {
     debugger;
     console.log("value", service);
-    this.commonServices.getStatesOnServices(this.providerID, service.serviceID, false).
+    this.commonServices.getStatesOnServices(this.userID, service.serviceID, false).
       subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
         console.log("error in fetching states")
       });
