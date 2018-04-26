@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { InstituteTypeMasterService } from '../services/ProviderAdminServices/institute-type-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-institute-type-master',
@@ -20,13 +21,13 @@ export class InstituteTypeMasterComponent implements OnInit {
 
   instituteType: any;
   description: any;
-
+  typeExists: any;
   userID: any;
 
   /*arrays*/
   states: any = [];
   services: any = [];
-
+  searchInstituteTypeArray: any = [];
   searchResultArray: any = [];
   bufferArray: any = [];
 
@@ -36,6 +37,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   disableSelection: boolean = false;
   isNational = false;
 
+  // @ViewChild ('searchFields') searchFields: NgForm;
+  // @ViewChild ('entryField') entryField: NgForm;
   constructor(public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialog: MdDialog,
@@ -129,7 +132,13 @@ export class InstituteTypeMasterComponent implements OnInit {
 
     this.disableSelection = true;
   }
-
+  navigateToPrev() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.back();
+      }
+    })
+  }
   back() {
     this.showTableFlag = true;
     this.showFormFlag = false;
@@ -185,7 +194,6 @@ export class InstituteTypeMasterComponent implements OnInit {
     }
   }
 
-
   add_obj(institute_type, description) {
     let obj = {
 
@@ -209,6 +217,7 @@ export class InstituteTypeMasterComponent implements OnInit {
         this.bufferArray.push(obj);
       }
     }
+   // this.entryField.resetForm();
 
     /*resetting fields after entering in buffer array/or if duplicate exist*/
     this.instituteType = "";
@@ -267,7 +276,7 @@ export class EditInstituteType {
   instituteType: any;
   description: any;
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialogReff: MdDialogRef<EditInstituteType>) { }

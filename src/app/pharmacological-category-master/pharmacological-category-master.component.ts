@@ -13,11 +13,11 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 export class PharmacologicalCategoryMasterComponent implements OnInit {
 
   providerServiceMapID: any;
-  providerID: any;
   createdBy: any;
   userID: any;
   showFormFlag: boolean = false;
   showTableFlag: boolean = false;
+  disableSelection: boolean = false;
   services: any = [];
   states: any = [];
   pharmacologyCategories: any = [];
@@ -27,7 +27,11 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
   constructor(public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService,
     public commonServices: CommonServices,
-    private pharmacologyService: PharmacologicalMasterService) { this.providerID = this.commonDataService.service_providerID; }
+    private pharmacologyService: PharmacologicalMasterService) 
+    { 
+     
+    }
+
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
@@ -49,7 +53,6 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
       }
     })
   }
-
   setProviderServiceMapID(providerServiceMapID) {
     this.providerServiceMapID = providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
@@ -85,6 +88,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
   showForm() {
     this.showFormFlag = true;
     this.showTableFlag = false;
+    this.disableSelection = true;
   }
   add_pharmaObj(formValue) {
 
@@ -111,8 +115,6 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
         this.pharmaCategoryArrayObj.push(pharmaObj);
       }
     }
-
-
   }
   removeRow(index) {
     this.pharmaCategoryArrayObj.splice(index, 1);

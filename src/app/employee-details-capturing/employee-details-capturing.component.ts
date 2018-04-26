@@ -233,7 +233,7 @@ hide: boolean = true;
   
   createEmployeeSuccessHandeler(response) {
     console.log(response, 'employee created successfully');
-    this.alertService.alert("Employee created successfully");
+    this.alertService.alert("Saved successfully");
     // alert('Employee Created Successfully!');
     jQuery('#credentialsForm').trigger('reset');
     jQuery('#uniquieID').trigger('reset');

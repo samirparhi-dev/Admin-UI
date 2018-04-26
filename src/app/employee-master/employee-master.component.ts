@@ -34,9 +34,9 @@ export class EmployeeMasterComponent implements OnInit {
 
 
   constructor(public EmployeeMasterService: EmployeeMasterService,
-              public CommonDataService: dataService,
-              public dialog: MdDialog,
-              private alertService: ConfirmationDialogsService) {
+    public CommonDataService: dataService,
+    public dialog: MdDialog,
+    private alertService: ConfirmationDialogsService) {
     this.serviceProviderID = this.CommonDataService.service_providerID;
 
     this.createEmployeeFlag = false;
@@ -47,10 +47,9 @@ export class EmployeeMasterComponent implements OnInit {
     this.EmployeeMasterService.getStatesOfServiceProvider(this.serviceProviderID).subscribe(response => this.getStatesOfServiceProviderSuccessHandeler(response));
   }
 
-  outputHandeler(data)
-  {
-    console.log("Event Data",data);
-    this.createEmployeeFlag=data;
+  outputHandeler(data) {
+    console.log("Event Data", data);
+    this.createEmployeeFlag = data;
   }
 
   searchEmployee(state, service, role, empname, empid) {
@@ -63,17 +62,17 @@ export class EmployeeMasterComponent implements OnInit {
       "userName": empname,
       "userID": empid
     }
-    if (request_obj.pSMStateID === undefined||request_obj.pSMStateID==="") {
+    if (request_obj.pSMStateID === undefined || request_obj.pSMStateID === "") {
       request_obj.pSMStateID = null;
     }
-    if (request_obj.serviceID === undefined||request_obj.serviceID==="") {
+    if (request_obj.serviceID === undefined || request_obj.serviceID === "") {
       request_obj.serviceID = null;
     }
-    if (request_obj.roleID === undefined||request_obj.roleID ==="") {
+    if (request_obj.roleID === undefined || request_obj.roleID === "") {
 
       request_obj.roleID = null;
     }
-    if (request_obj.userName === undefined||request_obj.userName==="") {
+    if (request_obj.userName === undefined || request_obj.userName === "") {
 
       request_obj.userName = null;
     }
@@ -88,18 +87,17 @@ export class EmployeeMasterComponent implements OnInit {
     this.EmployeeMasterService.getEmployees(request_obj).subscribe(response => this.getEmployeesSuccessHandeler(response));
   }
 
-  clear()
-  {
-    this.state_filter="";
-    this.service_filter="";
-    this.role_filter="";
-    this.name_filter="";
-    this.employee_id_filter="";
+  clear() {
+    this.state_filter = "";
+    this.service_filter = "";
+    this.role_filter = "";
+    this.name_filter = "";
+    this.employee_id_filter = "";
 
-    this.services=[];
-    this.roles=[];
+    this.services = [];
+    this.roles = [];
 
-    this.tableitems=[];
+    this.tableitems = [];
   }
 
   changeFlagValue(boolean_value) {
@@ -118,19 +116,19 @@ export class EmployeeMasterComponent implements OnInit {
 
   deleteUser(usrMapingId) {
     // let confirmation = confirm("do you want to delete this role ???");
-    this.alertService.confirm('Confirm',"Are you sure you want to delete this role ?").subscribe((res) => {
+    this.alertService.confirm('Confirm', "Are you sure you want to delete this role ?").subscribe((res) => {
       if (res) {
         this.EmployeeMasterService.deleteEmployeeRole(usrMapingId).subscribe(response => this.userDeleteHandeler(response));
       }
     },
-    (err) => {
-      console.log(err);
-    })
+      (err) => {
+        console.log(err);
+      })
   }
 
   editeUser(toBeEditedObject) {
     // let confirmation = confirm("do you want to edit the user with employeeID as " + toBeEditedObject.userID + "???");
-    this.alertService.confirm('Confirm',"Do you want to edit the details of " + toBeEditedObject.firstName + " " + toBeEditedObject.lastName + "?").subscribe(res => {
+    this.alertService.confirm('Confirm', "Do you want to edit the details of " + toBeEditedObject.firstName + " " + toBeEditedObject.lastName + "?").subscribe(res => {
       if (res) {
         console.log(JSON.stringify(toBeEditedObject));
 
@@ -149,9 +147,9 @@ export class EmployeeMasterComponent implements OnInit {
         });
       }
     },
-    (err) => {
-      console.log(err);
-    })
+      (err) => {
+        console.log(err);
+      })
   }
 
   getStatesOfServiceProviderSuccessHandeler(response) {
@@ -177,7 +175,7 @@ export class EmployeeMasterComponent implements OnInit {
   }
 
   userDeleteHandeler(response) {
-    this.alertService.alert('User deleted successfully');
+    this.alertService.alert('Deleted successfully');
     console.log(response, 'user delete successfully');
     this.searchEmployee(this.state_filter, this.service_filter, this.role_filter, this.name_filter, this.employee_id_filter);
   }
@@ -200,10 +198,10 @@ export class EditEmployeeDetailsModal {
   m_address1: any;
   m_address2: any;
   m_middlename: any;
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
-              public EmployeeMasterService: EmployeeMasterService, public CommonDataService: dataService,
-              public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
-              private alertService: ConfirmationDialogsService) { }
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+    public EmployeeMasterService: EmployeeMasterService, public CommonDataService: dataService,
+    public dialog_Ref: MdDialogRef<EditEmployeeDetailsModal>,
+    private alertService: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.m_firstname = this.data.firstName;
@@ -331,12 +329,12 @@ export class EditEmployeeDetailsModal {
 
 
     this.EmployeeMasterService.editEmployee(edit_req_obj)
-    .subscribe(response => this.editEmployeeDetailsSuccessHandeler(response));
+      .subscribe(response => this.editEmployeeDetailsSuccessHandeler(response));
 
   }
 
   editEmployeeDetailsSuccessHandeler(response) {
-    this.alertService.alert('Employee details edited successfully');
+    this.alertService.alert('Updated successfully');
     console.log('edited', response);
     this.dialog_Ref.close('success');
   }

@@ -146,7 +146,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15">
 
-    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="mapServicelineState()">Save</button>
 
 
@@ -194,7 +194,7 @@
     </form>
     <div class="col-xs-12 col-sm-12  m-t-15">
       <button md-raised-button color="accent" [disabled]="editMappingFieldsForm.invalid" class="pull-right  m-l-5 m-r-5" (click)="update(editMappingFieldsForm.value)">Update</button>
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     </div>
   </div>
 </div>

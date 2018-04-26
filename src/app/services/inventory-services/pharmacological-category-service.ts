@@ -40,7 +40,7 @@ export class PharmacologicalMasterService {
     }
         private extractData(res: Response) {
         if (res.json().data && res.json().statusCode == 200) {
-            console.log('ItePharmacology Category Master Master Service', res.json(), res.json().data);
+            console.log('Pharmacology Category Master Service', res.json(), res.json().data);
             return res.json().data;
         } else {
             return Observable.throw(res.json());

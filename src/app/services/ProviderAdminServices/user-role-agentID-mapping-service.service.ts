@@ -43,7 +43,7 @@ export class UserRoleAgentID_MappingService {
     this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
     // this.get_Roles_Url = this.admin_Base_Url + 'm/role/search';
     // this.get_Roles_Url_new = this.admin_Base_Url + 'm/role/search1';
-    this.get_Roles_Url = this.admin_Base_Url + 'm/role/searchNew';
+    this.get_Roles_Url = this.admin_Base_Url + 'm/role/searchV1';
 
     this.get_Campaigns_Url = this.admin_Base_Url + 'getAvailableCampaigns';
     this.get_AgentIDs_Url = this.admin_Base_Url + 'getAvailableAgentIds';

@@ -70,6 +70,14 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     this.formMode = true;
     this.editMode = false;
   }
+  back() {
+    this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.showTable();
+        this.resetForm();
+      }
+    })
+  }
 
   showTable() {
     this.tableMode = true;

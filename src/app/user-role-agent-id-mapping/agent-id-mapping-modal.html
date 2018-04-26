@@ -1,7 +1,15 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">AgentID Mapping</h4>
+  <div class="pull-left m-l-15">
+    <h4 class="modal-title">AgentID Mapping</h4>
   </div>
+  <div class="pull-right">
+    <button md-button class="pull-right" [md-dialog-close]="true">
+      <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
+      </md-icon>
+    </button>
+  </div>
+</div>
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Employee Name" [(ngModel)]="employeeName" name="employeeName" [disabled]="true">
@@ -9,7 +17,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <md-input-container style="width: 100%">
-      <input mdInput placeholder="Service Line" [(ngModel)]="service" name="service" [disabled]="true">
+      <input mdInput placeholder="Serviceline" [(ngModel)]="service" name="service" [disabled]="true">
     </md-input-container>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
