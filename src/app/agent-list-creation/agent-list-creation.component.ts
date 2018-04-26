@@ -25,10 +25,14 @@ export class AgentListCreationComponent implements OnInit {
   services: any = [];
   campaignNames: any = [];
   resultArray: any = [];
+  agentLists: any = [];
 
   disableButtonFlag = true;
   userID: any;
   isNational = false;
+  showFormFlag: boolean = false;
+  showTableFlag: boolean = false;
+  disableSelection: boolean = false;
 
   @ViewChild('agentListCreationForm') agentListForm: NgForm;
 
@@ -81,8 +85,22 @@ export class AgentListCreationComponent implements OnInit {
   setProviderServiceMapID(providerServiceMapID) {
     console.log('providerServiceMapID', providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
+    this.getAllAgents(this.providerServiceMapID);
   }
 
+  getAllAgents(providerServiceMapID) {
+    console.log("providerServiceMapID", providerServiceMapID);
+    
+    this._AgentListCreationService.getAllAgents(providerServiceMapID).subscribe((agentsResponse) => 
+    this.agentsListSuccessHandler(agentsResponse),
+    (err) => { console.log("Error", err) });     
+}
+agentsListSuccessHandler(agentsResponse) {
+  console.log('Agents list', agentsResponse);
+      this.agentLists = agentsResponse;
+      this.showTableFlag = true;
+
+}
   getCampaignNames(serviceName) {
     debugger;
     this._AgentListCreationService.getCampaignNames(serviceName)
@@ -101,6 +119,12 @@ export class AgentListCreationComponent implements OnInit {
     this.resultArray = [];
   }
 
+  showForm() {
+    this.showFormFlag = true;
+    this.showTableFlag = false;
+    this.disableSelection = true;
+
+  }
 
   validate_one(agentID) {
     this.resultArray = [];

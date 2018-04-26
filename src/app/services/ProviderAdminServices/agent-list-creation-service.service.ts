@@ -24,6 +24,7 @@ export class AgentListCreationService {
   get_Service_Url: any;
   get_Campaign_Names_Url: any;
   save_AgentListMapping_Url: any;
+  getAllAgents_Url: any;
 
 
   constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
@@ -34,6 +35,7 @@ export class AgentListCreationService {
     this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
     this.get_Campaign_Names_Url = this.common_Base_Url + '/cti/getCampaignNames';
     this.save_AgentListMapping_Url = this.admin_Base_Url + 'createUSRAgentMapping';
+    this.getAllAgents_Url = this.admin_Base_Url + 'getAllAgentIds';
   };
 
   getStates(userID, serviceID, isNational) {
@@ -55,7 +57,12 @@ export class AgentListCreationService {
       }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-
+  getAllAgents(providerServiceMapID) {
+     return this.http
+        .post(this.getAllAgents_Url , {"providerServiceMapID": providerServiceMapID})
+        .map(this.handleState_n_ServiceSuccess)
+        .catch(this.handleError)
+  }
   getCampaignNames(serviceName) {
     return this.http.post(this.get_Campaign_Names_Url,
       { 'serviceName': serviceName })
