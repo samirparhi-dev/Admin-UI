@@ -1,10 +1,9 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">Agent List Creation</h4>
-  </div>
-  <form #agentListCreationForm="ngForm" autocomplete="off">
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+<!-- <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="pull-left">Agent List Creation</h4>
+    </div>
+    <form #searchForm='ngForm' autocomplete="off">
+       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" required>
@@ -24,7 +23,62 @@
         </md-select>
       </md-input-container>
     </div>
+    </form>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTableFlag && !editMode">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover" [md2Data]="" #md2="md2DataTable" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th width="10%">S.No.</th>
+              <th width="40%">Agent ID</th>
+              <th width="50%">Campaign Name</th>             
+              <th width="25%">Action</th>
+            </tr>
+          </thead>
+          <tbody>         
+            <tr *ngFor="let item of md2.data; let i=index">
+              <td>{{(md2.activePage-1)*4+i+1}}</td>
+              <td>{{item.agentID}}</td>
+              <td>{{item.cti_CampaignName}}</td>                        
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="2" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Agents</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<div class="row"> 
+  <!-- <form #agentListCreationForm="ngForm" autocomplete="off"> -->
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" required>
+          <md-option *ngFor="let item of services" value="{{item.serviceName}}" (click)="getCampaignNames(item.serviceName);setIsNational(item.isNational);getStates(item.serviceID,item.isNational)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" [style.width]="'100%'" [disabled]='isNational' [(ngModel)]="state" name="state" required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div> -->
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="Campaign Name" [style.width]="'100%'" [(ngModel)]="campaign_name" name="campaign_name" required>
@@ -74,5 +128,5 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
     <button class="lg-pull-left md-pull-right sm-pull-right xs-pull-right m-t-10" type="button" md-raised-button color="accent"
       [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Map</button>
-  </div>
-</div>
+  </div> 
+</div> -->

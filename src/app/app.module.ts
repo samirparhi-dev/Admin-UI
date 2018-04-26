@@ -33,6 +33,7 @@ import { myUserName } from './directives/address/myAddress.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
+import { vehicleNo } from './directives/name/myName.directive';
 
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
@@ -254,7 +255,8 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ItemMasterComponent, MainStoreAndSubStoreComponent,
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
-    SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent
+    SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
+    vehicleNo,
   ],
 
   imports: [
