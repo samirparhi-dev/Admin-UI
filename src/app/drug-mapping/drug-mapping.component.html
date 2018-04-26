@@ -74,7 +74,7 @@
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
             <md-select required placeholder="Drug Group" class="width100" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel"
-            (change)="checkExistance(stateID,drugGroupID)" >
+              (change)="checkExistance(stateID,drugGroupID)">
               <md-option *ngFor="let drugGroups of availableDrugGroups" value="{{drugGroups.drugGroupID}}-{{drugGroups.drugGroup}}">
                 {{drugGroups.drugGroup}}
               </md-option>
@@ -89,7 +89,7 @@
           <md-input-container class="hide_underline width100">
             <input mdInput style="display:none">
             <md-select multiple class="width100" name="drugIdList" placeholder="Please Choose Drugs" [(ngModel)]="drugIdList" #drug="ngModel"
-             required>
+              required>
               <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
             </md-select>
             <md-hint [hidden]=drug.valid>
@@ -126,7 +126,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr style="cursor: pointer" *ngFor="let drug of md2.data; let i=index ">
+            <tr *ngFor="let drug of md2.data; let i=index ">
               <td>{{drugMapping.indexOf(drug)+1}}</td>
               <td>{{drug.stateName}}</td>
               <td>{{drug.drugGroupName}}</td>

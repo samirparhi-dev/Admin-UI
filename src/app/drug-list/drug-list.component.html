@@ -107,7 +107,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr style="cursor: pointer" *ngFor="let drug of md2.data; let i=index">
+            <tr *ngFor="let drug of md2.data; let i=index">
               <td>{{drugList.indexOf(drug)+1}}</td>
               <td>{{drug.drugName}}</td>
               <td>{{drug.drugDesc}}</td>

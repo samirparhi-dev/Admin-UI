@@ -423,6 +423,7 @@ export class WorkLocationMappingComponent implements OnInit {
               this.resetForm();
             }
             else if (count > 0) {
+              this.alertService.alert('Already exists');
               console.log('Duplicate Entry Already exists for ' + object.roleID1[i].roleName);
               this.resetForm();
             }

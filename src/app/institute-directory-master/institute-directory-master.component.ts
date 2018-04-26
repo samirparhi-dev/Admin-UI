@@ -124,7 +124,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	search() {
 		this.instituteDirectoryService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
-		(err) => this.alertService.alert(err, 'error'));
+			(err) => this.alertService.alert(err, 'error'));
 	}
 
 	getInstituteDirectorySuccessHandeler(response) {
@@ -192,6 +192,9 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 			if (count == 0 && (obj.instituteDirectoryName != "" && obj.instituteDirectoryName != undefined)) {
 				this.bufferArray.push(obj);
 			}
+			else {
+				this.alertService.alert("Already exists");
+			}
 		}
 
 		/*resetting fields after entering in buffer array/or if duplicate exist*/
@@ -207,13 +210,13 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	save() {
 		this.instituteDirectoryService.saveInstituteDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response),
-		(err) => this.alertService.alert(err, 'error'));
+			(err) => this.alertService.alert(err, 'error'));
 	}
 
 	saveSuccessHandeler(response) {
 		console.log("response", response);
 		if (response) {
-			this.alertService.alert("Saved successfully",'success');
+			this.alertService.alert("Saved successfully", 'success');
 			this.instituteDir.resetForm();
 			this.showFormFlag = false;
 			this.bufferArray = [];
@@ -232,7 +235,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"),
-					(err) => this.alertService.alert(err, 'error'));
+						(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
@@ -246,7 +249,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"),
-					(err) => this.alertService.alert(err, 'error'));
+						(err) => this.alertService.alert(err, 'error'));
 				}
 			});
 		}
@@ -270,7 +273,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		dialog_Ref.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 			if (result === "success") {
-				this.alertService.alert("Updated successfully",'success');
+				this.alertService.alert("Updated successfully", 'success');
 				this.search();
 			}
 
@@ -290,7 +293,7 @@ export class EditInstituteDirectory {
 	instituteDirectory: any;
 	description: any;
 
-	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+	constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
 		public instituteDirectoryService: InstituteDirectoryMasterService,
 		public commonDataService: dataService, public alertService: ConfirmationDialogsService,
 		public dialogReff: MdDialogRef<EditInstituteDirectory>) { }
@@ -312,7 +315,7 @@ export class EditInstituteDirectory {
 
 		}
 		this.instituteDirectoryService.editInstituteDirectory(obj).subscribe(response => this.updateSuccessHandeler(response),
-		(err) => this.alertService.alert(err, 'error'));
+			(err) => this.alertService.alert(err, 'error'));
 	}
 
 	updateSuccessHandeler(response) {

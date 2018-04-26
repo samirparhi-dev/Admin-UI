@@ -41,7 +41,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select [disabled]="disableSelection || nationalFlag" placeholder="State" class="width100" [(ngModel)]="search_state"
-          name="state" (change)="findLocations(search_state.stateID,search_serviceline.serviceID);setPSMID(search_state.providerServiceMapID)"
+          name="state" (change)="findLocations(search_state.stateID,search_serviceline.serviceID);setPSMID(search_state.providerServiceMapID);setPSMID_onStateSeletion(search_state.providerServiceMapID)"
           required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
