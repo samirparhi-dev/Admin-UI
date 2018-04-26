@@ -365,6 +365,9 @@ export class LanguageMappingComponent implements OnInit {
         // this.resetForm();
         this.resetDropdowns();
       }
+      else {
+        this.alertService.alert("Already exists");
+      }
 
     }
   }

@@ -95,14 +95,14 @@ export class LocationServicelineMappingComponent implements OnInit {
       // this.showTable = flag_val;
       this.showForm = !flag_val;
       this.showTable = flag_val;
-      this.disableSelection = flag_val;
+      this.disableSelection = false;
       // this.resetFields();
       this.findLocations(this.search_state.stateID, this.search_serviceline.serviceID);
       //  }
     }
     else {
       // this.showTable = !flag_val;
-      this.disableSelection = flag_val;
+      this.disableSelection = true;
       this.showTable = flag_val;
       this.showForm = !flag_val;
       this.service_id = this.search_serviceline.serviceID;
@@ -358,6 +358,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log('saved', response);
     // this.showTable = false;
     this.showForm = false;
+    this.disableSelection = false;
     //  this.resetFields();
 
     // this.search_serviceline=this.service_ID; we can use this also if we want to find for specific
@@ -410,12 +411,12 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   currentServicesSuccess(res) {
     this.officeArray = res;
+    console.log("officearray", this.officeArray)
   }
   officeNameExist: boolean = false;
   msg: any;
 
   checkOfficeName(value) {
-    debugger;
     for (var i = 0; i < this.officeArray.length; i++) {
       let a = this.officeArray[i].locationName;
       console.log(value.trim(), "EDsdd");

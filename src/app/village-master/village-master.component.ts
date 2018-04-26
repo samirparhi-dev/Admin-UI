@@ -137,6 +137,9 @@ export class VillageMasterComponent implements OnInit {
             if (duplicateStatus === 0) {
                 this.villageList.push(object);
             }
+            else {
+                this.alertMessage.alert("Already exists");
+            }
         }
     }
     removeObj(index) {

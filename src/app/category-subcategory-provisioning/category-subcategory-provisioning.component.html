@@ -254,7 +254,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+          <tr *ngFor="let service of md2.data;let i=index ">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{service.subServiceName}}</td>
             <td>{{service.categoryName}}</td>
@@ -293,7 +293,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="cursor: pointer" *ngFor="let service of md2.data;let k=index ">
+          <tr *ngFor="let service of md2.data;let k=index ">
             <td>{{(md2.activePage-1)*4+k+1}}</td>
             <td>{{service.subServiceName}}</td>
             <td>{{service.categoryName}}</td>
