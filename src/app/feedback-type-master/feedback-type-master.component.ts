@@ -266,7 +266,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       }
       else {
         this.feedbackNameExist = true;
-        // this.alertService.alert("Already exists");
+        this.alertService.alert("Already exists");
       }
     }
 

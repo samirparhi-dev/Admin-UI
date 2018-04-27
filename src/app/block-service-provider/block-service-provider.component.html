@@ -123,9 +123,11 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
           <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
-            (click)="blockProvider()">Update</button>
+            (click)="blockProvider();this.statusSettingFields.reset();">Update</button>
         </div>
       </div>
+    </form>
+    <form #statusSettingFields1='ngForm' autocomplete="off">
       <div class="row" *ngIf="case_two ">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h4>State Level Provision</h4>
@@ -151,9 +153,11 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
           <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
-            (click)="blockState()">Update</button>
+            (click)="blockState();this.statusSettingFields1.reset();">Update</button>
         </div>
       </div>
+    </form>
+    <form #statusSettingFields2='ngForm' autocomplete="off">
       <div class="row" *ngIf="case_three">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h4>Serviceline Level Provision</h4>
@@ -179,9 +183,11 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
           <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusRef.invalid || reasonRef.invalid"
-            (click)="blockService()">Update</button>
+            (click)="blockService();this.statusSettingFields2.reset();">Update</button>
         </div>
       </div>
+    </form>
+    <form #statusSettingFields3='ngForm' autocomplete="off">
       <div class="row" *ngIf="case_four">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h4>Provider State Serviceline Level Provision</h4>
@@ -200,14 +206,14 @@
           <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="Reason" [(ngModel)]="reason" minlength="5" maxlength="50" name="reason" #reasonR="ngModel" required>
             <md-hint>
-              <span class="error_text" *ngIf="!reasonR.valid && reasonR.touched && reasonR.errors ">Required minimum 5 characters</span>
-              <!-- <span class="error_text" *ngIf="reasonR.errors?.minlength">Enter minimum 5 characters</span> -->
+              <span class="error_text" *ngIf="reasonR.touched && reasonR.errors && !reasonR.errors?.minlength ">Reason is Required</span>
+              <span class="error_text" *ngIf="reasonR.errors?.minlength  && reasonR.touched">Enter minimum 5 characters</span>
             </md-hint>
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
           <button md-raised-button color="accent" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="statusR.errors || reasonR.errors"
-            (click)="blockServiceOfState()">Update</button>
+            (click)="blockServiceOfState();this.statusSettingFields3.reset();">Update</button>
         </div>
       </div>
     </form>

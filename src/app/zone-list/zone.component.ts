@@ -152,8 +152,25 @@ export class ZoneComponent implements OnInit {
 
         this.zoneObj.createdBy = this.createdBy;
 
-        this.zoneList.push(this.zoneObj);
-        //}
+        if (this.zoneList.length == 0) {
+            this.zoneList.push(this.zoneObj);
+        }
+        else {
+            let count = 0
+            for (let a; a < this.zoneList.length; a++) {
+                if (this.zoneObj[a].providerServiceMapID == this.zoneObj.providerServiceMapID &&
+                    this.zoneObj[a].zoneName == this.zoneObj.zoneName) {
+                    count = count + 1;
+                }
+            }
+            if (count >= 0)
+                this.alertMessage.alert("Already exists");
+            else {
+                this.zoneList.push(this.zoneObj);
+            }
+
+        }
+
     }
 
     storezone() {

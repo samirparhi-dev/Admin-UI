@@ -91,14 +91,37 @@ export class ParkingPlaceComponent implements OnInit {
                 }
 
                 this.parkingPlaceObj.createdBy = this.createdBy;
+                debugger;
 
+            }
+        }
+        if (this.parkingPlaceList.length == 0) {
+            this.parkingPlaceList.push(this.parkingPlaceObj);
+        }
+        else {
+            let count = 0
+            for (let a = 0; a < this.parkingPlaceList.length; a++) {
+                if (this.parkingPlaceList[a].parkingPlaceName == this.parkingPlaceObj.parkingPlaceName) {
+                    count = count + 1;
+                }
+            }
+            if (count == 0) {
                 this.parkingPlaceList.push(this.parkingPlaceObj);
             }
+
+            else {
+                this.alertMessage.alert("Already exists");
+            }
+
         }
         if (this.parkingPlaceList.length <= 0) {
             this.alertMessage.alert("No Service available with the state selected");
         }
     }
+    remove_obj(i) {
+        this.parkingPlaceList.splice(i, 1);
+    }
+
 
     storeParkingPlaces() {
         let obj = { "parkingPlaces": this.parkingPlaceList };

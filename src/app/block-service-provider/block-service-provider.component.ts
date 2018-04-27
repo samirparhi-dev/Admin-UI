@@ -278,25 +278,25 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   successhandeler1(response) {
-    this._statusSettingFields.reset();
+    // this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
   }
 
   successhandeler2(response) {
-    this._statusSettingFields.reset();
+    // this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
   }
 
   successhandeler3(response) {
-    this._statusSettingFields.reset();
+    //  this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
   }
 
   successhandeler4(response) {
-    this._statusSettingFields.reset();
+    // this._statusSettingFields.reset();
 
     console.log(response, 'RESPONSE');
     this.data = response;

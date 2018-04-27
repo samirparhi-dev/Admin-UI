@@ -36,6 +36,8 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 	disableSelection: boolean = false;
 	userID: any;
 	nationalFlag: any;
+	availableInstituteDirectory: any = [];
+	instituteDirectoryExist: boolean = false;
 
 	@ViewChild('instituteDir') instituteDir: NgForm;
 
@@ -132,9 +134,15 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		if (response) {
 			this.showTableFlag = true;
 			this.searchResultArray = response;
+			for (let availableInstituteDirectory of this.searchResultArray) {
+				this.availableInstituteDirectory.push(availableInstituteDirectory.instituteDirectoryName);
+			}
 		}
 	}
-
+	checkexistance(instituteDirectory) {
+		this.instituteDirectoryExist = this.availableInstituteDirectory.includes(instituteDirectory);
+		console.log(this.instituteDirectoryExist);
+	}
 	clear() {
 		/*resetting the search fields*/
 		this.state = "";
@@ -290,6 +298,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 })
 export class EditInstituteDirectory {
 
+
 	instituteDirectory: any;
 	description: any;
 
@@ -324,5 +333,6 @@ export class EditInstituteDirectory {
 			this.dialogReff.close("success");
 		}
 	}
+
 }
 
