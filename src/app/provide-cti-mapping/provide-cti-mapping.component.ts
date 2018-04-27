@@ -13,6 +13,8 @@ declare var jQuery: any;
   styleUrls: ['./provide-cti-mapping.component.css']
 })
 export class ProvideCtiMappingComponent implements OnInit {
+
+  filterServiceName: any;
   service_provider_array: any = [];
   service_provider: any;
   states_array: any = [];
@@ -21,47 +23,97 @@ export class ProvideCtiMappingComponent implements OnInit {
   serviceline: any;
   campaign_array: any = [];
   campaign: any;
+  campaignArrayList: any = [];
   campaignList: any = [];
   isNational: any = false;
   providerServiceMapID: any;
+  serviceProviderID: any;
+  stateID: any;
+  serviceID: any;
+  showTableFlag: boolean = false;
+  showFormFlag: boolean = false;
 
   @ViewChild('form') mapping_form: NgForm;
-
+  @ViewChild('mappingCampaign') mappingCampaign: NgForm;
 
   constructor(private block_provider: BlockProvider, private message: ConfirmationDialogsService, private _callServices: CallServices) { }
 
   ngOnInit() {
+    this.getAllProviders();
+  }
+
+  getAllProviders() {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
       this.message.alert(err, 'error');
     });
   }
+  getAllProvidersSuccesshandeler(response) {
+    this.service_provider_array = response;
+  }
+  getAllMappedServicelinesAndStates(service_provider, serviceline, state) {
+    console.log("campaignObj", service_provider, serviceline, state );
+    
+    let campaignListObject = {
+      "serviceProviderID": service_provider,
+      "serviceID": serviceline,
+      "stateID": state
+    }
+    this._callServices.getAllMappedServicelinesAndStates(campaignListObject).subscribe(campaignListResponse =>
+      this.getMappedServicelinesAndStatesSuccessHandler(campaignListResponse), err => {
+        this.message.alert(err, 'error');
+      })
 
+  }
+  getMappedServicelinesAndStatesSuccessHandler(campaignListResponse) {
+    this.campaignArrayList = campaignListResponse;
+    this.showTableFlag = true;
+    console.log("campaignArrayList", JSON.stringify(this.campaignArrayList, null, 4));
+    console.log("this.campaignArrayList.serviceName", this.campaignArrayList.serviceName);
+    
+
+  }
+  getCampaign(serviceline) {
+    console.log("serviceline", serviceline);
+    console.log('this.service_provider.serviceProviderId, serviceline.serviceID',this.service_provider.serviceProviderId, this.serviceline.serviceID);
+    this._callServices.getCapmaign({'serviceName':serviceline.serviceName}).subscribe((res) => {
+      this.campaign_array = res.campaign;
+      this.setIsNational(serviceline.isNational);      
+      this.getStatesInService(this.service_provider, this.serviceline);
+    }, (err) => {
+      console.log("errget campaign", err);
+      
+      this.message.alert(err, 'error');
+    });
+
+  }
+
+  setIsNational(value) {
+    if (value) {
+      this.state = '';
+    }
+    this.isNational = value;
+    // this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId, this.serviceline.serviceID, this.state.stateID);
+  }
   getServices(serviceProviderID) {
-    this.block_provider.getServicesOfProvider(serviceProviderID.serviceProviderId)
+    console.log("serviceProviderID", serviceProviderID);
+    this.block_provider.getServicesOfProvider(serviceProviderID)
       .subscribe(response => this.getServicesSuccesshandeler(response), err => {
         this.message.alert(err, 'error');
       });
   }
-
-  getCampaign(serviceline) {
-    this._callServices.getCapmaign(serviceline.serviceName).subscribe((res) => {
-      this.campaign_array = res.campaign;
-      this.setIsNational(serviceline.isNational);
-      this.getStatesInService(this.service_provider.serviceProviderId, serviceline.serviceID);
-    }, (err) => {
-      this.message.alert(err, 'error');
-    });
+  getServicesSuccesshandeler(response) {
+    this.services_array = response;
+    console.log("services_array", this.services_array);
+    
+    //this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId, this.serviceline.serviceID, this.service_provider.stateID);
   }
-
-  setIsNational(value) {
-    this.isNational = value;
-  }
-
   getStatesInService(serviceProviderID, serviceID) {
     const data = {
-      'serviceProviderID': serviceProviderID,
-      'serviceID': serviceID
+      'serviceProviderID': serviceProviderID.serviceProviderId,
+      'serviceID': serviceID.serviceID
     }
+    console.log("data", data);
+
     this.block_provider.getStatesInServices(data).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       // this.getAllServicesOfProvider(serviceProviderID);
@@ -69,20 +121,31 @@ export class ProvideCtiMappingComponent implements OnInit {
       this.message.alert(err, 'error');
     });
   }
-  getAllProvidersSuccesshandeler(response) {
-    this.service_provider_array = response;
-  }
   getStatesSuccesshandeler(response) {
     this.states_array = response;
 
     if (this.isNational) {
       this.providerServiceMapID = this.states_array[0].providerServiceMapID;
+      console.log("states_array", this.states_array, this.providerServiceMapID);
     }
   }
-  getServicesSuccesshandeler(response) {
-    this.services_array = response;
+
+  showForm() {
+    this.showFormFlag = true;
+    this.showTableFlag = false;
   }
+
+
   addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
+    this.filterServiceName = this.campaignArrayList.filter((item) => {
+      
+      return item.serviceName;
+
+    })
+    console.log("filterServiceName", JSON.stringify(this.filterServiceName, null, 4));
+    
+    console.log("obj", serviceProvider, serviceline, campaign);
+
     let campignObj = {};
     campignObj['providerName'] = serviceProvider.serviceProviderName;
     campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
@@ -96,10 +159,15 @@ export class ProvideCtiMappingComponent implements OnInit {
 
     } else {
       this.campaignList.push(campignObj);
+      console.log("campaignList", this.campaignList);
+
     }
 
-    this.mapping_form.reset();
-
+  }
+  resetAllForms() {
+    this.mapping_form.resetForm();
+    this.mappingCampaign.resetForm();
+    this.campaignList = [];
   }
   filterArray(array: any) {
     const o = {};
@@ -113,6 +181,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.campaignList.splice(index, 1);
   }
   finalsave(campaignObj) {
+
     campaignObj = campaignObj.map(function (item) {
       return {
         'providerServiceMapID': item.providerServiceMapID,
@@ -120,9 +189,14 @@ export class ProvideCtiMappingComponent implements OnInit {
       }
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
-      this.message.alert(res.response);
-      this.mapping_form.reset();
-      this.campaignList = [];
+      // this.message.alert(res.response);
+      this.message.alert("Mapping saved successfully");
+      this.mappingCampaign.resetForm();
+      this.campaignList = [];      
+      this.showFormFlag = false;
+      this.showTableFlag = true;
+      this.getAllMappedServicelinesAndStates(this.service_provider, this.serviceline, this.state);
+
 
       // if (res.response === 'mappedSuccessFully') {
       //   this.message.alert('Successfully Added');
@@ -145,5 +219,15 @@ export class ProvideCtiMappingComponent implements OnInit {
     //   }
 
     // }, (err) => { });
+  }
+  back() {
+    this.message.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.resetAllForms();
+        this.showTableFlag = true;
+        this.showFormFlag = false;
+       
+      }
+    })
   }
 }
