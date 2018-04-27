@@ -200,7 +200,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
       // this.message.alert(res.response);
-      this.message.alert("Mapping saved successfully");
+      this.message.alert('Mapping saved successfully', 'success');
       this.mappingCampaign.resetForm();
       this.campaignList = [];      
       this.showFormFlag = false;
