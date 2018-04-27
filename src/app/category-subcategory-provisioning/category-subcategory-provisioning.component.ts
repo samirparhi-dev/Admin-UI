@@ -227,7 +227,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   addNew(rowNumber: any) {
-
+    debugger;
     if (this.searchChoice === '0') {
       this.addNewCategoryRow();
     } else {
@@ -252,13 +252,19 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     obj['createdBy'] = this.createdBy;
     obj['well_being'] = this.well_being;
-
-
-    if (this.serviceList.length > 0) {
+    let count = 0;
+    for (let a = 0; a < this.serviceList.length; a++) {
+      if (this.serviceList[a].categoryName.toLowerCase().trim() === obj['categoryName'].toLowerCase().trim()
+        && this.serviceList[a].subServiceID === obj['subServiceID']) {
+        count = count + 1;
+      }
+      // this.serviceList.push(obj);
+      // this.serviceList = this.filterArray(this.serviceList);
+    } if (count === 0) {
       this.serviceList.push(obj);
-      this.serviceList = this.filterArray(this.serviceList);
-    } else {
-      this.serviceList.push(obj);
+    }
+    else {
+      this.messageBox.alert('Already exists');
     }
     this.category_name = undefined;
     this.categorydesc = '';
@@ -292,11 +298,26 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     obj['subCategoryName'] = this.subcategory;
     obj['desc'] = this.description;
     obj['createdBy'] = this.createdBy;
-    if (this.serviceSubCatList.length > 0) {
+    // if (this.serviceSubCatList.length > 0) {
+    //   this.serviceSubCatList.push(obj);
+    //   this.serviceSubCatList = this.filterSubCatArray(this.serviceSubCatList);
+    // } else {
+    //   this.serviceSubCatList.push(obj);
+    // }
+    let count = 0;
+    for (let a = 0; a < this.serviceSubCatList.length; a++) {
+      if (this.serviceSubCatList[a].categoryID === obj['categoryID'] &&
+        this.serviceSubCatList[a].subCategoryName.toLowerCase().trim() === obj['subCategoryName'].toLowerCase().trim()
+        && this.serviceSubCatList[a].subServiceID === obj['subServiceID']) {
+        count = count + 1;
+      }
+      // this.serviceList.push(obj);
+      // this.serviceList = this.filterArray(this.serviceList);
+    } if (count === 0) {
       this.serviceSubCatList.push(obj);
-      this.serviceSubCatList = this.filterSubCatArray(this.serviceSubCatList);
-    } else {
-      this.serviceSubCatList.push(obj);
+    }
+    else {
+      this.messageBox.alert('Already exists');
     }
     this.subcategory = undefined;
     this.description = ''

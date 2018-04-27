@@ -101,18 +101,31 @@ export class ProcedureMasterComponent implements OnInit {
     this.saveEditMode = true;
   }
   saveProcedure() {
-    const apiObject = this.objectManipulate();
-    if (apiObject) {
-      delete apiObject['modifiedBy'];
-      delete apiObject['procedureID'];
+    let apiObject = this.objectManipulate();
+    let obj = Object.assign({}, this.procedureForm.value);
+    let count = 0;
+    debugger;
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {
+      if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"]) {
+        count = count + 1;
+      }
+    }
+    if (count == 0) {
+      if (apiObject) {
+        delete apiObject['modifiedBy'];
+        delete apiObject['procedureID'];
 
-      this.procedureMasterServiceService.postProcedureData(apiObject)
-        .subscribe((res) => {
-          this.procedureList.unshift(res);
-          this.procedureForm.reset();
-          this.alertService.alert('Saved successfully', 'success')
-        })
+        this.procedureMasterServiceService.postProcedureData(apiObject)
+          .subscribe((res) => {
+            this.procedureList.unshift(res);
+            this.procedureForm.reset();
+            this.alertService.alert('Saved successfully', 'success')
+          })
 
+      }
+    }
+    else {
+      this.alertService.alert('Already exists')
     }
   }
 

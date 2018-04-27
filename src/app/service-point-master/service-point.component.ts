@@ -134,16 +134,16 @@ export class ServicePointComponent implements OnInit {
         }
         else if (this.servicePointList.length > 0) {
             for (let i = 0; i < this.servicePointList.length; i++) {
-                if (!(this.servicePointList[i].servicePointName === servicePointObj.servicePointName
-                    && this.servicePointList[i].stateName === servicePointObj.stateName
-                    && this.servicePointList[i].districtName === servicePointObj.districtName
-                    && this.servicePointList[i].parkingPlaceName === servicePointObj.parkingPlaceName)) {
-                    count = 1;
+                if (this.servicePointList[i].servicePointName === servicePointObj.servicePointName) {
+                    count = count + 1;
                 }
             }
-            if (count === 1) {
+            if (count === 0) {
                 this.servicePointList.push(servicePointObj);
                 count = 0;
+            }
+            else {
+                this.alertMessage.alert("Already exists");
             }
         }
 

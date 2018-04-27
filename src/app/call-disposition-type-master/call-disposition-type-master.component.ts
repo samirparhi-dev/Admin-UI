@@ -179,9 +179,26 @@ export class CallDispositionTypeMasterComponent implements OnInit {
           'createdBy': this.commonDataService.uname
         }
         console.log('dummy obj', obj);
+        debugger;
+        if (this.temporarySubtypeArray.length === 0)
+          this.temporarySubtypeArray.push(obj);
+        else {
+          let count = 0;
+          for (let a = 0; a < this.temporarySubtypeArray.length; a++) {
+            if (this.temporarySubtypeArray[a].callType === obj.callType) {
+              count = count + 1;
+            }
+          }
+          if (count === 0) {
+            this.temporarySubtypeArray.push(obj);
+          }
+          else {
+            this.alertService.alert('Already exists');
+          }
+        }
 
         // resetting fields
-        this.temporarySubtypeArray.push(obj);
+
         this.callSubType = "";
         this.fitToBlock = false;
         this.fitForFollowup = false;
@@ -307,17 +324,17 @@ export class CallDispositionTypeMasterComponent implements OnInit {
         a = false;
       }
     }
-    for (var i = 0; i < this.temporarySubtypeArray.length; i++) {
-      if (value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
-        this.subCallTypeExist = true;
-        b = true;
-        break;
-      }
-      else {
-        b = false;
-      }
-    }
-    if (a == false && b == false) {
+    // for (var i = 0; i < this.temporarySubtypeArray.length; i++) {
+    //   if (value.trim().toLowerCase() == this.temporarySubtypeArray[i].callType.toLowerCase()) {
+    //     this.subCallTypeExist = true;
+    //     b = true;
+    //     break;
+    //   }
+    //   else {
+    //     b = false;
+    //   }
+    // }
+    if (a == false) {
       this.subCallTypeExist = false;
     }
   }
