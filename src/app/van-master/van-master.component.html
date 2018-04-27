@@ -178,7 +178,7 @@
                         <input mdInput required placeholder="Vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo" minlength="10" maxlength="13"
                             #vehicleN="ngModel" (blur)="checkVehicleExistance(vehicalNo)">
                         <md-hint>
-                            <span class="error_text" *ngIf="!vehicleN.valid  && ( vehicleN.dirty || vehicleN.touched)">Please enter Vehicle No.</span>
+                            <span class="error_text" *ngIf="!vehicleN.valid  && ( vehicleN.dirty || vehicleN.touched)">Enter min: 10, max 13</span>
                             <span class="error_text" *ngIf="vehicleN.valid && vehicleExist">Vehicle already exists</span>
                         </md-hint>
                     </md-input-container>

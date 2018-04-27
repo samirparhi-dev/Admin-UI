@@ -83,8 +83,9 @@
         <md-input-container class="width100">
           <input mdInput placeholder="Severity Type" name="severity" [(ngModel)]="severity" (keyup)="addSeverity(severity)" #newSeverity="ngModel"
             minlength="2" maxlength="20" required>
-          <md-hint *ngIf="alreadyExist && newSeverity.touched">
-            <span class="error_text">Severity already exist</span>
+          <md-hint>
+            <span class="error_text" *ngIf="newSeverity.touched && newSeverity.errors">Severity type is required</span>
+            <span class="error_text" *ngIf="alreadyExist">Severity already exist</span>
           </md-hint>
         </md-input-container>
       </div>

@@ -57,7 +57,7 @@ export class SeverityTypeComponent implements OnInit {
       console.log('success while getting services', response);
       this.services = response;
     }, err => {
-      this.alertService.alert(err,'error');
+      this.alertService.alert(err, 'error');
       console.log('err while getting services', err);
     })
   }
@@ -68,7 +68,7 @@ export class SeverityTypeComponent implements OnInit {
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
-      this.alertService.alert(err,'error');
+      this.alertService.alert(err, 'error');
       console.log('err while getting states', err);
     })
 
@@ -105,7 +105,7 @@ export class SeverityTypeComponent implements OnInit {
     this.providerServiceMapID = psmID;
     this.search = true;
     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-  (err) => this.alertService.alert(err,'error'));
+      (err) => this.alertService.alert(err, 'error'));
 
   }
 
@@ -119,11 +119,11 @@ export class SeverityTypeComponent implements OnInit {
 
   addSeverity(severity) {
     this.alreadyExist = false;
-    this.searchArray = this.data.concat(this.severityArray);
+    // this.searchArray = this.data.concat(this.severityArray);
     console.log("searchArray", this.searchArray);
     let count = 0;
-    for (var i = 0; i < this.searchArray.length; i++) {
-      if (this.searchArray[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
+    for (var i = 0; i < this.data.length; i++) {
+      if (this.data[i].severityTypeName.toLowerCase() == severity.toLowerCase()) {
         count++;
       }
     }
@@ -139,10 +139,28 @@ export class SeverityTypeComponent implements OnInit {
       'providerServiceMapID': this.providerServiceMapID,
       'createdBy': this.createdBy
     }
-    this.severityArray.push(obj);
+    if (this.severityArray.length == 0 && (obj.severityTypeName != "" && obj.severityTypeName != undefined)) {
+      this.severityArray.push(obj);
+    }
+    else {
+      let count = 0;
+      for (let i = 0; i < this.severityArray.length; i++) {
+        if (obj.severityTypeName === this.severityArray[i].severityTypeName) {
+          count = count + 1;
+        }
+      }
+      if (count == 0 && (obj.severityTypeName != "" && obj.severityTypeName != undefined)) {
+        this.severityArray.push(obj);
+      }
+      else {
+        this.alertService.alert("Already exists");
+      }
+    }
+
+    // this.severityArray.push(obj);
     this.severityAdding.resetForm();
-    this.addSeverity(values.severity);
-    this.alreadyExist = false;
+    // this.addSeverity(values.severity);
+    // this.alreadyExist = false;
   }
   handlingFlag(flag) {
     this.firstPage = flag;
@@ -154,7 +172,7 @@ export class SeverityTypeComponent implements OnInit {
     }
   }
   back() {
-    this.alertService.confirm('Confirm',"Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.handlingFlag(true);
       }
@@ -165,11 +183,11 @@ export class SeverityTypeComponent implements OnInit {
   }
   finalSubmit() {
     this.severityTypeService.addSeverity(this.severityArray).subscribe(response => this.createdSuccessHandler(response),
-  (err) => this.alertService.alert(err,'error'));
+      (err) => this.alertService.alert(err, 'error'));
   }
   createdSuccessHandler(res) {
     // alert("severity added successfully");
-    this.alertService.alert('Saved successfully','success');
+    this.alertService.alert('Saved successfully', 'success');
     this.handlingFlag(true);
     this.findSeverity(this.providerServiceMapID);
     this.severityArray = [];
@@ -193,22 +211,22 @@ export class SeverityTypeComponent implements OnInit {
       this.confirmMessage = 'Activate';
     }
 
-    this.alertService.confirm('Confirm',"Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
+    this.alertService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
         this.severityTypeService.deleteSeverity(obj).subscribe(response => this.deleteSuccessHandler(response));
       }
     },
       (err) => {
-        this.alertService.alert(err,'error');
+        this.alertService.alert(err, 'error');
         console.log(err);
       })
   }
   deleteSuccessHandler(res) {
     // alert("deleted successfully");
     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-  (err) => this.alertService.alert(err,'error'));
+      (err) => this.alertService.alert(err, 'error'));
 
-    this.alertService.alert(this.confirmMessage + "d successfully",'success');
+    this.alertService.alert(this.confirmMessage + "d successfully", 'success');
   }
   editSeverity(obj) {
     let dialogReff = this.dialog.open(EditSeverityModalComponent, {
@@ -226,9 +244,9 @@ export class SeverityTypeComponent implements OnInit {
     dialogReff.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.alertService.alert("Updated successfully",'success');
+        this.alertService.alert("Updated successfully", 'success');
         this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-      (err) => this.alertService.alert(err,'error'));
+          (err) => this.alertService.alert(err, 'error'));
       }
 
     });
@@ -252,7 +270,7 @@ export class EditSeverityModalComponent {
   description: any;
   alreadyExist = false;
   searchArray = [];
-  constructor( @Inject(MD_DIALOG_DATA) public data: any,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any,
     public dialog: MdDialog, public severityTypeService: SeverityTypeService, public alertService: ConfirmationDialogsService,
     public dialogReff: MdDialogRef<EditSeverityModalComponent>,
   ) { }
@@ -269,7 +287,7 @@ export class EditSeverityModalComponent {
       "severityDesc": value.description
     }
     this.severityTypeService.modifySeverity(object).subscribe(response => this.modifiedSuccessHandler(response),
-  (err) => this.alertService.alert(err,'error'));
+      (err) => this.alertService.alert(err, 'error'));
   }
   addSeverity(value) {
     this.alreadyExist = false;

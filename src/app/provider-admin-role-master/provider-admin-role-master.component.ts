@@ -405,8 +405,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     var result = this.validateRole(role);
 
     var selected_features = [];
+    if(feature === null) {
+      this.alertService.alert("No more features to add");
+    }
     if (Array.isArray(feature)) {
+      console.log("feature", feature);
+      
       selected_features = feature;
+      console.log("selected_features", selected_features);
+     
+      
     }
     else {
       selected_features.push(feature);
@@ -509,6 +517,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
             this.getFeatures(this.service.serviceID);
           }
+          if (count == 0 && (obj.roleName != "" && obj.roleName != undefined)) {
+            this.objs.push(obj);
+          }
+        }
+       
+        else {
+          this.alertService.alert("Already exists");
         }
       }
     }

@@ -77,7 +77,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid && drugD.valid">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid && drugD.valid && !groupNameExist">
         <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left" (click)="addDrugGroupToList(drugGroupForm.value);drugGroupForm.reset() ">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>

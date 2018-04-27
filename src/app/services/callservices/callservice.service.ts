@@ -17,7 +17,8 @@ export class CallServices {
   _closecallurl = 'services/closeCall/';
   _callsummaryurl = '/services/getCallSummary/';
   _getCampaign = this._commoUrl + '/cti/getCampaignNames';
-  _addCampaign = this.providerAdmin_Base_Url + '/createCitMappingwithServiceLines'
+  _addCampaign = this.providerAdmin_Base_Url + '/createCitMappingwithServiceLines';
+  _getCampaignList = this.providerAdmin_Base_Url + '/getMappedServiceLinesAndStatetoProvider';
   constructor(
     private _http: SecurityInterceptedHttp,
     private _config: ConfigService,
@@ -35,13 +36,21 @@ export class CallServices {
     console.log('Call summary to be retreived for ', values)
     return this._http.post(this._baseUrl + this._callsummaryurl, values).map(this.extractData).catch(this.handleError);
   }
+  getAllMappedServicelinesAndStates(campaignListObject) {
+    console.log("Mappedservice",campaignListObject);
+    
+    return this._httpInterceptor.post(this._getCampaignList, campaignListObject).map(this.extractData).catch(this.handleError);
+  }
 
   getCapmaign(serviceName: any) {
-    const obj = { 'serviceName': serviceName };
-    return this._httpInterceptor.post(this._getCampaign, obj).map(this.extractData).catch(this.handleError);
+    return this._httpInterceptor.post(this._getCampaign, serviceName).map(this.extractData).catch(this.handleError);
   }
 
   addCampaign(campaignObj) {
+    return this._httpInterceptor.post(this._addCampaign, campaignObj).map(this.extractData).catch(this.handleError);
+  }
+  /* For edit and create same API - /createCitMappingwithServiceLines */
+  editCampaign(campaignObj) {
     return this._httpInterceptor.post(this._addCampaign, campaignObj).map(this.extractData).catch(this.handleError);
   }
   private extractData(res: Response) {
