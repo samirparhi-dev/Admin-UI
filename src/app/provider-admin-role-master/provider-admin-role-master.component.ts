@@ -384,6 +384,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.updateFeaturesToRoleFlag = false;
     }
     else {
+      console.log("for flag",flag);
+      
       this.getFeatures(this.service.serviceID);
     }
 

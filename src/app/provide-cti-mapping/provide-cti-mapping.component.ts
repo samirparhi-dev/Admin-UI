@@ -73,6 +73,7 @@ export class ProvideCtiMappingComponent implements OnInit {
 
   }
   getCampaign(serviceline) {
+    this.state = "";
     console.log("serviceline", serviceline);
     console.log('this.service_provider.serviceProviderId, serviceline.serviceID',this.service_provider.serviceProviderId, this.serviceline.serviceID);
     this._callServices.getCapmaign({'serviceName':serviceline.serviceName}).subscribe((res) => {
@@ -154,29 +155,38 @@ export class ProvideCtiMappingComponent implements OnInit {
     campignObj['ServiceId'] = serviceline.serviceID;
 
     if (this.campaignList.length > 0) {
+     // this.checkDuplicates(this.mapping_form, this.mappingCampaign);
       this.campaignList.push(campignObj);
-      this.campaignList = this.filterArray(this.campaignList);
+      //this.campaignList = this.filterArray(this.campaignList);
 
     } else {
+    //  this.checkDuplicates(this.mapping_form, this.mappingCampaign);
       this.campaignList.push(campignObj);
       console.log("campaignList", this.campaignList);
-
     }
-
   }
   resetAllForms() {
     this.mapping_form.resetForm();
     this.mappingCampaign.resetForm();
     this.campaignList = [];
   }
-  filterArray(array: any) {
-    const o = {};
-    return array = array
-      .filter((thing, index, self) => self
-        .findIndex((t) => {
-          return t.providerServiceMapID === thing.providerServiceMapID;
-        }) === index)
-  }
+  // checkDuplicates(mapping_form, mappingCampaign) {
+  //  console.log("formValue",mapping_form, mappingCampaign);
+   
+  //   let tempList = [];
+  //   tempList= this.campaignArrayList;
+    
+    
+
+  // }
+  // filterArray(array: any) {
+  //   const o = {};
+  //   return array = array
+  //     .filter((thing, index, self) => self
+  //       .findIndex((t) => {
+  //         return t.providerServiceMapID === thing.providerServiceMapID;
+  //       }) === index)
+  // }
   deleteRow(index) {
     this.campaignList.splice(index, 1);
   }
@@ -185,7 +195,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     campaignObj = campaignObj.map(function (item) {
       return {
         'providerServiceMapID': item.providerServiceMapID,
-        'cTI_CampaignName': item.cTI_CampaignName
+        'cTI_CampaignName': item.cTI_CampaignName,
       }
     });
     this._callServices.addCampaign(campaignObj).subscribe((res) => {
@@ -195,7 +205,9 @@ export class ProvideCtiMappingComponent implements OnInit {
       this.campaignList = [];      
       this.showFormFlag = false;
       this.showTableFlag = true;
-      this.getAllMappedServicelinesAndStates(this.service_provider, this.serviceline, this.state);
+      console.log('Mapping saved successfully',this.service_provider.serviceProviderId, this.serviceline.serviceID, this.state.stateID);
+      
+      this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId, this.serviceline.serviceID, this.state.stateID);
 
 
       // if (res.response === 'mappedSuccessFully') {

@@ -23,58 +23,64 @@
               <option value="kannada"> KANNADA</option>
               <option value="telugu"> TELUGU</option>
             </select>
-            </li>            
+            </li>
+            
           </ul> -->
-                    <!-- <ul class="list-inline list-unstyled topIcon pull-right m-l-20  m-b-0">
+                    <ul class="list-inline list-unstyled topIcon pull-right m-b-0">
                         <li style="color: white"> {{currentlanguageSet.welcome}} {{data.userName}}</li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="assets/images/icon-user-active.png" class="cursorPointer" alt="User Icon" title="User Icon">
-                            </a> -->
-                    <!-- <ul class="dropdown-menu m-l--100">
-                                <li class="p-l-10 cursorPointer "> -->
-                    <!-- <img src="assets/images/icon-user-active.png"> -->
-                    <!-- <span class="m-l-10">{{data.userName}}</span>
-                                   
-                                </li>
-                            </ul> -->
-                    <!-- </li> -->
-                    <!-- <md-menu #menuNotification x-position="before" class="m-t-40"  >
-                    <md-list class="p-t-0">
-                        <md-list-item style="margin-left:-120px;">
-                            <md-icon class="mat-icon material-icons" role="img" aria-hidden="true">account_circle</md-icon>
-                            {{data.userName}}</md-list-item>
-                       
-                    </md-list>
-                    </md-menu> -->
-                    <!-- <li class="help">
-                            <a class="">&nbsp;</a>
+                        <li class="">
+                            <img src="assets/images/icon-user-active.png" class="cursorPointer" alt="User Icon" title="User Icon" [mdMenuTriggerFor]="menuNotification">
+
                         </li>
-                        <li class="logout">
-                            <a class="" (click)="logOut()">&nbsp;</a>
-                        </li>
-                    </ul>   -- commented by krishna Gunti -->
-                    <ul class="list-inline list-unstyled  m-b-0">
-                        <li class="f-c-w text-capitalize"> {{currentlanguageSet.welcome}} {{data.userName}}</li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="assets/images/icon-user-active.png"> </a>
-                            <ul class="dropdown-menu m-l--100 arrow_box">
-                                <li class="p-l-10 cursorPointer ">
-                                    <img (click)="logOut()" src="assets/images/logoutIconNew.png">
-                                    <span class="m-l-10">Logout</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown helpIcon" title="Help">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"></a>
-                        </li>
+                        <md-menu #menuNotification x-position="before"  class="m-t-40"  >
+                            <md-list class="p-t-0">
+                                <md-list-item>
+                                    <md-icon class="mat-icon material-icons" role="img" aria-hidden="true">account_circle</md-icon>
+                                    {{data.userName}}</md-list-item>
+                                <!-- <md-list-item class="b-t-1-w">ID: {{id}}-{{current_role ? current_role : ''}}{{current_role ? '-' : ''}}{{current_service}}</md-list-item> -->
+                            </md-list>
+                            </md-menu>
+                            <!-- <li class="help">
+                                <a class="">&nbsp;</a>
+                            </li> -->
+                            <li class="dropdown helpIcon" title="Help">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"></a>
+                            </li>
+                            <li class="logout">
+                                <img (click)="logOut()" style="color:red" src="assets/images/logoutIconNew.png">
+                            </li>
+
+
+                            <!-- <li class="logout"  (click)="logOut()">
+                                <a class="">&nbsp;</a>
+                                    </li> -->
+                            <!-- <img (click)="logOut()" style= "color : red"   src="assets/images/logoutIconNew.png"> -->
+                            <!-- <span class="logout m-l-10">Logout</span> -->
+
 
                     </ul>
+                    <!-- <ul class="list-inline list-unstyled  m-b-0">
+                            <li class="f-c-w text-capitalize"> {{currentlanguageSet.welcome}} {{data.userName}}</li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="assets/images/icon-user-active.png"> </a>
+                                <ul class="dropdown-menu m-l--100 arrow_box">
+                                    <li class="p-l-10 cursorPointer ">
+                                        <img (click)="logOut()" src="assets/images/logoutIconNew.png">
+                                        <span class="m-l-10">Logout</span>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown helpIcon" title="Help">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"></a>
+                            </li>
+    
+                        </ul> -->
                 </div>
             </div>
         </div>
     </div>
+
     <!-- <router-outlet name="postLogin_router"></router-outlet> -->
     <app-super-admin *ngIf="role==='SUPERADMIN'" [current_language]="currentlanguageSet"></app-super-admin>
     <app-provider-admin *ngIf="role==='PROVIDERADMIN'"></app-provider-admin>
