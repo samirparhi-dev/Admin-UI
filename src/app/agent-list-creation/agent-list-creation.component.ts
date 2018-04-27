@@ -125,7 +125,15 @@ agentsListSuccessHandler(agentsResponse) {
     this.disableSelection = true;
 
   }
-
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {       
+        this.showTableFlag = true;
+        this.showFormFlag = false;
+       
+      }
+    })
+  }
   validate_one(agentID) {
     this.resultArray = [];
 
