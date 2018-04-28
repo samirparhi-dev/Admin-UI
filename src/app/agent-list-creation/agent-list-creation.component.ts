@@ -130,6 +130,7 @@ export class AgentListCreationComponent implements OnInit {
   back() {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
+        this.agentListForm.resetForm();
         this.showTableFlag = true;
         this.showFormFlag = false;
 
@@ -325,7 +326,8 @@ export class AgentListCreationComponent implements OnInit {
     if (response) {
       if (response.length > 0) {
         this.alertService.alert('Mapping saved successfully');
-        this.resetFields();
+        this.agentListForm.resetForm();
+        this.showFormFlag = false;
         this.getAllAgents(this.providerServiceMapID);
       }
       if (response.length == 0) {
@@ -343,7 +345,7 @@ export class AgentListCreationComponent implements OnInit {
     // this.password = "";
 
     this.isNational = false;
-    this.agentListForm.resetForm();
+    this.agentListForm.reset();
 
 
     //    this.radio_option = '1';
@@ -400,10 +402,10 @@ export class AgentListCreationComponent implements OnInit {
     console.log("data", data);
     // this.service = data.service,
     // this.state = data.state,
-    this.campaign_name = data.campaign_name;
+    this.campaign_name = data.cti_CampaignName;
     this.radio_option = data.radio_option
-    this.agent_ID = data.agent_ID;
-    this.password = data.password;
+    this.agent_ID = data.agentID;
+    this.password = data.agentPassword;
     this.editable = true;
     this.usrAgentMappingID = data.usrAgentMappingID;
   }

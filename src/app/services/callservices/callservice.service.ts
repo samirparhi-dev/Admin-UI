@@ -36,14 +36,10 @@ export class CallServices {
     console.log('Call summary to be retreived for ', values)
     return this._http.post(this._baseUrl + this._callsummaryurl, values).map(this.extractData).catch(this.handleError);
   }
-  getAllMappedServicelinesAndStates(campaignListObject) {
-    console.log("Mappedservice",campaignListObject);
+  getAllMappedServicelinesAndStates(serviceProviderID) {
+    console.log("Mappedservice",serviceProviderID);
     
-    return this._httpInterceptor.post(this._getCampaignList, campaignListObject).map(this.extractData).catch(this.handleError);
-  }
-  getAllMappedServicelinesAndStatesOnProvider(serviceProviderID) {
-    return this._httpInterceptor.post(this._getCampaignList, serviceProviderID).map(this.extractData).catch(this.handleError);
-
+    return this._httpInterceptor.post(this._getCampaignList, {"serviceProviderID":serviceProviderID}).map(this.extractData).catch(this.handleError);
   }
   getCapmaign(serviceName: any) {
     return this._httpInterceptor.post(this._getCampaign, serviceName).map(this.extractData).catch(this.handleError);
