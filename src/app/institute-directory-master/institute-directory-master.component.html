@@ -91,7 +91,7 @@
           <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" minlength="2"
             (blur)="checkexistance(instituteDirectory)" maxlength="50" required #instituteDir="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="instituteDir.valid && instituteDirectoryExist">Institute Directory name already exists</span>
+            <span class="error_text" *ngIf="instituteDir.valid && instituteDirectoryExist">Institute directory already exist</span>
           </md-hint>
         </md-input-container>
       </div>

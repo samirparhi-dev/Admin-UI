@@ -233,6 +233,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
               }
               else if (count > 0) {
                 console.log('Duplicate Entry Already exists for ' + object.stateID1[i].stateName);
+                this.dialogService.alert("Already exists");
                 this.resetForm();
               }
             }
@@ -243,7 +244,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         }
       }
       if (providerCount > 0 && servicelineMatched === false) {
-        this.bufferArray.push(object);
+        this.bufferArray.push(object);        
         this.resetForm();
       }
       if (providerCount === 0) {

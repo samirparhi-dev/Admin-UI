@@ -76,7 +76,7 @@ export class ComponentMasterComponent implements OnInit {
   initComponentForm(): FormGroup {
     return this.fb.group({
       testComponentID: null,
-      testComponentName: null,
+      testComponentName: [null, Validators.required],
       testComponentDesc: null,
       inputType: null,
       range_max: null,

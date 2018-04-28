@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">Agent List Creation</h4>
+    <h4 class="pull-left" *ngIf="!editable">Agent List Creation</h4>
+    <h4 class="pull-left" *ngIf="editable">Edit Agent List Creation</h4>
   </div>
   <form #searchForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -24,22 +25,29 @@
       </md-input-container>
     </div>
   </form>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTableFlag">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTableFlag && !editable">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="agentLists" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="10%">S.No.</th>
-            <th width="40%">Agent ID</th>
-            <th width="50%">Campaign Name</th>
-            <th width="25%">Action</th>
+            <th width="30%">Agent ID</th>
+            <th width="35%">Campaign Name</th>
+            <th width="25%">Edit</th>
           </tr>
         </thead>
         <tbody>
+            <tr *ngIf="agentLists.length == 0" class="record-not-found">
+                <td colspan="4" align="center">No records found</td>
+              </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.agentID}}</td>
             <td>{{item.cti_CampaignName}}</td>
+            <td>
+                <md-icon *ngIf="!item.deleted" mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="editAgentCampaign(item)">edit</md-icon>
+              </td>
         </tbody>
         <tfoot>
           <tr>
@@ -56,7 +64,8 @@
   </div>
 </div>
 
-<div class="row" *ngIf="showFormFlag">
+<div class="row" *ngIf="showFormFlag  || editable">   
+   
   <form #agentListCreationForm="ngForm" autocomplete="off">
     <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -120,18 +129,19 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container style="width: 100%">
         <input mdInput type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength="3" maxlength="30"
-         #pass="ngModel" required myMobileNumber>
+          #pwrd="ngModel" required myMobileNumber>
 
+        <md-hint class="errorText">
+          <span *ngIf="pwrd.touched">Enter only numbers(min:3, max:30)</span>
+        </md-hint>
       </md-input-container>
-      <md-hint>
-        <span class="error_text" *ngIf="pass.touched">Enter only numbers min:3, max:30</span>
-      </md-hint>
     </div>
   </form>
   <div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button class="pull-right" type="button" md-raised-button color="accent" [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Save</button>
+      <button class="pull-right" type="button" md-raised-button color="accent" *ngIf="!editable" [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Save</button>
+      <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateAgent(agentListCreationForm.value)">Update</button>
     </div>
   </div>
 </div>

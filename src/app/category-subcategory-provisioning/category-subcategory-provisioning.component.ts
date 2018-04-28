@@ -606,6 +606,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       if (res) {
         this.searchForm = true;
         this.serviceList.length = 0;
+        this.serviceSubCatList = [];
         this.showTable = true;
         this.cateDisabled = 'false';
         if (this.nationalFlag) {

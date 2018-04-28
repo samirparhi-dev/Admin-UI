@@ -135,6 +135,9 @@ export class DrugGroupComponent implements OnInit {
       if (duplicateStatus === 0) {
         this.drugGroupList.push(object);
       }
+      else {
+        this.alertMessage.alert("Already exists");
+      }
     }
   }
   storeDrugGroup() {

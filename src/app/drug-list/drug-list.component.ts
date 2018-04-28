@@ -159,6 +159,9 @@ export class DrugListComponent implements OnInit {
       if (duplicateStatus === 0) {
         this.drugList.push(object);
       }
+      else {
+        this.alertMessage.alert("Already exists");
+      }
     }
   }
 
@@ -251,7 +254,11 @@ export class DrugListComponent implements OnInit {
 
   drugNameExist: any = false;
   checkExistance(drugName) {
+    console.log("drugName", drugName);
+    
     this.drugNameExist = this.availableDrugNames.includes(drugName);
+    console.log("drugNameExist", this.drugNameExist);
+    
   }
 
   remove_obj(index) {

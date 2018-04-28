@@ -74,7 +74,7 @@ export class ProcedureMasterComponent implements OnInit {
   initProcedureForm(): FormGroup {
     return this.fb.group({
       id: null,
-      name: null,
+      name: [null, Validators.required],
       type: null,
       description: null,
       male: null,
@@ -91,6 +91,13 @@ export class ProcedureMasterComponent implements OnInit {
     this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
       .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res); });
 
+  }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.showTable();
+      }
+    })
   }
   showTable() {
     this.tableMode = true;

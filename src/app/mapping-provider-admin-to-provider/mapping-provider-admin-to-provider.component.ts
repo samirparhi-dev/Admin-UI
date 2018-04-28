@@ -386,6 +386,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
               }
               else if (count > 0) {
                 console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].serviceName);
+                this,this.dialogService.alert('Already exists');
                 this.resetForm();
               }
             }

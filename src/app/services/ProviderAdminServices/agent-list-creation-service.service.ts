@@ -25,6 +25,7 @@ export class AgentListCreationService {
   get_Campaign_Names_Url: any;
   save_AgentListMapping_Url: any;
   getAllAgents_Url: any;
+  edit_AgentListMapping_Url: any;
 
 
   constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
@@ -36,6 +37,7 @@ export class AgentListCreationService {
     this.get_Campaign_Names_Url = this.common_Base_Url + '/cti/getCampaignNames';
     this.save_AgentListMapping_Url = this.admin_Base_Url + 'createUSRAgentMapping';
     this.getAllAgents_Url = this.admin_Base_Url + 'getAllAgentIds';
+    this.edit_AgentListMapping_Url = this.admin_Base_Url + 'updateCTICampaignNameMapping';
   };
 
   getStates(userID, serviceID, isNational) {
@@ -75,7 +77,12 @@ export class AgentListCreationService {
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
-
+  editAgentDetails(data) {
+    return this.httpIntercept.post(this.edit_AgentListMapping_Url, data)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+    
+  }
 
   handleSuccess(res: Response) {
     console.log(res.json().data, 'AGENT LIST CREATION file success response');
@@ -85,6 +92,7 @@ export class AgentListCreationService {
       return Observable.throw(res.json());
     }
   }
+
 
   handleState_n_ServiceSuccess(response: Response) {
 
