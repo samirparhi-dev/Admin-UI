@@ -41,7 +41,10 @@ export class CallServices {
     
     return this._httpInterceptor.post(this._getCampaignList, campaignListObject).map(this.extractData).catch(this.handleError);
   }
+  getAllMappedServicelinesAndStatesOnProvider(serviceProviderID) {
+    return this._httpInterceptor.post(this._getCampaignList, serviceProviderID).map(this.extractData).catch(this.handleError);
 
+  }
   getCapmaign(serviceName: any) {
     return this._httpInterceptor.post(this._getCampaign, serviceName).map(this.extractData).catch(this.handleError);
   }

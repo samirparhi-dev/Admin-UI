@@ -37,17 +37,17 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngIf="agentLists.length == 0" class="record-not-found">
-                <td colspan="4" align="center">No records found</td>
-              </tr>
+          <tr *ngIf="agentLists.length == 0" class="record-not-found">
+            <td colspan="4" align="center">No records found</td>
+          </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.agentID}}</td>
             <td>{{item.cti_CampaignName}}</td>
             <td>
-                <md-icon *ngIf="!item.deleted" mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                  (click)="editAgentCampaign(item)">edit</md-icon>
-              </td>
+              <md-icon *ngIf="!item.deleted" mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="editAgentCampaign(item)">edit</md-icon>
+            </td>
         </tbody>
         <tfoot>
           <tr>
@@ -64,8 +64,8 @@
   </div>
 </div>
 
-<div class="row" *ngIf="showFormFlag  || editable">   
-   
+<div class="row" *ngIf="showFormFlag  || editable">
+
   <form #agentListCreationForm="ngForm" autocomplete="off">
     <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -132,7 +132,7 @@
           #pwrd="ngModel" required myMobileNumber>
 
         <md-hint class="errorText">
-          <span *ngIf="pwrd.touched">Enter only numbers(min:3, max:30)</span>
+          <span *ngIf="pwrd.errors && pwrd.touched">Enter only numbers(min:3, max:30)</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -140,7 +140,8 @@
   <div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button class="pull-right" type="button" md-raised-button color="accent" *ngIf="!editable" [disabled]="!agentListCreationForm.valid" (click)="map(radio_option)">Save</button>
+      <button class="pull-right" type="button" md-raised-button color="accent" *ngIf="!editable" [disabled]="!agentListCreationForm.valid"
+        (click)="map(radio_option)">Save</button>
       <button *ngIf="editable" md-raised-button color="accent" class="pull-right" (click)="updateAgent(agentListCreationForm.value)">Update</button>
     </div>
   </div>

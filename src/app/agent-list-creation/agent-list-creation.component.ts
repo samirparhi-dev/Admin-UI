@@ -152,6 +152,7 @@ export class AgentListCreationComponent implements OnInit {
         'cti_CampaignName': this.campaign_name,
         'createdBy': this.commonDataService.uname
       }
+      console.log("agent obj", obj);
 
       this.resultArray.push(obj);
     }
@@ -342,7 +343,7 @@ export class AgentListCreationComponent implements OnInit {
     // this.password = "";
 
     this.isNational = false;
-    this.agentListForm.reset();
+    this.agentListForm.resetForm();
 
 
     //    this.radio_option = '1';
@@ -413,7 +414,7 @@ export class AgentListCreationComponent implements OnInit {
       'agentPassword': formValue.password,
       'providerServiceMapID': formValue.providerServiceMapID,
       'cti_CampaignName': formValue.campaign_name,
-      'usrAgentMappingID': this.usrAgentMappingID,      
+      'usrAgentMappingID': this.usrAgentMappingID,
     }
     console.log('Data to be update', updateAgentObj);
 

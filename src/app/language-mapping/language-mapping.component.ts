@@ -312,6 +312,7 @@ export class LanguageMappingComponent implements OnInit {
   }
 
   addLanguage(formValues: any) {
+    debugger;
     const obj = {
       'languageName': formValues.language.languageName,
       'userName': formValues.username.userName,
@@ -339,6 +340,7 @@ export class LanguageMappingComponent implements OnInit {
   }
 
   checkDuplicates(object) {
+    debugger;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
@@ -357,13 +359,14 @@ export class LanguageMappingComponent implements OnInit {
           }
           else {
             continue;
+           
           }
         }
       }
       if (!LanguageMatched && Count === 0) {
         this.bufferArray.push(object);
         // this.resetForm();
-        this.resetDropdowns();
+        //this.resetDropdowns();
       }
       else {
         this.alertService.alert("Already exists");
@@ -549,6 +552,13 @@ export class LanguageMappingComponent implements OnInit {
     this.SpeakWeightageList = [];
     this.showCheckboxes = false;
     this.resetweightageDropdowns();
+  }
+  back() {
+    this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
+      if (res) {
+        this.showTable();
+      }
+    })
   }
 }
 
