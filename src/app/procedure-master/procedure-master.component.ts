@@ -109,11 +109,8 @@ export class ProcedureMasterComponent implements OnInit {
   }
   procedureUnique() {
     console.log("name", this.name);
-
     this.alreadyExist = false;
-
     console.log("filteredprocedureList", this.filteredprocedureList);
-
     let count = 0;
     for (let a = 0; a < this.filteredprocedureList.length; a++) {    
       
@@ -125,10 +122,7 @@ export class ProcedureMasterComponent implements OnInit {
           this.alreadyExist = true;
         }
       }
-
     }
-
-
   }
 
   get name() {

@@ -147,7 +147,7 @@ export class DrugGroupComponent implements OnInit {
 
   successHandler(response) {
     this.drugGroupList = [];
-    this.alertMessage.alert("Drug groups saved successfully",'success');
+    this.alertMessage.alert("Saved successfully",'success');
     this.getAvailableDrugs();
   }
   dataObj: any = {};

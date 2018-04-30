@@ -96,7 +96,7 @@
         <div *ngIf="saveEditMode">
             <div>
                 <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();resetProcedure()">Back</button>
-                <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" [disabled]="stateService.valid" (click)="saveProcedure()">Save</button>
+                <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" [disabled]="stateService.invalid" (click)="saveProcedure()">Save</button>
                 <button *ngIf="editMode" class="pull-right" id="updateButton" md-raised-button color="accent" (click)="updateProcedure()">Update</button>
             </div>
         </div>

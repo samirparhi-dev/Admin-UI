@@ -37,8 +37,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   disableSelection: boolean = false;
   isNational = false;
 
-  // @ViewChild ('searchFields') searchFields: NgForm;
-  // @ViewChild ('entryField') entryField: NgForm;
+  @ViewChild ('searchFields') searchFields: NgForm;
+  @ViewChild ('entryField') entryField: NgForm;
   constructor(public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialog: MdDialog,
@@ -202,6 +202,7 @@ export class InstituteTypeMasterComponent implements OnInit {
       "providerServiceMapID": this.providerServiceMapID,
       "createdBy": this.commonDataService.uname
     }
+console.log("created", this.commonDataService.uname );
 
     if (this.bufferArray.length == 0 && (obj.institutionType != "" && obj.institutionType != undefined)) {
       this.bufferArray.push(obj);
@@ -220,11 +221,11 @@ export class InstituteTypeMasterComponent implements OnInit {
         this.alertService.alert("Already exists");
       }
     }
-    // this.entryField.resetForm();
+     this.entryField.resetForm();
 
     /*resetting fields after entering in buffer array/or if duplicate exist*/
-    this.instituteType = "";
-    this.description = "";
+    // this.instituteType = "";
+    // this.description = "";
 
   }
 

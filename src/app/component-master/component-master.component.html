@@ -40,12 +40,13 @@
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
                     <md-input-container style="width: 100% ">
-                        <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName"
+                        <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName" (change)="componentUnique()"
                             maxlength="99">
                     
-                    <md-hint *ngIf="componentForm.get('testComponentName').hasError('required') && componentForm.get('testComponentName').touched">
-                            <span class="error_text">Component Name is required</span>
-                                </md-hint>
+                            <md-hint >
+                                <span class="error_text" *ngIf="componentForm.get('testComponentName').hasError('required') && componentForm.get('testComponentName').touched">Component Name is required</span>
+                                <span class="error_text" *ngIf="alreadyExist">Component name already exist</span>
+                            </md-hint>
                             </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -158,7 +159,7 @@
 <div *ngIf="saveEditMode">
     <div *ngIf="providerServiceMapID && service == '2'" align="right">
         <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="showTable();resetForm()">Back</button>
-        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" (click)="saveComponent()">Save</button>
+        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" [disabled]="!stateService.valid" (click)="saveComponent()">Save</button>
         <button *ngIf="editMode" id="updateButton" md-raised-button color="accent" (click)="updateComponent()">Update</button>
 
     </div>

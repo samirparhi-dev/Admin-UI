@@ -33,6 +33,7 @@ export class ComponentMasterComponent implements OnInit {
   filteredComponentList: any;
   tableMode: boolean = true;
   saveEditMode: boolean = false;
+  alreadyExist: boolean = false;
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
@@ -104,7 +105,23 @@ export class ComponentMasterComponent implements OnInit {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.touched || isSubmitted));
   }
-
+  get testComponentName() {
+    return this.componentForm.controls['testComponentName'].value;
+  }
+  componentUnique() {    
+    this.alreadyExist = false;
+    console.log("filteredComponentList", this.filteredComponentList);
+    let count = 0;
+    for (let a = 0; a < this.filteredComponentList.length; a++) {      
+      if (this.filteredComponentList[a].testComponentName === this.testComponentName) {
+        count = count + 1;
+        console.log("count", count);        
+        if (count > 0) {
+          this.alreadyExist = true;
+        }
+      }
+    }
+  }
 
   addID(index) {
     console.log('index here', index)
