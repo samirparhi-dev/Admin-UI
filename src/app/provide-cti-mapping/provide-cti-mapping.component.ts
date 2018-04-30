@@ -35,8 +35,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   disableSelection: boolean = false;
 
   @ViewChild('form') mapping_form: NgForm;
-  @ViewChild('mappingCampaign') 
-  mappingCampaign: NgForm;
+  @ViewChild('mappingCampaign') mappingCampaign: NgForm;
 
   constructor(private block_provider: BlockProvider, private message: ConfirmationDialogsService, private _callServices: CallServices) { }
 
@@ -157,44 +156,36 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
 
 
-  addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
-    this.filterServiceName = this.campaignArrayList.filter((item) => {
-      return item.serviceName;
-    })
-    console.log("filterServiceName", JSON.stringify(this.filterServiceName, null, 4));
+  // addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
+  //   this.filterServiceName = this.campaignArrayList.filter((item) => {
+  //     return item.serviceName;
+  //   })
+  //   console.log("filterServiceName", JSON.stringify(this.filterServiceName, null, 4));
 
-    console.log("obj", serviceProvider, serviceline, campaign);
+  //   console.log("obj", serviceProvider, serviceline, campaign);
 
-    let campignObj = {};
-    // campignObj['providerName'] = serviceProvider.serviceProviderName;
-    campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
-    campignObj['cTI_CampaignName'] = campaign.campaign_name;
-    campignObj['Service'] = serviceline.serviceName;
-    campignObj['ServiceId'] = serviceline.serviceID;
+  //   let campignObj = {};
+  //   // campignObj['providerName'] = serviceProvider.serviceProviderName;
+  //   campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
+  //   campignObj['cTI_CampaignName'] = campaign.campaign_name;
+  //   campignObj['Service'] = serviceline.serviceName;
+  //   campignObj['ServiceId'] = serviceline.serviceID;
 
-    if (this.campaignList.length > 0) {
-           this.campaignList.push(campignObj);
-      //this.campaignList = this.filterArray(this.campaignList);
+  //   if (this.campaignList.length > 0) {
+  //          this.campaignList.push(campignObj);
+  //     //this.campaignList = this.filterArray(this.campaignList);
 
-    } else {      
-      this.campaignList.push(campignObj);
-      console.log("campaignList", this.campaignList);
-    }
-  }
+  //   } else {      
+  //     this.campaignList.push(campignObj);
+  //     console.log("campaignList", this.campaignList);
+  //   }
+  // }
   resetAllForms() {
     this.mapping_form.resetForm();
     this.mappingCampaign.resetForm();
     this.campaignList = [];
   }
-  // checkDuplicates(mapping_form, mappingCampaign) {
-  //  console.log("formValue",mapping_form, mappingCampaign);
 
-  //   let tempList = [];
-  //   tempList= this.campaignArrayList;
-
-
-
-  // }
   // filterArray(array: any) {
   //   const o = {};
   //   return array = array
@@ -206,36 +197,30 @@ export class ProvideCtiMappingComponent implements OnInit {
   deleteRow(index) {
     this.campaignList.splice(index, 1);
   }
-  finalsave(campaignObj) {
+  // finalsave(campaignObj) {
 
-    campaignObj = campaignObj.map(function (item) {
-      return {
-        'providerServiceMapID': item.providerServiceMapID,
-        'cTI_CampaignName': item.cTI_CampaignName,
-      }
-    });
-    this._callServices.addCampaign(campaignObj).subscribe((res) => {
-      // this.message.alert(res.response);
-      this.message.alert('Mapping saved successfully', 'success');
-      this.mappingCampaign.resetForm();
-      this.campaignList = [];
-      this.showFormFlag = false;
-      this.showTableFlag = true;
-      this.disableSelection = false;
-      console.log('Mapping saved successfully', this.service_provider.serviceProviderId);
+  //   campaignObj = campaignObj.map(function (item) {
+  //     return {
+  //       'providerServiceMapID': item.providerServiceMapID,
+  //       'cTI_CampaignName': item.cTI_CampaignName,
+  //     }
+  //   });
+  //   this._callServices.addCampaign(campaignObj).subscribe((res) => {
+  //     // this.message.alert(res.response);
+  //     this.message.alert('Mapping saved successfully', 'success');
+  //     this.mappingCampaign.resetForm();
+  //     this.campaignList = [];
+  //     this.showFormFlag = false;
+  //     this.showTableFlag = true;
+  //     this.disableSelection = false;
+  //     console.log('Mapping saved successfully', this.service_provider.serviceProviderId);
 
-      this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId);
+  //     this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId);
 
-
-      // if (res.response === 'mappedSuccessFully') {
-      //   this.message.alert('Successfully Added');
-      // } else {
-
-      // }
-    }, (err) => {
-      this.message.alert(err, 'error');
-    })
-  }
+  //   }, (err) => {
+  //     this.message.alert(err, 'error');
+  //   })
+  // }
   resetForm() {
     // this.message.confirm('Confirm','Are you sure want to reset?').subscribe((response) => {
     //   if (response) {
@@ -259,5 +244,43 @@ export class ProvideCtiMappingComponent implements OnInit {
 
       }
     })
+  }
+  addCampaign(serviceProvider: any, serviceline: any, campaign: any) {
+    this.filterServiceName = this.campaignArrayList.filter((item) => {
+      return item.serviceName;
+    })
+    console.log("filterServiceName", JSON.stringify(this.filterServiceName, null, 4));
+
+    console.log("obj", serviceProvider, serviceline, campaign);
+
+    let campignObj = {};
+    // campignObj['providerName'] = serviceProvider.serviceProviderName;
+    campignObj['providerServiceMapID'] = serviceline.providerServiceMapID;
+    campignObj['cTI_CampaignName'] = campaign.campaign_name;
+    campignObj['Service'] = serviceline.serviceName;
+    campignObj['ServiceId'] = serviceline.serviceID;
+
+    // if (this.campaignList.length > 0) {
+    //        this.campaignList.push(campignObj);
+      //this.campaignList = this.filterArray(this.campaignList);
+
+    // } else {      
+    //   this.campaignList.push(campignObj);
+    //   console.log("campaignList", this.campaignList);
+    // }
+    this._callServices.addCampaign(campignObj).subscribe((res) => {      
+          this.message.alert('Mapping saved successfully', 'success');
+          this.mappingCampaign.resetForm();
+          this.campaignList = [];
+          this.showFormFlag = false;
+          this.showTableFlag = true;
+          this.disableSelection = false;
+          console.log('Mapping saved successfully', this.service_provider.serviceProviderId);
+    
+          this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId);
+    
+        }, (err) => {
+          this.message.alert(err, 'error');
+        })
   }
 }
