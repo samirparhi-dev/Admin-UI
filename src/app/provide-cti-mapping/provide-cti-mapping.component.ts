@@ -35,7 +35,8 @@ export class ProvideCtiMappingComponent implements OnInit {
   disableSelection: boolean = false;
 
   @ViewChild('form') mapping_form: NgForm;
-  @ViewChild('mappingCampaign') mappingCampaign: NgForm;
+  @ViewChild('mappingCampaign') 
+  mappingCampaign: NgForm;
 
   constructor(private block_provider: BlockProvider, private message: ConfirmationDialogsService, private _callServices: CallServices) { }
 
@@ -251,7 +252,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   back() {
     this.message.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.resetAllForms();
+        this.mappingCampaign.resetForm();
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.disableSelection = false;

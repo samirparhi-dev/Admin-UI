@@ -115,8 +115,7 @@ export class ProcedureMasterComponent implements OnInit {
     console.log("filteredprocedureList", this.filteredprocedureList);
 
     let count = 0;
-    for (let a = 0; a < this.filteredprocedureList.length; a++) {
-      console.log("for", this.filteredprocedureList[a].procedureName, this.name );
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {    
       
       if (this.filteredprocedureList[a].procedureName === this.name) {
         count = count + 1;

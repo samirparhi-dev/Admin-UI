@@ -138,18 +138,21 @@ export class ServiceProviderMasterComponent implements OnInit {
   }
   save(form_value) {
     console.log(form_value, 'Form Value');
+    console.log("address", form_value.address2 === undefined ,form_value.address2);
+    
     const object = {
       'serviceProviderName': form_value.provider_name,
       'createdBy': this.createdBy,
       'primaryContactName': form_value.contact_person,
       'primaryContactNo': form_value.contact_number,
       'primaryContactEmailID': form_value.email,
-      'primaryContactAddress': form_value.address1 + (form_value.address2 === '' ? '' : ',' + form_value.address2),
+      'primaryContactAddress': form_value.address1 + (form_value.address2 === undefined ? "" : ',' + form_value.address2),
       'statusID': '2',
       'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)).toJSON(),
       'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)).toJSON(),
       'deleted': false
     }
+console.log("object", object);
 
     const requestArray = [];
     requestArray.push(object);
