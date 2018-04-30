@@ -287,5 +287,5 @@ export class ProvideCtiMappingComponent implements OnInit {
           
           this.message.alert(err.status, 'error');
         })
-  }
+  }  
 }
