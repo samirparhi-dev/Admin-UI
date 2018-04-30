@@ -2,9 +2,9 @@
     <div class="col-xs-12 col-sm-12 ">
         <h4 *ngIf="!editMode">Procedure Master</h4>
         <h4 *ngIf="editMode">Edit Procedure Master</h4>
-        <div *ngIf="unfilled" class="alert alert-danger" role="alert">
+        <!-- <div *ngIf="unfilled" class="alert alert-danger" role="alert">
             Please fill all mandatory fields
-        </div>
+        </div> -->
         <form #stateService="ngForm" autocomplete="off">
             <div class="row m-t-15">
 
@@ -39,14 +39,18 @@
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
                         <md-input-container style="width: 100% ">
-                            <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99">
+                            <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99" (change)="procedureUnique()">
 
-                            <md-hint *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">
+                            <!-- <md-hint *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">
                                 <span class="error_text">Procedure Name is required</span>
-                                    </md-hint>
-
-                                    <!-- <span class="error_text" *ngIf="alreadyExist">Procedure already exist</span>
                                     </md-hint> -->
+                             <md-hint >
+                                <span class="error_text" *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">Procedure Name is required</span>
+                                <span class="error_text" *ngIf="alreadyExist">Procedure name already exist</span>
+                            </md-hint>
+                                  
+
+                                  
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -92,7 +96,7 @@
         <div *ngIf="saveEditMode">
             <div>
                 <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();resetProcedure()">Back</button>
-                <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" (click)="saveProcedure()">Save</button>
+                <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" [disabled]="stateService.valid" (click)="saveProcedure()">Save</button>
                 <button *ngIf="editMode" class="pull-right" id="updateButton" md-raised-button color="accent" (click)="updateProcedure()">Update</button>
             </div>
         </div>

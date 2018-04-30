@@ -701,7 +701,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.CategorySubcategoryService.getCategorybySubService(pServiceMapID, subService.subServiceID)
         .subscribe((response) => {
           if (response) {
-            //  console.log(response, "subcat response");
+              console.log(response, "subcat response");
             subCategoriesExist = response.filter((obj) => {
               if (obj) {
                 return obj.categoryID === category.categoryID &&

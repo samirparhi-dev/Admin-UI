@@ -32,7 +32,7 @@ export class ProcedureMasterComponent implements OnInit {
   filteredprocedureList: any;
   tableMode: boolean = true;
   saveEditMode: boolean = false;
-
+  alreadyExist: boolean = false;
   bufferArray: any = [];
 
 
@@ -106,6 +106,34 @@ export class ProcedureMasterComponent implements OnInit {
   showForm() {
     this.tableMode = false;
     this.saveEditMode = true;
+  }
+  procedureUnique() {
+    console.log("name", this.name);
+
+    this.alreadyExist = false;
+
+    console.log("filteredprocedureList", this.filteredprocedureList);
+
+    let count = 0;
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {
+      console.log("for", this.filteredprocedureList[a].procedureName, this.name );
+      
+      if (this.filteredprocedureList[a].procedureName === this.name) {
+        count = count + 1;
+        console.log("count", count);
+        
+        if (count > 0) {
+          this.alreadyExist = true;
+        }
+      }
+
+    }
+
+
+  }
+
+  get name() {
+    return this.procedureForm.controls['name'].value;
   }
   saveProcedure() {
     let apiObject = this.objectManipulate();
