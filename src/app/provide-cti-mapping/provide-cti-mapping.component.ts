@@ -259,16 +259,19 @@ export class ProvideCtiMappingComponent implements OnInit {
     campignObj['cTI_CampaignName'] = campaign.campaign_name;
     campignObj['Service'] = serviceline.serviceName;
     campignObj['ServiceId'] = serviceline.serviceID;
+    
 
-    // if (this.campaignList.length > 0) {
-    //        this.campaignList.push(campignObj);
-      //this.campaignList = this.filterArray(this.campaignList);
+    if (this.campaignList.length > 0) {
+           this.campaignList.push(campignObj);
+     // this.campaignList = this.filterArray(this.campaignList);
 
-    // } else {      
-    //   this.campaignList.push(campignObj);
-    //   console.log("campaignList", this.campaignList);
-    // }
-    this._callServices.addCampaign(campignObj).subscribe((res) => {      
+    } else {      
+      this.campaignList.push(campignObj);
+      console.log("campaignList", this.campaignList);
+    }
+    console.log("campignObj", campignObj);
+    
+    this._callServices.addCampaign(this.campaignList).subscribe((res) => {      
           this.message.alert('Mapping saved successfully', 'success');
           this.mappingCampaign.resetForm();
           this.campaignList = [];
@@ -280,7 +283,9 @@ export class ProvideCtiMappingComponent implements OnInit {
           this.getAllMappedServicelinesAndStates(this.service_provider.serviceProviderId);
     
         }, (err) => {
-          this.message.alert(err, 'error');
+          console.log("err", err.status);
+          
+          this.message.alert(err.status, 'error');
         })
   }
 }
