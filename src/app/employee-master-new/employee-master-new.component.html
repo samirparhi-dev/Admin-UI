@@ -179,8 +179,8 @@
                             <input mdInput placeholder="Aadhar No." ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                                 (keyup)="checkAadhar()" #number="ngModel" required>
                             <md-hint *ngIf="number.touched">
-                                <span class="error_text" [hidden]="!number.errors && !isExistAadhar">Required 12 digit aadhar number</span>
-                                <span class="error_text" *ngIf="  isExistAadhar">{{errorMessageForAadhar}}</span>
+                                <span class="error_text" [hidden]="!number.errors && isExistAadhar">Required 12 digit aadhar number</span>
+                                <span class="error_text" *ngIf="!number.errors && isExistAadhar">{{errorMessageForAadhar}}</span>
                             </md-hint>
                         </md-input-container>
                     </div>
