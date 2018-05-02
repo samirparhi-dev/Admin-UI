@@ -188,6 +188,7 @@ export class ZoneComponent implements OnInit {
         this.zoneList = [];
         this.alertMessage.alert("Saved successfully", 'success');
         this.getAvailableZones();
+        this.showZones = true;
     }
     remove_obj(index) {
         this.zoneList.splice(index, 1);

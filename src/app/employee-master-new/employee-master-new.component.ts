@@ -109,6 +109,8 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   ngOnInit() {
     this.createdBy = this.dataServiceValue.uname;
+    console.log("createdBY", this.createdBy);
+
     this.serviceProviderID = this.dataServiceValue.service_providerID;
     this.getAllUserDetails();
     this.minDate_doj = new Date();
@@ -160,12 +162,20 @@ export class EmployeeMasterNewComponent implements OnInit {
  */
   resetDob() {
     this.dob = new Date();
+    this.dob.setHours(0);
+    this.dob.setMinutes(0);
+    this.dob.setSeconds(0);
+    this.dob.setMilliseconds(0);
+
     this.dob.setFullYear(this.today.getFullYear() - 20);
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
+  }
+  resetDoj() {
+    this.calculateDoj(this.dob);
   }
   /*
  * display the added user's in the table
@@ -191,13 +201,16 @@ export class EmployeeMasterNewComponent implements OnInit {
  * calculate the doj based on dob
  */
   calculateDoj(dob) {
-    this.today = new Date();
 
+    this.today = new Date();
     this.minDate_doj.setFullYear(dob.getFullYear() + 20, dob.getMonth(), dob.getDate());
+    console.log("set minDate_doj", this.minDate_doj);
     this.minDate_doj = new Date(this.minDate_doj);
+    console.log(" b4 minDate_doj", this.minDate_doj);
+
+
 
   }
-
   /*
   * Display gender on condition
   */
@@ -438,6 +451,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.demographicsDetailsForm.resetForm();
     this.communicationDetailsForm.resetForm();
     this.resetDob();
+    this.resetDoj();
   }
   /*
   * Method for addition of objects
@@ -502,13 +516,23 @@ export class EmployeeMasterNewComponent implements OnInit {
   createUser() {
     var reqObject = [];
     for (var i = 0; i < this.objs.length; i++) {
+      /*dob*/
+      this.objs[i].dob.setHours(0);
+      this.objs[i].dob.setMinutes(0);
+      this.objs[i].dob.setSeconds(0);
+      this.objs[i].dob.setMilliseconds(0);
+      /*doj*/
+      this.objs[i].doj.setHours(0);
+      this.objs[i].doj.setMinutes(0);
+      this.objs[i].doj.setSeconds(0);
+      this.objs[i].doj.setMilliseconds(0);
       var tempObj = {
         'titleID': this.objs[i].titleID,
         'firstName': this.objs[i].firstname,
         'middleName': this.objs[i].middlename,
         'lastName': this.objs[i].lastname,
         'genderID': this.objs[i].genderID,
-        'dOB': this.objs[i].dob,
+        'dOB': new Date(this.objs[i].dob.valueOf() - 1 * this.objs[i].dob.getTimezoneOffset() * 60 * 1000),
         'age': this.objs[i].age,
         'contactNo': this.objs[i].contactNo,
         'emailID': this.objs[i].emailID,
@@ -520,7 +544,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'emergencyContactNo': this.objs[i].emergency_contactNo,
         'userName': this.objs[i].username,
         'password': this.objs[i].password,
-        'dOJ': this.objs[i].doj,
+        'dOJ': new Date(this.objs[i].doj.valueOf() - 1 * this.objs[i].doj.getTimezoneOffset() * 60 * 1000),
         'fathersName': this.objs[i].fatherName,
         'mothersName': this.objs[i].motherName,
         'communityID': this.objs[i].communityID,
@@ -545,13 +569,16 @@ export class EmployeeMasterNewComponent implements OnInit {
       reqObject.push(tempObj);
     }
     console.log("Details to be saved", reqObject);
+    debugger;
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
-      if (response.stat)
-        this.editMode = false;
-      this.dialogService.alert("Saved successfully", "success");
+      // if (response.stat)
+      this.editMode = false;
       this.objs = [];
+      this.dialogService.alert("Saved successfully", "success");      
       this.getAllUserDetails();
+      this.tableMode = true;
+
 
     }), (err) => this.dialogService.alert(err, 'error');
 
@@ -603,7 +630,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   edit(data) {
     console.log("data", data);
-    
+
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
@@ -655,7 +682,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   limitDateInEdit(dateOfBirth) {
     console.log("Limit dateOfBirth", dateOfBirth);
-    
+
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -674,43 +701,43 @@ export class EmployeeMasterNewComponent implements OnInit {
   //       this.age--; //age is ng-model of AGE
   //     }
   //   }
-    
+
   // }
   calculateAgeInEdit(dateOfBirth) {
     console.log("dateOfBirth", dateOfBirth);
-    
-      if (dateOfBirth != undefined) {
-        console.log("undefinrddob", dateOfBirth);
-        
-        let existDobAge = new Date(dateOfBirth);
-        let age = this.today.getFullYear() - existDobAge.getFullYear();
+
+    if (dateOfBirth != undefined) {
+      console.log("undefinrddob", dateOfBirth);
+
+      let existDobAge = new Date(dateOfBirth);
+      let age = this.today.getFullYear() - existDobAge.getFullYear();
+      if (this.objs.length == 0) {
+        console.log("length", this.objs, this.objs.length, age);
+        this.age = age;
+      }
+      else {
+        console.log("age", this.objs, this.objs.length);
+        this.userCreationForm.form.patchValue({ 'user_age': age });
+
+      }
+
+      const month = this.today.getMonth() - existDobAge.getMonth();
+      if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
+        age--; //age is ng-model of AGE
         if (this.objs.length == 0) {
-          console.log("length", this.objs, this.objs.length, age );
+          console.log("length1", this.objs, this.objs.length);
           this.age = age;
         }
         else {
-          console.log("age",this.objs, this.objs.length );
+          console.log("age1", this.objs, this.objs.length);
           this.userCreationForm.form.patchValue({ 'user_age': age });
-  
-        }
-  
-        const month = this.today.getMonth() - existDobAge.getMonth();
-        if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
-          age--; //age is ng-model of AGE
-          if (this.objs.length == 0) {
-            console.log("length1", this.objs, this.objs.length );
-            this.age = age;
-          }
-          else {
-            console.log("age1", this.objs, this.objs.length );
-            this.userCreationForm.form.patchValue({ 'user_age': age });
-  
-          }
+
         }
       }
-      
     }
-  
+
+  }
+
 
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
@@ -731,7 +758,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
-      'dOJ': userCreationFormValue.doj,
+      'dOJ': new Date(userCreationFormValue.doj.valueOf() - 1 * userCreationFormValue.doj.getTimezoneOffset() * 60 * 1000),
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,

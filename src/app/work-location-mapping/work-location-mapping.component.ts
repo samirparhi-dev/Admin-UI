@@ -683,7 +683,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit)
       .subscribe(response => {
         if (response) {
-          console.log(response, 'get all work locations success handeler');
+          console.log(response, 'get all work locations success handeler edit');
           this.workLocationsList = response;
 
           // this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
