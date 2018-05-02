@@ -101,7 +101,10 @@ export class ParkingPlaceComponent implements OnInit {
         else {
             let count = 0
             for (let a = 0; a < this.parkingPlaceList.length; a++) {
-                if (this.parkingPlaceList[a].parkingPlaceName == this.parkingPlaceObj.parkingPlaceName) {
+                if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
+                    && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
+                    && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
+                    && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
                     count = count + 1;
                 }
             }

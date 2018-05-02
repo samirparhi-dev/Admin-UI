@@ -165,7 +165,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log("combinedFilterArray", this.combinedFilterArray);
     this.features = response.filter((obj) => {
       console.log("obj", obj);
-      
+
       return this.combinedFilterArray.indexOf(obj.screenName) == -1;
     }, this);
     this.editFeatures = response.filter((obj) => {
@@ -335,7 +335,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
   noRecordFound: boolean = false;
   fetchRoleSuccessHandeler(response) {
-    
+
     console.log(response, 'in fetch role success in component.ts');
     if (response.length == 0) {
       this.noRecordFound = true;
@@ -387,8 +387,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.updateFeaturesToRoleFlag = false;
     }
     else {
-      console.log("for flag",flag);
-      
+      console.log("for flag", flag);
+
       this.getFeatures(this.service.serviceID);
     }
 
@@ -411,16 +411,16 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     var result = this.validateRole(role);
 
     var selected_features = [];
-    if(feature === null) {
+    if (feature === null) {
       this.alertService.alert("No more features to add");
     }
     if (Array.isArray(feature)) {
       console.log("feature", feature);
-      
+
       selected_features = feature;
       console.log("selected_features", selected_features);
-     
-      
+
+
     }
     else {
       selected_features.push(feature);
@@ -481,25 +481,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
             count = count + 1;
           }
         }
-        if (count < 1) {
-          /*for(let k=0;k<feature.length;k++)
-          {
-            let obj = {
-              'roleName': role.trim(),
-              'roleDesc': desc,
-              'screenID': feature[k].screenID,
-              'screen_name':feature[k].screenName,
-              'createdBy': this.commonDataService.uname,
-              'createdDate': new Date(),
-            'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
-          };
-          console.log("Pushed OBJ",obj);
-          if(obj.roleName.trim().length>0)
-          {
-            this.objs.push(obj);
-          }
-
-        }*/
+        if (count == 0) {
 
           let screenIDs = [];
           let screenNames = [];
@@ -523,13 +505,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           //   this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
           //   this.getFeatures(this.service.serviceID);
           // }
-          if (count == 0 && (obj.roleName.trim().length>0 && obj.roleName != undefined)) {
+          if (count == 0 && (obj.roleName.trim().length > 0 && obj.roleName != undefined)) {
             this.objs.push(obj);
             this.tempFilterScreens = this.tempFilterScreens.concat(screenNames);
             this.getFeatures(this.service.serviceID);
           }
         }
-       
+
         else {
           this.alertService.alert("Already exists");
         }
@@ -609,12 +591,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   }
   removeFeature(rowIndex, FeatureIndex) {
-    debugger;
+    this.findRoles(this.STATE_ID, this.SERVICE_ID);
     this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
     this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
       this.objs.splice(rowIndex, 1);
     }
+
   }
 
   saveUpdateFeatureChanges() {
