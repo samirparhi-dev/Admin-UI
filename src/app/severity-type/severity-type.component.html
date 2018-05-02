@@ -85,7 +85,7 @@
             minlength="2" maxlength="20" required>
           <md-hint>
             <span class="error_text" *ngIf="newSeverity.touched && newSeverity.errors">Severity type is required</span>
-            <span class="error_text" *ngIf="alreadyExist">Severity already exist</span>
+            <span class="error_text" *ngIf="severityAdding.valid && alreadyExist">Severity already exist</span>
           </md-hint>
         </md-input-container>
       </div>
