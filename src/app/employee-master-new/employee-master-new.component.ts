@@ -575,9 +575,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       // if (response.stat)
       this.editMode = false;
       this.objs = [];
-      this.dialogService.alert("Saved successfully", "success");
-      this.tableMode = true;
+      this.dialogService.alert("Saved successfully", "success");      
       this.getAllUserDetails();
+      this.tableMode = true;
 
 
     }), (err) => this.dialogService.alert(err, 'error');
