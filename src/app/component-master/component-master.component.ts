@@ -160,6 +160,14 @@ export class ComponentMasterComponent implements OnInit {
     })
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.showTable();
+        this.alreadyExist =false;
+      }
+    })
+  }
   showTable() {
     this.tableMode = true;
     this.saveEditMode = false;
