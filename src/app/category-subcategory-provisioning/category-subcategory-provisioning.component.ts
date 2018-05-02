@@ -281,6 +281,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   checkSubService(service, sub_service_name) {
+    debugger;
     console.log(service, sub_service_name, 'service and subservice name');
     if ((sub_service_name.toUpperCase() === 'Counselling Service'.toUpperCase() && service === 3) ||
       (sub_service_name.toUpperCase() === 'Psychiatrist'.toUpperCase() && service === 3)) {
@@ -549,6 +550,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
 
   changeRequestObject(flag_value) {
+    debugger;
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
 

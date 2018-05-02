@@ -161,7 +161,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
             }
         }
         if (this.zoneDistrictMappingList.length <= 0) {
-            this.alertMessage.alert("Zone district mapping already exists");
+            this.alertMessage.alert("Already exists");
         }
     }
 
