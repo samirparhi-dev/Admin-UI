@@ -306,6 +306,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.editMode = true;
   }
   add2bufferArray(form_values) {
+    debugger;
     this.resetDropdowns();
     console.log(form_values, 'form values after adding');
     const object = {
@@ -346,6 +347,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     }
   }
   checkDuplicates(object) {
+    debugger;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
@@ -396,14 +398,22 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           }
         }
       }
-      if (providerCount === 1 && servicesMatched === false) {
+      // if (providerCount === 1 && servicesMatched === false) {
+      //   this.bufferArray.push(object);
+      //   this.resetForm();
+      // }
+      // if (providerCount === 2 && servicesMatched === false) {
+      //   this.bufferArray.push(object);
+      //   this.resetForm();
+      // }
+      // if (providerCount === 0) {
+      //   this.bufferArray.push(object);
+      //   this.resetForm();
+      // }
+      if (servicesMatched === false) {
         this.bufferArray.push(object);
         this.resetForm();
-      }
-      if (providerCount === 0) {
-        this.bufferArray.push(object);
-        this.resetForm();
-      }
+      }    
     }
   }
   mapServicelineState() {
@@ -550,6 +560,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       });
   }
   resetDropdowns() {
+    debugger;
     this.service_provider_admin = undefined;
     this.service_provider = undefined;
     this.provider = undefined
