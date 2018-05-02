@@ -64,6 +64,11 @@ export class ZoneComponent implements OnInit {
     }
 
     getStatesSuccessHandeler(response) {
+        console.log("state response", response);
+        if(response.serviceID === "MMU") {
+            
+        }
+        
         this.provider_states = response;
     }
 

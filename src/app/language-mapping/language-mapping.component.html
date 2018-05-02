@@ -31,14 +31,12 @@
             <td>{{lang.weightage_Write}}</td>
             <td>{{lang.weightage_Speak}}</td>
             <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRow(lang)">edit</md-icon>
 
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!lang.deleted"
-                (click)="editRow(lang)">edit</md-icon>
-            </td>
-            <td>
-              <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
-            </td>
+              <td>
+                <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+                <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
+              </td>
           </tr>
         </tbody>
         <tfoot>
@@ -195,7 +193,7 @@
               </div>
             </div>
             <div class="col-xs-12 col-sm-12 m-t-15">
-              <button name="backBtn" color="primary" md-raised-button class="pull-left " (click)="showTable()">Back</button>
+              <button name="backBtn" color="primary" md-raised-button class="pull-left " (click)="back()">Back</button>
               <button name="langsaveBtn " [disabled]="!(bufferArray.length>0)" color="accent" md-raised-button class="pull-right" (click)="saveMapping(); ">Save</button>
 
             </div>

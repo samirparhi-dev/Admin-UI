@@ -32,7 +32,7 @@ export class ProcedureMasterComponent implements OnInit {
   filteredprocedureList: any;
   tableMode: boolean = true;
   saveEditMode: boolean = false;
-
+  alreadyExist: boolean = false;
   bufferArray: any = [];
 
 
@@ -74,7 +74,7 @@ export class ProcedureMasterComponent implements OnInit {
   initProcedureForm(): FormGroup {
     return this.fb.group({
       id: null,
-      name: null,
+      name: [null, Validators.required],
       type: null,
       description: null,
       male: null,
@@ -92,6 +92,13 @@ export class ProcedureMasterComponent implements OnInit {
       .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res); });
 
   }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.showTable();
+      }
+    })
+  }
   showTable() {
     this.tableMode = true;
     this.saveEditMode = false;
@@ -99,6 +106,27 @@ export class ProcedureMasterComponent implements OnInit {
   showForm() {
     this.tableMode = false;
     this.saveEditMode = true;
+  }
+  procedureUnique() {
+    console.log("name", this.name);
+    this.alreadyExist = false;
+    console.log("filteredprocedureList", this.filteredprocedureList);
+    let count = 0;
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {    
+      
+      if (this.filteredprocedureList[a].procedureName === this.name) {
+        count = count + 1;
+        console.log("count", count);
+        
+        if (count > 0) {
+          this.alreadyExist = true;
+        }
+      }
+    }
+  }
+
+  get name() {
+    return this.procedureForm.controls['name'].value;
   }
   saveProcedure() {
     let apiObject = this.objectManipulate();

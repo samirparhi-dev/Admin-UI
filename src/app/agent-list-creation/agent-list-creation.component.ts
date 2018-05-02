@@ -26,13 +26,14 @@ export class AgentListCreationComponent implements OnInit {
   campaignNames: any = [];
   resultArray: any = [];
   agentLists: any = [];
-
+  usrAgentMappingID: any;
   disableButtonFlag = true;
   userID: any;
   isNational = false;
   showFormFlag: boolean = false;
   showTableFlag: boolean = false;
   disableSelection: boolean = false;
+  editable: any = false;
 
   @ViewChild('agentListCreationForm') agentListForm: NgForm;
 
@@ -90,17 +91,18 @@ export class AgentListCreationComponent implements OnInit {
 
   getAllAgents(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
-    
-    this._AgentListCreationService.getAllAgents(providerServiceMapID).subscribe((agentsResponse) => 
-    this.agentsListSuccessHandler(agentsResponse),
-    (err) => { console.log("Error", err) });     
-}
-agentsListSuccessHandler(agentsResponse) {
-  console.log('Agents list', agentsResponse);
-      this.agentLists = agentsResponse;
-      this.showTableFlag = true;
 
-}
+    this._AgentListCreationService.getAllAgents(providerServiceMapID).subscribe((agentsResponse) =>
+      this.agentsListSuccessHandler(agentsResponse),
+      (err) => { console.log("Error", err) });
+  }
+  agentsListSuccessHandler(agentsResponse) {
+    console.log('Agents list', agentsResponse);
+    this.agentLists = agentsResponse;
+    this.showTableFlag = true;
+    this.editable = false;
+
+  }
   getCampaignNames(serviceName) {
     debugger;
     this._AgentListCreationService.getCampaignNames(serviceName)
@@ -125,7 +127,16 @@ agentsListSuccessHandler(agentsResponse) {
     this.disableSelection = true;
 
   }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.agentListForm.resetForm();
+        this.showTableFlag = true;
+        this.showFormFlag = false;
 
+      }
+    })
+  }
   validate_one(agentID) {
     this.resultArray = [];
 
@@ -142,6 +153,7 @@ agentsListSuccessHandler(agentsResponse) {
         'cti_CampaignName': this.campaign_name,
         'createdBy': this.commonDataService.uname
       }
+      console.log("agent obj", obj);
 
       this.resultArray.push(obj);
     }
@@ -313,8 +325,10 @@ agentsListSuccessHandler(agentsResponse) {
   saveSuccessHandeler(response) {
     if (response) {
       if (response.length > 0) {
-        this.alertService.alert('Mapping saved successfully');
-        this.resetFields();
+        this.alertService.alert('Saved successfully');
+        this.agentListForm.resetForm();
+        this.showFormFlag = false;
+        this.getAllAgents(this.providerServiceMapID);
       }
       if (response.length == 0) {
         this.alertService.alert('Mapping  already exists');
@@ -384,5 +398,40 @@ agentsListSuccessHandler(agentsResponse) {
 
   // 	console.log("result",result_array);
   // }
+  editAgentCampaign(data) {
+    console.log("data", data);
+    // this.service = data.service,
+    // this.state = data.state,
+    this.campaign_name = data.cti_CampaignName;
+    this.radio_option = data.radio_option
+    this.agent_ID = data.agentID;
+    this.password = data.agentPassword;
+    this.editable = true;
+    this.usrAgentMappingID = data.usrAgentMappingID;
+  }
+  updateAgent(formValue) {
+    let updateAgentObj = {
+
+      'agentID': formValue.agent_ID,
+      'agentPassword': formValue.password,
+      'providerServiceMapID': formValue.providerServiceMapID,
+      'cti_CampaignName': formValue.campaign_name,
+      'usrAgentMappingID': this.usrAgentMappingID,
+    }
+    console.log('Data to be update', updateAgentObj);
+
+    this._AgentListCreationService.editAgentDetails(updateAgentObj).subscribe(response => {
+      console.log("updated obj", response);
+      this.alertService.alert('Updated successfully', 'success');
+      /* resetting form and ngModels used in editing */
+      this.getAllAgents(this.providerServiceMapID);
+      this.showTableFlag = true;
+
+    }, (err) => this.alertService.alert(err, 'error'));
+
+
+
+
+  }
 
 }

@@ -602,6 +602,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   edit(data) {
+    console.log("data", data);
+    
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
@@ -652,6 +654,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.limitDateInEdit(data.dOB);
   }
   limitDateInEdit(dateOfBirth) {
+    console.log("Limit dateOfBirth", dateOfBirth);
+    
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -661,16 +665,52 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * calculate age based on the DOB
  */
+  // calculateAgeInEdit(dateOfBirth) {
+  //   if (dateOfBirth != undefined) {
+  //     let existDobAge = new Date(dateOfBirth);
+  //     this.age = this.today.getFullYear() - existDobAge.getFullYear();
+  //     const month = this.today.getMonth() - existDobAge.getMonth();
+  //     if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
+  //       this.age--; //age is ng-model of AGE
+  //     }
+  //   }
+    
+  // }
   calculateAgeInEdit(dateOfBirth) {
-    if (dateOfBirth != undefined) {
-      let existDobAge = new Date(dateOfBirth);
-      this.age = this.today.getFullYear() - existDobAge.getFullYear();
-      const month = this.today.getMonth() - existDobAge.getMonth();
-      if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
-        this.age--; //age is ng-model of AGE
+    console.log("dateOfBirth", dateOfBirth);
+    
+      if (dateOfBirth != undefined) {
+        console.log("undefinrddob", dateOfBirth);
+        
+        let existDobAge = new Date(dateOfBirth);
+        let age = this.today.getFullYear() - existDobAge.getFullYear();
+        if (this.objs.length == 0) {
+          console.log("length", this.objs, this.objs.length, age );
+          this.age = age;
+        }
+        else {
+          console.log("age",this.objs, this.objs.length );
+          this.userCreationForm.form.patchValue({ 'user_age': age });
+  
+        }
+  
+        const month = this.today.getMonth() - existDobAge.getMonth();
+        if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
+          age--; //age is ng-model of AGE
+          if (this.objs.length == 0) {
+            console.log("length1", this.objs, this.objs.length );
+            this.age = age;
+          }
+          else {
+            console.log("age1", this.objs, this.objs.length );
+            this.userCreationForm.form.patchValue({ 'user_age': age });
+  
+          }
+        }
       }
+      
     }
-  }
+  
 
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {

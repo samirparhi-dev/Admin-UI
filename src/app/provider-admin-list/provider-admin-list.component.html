@@ -258,10 +258,7 @@
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
-    <div class="clearfix"></div>
   </form>
-
-
   <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="(objs.length!=0)">
     <div cass="table-responsive">
       <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
@@ -297,7 +294,7 @@
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
 
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     <button *ngIf="!editMode" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)" (click)="createProviderAdmin()">Save</button>

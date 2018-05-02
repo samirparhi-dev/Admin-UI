@@ -177,6 +177,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
 
   checkDuplicate_for1097(object) {
+    debugger;
     console.log(object, 'while checking dupes in case of 1097');
     let duplicate_exists = false;
 
@@ -186,15 +187,35 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         item.serviceProviderID === object.serviceProviderID;
     })
     if (existing_record.length < 1) {
-      this.bufferArray.push(object);
+      this.checkBufferDuplictesFor1097(object);
+      //this.bufferArray.push(object);
       this.resetForm();
     }
     else {
       this.resetForm();
-      this.dialogService.alert('Mapping exists');
+      this.dialogService.alert('Already exists');
     }
   }
-
+  checkBufferDuplictesFor1097(object) {
+    let duplicateStatus = 0
+    if (this.bufferArray.length === 0) {
+      this.bufferArray.push(object);
+    }
+    else {
+      for (let i = 0; i < this.bufferArray.length; i++) {
+        if (this.bufferArray[i].serviceID === object.serviceID && this.bufferArray[i].serviceProviderID === object.serviceProviderID)
+         {
+          duplicateStatus = duplicateStatus + 1;
+        }
+      }
+      if (duplicateStatus === 0) {
+        this.bufferArray.push(object);
+      }
+      else {
+        this.dialogService.alert('Already exist');
+      }
+    }
+  }
   checkDuplicates(object) {
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
@@ -233,6 +254,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
               }
               else if (count > 0) {
                 console.log('Duplicate Entry Already exists for ' + object.stateID1[i].stateName);
+                this.dialogService.alert("Already exists");
                 this.resetForm();
               }
             }
@@ -243,7 +265,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         }
       }
       if (providerCount > 0 && servicelineMatched === false) {
-        this.bufferArray.push(object);
+        this.bufferArray.push(object);        
         this.resetForm();
       }
       if (providerCount === 0) {

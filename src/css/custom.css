@@ -1672,13 +1672,13 @@ ul.topIcon li {
   padding: 5px;
 }
 
-/* ul.topIcon li a {
+ ul.topIcon li a {
   display: inline-block;
   width: 24px;
   height: 21px;
   cursor: pointer;
   background: url(../assets/images/logoutIcon.png) no-repeat;
-} */
+} 
 
 ul.topIcon li.logout a:hover {
   background-position: 0 -21px;

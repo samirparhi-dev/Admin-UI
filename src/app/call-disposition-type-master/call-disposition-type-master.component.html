@@ -159,7 +159,7 @@
           <input mdInput placeholder="Call Sub Type" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1"
             maxlength="50" (keyup)="callSubTypes(callSubType)">
           <md-hint class="errorText" *ngIf="subCallTypeExist">
-            This sub call type exist for this service & call type
+            Sub call type already exist 
           </md-hint>
         </md-input-container>
       </div>

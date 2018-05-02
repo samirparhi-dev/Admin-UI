@@ -10,7 +10,7 @@
       <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th width="15%">Provider Name</th>
+            <th width="15%" md2SortBy="serviceProviderName">Provider Name</th>
             <th width="20%">Provider Admin Name</th>
             <th width="12%">Serviceline</th>
             <th width="15%">State </th>
@@ -55,10 +55,10 @@
 <div class="row" *ngIf="formMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 *ngIf="!editMode">
-      <strong>Mapping Provider Admin To Provider</strong>
+      <strong>Provider Admin-Provider Mapping</strong>
     </h4>
     <h4 *ngIf="editMode">
-      <strong>Edit Mapping Provider Admin To Provider</strong>
+      <strong>Edit Provider Admin-Provider Mapping</strong>
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">

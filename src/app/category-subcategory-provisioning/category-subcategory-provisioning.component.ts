@@ -198,7 +198,16 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       }, (err) => this.messageBox.alert(err, 'error'));
   }
 
-  searchReqObjChange(choice) {
+  // searchReqObjChange(choice) {
+  //   console.log(choice, "search choice");
+  //   if (choice == 1) {
+  //     this.showCategoryTable = false;
+  //   }
+  //   else {
+  //     this.showCategoryTable = true;
+  //   }
+  // }
+    searchReqObjChange(choice) {
     console.log(choice, "search choice");
     if (choice == 1) {
       this.showCategoryTable = false;
@@ -501,7 +510,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           .subscribe((response) => {
             if (response) {
               // console.log(response,"after delete");
-              this.messageBox.alert("Subcategory " + confirmMessage + "d successfully", 'success');
+              this.messageBox.alert(confirmMessage + "d successfully", 'success');
               this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
             }
           }, (err) => {
@@ -606,6 +615,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       if (res) {
         this.searchForm = true;
         this.serviceList.length = 0;
+        this.serviceSubCatList = [];
         this.showTable = true;
         this.cateDisabled = 'false';
         if (this.nationalFlag) {
@@ -700,7 +710,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.CategorySubcategoryService.getCategorybySubService(pServiceMapID, subService.subServiceID)
         .subscribe((response) => {
           if (response) {
-            //  console.log(response, "subcat response");
+              console.log(response, "subcat response");
             subCategoriesExist = response.filter((obj) => {
               if (obj) {
                 return obj.categoryID === category.categoryID &&

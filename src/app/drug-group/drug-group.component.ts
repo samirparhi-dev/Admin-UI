@@ -135,6 +135,9 @@ export class DrugGroupComponent implements OnInit {
       if (duplicateStatus === 0) {
         this.drugGroupList.push(object);
       }
+      else {
+        this.alertMessage.alert("Already exists");
+      }
     }
   }
   storeDrugGroup() {
@@ -144,7 +147,7 @@ export class DrugGroupComponent implements OnInit {
 
   successHandler(response) {
     this.drugGroupList = [];
-    this.alertMessage.alert("Drug groups saved successfully",'success');
+    this.alertMessage.alert("Saved successfully",'success');
     this.getAvailableDrugs();
   }
   dataObj: any = {};
