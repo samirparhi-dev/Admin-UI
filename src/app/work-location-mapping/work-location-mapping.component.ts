@@ -196,10 +196,10 @@ export class WorkLocationMappingComponent implements OnInit {
 
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
-        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.serviceline.providerServiceMapID
+        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID
         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district.districtID
         && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
-
+        debugger;
         for (let j = 0; j < role.length; j++) {
           if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
             if (this.filteredRoles != '') {
@@ -317,6 +317,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   addWorkLocation(objectToBeAdded: any, role) {
+    debugger;
     if (!this.getAvailableMappings(objectToBeAdded, role)) {
       console.log(objectToBeAdded, "FORM VALUES");
       const workLocationObj = {
@@ -568,7 +569,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.checkService_forIsNational();
     this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
     this.getAllDistricts_duringEdit(this.edit_Details.stateID);
-    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit,this.district_duringEdit);
+    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
     this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
 
   }
@@ -632,7 +633,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.set_currentPSM_ID_duringEdit(this.states_array[0].providerServiceMapID);
         this.stateID_duringEdit = '';
         this.district_duringEdit = '';
-        this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit,this.district_duringEdit);
+        this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
         this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
       }
       // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
@@ -679,9 +680,9 @@ export class WorkLocationMappingComponent implements OnInit {
         this.alertService.alert(err, 'error');
       });
   }
-  getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit,districtID) {
+  getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit, districtID) {
     // debugger;
-    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit,districtID)
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit, districtID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all work locations success handeler edit');

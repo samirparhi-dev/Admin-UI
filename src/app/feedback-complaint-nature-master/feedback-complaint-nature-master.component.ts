@@ -91,7 +91,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   findFeedbackTypes(providerServiceMapID) {
     this.search_feedbacktype = '';
     this.providerServiceMapID = providerServiceMapID;
-    this._feedbackTypeService.getFeedbackTypes({
+    this._feedbackTypeService.getFeedbackTypes_nature({
       "providerServiceMapID": this.providerServiceMapID
     }).subscribe((response) => {
       console.log("FeedbackTypes", response);
