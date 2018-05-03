@@ -601,6 +601,8 @@ export class EditProviderAdminModal {
   eduQualification: any = [];
   maritalStatus: any = [];
   allProviderAdmin: any = [];
+  
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 

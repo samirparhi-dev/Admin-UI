@@ -148,8 +148,8 @@ export class ServiceProviderMasterComponent implements OnInit {
       'primaryContactEmailID': form_value.email,
       'primaryContactAddress': form_value.address1 + (form_value.address2 === undefined ? "" : ',' + form_value.address2),
       'statusID': '2',
-      'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)).toJSON(),
-      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)).toJSON(),
+      'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)),
+      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)),
       'deleted': false
     }
 console.log("object", object);
@@ -255,7 +255,7 @@ console.log("object", object);
       'primaryContactNo': form_value.contact_number,
       'primaryContactEmailID': form_value.email,
       'primaryContactAddress': form_value.address,
-      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)).toJSON(),
+      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)),
       'modifiedBy': this.createdBy
     }
 
