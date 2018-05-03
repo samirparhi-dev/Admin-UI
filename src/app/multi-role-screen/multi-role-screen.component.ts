@@ -13,7 +13,7 @@ declare var jQuery: any;
   styleUrls: ["./multi-role-screen.component.css"]
 })
 export class MultiRoleScreenComponent implements OnInit {
-	id :any;
+  id: any;
   role: any;
   constructor(
     public getCommonData: dataService,
@@ -26,7 +26,7 @@ export class MultiRoleScreenComponent implements OnInit {
 
     })
     this.role = this.getCommonData.role;
-	this.id= this.getCommonData.uid;
+    this.id = this.getCommonData.uid;
     console.log(this.role, "ROLE NAME AS OF NOW");
   }
 
@@ -62,7 +62,7 @@ export class MultiRoleScreenComponent implements OnInit {
   }
 
   logOut() {
-    
+
 
     this._loginService.removeTokenFromRedis()
       .subscribe(response => {
