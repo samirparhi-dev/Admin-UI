@@ -49,7 +49,7 @@ export class WorkLocationMapping {
         this.getAllWorkLocationsByProviderUrl = this.admin_Base_Url + 'm/location/getAlllocation';
         this.get_ProviderName_Url = this.admin_Base_Url + 'm/SearchEmployee4';
         this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + 'getUserRoleMapped';
-        this.getAllRolesUrl = this.admin_Base_Url + 'm/role/searchNew';
+        this.getAllRolesUrl = this.admin_Base_Url + 'm/role/searchV1';
 
         this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
         this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
@@ -87,7 +87,7 @@ export class WorkLocationMapping {
     getUserName(serviceProviderID) {
         // debugger;
         return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess).catch(this.handleError);
+            .map(this.handleState_n_username).catch(this.handleError);
     }
 
 
@@ -160,6 +160,17 @@ export class WorkLocationMapping {
     handleState_n_worklocations(response: Response) {
 
         console.log(response.json().data, 'all mapped work location file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.deleted === false) {
+                return item;
+            }
+        });
+        return result;
+    }
+    handleState_n_username(response: Response) {
+
+        console.log(response.json().data, 'username work location file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.deleted === false) {

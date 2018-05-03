@@ -41,8 +41,9 @@ export class LanguageMapping {
     getUserName(serviceProviderID) {
         // debugger;
         return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess).catch(this.handleError);
+            .map(this.handleState_n_username).catch(this.handleError);
     }
+
 
     getLanguageList() {
         // debugger;
@@ -77,6 +78,17 @@ export class LanguageMapping {
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.statusID !== 4) {
+                return item;
+            }
+        });
+        return result;
+    }
+    handleState_n_username(response: Response) {
+
+        console.log(response.json().data, 'usernamelang mapping file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.deleted === false) {
                 return item;
             }
         });

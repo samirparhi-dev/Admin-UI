@@ -100,15 +100,29 @@ export class ParkingPlaceComponent implements OnInit {
         }
         else {
             let count = 0
+            let dbcount = 0;
             for (let a = 0; a < this.parkingPlaceList.length; a++) {
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
-                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress) {
+                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress
+                    && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
                     count = count + 1;
                 }
             }
             if (count == 0) {
+                for (let a = 0; a < this.availableParkingPlaces.length; a++) {
+                    if (this.availableParkingPlaces[a].parkingPlaceName === this.dataObj.parkingPlaceName
+                        && this.availableParkingPlaces[a].stateID === parseInt(this.dataObj.stateID)
+                        && this.availableParkingPlaces[a].districtID === parseInt(this.dataObj.districtID)
+                        && this.availableParkingPlaces[a].areaHQAddress === this.dataObj.areaHQAddress
+                        && this.availableParkingPlaces[a].districtBlockID === parseInt(this.dataObj.districtBlockID)) {
+                        dbcount = dbcount + 1;
+                    }
+                }
+
+            }
+            if (count == 0 && dbcount == 0) {
                 this.parkingPlaceList.push(this.parkingPlaceObj);
             }
 
@@ -294,11 +308,13 @@ export class ParkingPlaceComponent implements OnInit {
             this.dataObj.districtBlockID = parkingPlace.talukID.split("-")[0];
         }
         let count = 0
-        for (let a = 0; a < this.parkingPlaceList.length; a++) {
-            if (this.parkingPlaceList[a].parkingPlaceName === this.dataObj.parkingPlaceName
-                && this.parkingPlaceList[a].stateID === this.dataObj.stateID
-                && this.parkingPlaceList[a].districtID === this.dataObj.districtID
-                && this.parkingPlaceList[a].areaHQAddress === this.dataObj.areaHQAddress) {
+        debugger;
+        for (let a = 0; a < this.availableParkingPlaces.length; a++) {
+            if (this.availableParkingPlaces[a].parkingPlaceName === this.dataObj.parkingPlaceName
+                && this.availableParkingPlaces[a].stateID === parseInt(this.dataObj.stateID)
+                && this.availableParkingPlaces[a].districtID === parseInt(this.dataObj.districtID)
+                && this.availableParkingPlaces[a].areaHQAddress === this.dataObj.areaHQAddress
+                && this.availableParkingPlaces[a].districtBlockID === parseInt(this.dataObj.districtBlockID)) {
                 count = count + 1;
             }
         }

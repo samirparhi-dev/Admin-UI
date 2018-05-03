@@ -123,9 +123,10 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAvailableLanguages(username: any) {
+    debugger;
     const alreadyMappedLanguages = [];
     for (let i = 0; i < this.LanguageMappedList.length; i++) {
-      if (this.LanguageMappedList[i].userID === username.userID) {
+      if (this.LanguageMappedList[i].userID === username.userID || username) {
         const obj = {
           'languageID': this.LanguageMappedList[i].languageID,
           'languageName': this.LanguageMappedList[i].languageName
@@ -496,19 +497,31 @@ export class LanguageMappingComponent implements OnInit {
       'canWrite': this.write,
       'canSpeak': this.speak
     };
-    this.languageMapping.UpdateLanguageMapping(obj)
-      .subscribe(response => {
-        console.log(response, 'after successful mapping of language to provider');
-        this.alertService.alert('Mapping updated successfully', 'success');
-        this.showTable();
-        this.getAllMappedLanguagesList();
-        this.resetDropdowns();
-        this.bufferArray = [];
-      }, err => {
-        console.log(err, 'ERROR');
-        this.alertService.alert(err, 'error');
-      });
-
+    let count = 0;
+    for (let a = 0; a < this.LanguageMappedList.length; a++) {
+      if (this.LanguageMappedList[a].userID === obj.userID
+        && this.LanguageMappedList[a].languageID === obj.languageID) {
+        count = count + 1;
+      }
+    }
+    if (count === 0) {
+      this.languageMapping.UpdateLanguageMapping(obj)
+        .subscribe(response => {
+          console.log(response, 'after successful mapping of language to provider');
+          this.alertService.alert('Mapping updated successfully', 'success');
+          this.showTable();
+          this.getAllMappedLanguagesList();
+          this.resetDropdowns();
+          this.bufferArray = [];
+        }, err => {
+          console.log(err, 'ERROR');
+          this.alertService.alert(err, 'error');
+        });
+    }
+    else {
+      this.alertService.alert('Already exists');
+      count = 0;
+    }
 
   }
   resetForm() {
