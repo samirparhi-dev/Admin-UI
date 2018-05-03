@@ -63,6 +63,12 @@ export class FeedbackTypeService {
   getFeedbackTypes(data) {
     // console.log(data,'reqObj');
     return this.httpIntercept.post(this.getFeedbackTypes_url, data)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+  getFeedbackTypes_nature(data) {
+    // console.log(data,'reqObj');
+    return this.httpIntercept.post(this.getFeedbackTypes_url, data)
       .map(this.handleState_n_feedbacktypes)
       .catch(this.handleError);
   }
