@@ -184,6 +184,7 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.save_SubService(array).subscribe((response) => {
       if (response.length > 0) {
         this.message.alert('Saved successfully', 'success');
+        this.searchForm = true;
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();

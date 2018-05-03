@@ -26,11 +26,12 @@
               <th width="15%">Serviceline </th>
               <th width="20%">State </th>
               <th width="20%">Campaign</th>
+              <th width="20%">Edit</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="campaignArrayList.length == 0" class="record-not-found">
-              <td colspan="5" align="center">No records found</td>
+              <td colspan="6" align="center">No records found</td>
             </tr>
             <tr *ngFor="let item of md2.data; let i=index">
               <td>{{(md2.activePage-1)*4+i+1}}</td>
@@ -38,16 +39,20 @@
               <td>{{item.serviceName}}</td>
               <td>{{item.stateName}}</td>
               <td>{{item.cTI_CampaignName}}</td>
+              <td>
+                <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+                (click)="editForm(item)">edit</md-icon>
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="2">
+              <td colspan="6">
                 <md2-pagination></md2-pagination>
               </td>
-              <td colspan="3" class="p-r-0">
-                <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Campaign</button>
-              </td>
+              <!-- <td colspan="3" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" >Add Campaign</button>
+              </td> -->
             </tr>
           </tfoot>
         </table>
@@ -60,8 +65,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select required name="Services" placeholder="Serviceline" class="width100" [(ngModel)]="serviceline" (change)="getCampaign(serviceline.serviceID)">
-          <md-option *ngFor="let item of services_array" [value]="item">
+        <md-select required name="Services" placeholder="Serviceline" class="width100"  [(ngModel)]="serviceline" disabled>
+          <md-option *ngFor="let item of services_array" [value]="item.serviceName">
             {{item.serviceName}}
           </md-option>
         </md-select>
@@ -70,8 +75,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select name="state" placeholder="State" [disabled]="isNational" class="width100" [(ngModel)]="state" required>
-          <md-option *ngFor="let item of states_array" [value]="item">
+        <md-select name="state" placeholder="State" class="width100" [(ngModel)]="states" required  disabled>
+          <md-option *ngFor="let item of states_array" [value]="item.stateName">
             {{item.stateName}}
           </md-option>
         </md-select>
@@ -131,7 +136,7 @@
   </div> -->
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button class="pull-right" md-raised-button color="accent" [disabled]="!mappingCampaign.valid" (click)="addCampaign(serviceline,state,campaign)">Save</button>
+    <button class="pull-right" md-raised-button color="accent" [disabled]="!mappingCampaign.valid" (click)="updateCampaign(serviceline,state,campaign)">Update</button>
   </div>
 </div>
 <!-- <div class="row">

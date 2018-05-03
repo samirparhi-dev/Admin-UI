@@ -19,6 +19,8 @@ export class CallServices {
   _getCampaign = this._commoUrl + '/cti/getCampaignNames';
   _addCampaign = this.providerAdmin_Base_Url + '/createCitMappingwithServiceLines';
   _getCampaignList = this.providerAdmin_Base_Url + '/getMappedServiceLinesAndStatetoProvider';
+  
+  get_State_Url = this.providerAdmin_Base_Url + 'm/role/stateNew';
   constructor(
     private _http: SecurityInterceptedHttp,
     private _config: ConfigService,
@@ -41,8 +43,23 @@ export class CallServices {
     
     return this._httpInterceptor.post(this._getCampaignList, {"serviceProviderID":serviceProviderID}).map(this.extractData).catch(this.handleError);
   }
-  getCapmaign(serviceName: any) {
-    return this._httpInterceptor.post(this._getCampaign, serviceName).map(this.extractData).catch(this.handleError);
+  getStates(userID, serviceID, isNational) {
+    return this._httpInterceptor.post(this.get_State_Url,
+        {
+            'userID': userID,
+            'serviceID': serviceID,
+            'isNational': isNational
+        })
+        .map(this.extractData)
+        .catch(this.handleError);
+}
+
+  getCampaign(serviceName: any) {
+    debugger;
+    return this._httpInterceptor.post(this._getCampaign,
+       {"serviceName":serviceName}
+      ).map(this.extractData_campaign)
+      .catch(this.handleError);
   }
 
   addCampaign(campaignObj) {
@@ -54,6 +71,14 @@ export class CallServices {
   }
   private extractData(res: Response) {
     console.log('after updation', res);
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
+  };
+  private extractData_campaign(res: Response) {
+    console.log('campaign values', res);
     if (res.json().data) {
       return res.json().data;
     } else {
