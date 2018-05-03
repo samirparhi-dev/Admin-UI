@@ -129,8 +129,9 @@
               <md-option value="Epidemic Complaints">Epidemic Complaints</md-option>
               <md-option value="Foodsafety Complaints">Food Safety Complaints</md-option>
             </md-select>
-            <md-hint *ngIf="feedbackNameExist && feedback.touched">
-              <span class="error_text">Feedback Name already exist</span>
+            <md-hint>
+              <span class="error_text" *ngIf="feedback.errors && feedback.touched">Feedback name is required</span>
+              <span class="error_text" *ngIf="!feedback.errors && feedbackNameExist">Feedback Name already exist</span>
             </md-hint>
           </md-input-container>
         </div>
@@ -142,8 +143,8 @@
           </md-input-container>
 
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 ">
-          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf="editForm.valid && !feedbackExists"
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 " *ngIf="editForm.valid">
+          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
             type="button" (click)="add_obj(feedbackName,feedbackDesc);">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>

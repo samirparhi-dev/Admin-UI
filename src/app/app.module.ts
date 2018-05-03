@@ -34,9 +34,6 @@ import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
 import { vehicleNo } from './directives/name/myName.directive';
-import { nameWithSpace } from './directives/name/myName.directive';
-
-
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
 import { httpFactory } from './http.factory';
@@ -258,7 +255,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
     SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
-    vehicleNo, nameWithSpace,
+    vehicleNo,
   ],
 
   imports: [

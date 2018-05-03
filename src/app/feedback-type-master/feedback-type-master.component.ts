@@ -241,7 +241,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       }
       else {
         this.feedbackNameExist = true;
-        this.alertService.alert("Already exists");
+       // this.alertService.alert("Already exists");
       }
     }
     else {
@@ -265,7 +265,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.feedbackName = undefined;
       }
       else {
-        this.feedbackNameExist = true;
+        //this.feedbackNameExist = true;
         this.alertService.alert("Already exists");
       }
     }

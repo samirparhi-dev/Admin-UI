@@ -135,22 +135,3 @@ export class vehicleNo {
 
 
 }
-@Directive({
-	selector: '[nameWithSpace]'
-})
-export class nameWithSpace {
-	constructor(element: ElementRef) {
-
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-
-
-}

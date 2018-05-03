@@ -179,7 +179,7 @@ console.log("object", object);
   }
 
   getAllProviders() {
-    this.superadminService.getAllProvider()
+    this.superadminService.getAllProvider_provider()
       .subscribe(response => {
         if (response) {
           console.log('All Providers Success Handeler', response);

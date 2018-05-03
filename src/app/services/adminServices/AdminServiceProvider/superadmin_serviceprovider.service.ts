@@ -271,6 +271,12 @@ export class SuperAdmin_ServiceProvider_Service {
       .map(this.extractData_Provider)
       .catch(this.handleError);
   }
+  getAllProvider_provider() {
+    return this._http
+      .post(this.getAllProviderUrl, {})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
   getProviderStatus(provider) {
     return this._http
       .post(this.getProviderInfoUrl, {
@@ -448,7 +454,6 @@ export class SuperAdmin_ServiceProvider_Service {
     });
     return result;
   }
-
   private extractData(res: Response) {
     if (res.json().data) {
       console.log('in SA service', res.json().data);

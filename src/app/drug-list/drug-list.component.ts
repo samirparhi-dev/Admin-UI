@@ -178,6 +178,7 @@ export class DrugListComponent implements OnInit {
     this.drugList = [];
     this.alertMessage.alert('Saved successfully', 'success');
     this.getAvailableDrugs();
+    this.clearEdit();
   }
 
   dataObj: any = {};

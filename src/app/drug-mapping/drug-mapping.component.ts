@@ -200,6 +200,9 @@ export class DrugMappingComponent implements OnInit {
       if (duplicateStatus === 0) {
         this.drugMapping.push(object);
       }
+      else {
+        this.alertMessage.alert("Already exists");
+      }
     }
   }
 

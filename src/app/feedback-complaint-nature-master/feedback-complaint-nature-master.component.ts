@@ -196,6 +196,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     if (count > 0) {
       // console.log("error found");
       this.natureExists = true;
+
     }
   }
 
@@ -240,8 +241,9 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       'feedbackNatureDesc': desc
     }
     console.log(tempObj);
-    this.objs.push(tempObj);
-    this.validateFeedbackNature(nature);
+    // this.objs.push(tempObj);
+    this.checkDuplicates(tempObj);
+   // this.validateFeedbackNature(nature);
 
     //this.feedbackNature = null;
     // this.feedbackNatureDesc = null;
@@ -249,6 +251,28 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     console.log("this.feedbackNature", this.feedbackNature);
 
   }
+  checkDuplicates(tempObj) {
+    debugger;
+    let duplicateValue = 0;
+    if (this.objs.length === 0) {
+      this.objs.push(tempObj);
+    }
+    else {
+      for (let i = 0; i < this.objs.length; i++) {
+        if (this.objs[i].feedbackNature === tempObj.feedbackNature
+        ) {
+          duplicateValue = duplicateValue + 1;
+        }
+      }
+      if (duplicateValue === 0) {
+        this.objs.push(tempObj);
+      }
+      else { 
+        this.alertService.alert("Already exists");
+      }
+    }
+  }
+
 
   remove_obj(index) {
     this.objs.splice(index, 1);

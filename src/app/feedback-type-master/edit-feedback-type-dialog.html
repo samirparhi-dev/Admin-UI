@@ -32,6 +32,10 @@
           <md-option value="Epidemic Complaints">Epidemic Complaints</md-option>
           <md-option value="Foodsafety Complaints">Food Safety Complaints</md-option>
         </md-select>
+        <md-hint>
+            <span class="error_text" *ngIf="fbName.errors && fbName.touched">Feedback name is required</span>
+            <span class="error_text" *ngIf="!fbName.errors && feedbackExists">Feedback Name already exist</span>
+          </md-hint>
       </md-input-container>
     </div>
     <div class="m-t-10">
