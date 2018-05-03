@@ -477,7 +477,7 @@
 
             <button *ngIf="!editMode && objs.length>0" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)"
                 (click)="createUser()">Save</button>
-            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan" (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Save Updates</button>
+            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan" (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
         </div>
     </div>
 </div>
