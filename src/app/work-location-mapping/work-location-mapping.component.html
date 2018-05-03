@@ -110,7 +110,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select placeholder="Select District" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="District" (change)="getAllWorkLocations(State,Serviceline,isNational)"
+          <md-select placeholder="Select District" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="District" (change)="getAllWorkLocations(State,Serviceline,isNational,District)"
             name="district" required>
             <md-option *ngFor="let item of districts_array| OrderBy:'districtName'" [value]="item">
               {{item.districtName}}
@@ -255,7 +255,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select District" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="district_duringEdit"
-            name="district" (change)="getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit); refresh3()"
+            name="district" (change)="getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,district_duringEdit); refresh3()"
             required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">
               {{item.districtName}}

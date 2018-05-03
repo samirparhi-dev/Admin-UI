@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from '../config/config.service';
 import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
+import { DSVRowAny } from 'd3';
 /**
  * Author: krishna Gunti ( 378952 )
  * Date: 05-03-2018
@@ -34,6 +35,7 @@ export class WorkLocationMapping {
 
     get_State_Url_new: any;
     get_Service_Url_new: any;
+    districtID: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -57,6 +59,7 @@ export class WorkLocationMapping {
         this.getProviderServicesInState_url = this.admin_Base_Url + 'm/role/service';
         this.get_State_Url_new = this.admin_Base_Url + 'm/role/stateNew';
         this.get_Service_Url_new = this.admin_Base_Url + 'm/role/serviceNew';
+
     };
 
     getStates(userID, serviceID, isNationalFlag) {
@@ -88,38 +91,25 @@ export class WorkLocationMapping {
     }
 
 
-    // getAllServiceLinesByProvider(serviceProviderID: any) {
-    //     // debugger;
-    //     return this.http
-    //         .post(this.getAllServiceLinesByProviderUrl, { 'serviceProviderID': serviceProviderID })
-    //         .map(this.handleState_n_ServiceSuccess)
-    //         .catch(this.handleError);
-    // }
-
-    // getAllStatesByProvider(serviceProviderID: any, serviceLineID: any) {
-    //     // debugger;
-    //     return this.http
-    //         .post(this.getAllStatesByProviderUrl, { 'serviceProviderID': serviceProviderID, 'serviceID': serviceLineID })
-    //         .map(this.handleState_n_ServiceSuccess)
-    //         .catch(this.handleError);
-    // }
     getAllDistricts(stateID: any) {
         return this.http
             .get(this.getAllDistrictsByProviderUrl + stateID)
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
-    }
+    } DSVRowAny
 
-    getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any, isNational: any) {
+    getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any, isNational: any, districtID: any) {
+        this.districtID = districtID;
         return this.http
             .post(this.getAllWorkLocationsByProviderUrl,
-            {
-                'serviceProviderID': serviceProviderID,
-                'serviceID': serviceID,
-                'stateID': stateID,
-                'isNational': isNational
-            })
-            .map(this.handleState_n_ServiceSuccess)
+                {
+                    'serviceProviderID': serviceProviderID,
+                    'serviceID': serviceID,
+                    'stateID': stateID,
+                    'isNational': isNational,
+                    'districtID': districtID
+                })
+            .map(this.handleState_n_worklocations)
             .catch(this.handleError);
     }
     getAllRoles(providerServiceMapID) {
@@ -166,6 +156,17 @@ export class WorkLocationMapping {
         } else {
             return Observable.throw(res.json());
         }
+    }
+    handleState_n_worklocations(response: Response) {
+
+        console.log(response.json().data, 'all mapped work location file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.deleted === false) {
+                return item;
+            }
+        });
+        return result;
     }
 
     handleError(error: Response | any) {

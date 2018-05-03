@@ -63,7 +63,7 @@ export class FeedbackTypeService {
   getFeedbackTypes(data) {
     // console.log(data,'reqObj');
     return this.httpIntercept.post(this.getFeedbackTypes_url, data)
-      .map(this.handleSuccess)
+      .map(this.handleState_n_feedbacktypes)
       .catch(this.handleError);
   }
 
@@ -116,6 +116,17 @@ export class FeedbackTypeService {
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.statusID !== 4) {
+        return item;
+      }
+    });
+    return result;
+  }
+  handleState_n_feedbacktypes(response: Response) {
+
+    console.log(response.json().data, 'feedback type master service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.deleted === false) {
         return item;
       }
     });

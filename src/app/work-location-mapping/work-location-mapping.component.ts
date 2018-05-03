@@ -162,7 +162,8 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   getAllWorkLocations(state: any, service: any, isNational) {
-    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service, isNational)
+    debugger;
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service, isNational, this.District.districtID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all work locations success handeler');
@@ -567,7 +568,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.checkService_forIsNational();
     this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
     this.getAllDistricts_duringEdit(this.edit_Details.stateID);
-    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit);
+    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit,this.district_duringEdit);
     this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
 
   }
@@ -631,7 +632,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.set_currentPSM_ID_duringEdit(this.states_array[0].providerServiceMapID);
         this.stateID_duringEdit = '';
         this.district_duringEdit = '';
-        this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit);
+        this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit,this.district_duringEdit);
         this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
       }
       // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
@@ -678,9 +679,9 @@ export class WorkLocationMappingComponent implements OnInit {
         this.alertService.alert(err, 'error');
       });
   }
-  getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit) {
+  getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit,districtID) {
     // debugger;
-    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit)
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit,districtID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all work locations success handeler edit');
