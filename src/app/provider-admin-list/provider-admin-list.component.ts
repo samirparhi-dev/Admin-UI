@@ -297,17 +297,19 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Aadhar
     */
   checkAadhar() {
-    if (this.aadharNumber.length == 12) {
-      this.superadminService.validateAadhar(this.aadharNumber).subscribe(
-        (response: any) => {
-          this.checkAadharSuccessHandler(response);
-        },
+    if (this.aadharNumber != undefined && this.aadharNumber != null) {
+      if (this.aadharNumber.length == 12) {
+        this.superadminService.validateAadhar(this.aadharNumber).subscribe(
+          (response: any) => {
+            this.checkAadharSuccessHandler(response);
+          },
 
-        err => {
-          console.log("Error", err);
-          this.dialogService.alert(err, 'error')
-        }
-      );
+          err => {
+            console.log("Error", err);
+            this.dialogService.alert(err, 'error')
+          }
+        );
+      }
     }
   }
   checkAadharSuccessHandler(response) {
@@ -323,13 +325,15 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
-    if (this.panNumber.length == 10) {
-      this.superadminService.validatePan(this.panNumber).subscribe(
-        response => {
-          console.log("pan response", response);
-          this.checkPanSuccessHandler(response);
-        },
-        (err) => this.dialogService.alert(err, 'error'));
+    if (this.panNumber != undefined && this.panNumber != null) {
+      if (this.panNumber.length == 10) {
+        this.superadminService.validatePan(this.panNumber).subscribe(
+          response => {
+            console.log("pan response", response);
+            this.checkPanSuccessHandler(response);
+          },
+          (err) => this.dialogService.alert(err, 'error'));
+      }
     }
   }
   checkPanSuccessHandler(response) {
@@ -409,30 +413,30 @@ export class ProviderAdminListComponent implements OnInit {
           duplicateName = duplicateName + 1;
           console.log("this.duplicateName", duplicateName);
         }
-        if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
-          this.objs.push(tempObj);
-        }
-        if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
-          this.dialogService.alert("Aadhar, Pan number and Username already exist");
-        }
-        else if (duplicateAadhar > 0 && duplicatePan > 0) {
-          this.dialogService.alert("Aadhar and Pan number already exist");
-        }
-        else if (duplicateAadhar > 0 && duplicateName > 0) {
-          this.dialogService.alert("Aadhar number and Username already exist");
-        }
-        else if (duplicatePan > 0 && duplicateName > 0) {
-          this.dialogService.alert("Pan number and Username already exist");
-        }
-        else if (duplicateAadhar > 0) {
-          this.dialogService.alert("Aadhar number already exist");
-        }
-        else if (duplicatePan > 0) {
-          this.dialogService.alert("Pan number already exist");
-        }
-        else if (duplicateName > 0) {
-          this.dialogService.alert("Already exist");
-        }
+      }
+      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
+        this.objs.push(tempObj);
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
+        this.dialogService.alert("Aadhar, Pan number and Username already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0) {
+        this.dialogService.alert("Aadhar and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicateName > 0) {
+        this.dialogService.alert("Aadhar number and Username already exist");
+      }
+      else if (duplicatePan > 0 && duplicateName > 0) {
+        this.dialogService.alert("Pan number and Username already exist");
+      }
+      else if (duplicateAadhar > 0) {
+        this.dialogService.alert("Aadhar number already exist");
+      }
+      else if (duplicatePan > 0) {
+        this.dialogService.alert("Pan number already exist");
+      }
+      else {
+        this.dialogService.alert("Already exist");
       }
     }
   }
@@ -601,6 +605,8 @@ export class EditProviderAdminModal {
   eduQualification: any = [];
   maritalStatus: any = [];
   allProviderAdmin: any = [];
+
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
   @ViewChild('editAdminCreationForm') editAdminCreationForm: NgForm;
 

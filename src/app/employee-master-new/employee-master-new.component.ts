@@ -331,12 +331,13 @@ export class EmployeeMasterNewComponent implements OnInit {
     */
   checkAadhar() {
     console.log('aadharNumber', this.aadharNumber);
-
-    if (this.aadharNumber.length == 12) {
-      this.employeeMasterNewService.validateAadhar(this.aadharNumber).subscribe(
-        (response: any) => {
-          this.checkAadharSuccessHandler(response);
-        }, (err) => this.dialogService.alert(err, 'error'));
+    if (this.aadharNumber != undefined && this.aadharNumber != null) {
+      if (this.aadharNumber.length == 12) {
+        this.employeeMasterNewService.validateAadhar(this.aadharNumber).subscribe(
+          (response: any) => {
+            this.checkAadharSuccessHandler(response);
+          }, (err) => this.dialogService.alert(err, 'error'));
+      }
     }
   }
   checkAadharSuccessHandler(response) {
@@ -352,12 +353,14 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
-    if (this.panNumber.length == 10) {
-      this.employeeMasterNewService.validatePan(this.panNumber).subscribe(
-        response => {
-          console.log("pan response", response);
-          this.checkPanSuccessHandler(response);
-        }, (err) => this.dialogService.alert(err, 'error'));
+    if (this.panNumber != undefined && this.panNumber != null) {
+      if (this.panNumber.length == 10) {
+        this.employeeMasterNewService.validatePan(this.panNumber).subscribe(
+          response => {
+            console.log("pan response", response);
+            this.checkPanSuccessHandler(response);
+          }, (err) => this.dialogService.alert(err, 'error'));
+      }
     }
   }
   checkPanSuccessHandler(response) {
@@ -503,6 +506,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
 
+
   }
 
   checkDuplicatesInBuffer(tempObj) {
@@ -528,31 +532,32 @@ export class EmployeeMasterNewComponent implements OnInit {
           duplicateName = duplicateName + 1;
           console.log("this.duplicateName", duplicateName);
         }
-        if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
-          this.objs.push(tempObj);
-        }
-        if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
-          this.dialogService.alert("Aadhar, Pan number and Username already exist");
-        }
-        else if (duplicateAadhar > 0 && duplicatePan > 0) {
-          this.dialogService.alert("Aadhar and Pan number already exist");
-        }
-        else if (duplicateAadhar > 0 && duplicateName > 0) {
-          this.dialogService.alert("Aadhar number and Username already exist");
-        }
-        else if (duplicatePan > 0 && duplicateName > 0) {
-          this.dialogService.alert("Pan number and Username already exist");
-        }
-        else if (duplicateAadhar > 0) {
-          this.dialogService.alert("Aadhar number already exist");
-        }
-        else if (duplicatePan > 0) {
-          this.dialogService.alert("Pan number already exist");
-        }
-        else if (duplicateName > 0) {
-          this.dialogService.alert("Already exist");
-        }
       }
+      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
+        this.objs.push(tempObj);
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
+        this.dialogService.alert("Aadhar, Pan number and Username already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0) {
+        this.dialogService.alert("Aadhar and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicateName > 0) {
+        this.dialogService.alert("Aadhar number and Username already exist");
+      }
+      else if (duplicatePan > 0 && duplicateName > 0) {
+        this.dialogService.alert("Pan number and Username already exist");
+      }
+      else if (duplicateAadhar > 0) {
+        this.dialogService.alert("Aadhar number already exist");
+      }
+      else if (duplicatePan > 0) {
+        this.dialogService.alert("Pan number already exist");
+      }
+      else {
+        this.dialogService.alert("Already exist");
+      }
+
     }
   }
 
@@ -590,7 +595,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'emailID': this.objs[i].emailID,
         'designationID': this.objs[i].designationID,
         'maritalStatusID': this.objs[i].maritalStatusID,
-        'aadharNumber': this.objs[i].aadharNumber,
+        'aadhaarNo': this.objs[i].aadharNumber,
         'pAN': this.objs[i].panNumber,
         'qualificationID': this.objs[i].qualificationID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
@@ -735,7 +740,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   limitDateInEdit(dateOfBirth) {
     console.log("Limit dateOfBirth", dateOfBirth);
     debugger;
-    
+
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -790,14 +795,14 @@ export class EmployeeMasterNewComponent implements OnInit {
 
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-   
+
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
       'firstName': userCreationFormValue.user_firstname,
       'middleName': userCreationFormValue.user_middlename,
       'lastName': userCreationFormValue.user_lastname,
       'genderID': userCreationFormValue.gender_Id,
-      'dOB': userCreationFormValue.user_dob,
+      'dOB': new Date(userCreationFormValue.user_dob.valueOf() - 1 * userCreationFormValue.user_dob.getTimezoneOffset() * 60 * 1000),
       //'age': userCreationFormValue.age,
       'age': this.age,
       'contactNo': userCreationFormValue.primaryMobileNo,
@@ -808,7 +813,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
-      'dOJ': userCreationFormValue.doj,
+      'dOJ': new Date(userCreationFormValue.doj.valueOf() - 1 * userCreationFormValue.doj.getTimezoneOffset() * 60 * 1000),
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,

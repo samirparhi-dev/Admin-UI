@@ -89,9 +89,10 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" minlength="2"
-            (blur)="checkexistance(instituteDirectory)" maxlength="50" required #instituteDir="ngModel">
+            (keyup)="checkexistance(instituteDirectory)" maxlength="50" required #instituteDirName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="instituteDir.valid && instituteDirectoryExist">Institute directory already exist</span>
+              <span class="error_text" *ngIf="instituteDirName.errors && instituteDirName.touched">Institute directory name is required</span>
+            <span class="error_text" *ngIf="!instituteDirName.errors && instituteDirectoryExist">Institute directory already exist</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -100,8 +101,8 @@
           <input mdInput placeholder="Description" [(ngModel)]="description" name="description" minlength="3" maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 " *ngIf="instituteDir.valid">
-        <button md-mini-fab color="primary" *ngIf="!instituteDirectoryExist" (click)="add_obj(instituteDirectory,description)" class="xs-pull-right sm-pull-right md-pull-left">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 " *ngIf="instituteDir.valid && !instituteDirectoryExist">
+        <button md-mini-fab color="primary" (click)="add_obj(instituteDirectory,description)" class="xs-pull-right sm-pull-right md-pull-left">
           <md-icon mdSuffix class="mat-icon material-icons " role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
