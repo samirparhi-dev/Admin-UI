@@ -122,8 +122,8 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="30%">Provider Name</th>
             <th width="20%">Provider Admin Name</th>
+            <th width="30%">Provider Name</th>
             <th width="20%">Serviceline </th>
             <th width="40%">State</th>
             <th width="10%">Action</th>
@@ -132,8 +132,8 @@
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
             <td>{{(md2.activePage-1)*5+i+1}}</td>
-            <td>{{item.serviceProviderName}}</td>
             <td>{{item.userName}}</td>
+            <td>{{item.serviceProviderName}}</td>
             <td>{{item.serviceName }}</td>
             <td>
               <ul>

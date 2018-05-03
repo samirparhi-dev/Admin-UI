@@ -255,6 +255,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     // {
     //   this.providerServiceMapID_request_array.push(this.serviceLine.)
     // }
+    debugger;
 
     let newreqobj = {
       "serviceProviderID": this.serviceProviderID,
@@ -266,14 +267,25 @@ export class LocationServicelineMappingComponent implements OnInit {
       "address": this.office_address1 + "," + this.office_address2,
       "createdBy": this.commonDataService.uname
     }
-
+    let count = 0;
+    for (let a = 0; a < this.workLocations.length; a++) {
+      if (this.workLocations[a].locationName === newreqobj.locationName
+        && this.workLocations[a].districtID === parseInt(newreqobj.districtID)
+        && this.workLocations[a].address === newreqobj.address) {
+        count = count + 1;
+      }
+    }
 
     console.log(OBJ, "requestOBJ");
     console.log(newreqobj, "new requestOBJ");
-
-    this.provider_admin_location_serviceline_mapping.addWorkLocation(newreqobj)
-      .subscribe(response => this.saveOfficeSuccessHandeler(response),
-        (err) => this.alertService.alert(err, 'error'));
+    if (count == 0) {
+      this.provider_admin_location_serviceline_mapping.addWorkLocation(newreqobj)
+        .subscribe(response => this.saveOfficeSuccessHandeler(response),
+          (err) => this.alertService.alert(err, 'error'));
+    }
+    else {
+      this.alertService.alert("Already exists");
+    }
   }
 
   editOfficeAddress(toBeEditedOBJ) {
@@ -418,7 +430,7 @@ export class LocationServicelineMappingComponent implements OnInit {
 
   checkOfficeName(value) {
     for (var i = 0; i < this.officeArray.length; i++) {
-      let a = this.officeArray[i].locationName;
+      let a = this.workLocations[i].locationName;
       console.log(value.trim(), "EDsdd");
       if (a.trim().toLowerCase() == value.trim().toLowerCase()) {
         this.officeNameExist = true;

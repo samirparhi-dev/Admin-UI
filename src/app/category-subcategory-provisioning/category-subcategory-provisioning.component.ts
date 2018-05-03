@@ -207,13 +207,15 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   //     this.showCategoryTable = true;
   //   }
   // }
-    searchReqObjChange(choice) {
+  searchReqObjChange(choice) {
     console.log(choice, "search choice");
     if (choice == 1) {
       this.showCategoryTable = false;
+      this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
     }
     else {
       this.showCategoryTable = true;
+
     }
   }
   callgetDetails(subService: any, providerServiceMap: any) {
@@ -549,6 +551,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
 
+
   changeRequestObject(flag_value) {
     debugger;
     if (flag_value === "0") {
@@ -712,7 +715,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.CategorySubcategoryService.getCategorybySubService(pServiceMapID, subService.subServiceID)
         .subscribe((response) => {
           if (response) {
-              console.log(response, "subcat response");
+            console.log(response, "subcat response");
             subCategoriesExist = response.filter((obj) => {
               if (obj) {
                 return obj.categoryID === category.categoryID &&

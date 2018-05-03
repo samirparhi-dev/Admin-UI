@@ -70,6 +70,13 @@ export class ProviderAdminRoleService {
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
+  getServices_filtered(serviceProviderID, stateID) {
+    return this.http.post(this.get_Service_Url, {
+      'serviceProviderID': serviceProviderID,
+      'stateID': stateID
+    }).map(this.handleService_n_ServiceSuccess)
+      .catch(this.handleError);
+  }
   getServiceLinesNew(userID) {
     return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
       .map(this.handleState_n_ServiceSuccess)
@@ -131,6 +138,17 @@ export class ProviderAdminRoleService {
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.statusID !== 4) {
+        return item;
+      }
+    });
+    return result;
+  }
+  handleService_n_ServiceSuccess(response: Response) {
+
+    console.log(response.json().data, 'role service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.serviceName === "MMU") {
         return item;
       }
     });

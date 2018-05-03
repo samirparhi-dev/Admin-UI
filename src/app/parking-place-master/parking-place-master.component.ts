@@ -104,7 +104,7 @@ export class ParkingPlaceComponent implements OnInit {
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
-                    && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
+                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress) {
                     count = count + 1;
                 }
             }
@@ -134,6 +134,7 @@ export class ParkingPlaceComponent implements OnInit {
     parkingPlaceSuccessHandler(response) {
         this.parkingPlaceList = [];
         this.alertMessage.alert("Saved successfully", 'success');
+        this.showList();
     }
 
     stateSelection(stateID) {
@@ -292,16 +293,29 @@ export class ParkingPlaceComponent implements OnInit {
         if (parkingPlace.talukID != undefined) {
             this.dataObj.districtBlockID = parkingPlace.talukID.split("-")[0];
         }
-
+        let count = 0
+        for (let a = 0; a < this.parkingPlaceList.length; a++) {
+            if (this.parkingPlaceList[a].parkingPlaceName === this.dataObj.parkingPlaceName
+                && this.parkingPlaceList[a].stateID === this.dataObj.stateID
+                && this.parkingPlaceList[a].districtID === this.dataObj.districtID
+                && this.parkingPlaceList[a].areaHQAddress === this.dataObj.areaHQAddress) {
+                count = count + 1;
+            }
+        }
         this.dataObj.modifiedBy = this.createdBy;
-        this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
-
+        if (count == 0) {
+            this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
+        }
+        else {
+            this.alertMessage.alert("Already exists");
+        }
     }
 
     updateHandler(response) {
         this.editable = true;
         this.alertMessage.alert("Updated successfully", 'success');
-        this.getParkingPlaces(null, null);
+        //  this.getParkingPlaces(null, null);
+        this.showList();
         //this.initializeObj();
     }
     back() {

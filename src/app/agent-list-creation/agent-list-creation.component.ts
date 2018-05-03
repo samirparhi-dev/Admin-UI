@@ -328,7 +328,7 @@ export class AgentListCreationComponent implements OnInit {
   saveSuccessHandeler(response) {
     if (response) {
       if (response.length > 0) {
-        this.alertService.alert('Saved successfully');
+        this.alertService.alert('Saved successfully','success');
         this.agentListForm.resetForm();
         this.showFormFlag = false;
         this.getAllAgents(this.providerServiceMapID);

@@ -235,7 +235,7 @@ export class SuperAdmin_ServiceProvider_Service {
   getAllProviderAdmins() {
     return this._http
       .post(this.getAllProviderAdminUrl, {})
-      .map(this.extractData)
+      .map(this.extractData_Provider)
       .catch(this.handleError);
   }
   public activateProviderAdmin(req_obj) {
@@ -258,7 +258,7 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleCustomError);
   }
   public createMappingProviderAdmin(request_array) {
-    
+
     return this._httpInterceptor
       .post(this.MappingProviderAdminUrl, request_array)
       .map(this.extractCustomData)
@@ -268,7 +268,7 @@ export class SuperAdmin_ServiceProvider_Service {
   getAllProvider() {
     return this._http
       .post(this.getAllProviderUrl, {})
-      .map(this.extractData)
+      .map(this.extractData_Provider)
       .catch(this.handleError);
   }
   getProviderStatus(provider) {
@@ -437,6 +437,18 @@ export class SuperAdmin_ServiceProvider_Service {
       return Observable.throw(res.json());
     }
   }
+  extractData_Provider(response: Response) {
+
+    console.log(response.json().data, ' service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.deleted == false) {
+        return item;
+      }
+    });
+    return result;
+  }
+
   private extractData(res: Response) {
     if (res.json().data) {
       console.log('in SA service', res.json().data);

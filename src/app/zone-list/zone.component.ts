@@ -48,7 +48,7 @@ export class ZoneComponent implements OnInit {
     }
 
     getServices(stateID) {
-        this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+        this.providerAdminRoleService.getServices_filtered(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
     }
 
     getStates() {
@@ -65,10 +65,10 @@ export class ZoneComponent implements OnInit {
 
     getStatesSuccessHandeler(response) {
         console.log("state response", response);
-        if(response.serviceID === "MMU") {
-            
+        if (response.serviceID === "MMU") {
+
         }
-        
+
         this.provider_states = response;
     }
 

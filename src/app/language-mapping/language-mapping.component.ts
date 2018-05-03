@@ -359,7 +359,7 @@ export class LanguageMappingComponent implements OnInit {
           }
           else {
             continue;
-           
+
           }
         }
       }

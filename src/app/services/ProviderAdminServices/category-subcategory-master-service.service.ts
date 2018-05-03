@@ -36,7 +36,7 @@ export class CategorySubcategoryService {
 
   getServiceLines_new_url: any;
   getStates_new_url: any;
-  
+
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
     private _httpInterceptor: InterceptedHttp) {
@@ -53,7 +53,7 @@ export class CategorySubcategoryService {
     this.editCategory_url = this.providerAdmin_Base_Url + 'm/updateCategory';
     this.editSubCategory_url = this.providerAdmin_Base_Url + 'm/updateSubCategory';
     this.getServiceLines_new_url = this.providerAdmin_Base_Url + 'm/role/serviceNew';
-		this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
+    this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
   };
 
   getStates(serviceProviderID) {
@@ -62,17 +62,17 @@ export class CategorySubcategoryService {
       .catch(this.handleError);
   }
 
-	getStatesNew(obj) {
-		return this._httpInterceptor.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
+  getStatesNew(obj) {
+    return this._httpInterceptor.post(this.getStates_new_url, obj).map(this.handleState_n_ServiceSuccess)
+      .catch(this.handleError);
   }
-  
-	getServiceLinesNew(userID) {
-		return this._httpInterceptor.post(this.getServiceLines_new_url, { 'userID': userID })
-			.map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
+
+  getServiceLinesNew(userID) {
+    return this._httpInterceptor.post(this.getServiceLines_new_url, { 'userID': userID })
+      .map(this.handleState_n_ServiceSuccess)
+      .catch(this.handleError);
   }
-  
+
   getServiceLines(serviceProviderID, stateID) {
     return this.http.post(this.getServiceLines_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
       .map(this.handleState_n_ServiceSuccess)
@@ -81,7 +81,7 @@ export class CategorySubcategoryService {
 
   getSubService(serviceProviderMapID) {
     return this.http.post(this.getSubService_url, { 'providerServiceMapID': serviceProviderMapID })
-      .map(this.handleSuccess)
+      .map(this.handleState_n_subservice)
       .catch(this.handleError);
   }
 
@@ -147,6 +147,17 @@ export class CategorySubcategoryService {
     } else {
       return Observable.throw(res.json());
     }
+  }
+  handleState_n_subservice(response: Response) {
+
+    console.log(response.json().data, 'sub service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.deleted === false) {
+        return item;
+      }
+    });
+    return result;
   }
 
   handleError(error: Response | any) {

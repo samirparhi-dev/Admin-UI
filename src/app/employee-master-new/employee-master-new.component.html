@@ -179,8 +179,8 @@
                             <input mdInput placeholder="Aadhar No." ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                                 (keyup)="checkAadhar()" #number="ngModel" required>
                             <md-hint *ngIf="number.touched">
-                                <span class="error_text" [hidden]="!number.errors && !isExistAadhar">Required 12 digit aadhar number</span>
-                                <span class="error_text" *ngIf="  isExistAadhar">{{errorMessageForAadhar}}</span>
+                                <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
+                                <span class="error_text" *ngIf="isExistAadhar && !number.errors">{{errorMessageForAadhar}}</span>
                             </md-hint>
                         </md-input-container>
                     </div>
@@ -190,7 +190,7 @@
                                 #panNo="ngModel" (keyup)="checkPan()" required>
                             <md-hint *ngIf="panNo.touched">
                                 <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
-                                <span class="error_text" *ngIf="isExistPan">{{errorMessageForPan}}</span>
+                                <span class="error_text" *ngIf="isExistPan && !panNo.errors">{{errorMessageForPan}}</span>
                             </md-hint>
                         </md-input-container>
                     </div>

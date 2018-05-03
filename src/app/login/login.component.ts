@@ -85,7 +85,7 @@ export class loginContentClass implements OnInit {
     this.dataSettingService.userPriveliges = response.previlegeObj;
     this.dataSettingService.uid = response.userID;
     // this.dataSettingService.service_providerID = response.provider[0].providerID;
-    this.dataSettingService.uname = this.userID;
+    this.dataSettingService.uname = response.userName;
     console.log('array', response.previlegeObj);
 
     if (response.isAuthenticated === true && response.Status === 'Active') {
