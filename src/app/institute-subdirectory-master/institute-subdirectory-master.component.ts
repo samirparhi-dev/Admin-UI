@@ -29,6 +29,8 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	searchResultArray: any = [];
 	bufferArray: any = [];
+	availableInstituteSubDirectory: any = [];
+	instituteSubDirectoryExist: boolean = false;
 
 	/*flags*/
 	showTableFlag: boolean = false;
@@ -158,9 +160,15 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 			this.showTableFlag = true;
 			this.searchResultArray = response;
 			console.log("searcharray", this.searchResultArray);
+			for (let availableInstituteSubDirectory of this.searchResultArray) {
+				this.availableInstituteSubDirectory.push(availableInstituteSubDirectory.instituteSubDirectoryName);
+			}
 		}
 	}
-
+	checkexistance(institute_subdirectory) {
+		this.instituteSubDirectoryExist = this.availableInstituteSubDirectory.includes(institute_subdirectory);
+		console.log(this.instituteSubDirectoryExist);
+	}
 	showForm() {
 		this.showTableFlag = false;
 		this.showFormFlag = true;
@@ -310,9 +318,6 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		});
 
 	}
-
-
-
 }
 
 

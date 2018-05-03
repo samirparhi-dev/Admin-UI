@@ -97,9 +97,10 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Institute Sub Directory" [(ngModel)]="institute_subdirectory" name="institute_subdirectory" minlength="2"
-            maxlength="50" required #instituteSubDir="ngModel">
-            <md-hint *ngIf="instituteSubDir.touched">
-              <span class="error_text">Institute type is required</span>
+          (keyup)="checkexistance(institute_subdirectory)" maxlength="50" required #instituteSubDir="ngModel">
+            <md-hint>
+                <span class="error_text" *ngIf="instituteSubDir.errors && instituteSubDir.touched">Institute sub directory name is required</span>
+                <span class="error_text" *ngIf="!instituteSubDir.errors && instituteSubDirectoryExist">Institute sub directory already exist</span>
             </md-hint>
         </md-input-container>
       </div>
@@ -108,7 +109,7 @@
           <input mdInput placeholder="Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="instituteSubDir.valid">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="addInstitutueSubDirForm.valid && !instituteSubDirectoryExist">
         <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left" (click)="add_obj(institute_subdirectory,description)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
