@@ -114,6 +114,8 @@ export class EmployeeMasterNewServices {
             .catch(this.handleError)
     }
     getAllDistricts(stateID) {
+        console.log("stateID", stateID);
+        
         return this.httpSecurity
             .get(this.getAllDistrictsUrl + stateID)
             .map(this.extractData)

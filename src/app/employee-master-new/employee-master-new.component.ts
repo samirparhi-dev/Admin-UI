@@ -92,7 +92,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   editMode = false;
 
   //constants & variables
-  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -267,6 +267,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     }
   }
+
   /*
   * dob
   */
@@ -497,13 +498,64 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    this.objs.push(tempObj);
+    // this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
+    this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
-    // this.resetDob();
-    //this.checkAddress = null;
 
   }
+
+  checkDuplicatesInBuffer(tempObj) {
+    debugger;
+    let duplicateAadhar = 0;
+    let duplicatePan = 0;
+    let duplicateName = 0
+    if (this.objs.length === 0) {
+      this.objs.push(tempObj);
+    }
+
+    else {
+      for (let i = 0; i < this.objs.length; i++) {
+        if (this.objs[i].aadharNumber === tempObj.aadharNumber) {
+          duplicateAadhar = duplicateAadhar + 1;
+          console.log("duplicateAadhar", duplicateAadhar);
+        }
+        if (this.objs[i].panNumber === tempObj.panNumber) {
+          duplicatePan = duplicatePan + 1;
+          console.log("duplicatePan", duplicatePan);
+        }
+        if (this.objs[i].username === tempObj.username) {
+          duplicateName = duplicateName + 1;
+          console.log("this.duplicateName", duplicateName);
+        }
+        if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
+          this.objs.push(tempObj);
+        }
+        if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
+          this.dialogService.alert("Aadhar, Pan number and Username already exist");
+        }
+        else if (duplicateAadhar > 0 && duplicatePan > 0) {
+          this.dialogService.alert("Aadhar and Pan number already exist");
+        }
+        else if (duplicateAadhar > 0 && duplicateName > 0) {
+          this.dialogService.alert("Aadhar number and Username already exist");
+        }
+        else if (duplicatePan > 0 && duplicateName > 0) {
+          this.dialogService.alert("Pan number and Username already exist");
+        }
+        else if (duplicateAadhar > 0) {
+          this.dialogService.alert("Aadhar number already exist");
+        }
+        else if (duplicatePan > 0) {
+          this.dialogService.alert("Pan number already exist");
+        }
+        else if (duplicateName > 0) {
+          this.dialogService.alert("Already exist");
+        }
+      }
+    }
+  }
+
   /*
   * Removing single object
   */
@@ -538,7 +590,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'emailID': this.objs[i].emailID,
         'designationID': this.objs[i].designationID,
         'maritalStatusID': this.objs[i].maritalStatusID,
-        'aadhaarNo': this.objs[i].aadharNumber,
+        'aadharNumber': this.objs[i].aadharNumber,
         'pAN': this.objs[i].panNumber,
         'qualificationID': this.objs[i].qualificationID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
@@ -572,12 +624,12 @@ export class EmployeeMasterNewComponent implements OnInit {
     debugger;
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
-      // if (response.stat)
-      this.editMode = false;
+      // if (response.stat)     
+      this.dialogService.alert("Saved successfully", "success");
       this.objs = [];
-      this.dialogService.alert("Saved successfully", "success");      
       this.getAllUserDetails();
-      this.tableMode = true;
+      this.showTable();
+
 
 
     }), (err) => this.dialogService.alert(err, 'error');
@@ -682,7 +734,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   limitDateInEdit(dateOfBirth) {
     console.log("Limit dateOfBirth", dateOfBirth);
-
+    debugger;
+    
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -692,55 +745,52 @@ export class EmployeeMasterNewComponent implements OnInit {
   /*
  * calculate age based on the DOB
  */
-  // calculateAgeInEdit(dateOfBirth) {
-  //   if (dateOfBirth != undefined) {
-  //     let existDobAge = new Date(dateOfBirth);
-  //     this.age = this.today.getFullYear() - existDobAge.getFullYear();
-  //     const month = this.today.getMonth() - existDobAge.getMonth();
-  //     if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
-  //       this.age--; //age is ng-model of AGE
-  //     }
-  //   }
-
-  // }
   calculateAgeInEdit(dateOfBirth) {
-    console.log("dateOfBirth", dateOfBirth);
-
+    debugger;
     if (dateOfBirth != undefined) {
-      console.log("undefinrddob", dateOfBirth);
-
       let existDobAge = new Date(dateOfBirth);
-      let age = this.today.getFullYear() - existDobAge.getFullYear();
-      if (this.objs.length == 0) {
-        console.log("length", this.objs, this.objs.length, age);
-        this.age = age;
-      }
-      else {
-        console.log("age", this.objs, this.objs.length);
-        this.userCreationForm.form.patchValue({ 'user_age': age });
-
-      }
-
+      this.age = this.today.getFullYear() - existDobAge.getFullYear();
       const month = this.today.getMonth() - existDobAge.getMonth();
       if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
-        age--; //age is ng-model of AGE
-        if (this.objs.length == 0) {
-          console.log("length1", this.objs, this.objs.length);
-          this.age = age;
-        }
-        else {
-          console.log("age1", this.objs, this.objs.length);
-          this.userCreationForm.form.patchValue({ 'user_age': age });
-
-        }
+        this.age--; //age is ng-model of AGE
       }
     }
 
   }
+  // calculateAgeInEdit(dateOfBirth) {
+  //   console.log("dateOfBirth", dateOfBirth);
+  //   debugger;
+  //   if (dateOfBirth != undefined) {
+
+  //     let existDobAge = new Date(dateOfBirth);
+  //     let age = this.today.getFullYear() - existDobAge.getFullYear();
+
+  //       this.age = age;
+
+  //     else {
+  //       this.userCreationForm.form.patchValue({ 'user_age': age });
+
+  //     }
+
+  //     const month = this.today.getMonth() - existDobAge.getMonth();
+  //     if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
+  //       age--; //age is ng-model of AGE
+  //       if (this.objs.length == 0) {
+  //         this.age = age;
+  //       }
+  //       else {
+  //         this.userCreationForm.form.patchValue({ 'user_age': age });
+
+  //       }
+  //     }
+  //   }
+
+  // }
 
 
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
+   
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
       'firstName': userCreationFormValue.user_firstname,
@@ -758,7 +808,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
-      'dOJ': new Date(userCreationFormValue.doj.valueOf() - 1 * userCreationFormValue.doj.getTimezoneOffset() * 60 * 1000),
+      'dOJ': userCreationFormValue.doj,
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,
@@ -778,6 +828,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'cityID': 1
 
     }
+
     console.log('Data to be update', update_tempObj);
 
     this.employeeMasterNewService.editUserDetails(update_tempObj).subscribe(response => {
@@ -787,9 +838,10 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.getAllUserDetails();
       this.showTable();
 
-    }, (err) => this.dialogService.alert(err, 'error'));
+    }, err => { this.dialogService.alert('error', err); });
 
   }
+
 
   /*
    * Activation and deactivation of the user

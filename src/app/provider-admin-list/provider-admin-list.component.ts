@@ -76,7 +76,7 @@ export class ProviderAdminListComponent implements OnInit {
   allProviderAdmin: any = [];
 
   userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]{2,20}$/;
-  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
   @ViewChild('providerAdminCreationForm') providerAdminCreationForm: NgForm;
@@ -380,25 +380,59 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    this.checkDuplicates(tempObj);
+    debugger;
     this.checkUserNameAvailability(name);
+    this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
   }
-  checkDuplicates(object) {
-    let duplicateStatus = 0
+
+  checkDuplicatesInBuffer(tempObj) {
+    debugger;
+    let duplicateAadhar = 0;
+    let duplicatePan = 0;
+    let duplicateName = 0
     if (this.objs.length === 0) {
-      this.objs.push(object);
+      this.objs.push(tempObj);
     }
+
     else {
       for (let i = 0; i < this.objs.length; i++) {
-        if (this.objs[i].username === object.username
-        ) {
-          duplicateStatus = duplicateStatus + 1;
-          console.log("this.duplicateStatus", duplicateStatus);
+        if (this.objs[i].aadhaarNo === tempObj.aadhaarNo) {
+          duplicateAadhar = duplicateAadhar + 1;
+          console.log("duplicateAadhar", duplicateAadhar);
         }
-      }
-      if (duplicateStatus === 0) {
-        this.objs.push(object);
+        if (this.objs[i].pAN === tempObj.pAN) {
+          duplicatePan = duplicatePan + 1;
+          console.log("duplicatePan", duplicatePan);
+        }
+        if (this.objs[i].username === tempObj.username) {
+          duplicateName = duplicateName + 1;
+          console.log("this.duplicateName", duplicateName);
+        }
+        if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
+          this.objs.push(tempObj);
+        }
+        if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
+          this.dialogService.alert("Aadhar, Pan number and Username already exist");
+        }
+        else if (duplicateAadhar > 0 && duplicatePan > 0) {
+          this.dialogService.alert("Aadhar and Pan number already exist");
+        }
+        else if (duplicateAadhar > 0 && duplicateName > 0) {
+          this.dialogService.alert("Aadhar number and Username already exist");
+        }
+        else if (duplicatePan > 0 && duplicateName > 0) {
+          this.dialogService.alert("Pan number and Username already exist");
+        }
+        else if (duplicateAadhar > 0) {
+          this.dialogService.alert("Aadhar number already exist");
+        }
+        else if (duplicatePan > 0) {
+          this.dialogService.alert("Pan number already exist");
+        }
+        else if (duplicateName > 0) {
+          this.dialogService.alert("Already exist");
+        }
       }
     }
   }
@@ -451,10 +485,14 @@ export class ProviderAdminListComponent implements OnInit {
     console.log(reqObject, "details to be saved");
     this.superadminService.createProviderAdmin(reqObject).subscribe(response => {
       console.log("response", response);
-      this.editMode = false;
+
       this.dialogService.alert("Saved successfully", 'success');
+      this.tableMode = true;
+      this.formMode = false;
+      this.editMode = false;
       this.objs = [];
       this.getAllProviderAdminDetails();
+
 
     },
       (err) => this.dialogService.alert(err, 'error'));

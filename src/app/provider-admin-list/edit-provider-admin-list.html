@@ -84,7 +84,7 @@
                 <md-input-container class="width100" myEmail>
                     <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
                         #validEmail="ngModel" required>
-                    <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email-ID
+                    <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
                     </md-hint>
                 </md-input-container>
             </div>
@@ -105,7 +105,7 @@
                         (keyup)="checkAadhar()" #number="ngModel" required>
                     <md-hint *ngIf="number.touched">
                         <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
-                        <span class="error_text" *ngIf="isExistAadhar">{{errorMessageForAadhar}}</span>
+                        <span class="error_text" *ngIf="isExistAadhar && ! number.errors">{{errorMessageForAadhar}}</span>
                     </md-hint>
                 </md-input-container>
             </div>
@@ -115,7 +115,7 @@
                         #panNo="ngModel" (keyup)="checkPan()" required>
                     <md-hint *ngIf="panNo.touched">
                         <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
-                        <span class="error_text" *ngIf="isExistPan">{{errorMessageForPan}}</span>
+                        <span class="error_text" *ngIf="isExistPan && ! panNo.errors">{{errorMessageForPan}}</span>
                     </md-hint>
                 </md-input-container>
             </div>

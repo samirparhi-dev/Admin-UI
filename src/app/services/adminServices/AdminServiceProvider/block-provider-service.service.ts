@@ -103,6 +103,7 @@ export class BlockProvider {
   }
 
   getServicesOfProvider(serviceProviderID) {
+    debugger;
     return this._http.post(this.getAllServicesOfProvider_Url, {
       'serviceProviderID': serviceProviderID
     }).map(this.success_handeler)

@@ -40,7 +40,7 @@ export class ServiceProviderMasterComponent implements OnInit {
   providerNameExist = false;
 
   // constants & variables
-  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   createdBy: any;
   providerNameBeforeEdit: any;
   serviceProviderID: any;

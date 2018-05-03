@@ -103,7 +103,7 @@
         <md-input-container class="width100">
           <input mdInput placeholder="Email ID" required ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
             #validEmail="ngModel">
-          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid email-ID
+          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
           </md-hint>
         </md-input-container>
       </div>

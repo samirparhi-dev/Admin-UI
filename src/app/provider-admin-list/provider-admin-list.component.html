@@ -151,7 +151,7 @@
       <md-input-container class="width100" myEmail>
         <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
           #validEmail="ngModel" required>
-        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid email ID is required
+        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
         </md-hint>
       </md-input-container>
     </div>
@@ -170,7 +170,7 @@
         <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
           (keyup)="checkAadhar()" #number="ngModel" required>
         <md-hint *ngIf="number.touched">
-          <span class="error_text" *ngIf="number.errors ">Required 12 digit Aadhar number</span>
+          <span class="error_text" [hidden]="!number.errors">Required 12 digit Aadhar number</span>
           <span class="error_text" *ngIf="isExistAadhar && ! number.errors">{{errorMessageForAadhar}}</span>
         </md-hint>
       </md-input-container>
@@ -180,7 +180,7 @@
         <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
           #panNo="ngModel" (keyup)="checkPan()" required>
         <md-hint *ngIf="panNo.touched">
-          <span class="error_text" *ngIf="panNo.errors">Required 10 digit Pan number</span>
+          <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number</span>
           <span class="error_text" *ngIf="isExistPan && ! panNo.errors">{{errorMessageForPan}}</span>
         </md-hint>
       </md-input-container>
@@ -198,7 +198,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100" myName>
+      <md-input-container class="width100" nameWithSpace>
         <input mdInput placeholder="Emergency Contact Person" ngModel name="em_contact_person" [(ngModel)]="emergency_cnt_person"
           minlength="2" maxlength="50" #emergencyname="ngModel" required>
         <md-hint *ngIf="emergencyname.touched">
@@ -233,7 +233,7 @@
         <md-hint class="errorText">
           <span *ngIf="uname.errors && uname.touched&&!(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
           <span *ngIf="showHint && uname.touched">{{username_status}}</span>
-          <span *ngIf="!showHint && uname.touched && uname.hasError('pattern')"> User name can't end or start with special characters,min:2</span>
+          <span *ngIf="!showHint && uname.touched && uname.hasError('pattern')"> User name can't end or start with special characters,min:3</span>
 
         </md-hint>
       </md-input-container>
