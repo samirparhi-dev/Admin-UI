@@ -298,7 +298,7 @@ export class ZoneComponent implements OnInit {
         // this.editable = false;
         this.alertMessage.alert("Updated successfully", 'success');
         this.getAvailableZones();
-        this.showZones = true;
+        this.clearEdit();
         //this.initializeObj();
     }
 
