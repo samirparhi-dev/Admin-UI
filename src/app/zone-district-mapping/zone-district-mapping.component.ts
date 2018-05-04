@@ -154,14 +154,18 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 this.zoneDistrictMappingObj.stateName = values.stateID.split("-")[1];
                 this.zoneDistrictMappingObj.createdBy = this.createdBy;
 
-                this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
-                console.log(this.zoneDistrictMappingList);
+               
             } else {
                 console.log("already mapped with these districts");
             }
         }
-        if (this.zoneDistrictMappingList.length <= 0) {
+        if (this.zoneDistrictMappingList.length > 0) {
+
             this.alertMessage.alert("Already exists");
+        }
+        else{
+            this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
+            console.log(this.zoneDistrictMappingList);
         }
     }
 
@@ -175,6 +179,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.zoneDistrictMappingList = [];
         this.alertMessage.alert("Mapping saved successfully", 'success');
         this.getAvailableZoneDistrictMappings();
+        this.clearEdit();
     }
     remove_obj(index) {
         this.zoneDistrictMappingList.splice(index, 1);
