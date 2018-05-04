@@ -92,7 +92,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   findFeedbackTypes(providerServiceMapID) {
     this.search_feedbacktype = '';
     this.providerServiceMapID = providerServiceMapID;
-    this._feedbackTypeService.getFeedbackTypes({
+    this._feedbackTypeService.getFeedbackTypes_nature({
       "providerServiceMapID": this.providerServiceMapID
     }).subscribe((response) => {
       console.log("FeedbackTypes", response);
@@ -178,17 +178,17 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   }
 
   changeTableFlag(flag) {
-    this.searchForm = flag;   
+    this.searchForm = flag;
   }
 
   validateFeedbackNature(feedbackNature) {
     // console.log("check",feedbackNature);
     this.natureExists = false;
-    this.searchFeedbackNatureArray = this.natureTypes.concat(this.objs);
+    // this.searchFeedbackNatureArray = this.natureTypes.concat(this.objs);
     console.log("searchArray", this.searchFeedbackNatureArray);
     let count = 0;
-    for (var i = 0; i < this.searchFeedbackNatureArray.length; i++) {
-      if (feedbackNature.toUpperCase() === this.searchFeedbackNatureArray[i].feedbackNature.toUpperCase()) {
+    for (var i = 0; i < this.natureTypes.length; i++) {
+      if (feedbackNature.toUpperCase() === this.natureTypes[i].feedbackNature.toUpperCase()) {
         // console.log("gotcha",feedbacknature,"exists");
         count++;
       }
@@ -196,6 +196,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     }
     if (count > 0) {
       // console.log("error found");
+
       this.natureExists = true;
 
     }
@@ -276,7 +277,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       if (duplicateValue === 0) {
         this.objs.push(tempObj);
       }
-      else { 
+      else {
         this.alertService.alert("Already exists");
       }
     }

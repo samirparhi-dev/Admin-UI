@@ -117,7 +117,7 @@ export class WorkLocationMapping {
             .post(this.getAllRolesUrl, {
                 'providerServiceMapID': providerServiceMapID
             })
-            .map(this.handleState_n_ServiceSuccess)
+            .map(this.handleState_n_worklocations)
             .catch(this.handleError);
     }
 

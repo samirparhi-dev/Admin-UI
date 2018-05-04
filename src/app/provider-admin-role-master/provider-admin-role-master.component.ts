@@ -147,7 +147,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.setProviderServiceMapID(response[0].providerServiceMapID);
-      this.findRoles(undefined, value.serviceID)
+      this.findRoles(undefined, value.serviceID, true)
     }
     else {
       this.nationalFlag = value.isNational;
@@ -182,8 +182,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   correctInput: boolean = false;
   showAddButton: boolean = false;
 
-  findRoles(stateID, serviceID) {
-    this.showAddButtonFlag = true;
+  findRoles(stateID, serviceID, flagValue) {
+    this.showAddButtonFlag = flagValue;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
 
@@ -242,7 +242,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         console.log("obj", obj);
         this.ProviderAdminRoleService.deleteRole(obj).subscribe((response) => {
           console.log('data', response);
-          this.findRoles(this.state.stateID, this.service.serviceID);
+          this.findRoles(this.state.stateID, this.service.serviceID, true);
           this.edit_delete_RolesSuccessHandeler('response', 'delete');
           //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
         }, err => {
@@ -319,7 +319,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(response, 'edit/delete response');
     this.showRoleCreationForm = false;
     this.setEditSubmitButton = false;
-    this.findRoles(this.STATE_ID, this.SERVICE_ID);
+    this.findRoles(this.STATE_ID, this.SERVICE_ID, true);
     this.role = '';
     this.description = '';
     this.objs = [];
@@ -358,7 +358,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.objs = []; //empty the buffer array
       this.tempFilterScreens = [];
       this.setRoleFormFlag(false);
-      this.findRoles(this.STATE_ID, this.SERVICE_ID);
+      this.findRoles(this.STATE_ID, this.SERVICE_ID, true);
     }
 
   }
@@ -559,6 +559,27 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
     this.objs.splice(index, 1);
   }
+  removeFeature(rowIndex, FeatureIndex) {
+    this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
+
+
+    for (let h = 0; h < this.tempFilterScreens.length; h++) {
+      if (this.tempFilterScreens[h].toUpperCase() === this.objs[rowIndex].screen_name[h].toUpperCase()) {
+        this.tempFilterScreens.splice(h, 1);
+      }
+      else {
+        continue;
+      }
+    }
+    this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
+    this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
+    if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
+
+      this.objs.splice(rowIndex, 1);
+
+      this.getFeatures(this.service.serviceID);
+    }
+  }
 
   clear() {
     this.services = [];
@@ -590,17 +611,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.roleID_update = toBeEditedRoleObject.roleID;
 
   }
-  removeFeature(rowIndex, FeatureIndex) {
-    debugger;
-    this.findRoles(this.STATE_ID, this.SERVICE_ID);
-    this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
-    this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
-    if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
-      this.objs.splice(rowIndex, 1);
-      
-    }
-    this.getFeatures(this.service.serviceID);
-  }
+
 
   saveUpdateFeatureChanges() {
     let requestArray = [];
@@ -630,7 +641,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         }
 
         this.setRoleFormFlag(false);
-        this.findRoles(this.STATE_ID, this.SERVICE_ID);
+        this.findRoles(this.STATE_ID, this.SERVICE_ID, true);
 
       }, err => {
         console.log('ERROR while updating feature to role', err);

@@ -203,8 +203,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     }
     else {
       for (let i = 0; i < this.bufferArray.length; i++) {
-        if (this.bufferArray[i].serviceID === object.serviceID && this.bufferArray[i].serviceProviderID === object.serviceProviderID)
-         {
+        if (this.bufferArray[i].serviceID === object.serviceID && this.bufferArray[i].serviceProviderID === object.serviceProviderID) {
           duplicateStatus = duplicateStatus + 1;
         }
       }
@@ -265,7 +264,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         }
       }
       if (providerCount > 0 && servicelineMatched === false) {
-        this.bufferArray.push(object);        
+        this.bufferArray.push(object);
         this.resetForm();
       }
       if (providerCount === 0) {

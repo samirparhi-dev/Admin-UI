@@ -18,7 +18,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" [style.width]="'100%'" [(ngModel)]="state" name="state"
-          #statess required (change)="findRoles(state.stateID,service.serviceID);setProviderServiceMapID(state.providerServiceMapID)">
+          #statess required (change)="findRoles(state.stateID,service.serviceID,true);setProviderServiceMapID(state.providerServiceMapID)">
           <md-option *ngFor="let stat of states" [value]="stat">
             {{stat.stateName}}
           </md-option>

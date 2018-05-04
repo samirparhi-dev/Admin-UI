@@ -227,6 +227,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
   }
 
   add_obj(name, desc) {
+    debugger;
     var tempObj = {
       "feedbackTypeName": name,
       "feedbackDesc": desc
@@ -248,7 +249,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
       }
       else {
         this.feedbackNameExist = true;
-        // this.alertService.alert("Already exists");
+        this.alertService.alert("Already exists");
       }
     }
     else {

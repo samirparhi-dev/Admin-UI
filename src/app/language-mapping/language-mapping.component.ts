@@ -11,6 +11,9 @@ import { MdCheckbox, MdSelect } from '@angular/material';
   styleUrls: ['./language-mapping.component.css']
 })
 export class LanguageMappingComponent implements OnInit {
+  languageID_edit: any;
+  checkduplication_edit: boolean = false;
+  checkduplication: boolean = false;
   username: any;
   language: any;
   serviceProviderID: any;
@@ -23,9 +26,10 @@ export class LanguageMappingComponent implements OnInit {
   weightageWrite: any;
   weightageSpeak: any;
   userID: any;
-
+  langExist: boolean = false;
 
   // preferredlanguage: any;
+  filteredLanguage: any = [];
   allLanguagesList: any = [];
   dummy_allLanguages: any = []; // just for visual tricks
   selected_languages: any = [];
@@ -123,13 +127,13 @@ export class LanguageMappingComponent implements OnInit {
       });
   }
   getAvailableLanguages(username: any) {
-    debugger;
     const alreadyMappedLanguages = [];
     for (let i = 0; i < this.LanguageMappedList.length; i++) {
-      if (this.LanguageMappedList[i].userID === username.userID || username) {
+      if (this.LanguageMappedList[i].userID === username
+      ) {
         const obj = {
-          'languageID': this.LanguageMappedList[i].languageID,
-          'languageName': this.LanguageMappedList[i].languageName
+          'languageID': this.LanguageMappedList[i].languageID
+          //'languageName': this.LanguageMappedList[i].languageName
         }
         alreadyMappedLanguages.push(obj);
       }
@@ -145,6 +149,9 @@ export class LanguageMappingComponent implements OnInit {
       this.alertService.alert('All languages for this user have been mapped');
     } else {
       this.filteredLanguages = filteredLanguages;
+      for (let lang of this.filteredLanguages) {
+        this.filteredLanguage.push(lang.languageID);
+      }
       this.language = undefined;
     }
 
@@ -234,7 +241,6 @@ export class LanguageMappingComponent implements OnInit {
   }
   read: boolean = false;
   setRead(value) {
-    debugger;
     if (value.checked) {
       this.read = true;
       this.ReadWeightageList = this.WeightageList;
@@ -375,6 +381,25 @@ export class LanguageMappingComponent implements OnInit {
 
     }
   }
+  checkInDb(user, langId) {
+    debugger;
+    let count = 0;
+    for (let a = 0; a < this.LanguageMappedList.length; a++) {
+      if (this.LanguageMappedList[a].userID == user.userID
+        && this.LanguageMappedList[a].languageID == langId.languageID) {
+        count = count + 1;
+      }
+    }
+    if (count == 0)
+      this.checkduplication = false;
+    else {
+      this.checkduplication = true;
+      this.alertService.alert('Already exists');
+    }
+
+
+  }
+
   saveMapping() {
     console.log('final buffer', this.bufferArray);
     let lang: any;
@@ -462,6 +487,7 @@ export class LanguageMappingComponent implements OnInit {
     this.disableUsername = true;
     this.userID = rowObject.userID;
     this.userLangID = rowObject.userLangID;
+    this.languageID_edit = rowObject.languageID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
     this.isCheckedRead = rowObject.canRead;
@@ -482,29 +508,26 @@ export class LanguageMappingComponent implements OnInit {
       this.SpeakWeightageList = this.WeightageList;
     this.getAvailableLanguages(this.edit_Details.userID)
   }
-  updateLanguage(editFormValues: any) {
-    debugger;
-    const obj = {
-      'userLangID': this.userLangID,
-      'userID': this.userID,
-      'modifideBy': this.createdBy,
-      'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
-      'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
-      'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
-      'languageID': editFormValues.language,
-      'weightage': 10,
-      'canRead': this.read,
-      'canWrite': this.write,
-      'canSpeak': this.speak
-    };
-    let count = 0;
-    for (let a = 0; a < this.LanguageMappedList.length; a++) {
-      if (this.LanguageMappedList[a].userID === obj.userID
-        && this.LanguageMappedList[a].languageID === obj.languageID) {
-        count = count + 1;
-      }
+  updateLanguage(editFormValues: any, langID: any) {
+    this.langExist = this.filteredLanguage.includes(langID);
+    if (!this.langExist) {
+      this.alertService.alert('Already exists');
     }
-    if (count === 0) {
+    else {
+      const obj = {
+        'userLangID': this.userLangID,
+        'userID': this.userID,
+        'modifideBy': this.createdBy,
+        'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
+        'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
+        'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
+        'languageID': editFormValues.language,
+        'weightage': 10,
+        'canRead': this.read,
+        'canWrite': this.write,
+        'canSpeak': this.speak
+      };
+
       this.languageMapping.UpdateLanguageMapping(obj)
         .subscribe(response => {
           console.log(response, 'after successful mapping of language to provider');
@@ -517,12 +540,8 @@ export class LanguageMappingComponent implements OnInit {
           console.log(err, 'ERROR');
           this.alertService.alert(err, 'error');
         });
-    }
-    else {
-      this.alertService.alert('Already exists');
-      count = 0;
-    }
 
+    }
   }
   resetForm() {
     //this.Form.reset();
@@ -566,6 +585,14 @@ export class LanguageMappingComponent implements OnInit {
     this.showCheckboxes = false;
     this.resetweightageDropdowns();
   }
+
+  // checkExistance(langID) {
+  //   debugger;
+  //   this.langExist = this.filteredLanguage.includes(langID);
+  //   if (!this.langExist)
+  //     this.alertService.alert('Already exists');
+
+  // }
   back() {
     this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {

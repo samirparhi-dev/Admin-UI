@@ -9,6 +9,7 @@ declare let jQuery: any;
   styleUrls: ['./create-sub-service.component.css']
 })
 export class CreateSubServiceComponent implements OnInit {
+  providerServiceMapID: any;
   services: any = [];
   subServices: any = [];
   services_array: any = [];
@@ -43,9 +44,9 @@ export class CreateSubServiceComponent implements OnInit {
     this.subServiceAvailable = false;
     this.sub_service.getAllProviders()
       .subscribe(response => this.getAllProvidersSuccesshandeler(response),
-      err => {
-        this.message.alert(err, 'error');
-      });
+        err => {
+          this.message.alert(err, 'error');
+        });
 
   }
   getAllProvidersSuccesshandeler(response) {
@@ -135,11 +136,12 @@ export class CreateSubServiceComponent implements OnInit {
   //   this.services = response;
   // }
   getExistingOnSearch(providerServiceMapID) {
+    this.providerServiceMapID = providerServiceMapID;
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.populateTable(response, providerServiceMapID),
-      err => {
-        this.message.alert(err, 'error');
-      });
+        err => {
+          this.message.alert(err, 'error');
+        });
   }
   populateTable(response, providerServiceMapID) {
     this.showTable = true;
@@ -149,9 +151,9 @@ export class CreateSubServiceComponent implements OnInit {
   getExistingSubService(providerServiceMapID) {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.existingSubServiceHandler(response),
-      err => {
-        this.message.alert(err, 'error');
-      })
+        err => {
+          this.message.alert(err, 'error');
+        })
   }
 
   existingSubServiceHandler(response) {
@@ -185,9 +187,11 @@ export class CreateSubServiceComponent implements OnInit {
       if (response.length > 0) {
         this.message.alert('Saved successfully', 'success');
         this.searchForm = true;
+        this.getExistingOnSearch(this.providerServiceMapID);
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();
+
         }, (err) => {
           this.message.alert(err, 'error');
         })
@@ -338,7 +342,7 @@ export class CreateSubServiceComponent implements OnInit {
     }, (err) => { this.message.alert(err, 'error'); });
   }
   clearFields() {
-    // this.subServiceDesc = '';
+    this.subServiceDesc = '';
     jQuery("#form2").trigger('reset');
     if (this.state) {
 
