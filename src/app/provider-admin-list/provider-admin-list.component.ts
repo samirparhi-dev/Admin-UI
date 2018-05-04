@@ -518,6 +518,9 @@ export class ProviderAdminListComponent implements OnInit {
       if (result === "success") {
         this.dialogService.alert("Updated successfully", 'success');
         this.getAllProviderAdminDetails();
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
       }
     });
   }
@@ -676,6 +679,7 @@ export class EditProviderAdminModal {
     * Calculate age
     */
   calculateAge() {
+    debugger;
     if (this.dob != undefined) {
       let existDobAge = new Date(this.dob)
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
@@ -747,6 +751,7 @@ export class EditProviderAdminModal {
   }
 
   update() {
+    debugger;
     var update_tempObj = {
       'titleID': this.titleID,
       'firstName': this.admin_firstName,

@@ -133,6 +133,7 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   add(values) {
+    debugger;
     let obj = {
       'severityTypeName': values.severity,
       'severityDesc': values.description,
@@ -149,7 +150,7 @@ export class SeverityTypeComponent implements OnInit {
           count = count + 1;
         }
       }
-      if (count == 0 && (obj.severityTypeName != "" && obj.severityTypeName != undefined)) {
+      if (count == 0) {
         this.severityArray.push(obj);
       }
       else {
