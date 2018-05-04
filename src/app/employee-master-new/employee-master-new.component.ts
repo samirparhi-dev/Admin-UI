@@ -762,37 +762,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     }
 
   }
-  // calculateAgeInEdit(dateOfBirth) {
-  //   console.log("dateOfBirth", dateOfBirth);
-  //   debugger;
-  //   if (dateOfBirth != undefined) {
-
-  //     let existDobAge = new Date(dateOfBirth);
-  //     let age = this.today.getFullYear() - existDobAge.getFullYear();
-
-  //       this.age = age;
-
-  //     else {
-  //       this.userCreationForm.form.patchValue({ 'user_age': age });
-
-  //     }
-
-  //     const month = this.today.getMonth() - existDobAge.getMonth();
-  //     if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
-  //       age--; //age is ng-model of AGE
-  //       if (this.objs.length == 0) {
-  //         this.age = age;
-  //       }
-  //       else {
-  //         this.userCreationForm.form.patchValue({ 'user_age': age });
-
-  //       }
-  //     }
-  //   }
-
-  // }
-
-
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
 

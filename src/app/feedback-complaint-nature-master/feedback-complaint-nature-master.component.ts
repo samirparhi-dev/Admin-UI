@@ -33,6 +33,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   objs = [];
   @ViewChild('searchCNForm') searchCNForm: NgForm;
   @ViewChild('addForm') addForm: NgForm;
+  @ViewChild('editForm') editForm: NgForm;
   natureExists = false;
   searchFeedbackNatureArray = [];
   msg = 'Complaint nature already exists';
@@ -91,7 +92,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   findFeedbackTypes(providerServiceMapID) {
     this.search_feedbacktype = '';
     this.providerServiceMapID = providerServiceMapID;
-    this._feedbackTypeService.getFeedbackTypes_nature({
+    this._feedbackTypeService.getFeedbackTypes({
       "providerServiceMapID": this.providerServiceMapID
     }).subscribe((response) => {
       console.log("FeedbackTypes", response);
@@ -177,7 +178,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   }
 
   changeTableFlag(flag) {
-    this.searchForm = flag;
+    this.searchForm = flag;   
   }
 
   validateFeedbackNature(feedbackNature) {
@@ -241,15 +242,23 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       'feedbackNatureDesc': desc
     }
     console.log(tempObj);
-    // this.objs.push(tempObj);
+    // this.objs.push(tempObj);   
+    this.validateFeedbackNature(nature);
     this.checkDuplicates(tempObj);
-   // this.validateFeedbackNature(nature);
-
     //this.feedbackNature = null;
     // this.feedbackNatureDesc = null;
     this.natureExists = false;
     console.log("this.feedbackNature", this.feedbackNature);
 
+  }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.changeTableFlag(true);
+        this.editForm.resetForm();
+        this.objs = [];
+      }
+    });
   }
   checkDuplicates(tempObj) {
     debugger;
