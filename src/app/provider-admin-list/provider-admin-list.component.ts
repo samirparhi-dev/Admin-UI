@@ -384,14 +384,12 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    debugger;
     this.checkUserNameAvailability(name);
     this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
   }
 
   checkDuplicatesInBuffer(tempObj) {
-    debugger;
     let duplicateAadhar = 0;
     let duplicatePan = 0;
     let duplicateName = 0
@@ -679,7 +677,6 @@ export class EditProviderAdminModal {
     * Calculate age
     */
   calculateAge() {
-    debugger;
     if (this.dob != undefined) {
       let existDobAge = new Date(this.dob)
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
@@ -751,7 +748,6 @@ export class EditProviderAdminModal {
   }
 
   update() {
-    debugger;
     var update_tempObj = {
       'titleID': this.titleID,
       'firstName': this.admin_firstName,

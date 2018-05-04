@@ -123,7 +123,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all states success handeler');
-          this.states = response;
+          this.states = response; 
         }
       }, err => {
         this.dialogService.alert(err, 'error');
@@ -177,7 +177,6 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
 
   checkDuplicate_for1097(object) {
-    debugger;
     console.log(object, 'while checking dupes in case of 1097');
     let duplicate_exists = false;
 

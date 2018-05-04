@@ -215,6 +215,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugMapping = [];
     this.alertMessage.alert("Saved successfully", 'success');
     this.getAvailableMappings();
+    this.clearEdit();
   }
 
   dataObj: any = {};

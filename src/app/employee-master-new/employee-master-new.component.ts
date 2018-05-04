@@ -236,8 +236,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   * User name availability
   */
 
-  checkUserNameAvailability(username) {
-    debugger;
+  checkUserNameAvailability(username) {  
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
@@ -245,7 +244,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   checkUsernameSuccessHandeler(response) {
-    debugger;
     console.log('username existance status', response);
     if (response.response == 'userexist') {
       this.username_status = 'User ID exists';
@@ -518,7 +516,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   checkDuplicatesInBuffer(tempObj) {
-    debugger;
     let duplicateAadhar = 0;
     let duplicatePan = 0;
     let duplicateName = 0
@@ -634,7 +631,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       reqObject.push(tempObj);
     }
     console.log("Details to be saved", reqObject);
-    debugger;
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
       // if (response.stat)     
@@ -754,8 +750,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   limitDateInEdit(dateOfBirth) {
     console.log("Limit dateOfBirth", dateOfBirth);
-    debugger;
-
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -766,7 +760,6 @@ export class EmployeeMasterNewComponent implements OnInit {
  * calculate age based on the DOB
  */
   calculateAgeInEdit(dateOfBirth) {
-    debugger;
     if (dateOfBirth != undefined) {
       let existDobAge = new Date(dateOfBirth);
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
@@ -781,7 +774,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-    debugger;
     let doj: any = "";
     let dob: any = "";
     if (typeof userCreationFormValue.doj === "string") {

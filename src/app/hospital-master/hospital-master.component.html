@@ -166,7 +166,7 @@
       <md-input-container style="width: 100%">
         <input mdInput type="email" placeholder="Primary Email ID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression"
           #validEmail="ngModel">
-        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid EmailID
+        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
         </md-hint>
       </md-input-container>
     </div>
@@ -193,7 +193,7 @@
       <md-input-container style="width: 100%">
         <input mdInput type="email" placeholder="Secondary Email ID" [(ngModel)]="secondary_emailID" [disabled]="validEmail.hasError('pattern')"
           name="secondary_emailID" [pattern]="email_expression" #validEmail1="ngModel">
-        <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Enter valid EmailID
+        <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Valid Email ID is required
         </md-hint>
       </md-input-container>
     </div>
@@ -219,7 +219,7 @@
       <md-input-container style="width: 100%">
         <input mdInput type="email" placeholder="Tertiary Email ID" [(ngModel)]="tertiary_emailID" [disabled]="validEmail1.hasError('pattern')"
           name="tertiary_emailID" [pattern]="email_expression" #validEmail2="ngModel">
-        <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Enter valid EmailID
+        <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Valid Email ID is required
         </md-hint>
 
       </md-input-container>
