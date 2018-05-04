@@ -212,7 +212,8 @@
                             <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
                                 maxlength="20" #uname="ngModel" (keyup)="checkUserNameAvailability(username)" required>
                             <md-hint class="errorText">
-                                <span *ngIf="uname.hasError('pattern')">Can't end or start with special characters,min:2</span>
+                                <span *ngIf="uname.errors && uname.touched &&!(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
+                                <span *ngIf="uname.hasError('pattern')">User name can't end or start with special characters,min:2</span>
                                 <span *ngIf="showHint && uname.touched">{{username_status}}</span>
                             </md-hint>
                         </md-input-container>
@@ -222,6 +223,7 @@
                             <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                                 minlength="8" maxlength="12" #pwrd="ngModel" required>
                             <md-hint class="errorText">
+                                <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
                                 <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
                             </md-hint>
                         </md-input-container>

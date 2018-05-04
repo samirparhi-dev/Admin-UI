@@ -75,7 +75,7 @@ export class ProviderAdminListComponent implements OnInit {
   searchResultArray: any = [];
   allProviderAdmin: any = [];
 
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]{2,20}$/;
+  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;;
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -226,10 +226,10 @@ export class ProviderAdminListComponent implements OnInit {
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
     if (response.response == 'userexist') {
-      this.username_status = 'User ID already exists';
+      this.username_status = 'User ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
-      this.username = null;
+     // this.username = null;
 
     }
     if (response.response == 'usernotexist') {
@@ -418,25 +418,25 @@ export class ProviderAdminListComponent implements OnInit {
         this.objs.push(tempObj);
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
-        this.dialogService.alert("Aadhar, Pan number and Username already exist");
+        this.dialogService.alert("Aadhar, Pan number and Username already exists");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0) {
-        this.dialogService.alert("Aadhar and Pan number already exist");
+        this.dialogService.alert("Aadhar and Pan number already exists");
       }
       else if (duplicateAadhar > 0 && duplicateName > 0) {
-        this.dialogService.alert("Aadhar number and Username already exist");
+        this.dialogService.alert("Aadhar number and Username already exists");
       }
       else if (duplicatePan > 0 && duplicateName > 0) {
-        this.dialogService.alert("Pan number and Username already exist");
+        this.dialogService.alert("Pan number and Username already exists");
       }
       else if (duplicateAadhar > 0) {
-        this.dialogService.alert("Aadhar number already exist");
+        this.dialogService.alert("Aadhar number already exists");
       }
       else if (duplicatePan > 0) {
-        this.dialogService.alert("Pan number already exist");
+        this.dialogService.alert("Pan number already exists");
       }
       else {
-        this.dialogService.alert("Already exist");
+        this.dialogService.alert("Already exists");
       }
     }
   }
@@ -753,7 +753,7 @@ export class EditProviderAdminModal {
       'middleName': this.admin_middleName,
       'lastName': this.admin_lastName,
       'genderID': this.gender,
-      'dOB': new Date(this.dob.valueOf() - 1 * this.dob.getTimezoneOffset() * 60 * 1000),
+      'dOB': this.dob,
       //  'age': this.age,
       'contactNo': this.primaryMobileNumber,
       'emailID': this.primaryEmail,
