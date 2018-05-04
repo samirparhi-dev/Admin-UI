@@ -226,7 +226,7 @@ export class ProviderAdminListComponent implements OnInit {
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
     if (response.response == 'userexist') {
-      this.username_status = 'User login ID exists';
+      this.username_status = 'User ID already exists';
       this.showHint = true;
       this.username_dependent_flag = true;
       this.username = null;

@@ -210,9 +210,9 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editMode">
                         <md-input-container class="width100">
                             <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
-                                maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
+                                maxlength="20" #uname="ngModel" (keyup)="checkUserNameAvailability(username)" required>
                             <md-hint class="errorText">
-                                <span *ngIf="uname.hasError('pattern')">User name is required(can't end or start with special characters,min:2)</span>
+                                <span *ngIf="uname.hasError('pattern')">Can't end or start with special characters,min:2</span>
                                 <span *ngIf="showHint && uname.touched">{{username_status}}</span>
                             </md-hint>
                         </md-input-container>
@@ -354,7 +354,7 @@
                                 <h4 class="pull-left">Permanent Address</h4>
                                 <div class="m-t-6 m-l-10">
                                     (
-                                    <md-checkbox class="m-l-5 m-r-5" color="primary" [(ngModel)]="checkAddress" name="check_address" [disabled]="!addressCtrl.valid"
+                                    <md-checkbox class="m-l-5 m-r-5" color="primary" [(ngModel)]="checkAddress" [checked]=checkAddress name="check_address" [disabled]="!addressCtrl.valid"
                                         (change)="addressCheck($event)" #myCheckBox>Same as current address</md-checkbox>)
                                 </div>
                             </div>

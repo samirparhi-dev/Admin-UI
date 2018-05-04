@@ -71,7 +71,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   permanentPincode: any;
   isPresent: any;
   isPermanent: any;
-  checkAddress: any;
+  checkAddress: boolean=false;
 
   //array
   searchResult: any = [];
@@ -237,19 +237,21 @@ export class EmployeeMasterNewComponent implements OnInit {
   */
 
   checkUserNameAvailability(username) {
+    debugger;
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+        (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
+    debugger;
     console.log('username existance status', response);
     if (response.response == 'userexist') {
-      this.username_status = 'User Login ID Exists!! Type Different Please!';
+      this.username_status = 'User ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
-      this.username = null;
+      // this.username = null;
 
     }
     if (response.response == 'usernotexist') {
@@ -264,7 +266,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         console.log("else response", response);
         this.showHint = true;
         this.username_dependent_flag = true;
-        this.username_status = 'Username can\'t be blank';
+        this.username_status = 'Username is required';
       }
     }
   }
@@ -448,7 +450,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '0';
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
-      this.checkAddress = '';
+      this.checkAddress = false;
     }
   }
 
@@ -716,6 +718,12 @@ export class EmployeeMasterNewComponent implements OnInit {
         })
       }
     }
+    if(data.addressLine1==data.permAddressLine1 && data.addressLine2==data.permAddressLine2 &&
+      data.stateID==data.permStateID &&  data.districtID==data.permDistrictID && data.pinCode==data.permPinCode)
+      {
+        this.checkAddress=true;
+      }
+      
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -773,14 +781,22 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-
+    debugger;
     let doj: any = "";
     let dob: any = "";
     if (typeof userCreationFormValue.doj === "string") {
       doj = new Date(userCreationFormValue.doj);
     }
+    else {
+      doj = userCreationFormValue.doj;
+      console.log("doj", doj);      
+    }
     if (typeof userCreationFormValue.user_dob === "string") {
-      dob = new Date(userCreationFormValue.user_dob);
+      dob = new Date(userCreationFormValue.user_dob);     
+    }
+    else {
+      dob = userCreationFormValue.user_dob;
+      console.log("dob", dob);      
     }
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
