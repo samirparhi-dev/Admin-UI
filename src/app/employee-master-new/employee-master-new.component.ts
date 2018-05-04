@@ -17,6 +17,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   userId: any;
   createdBy: any;
   serviceProviderID: any;
+  disabled = true;
 
   //ngModel
   titleID: any;
@@ -239,7 +240,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+      (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -282,10 +283,12 @@ export class EmployeeMasterNewComponent implements OnInit {
   * calculate age based on the DOB
   */
   calculateAge(date) {
+    this.disabled = false;
     if (date != undefined) {
       let age = this.today.getFullYear() - date.getFullYear();
       if (this.objs.length == 0) {
         this.age = age;
+        this.userCreationForm.form.patchValue({ 'user_age': age });
       }
       else {
         this.userCreationForm.form.patchValue({ 'user_age': age });
@@ -297,6 +300,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         age--; //age is ng-model of AGE
         if (this.objs.length == 0) {
           this.age = age;
+          this.userCreationForm.form.patchValue({ 'user_age': age });
         }
         else {
           this.userCreationForm.form.patchValue({ 'user_age': age });
@@ -304,6 +308,8 @@ export class EmployeeMasterNewComponent implements OnInit {
         }
       }
     }
+
+    this.disabled = true;
   }
   /*
   * Get all Designations
@@ -658,6 +664,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   */
   editUserDetails(data) {
     console.log('Data to be edit', data);
+    this.disabled = false;
     this.showEditForm();
     if (this.formMode == true && this.editMode == true) {
       this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res),
@@ -760,18 +767,28 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.age--; //age is ng-model of AGE
       }
     }
+    this.userCreationForm.form.patchValue({ 'user_age': this.age });
+    this.disabled = true;
 
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
 
+    let doj: any = "";
+    let dob: any = "";
+    if (typeof userCreationFormValue.doj === "string") {
+      doj = new Date(userCreationFormValue.doj);
+    }
+    if (typeof userCreationFormValue.user_dob === "string") {
+      dob = new Date(userCreationFormValue.user_dob);
+    }
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
       'firstName': userCreationFormValue.user_firstname,
       'middleName': userCreationFormValue.user_middlename,
       'lastName': userCreationFormValue.user_lastname,
       'genderID': userCreationFormValue.gender_Id,
-      'dOB': new Date(userCreationFormValue.user_dob.valueOf() - 1 * userCreationFormValue.user_dob.getTimezoneOffset() * 60 * 1000),
+      'dOB': new Date(dob.valueOf() - 1 * dob.getTimezoneOffset() * 60 * 1000),
       //'age': userCreationFormValue.age,
       'age': this.age,
       'contactNo': userCreationFormValue.primaryMobileNo,
@@ -782,7 +799,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
-      'dOJ': new Date(userCreationFormValue.doj.valueOf() - 1 * userCreationFormValue.doj.getTimezoneOffset() * 60 * 1000),
+      'dOJ': new Date(doj.valueOf() - 1 * doj.getTimezoneOffset() * 60 * 1000),
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,
