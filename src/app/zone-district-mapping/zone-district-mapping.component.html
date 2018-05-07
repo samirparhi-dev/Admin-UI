@@ -137,7 +137,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr style="cursor: pointer" *ngFor="let zone of md2.data ; let i=index">
+            <tr *ngFor="let zone of md2.data ; let i=index">
               <td>{{zoneDistrictMappingList.indexOf(zone)+1}}</td>
               <td>{{zone.zoneName}}</td>
               <td>{{zone.stateName}}</td>

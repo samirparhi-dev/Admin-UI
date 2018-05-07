@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr *ngIf="feedbackTypes.length == 0">
-            <td colspan="4" class="record-not-found">No records found</td>
+            <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of  md2.data">
             <td>{{feedbackTypes.indexOf(item)+1}}</td>
@@ -195,7 +195,7 @@
           </table>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 m-t-15">
+      <div class="col-xs-12 col-sm-12 m-b-10">
         <div class="row">
           <button md-raised-button color="accent" [disabled]="!(objs.length>0)" class="pull-right " (click)="saveFeedback()">Save</button>
           <button class="pull-left" md-raised-button color="primary" (click)="back();this.editForm.reset();">Back</button>

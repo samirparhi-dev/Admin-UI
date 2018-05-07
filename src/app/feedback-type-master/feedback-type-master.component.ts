@@ -269,8 +269,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
       if (count == 0) {
         this.objs.push(tempObj);
-        this.feedbackDesc = undefined;
-        this.feedbackName = undefined;
+        this.editForm.resetForm();
       }
       else {
         //this.feedbackNameExist = true;
