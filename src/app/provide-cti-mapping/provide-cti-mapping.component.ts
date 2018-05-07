@@ -59,12 +59,12 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.service_provider_array = response;
   }
 
-  getAllMappedServicelinesAndStates(service_provider) {
+  getAllMappedServicelinesAndStates(serviceprovider) {
     debugger;
-    this.service_provider = service_provider;
-    this.SP = service_provider;
-    console.log("campaignObj", service_provider);
-    this._callServices.getAllMappedServicelinesAndStates(service_provider).subscribe(campaignListResponse =>
+    //this.service_provider = serviceprovider;
+    this.SP = this.service_provider;
+    console.log("campaignObj", this.service_provider);
+    this._callServices.getAllMappedServicelinesAndStates(this.service_provider).subscribe(campaignListResponse =>
       this.getMappedServicelinesAndStatesSuccessHandler(campaignListResponse), err => {
         this.message.alert(err, 'error');
       })
@@ -95,8 +95,19 @@ export class ProvideCtiMappingComponent implements OnInit {
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all states success handeler');
-          this.states_array = response;
-          this.states = this.editableData.stateName;
+
+          if (this.editableData.stateName == "") {
+            this.states_array = [];
+            let obj = {
+              'stateName': 'All states'
+            }
+            this.states_array.push(obj);
+            this.states = "All states";
+          }
+          else {
+            this.states_array = response;
+          }
+          //this.states = this.editableData.stateName==""
           console.log("states", this.states_array);
         }
       }, err => {

@@ -157,6 +157,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   }
 
   pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
+    debugger;
     if (this.isInbound === false && this.isOutbound === false && this.service.serviceID != 6) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
       this.fitToBlock = false;

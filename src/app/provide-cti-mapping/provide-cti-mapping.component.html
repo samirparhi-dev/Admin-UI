@@ -7,8 +7,8 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select required name="serviceProvider" placeholder="Service Provider" disabled={{disableSelection}} class="width100"
-          [(ngModel)]="service_provider" (change)="getAllMappedServicelinesAndStates(service_provider.serviceProviderId)">
-          <md-option *ngFor="let item of service_provider_array" [value]="item">
+          [(ngModel)]="service_provider" (change)="getAllMappedServicelinesAndStates(service_provider)">
+          <md-option *ngFor="let item of service_provider_array" [value]="item.serviceProviderId">
             {{item.serviceProviderName}}
           </md-option>
         </md-select>
@@ -37,7 +37,7 @@
               <td>{{(md2.activePage-1)*4+i+1}}</td>
               <td>{{item.serviceProviderName}}</td>
               <td>{{item.serviceName}}</td>
-              <td>{{item.stateName}}</td>
+              <td>{{item.stateID===0 ?'All states':item.stateName}}</td>
               <td>{{item.cTI_CampaignName}}</td>
               <td>
                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"

@@ -136,14 +136,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getSubServices(value) {
     this.sub_service = undefined;
 
-
-    if (value == true) {
+    if (value == 'get') {
+      this.servicesGetting(this.state.providerServiceMapID);
+    }
+    else if (value == true) {
 
       this.servicesGetting(this.states[0].providerServiceMapID);
     }
-    else if (value == 'get') {
-      this.servicesGetting(this.state.providerServiceMapID);
-    }
+
 
 
   }
@@ -156,6 +156,24 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.subServices = response.filter(function (item) {
             if (item.subServiceName.toUpperCase() === "Information Service".toUpperCase() ||
               item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase()) {
+              return item;
+            }
+          });
+        }
+        else if (this.selected_service_id === 3) {
+          this.subServices = response.filter(function (item) {
+            if (item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase() ||
+              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase()) {
+              return item;
+            }
+          });
+        }
+        else if (this.selected_service_id === 2) {
+          this.subServices = response.filter(function (item) {
+            if (item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase() ||
+              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase() ||
+              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase() ||
+              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase()) {
               return item;
             }
           });
