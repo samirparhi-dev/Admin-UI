@@ -154,7 +154,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 this.zoneDistrictMappingObj.stateName = values.stateID.split("-")[1];
                 this.zoneDistrictMappingObj.createdBy = this.createdBy;
 
-               
+
             } else {
                 console.log("already mapped with these districts");
             }
@@ -163,7 +163,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
             this.alertMessage.alert("Already exists");
         }
-        else{
+        else {
             this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
             console.log(this.zoneDistrictMappingList);
         }
