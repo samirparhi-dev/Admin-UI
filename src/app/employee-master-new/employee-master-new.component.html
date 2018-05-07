@@ -208,15 +208,12 @@
                         </h4>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editMode">
-                        <md-input-container class="width100">
+                        <md-input-container class="width100" PAN>
                             <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
                                 (keyup)="checkUserNameAvailability(username)" required>
-                            <md-hint class="errorText">
-                                <span *ngIf="showHint || uname.errors">{{username_status}}</span>                               
-                                <!-- <span *ngIf="uname.errors && uname.touched &&!(showHint && uname.touched) && !(!showHint && uname.touched)">User name is required with min 2 characters</span> -->
-                                <span *ngIf="uname.errors">User name should be with min 2 characters</span>
-                                <!-- <span *ngIf="uname.errors">User name can't end or start with special characters,min:2</span> -->
-
+                            <md-hint *ngIf="uname.touched">
+                                <span class="error_text" *ngIf="showHint && !uname.errors">{{username_status}}</span>
+                                <span class="error_text" [hidden]="!uname.errors">Min 2 characters required</span>
                             </md-hint>
                         </md-input-container>
                     </div>

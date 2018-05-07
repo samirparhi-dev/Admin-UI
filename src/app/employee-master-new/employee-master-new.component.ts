@@ -259,11 +259,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         console.log("if response", response);
         this.showHint = false;
         this.username_dependent_flag = false;
-      } 
-      else if(this.username == '' || (this.username == undefined || this.username == null))
-      {
-        this.username_status = 'Username is required';
-      }
+      }       
       // else 
       // {
       //   console.log("else response", response);

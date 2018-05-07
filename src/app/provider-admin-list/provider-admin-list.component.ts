@@ -39,7 +39,7 @@ export class ProviderAdminListComponent implements OnInit {
   mindate: any;
   maxdate: any;
   admin_remarks: any;
-  username_status: any;
+  username_status: string;
   showHint: boolean;
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
@@ -75,7 +75,7 @@ export class ProviderAdminListComponent implements OnInit {
   searchResultArray: any = [];
   allProviderAdmin: any = [];
 
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;;
+  //userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;;
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -233,19 +233,17 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     if (response.response == 'usernotexist') {
-      if (
-        this.username != '' &&
-        (this.username != undefined && this.username != null)
-      ) {
+      if (this.username != '' && (this.username != undefined && this.username != null)) {
         console.log("if response", response);
         this.showHint = false;
         this.username_dependent_flag = false;
-      } else {
-        console.log("else response", response);
-        this.showHint = true;
-        this.username_dependent_flag = true;
-        this.username_status = 'Username is required';
       }
+      //  else {
+      //   console.log("else response", response);
+      //   this.showHint = true;
+      //   this.username_dependent_flag = true;
+      //   this.username_status = 'Username is required';
+      // }
     }
   }
 
