@@ -155,7 +155,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="bufferArray.length>0">
               <div class="table-responsive">
-                <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+                <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="3">
                   <thead>
                     <tr>
                       <th>S.No.</th>
@@ -169,14 +169,14 @@
                   </thead>
                   <tbody>
                     <tr style="cursor: pointer" *ngFor="let lang of md2.data; let i = index ">
-                      <td>{{(md2.activePage-1)*5+i+1}}</td>
+                      <td>{{bufferArray.indexOf(lang)+1}}</td>
                       <td>{{lang.userName}}</td>
                       <td>{{lang.languageName}}</td>
                       <td>{{lang.weightage_Read}}</td>
                       <td>{{lang.weightage_Write}}</td>
                       <td>{{lang.weightage_Speak}}</td>
                       <td>
-                        <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                        <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(bufferArray.indexOf(lang))">delete</md-icon>
                       </td>
                     </tr>
 

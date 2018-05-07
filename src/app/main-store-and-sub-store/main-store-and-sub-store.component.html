@@ -228,7 +228,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{bufferArray.indexOf(item)+1}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.stateName}}</td>
             <td>{{item.facilityName}}</td>
@@ -238,7 +238,7 @@
             <td>{{item.physicalLocation}}</td>
             <td>{{item.storeType}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>

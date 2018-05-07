@@ -37,6 +37,7 @@ export class BlockProvider {
   getSubServiceDetails_URL: any;
   editProvider_URL: any;
   deleteSubserviceUrl: any;
+  getAllServicesOfProvider_CTI_Url: any;
 
   constructor(private _http: SecurityInterceptedHttp,
     public configService: ConfigService,
@@ -48,6 +49,7 @@ export class BlockProvider {
     this.getAllServicesInStateOfProvider_Url = this.admin_base_url + 'm/role/service';
 
     this.getAllServicesOfProvider_Url = this.admin_base_url + 'getServiceLinesUsingProvider';
+    this.getAllServicesOfProvider_CTI_Url = this.admin_base_url + 'm/role/serviceNew';
 
     // get status of blocked/unblocked
     this.getProviderLevelStatus_Url = this.admin_base_url + 'getProviderStatus';
@@ -106,6 +108,13 @@ export class BlockProvider {
     debugger;
     return this._http.post(this.getAllServicesOfProvider_Url, {
       'serviceProviderID': serviceProviderID
+    }).map(this.success_handeler)
+      .catch(this.error_handeler);
+  }
+  getServicesOfProvider_CTI(userID) {
+    debugger;
+    return this._http.post(this.getAllServicesOfProvider_CTI_Url, {
+      'userID': userID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }

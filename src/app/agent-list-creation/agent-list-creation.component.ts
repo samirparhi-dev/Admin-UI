@@ -122,6 +122,7 @@ export class AgentListCreationComponent implements OnInit {
   }
 
   showForm() {
+    this.radio_option = '1';
     this.showFormFlag = true;
     this.showTableFlag = false;
     this.disableSelection = true;
@@ -329,7 +330,7 @@ export class AgentListCreationComponent implements OnInit {
   saveSuccessHandeler(response) {
     if (response) {
       if (response.length > 0) {
-        this.alertService.alert('Saved successfully','success');
+        this.alertService.alert('Saved successfully', 'success');
         this.agentListForm.resetForm();
         this.showFormFlag = false;
         this.getAllAgents(this.providerServiceMapID);
@@ -402,12 +403,15 @@ export class AgentListCreationComponent implements OnInit {
 
   // 	console.log("result",result_array);
   // }
+  multiagents: any = [];
+  rangeagents: any = [];
   editAgentCampaign(data) {
     console.log("data", data);
     // this.service = data.service,
-    // this.state = data.state,
+    // this.state = data.state,    
+    this.radio_option = '1';
     this.campaign_name = data.cti_CampaignName;
-    this.radio_option = data.radio_option
+    // this.radio_option = data.radio_option
     this.agent_ID = data.agentID;
     this.password = data.agentPassword;
     this.editable = true;

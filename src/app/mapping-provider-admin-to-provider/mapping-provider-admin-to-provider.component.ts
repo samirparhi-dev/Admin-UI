@@ -338,7 +338,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
       let obj = {
         'serviceProviderMapID1': this.providerServiceMapID_for1097,
-        'stateName': "all states",
+        'stateName': "All states",
       }
 
       providerServiceMapIDs.push(obj);

@@ -225,7 +225,7 @@
                         <td>{{van.vehicalNo}}</td>
                         <td>{{van.vanType}}</td>
                         <td>
-                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(vanList.indexOf(van))">delete</md-icon>
                         </td>
                     </tr>
                 </tbody>

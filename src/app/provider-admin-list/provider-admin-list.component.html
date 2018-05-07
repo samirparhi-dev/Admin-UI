@@ -13,7 +13,7 @@
             </md-option>
           </md-autocomplete>
         </md-input-container> -->
-      <table class="table table-striped table-hover" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="4%">S.No.</th>
@@ -262,6 +262,7 @@
       <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th width="15%">Username</th>
             <th width="15%">Email ID</th>
             <th width="15%">Mobile Number</th>
@@ -273,11 +274,12 @@
             <td colspan="4" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let obj of objs; let i=index">
+            <td>{{objs.indexOf(obj)+1}}</td>
             <td>{{obj.username}}</td>
             <td>{{obj.primaryEmail}}</td>
             <td>{{obj.primaryMobileNumber}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(i)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="remove_obj(objs.indexOf(obj))">delete</md-icon>
             </td>
           </tr>
         </tbody>

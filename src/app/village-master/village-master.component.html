@@ -63,7 +63,7 @@
             <td colspan="9" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{(md2.activePage-1)*3+i+1}}</td>
             <td>{{item.villageName}}</td>
             <td>{{item.panchayatName}}</td>
             <td>{{item.habitat}}</td>
@@ -171,7 +171,7 @@
             <td colspan="7">NO RECORD FOUND!!</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{villageList.indexOf(item)+1}}</td>
             <td>{{item.villageName}}</td>
             <td>{{item.panchayatName}}</td>
             <td>{{item.habitat}}</td>
@@ -179,7 +179,7 @@
             <td>{{item.govVillageID}}</td>
             <td>{{item.govSubDistrictID}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(villageList.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -193,8 +193,8 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12">
+  <div class="col-xs-12 col-sm-12 m-t-10 m-b-10">
     <button class="pull-left" md-raised-button color="primary" (click)="back()">Back</button>
-    <button class="pull-right m-t-10" md-raised-button color="accent" [disabled]="villageList.length<1" (click)="storeVillages()">Save</button>
+    <button class="pull-right " md-raised-button color="accent" [disabled]="villageList.length<1" (click)="storeVillages()">Save</button>
   </div>
 </div>
