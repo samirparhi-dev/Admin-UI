@@ -155,7 +155,7 @@
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100">
-                            <input mdInput placeholder="Age" [(ngModel)]="age" name="user_age" minlength="1" maxlength="2"  [disabled]='disabled'>
+                            <input mdInput placeholder="Age" [(ngModel)]="age" name="user_age" minlength="1" maxlength="2" [disabled]='disabled'>
                             <!-- <md-hint class="errorText" *ngIf="userAge.touched && userAge.errors">Age is required</md-hint> -->
                         </md-input-container>
                     </div>
@@ -208,13 +208,12 @@
                         </h4>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editMode">
-                        <md-input-container class="width100">
-                            <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
-                                maxlength="20" #uname="ngModel" (keyup)="checkUserNameAvailability(username)" required>
-                            <md-hint class="errorText">
-                                <span *ngIf="uname.errors && uname.touched &&!(showHint && uname.touched) && !(!showHint && uname.touched && uname.hasError('pattern'))">User name is required</span>
-                                <span *ngIf="uname.hasError('pattern')">User name can't end or start with special characters,min:2</span>
-                                <span *ngIf="showHint && uname.touched">{{username_status}}</span>
+                        <md-input-container class="width100" PAN>
+                            <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
+                                (keyup)="checkUserNameAvailability(username)" required>
+                            <md-hint *ngIf="uname.touched">
+                                <span class="error_text" *ngIf="showHint && !uname.errors">{{username_status}}</span>
+                                <span class="error_text" [hidden]="!uname.errors">Min 2 characters required</span>
                             </md-hint>
                         </md-input-container>
                     </div>
@@ -479,7 +478,8 @@
 
             <button *ngIf="!editMode && objs.length>0" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)"
                 (click)="createUser()">Save</button>
-            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan" (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
+            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan"
+                (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
         </div>
     </div>
 </div>

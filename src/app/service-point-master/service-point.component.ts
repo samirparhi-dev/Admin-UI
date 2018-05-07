@@ -161,6 +161,7 @@ export class ServicePointComponent implements OnInit {
     servicePointSuccessHandler(response) {
         this.servicePointList = [];
         this.alertMessage.alert("Saved successfully", 'success');
+        this.showList(); 
     }
 
     stateSelection(stateID) {
@@ -273,5 +274,11 @@ export class ServicePointComponent implements OnInit {
         this.servicePointNameExist = this.availableServicePointNames.includes(servicePointName);
         console.log(this.servicePointNameExist);
     }
-
+    back() {
+    this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+        if (res) {
+            this.showList();       
+        }
+      })
+    }
 }

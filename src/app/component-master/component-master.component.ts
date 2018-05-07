@@ -192,6 +192,7 @@ export class ComponentMasterComponent implements OnInit {
           this.resetForm();
           this.showTable();
           this.alertService.alert('Saved successfully', 'success');
+         // this.showTable();
         })
 
     }
