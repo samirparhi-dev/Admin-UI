@@ -186,7 +186,7 @@
             </div>
         </form>
         <div class="table-responsive  m-t-15" *ngIf="servicePointList.length>0">
-            <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+            <table [md2Data]="servicePointList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="3">
                 <thead>
                     <tr>
                         <th>S.No.</th>
@@ -211,7 +211,7 @@
                         <td>{{servicePoint.servicePointDesc}}</td>
                         <td>{{servicePoint.servicePointHQAddress}}</td>
                         <td>
-                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(servicePointList.indexOf(servicePoint))">delete</md-icon>
                         </td>
                     </tr>
                 </tbody>
@@ -225,7 +225,7 @@
                 </tfoot>
             </table>
         </div>
-        
+
         <div class="m-t-10">
             <button md-raised-button [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
             <button md-raised-button color="primary" class="pull-left" (click)="servicePointForm.reset();showList()">Back</button>

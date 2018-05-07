@@ -52,7 +52,8 @@ export class HospitalMasterComponent implements OnInit {
 
     /*regEx*/
     website_expression: any = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    email_expression: any = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
+
+    email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
     name_expression: any = /^[a-zA-Z ]*$/;
 
     constructor(public HospitalMasterService: HospitalMasterService,
@@ -332,7 +333,7 @@ export class EditHospitalModal {
 
     /*regEx*/
     website_expression = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    email_expression = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+    email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
 
     constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,

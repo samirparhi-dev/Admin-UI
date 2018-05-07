@@ -148,6 +148,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   servicesGetting(proServiceMapID) {
+    debugger;
     this.CategorySubcategoryService.getSubService(proServiceMapID)
       .subscribe((response) => {
         this.showWellBeingFlag = false;
@@ -603,6 +604,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.addNewCategory();
     } else {
       this.addSubCategory();
+    }
+    this.searchForm = true;
+    this.serviceList.length = 0;
+    this.serviceSubCatList = [];
+    this.showTable = true;
+    this.cateDisabled = 'false';
+    if (this.nationalFlag) {
+      this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+      this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+    }
+    else {
+      this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+      this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+
     }
   }
   hideTable() {

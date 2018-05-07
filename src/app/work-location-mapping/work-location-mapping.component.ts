@@ -637,7 +637,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
       }
       // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
-      // this.getAllDistricts_duringEdit(this.stateID_duringEdit);
+      this.getAllDistricts_duringEdit(this.stateID_duringEdit);
     }
 
   }

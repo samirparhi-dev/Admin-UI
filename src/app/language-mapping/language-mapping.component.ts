@@ -329,9 +329,9 @@ export class LanguageMappingComponent implements OnInit {
       'weightage_Write': [] = this.writeweightage === undefined ? 0 : formValues.writeweightage.value,
       'weightage_Speak': [] = this.speakweightage === undefined ? 0 : formValues.speakweightage.value,
       'languageID': [] = formValues.language.languageID,
-      'canRead': this.readweightage === 0 ? false : this.read,
-      'canWrite': this.writeweightage === 0 ? false : this.write,
-      'canSpeak': this.speakweightage === 0 ? false : this.speak
+      'canRead': this.readweightage === undefined ? false : this.read,
+      'canWrite': this.writeweightage === undefined ? false : this.write,
+      'canSpeak': this.speakweightage === undefined ? false : this.speak
     };
     this.read = false;
     this.write = false;
@@ -523,9 +523,9 @@ export class LanguageMappingComponent implements OnInit {
         'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
         'languageID': editFormValues.language,
         'weightage': 10,
-        'canRead': this.read,
-        'canWrite': this.write,
-        'canSpeak': this.speak
+        'canRead': editFormValues.read_weightage === undefined ? false : this.read,
+        'canWrite': editFormValues.read_weightage === undefined ? false : this.write,
+        'canSpeak': editFormValues.read_weightage === undefined ? false : this.speak,
       };
 
       this.languageMapping.UpdateLanguageMapping(obj)
@@ -558,6 +558,7 @@ export class LanguageMappingComponent implements OnInit {
     this.isCheckedWrite = false;
     this.isCheckedSpeak = false;
     this.showCheckboxes = true;
+    this.addButtonState = true;
   }
   resetEditWeightageDropdowns() {
     this.edit_Details.weightageRead = undefined;

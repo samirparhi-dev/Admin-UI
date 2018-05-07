@@ -96,7 +96,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.showTable();
-        this.alreadyExist =false;
+        this.alreadyExist = false;
       }
     })
   }
@@ -113,12 +113,12 @@ export class ProcedureMasterComponent implements OnInit {
     this.alreadyExist = false;
     console.log("filteredprocedureList", this.filteredprocedureList);
     let count = 0;
-    for (let a = 0; a < this.filteredprocedureList.length; a++) {    
-      
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {
+
       if (this.filteredprocedureList[a].procedureName === this.name) {
         count = count + 1;
         console.log("count", count);
-        
+
         if (count > 0) {
           this.alreadyExist = true;
         }
@@ -149,6 +149,7 @@ export class ProcedureMasterComponent implements OnInit {
             this.procedureList.unshift(res);
             this.procedureForm.reset();
             this.alertService.alert('Saved successfully', 'success')
+            this.showTable();
           })
 
       }
