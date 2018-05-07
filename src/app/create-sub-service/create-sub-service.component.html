@@ -72,7 +72,7 @@
             <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sub of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{data.indexOf(sub)+1}}</td>
             <td>{{sub.subServiceName}}</td>
             <td>{{sub.subServiceDesc}}</td>
             <td>

@@ -63,7 +63,7 @@
           </tr>
           <tr *ngFor="let i of md2.data; let k= index">
             <!--<td>{{i.callTypeID}}</td>-->
-            <td>{{(md2.activePage-1)*4+k+1}}</td>
+            <td>{{data.indexOf(i)+1}}</td>
             <td width=10%>{{i.callGroupType}}</td>
             <td width=15%>{{i.callType}}</td>
             <td width=10%>{{i.isInbound}}</td>
@@ -189,7 +189,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="(temporarySubtypeArray.length!=0)">
     <div class="table-responsive">
-      <table [md2Data]="temporarySubtypeArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+      <table [md2Data]="temporarySubtypeArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -207,7 +207,7 @@
                 <td colspan="8">NO RECORD FOUND!!</td>
               </tr> -->
           <tr *ngFor="let item of temporarySubtypeArray;let i=index ">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{temporarySubtypeArray.indexOf(item)+1}}</td>
             <td>{{item.callGroupType}}</td>
             <td>{{item.callType}}</td>
             <td>{{item.fitToBlock}}</td>
@@ -215,7 +215,7 @@
             <td>{{item.isInbound}}</td>
             <td>{{item.isOutbound}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(temporarySubtypeArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>

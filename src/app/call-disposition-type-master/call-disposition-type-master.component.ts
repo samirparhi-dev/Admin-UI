@@ -178,8 +178,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
           'maxRedial': this.maxRedial,
           'createdBy': this.commonDataService.uname
         }
-        console.log('dummy obj', obj);
-        debugger;
+        console.log('dummy obj', obj);       
         if (this.temporarySubtypeArray.length === 0)
           this.temporarySubtypeArray.push(obj);
         else {
@@ -211,10 +210,10 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   }
 
-  removeFromCallSubType(index) {
-    this.temporarySubtypeArray.splice(index, 1);
-    console.log(this.temporarySubtypeArray);
-  }
+  // removeFromCallSubType(index) {
+  //   this.temporarySubtypeArray.splice(index, 1);
+  //   console.log(this.temporarySubtypeArray);
+  // }
   removeObj(index) {
     this.temporarySubtypeArray.splice(index, 1);
   }

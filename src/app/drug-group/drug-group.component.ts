@@ -182,13 +182,8 @@ export class DrugGroupComponent implements OnInit {
   //   console.log("Drug Group status changed");
   // }
 
-  remove_obj(index) {
-    debugger;
-    console.log("index", index, "this.drugGroupList",this.activePage, this.drugGroupList);
-    debugger;
-    this.drugGroupList.splice(index, 1);
-    console.log("drugGroupList", this.drugGroupList);
-    debugger;
+  remove_obj(index) {     
+    this.drugGroupList.splice(index, 1);  
 }
 
   drugGroupID: any;

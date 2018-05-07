@@ -36,6 +36,7 @@
       <table [md2Data]="feedbackTypes" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+            <th style="width: 5%">S.No.</th>
             <th style="width: 35%">Feedback Name</th>
             <th style="width: 35%">Feedback Description</th>
             <th style="width: 10%">Edit</th>
@@ -47,6 +48,7 @@
             <td colspan="4" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of  md2.data">
+            <td>{{feedbackTypes.indexOf(item)+1}}</td>
             <td>{{item.feedbackTypeName}}</td>
             <td>{{item.feedbackDesc}}</td>
             <td>
@@ -160,7 +162,7 @@
 
       <div class="m-t-15" *ngIf="(objs.length !=0)">
         <div class="table-responsive">
-          <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+          <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="3">
             <thead>
               <tr>
                 <th>S.No.</th>
@@ -171,12 +173,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let obj of md2.data; let i = index ">
-                <td>{{(md2.activePage-1)*5+i+1}}</td>
+                <td>{{objs.indexOf(obj)+1}}</td>
                 <td>{{obj.feedbackTypeName}}</td>
                 <td>{{obj.feedbackDesc}}</td>
                 <td>
                   <md-icon mdSuffix class="mat-icon material-icons" mdTooltip="Remove" role="img" aria-hidden="true" style="cursor: pointer"
-                    (click)="remove_obj(i)">delete</md-icon>
+                    (click)="remove_obj(objs.indexOf(obj))">delete</md-icon>
 
                 </td>
               </tr>
