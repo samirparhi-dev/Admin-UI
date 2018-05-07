@@ -108,14 +108,14 @@ export class ComponentMasterComponent implements OnInit {
   get testComponentName() {
     return this.componentForm.controls['testComponentName'].value;
   }
-  componentUnique() {    
+  componentUnique() {
     this.alreadyExist = false;
     console.log("filteredComponentList", this.filteredComponentList);
     let count = 0;
-    for (let a = 0; a < this.filteredComponentList.length; a++) {      
+    for (let a = 0; a < this.filteredComponentList.length; a++) {
       if (this.filteredComponentList[a].testComponentName === this.testComponentName) {
         count = count + 1;
-        console.log("count", count);        
+        console.log("count", count);
         if (count > 0) {
           this.alreadyExist = true;
         }
@@ -164,7 +164,7 @@ export class ComponentMasterComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.showTable();
-        this.alreadyExist =false;
+        this.alreadyExist = false;
       }
     })
   }
@@ -190,6 +190,7 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
           this.resetForm();
+          this.showTable();
           this.alertService.alert('Saved successfully', 'success');
         })
 

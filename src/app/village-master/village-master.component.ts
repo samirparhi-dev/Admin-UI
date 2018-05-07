@@ -365,10 +365,21 @@ export class EditVillageModal {
         this.village_names = this.data.village_names;
     }
 
-    checkExistance(ID, villageName) {
+    checkExistance_edit(villageName) {
         debugger;
         if (villageName != this.oldVillageName) {
             this.villageExist = this.village_names.includes(this.blockID + "-" + villageName.toUpperCase());
+
+        }
+        else {
+            this.villageExist = false;
+        }
+        console.log(this.villageExist);
+    }
+    checkExistance(ID, villageName) {
+        debugger;
+        if (villageName != this.oldVillageName) {
+            this.villageExist = this.village_names.includes(ID + "-" + villageName.toUpperCase());
 
         }
         else {
