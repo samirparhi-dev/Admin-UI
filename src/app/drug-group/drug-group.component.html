@@ -97,11 +97,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let drugGroup of md2.data; let i= index">
-              <td>{{(md2.activePage-1)*3+i+1}}</td>
+              <td>{{drugGroupList.indexOf(drugGroup)+1}}</td>
               <td>{{drugGroup.drugGroup}}</td>
               <td>{{drugGroup.drugGroupDesc}}</td>
               <td>
-                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(i)">delete</md-icon>
+                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(drugGroupList.indexOf(drugGroup))">delete</md-icon>
               </td>
             </tr>
           </tbody>
