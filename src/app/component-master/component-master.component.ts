@@ -13,8 +13,10 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 export class ComponentMasterComponent implements OnInit {
 
 
+  checkradioButton: boolean;
+  checktextbox: boolean;
   state: any;
-  service: any;
+  service: any; z
 
   states: any;
   services: any;
@@ -192,7 +194,7 @@ export class ComponentMasterComponent implements OnInit {
           this.resetForm();
           this.showTable();
           this.alertService.alert('Saved successfully', 'success');
-         // this.showTable();
+          // this.showTable();
         })
 
     }
@@ -233,6 +235,50 @@ export class ComponentMasterComponent implements OnInit {
   /**
    * Manipulate Form Object to as per API Need
   */
+  // objectManipulatetextBox() {
+  //   debugger;
+  //   const obj = Object.assign({}, this.componentForm.value);
+  //   if (obj.inputType == 'TextBox') {
+  //     if (!obj.range_max ||
+  //       !obj.range_min ||
+  //       !obj.range_normal_max ||
+  //       !obj.range_normal_min ||
+  //       !obj.measurementUnit) {
+  //       //this.alertService.alert('Please add all input limits');
+  //       this.checktextbox = true;
+  //     }
+  //   }
+  //   else
+  //     this.checktextbox = false;
+  // }
+  // objectManipulatedropDown() {
+  //   debugger;
+  //   const obj = Object.assign({}, this.componentForm.value);
+  //   if (obj.compOpt.length < 2) {
+  //     //this.alertService.alert('You need to add at least 2 options.');
+  //     this.checkradioButton = true;
+
+  //   } else if (obj.compOpt.length == 2 && obj.inputType == 'DropDown') {
+  //     // this.alertService.alert('You\'ve added only 2 options, please choose \'Radio Button\' as Input type.');
+  //     this.checkradioButton = true;
+  //   }
+  //   else {
+  //     let index = 0;
+  //     obj.compOpt.forEach(element => {
+  //       console.log(element, 'element here', element.name);
+  //       if (!element.name || element.name == undefined || element.name == null || element.name == '') {
+  //         index++;
+  //       }
+  //     });
+  //     if (index) {
+  //       this.checkradioButton = true;
+
+  //     }
+  //     else {
+  //       this.checkradioButton = false;
+  //     }
+  //   }
+  // }
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
 

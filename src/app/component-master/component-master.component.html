@@ -159,7 +159,7 @@
 <div *ngIf="saveEditMode">
     <div *ngIf="providerServiceMapID && service == '2'" align="right">
         <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();resetForm()">Back</button>
-        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist"
+        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist "
             (click)="saveComponent()">Save</button>
         <button *ngIf="editMode" id="updateButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist"
             (click)="updateComponent()">Update</button>

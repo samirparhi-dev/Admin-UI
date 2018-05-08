@@ -157,10 +157,10 @@
                     <md-option *ngFor="let parkingPlace of availableParkingPlaces" value="{{parkingPlace.parkingPlaceID}}-{{parkingPlace.parkingPlaceName}}-{{parkingPlace.districtBlockID}}">
                         {{parkingPlace.parkingPlaceName}}
                     </md-option>
-                    <md-hint [hidden]=parkingPlace.valid>
-                        <span class="error_text" *ngIf="!parkingPlace.required  && ( parkingPlace.dirty || parkingPlace.touched)">Please select Parking Place</span>
-                    </md-hint>
                 </md-select>
+                <md-hint [hidden]=parkingPlace.valid>
+                    <span class="error_text" *ngIf="!parkingPlace.required  && ( parkingPlace.dirty || parkingPlace.touched)">Please select Parking Place</span>
+                </md-hint>
             </md-input-container>
         </div>
         <!-- <div class="clearfix"></div> -->

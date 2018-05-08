@@ -119,6 +119,7 @@ export class AgentListCreationComponent implements OnInit {
   reset() {
     this.agent_ID = '';
     this.resultArray = [];
+    this.password = '';
   }
 
   showForm() {
