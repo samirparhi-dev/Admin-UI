@@ -168,6 +168,7 @@ export class VanComponent implements OnInit {
     vanSuccessHandler(response) {
         this.vanList = [];
         this.alertMessage.alert("Saved successfully", 'success');
+        this.showList(); 
     }
 
     stateSelection(stateID) {
@@ -350,6 +351,13 @@ export class VanComponent implements OnInit {
         this.alertMessage.alert("Updated successfully", 'success');
         this.getVans(null, null, null);
         //this.initializeObj();
+    }
+    back() {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.showList();       
+            }
+          })
     }
 
 }

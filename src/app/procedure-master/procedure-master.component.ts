@@ -174,6 +174,7 @@ export class ProcedureMasterComponent implements OnInit {
           this.procedureForm.reset();
           this.editMode = false;
           this.alertService.alert('Updated successfully', 'success')
+          this.showTable();
         })
 
     }

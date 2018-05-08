@@ -216,6 +216,7 @@ export class ComponentMasterComponent implements OnInit {
           this.updateList(res);
           this.resetForm();
           this.alertService.alert('Updated successfully', 'success');
+          this.showTable();
         })
 
     }
