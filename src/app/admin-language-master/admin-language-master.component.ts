@@ -37,7 +37,7 @@ lastModDate:new FormControl('2017-05-26')
 			.subscribe(resProviderData => this.showUsers(resProviderData));
 	}
 	showUsers(data) {
-		console.log(JSON.parse(data));
+		console.log("language master", JSON.parse(data));
 	}
 
 	providers(data) {
