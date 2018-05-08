@@ -133,9 +133,9 @@ export class AgentListCreationComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.agentListForm.resetForm();
-        // this.campaign_name = undefined;
-        // this.agent_ID = '';
-        // this.password = '';
+         this.campaign_name = undefined;
+         this.agent_ID = '';
+         this.password = '';
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.editable = false;
