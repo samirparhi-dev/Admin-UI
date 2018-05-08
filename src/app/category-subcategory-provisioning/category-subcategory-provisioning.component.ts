@@ -168,16 +168,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             }
           });
         }
-        else if (this.selected_service_id === 2) {
-          this.subServices = response.filter(function (item) {
-            if (item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase() ||
-              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase() ||
-              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase() ||
-              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase()) {
-              return item;
-            }
-          });
-        }
         else {
           this.subServices = response.filter(function (item) {
             if (item.subServiceName.toUpperCase() !== "Blood Request".toUpperCase()) {

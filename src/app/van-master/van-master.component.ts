@@ -151,9 +151,12 @@ export class VanComponent implements OnInit {
                     count = 1;
                 }
             }
-            if (count === 1) {
+            if (count === 0) {
                 this.vanList.push(vanObj);
                 count = 0;
+            }
+            else {
+                this.alertMessage.alert("Already exists");
             }
         }
 

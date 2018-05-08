@@ -234,11 +234,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.employeeParkingPlaceMappingService.saveEmployeeParkingPlaceMappings(obj).subscribe(response => this.saveMappingSuccessHandler(response));
     }
 
-    employeeParkingPlaceMappingSuccessHandler(response) {
-        this.employeeParkingPlaceMappingList = [];
-        this.alertMessage.alert(" Mapping saved successfully", 'success');
-    }
-
     saveMappingSuccessHandler(response) {
         if (response.length > 0) {
             this.alertMessage.alert(" Mapping saved successfully", 'success');

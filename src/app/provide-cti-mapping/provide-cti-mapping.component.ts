@@ -106,6 +106,7 @@ export class ProvideCtiMappingComponent implements OnInit {
           }
           else {
             this.states_array = response;
+            this.states = this.editableData.stateName;
           }
           //this.states = this.editableData.stateName==""
           console.log("states", this.states_array);

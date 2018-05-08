@@ -241,6 +241,7 @@ export class LanguageMappingComponent implements OnInit {
   }
   read: boolean = false;
   setRead(value) {
+    debugger;
     if (value.checked) {
       this.read = true;
       this.ReadWeightageList = this.WeightageList;
@@ -262,10 +263,11 @@ export class LanguageMappingComponent implements OnInit {
 
   write: boolean = false;
   setWrite(value) {
+    debugger;
     if (value.checked) {
       this.write = true;
       this.WriteWeightageList = this.WeightageList;
-      this.readCheckBoxState = false;
+      this.writeCheckBoxState = false;
       this.writeweightage = undefined;
     }
     else {
@@ -282,6 +284,7 @@ export class LanguageMappingComponent implements OnInit {
 
   speak: boolean = false;
   setSpeak(value) {
+    debugger;
     if (value.checked) {
       this.speak = true;
       this.SpeakWeightageList = this.WeightageList;
@@ -564,9 +567,9 @@ export class LanguageMappingComponent implements OnInit {
     this.edit_Details.weightageRead = undefined;
     this.edit_Details.weightageWrite = undefined;
     this.edit_Details.weightageSpeak = undefined;
-    this.isCheckedRead = false;
-    this.isCheckedWrite = false;
-    this.isCheckedSpeak = false;
+    // this.isCheckedRead = false;
+    // this.isCheckedWrite = false;
+    // this.isCheckedSpeak = false;
     this.showCheckboxes = true;
   }
   resetDropdowns() {
