@@ -202,7 +202,7 @@
             </div>
         </form>
         <div *ngIf="vanList.length>0" class="m-t-15 table-responsive">
-            <table [md2Data]="vanList" #md2=md2DataTable class="table table-hover table-striped" rowPerPage="3">
+            <table [md2Data]="vanList" #md2=md2DataTable class="table table-hover table-striped" [rowsPerPage]="3">
                 <thead>
                     <tr>
                         <th>S.No.</th>
@@ -240,7 +240,7 @@
             <!-- <pagination-controls (pageChange)="b = $event" id="vanResult"></pagination-controls> -->
         </div>
         <div class="m-t-15">
-            <button md-raised-button color="primary" class="pull-left" (click)="vanForm.reset();showList()">Back</button>
+            <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
 
             <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanForm.value);vanForm.reset()  ">
                 Update</button>
