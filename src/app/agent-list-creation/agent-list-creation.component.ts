@@ -20,7 +20,7 @@ export class AgentListCreationComponent implements OnInit {
   campaign_name: any;
   agent_ID: any;
   password: any;
-
+  editMode: boolean = false;
   states: any = [];
   services: any = [];
   campaignNames: any = [];
@@ -133,12 +133,13 @@ export class AgentListCreationComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.agentListForm.resetForm();
-         this.campaign_name = undefined;
-         this.agent_ID = '';
-         this.password = '';
+        this.campaign_name = undefined;
+        this.agent_ID = '';
+        this.password = '';
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.editable = false;
+        this.editMode = false;
 
       }
     })
@@ -362,48 +363,7 @@ export class AgentListCreationComponent implements OnInit {
   }
 
 
-  // validateAgentID(input)
-  // {
-  // 	var result_array=[];
-  // 	var str=input;
-  // 	var hyphen_check=str.search("-");
-  // 	var comma_check=str.search(",");
 
-  // 	if(comma_check!=-1)
-  // 	{
-  // 		var items=str.split(",");
-  // 		for(let i=0;i<items.length;i++)
-  // 		{
-  // 			var hyphen_check_two=items[i].search("-");
-  // 			if(hyphen_check_two===-1)
-  // 			{
-  // 				let obj={
-  // 					"item":parseInt(items[i])
-  // 				}
-
-  // 				result_array.push(obj);	
-  // 			}
-  // 			else
-  // 			{
-  // 				var hyphen_items=items[i].split("-");
-  // 				if(hyphen_items.length==2)
-  // 				{
-  // 					var no_of_items=(parseInt(hyphen_items[1])-parseInt(hyphen_items[0]))+1;
-  // 					for(let j=0;j<no_of_items;j++)
-  // 					{
-  // 						let obj={
-  // 							"item":parseInt(hyphen_items[0])+j
-  // 						}
-
-  // 						result_array.push(obj);
-  // 					}
-  // 				}
-  // 			}
-  // 		}
-  // 	}
-
-  // 	console.log("result",result_array);
-  // }
   multiagents: any = [];
   rangeagents: any = [];
   editAgentCampaign(data) {
@@ -412,6 +372,7 @@ export class AgentListCreationComponent implements OnInit {
     // this.state = data.state,    
     this.radio_option = '1';
     this.campaign_name = data.cti_CampaignName;
+    this.editMode = true;
     // this.radio_option = data.radio_option
     this.agent_ID = data.agentID;
     this.password = data.agentPassword;
@@ -432,9 +393,17 @@ export class AgentListCreationComponent implements OnInit {
     this._AgentListCreationService.editAgentDetails(updateAgentObj).subscribe(response => {
       console.log("updated obj", response);
       this.alertService.alert('Updated successfully', 'success');
+      this.agentListForm.resetForm();
+      // this.campaign_name = undefined;
+      // this.agent_ID = '';
+      // this.password = '';
+      this.showTableFlag = true;
+      this.showFormFlag = false;
+      this.editable = false;
+      this.editMode = false;
       /* resetting form and ngModels used in editing */
       this.getAllAgents(this.providerServiceMapID);
-      this.showTableFlag = true;
+      // this.showTableFlag = true;
 
     }, (err) => this.alertService.alert(err, 'error'));
 
