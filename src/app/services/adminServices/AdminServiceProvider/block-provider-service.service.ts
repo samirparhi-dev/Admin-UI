@@ -238,10 +238,10 @@ export class BlockProvider {
   }
 
   customErrorHandler(error: Response | any) {
-    return Observable.throw(error);
+    return Observable.throw(error.json());
   }
   error_handeler(error: Response | any) {
-    return Observable.throw(error);
+    return Observable.throw(error.json());
   }
 };
 

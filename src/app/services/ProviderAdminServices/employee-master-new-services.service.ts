@@ -179,10 +179,10 @@ export class EmployeeMasterNewServices {
         }
     }
     private handleCustomError(error: Response | any) {
-        return Observable.throw(error);
+        return Observable.throw(error.json());
     }
     private handleError(error: Response | any) {
-        return Observable.throw(error);
+        return Observable.throw(error.json());
     }
 
 }

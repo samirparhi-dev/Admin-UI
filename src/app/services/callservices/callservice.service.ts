@@ -87,7 +87,7 @@ export class CallServices {
   };
 
   private handleError(err: Response) {
-    return Observable.throw(err);
+    return Observable.throw(err.json());
   };
 
 }

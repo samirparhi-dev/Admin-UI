@@ -106,7 +106,7 @@ export class InstituteTypeMasterService {
   }
 
   handleError(error: Response | any) {
-    return Observable.throw(error);
+    return Observable.throw(error.json());
 
   }
 };
