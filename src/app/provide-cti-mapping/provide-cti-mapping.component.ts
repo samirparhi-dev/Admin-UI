@@ -132,42 +132,7 @@ export class ProvideCtiMappingComponent implements OnInit {
         this.message.alert(err, 'error');
       });
   }
-  // getServices(userID) {
-  //   console.log("serviceProviderID", userID);
-  //   this.block_provider.getServicesOfProvider_CTI(userID)
-  //     .subscribe(response => this.getServicesSuccesshandeler(response), err => {
-  //       this.message.alert("service error", err);
-  //     });
-  // }
-  // getServicesSuccesshandeler(response) {
-  //   this.services_array = response;
-  //   if (this.services_array.length > 0) {
-  //     this.serviceline = this.editableData.serviceName;
-  //     this.getstates();
-  //     this.getCampaign();
-  //   }
-  // }
 
-  // getstates() {
-  //   if (this.editableData.serviceID == "1") {
-  //     this.isNational = true;
-  //   }
-  //   else {
-  //     this.isNational = false;
-  //   }
-  //   console.log("uid", this.commonDataService.uid, this.editableData.serviceID, this.isNational);
-
-  //   this._callServices.getStates(this.commonDataService.uid, this.editableData.serviceID, this.isNational).subscribe(response => {
-  //     if (response) {
-  //       this.states_array = response;
-  //       console.log('this.states_array', this.states_array);
-
-  //       if (this.states_array.length > 0) {
-  //         this.states = this.editableData.stateName;
-  //       }
-  //     }
-  //   })
-  // }
 
 
   getCampaign() {
@@ -193,14 +158,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.campaignList = [];
   }
 
-  // filterArray(array: any) {
-  //   const o = {};
-  //   return array = array
-  //     .filter((thing, index, self) => self
-  //       .findIndex((t) => {
-  //         return t.providerServiceMapID === thing.providerServiceMapID;
-  //       }) === index)
-  // }
+
   deleteRow(index) {
     this.campaignList.splice(index, 1);
   }
@@ -221,7 +179,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     if (count == 0) {
       this._callServices.addCampaign(campaignObj).subscribe((res) => {
         // this.message.alert(res.response);
-        this.message.alert('Mapping saved successfully', 'success');
+        this.message.alert('Mapping updated successfully', 'success');
         //this.mappingCampaign.resetForm();
         this.campaignList = [];
         this.showFormFlag = false;
