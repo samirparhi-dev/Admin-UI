@@ -376,19 +376,6 @@ export class EditVillageModal {
         }
         console.log(this.villageExist);
     }
-    checkExistance(ID, villageName) {
-        debugger;
-        if (villageName != this.oldVillageName) {
-            this.villageExist = this.village_names.includes(ID + "-" + villageName.toUpperCase());
-
-        }
-        else {
-            this.villageExist = false;
-        }
-        console.log(this.villageExist);
-    }
-
-
     update(editedVillageData) {
         this.dataObj = {};
         this.dataObj.districtBranchID = this.districtBranchID;

@@ -66,10 +66,11 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
-    addParkingPlaceToList(values) {
+    addParkingPlaceToList(values) {        
+        
         for (let provider_service of this.provider_services) {
             if ("MMU" == provider_service.serviceName) {
-                this.parkingPlaceObj = {};
+                this.parkingPlaceObj = {};                
                 this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
                 this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
                 this.parkingPlaceObj.countryID = this.countryID;
@@ -82,23 +83,20 @@ export class ParkingPlaceComponent implements OnInit {
                     this.parkingPlaceObj.districtBlockID = values.talukID.split("-")[0];
                     this.parkingPlaceObj.blockName = values.talukID.split("-")[1];
                 }
-                this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
-
-                this.parkingPlaceObj.providerServiceMapID = provider_service.providerServiceMapID;
                 if (values.stateID != undefined) {
                     this.parkingPlaceObj.stateID = values.stateID.split("-")[0];
                     this.parkingPlaceObj.stateName = values.stateID.split("-")[1];
                 }
-
-                this.parkingPlaceObj.createdBy = this.createdBy;
-                debugger;
+                this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
+                this.parkingPlaceObj.providerServiceMapID = provider_service.providerServiceMapID;
+                this.parkingPlaceObj.createdBy = this.createdBy;               
 
             }
         }
         if (this.parkingPlaceList.length == 0) {
             this.parkingPlaceList.push(this.parkingPlaceObj);
         }
-        else {
+        else {            
             let count = 0
             let dbcount = 0;
             for (let a = 0; a < this.parkingPlaceList.length; a++) {
