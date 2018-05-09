@@ -70,7 +70,7 @@ export class ProcedureComponentMappingServiceService {
   }
 
   handleError(error: Response | any) {
-    return Observable.throw(error.json());
+    return Observable.throw(error);
   }
 
 }

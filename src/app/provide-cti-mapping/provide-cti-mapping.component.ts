@@ -185,7 +185,7 @@ export class ProvideCtiMappingComponent implements OnInit {
         this.showFormFlag = false;
         this.showTableFlag = true;
         this.disableSelection = false;
-        console.log('Mapping saved successfully', this.SP);
+        console.log('Mapping updated successfully', this.SP);
 
         this.getAllMappedServicelinesAndStates(this.SP);
         this.resetForm();
@@ -196,7 +196,7 @@ export class ProvideCtiMappingComponent implements OnInit {
       })
     }
     else {
-      this.message.alert('Alredy exists');
+      this.message.alert('Already exists');
     }
   }
   resetForm() {

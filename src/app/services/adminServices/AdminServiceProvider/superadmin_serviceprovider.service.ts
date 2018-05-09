@@ -464,9 +464,9 @@ export class SuperAdmin_ServiceProvider_Service {
     }
   }
   private handleCustomError(error: Response | any) {
-    return Observable.throw(error.json());
+    return Observable.throw(error);
   }
   private handleError(error: Response | any) {
-    return Observable.throw(error.json());
+    return Observable.throw(error);
   }
 }
