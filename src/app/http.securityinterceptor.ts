@@ -129,7 +129,7 @@ export class SecurityInterceptedHttp extends Http {
     private onCatch(error: any, caught?: Observable<Response>): Observable<Response> {
         // return Observable.throw(error);
         console.log(error.json())
-        return Observable.throw(error);
+        return Observable.throw(error.json());
     }
     private networkCheck(): boolean {
 

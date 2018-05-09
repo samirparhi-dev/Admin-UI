@@ -131,7 +131,7 @@ export class InterceptedHttp extends Http {
         this.loaderService.hide();
     }
     private onCatch(error: any, caught?: Observable<Response>): Observable<Response> {
-        return Observable.throw(error);
+        return Observable.throw(error.json());
     }
     private networkCheck(): boolean {
         if (!this.onlineFlag) {
