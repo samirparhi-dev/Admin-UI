@@ -13,7 +13,7 @@
   <form #editVillageform="ngForm">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container class="width100">
-        <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance(ID, villageName)"
+        <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" (keyup)="checkExistance_edit(villageName)"
           maxlength="30" myName2>
         <md-hint>
           <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>

@@ -112,17 +112,14 @@ export class ZoneDistrictMappingComponent implements OnInit {
     zoneDistrictMappingObj: any;
     zoneDistrictMappingList: any = [];
     mappedDistrictIDs: any = [];    
-    addZoneDistrictMappingToList(values) {
-        debugger;
+    addZoneDistrictMappingToList(values) {        
         console.log("values", values);
         let districtIds = [];
         for (let districts of values.districtIdList) {
             districtIds.push(districts.split("-")[0]);
         }
        
-        //find district deselected from the list , and Remove zone mapping with that district
-        debugger;
-        console.log("mappedDistricts", this.mappedDistricts);
+        //find district deselected from the list , and Remove zone mapping with that district       
         
         for (let mappedDistrict of this.mappedDistricts) {
             this.mappedDistrictIDs.push(mappedDistrict.districtID); // fetching mapped districtID's
@@ -131,26 +128,19 @@ export class ZoneDistrictMappingComponent implements OnInit {
             this.dataObj.zoneDistrictMapID = mappedDistrict.zoneDistrictMapID;
             this.dataObj.modifiedBy = this.createdBy;
             console.log("b4 obj", districtIds.indexOf(mappedDistrict.districtID.toString()));
-            if (districtIds.indexOf(mappedDistrict.districtID.toString()) == -1) {
-                debugger;
-                // console.log("b4 obj", this.dataObj);
-                
-                this.dataObj.deleted = true;
-                debugger;
-                console.log("after obj", this.dataObj);
+            if (districtIds.indexOf(mappedDistrict.districtID.toString()) == -1) {              
+                this.dataObj.deleted = true;               
                // this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
             } else if (mappedDistrict.deleted) {
                 this.dataObj.deleted = false;
               //  this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
             }
         }
-        debugger;
-        let count=0;
-        console.log("mapped districts", this.mappedDistrictIDs);
+       
+        let count=0;     
        
         for (let districts of values.districtIdList) {
-            let districtId = districts.split("-")[0];
-            console.log("parse obj", this.mappedDistrictIDs.indexOf(parseInt(districtId)));
+            let districtId = districts.split("-")[0];           
             //make a map of zone with District, If the districtId not in the mappedDistrictIDs( already mapped districtID's)
             if (this.mappedDistrictIDs.indexOf(parseInt(districtId)) == -1) {
                 this.zoneDistrictMappingObj = {};
@@ -177,47 +167,31 @@ export class ZoneDistrictMappingComponent implements OnInit {
         }
        
     }
-    checkBufferDuplicates(zoneDistrictMappingObj) {
-        debugger;
-        // let LanguageMatched = false;
-        // let Count = 0;
-        
-        console.log(zoneDistrictMappingObj, 'BEFORE TESTING THE OBJECT SENT');
+    checkBufferDuplicates(zoneDistrictMappingObj) {     
         /* case:1 If the buffer array is empty */
-        if (this.zoneDistrictMappingList.length === 0) {
-            debugger;
+        if (this.zoneDistrictMappingList.length === 0) {          
           this.zoneDistrictMappingList.push(zoneDistrictMappingObj);         
           console.log('buffer', this.zoneDistrictMappingList);
-        }
-    
+        }    
     
         /* case:2 If the buffer array is not empty */
-        else if (this.zoneDistrictMappingList.length > 0) {
-            debugger;
-            console.log("zoneDistrictMappingList", this.zoneDistrictMappingList);           
+        else if (this.zoneDistrictMappingList.length > 0) {       
          
           for (let a = 0; a < this.zoneDistrictMappingList.length; a++) {         
             if (this.zoneDistrictMappingList[a].zoneID === zoneDistrictMappingObj.zoneID
               && this.zoneDistrictMappingList[a].zoneName === zoneDistrictMappingObj.zoneName
               && this.zoneDistrictMappingList[a].stateName === zoneDistrictMappingObj.stateName
               && this.zoneDistrictMappingList[a].districtID === zoneDistrictMappingObj.districtID
-              && this.zoneDistrictMappingList[a].districtName === zoneDistrictMappingObj.districtName) {             
-              
+              && this.zoneDistrictMappingList[a].districtName === zoneDistrictMappingObj.districtName) {       
                 
                     this.bufferCount = this.bufferCount + 1;
-                    console.log('Duplicate Combo Exists', this.bufferCount);              
-               
+                    console.log('Duplicate Combo Exists', this.bufferCount);         
               }
             }      
                  
             if (this.bufferCount === 0) {
                 this.zoneDistrictMappingList.push(zoneDistrictMappingObj);             
-              }
-            //   else if (this.bufferCount > 0) {
-            //     this.alertMessage.alert('Already exists');
-            //     console.log('Duplicate Entry Already exists for ' + zoneDistrictMappingObj);
-            
-            //   }         
+              }               
          
         }
     }
