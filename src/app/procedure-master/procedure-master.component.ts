@@ -255,7 +255,7 @@ export class ProcedureMasterComponent implements OnInit {
 
   getServices(stateID) {
     console.log(this.serviceProviderID, stateID);
-    this.providerAdminRoleService.getServices(this.serviceProviderID, stateID)
+    this.providerAdminRoleService.getServices_filtered(this.serviceProviderID, stateID)
       .subscribe(response => this.servicesSuccesshandeler(response));
   }
 
