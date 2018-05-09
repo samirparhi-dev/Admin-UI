@@ -45,7 +45,7 @@
             <td>{{item.agentID}}</td>
             <td>{{item.cti_CampaignName}}</td>
             <td>
-              <md-icon *ngIf="!item.deleted" mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="item.isAvailable"
                 (click)="editAgentCampaign(item)">edit</md-icon>
             </td>
         </tbody>
