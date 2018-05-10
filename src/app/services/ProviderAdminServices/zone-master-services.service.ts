@@ -107,14 +107,17 @@ export class ZoneMasterService {
 			.map(this.handleSuccess)
 			.catch(this.handleError);
     }
+    getServiceLines_zonemapping(){
+        return this.http.post(this._getServiceLinesURL, {})
+			.map(this.handleService_n_ServiceSuccess)
+			.catch(this.handleError);
+    }    
 
     getStatesByServiceID(serviceID,serviceProviderID) {
 		return this.http.post(this._getStateListByServiceIDURL, { "serviceID": serviceID,"serviceProviderID": serviceProviderID })
 			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
-
-
 
     getDistricts ( stateId: number )
     {
@@ -153,6 +156,17 @@ export class ZoneMasterService {
 		    return Observable.throw(response.json());
 		}
     }
+    handleService_n_ServiceSuccess(response: Response) {
+
+        console.log(response.json().data, 'role service file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+          if (item.serviceName === "MMU") {
+            return item;
+          }
+        });
+        return result;
+      }
 
     handleError(error: Response | any) {
         return Observable.throw(error.json());

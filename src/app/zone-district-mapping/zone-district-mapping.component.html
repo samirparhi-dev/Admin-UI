@@ -116,13 +116,13 @@
         </md-input-container>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="serviceVal.valid && stateVal.valid && zoneG.valid && districtF.valid">
-        <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
-          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-        </button>
-      </div>
+     
     </form>
-
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" >
+      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="zoneDistrictMappingList.length>0">
       <div class="table-responsive">
@@ -158,7 +158,7 @@
       </div>
       <!-- <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls> -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezoneMappings()">Save</button>
       <!-- <button *ngIf="editable" md-raised-button color="primary" class="pull-right" (click)="updateZoneMapping(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">Save Updates
