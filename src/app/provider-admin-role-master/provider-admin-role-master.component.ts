@@ -538,7 +538,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       console.log(count);
       if (count > 0) {
         this.othersExist = true;
-        this.alertService.alert("Already exist");
+      //  this.alertService.alert("Already exist");
         return false;
       }
       else {

@@ -245,6 +245,7 @@ export class CreateSubServiceComponent implements OnInit {
       if (res) {
         if (res.length === 0) {
           this.subServiceAvailable = true;
+          // this.message.alert('No Sub Service available please select different service');
         } else {
 
           let tempService = {};
@@ -265,6 +266,7 @@ export class CreateSubServiceComponent implements OnInit {
           this.subServiceAvailable = false;
           if (this.subServices.length == 0) {
             this.allServicesAdded = true;
+            // this.message.alert('All services Mapped');
           }
         }
       }

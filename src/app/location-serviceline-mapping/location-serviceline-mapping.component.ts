@@ -268,11 +268,23 @@ export class LocationServicelineMappingComponent implements OnInit {
       "createdBy": this.commonDataService.uname
     }
     let count = 0;
-    for (let a = 0; a < this.workLocations.length; a++) {
-      if (this.workLocations[a].locationName === newreqobj.locationName
-        && this.workLocations[a].districtID === parseInt(newreqobj.districtID)
-        && this.workLocations[a].address === newreqobj.address) {
-        count = count + 1;
+    if (newreqobj.stateID === "") {
+      for (let a = 0; a < this.workLocations.length; a++) {
+        if (this.workLocations[a].locationName === newreqobj.locationName
+          && this.workLocations[a].address === newreqobj.address
+          && this.workLocations[a].providerServiceMapID === newreqobj.providerServiceMapID[0]) {
+          count = count + 1;
+        }
+      }
+    }
+    else {
+      for (let a = 0; a < this.workLocations.length; a++) {
+        if (this.workLocations[a].locationName === newreqobj.locationName
+          && this.workLocations[a].districtID === parseInt(newreqobj.districtID)
+          && this.workLocations[a].address === newreqobj.address
+          && this.workLocations[a].providerServiceMapID === newreqobj.providerServiceMapID[0]) {
+          count = count + 1;
+        }
       }
     }
 
