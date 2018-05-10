@@ -42,7 +42,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.getAvailableZoneDistrictMappings();
         this.getStates();
         //this.getServiceLines();
-        this.getAvailableZones();
+       // this.getAvailableZones();
     }
 
     stateSelection(stateID) {
@@ -72,6 +72,8 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     getServicesSuccessHandeler(response) {
         this.provider_services = response;
+        this.availableZones = [];
+        this.districts = [];
         for (let provider_service of this.provider_services) {
             if ("MMU" == provider_service.serviceName) {
                 this.providerServiceMapID = provider_service.providerServiceMapID;
