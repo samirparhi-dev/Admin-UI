@@ -272,7 +272,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.editForm.resetForm();
       }
       else {
-        //this.feedbackNameExist = true;
+        this.feedbackNameExist = true;
         this.alertService.alert("Already exists");
       }
     }

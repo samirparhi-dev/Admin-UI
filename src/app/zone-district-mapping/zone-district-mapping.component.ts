@@ -23,6 +23,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     districts: any = [];
     createdBy: any;
     bufferCount: any = 0;
+    count: any = 0;
 
     @ViewChild('zoneDistrictMappingForm') zoneDistrictMappingForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -41,7 +42,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.getAvailableZoneDistrictMappings();
         this.getStates();
         //this.getServiceLines();
-        this.getAvailableZones();
+       // this.getAvailableZones();
     }
 
     stateSelection(stateID) {
@@ -57,7 +58,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     }
 
     getServiceLines() {
-        this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
+        this.zoneMasterService.getServiceLines_zonemapping().subscribe(response => this.getServicesSuccessHandeler(response));
     }
 
     getStatesByServiceID(serviceID) {
@@ -66,10 +67,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     getStatesSuccessHandeler(response) {
         this.provider_states = response;
+        //this.provider_services = [];
     }
 
     getServicesSuccessHandeler(response) {
         this.provider_services = response;
+        this.availableZones = [];
+        this.districts = [];
         for (let provider_service of this.provider_services) {
             if ("MMU" == provider_service.serviceName) {
                 this.providerServiceMapID = provider_service.providerServiceMapID;
@@ -112,7 +116,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     zoneDistrictMappingObj: any;
     zoneDistrictMappingList: any = [];
     mappedDistrictIDs: any = [];
-    addZoneDistrictMappingToList(values) {
+    addZoneDistrictMappingToList(values) {       
         console.log("values", values);
         let districtIds = [];
         for (let districts of values.districtIdList) {
@@ -137,9 +141,9 @@ export class ZoneDistrictMappingComponent implements OnInit {
             }
         }
 
-        let count = 0;
+      
 
-        for (let districts of values.districtIdList) {
+        for (let districts of values.districtIdList) {          
             let districtId = districts.split("-")[0];
             //make a map of zone with District, If the districtId not in the mappedDistrictIDs( already mapped districtID's)
             if (this.mappedDistrictIDs.indexOf(parseInt(districtId)) == -1) {
@@ -154,29 +158,34 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 this.checkBufferDuplicates(this.zoneDistrictMappingObj);
 
             } else {
-                count = count + 1;
+                this.count = this.count + 1;
                 console.log("already mapped with these districts");
             }
         }
-        if (count > 0) {
+        if (this.count > 0) {          
             this.alertMessage.alert("Already mapped");
-            this.mappedDistrictIDs = [];
+            this.mappedDistrictIDs = [];         
+            this.districts = [];           
+            this.count = 0;
+
         }
-        if (this.bufferCount > 0) {
-            this.alertMessage.alert("Already exists");
+        if (this.bufferCount > 0) {          
+            this.alertMessage.alert("Already exists");            
+            this.districts = [];
+            this.bufferCount = 0;
         }
 
     }
-    checkBufferDuplicates(zoneDistrictMappingObj) {
+    checkBufferDuplicates(zoneDistrictMappingObj) {        
         /* case:1 If the buffer array is empty */
         if (this.zoneDistrictMappingList.length === 0) {
             this.zoneDistrictMappingList.push(zoneDistrictMappingObj);
             console.log('buffer', this.zoneDistrictMappingList);
+
         }
 
         /* case:2 If the buffer array is not empty */
-        else if (this.zoneDistrictMappingList.length > 0) {
-
+        else if (this.zoneDistrictMappingList.length > 0) {           
             for (let a = 0; a < this.zoneDistrictMappingList.length; a++) {
                 if (this.zoneDistrictMappingList[a].zoneID === zoneDistrictMappingObj.zoneID
                     && this.zoneDistrictMappingList[a].zoneName === zoneDistrictMappingObj.zoneName
@@ -189,8 +198,10 @@ export class ZoneDistrictMappingComponent implements OnInit {
                 }
             }
 
-            if (this.bufferCount === 0) {
+            if (this.bufferCount === 0) {                
                 this.zoneDistrictMappingList.push(zoneDistrictMappingObj);
+                this.districts = [];
+
             }
 
         }
@@ -283,11 +294,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.editable = false;
     }
     back() {
+        debugger;
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.zoneDistrictMappingForm.resetForm();
                 this.clearEdit();
                 this.zoneDistrictMappingList = [];
+                this.bufferCount = 0;
             }
         })
     }

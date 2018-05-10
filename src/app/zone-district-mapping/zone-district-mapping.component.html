@@ -65,7 +65,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);getDistricts(stateID.split('-')[0]);"
+          <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);"
             #stateVal="ngModel">
             <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
               {{item.stateName}}
@@ -79,7 +79,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select required placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID" #serviceVal="ngModel">
+          <md-select required placeholder="Serviceline" (change)="getAvailableZones();" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID" #serviceVal="ngModel">
             <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}-{{item.providerServiceMapID}}">
               {{item.serviceName}}
             </md-option>
@@ -93,7 +93,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select required placeholder="Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel" (change)="checkExistance(serviceID,zoneID)">
+          <md-select required placeholder="Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel" (change)="getDistricts(stateID.split('-')[0]);checkExistance(serviceID,zoneID);">
             <md-option *ngFor="let zone of availableZones" value="{{zone.zoneID}}-{{zone.zoneName}}">
               {{zone.zoneName}}
             </md-option>
@@ -116,13 +116,13 @@
         </md-input-container>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="serviceVal.valid && stateVal.valid && zoneG.valid && districtF.valid">
-        <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
-          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-        </button>
-      </div>
+     
     </form>
-
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" >
+      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="zoneDistrictMappingList.length>0">
       <div class="table-responsive">
@@ -158,7 +158,7 @@
       </div>
       <!-- <pagination-controls (pageChange)="b = $event" id="zoneResult"></pagination-controls> -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezoneMappings()">Save</button>
       <!-- <button *ngIf="editable" md-raised-button color="primary" class="pull-right" (click)="updateZoneMapping(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">Save Updates
