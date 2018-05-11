@@ -11,6 +11,13 @@ import { MdCheckbox, MdSelect } from '@angular/material';
 })
 export class ServicePointComponent implements OnInit {
 
+    talukID: any;
+    servicePointName: string;
+    servicePointDesc: string;
+    createButton: boolean = false;
+    serviceline: any;
+    services_array: any = [];
+    userID: any;
     showServicePoints: any = true;
     availableServicePoints: any = [];
     data: any;
@@ -36,18 +43,34 @@ export class ServicePointComponent implements OnInit {
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
         this.createdBy = this.commonDataService.uname;
+        this.userID = this.commonDataService.uid;
     }
 
     showForm() {
         this.showServicePoints = false;
-        this.districts = [];
     }
     ngOnInit() {
-        this.getServicePoints(null, null, null);
-        //this.getStates();
-        this.getStatesByServiceID();
+        this.getProviderServices();
     }
-
+    getProviderServices() {
+        this.servicePointMasterService.getServices(this.userID)
+            .subscribe(response => {
+                this.services_array = response;
+            }, err => {
+            });
+    }
+    getStates(serviceID) {
+        this.servicePointMasterService.getStates(this.userID, serviceID, false).
+            subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+            });
+    }
+    getStatesSuccessHandeler(response, isNational) {
+        if (response) {
+            console.log(response, 'Provider States');
+            this.provider_states = response;
+            this.createButton = false;
+        }
+    }
     parkingPlaceObj: any;
     getParkingPlaces(stateID, districtID) {
         this.parkingPlaceObj = {};
@@ -60,6 +83,7 @@ export class ServicePointComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -71,6 +95,7 @@ export class ServicePointComponent implements OnInit {
     }
 
     getServicePoints(stateID, districtID, parkingPlaceID) {
+        this.createButton = true;
         this.servicePointObj = {};
         this.servicePointObj.stateID = stateID;
         this.servicePointObj.districtID = districtID;
@@ -86,46 +111,69 @@ export class ServicePointComponent implements OnInit {
             this.availableServicePointNames.push(availableServicePoint.servicePointName);
         }
     }
+    districts: any = [];
+    getDistricts(stateID) {
+        this.servicePointMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    }
+    getDistrictsSuccessHandeler(response) {
+        console.log(response, "districts retrieved");
+        this.districts = response;
+        this.createButton = false;
+    }
+    taluks: any = [];
+    GetTaluks(districtID: number) {
+        this.servicePointMasterService.getTaluks(districtID)
+            .subscribe(response => this.SetTaluks(response));
+    }
+    SetTaluks(response: any) {
+        this.taluks = response;
+    }
 
+    branches: any = [];
+    GetBranches(talukID: number) {
+        this.servicePointMasterService.getBranches(talukID)
+            .subscribe(response => this.SetBranches(response));
+    }
+    SetBranches(response: any) {
+        this.branches = response;
+    }
+    // ** adding values ** //
     servicePointObj: any;
     servicePointList: any = [];
     addServicePointToList(values) {
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.servicePointObj = {};
-                this.servicePointObj.servicePointName = values.servicePointName;
-                this.servicePointObj.servicePointDesc = values.servicePointDesc;
-                this.servicePointObj.countryID = this.countryID;
+        debugger;
 
-                if (values.stateID != undefined) {
-                    this.servicePointObj.stateID = values.stateID.split("-")[0];
-                    this.servicePointObj.stateName = values.stateID.split("-")[1];
-                }
+        this.servicePointObj = {};
+        this.servicePointObj.servicePointName = values.servicePointName;
+        this.servicePointObj.servicePointDesc = values.servicePointDesc;
+        this.servicePointObj.countryID = this.countryID;
 
-                if (values.districtID != undefined) {
-                    this.servicePointObj.districtID = values.districtID.split("-")[0];
-                    this.servicePointObj.districtName = values.districtID.split("-")[1];
-                }
-                if (values.talukID != undefined) {
-                    this.servicePointObj.districtBlockID = values.talukID.split("-")[0];
-                    this.servicePointObj.blockName = values.talukID.split("-")[1];
-                }
-                this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
-                if (values.parkingPlaceID != undefined) {
-                    this.servicePointObj.parkingPlaceID = values.parkingPlaceID.split("-")[0];;
-                    this.servicePointObj.parkingPlaceName = values.parkingPlaceID.split("-")[1];;
-                }
-                this.servicePointObj.providerServiceMapID = provider_service.providerServiceMapID;
-
-                this.servicePointObj.createdBy = this.createdBy;
-                this.checkDuplicates(this.servicePointObj)
-                //  this.servicePointList.push(this.servicePointObj);
-            }
+        if (this.searchStateID != undefined) {
+            this.servicePointObj.stateID = this.searchStateID.stateID;
+            this.servicePointObj.stateName = this.searchStateID.stateName;
         }
-        if (this.servicePointList.length <= 0) {
-            this.alertMessage.alert("No Service available with the state selected");
+
+        if (this.searchDistrictID != undefined) {
+            this.servicePointObj.districtID = this.searchDistrictID.districtID;
+            this.servicePointObj.districtName = this.searchDistrictID.districtName;
         }
+        if (values.talukID != undefined) {
+            this.servicePointObj.districtBlockID = values.talukID.split("-")[0];
+            this.servicePointObj.blockName = values.talukID.split("-")[1];
+        }
+        this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
+        if (this.searchParkingPlaceID != undefined) {
+            this.servicePointObj.parkingPlaceID = this.searchParkingPlaceID.parkingPlaceID;
+            this.servicePointObj.parkingPlaceName = this.searchParkingPlaceID.parkingPlaceName
+        }
+        this.servicePointObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
+
+        this.servicePointObj.createdBy = this.createdBy;
+        this.checkDuplicates(this.servicePointObj)
+
+
     }
+    //* checking duplicates in buffer */
     checkDuplicates(servicePointObj) {
         debugger;
         let count = 0
@@ -148,11 +196,14 @@ export class ServicePointComponent implements OnInit {
         }
 
     }
+    //* deleting rows from buffer */
     deleteRow(i) {
         this.servicePointList.splice(i, 1);
     }
 
+    //* save method */
     storeServicePoints() {
+        debugger;
         let obj = { "servicePoints": this.servicePointList };
         console.log(obj);
         this.servicePointMasterService.saveServicePoint(obj).subscribe(response => this.servicePointSuccessHandler(response));
@@ -161,69 +212,10 @@ export class ServicePointComponent implements OnInit {
     servicePointSuccessHandler(response) {
         this.servicePointList = [];
         this.alertMessage.alert("Saved successfully", 'success');
-        this.showList(); 
+        this.showList();
     }
 
-    stateSelection(stateID) {
-        this.getServices(stateID);
-    }
-
-    getServices(stateID) {
-        this.servicePointMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
-
-    getStates() {
-        this.servicePointMasterService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
-    getStatesSuccessHandeler(response) {
-        this.provider_states = response;
-    }
-
-    getStatesByServiceID() {
-        this.servicePointMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
-
-    districts: any = [];
-    getDistricts(stateID) {
-        this.servicePointMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-    }
-    getDistrictsSuccessHandeler(response) {
-        console.log(response, "districts retrieved");
-        this.districts = response;
-    }
-    taluks: any = [];
-    GetTaluks(districtID: number) {
-        this.servicePointMasterService.getTaluks(districtID)
-            .subscribe(response => this.SetTaluks(response));
-    }
-    SetTaluks(response: any) {
-        this.taluks = response;
-    }
-
-    branches: any = [];
-    GetBranches(talukID: number) {
-        this.servicePointMasterService.getBranches(talukID)
-            .subscribe(response => this.SetBranches(response));
-    }
-    SetBranches(response: any) {
-        this.branches = response;
-    }
-
-
-    getServicesSuccessHandeler(response) {
-        this.provider_services = response;
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.providerServiceMapID = provider_service.providerServiceMapID;
-            }
-        }
-        if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
-            this.alertMessage.alert("No Service available with the state selected");
-        }
-    }
-
+    //* Activate and Deactivate method */
     dataObj: any = {};
     updateServicePointStatus(servicePoint) {
         let flag = !servicePoint.deleted;
@@ -260,25 +252,23 @@ export class ServicePointComponent implements OnInit {
     }
 
     showList() {
-        this.searchStateID = "";
-        this.searchDistrictID = "";
-        this.searchParkingPlaceID = "";
-        this.getServicePoints(null, null, null);
+        this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.showServicePoints = true;
         this.servicePointObj = [];
         this.servicePointList = [];
     }
 
+    /* db check of service name */
     servicePointNameExist: any = false;
     checkExistance(servicePointName) {
         this.servicePointNameExist = this.availableServicePointNames.includes(servicePointName);
         console.log(this.servicePointNameExist);
     }
     back() {
-    this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
-        if (res) {
-            this.showList();       
-        }
-      })
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.showList();
+            }
+        })
     }
 }

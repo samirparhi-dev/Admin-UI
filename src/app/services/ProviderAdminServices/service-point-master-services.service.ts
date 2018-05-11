@@ -41,8 +41,8 @@ export class ServicePointMasterService {
         this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlaces';
 
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
-        this._getStateListURL = this.common_Base_Url + 'location/states/';
-        this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
+        this._getStateListURL = this.providerAdmin_Base_Url + 'm/role/stateNew';
+        this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/serviceNew';
         this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
@@ -81,21 +81,34 @@ export class ServicePointMasterService {
             .catch(this.handleError);
     }
 
-    getStates(serviceProviderID) {
+    // getStates(serviceProviderID) {
+    //     return this.http.post(this._getStateListURL,
+    //         { 'serviceProviderID': serviceProviderID })
+    //         .map(this.handleSuccess)
+    //         .catch(this.handleError);
+    // }
+    getStates(userID, serviceID, isNationalFlag) {
         return this.http.post(this._getStateListURL,
-            { 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess)
+            {
+                'userID': userID,
+                'serviceID': serviceID,
+                'isNational': isNationalFlag
+            }).map(this.handleSuccess)
             .catch(this.handleError);
     }
 
-    getServices(serviceProviderID, stateID) {
-        return this.http.post(this._getServiceLineURL, {
-            'serviceProviderID': serviceProviderID,
-            'stateID': stateID
-        }).map(this.handleSuccess)
+    // getServices(serviceProviderID, stateID) {
+    //     return this.http.post(this._getServiceLineURL, {
+    //         'serviceProviderID': serviceProviderID,
+    //         'stateID': stateID
+    //     }).map(this.handleSuccess)
+    //         .catch(this.handleError);
+    // }
+    getServices(userID) {
+        return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
-
     getDistricts(stateId: number) {
         return this.http.get(this._getDistrictListURL + stateId)
             .map(this.handleSuccess)
@@ -120,9 +133,21 @@ export class ServicePointMasterService {
             .catch(this.handleError);
 
     }
+    handleState_n_ServiceSuccess(response: Response) {
+
+        console.log(response.json().data, 'service point file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceName == "MMU") {
+                return item;
+            }
+        });
+        return result;
+    }
+
 
     handleSuccess(res: Response) {
-        console.log(res.json().data, '--- in zone master SERVICE');
+        console.log(res.json().data, '--- in service point master SERVICE');
         if (res.json().data) {
             return res.json().data;
         } else {
