@@ -139,7 +139,7 @@
               <ul>
                 <li *ngFor="let obj of item.serviceProviderMapID1;let j=index ">
                   {{obj.stateName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeService(i,j)">cancel</md-icon>
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeService(bufferArray.indexOf(item),j)">cancel</md-icon>
                 </li>
               </ul>
             </td>
