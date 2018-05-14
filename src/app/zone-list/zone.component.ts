@@ -11,17 +11,30 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class ZoneComponent implements OnInit {
 
-    showZones: any = true;
-    availableZones: any = [];
     data: any;
     providerServiceMapID: any;
     provider_states: any;
     provider_services: any;
     service_provider_id: any;
-    editable: any = false;
-    availableZoneNames: any = [];
     countryID: any;
     createdBy: any;
+    userID: any;
+    nationalFlag: any;
+    zoneObj: any;
+    zoneNameExist: any = false;
+    editable: any = false;
+    showZones: any = true;
+
+    /*arrays*/
+    states: any = [];
+    services: any = [];
+    districts: any = [];
+    taluks: any = [];
+    branches: any = [];    
+    zoneList: any = [];
+    availableZoneNames: any = [];
+    availableZones: any = [];
+
 
     @ViewChild('zoneForm') ZoneForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -34,53 +47,83 @@ export class ZoneComponent implements OnInit {
         this.createdBy = this.commonDataService.uname;
     }
 
+    ngOnInit() {
+        this.userID = this.commonDataService.uid;
+        this.getAvailableZones();
+    }
+
+    getAvailableZones() {
+        this.zoneMasterService.getZones({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZonesSuccessHandler(response));
+    }
+
+    getZonesSuccessHandler(response) {
+        console.log("all zones", response);
+        
+        this.availableZones = response;
+        for (let availableZone of this.availableZones) {
+            this.availableZoneNames.push(availableZone.zoneName);
+        }
+    }
+
     showForm() {
         this.showZones = false;
+        this.editable = false;
+        this.getServiceLines();
     }
-    ngOnInit() {
-        this.getAvailableZones();
-        this.getStates();
-        //this.getServiceLines();
-    }
-
-    stateSelection(stateID) {
-        this.getServices(stateID);
-    }
-
-    getServices(stateID) {
-        this.providerAdminRoleService.getServices_filtered(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
-
-    getStates() {
-        this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
     getServiceLines() {
-        this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
+        // this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
+        this.zoneMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
+            console.log("service response", response);
+            this.getServicesSuccessHandeler(response),
+                (err) => {
+                    console.log("ERROR in fetching serviceline", err);
+                    //this.alertMessage.alert(err, 'error');
+                }
+        });
     }
-
-    getStatesByServiceID(serviceID) {
-        this.zoneMasterService.getStatesByServiceID(serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    getServicesSuccessHandeler(response) {
+        this.services = response;
+        console.log("services array", this.services);       
     }
+    getStates(value) {
+        console.log("value", value);
+        let obj = {
+            'userID': this.userID,
+            'serviceID': value.serviceID,
+            'isNational': value.isNational
+        }
+        this.zoneMasterService.getStatesNew(obj).
+            subscribe((response) => {
+                console.log("state response", response);
+                
+                this.getStatesSuccessHandeler(response),
+                    (err) => {
+                        console.log("error in fetching states", err);
+                    }
+                //this.alertMessage.alert(err, 'error');
+            });
 
+    }
+    
     getStatesSuccessHandeler(response) {
         console.log("state response", response);
-        if (response.serviceID === "MMU") {
-
-        }
-
-        this.provider_states = response;
+        this.states = response;      
     }
-
-    districts: any = [];
-    getDistricts(stateID) {
-        this.zoneMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    setProviderServiceMapID(providerServiceMapID) {
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+        //this.search();
+    }
+    getDistricts(state) {
+        console.log("stateID", state);
+        this.zoneMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+       
     }
     getDistrictsSuccessHandeler(response) {
+        console.log("response", response);
         this.districts = response;
-        console.log(this.districts)
+        console.log(this.districts);
     }
-    taluks: any = [];
     GetTaluks(districtID: number) {
         this.zoneMasterService.getTaluks(districtID)
             .subscribe(response => this.SetTaluks(response));
@@ -89,54 +132,30 @@ export class ZoneComponent implements OnInit {
         this.taluks = response;
     }
 
-    branches: any = [];
     GetBranches(talukID: number) {
+        console.log("GetBranches", talukID);
+        
         this.zoneMasterService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response));
     }
     SetBranches(response: any) {
+        console.log("village response", response);
         this.branches = response;
     }
-
-
-    getServicesSuccessHandeler(response) {
-        this.provider_services = response;
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.providerServiceMapID = provider_service.providerServiceMapID;
-            }
-        }
-    }
-
-    getAvailableZones() {
-        this.zoneMasterService.getZones({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZonesSuccessHandler(response));
-    }
-
-
-    getZonesSuccessHandler(response) {
-        this.availableZones = response;
-        for (let availableZone of this.availableZones) {
-            this.availableZoneNames.push(availableZone.zoneName);
-        }
-    }
-
-    zoneNameExist: any = false;
     checkExistance(zoneName) {
         this.zoneNameExist = this.availableZoneNames.includes(zoneName);
         console.log(this.zoneNameExist);
     }
-
-    zoneObj: any;
-    zoneList: any = [];
     addZoneToList(values) {
+        console.log("values", values);
         // for(let services of values.serviceID){
         this.zoneObj = {};
         this.zoneObj.countryID = this.countryID;
         this.zoneObj.zoneName = values.zoneName;
         this.zoneObj.zoneDesc = values.zoneDesc;
-        if (values.stateID != undefined) {
-            this.zoneObj.stateID = values.stateID.split("-")[0];
-            this.zoneObj.stateName = values.stateID.split("-")[1];
+        if (values.state.stateID != undefined) {
+            this.zoneObj.stateID = values.state.stateID;
+            this.zoneObj.stateName = values.state.stateName;
         }
         if (values.districtID != undefined) {
             this.zoneObj.districtID = values.districtID.split("-")[0];
@@ -150,11 +169,9 @@ export class ZoneComponent implements OnInit {
             this.zoneObj.districtBranchID = values.branchID.split("-")[0];
             this.zoneObj.villageName = values.branchID.split("-")[1];
         }
-        if (values.serviceID != undefined) {
-            this.zoneObj.providerServiceMapID = values.serviceID.split("-")[1];
-        }
+        
         this.zoneObj.zoneHQAddress = values.zoneHQAddress;
-
+        this.zoneObj.providerServiceMapID = this.providerServiceMapID;
         this.zoneObj.createdBy = this.createdBy;
 
         if (this.zoneList.length == 0) {
@@ -172,6 +189,7 @@ export class ZoneComponent implements OnInit {
                 this.alertMessage.alert("Already exists");
             else {
                 this.zoneList.push(this.zoneObj);
+                console.log("this.zonelist", this.zoneList);
             }
 
         }
@@ -179,17 +197,41 @@ export class ZoneComponent implements OnInit {
     }
 
     storezone() {
-        console.log(this.zoneList);
+        console.log("zonelist",this.zoneList);
         let obj = { "zones": this.zoneList };
         this.zoneMasterService.saveZones(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
     }
 
     successHandler(response) {
+        console.log("save response", response);
         this.zoneList = [];
         this.alertMessage.alert("Saved successfully", 'success');
         this.getAvailableZones();
         this.showZones = true;
+        this.editable = false;
     }
+
+// getStatesByServiceID(serviceID) {
+    //     this.zoneMasterService.getStatesByServiceID(serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    // }
+    stateSelection(stateID) {
+        this.getServices(stateID);
+    }
+
+    getServices(stateID) {
+        this.providerAdminRoleService.getServices_filtered(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+    }
+
+    // getStates() {
+    //     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    // }
+  
+
+    
+  
+
+   
+   
     remove_obj(index) {
         this.zoneList.splice(index, 1);
     }
@@ -263,7 +305,7 @@ export class ZoneComponent implements OnInit {
         this.getDistricts(zone.stateID);
         this.GetTaluks(zone.districtID);
         this.GetBranches(zone.districtBlockID);
-        this.getStates();
+        // this.getStates();
         this.getServices(zone.stateID);
 
         this.editable = true;
