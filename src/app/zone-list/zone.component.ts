@@ -31,6 +31,7 @@ export class ZoneComponent implements OnInit {
   talukID: any;
   branchID: any;
   editZoneValue: any;
+  showTableFlag: boolean = false;
   zoneNameExist: any = false;
   editable: any = false;
   showZones: any = true;
@@ -60,52 +61,13 @@ export class ZoneComponent implements OnInit {
 
   ngOnInit() {
     this.userID = this.commonDataService.uid;
-    this.getAvailableZones();
-  }
-
-  getAvailableZones() {
-    this.zoneMasterService.getZones({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZonesSuccessHandler(response));
-  }
-
-  getZonesSuccessHandler(response) {
-    console.log("all zones", response);
-
-    this.availableZones = response;
-    for (let availableZone of this.availableZones) {
-      this.availableZoneNames.push(availableZone.zoneName);
-    }
-  }
-
-  showForm() {
-    debugger;
-    console.log('form show', this.zoneName,
-      this.zoneDesc,
-      this.zoneHQAddress,
-      this.state,
-      this.districtID,
-      this.talukID,
-      this.branchID,
-      this.service);
-
-    console.log('master',
-      this.services,
-      this.states,
-      this.districts,
-      this.taluks,
-      this.branches,
-    );
-
-    debugger;
-
-
-    this.showZones = false;
-    this.editable = false;
     this.getServiceLines();
+   
   }
   getServiceLines() {
+    debugger;
     // this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
-    this.zoneMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
-      console.log("service response", response);
+    this.zoneMasterService.getServiceLinesNew(this.userID).subscribe((response) => {     
       this.getServicesSuccessHandeler(response),
         (err) => {
           console.log("ERROR in fetching serviceline", err);
@@ -118,22 +80,19 @@ export class ZoneComponent implements OnInit {
     if (this.editZoneValue != undefined) {
       if (this.services) {
         let service = this.services.filter((serviceRes) => {
-          if (this.editZoneValue.m_providerServiceMapping.m_serviceMaster.serviceID == serviceRes.serviceID) {
-            console.log('serviceRes', serviceRes);
+          if (this.editZoneValue.m_providerServiceMapping.m_serviceMaster.serviceID == serviceRes.serviceID) {            
             return serviceRes;
           }
         })[0];
-        if (service) {
-          debugger;
-          this.service = service;
-          console.log('service', service, this.service);
-          debugger;
+        if (service) {         
+          this.service = service;        
           this.getStates(service);
         }
       }
     }
   }
   getStates(value) {
+    debugger;
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,
@@ -141,8 +100,6 @@ export class ZoneComponent implements OnInit {
     }
     this.zoneMasterService.getStatesNew(obj).
       subscribe((response) => {
-        console.log("state response", response);
-
         this.getStatesSuccessHandeler(response),
           (err) => {
             console.log("error in fetching states", err);
@@ -153,8 +110,9 @@ export class ZoneComponent implements OnInit {
   }
 
   getStatesSuccessHandeler(response) {
+    debugger;
     console.log("state response", response);
-    this.states = response;
+    this.states = response;   
     if (this.editZoneValue != undefined) {
       if (this.states) {
         let state = this.states.filter((statesRes) => {
@@ -175,9 +133,28 @@ export class ZoneComponent implements OnInit {
     this.providerServiceMapID = providerServiceMapID;
 
   }
-  getDistricts(state) {
+  getAvailableZones() {
+    debugger;
+    this.zoneMasterService.getZones({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZonesSuccessHandler(response));
+  }
 
-    console.log("stateID", state);
+  getZonesSuccessHandler(response) {
+    debugger;
+    console.log("all zones", response);
+    this.availableZones = response;
+    this.showTableFlag = true;
+    for (let availableZone of this.availableZones) {
+      this.availableZoneNames.push(availableZone.zoneName);
+    }
+  }
+
+  showForm() {
+    this.showZones = false;
+    this.editable = false;
+    
+  }
+  
+  getDistricts(state) {  
     this.zoneMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
   }

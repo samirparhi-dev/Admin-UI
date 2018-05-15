@@ -109,17 +109,6 @@ export class ZoneMasterService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
-    getServiceLines() {
-        return this.http.post(this._getServiceLinesURL, {})
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-    getServiceLines_zonemapping(){
-        return this.http.post(this._getServiceLinesURL, {})
-    		.map(this.handleState_n_ServiceSuccess)
-    		.catch(this.handleError);
-    }
     getServiceLinesNew(userID) {
         return this.httpIntercept
             .post(this.getServiceLines_new_url, { 'userID': userID })
@@ -132,12 +121,6 @@ export class ZoneMasterService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-    getStatesByServiceID(serviceID, serviceProviderID) {
-        return this.http.post(this._getStateListByServiceIDURL, { "serviceID": serviceID, "serviceProviderID": serviceProviderID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
     getDistricts(stateId: number) {
         return this.http.get(this._getDistrictListURL + stateId)
             .map(this.handleSuccess)
