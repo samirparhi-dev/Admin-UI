@@ -73,7 +73,7 @@
                 <input mdInput style="display:none">
                 <md-select [(ngModel)]="username" name="username" placeholder="Select User Name " [style.width]="
               '100%' " required>
-                  <md-option *ngFor="let item of userNamesList " [value]="item ">{{item.userName}}</md-option>
+                  <md-option *ngFor="let item of userNamesList | OrderBy : 'userName' " [value]="item ">{{item.userName}}</md-option>
                 </md-select>
               </md-input-container>
             </div>
@@ -222,7 +222,7 @@
             <input mdInput style="display:none">
             <md-select name="user_name" placeholder="Select User Name " [style.width]="
               '100%' " [(ngModel)]="edit_Details.userID" [disabled]="disableUsername" required>
-              <md-option *ngFor="let item of userNamesList" [value]="item.userID">{{item.userName}}</md-option>
+              <md-option *ngFor="let item of userNamesList | OrderBy : 'userName'" [value]="item.userID">{{item.userName}}</md-option>
             </md-select>
           </md-input-container>
         </div>

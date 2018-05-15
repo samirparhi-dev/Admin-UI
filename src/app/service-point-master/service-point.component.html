@@ -171,7 +171,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                        <md-input-container [style.width]="'100%'">
+                        <md-input-container [style.width]="'100%'" myName>
                             <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
                                 (blur)="checkExistance(servicePointName)">
                             <md-hint>
@@ -247,10 +247,10 @@
             </table>
         </div>
 
-        <div class="m-t-10 m-b-10">
-            <button md-raised-button [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
-            <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 m-t-10 m-b-10" *ngIf="!showServicePoints">
+        <button md-raised-button [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
+        <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     </div>
 
 </div>
