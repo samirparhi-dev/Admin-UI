@@ -44,7 +44,7 @@ export class ProcedureMasterComponent implements OnInit {
     private fb: FormBuilder,
     public providerAdminRoleService: ProviderAdminRoleService,
     private procedureMasterServiceService: ProcedureMasterServiceService,
-    public stateandservices: ServicePointMasterService, ) {
+    public stateandservices: ServicePointMasterService) {
     this.states = [];
     this.services = [];
 
