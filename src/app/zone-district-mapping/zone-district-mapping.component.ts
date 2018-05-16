@@ -57,13 +57,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
 
-    getServiceLines() {
-        this.zoneMasterService.getServiceLines_zonemapping().subscribe(response => this.getServicesSuccessHandeler(response));
-    }
+    // getServiceLines() {
+    //     this.zoneMasterService.getServiceLines_zonemapping().subscribe(response => this.getServicesSuccessHandeler(response));
+    // }
 
-    getStatesByServiceID(serviceID) {
-        this.zoneMasterService.getStatesByServiceID(serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
+    // getStatesByServiceID(serviceID) {
+    //     this.zoneMasterService.getStatesByServiceID(serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    // }
 
     getStatesSuccessHandeler(response) {
         this.provider_states = response;

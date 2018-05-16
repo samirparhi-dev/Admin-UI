@@ -50,7 +50,6 @@ export class ParkingPlaceComponent implements OnInit {
 
     @ViewChild('searchForm') searchForm: NgForm
     @ViewChild('parkingPlaceForm') parkingPlaceForm: NgForm
-    @ViewChild('parkingPlaceForm1') parkingPlaceForm1: NgForm
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public parkingPlaceMasterService: ParkingPlaceMasterService,
@@ -77,8 +76,7 @@ export class ParkingPlaceComponent implements OnInit {
         // this.getStatesByServiceID();
     }
     getServiceLines() {
-        this.parkingPlaceMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
-            console.log("service response", response);
+        this.parkingPlaceMasterService.getServiceLinesNew(this.userID).subscribe((response) => {         
             this.getServicesSuccessHandeler(response),
                 (err) => {
                     console.log("ERROR in fetching serviceline", err);
@@ -97,8 +95,6 @@ export class ParkingPlaceComponent implements OnInit {
         }
         this.parkingPlaceMasterService.getStatesNew(obj).
             subscribe((response) => {
-                console.log("state response", response);
-
                 this.getStatesSuccessHandeler(response),
                     (err) => {
                         console.log("error in fetching states", err);
@@ -108,8 +104,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
 
-    getStatesSuccessHandeler(response) {
-        console.log("state response", response);
+    getStatesSuccessHandeler(response) {      
         this.states = response;
     }
     setProviderServiceMapID(providerServiceMapID) {
@@ -117,25 +112,21 @@ export class ParkingPlaceComponent implements OnInit {
         this.providerServiceMapID = providerServiceMapID;
 
     }
-    getDistricts(state) {
-        console.log("stateID", state);
+    getDistricts(state) {      
         this.parkingPlaceMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
     }
-    getDistrictsSuccessHandeler(response) {
-        console.log("district response", response);
+    getDistrictsSuccessHandeler(response) {      
         this.districts = response;
     }
 
-    GetTaluks(districtID) {
-        console.log("this.districtID", this.districtID);
+    GetTaluks(districtID) {      
         this.parkingPlaceMasterService.getTaluks(districtID)
             .subscribe(response => {
                 this.SetTaluks(response)
             });
     }
-    SetTaluks(response: any) {
-        console.log("taluk response", response);
+    SetTaluks(response: any) {      
         this.taluks = response;
         if (this.editParkingplaceValue != undefined) {
             if (this.taluks) {
@@ -171,8 +162,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
-    addParkingPlaceToList(values) {
-        console.log("values", values);
+    addParkingPlaceToList(values) {       
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
         this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
@@ -188,10 +178,10 @@ export class ParkingPlaceComponent implements OnInit {
             this.parkingPlaceObj.districtBlockID = values.talukID.blockID;
             this.parkingPlaceObj.blockName = values.talukID.blockName;
         }
-        if (values.stateID != undefined) {
-            this.parkingPlaceObj.stateID = values.stateID;
-            this.parkingPlaceObj.stateName = values.stateName;
-        }
+        // if (values.stateID != undefined) {
+        //     this.parkingPlaceObj.stateID = values.stateID;
+        //     this.parkingPlaceObj.stateName = values.stateName;
+        // }
         this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
         this.parkingPlaceObj.providerServiceMapID = this.providerServiceMapID;
         this.parkingPlaceObj.createdBy = this.createdBy;
@@ -203,9 +193,7 @@ export class ParkingPlaceComponent implements OnInit {
             this.parkingPlaceForm.resetForm();
         }
         else if (this.parkingPlaceList.length > 0) {
-            for (let a = 0; a < this.parkingPlaceList.length; a++) {
-                console.log("this.parkingPlaceObj[a]", this.parkingPlaceObj);
-                console.log("this.parkingPlaceObj", this.parkingPlaceObj.zoneName);
+            for (let a = 0; a < this.parkingPlaceList.length; a++) {              
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
@@ -221,8 +209,7 @@ export class ParkingPlaceComponent implements OnInit {
                 this.parkingPlaceForm.resetForm();
             }
             else {
-                this.parkingPlaceList.push(this.parkingPlaceObj);
-                console.log("this.parkingPlaceList", this.parkingPlaceList);
+                this.parkingPlaceList.push(this.parkingPlaceObj);              
                 this.parkingPlaceForm.resetForm();
             }
         }
@@ -236,14 +223,10 @@ export class ParkingPlaceComponent implements OnInit {
 
     storeParkingPlaces() {
         let obj = { "parkingPlaces": this.parkingPlaceList };
-        console.log("req obj", obj);
-
         this.parkingPlaceMasterService.saveParkingPlace(obj).subscribe(response => this.parkingPlaceSuccessHandler(response));
     }
 
     parkingPlaceSuccessHandler(response) {
-        console.log("parking place", response);
-
         this.parkingPlaceList = [];
         this.alertMessage.alert("Saved successfully", 'success');
         this.showList();    
@@ -289,8 +272,7 @@ export class ParkingPlaceComponent implements OnInit {
 
 
     checkExistance(parkingPlaceName) {
-        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);
-        console.log(this.parkingPlaceNameExist);
+        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);      
     }
 
 
@@ -303,8 +285,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.talukID = "";
         this.areaHQAddress = "";
     }
-    editParkingPlaceData(parkingPlace) {
-        console.log("parkingPlace", parkingPlace);
+    editParkingPlaceData(parkingPlace) {      
         this.editable = true;
         this.disableSelection = true;
         this.showListOfParking = false;
@@ -329,13 +310,11 @@ export class ParkingPlaceComponent implements OnInit {
         this.dataObj.service = this.service.serviceID;
         this.dataObj.stateID = this.state.stateID;
         this.dataObj.districtID = this.districtID.districtID;
-        this.dataObj.districtBlockID = this.talukID.blockID;
-        console.log("updated req obj", this.dataObj);
+        this.dataObj.districtBlockID = this.talukID.blockID;      
         this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
     }
 
-    updateHandler(response) {
-        console.log("edited response", response);
+    updateHandler(response) {      
         this.editable = true;
         this.alertMessage.alert("Updated successfully", 'success');
         this.showList();
