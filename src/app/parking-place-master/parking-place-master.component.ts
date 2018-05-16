@@ -196,9 +196,9 @@ export class ParkingPlaceComponent implements OnInit {
             for (let a = 0; a < this.parkingPlaceList.length; a++) {              
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
-                    && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
-                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress
-                    && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
+                    && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID) {
+                    // && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress
+                    // && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
                     this.bufferCount = this.bufferCount + 1;
                     console.log('Duplicate Combo Exists', this.bufferCount);
                 }
@@ -280,8 +280,8 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceID = "";
         this.parkingPlaceName = "";
         this.parkingPlaceDesc = "";
-        this.stateID = "";
-        this.districtID = "";
+       // this.stateID = "";
+        //this.districtID = "";
         this.talukID = "";
         this.areaHQAddress = "";
     }
