@@ -231,9 +231,9 @@ export class ZoneComponent implements OnInit {
       for (let a = 0; a < this.zoneList.length; a++) {       
         if (this.zoneList[a].zoneName === zoneObj.zoneName
           && this.zoneList[a].stateName === zoneObj.stateName
-          && this.zoneList[a].districtName === zoneObj.districtName
-          && this.zoneList[a].blockName === zoneObj.blockName
-          && this.zoneList[a].villageName === zoneObj.villageName) {
+          && this.zoneList[a].districtName === zoneObj.districtName) {
+          // && this.zoneList[a].blockName === zoneObj.blockName
+          // && this.zoneList[a].villageName === zoneObj.villageName) {
           this.bufferCount = this.bufferCount + 1;
           console.log('Duplicate Combo Exists', this.bufferCount);
         }
