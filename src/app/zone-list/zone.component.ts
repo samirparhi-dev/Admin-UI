@@ -31,9 +31,12 @@ export class ZoneComponent implements OnInit {
   talukID: any;
   branchID: any;
   editZoneValue: any;
+  showTableFlag: boolean = false;
   zoneNameExist: any = false;
   editable: any = false;
   showZones: any = true;
+  showListOfZones: boolean = true;
+  disableSelection: boolean = false;
   bufferCount: any = 0;
 
   /*arrays*/
@@ -60,52 +63,12 @@ export class ZoneComponent implements OnInit {
 
   ngOnInit() {
     this.userID = this.commonDataService.uid;
-    this.getAvailableZones();
-  }
-
-  getAvailableZones() {
-    this.zoneMasterService.getZones({ "serviceProviderID": this.service_provider_id }).subscribe(response => this.getZonesSuccessHandler(response));
-  }
-
-  getZonesSuccessHandler(response) {
-    console.log("all zones", response);
-
-    this.availableZones = response;
-    for (let availableZone of this.availableZones) {
-      this.availableZoneNames.push(availableZone.zoneName);
-    }
-  }
-
-  showForm() {
-    debugger;
-    console.log('form show', this.zoneName,
-      this.zoneDesc,
-      this.zoneHQAddress,
-      this.state,
-      this.districtID,
-      this.talukID,
-      this.branchID,
-      this.service);
-
-    console.log('master',
-      this.services,
-      this.states,
-      this.districts,
-      this.taluks,
-      this.branches,
-    );
-
-    debugger;
-
-
-    this.showZones = false;
-    this.editable = false;
     this.getServiceLines();
+
   }
-  getServiceLines() {
+  getServiceLines() {   
     // this.zoneMasterService.getServiceLines().subscribe(response => this.getServicesSuccessHandeler(response));
     this.zoneMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
-      console.log("service response", response);
       this.getServicesSuccessHandeler(response),
         (err) => {
           console.log("ERROR in fetching serviceline", err);
@@ -114,26 +77,9 @@ export class ZoneComponent implements OnInit {
     });
   }
   getServicesSuccessHandeler(response) {
-    this.services = response;
-    if (this.editZoneValue != undefined) {
-      if (this.services) {
-        let service = this.services.filter((serviceRes) => {
-          if (this.editZoneValue.m_providerServiceMapping.m_serviceMaster.serviceID == serviceRes.serviceID) {
-            console.log('serviceRes', serviceRes);
-            return serviceRes;
-          }
-        })[0];
-        if (service) {
-          debugger;
-          this.service = service;
-          console.log('service', service, this.service);
-          debugger;
-          this.getStates(service);
-        }
-      }
-    }
+    this.services = response;    
   }
-  getStates(value) {
+  getStates(value) {  
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,
@@ -141,8 +87,6 @@ export class ZoneComponent implements OnInit {
     }
     this.zoneMasterService.getStatesNew(obj).
       subscribe((response) => {
-        console.log("state response", response);
-
         this.getStatesSuccessHandeler(response),
           (err) => {
             console.log("error in fetching states", err);
@@ -152,37 +96,38 @@ export class ZoneComponent implements OnInit {
 
   }
 
-  getStatesSuccessHandeler(response) {
-    console.log("state response", response);
-    this.states = response;
-    if (this.editZoneValue != undefined) {
-      if (this.states) {
-        let state = this.states.filter((statesRes) => {
-          if (this.editZoneValue.stateID == statesRes.stateID) {
-            return statesRes;
-          }
-        })[0];
-        if (state) {
-          this.state = state;
-          this.getDistricts(state);
-        }
-      }
-
-    }
+  getStatesSuccessHandeler(response) { 
+    this.states = response;  
   }
-  setProviderServiceMapID(providerServiceMapID) {
-    console.log("providerServiceMapID", providerServiceMapID);
+  setProviderServiceMapID(providerServiceMapID) {  
     this.providerServiceMapID = providerServiceMapID;
 
   }
-  getDistricts(state) {
+  getAvailableZones() {  
+    this.zoneMasterService.getZones({ "providerServiceMapID": this.providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+  }
 
-    console.log("stateID", state);
+  getZonesSuccessHandler(response) {   
+    console.log("all zones", response);
+    this.availableZones = response;
+    this.showTableFlag = true;
+    for (let availableZone of this.availableZones) {
+      this.availableZoneNames.push(availableZone.zoneName);
+    }
+  }
+
+  showForm() {
+    this.showListOfZones = false;
+    this.showZones = false;
+    this.disableSelection = true;
+    this.showTableFlag = false;
+  }
+
+  getDistricts(state) {
     this.zoneMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
   }
-  getDistrictsSuccessHandeler(response) {
-    console.log("district response", response);
+  getDistrictsSuccessHandeler(response) {   
     this.districts = response;
     if (this.editZoneValue != undefined) {
       if (this.districts) {
@@ -200,16 +145,13 @@ export class ZoneComponent implements OnInit {
     }
   }
   GetTaluks(district) {
-    console.log('district', district);
     this.zoneMasterService.getTaluks(district.districtID)
-      .subscribe(response => {
-        console.log("taluk response", response);
+      .subscribe(response => {     
         this.SetTaluks(response);
       }
       );
   }
-  SetTaluks(response) {
-    console.log("taluk", response);
+  SetTaluks(response) {   
     this.taluks = response;
     if (this.editZoneValue != undefined) {
       if (this.taluks) {
@@ -228,12 +170,10 @@ export class ZoneComponent implements OnInit {
   }
 
   GetBranches(taluk) {
-    console.log("GetBranches", taluk);
-    this.zoneMasterService.getBranches(taluk.blockID)
+       this.zoneMasterService.getBranches(taluk.blockID)
       .subscribe(response => this.SetBranches(response));
   }
-  SetBranches(response: any) {
-    console.log("village response", response);
+  SetBranches(response: any) {   
     this.branches = response;
     if (this.editZoneValue != undefined) {
       if (this.branches) {
@@ -255,16 +195,14 @@ export class ZoneComponent implements OnInit {
     this.zoneNameExist = this.availableZoneNames.includes(zoneName);
     console.log(this.zoneNameExist);
   }
-  addZoneToList(values) {
-    console.log("values", values);
+  addZoneToList(values) {   
     this.zoneObj = {};
     this.zoneObj.countryID = this.countryID;
     this.zoneObj.zoneName = values.zoneName;
     this.zoneObj.zoneDesc = values.zoneDesc;
-    if (values.state.stateID != undefined) {
-      this.zoneObj.stateID = values.state.stateID;
-      this.zoneObj.stateName = values.state.stateName;
-    }
+    this.zoneObj.stateID = this.state.stateID;
+    this.zoneObj.stateName = this.state.stateName;
+
     if (values.districtID != undefined) {
       this.zoneObj.districtID = values.districtID.districtID;
       this.zoneObj.districtName = values.districtID.districtName;
@@ -290,14 +228,12 @@ export class ZoneComponent implements OnInit {
       this.resetDropdowns();
     }
     else if (this.zoneList.length > 0) {
-      for (let a = 0; a < this.zoneList.length; a++) {
-        console.log("this.zoneObj[a]", this.zoneObj);
-        console.log("this.zoneObj", this.zoneObj.zoneName);
+      for (let a = 0; a < this.zoneList.length; a++) {       
         if (this.zoneList[a].zoneName === zoneObj.zoneName
           && this.zoneList[a].stateName === zoneObj.stateName
-          && this.zoneList[a].districtName === zoneObj.districtName
-          && this.zoneList[a].blockName === zoneObj.blockName
-          && this.zoneList[a].villageName === zoneObj.villageName) {
+          && this.zoneList[a].districtName === zoneObj.districtName) {
+          // && this.zoneList[a].blockName === zoneObj.blockName
+          // && this.zoneList[a].villageName === zoneObj.villageName) {
           this.bufferCount = this.bufferCount + 1;
           console.log('Duplicate Combo Exists', this.bufferCount);
         }
@@ -308,33 +244,26 @@ export class ZoneComponent implements OnInit {
         this.resetDropdowns();
       }
       else {
-        this.zoneList.push(this.zoneObj);
-        console.log("this.zonelist", this.zoneList);
+        this.zoneList.push(this.zoneObj);       
         this.resetDropdowns();
       }
     }
 
   }
-  resetDropdowns() {
-    this.states = [];
-    this.districts = [];
+  resetDropdowns() {   
     this.taluks = [];
     this.branches = [];
   }
 
-  storezone() {
-    console.log("zonelist", this.zoneList);
+  storezone() {   
     let obj = { "zones": this.zoneList };
     this.zoneMasterService.saveZones(JSON.stringify(obj)).subscribe(response => this.successHandler(response));
   }
 
-  successHandler(response) {
-    console.log("save response", response);
+  successHandler(response) {  
     this.zoneList = [];
     this.alertMessage.alert("Saved successfully", 'success');
-    this.getAvailableZones();
-    this.showZones = true;
-    this.editable = false;
+    this.showList();    
   }
 
   getServices(stateID) {
@@ -381,24 +310,24 @@ export class ZoneComponent implements OnInit {
     this.zoneName = "";
     this.zoneDesc = "";
     this.zoneHQAddress = "";
-    this.state = null;
+    //this.state = null;
     this.districtID = null;
     this.talukID = null;
     this.branchID = null;
-    this.service = null;
+    // this.service = null;
   }
   editZoneData(zone) {
-
-    console.log("edit zone", zone);
+    this.editable = true;
+    this.showZones = false;
+    this.disableSelection = true;
+    this.showListOfZones = false;   
     this.editZoneValue = zone;
-    this.getServiceLines();
-
+    this.getDistricts(zone);
     this.zoneID = zone.zoneID;
     this.zoneName = zone.zoneName
     this.zoneDesc = zone.zoneDesc;
     this.zoneHQAddress = zone.zoneHQAddress;
-    this.editable = true;
-    this.showZones = false;
+    
   }
 
   updateZoneData(zone) {
@@ -407,13 +336,10 @@ export class ZoneComponent implements OnInit {
     this.dataObj.zoneName = this.zoneName;
     this.dataObj.zoneDesc = this.zoneDesc;
     this.dataObj.zoneHQAddress = this.zoneHQAddress;
-    //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];
-    if (this.service != undefined) {
-      this.dataObj.serviceID = this.service.serviceID;
-    }
-    if (this.state != undefined) {
+    //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];   
+      this.dataObj.serviceID = this.service.serviceID;    
       this.dataObj.stateID = this.state.stateID;
-    }
+    
     if (this.districtID != undefined) {
       this.dataObj.districtID = this.districtID.districtID;
     }
@@ -424,8 +350,6 @@ export class ZoneComponent implements OnInit {
       this.dataObj.districtBranchID = this.branchID.districtBranchID;
     }
     this.dataObj.modifiedBy = this.createdBy;
-    console.log("this.dataObj", this.dataObj);
-
     this.zoneMasterService.updateZoneData(this.dataObj).subscribe((response) => {
       console.log("updated response", response);
       this.updateHandler(response)
@@ -433,27 +357,27 @@ export class ZoneComponent implements OnInit {
   }
 
   updateHandler(response) {
-    debugger;
     this.initializeObj();
     this.resetDropdowns();
-    this.clearEdit();
+    this.showList();
     this.editZoneValue = null;
-    this.alertMessage.alert("Updated successfully", 'success');
-
-    this.getAvailableZones();
-
+    this.alertMessage.alert("Updated successfully", 'success');   
+       
   }
 
-  clearEdit() {
+  showList() {
+    this.getAvailableZones();
     this.showZones = true;
     this.editable = false;
+    this.disableSelection = false;
+    this.showListOfZones = true;
   }
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.initializeObj();
+        this.ZoneForm.resetForm();        
         this.zoneList = [];
-        this.clearEdit();
+        this.showList();
 
       }
     })

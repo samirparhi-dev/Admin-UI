@@ -1,97 +1,105 @@
-<div *ngIf="showZones && !editable">
-  <h4>Available Zones</h4>
-  <div class="table-responsive m-t-15">
-    <table class="table table-striped table-hover" [md2Data]="availableZones" #md2="md2DataTable" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th width="5%">S.No.</th>
-          <th width="15%" md2SortBy="zoneName">Zone</th>
-          <th width="15%">Zone Description</th>
-          <th width="15%">Service</th>
-          <th width="15%">State</th>
-          <th width="20%">Address</th>
-          <th width="10%">Edit</th>
-          <th width="15%">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- <tr style="cursor: pointer" *ngFor="let zone of availableZones | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b} ;let i=index" >-->
-        <tr *ngIf="availableZones.length == 0" class="record-not-found">
-          <td colspan="8" align="center">No records found</td>
-        </tr>
-        <tr *ngFor="let zone of md2.data ;let i=index">
-          <td>{{availableZones.indexOf(zone)+1}}</td>
-          <td>{{zone.zoneName}}</td>
-          <td>{{zone.zoneDesc}}</td>
-          <td>{{zone.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
-          <td>{{zone.stateName}}</td>
-          <td>{{zone.zoneHQAddress}}
-            <span *ngIf="zone.villageName">, {{zone.villageName}}</span>
-            <span *ngIf="zone.blockName">, {{zone.blockName}}</span>
-            <span *ngIf="zone.districtName">, {{zone.districtName}}</span>
-          </td>
-          <td>
-            <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zone.deleted"
-              (click)="editZoneData(zone)">edit</md-icon>
-          </td>
-          <td>
-            <button *ngIf="zone.deleted=='1'" md-raised-button color="accent" (click)="updateZoneStatus(zone)">Activate</button>
-            <button *ngIf="zone.deleted=='0'" md-raised-button color="primary" (click)="updateZoneStatus(zone)">Deactivate</button>
-          </td>
-          <!-- <td *ngIf="zone.deleted=='0'"> <button class="btn" (click)="updateZoneStatus(zone)">Deactivate</button></td>
-        <td *ngIf="zone.deleted=='1'"> <button class="btn activateBtn" (click)="updateZoneStatus(zone)">Activate</button></td> -->
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="4">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="4" class="p-r-0 m-t-10">
-            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Zone </button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 *ngIf="showListOfZones">Available Zones</h4>
+    <h4 *ngIf="!editable && !showListOfZones">Create Zone </h4>
+    <h4 *ngIf="editable && !showListOfZones">Edit Zone </h4>
+    <form #searchForm="ngForm" autocomplete="off">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
+              required #bindService="ngModel" disabled={{disableSelection}}>
+              <md-option *ngFor="let item of services" [value]="item">
+                {{item.serviceName}}
+              </md-option>
+            </md-select>
+            <md-hint [hidden]=bindService.valid *ngIf="showListOfZones">
+              <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select placeholder="State" class="width100" [(ngModel)]="state" [disabled]="disableSelection"
+              (change)="setProviderServiceMapID(state.providerServiceMapID); getAvailableZones(); getDistricts(state)" name="state"
+              #bindState="ngModel" required>
+              <md-option *ngFor="let item of states" [value]="item">
+                {{item.stateName}}
+              </md-option>
+            </md-select>
+            <md-hint [hidden]=bindState.valid *ngIf="showListOfZones">
+              <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
-<div class="row">
-  <div *ngIf="!showZones">
-
-    <div class="col-xs-12 col-sm-12">
-      <h4 *ngIf="!editable">Create Zone </h4>
-      <h4 *ngIf="editable">Edit Zone </h4>
+<div class="row" *ngIf="showTableFlag && showListOfZones && !editable">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive m-t-15">
+      <table class="table table-striped table-hover" [md2Data]="availableZones" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="15%" md2SortBy="zoneName">Zone</th>
+            <th width="15%">Zone Description</th>
+            <th width="15%">Service</th>
+            <th width="15%">State</th>
+            <th width="20%">Address</th>
+            <th width="10%">Edit</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr style="cursor: pointer" *ngFor="let zone of availableZones | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b} ;let i=index" >-->
+          <tr *ngIf="availableZones.length == 0" class="record-not-found">
+            <td colspan="8" align="center">No records found</td>
+          </tr>
+          <tr *ngFor="let zone of md2.data ;let i=index">
+            <td>{{availableZones.indexOf(zone)+1}}</td>
+            <td>{{zone.zoneName}}</td>
+            <td>{{zone.zoneDesc}}</td>
+            <td>{{zone.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
+            <td>{{zone.stateName}}</td>
+            <td>{{zone.zoneHQAddress}}
+              <span *ngIf="zone.villageName">, {{zone.villageName}}</span>
+              <span *ngIf="zone.blockName">, {{zone.blockName}}</span>
+              <span *ngIf="zone.districtName">, {{zone.districtName}}</span>
+            </td>
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zone.deleted"
+                (click)="editZoneData(zone)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="zone.deleted=='1'" md-raised-button color="accent" (click)="updateZoneStatus(zone)">Activate</button>
+              <button *ngIf="zone.deleted=='0'" md-raised-button color="primary" (click)="updateZoneStatus(zone)">Deactivate</button>
+            </td>
+            <!-- <td *ngIf="zone.deleted=='0'"> <button class="btn" (click)="updateZoneStatus(zone)">Deactivate</button></td>
+        <td *ngIf="zone.deleted=='1'"> <button class="btn activateBtn" (click)="updateZoneStatus(zone)">Activate</button></td> -->
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="4" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Zone </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
+  </div>
+</div>
+
+<div *ngIf="!showListOfZones && (!showZones || editable)">
+  <div class="row">
     <form #zoneForm="ngForm" autocomplete="off">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
-            required #bindService="ngModel">
-            <md-option *ngFor="let item of services" [value]="item">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=bindService.valid>
-            <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="State" [disabled]="nationalFlag" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID);getDistricts(state)"
-            name="state" #bindState="ngModel" required>
-            <md-option *ngFor="let item of states" [value]="item">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=bindState.valid>
-            <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
-          </md-hint>
-        </md-input-container>
-      </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
@@ -106,7 +114,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <!-- <div class="clearfix visible-md"></div> -->
+     
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
@@ -137,7 +145,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix visible-md visible-sm"></div>
+      <div class="clearfix visible-lg visible-sm"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Description" [(ngModel)]="zoneDesc" name="zoneDesc" minlength="1" maxlength="100">
@@ -148,7 +156,7 @@
           <input required mdInput placeholder="Address" [(ngModel)]="zoneHQAddress" name="zoneHQAddress" #zoneAddress="ngModel" minlength="2"
             maxlength="300">
           <md-hint [hidden]="zoneAddress?.valid && zoneAddress != undefined">
-            <span class="error_text" *ngIf="!zoneAddress.required  && ( zoneAddress.dirty || zoneAddress.touched)">Please enter zone address</span>
+            <span class="error_text" *ngIf="!zoneAddress.required  && ( zoneAddress.dirty || zoneAddress.touched)">Address is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -160,6 +168,7 @@
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="zoneList.length>0">
       <div class="table-responsive">
         <table [md2Data]="zoneList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
@@ -199,10 +208,11 @@
         </table>
       </div>
     </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button [disabled]="!(zoneList.length >0)" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storezone()">Save</button>
-      <button *ngIf="editable" md-raised-button color="accent" class="pull-right" [disabled]="zoneForm.invalid" (click)="updateZoneData(zoneForm.value)">Update</button>
+      <button *ngIf="editable" md-raised-button color="accent" class="pull-right" [disabled]="zoneForm.invalid || zoneNameExist" (click)="updateZoneData(zoneForm.value)">Update</button>
     </div>
   </div>
 </div>
