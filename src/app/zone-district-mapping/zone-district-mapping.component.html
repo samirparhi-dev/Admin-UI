@@ -61,65 +61,67 @@
       <h4>Map Zone with District</h4>
     </div>
 
-    <form #zoneDistrictMappingForm="ngForm" autocomplete="off">
+    <form #zoneDistrictMappingForm="ngForm" autocomplete="off">      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select required placeholder="State" [style.width]="'100%'" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0]);"
-            #stateVal="ngModel">
-            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=stateVal.valid>
-            <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
-          </md-hint>
-        </md-input-container>
+          <md-input-container class="hide_underline width100">
+              <input mdInput style="display:none">
+              <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service"
+                  name="service" required #bindService="ngModel">
+                  <md-option *ngFor="let item of services" [value]="item">
+                      {{item.serviceName}}
+                  </md-option>
+              </md-select>
+              <md-hint [hidden]=bindService.valid>
+                  <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
+              </md-hint>
+          </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select required placeholder="Serviceline" (change)="getAvailableZones();" [style.width]="'100%'" [(ngModel)]="serviceID" name="serviceID" #serviceVal="ngModel">
-            <md-option *ngFor="let item of provider_services" value="{{item.serviceID}}-{{item.providerServiceMapID}}">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=serviceVal.valid>
-            <span class="error_text" *ngIf="!serviceVal.required  && ( serviceVal.dirty || serviceVal.touched)">Please select Service Line</span>
-          </md-hint>
-        </md-input-container>
+          <md-input-container class="hide_underline width100">
+              <input mdInput style="display:none">
+              <md-select placeholder="State" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+                  name="state" #bindState="ngModel" required>
+                  <md-option *ngFor="let item of states" [value]="item">
+                      {{item.stateName}}
+                  </md-option>
+              </md-select>
+              <md-hint [hidden]=bindState.valid>
+                  <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
+              </md-hint>
+          </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select required placeholder="Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel" (change)="checkExistance(service, zoneID);getDistricts(state)">
+              <md-option *ngFor="let zone of availableZones" [value]="zone">
+                {{zone.zoneName}}
+              </md-option>
+            </md-select>
+            <md-hint [hidden]=zoneG.valid>
+              <span class="error_text" *ngIf="!zoneG.required  && ( zoneG.dirty || zoneG.touched)">Please select Zone</span>
+            </md-hint>
+          </md-input-container>
+        </div>    
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+              <input mdInput style="display:none">
+              <md-select multiple placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID"
+                  #districtV="ngModel" required >
+                  <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">
+                      {{district.districtName}}
+                  </md-option>
+              </md-select>
+              <md-hint [hidden]=districtV.valid>
+                  <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select district</span>
+              </md-hint>
+          </md-input-container>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select required placeholder="Zone" [style.width]="'100%'" [(ngModel)]="zoneID" name="zoneID" #zoneG="ngModel" (change)="getDistricts(stateID.split('-')[0]);checkExistance(serviceID,zoneID);">
-            <md-option *ngFor="let zone of availableZones" value="{{zone.zoneID}}-{{zone.zoneName}}">
-              {{zone.zoneName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=zoneG.valid>
-            <span class="error_text" *ngIf="!zoneG.required  && ( zoneG.dirty || zoneG.touched)">Please select Zone</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select multiple [style.width]="'100%'" name="districtIdList" placeholder="Districts" [(ngModel)]="districtIdList" #districtF="ngModel"
-            required>
-            <md-option *ngFor="let district of districts" value="{{district.districtID}}-{{district.districtName}}">{{district.districtName}}</md-option>
-          </md-select>
-          <md-hint [hidden]=districtF.valid>
-            <span class="error_text" *ngIf="!districtF.required  && ( districtF.dirty || districtF.touched)">Please choose Districts</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-
-     
+      
     </form>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" >
-      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value);zoneDistrictMappingForm.reset()  ">
+      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -129,11 +131,11 @@
         <table [md2Data]="zoneDistrictMappingList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
           <thead>
             <tr>
-              <th>S.No.</th>
-              <th>Zone</th>
-              <th>State</th>
-              <th>District</th>
-              <th>Action</th>
+              <th width="5%">S.No.</th>
+              <th width="25%">Zone</th>
+              <th width="25%">State</th>
+              <th width="25%">District</th>
+              <th width="20%">Action</th>
             </tr>
           </thead>
           <tbody>
