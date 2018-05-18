@@ -11,6 +11,8 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
   styleUrls: ['./procedure-component-mapping.component.css']
 })
 export class ProcedureComponentMappingComponent implements OnInit {
+
+  serviceline:any;
   searchStateID: any;
   provider_states: any = [];
   services_array: any = [];

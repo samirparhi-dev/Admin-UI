@@ -14,7 +14,7 @@ export class ProcedureMasterComponent implements OnInit {
 
   state: any;
   service: any;
-
+  serviceline:any;
   states: any;
   services: any;
   disableSelection: boolean = false;

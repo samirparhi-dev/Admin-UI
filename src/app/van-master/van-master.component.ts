@@ -14,6 +14,7 @@ export class VanComponent implements OnInit {
     userID(arg0: any): any {
         throw new Error("Method not implemented.");
     }
+    serviceline:any;
     showVans: any = true;
     availableVans: any = [];
     data: any;
