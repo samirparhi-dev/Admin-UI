@@ -3,6 +3,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ProcedureComponentMappingServiceService } from './../services/ProviderAdminServices/procedure-component-mapping-service.service';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
 
 @Component({
   selector: 'app-procedure-component-mapping',
@@ -10,8 +11,14 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
   styleUrls: ['./procedure-component-mapping.component.css']
 })
 export class ProcedureComponentMappingComponent implements OnInit {
+  searchStateID: any;
+  provider_states: any = [];
+  services_array: any = [];
+  userID: any;
   state: any;
   service: any;
+  tableMode: boolean = false;
+  saveMode: boolean = false;
 
   states: any;
   services: any;
@@ -41,7 +48,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
   constructor(private commonDataService: dataService,
     public providerAdminRoleService: ProviderAdminRoleService,
     public alertService: ConfirmationDialogsService,
-    private procedureComponentMappingServiceService: ProcedureComponentMappingServiceService) {
+    private procedureComponentMappingServiceService: ProcedureComponentMappingServiceService,
+    public stateandservices: ServicePointMasterService) {
     this.states = [];
     this.services = [];
   }
@@ -68,20 +76,36 @@ export class ProcedureComponentMappingComponent implements OnInit {
       this.serviceProviderID = (this.commonDataService.service_providerID).toString();
     }
 
-    this.providerAdminRoleService.getStates(this.serviceProviderID)
+    this.userID = this.commonDataService.uid;
+
+
+    this.getProviderServices();
+  }
+  getProviderServices() {
+    this.stateandservices.getServices(this.userID)
       .subscribe(response => {
-        this.states = this.successhandeler(response);
-
-      }
-      );
-
+        this.services_array = response;
+      }, err => {
+      });
+  }
+  getStates(serviceID) {
+    this.stateandservices.getStates(this.userID, serviceID, false).
+      subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+      });
+  }
+  getStatesSuccessHandeler(response, isNational) {
+    if (response) {
+      console.log(response, 'Provider States');
+      this.provider_states = response;
+      // this.createButton = false;
+    }
   }
 
-  setProviderServiceMapID(ProviderServiceMapID) {
-    this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
-    this.providerServiceMapID = ProviderServiceMapID;
+  setProviderServiceMapID() {
+    this.commonDataService.provider_serviceMapID = this.searchStateID.providerServiceMapID;
+    this.providerServiceMapID = this.searchStateID.providerServiceMapID;
 
-    console.log('psmid', ProviderServiceMapID);
+    console.log('psmid', this.searchStateID.providerServiceMapID);
     console.log(this.service);
 
     this.getProcedureDropDown();
@@ -90,6 +114,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   configProcedureMapping(item, index) {
+    this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
@@ -125,6 +150,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
       .subscribe((res) => {
         this.mappedList = res;
         this.filteredMappedList = res;
+        this.tableMode = true;
       });
   }
 
@@ -175,6 +201,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
       this.alertService.alert('Mapping saved successfully', 'success');
+      this.showTable();
     } else if (this.editMode) {
       let index = -1;
       let filterIndex = -1;
@@ -192,6 +219,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
         this.mappedList[index] = res[0];
         this.filteredMappedList[filterIndex] = res[0];
         this.alertService.alert('Mapping updated successfully', 'success');
+        this.showTable();
 
       } else {
         this.mappedList.unshift(res[0]);
@@ -258,7 +286,22 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.providerAdminRoleService.getServices(this.serviceProviderID, stateID)
       .subscribe(response => this.servicesSuccesshandeler(response));
   }
-
+  showForm() {
+    this.tableMode = false;
+    this.saveMode = true;
+    this.disableSelection = true;
+  }
+  showTable() {
+    this.tableMode = true;
+    this.saveMode = false;
+    this.disableSelection = false;
+  }
+  back() {
+    this.showTable();
+    this.clearProcedureValue();
+    this.clearComponentValue();
+    this.clearSelectedComponentsList();
+  }
   getProcedureDropDown() {
     this.procedureComponentMappingServiceService
       .getProceduresList(this.providerServiceMapID)
