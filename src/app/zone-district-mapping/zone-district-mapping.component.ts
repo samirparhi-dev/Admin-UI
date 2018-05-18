@@ -38,9 +38,10 @@ export class ZoneDistrictMappingComponent implements OnInit {
   districtID: any = [];
   existingDistricts: any = [];
   zoneDistrictMappingList: any = [];
-  mappedDistrictIDs: any = [];
-
-
+  mappedDistrictIDs: any = [];  
+  availableDistricts = [];
+  bufferDistrictsArray: any = [];  
+  dataObj: any = {};
 
   @ViewChild('zoneDistrictMappingForm') zoneDistrictMappingForm: NgForm;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -137,8 +138,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.checkExistance(service, zoneID, stateID);
   }
 
-  availableDistricts = [];
-  bufferDistrictsArray: any = [];
 
   checkExistance(service, zoneID, stateID) {
     this.districtID = [];
@@ -240,7 +239,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.clearEdit();
   }
 
-  dataObj: any = {};
   updateZoneMappingStatus(zoneMapping) {
 
       let flag = !zoneMapping.deleted;
