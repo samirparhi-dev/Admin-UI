@@ -196,6 +196,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(this.serviceProviderID, stateID, serviceID);
     this.ProviderAdminRoleService.getRoles(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+      console.log("searchresultarray", this.searchresultarray);
+      
       this.filterScreens = [];
       for (var i = 0; i < this.searchresultarray.length; i++) {
         this.filterScreens.push(this.searchresultarray[i].screenName);
@@ -365,6 +367,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
   setRoleFormFlag(flag) {
+    debugger;
     console.log('service', this.service.serviceID);
     this.hideAdd = true;
     this.setEditSubmitButton = false;
