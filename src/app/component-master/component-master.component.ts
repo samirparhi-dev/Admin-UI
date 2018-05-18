@@ -13,7 +13,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ComponentMasterComponent implements OnInit {
 
-
+  serviceline:any;
   searchStateID: any;
   provider_states: any = [];
   userID: any;

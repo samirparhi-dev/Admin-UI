@@ -12,6 +12,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ServicePointVillageMapComponent implements OnInit {
 
+    serviceline:any;
     createButton: boolean = false;
     services_array: any;
     userID: any;
