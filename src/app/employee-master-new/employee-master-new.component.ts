@@ -71,7 +71,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   permanentPincode: any;
   isPresent: any;
   isPermanent: any;
-  checkAddress: boolean=false;
+  checkAddress: boolean = false;
 
   //array
   searchResult: any = [];
@@ -236,7 +236,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   * User name availability
   */
 
-  checkUserNameAvailability(username) {  
+  checkUserNameAvailability(username) {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
@@ -254,12 +254,11 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     }
     if (response.response == 'usernotexist') {
-      if ( this.username != '' && (this.username != undefined && this.username != null)) 
-      {
+      if (this.username != '' && (this.username != undefined && this.username != null)) {
         console.log("if response", response);
         this.showHint = false;
         this.username_dependent_flag = false;
-      }       
+      }
       // else 
       // {
       //   console.log("else response", response);
@@ -715,12 +714,11 @@ export class EmployeeMasterNewComponent implements OnInit {
         })
       }
     }
-    if(data.addressLine1==data.permAddressLine1 && data.addressLine2==data.permAddressLine2 &&
-      data.stateID==data.permStateID &&  data.districtID==data.permDistrictID && data.pinCode==data.permPinCode)
-      {
-        this.checkAddress=true;
-      }
-      
+    if (data.addressLine1 == data.permAddressLine1 && data.addressLine2 == data.permAddressLine2 &&
+      data.stateID == data.permStateID && data.districtID == data.permDistrictID && data.pinCode == data.permPinCode) {
+      this.checkAddress = true;
+    }
+
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -782,14 +780,14 @@ export class EmployeeMasterNewComponent implements OnInit {
     }
     else {
       doj = userCreationFormValue.doj;
-      console.log("doj", doj);      
+      console.log("doj", doj);
     }
     if (typeof userCreationFormValue.user_dob === "string") {
-      dob = new Date(userCreationFormValue.user_dob);     
+      dob = new Date(userCreationFormValue.user_dob);
     }
     else {
       dob = userCreationFormValue.user_dob;
-      console.log("dob", dob);      
+      console.log("dob", dob);
     }
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
@@ -838,7 +836,10 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.getAllUserDetails();
       this.showTable();
 
-    }, err => { this.dialogService.alert('error', err); });
+    }, err => {
+      console.log("error", err);
+      //this.dialogService.alert('error', err);
+    });
 
   }
 

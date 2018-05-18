@@ -50,7 +50,10 @@ export class DrugGroupComponent implements OnInit {
     this.drugGroupObj = {};
     this.drugGroupObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugGroups(this.drugGroupObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        this.alertMessage.alert(err, 'error')
+      });
   }
 
   getDrugGroupsSuccessHandeler(response) {
@@ -61,17 +64,26 @@ export class DrugGroupComponent implements OnInit {
   }
   getServices(stateID) {
     this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        //this.alertMessage.alert(err, 'error')
+      });
   }
 
   getStates() {
     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        //this.alertMessage.alert(err, 'error')
+      });
   }
 
   getStatesByServiceID() {
     this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        //this.alertMessage.alert(err, 'error')
+      });
   }
 
   getStatesSuccessHandeler(response) {
@@ -172,7 +184,10 @@ export class DrugGroupComponent implements OnInit {
         this.dataObj.deleted = !drugGroup.deleted;
         this.dataObj.modifiedBy = this.createdBy;
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => { this.alertMessage.alert(status + "d successfully", 'success') },
-          (err) => this.alertMessage.alert(err, 'error'));
+          (err) => {
+            console.log("error", err);
+            //this.alertMessage.alert(err, 'error')
+          });
         drugGroup.deleted = !drugGroup.deleted;
 
       }
@@ -185,9 +200,9 @@ export class DrugGroupComponent implements OnInit {
   //   console.log("Drug Group status changed");
   // }
 
-  remove_obj(index) {   
-    this.drugGroupList.splice(index, 1);   
-}
+  remove_obj(index) {
+    this.drugGroupList.splice(index, 1);
+  }
 
   drugGroupID: any;
   drugGroup: any;
@@ -216,7 +231,10 @@ export class DrugGroupComponent implements OnInit {
     //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
     this.dataObj.modifiedBy = this.createdBy;
     this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => this.updateHandler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        //this.alertMessage.alert(err, 'error')
+      });
 
   }
 
