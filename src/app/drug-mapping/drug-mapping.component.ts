@@ -131,12 +131,12 @@ export class DrugMappingComponent implements OnInit {
   drugIdList: any = [];
   mappedDrugIDs: any = [];
   addDrugToList(values) {
-    
+
     let drugIdList = [];
     for (let drugs of values.drugIdList) {
       drugIdList.push(drugs.split("-")[0]);
       console.log("drugIdList", this.drugIdList);
-      
+
     }
 
     //find drug deselected from the list , and Remove drugGroup mapping with that drug
@@ -176,8 +176,8 @@ export class DrugMappingComponent implements OnInit {
         // } 
 
         this.drugObj.createdBy = this.createdBy;
-        this.checkDuplicates(this.drugObj);       
-       // this.drugMapping.push(this.drugObj);
+        this.checkDuplicates(this.drugObj);
+        // this.drugMapping.push(this.drugObj);
       } else {
         console.log("already mapped with these drugs");
         this.alertMessage.alert("Already mapped with these drugs");
@@ -238,7 +238,10 @@ export class DrugMappingComponent implements OnInit {
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
           this.alertMessage.alert(status + "d successfully", 'success')
           drugMapping.deleted = !drugMapping.deleted
-        }), (err) => this.alertMessage.alert(err, 'error');
+        }), (err) => {
+          console.log("error", err);
+          //this.alertMessage.alert(err, 'error')
+        };
       }
     });
   }
@@ -262,7 +265,7 @@ export class DrugMappingComponent implements OnInit {
       }
     })
   }
- 
+
   existingDrugs: any = [];
   checkExistance(stateID, drugGroupID) {
     debugger;
@@ -272,7 +275,7 @@ export class DrugMappingComponent implements OnInit {
     if (drugGroupID != undefined) {
       drugGroupID = drugGroupID.split("-")[0];
     }
-    
+
     for (let availableDrugMapping of this.availableDrugMappings) {
       if (availableDrugMapping.providerServiceMapID == this.providerServiceMapID && availableDrugMapping.drugGroupID == drugGroupID) {
         // finding exsting drug group mappings with drugs

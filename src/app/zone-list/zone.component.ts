@@ -101,6 +101,7 @@ export class ZoneComponent implements OnInit {
   }
   setProviderServiceMapID(providerServiceMapID) {  
     this.providerServiceMapID = providerServiceMapID;
+    this.getAvailableZones();    
 
   }
   getAvailableZones() {  
@@ -231,7 +232,8 @@ export class ZoneComponent implements OnInit {
       for (let a = 0; a < this.zoneList.length; a++) {       
         if (this.zoneList[a].zoneName === zoneObj.zoneName
           && this.zoneList[a].stateName === zoneObj.stateName
-          && this.zoneList[a].districtName === zoneObj.districtName) {
+          && this.zoneList[a].districtName === zoneObj.districtName
+          && this.zoneList[a].zoneHQAddress === zoneObj.zoneHQAddress) {
           // && this.zoneList[a].blockName === zoneObj.blockName
           // && this.zoneList[a].villageName === zoneObj.villageName) {
           this.bufferCount = this.bufferCount + 1;

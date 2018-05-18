@@ -71,7 +71,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
     this.callTypeSubtypeService.getServiceLinesNew(this.userID).subscribe(response =>
       this.successhandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
     this.request_array = [];
     this.request_object = {
@@ -95,7 +96,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     }
     this.callTypeSubtypeService.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -221,7 +223,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   save() {
     this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray)
       .subscribe(response => this.saveCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -231,7 +234,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.showTable = true;
     this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID)
       .subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -495,7 +499,9 @@ export class EditCallType {
   get_calltype_subtype_history() {
     this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID)
       .subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        
+        // this.alertService.alert(err, 'error');
       });
   }
 

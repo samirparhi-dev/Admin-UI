@@ -11,7 +11,12 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
     templateUrl: './van-service-point-mapping.component.html'
 })
 export class VanServicePointMappingComponent implements OnInit {
-
+    userID: any;
+    service: any;
+    state: any;
+    parkingPlaceObj: any;
+    obj: any;
+    vanObj: any = {};
     createdBy: any;
     showVanServicePointMappings: any = true;
     data: any;
@@ -25,9 +30,18 @@ export class VanServicePointMappingComponent implements OnInit {
     searchStateID: any;
     searchDistrictID: any;
     searchParkingPlaceID: any;
+ 
     serviceID: any;
     formBuilder: FormBuilder = new FormBuilder();
     MappingForm: FormGroup;
+
+    /*arrays*/
+    services: any = [];
+    states: any = [];
+    districts: any = [];
+    availableParkingPlaces: any = [];    
+    availableVanTypes: any = [];
+    availableVans: any = [];
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
@@ -42,22 +56,122 @@ export class VanServicePointMappingComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.userID = this.commonDataService.uid;
         this.MappingForm = this.formBuilder.group({
             mappings: this.formBuilder.array([])
         });
-        //this.getStates();
-        this.getStatesByServiceID();
-        this.getVanTypes();
+        this.getServiceLines();        
     }
 
+    getServiceLines() {
+        this.vanServicePointMappingService.getServiceLinesNew(this.userID).subscribe((response) => {
+            this.getServicesSuccessHandeler(response),
+                (err) => {
+                    console.log("ERROR in fetching serviceline", err);
+                    // this.alertMessage.alert(err, 'error');
+                }
+        });
+    }
+    getServicesSuccessHandeler(response) {
+        this.services = response;
+    }
+    getStates(value) {
+        let obj = {
+            'userID': this.userID,
+            'serviceID': value.serviceID,
+            'isNational': value.isNational
+        }
+        this.vanServicePointMappingService.getStatesNew(obj).
+            subscribe((response) => {
+                this.getStatesSuccessHandeler(response),
+                    (err) => {
+                        console.log("error in fetching states", err);
+                    }
+                //this.alertMessage.alert(err, 'error');
+            });
 
+    }
 
+    getStatesSuccessHandeler(response) {
+        this.states = response;
+    }
+    setProviderServiceMapID(providerServiceMapID) {
+        debugger;
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+        this.getDistricts(this.state);
+       
+
+    }
+    getDistricts(state) {
+        debugger;
+        this.vanServicePointMappingService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+
+    }
+    getDistrictsSuccessHandeler(response) {
+        this.districts = response;
+        console.log("this.districts ", this.districts );
+        
+       
+    }
+
+    getParkingPlaces(stateID, districtID) {
+        this.parkingPlaceObj = {};
+        this.parkingPlaceObj.stateID = stateID;
+        this.parkingPlaceObj.districtID = districtID;
+        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
+        this.vanServicePointMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
+    }
+
+  
+    getParkingPlaceSuccessHandler(response) {
+        this.availableParkingPlaces = response;
+        for (let availableParkingPlaces of this.availableParkingPlaces) {
+            if (availableParkingPlaces.deleted) {
+                const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
+                if (index !== -1) {
+                    this.availableParkingPlaces.splice(index, 1);
+                }
+            }
+        }
+        this.getVanTypes();
+    }
+    
+    getVanTypes() {
+        this.obj = {};
+        this.obj.providerServiceMapID = this.providerServiceMapID;
+        this.vanServicePointMappingService.getVanTypes(this.obj).subscribe(response => this.getVanTypesSuccessHandler(response));
+    }
+
+    getVanTypesSuccessHandler(response) {
+        this.availableVanTypes = response;
+    }
+
+    getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
+        this.vanObj = {};
+        this.vanObj.stateID = stateID;
+        this.vanObj.districtID = districtID;
+        this.vanObj.parkingPlaceID = parkingPlaceID;
+        this.vanObj.vanTypeID = vanTypeID;
+        this.vanObj.serviceProviderID = this.service_provider_id;
+        this.vanServicePointMappingService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
+
+    }
+   
+    getVanSuccessHandler(response) {
+        this.availableVans = response;
+        for (let availableVan of this.availableVans) {
+            this.availableVanNames.push(availableVan.vanName);
+        }
+    }
     vanServicePointMappingSuccessHandler(response) {
         this.vanServicePointMappingList = [];
         this.alertMessage.alert("Mapping saved successfully", 'success');
     }
 
     getVanServicePointMappings(stateID, districtID, parkingPlaceID) {
+        console.log("van service point mapping",stateID, districtID, parkingPlaceID );
+        
         this.vanObj = {};
         this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
@@ -122,88 +236,37 @@ export class VanServicePointMappingComponent implements OnInit {
 
     }
 
-    obj: any;
-    getVanTypes() {
-        this.obj = {};
-        this.obj.providerServiceMapID = this.providerServiceMapID;
-        this.vanServicePointMappingService.getVanTypes(this.obj).subscribe(response => this.getVanTypesSuccessHandler(response));
-    }
-
-    availableVanTypes: any;
-    getVanTypesSuccessHandler(response) {
-        this.availableVanTypes = response;
-    }
 
     getStatesByServiceID() {
         this.vanServicePointMappingService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
     }
 
-    getServices(stateID) {
-        this.vanServicePointMappingService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
+    // getServices(stateID) {
+    //     this.vanServicePointMappingService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+    // }
 
-    getServicesSuccessHandeler(response) {
-        this.provider_services = response;
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.providerServiceMapID = provider_service.providerServiceMapID;
-            }
-        }
-    }
+    // getServicesSuccessHandeler(response) {
+    //     this.provider_services = response;
+    //     for (let provider_service of this.provider_services) {
+    //         if ("MMU" == provider_service.serviceName) {
+    //             this.providerServiceMapID = provider_service.providerServiceMapID;
+    //         }
+    //     }
+    // }
 
-    getStatesSuccessHandeler(response) {
-        this.provider_states = response;
-    }
+    // getStatesSuccessHandeler(response) {
+    //     this.provider_states = response;
+    // }
 
-    districts: any = [];
-    getDistricts(stateID) {
-        this.vanServicePointMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-    }
-    getDistrictsSuccessHandeler(response) {
-        console.log(response, "districts retrieved");
-        this.districts = response;
-    }
+ 
+    // getDistricts(stateID) {
+    //     this.vanServicePointMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    // }
+    // getDistrictsSuccessHandeler(response) {
+    //     console.log(response, "districts retrieved");
+    //     this.districts = response;
+    // }
 
-    parkingPlaceObj: any;
-    getParkingPlaces(stateID, districtID) {
-        this.parkingPlaceObj = {};
-        this.parkingPlaceObj.stateID = stateID;
-        this.parkingPlaceObj.districtID = districtID;
-        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
-        this.vanServicePointMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
-    }
-
-    availableParkingPlaces: any;
-    getParkingPlaceSuccessHandler(response) {
-        this.availableParkingPlaces = response;
-        for (let availableParkingPlaces of this.availableParkingPlaces) {
-            if (availableParkingPlaces.deleted) {
-                const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
-                if (index !== -1) {
-                    this.availableParkingPlaces.splice(index, 1);
-                }
-            }
-        }
-    }
-
-    vanObj: any = {};
-    getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
-        this.vanObj = {};
-        this.vanObj.stateID = stateID;
-        this.vanObj.districtID = districtID;
-        this.vanObj.parkingPlaceID = parkingPlaceID;
-        this.vanObj.vanTypeID = vanTypeID;
-        this.vanObj.serviceProviderID = this.service_provider_id;
-        this.vanServicePointMappingService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
-
-    }
-    availableVans: any;
-    getVanSuccessHandler(response) {
-        this.availableVans = response;
-        for (let availableVan of this.availableVans) {
-            this.availableVanNames.push(availableVan.vanName);
-        }
-    }
 
     servicePointObj: any;
     getServicePoints(stateID, districtID, parkingPlaceID) {

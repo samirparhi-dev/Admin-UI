@@ -37,8 +37,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   disableSelection: boolean = false;
   isNational = false;
 
-  @ViewChild ('searchFields') searchFields: NgForm;
-  @ViewChild ('entryField') entryField: NgForm;
+  @ViewChild('searchFields') searchFields: NgForm;
+  @ViewChild('entryField') entryField: NgForm;
   constructor(public _instituteTypeMasterService: InstituteTypeMasterService,
     public commonDataService: dataService,
     public dialog: MdDialog,
@@ -61,7 +61,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   getServices(userID) {
     this._instituteTypeMasterService.getServices(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -77,7 +78,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   getStates(serviceID, isNational) {
     this._instituteTypeMasterService.getStates(this.userID, serviceID, isNational)
       .subscribe(response => this.getStatesSuccessHandeler(response, isNational), err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -102,7 +104,8 @@ export class InstituteTypeMasterComponent implements OnInit {
   search(providerServiceMapID) {
     this._instituteTypeMasterService.getInstituteType(providerServiceMapID)
       .subscribe(response => this.searchSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       })
   }
 
@@ -162,7 +165,8 @@ export class InstituteTypeMasterComponent implements OnInit {
 
           this._instituteTypeMasterService.toggle_activate_InstituteType(obj)
             .subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"), err => {
-              this.alertService.alert(err, 'error');
+              console.log("Error", err);
+              // this.alertService.alert(err, 'error');
             })
         }
       });
@@ -178,7 +182,8 @@ export class InstituteTypeMasterComponent implements OnInit {
 
           this._instituteTypeMasterService.toggle_activate_InstituteType(obj)
             .subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"), err => {
-              this.alertService.alert(err, 'error');
+              console.log("Error", err);
+              // this.alertService.alert(err, 'error');
             })
         }
       });
@@ -202,7 +207,7 @@ export class InstituteTypeMasterComponent implements OnInit {
       "providerServiceMapID": this.providerServiceMapID,
       "createdBy": this.commonDataService.uname
     }
-console.log("created", this.commonDataService.uname );
+    console.log("created", this.commonDataService.uname);
 
     if (this.bufferArray.length == 0 && (obj.institutionType != "" && obj.institutionType != undefined)) {
       this.bufferArray.push(obj);
@@ -221,7 +226,7 @@ console.log("created", this.commonDataService.uname );
         this.alertService.alert("Already exists");
       }
     }
-     this.entryField.resetForm();
+    this.entryField.resetForm();
 
     /*resetting fields after entering in buffer array/or if duplicate exist*/
     // this.instituteType = "";
@@ -236,7 +241,8 @@ console.log("created", this.commonDataService.uname );
   save() {
     this._instituteTypeMasterService.saveInstituteType(this.bufferArray)
       .subscribe(response => this.saveSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 

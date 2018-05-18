@@ -49,7 +49,8 @@ export class DrugListComponent implements OnInit {
     this.drugObj = {};
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response), err => {
-      this.alertMessage.alert(err, 'error');
+      console.log("error", err);
+      // this.alertMessage.alert(err, 'error');
     });
   }
 
@@ -64,21 +65,24 @@ export class DrugListComponent implements OnInit {
   getServices(stateID) {
     this.providerAdminRoleService.getServices(this.service_provider_id, stateID)
       .subscribe(response => this.getServicesSuccessHandeler(response), err => {
-        this.alertMessage.alert(err, 'error');
+        console.log("error", err);
+        // this.alertMessage.alert(err, 'error');
       });
   }
 
   getStates() {
     this.providerAdminRoleService.getStates(this.service_provider_id)
       .subscribe(response => this.getStatesSuccessHandeler(response), err => {
-        this.alertMessage.alert(err, 'error');
+        console.log("error", err);
+        // this.alertMessage.alert(err, 'error');
       });
   }
 
   getStatesByServiceID() {
     this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id)
       .subscribe(response => this.getStatesSuccessHandeler(response), err => {
-        this.alertMessage.alert(err, 'error');
+        console.log("error", err);
+        // this.alertMessage.alert(err, 'error');
       });
   }
 
@@ -126,22 +130,22 @@ export class DrugListComponent implements OnInit {
 
   addDrugToList(values) {
     debugger;
-   // if (!this.drugFilterList(values)) {
-      this.drugObj = {};
-      this.drugObj.drugName = values.drugName;
-      this.drugObj.drugDesc = values.drugDesc;
-      this.drugObj.remarks = values.remarks;
-      //  for(let provider_service of this.provider_services){
-      //   if("104"==provider_service.serviceName){
-      //      this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
-      //      this.drugObj.stateName = provider_service.stateName;
-      //   }
-      // } 
-      this.drugObj.serviceProviderID = this.service_provider_id;
-      this.drugObj.createdBy = this.createdBy;
-      this.checkDuplicates(this.drugObj);
-    
-  //  }
+    // if (!this.drugFilterList(values)) {
+    this.drugObj = {};
+    this.drugObj.drugName = values.drugName;
+    this.drugObj.drugDesc = values.drugDesc;
+    this.drugObj.remarks = values.remarks;
+    //  for(let provider_service of this.provider_services){
+    //   if("104"==provider_service.serviceName){
+    //      this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
+    //      this.drugObj.stateName = provider_service.stateName;
+    //   }
+    // } 
+    this.drugObj.serviceProviderID = this.service_provider_id;
+    this.drugObj.createdBy = this.createdBy;
+    this.checkDuplicates(this.drugObj);
+
+    //  }
 
   }
   checkDuplicates(object) {
@@ -170,7 +174,8 @@ export class DrugListComponent implements OnInit {
     console.log('request', obj);
 
     this.drugMasterService.saveDrugs(JSON.stringify(obj)).subscribe(response => this.successHandler(response), err => {
-      this.alertMessage.alert(err, 'error');
+      console.log("error", err);
+      // this.alertMessage.alert(err, 'error');
     });
   }
 
@@ -199,7 +204,8 @@ export class DrugListComponent implements OnInit {
         this.dataObj.deleted = !drug.deleted;
         this.dataObj.modifiedBy = this.createdBy;
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(res => this.updateStatusHandler(res, status), err => {
-          this.alertMessage.alert(err, 'error');
+          console.log("error", err);
+          // this.alertMessage.alert(err, 'error');
         });
 
         drug.deleted = !drug.deleted;
@@ -242,7 +248,8 @@ export class DrugListComponent implements OnInit {
     this.dataObj.providerServiceMapID = drug.providerServiceMapID;
     this.dataObj.modifiedBy = this.createdBy;
     this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response), err => {
-      this.alertMessage.alert(err, 'error');
+      console.log("error", err);
+      // this.alertMessage.alert(err, 'error');
     });
 
   }
@@ -256,10 +263,10 @@ export class DrugListComponent implements OnInit {
   drugNameExist: any = false;
   checkExistance(drugName) {
     console.log("drugName", drugName);
-    
+
     this.drugNameExist = this.availableDrugNames.includes(drugName);
     console.log("drugNameExist", this.drugNameExist);
-    
+
   }
 
   remove_obj(index) {
