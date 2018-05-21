@@ -1,5 +1,43 @@
-<div *ngIf="showMappings && !editable">
-  <h4>Available Zone Mappings</h4>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 *ngIf="showListOfZonemapping">Available Zone Mappings</h4>
+    <h4 *ngIf="!editable && !showListOfZonemapping">Map Zone with District</h4>   
+    <form #searchForm="ngForm" autocomplete="off">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
+              required #bindService="ngModel" disabled={{disableSelection}}>
+              <md-option *ngFor="let item of services" [value]="item">
+                {{item.serviceName}}
+              </md-option>
+            </md-select>
+            <md-hint [hidden]=bindService.valid *ngIf="showListOfZonemapping">
+              <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select placeholder="State" class="width100" [(ngModel)]="state" [disabled]="disableSelection" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+              name="state" #bindState="ngModel" required>
+              <md-option *ngFor="let item of states" [value]="item">
+                {{item.stateName}}
+              </md-option>
+            </md-select>
+            <md-hint [hidden]=bindState.valid *ngIf="showListOfZonemapping">
+              <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="showListOfZonemapping && showMappings && !editable">  
   <div class="table-responsive m-t-15">
     <table class="table table-striped table-hover" [md2Data]="availableZoneDistrictMappings" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
@@ -51,14 +89,10 @@
 </div>
 
 <div class="row">
-  <div *ngIf="!showMappings || editable">
-    <div class="col-xs-12 col-sm-12">
-      <h4>Map Zone with District</h4>
-    </div>
-
+  <div *ngIf="!showListOfZonemapping && (!showMappings || editable)">
     <form #zoneDistrictMappingForm="ngForm" autocomplete="off">
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
           <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
@@ -85,7 +119,7 @@
             <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
           </md-hint>
         </md-input-container>
-      </div>
+      </div> -->
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">

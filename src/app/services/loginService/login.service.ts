@@ -81,7 +81,7 @@ export class loginService {
 	private handleError(error: Response | any) {
 		console.log("http error", error);
 		// In a real world app, you might use a remote logging infrastructure
-		return Observable.throw(error.json());
+		return Observable.throw(error);
 	};
 };
 
