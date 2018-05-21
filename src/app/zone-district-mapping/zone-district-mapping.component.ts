@@ -110,8 +110,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   getAvailableZones(providerServiceMapID) {
     this.zoneMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
-  getZonesSuccessHandler(response) {
-    debugger;
+  getZonesSuccessHandler(response) {    
     console.log('this.availableZones',this.availableZones);
     if (response != undefined) {
       for (let zone of response) {
