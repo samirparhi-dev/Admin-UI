@@ -100,7 +100,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.providers = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log('Error', err);
       });
   }
@@ -113,7 +113,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.searchResult = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
         console.log('Error', err);
       });
   }
@@ -123,10 +123,10 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all states success handeler');
-          this.states = response; 
+          this.states = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
       });
   }
 
@@ -138,7 +138,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.servicelines = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
       });
   }
 
@@ -318,7 +318,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         this.services = [];
         this.filteredStates = [];
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log(err, 'ERROR');
       });
   }
@@ -442,7 +442,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.getAllMappings();
 
         }, err => {
-          this.dialogService.alert(err, 'error');
+
           console.log(err, 'update error handeler');
         });
     }
@@ -465,7 +465,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             this.getAllMappings();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }
@@ -487,7 +487,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             this.getAllMappings();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }

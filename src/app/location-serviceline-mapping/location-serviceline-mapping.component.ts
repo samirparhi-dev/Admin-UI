@@ -77,7 +77,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.provider_admin_location_serviceline_mapping.getServiceLinesNew(this.userID)
       .subscribe(response => this.servicesSuccesshandeler(response), err => {
         console.log('ERROR WHILE FETCHING SERVICES', err);
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
     // this.getAllWorkLocations();
@@ -148,7 +148,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.provider_admin_location_serviceline_mapping.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
         console.log("error in fetching states");
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
   }

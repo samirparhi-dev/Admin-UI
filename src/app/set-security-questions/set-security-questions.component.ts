@@ -37,11 +37,12 @@ export class SetSecurityQuestionsComponent implements OnInit {
 
     this.http_calls.getData(this.configService.getCommonBaseURL() + "user/getsecurityquetions")
       .subscribe(
-      (response: any) => this.handleSuccess(response),
-      (error: any) => {
-        this.handleError(error);
-        this.alertService.alert(error, 'error');
-      }
+        (response: any) => this.handleSuccess(response),
+        (error: any) => {
+          this.handleError(error);
+          console.log(error, 'error');
+
+        }
       );
 
   }
@@ -225,10 +226,10 @@ export class SetSecurityQuestionsComponent implements OnInit {
     if (new_pwd === this.confirmpwd) {
       this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray)
         .subscribe((response: any) => this.handleQuestionSaveSuccess(response, new_pwd),
-        (error: any) => {
-          this.handleQuestionSaveError(error);
-          this.alertService.alert(error, 'error');
-        });
+          (error: any) => {
+            this.handleQuestionSaveError(error);
+            console.log(error, 'error');
+          });
     }
     else {
       this.alertService.alert("Password doesn't match");
@@ -241,10 +242,10 @@ export class SetSecurityQuestionsComponent implements OnInit {
     this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
       { 'userName': this.uname, 'password': new_pwd })
       .subscribe((response: any) => this.successCallback(response),
-      (error: any) => {
-        this.errorCallback(error)
-        this.alertService.alert(error, 'error');
-      });
+        (error: any) => {
+          this.errorCallback(error)
+          console.log(error, 'error');
+        });
 
   }
   handleQuestionSaveError(response) {
@@ -254,7 +255,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
   successCallback(response) {
     // localStorage.removeItem('authToken'); // call logout api so that both client and server side the token is removed
     console.log(response);
-    this.alertService.alert("Password changed successfully",'success');
+    this.alertService.alert("Password changed successfully", 'success');
     // this.router.navigate(['']);
     this.logout();
   }
@@ -271,7 +272,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
           this.router.navigate(['']);
         }
       }, err => {
-        this.alertService.alert(err,'error');
+
         console.log(err, 'error while ending session both sides');
 
       });
