@@ -1,5 +1,5 @@
 <div class="row">
-    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
+    <div *ngIf="showServicePoints && !editMode " class="col-xs-12 col-sm-12">
         <h4>Search Service Points</h4>
         <form #searForm="ngForm" autocomplete="off">
             <div class="row m-t-20">
@@ -52,7 +52,7 @@
         </form>
     </div>
 
-    <div *ngIf="showServicePoints" class="col-xs-12 col-sm-12">
+    <div *ngIf="showServicePoints && !editMode " class="col-xs-12 col-sm-12">
         <h4>Available Service Points</h4>
         <div class="table-responsive m-t-15">
             <table [md2Data]="availableServicePoints" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
@@ -71,7 +71,7 @@
                 </thead>
                 <tbody>
                     <tr *ngIf="availableServicePoints.length == 0">
-                        <td colspan="9" class="record-not-found">No records found</td>
+                        <td colspan="10" class="record-not-found">No records found</td>
                     </tr>
                     <tr style="cursor: pointer" *ngFor="let servicePoint of md2.data;let i=index ">
                         <td>{{availableServicePoints.indexOf(servicePoint)+1}} </td>
@@ -82,6 +82,10 @@
                         <td>{{servicePoint.servicePointName}}</td>
                         <td>{{servicePoint.servicePointDesc}}</td>
                         <td>{{servicePoint.servicePointHQAddress}}</td>
+                        <td>
+                            <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!servicePoint.deleted" role="img" aria-hidden="true" style="cursor: pointer"
+                                (click)="editservicePoint(servicePoint)">edit</md-icon>
+                        </td>
                         <td *ngIf="servicePoint.deleted=='0'">
                             <button md-raised-button color="primary" (click)="updateServicePointStatus(servicePoint)">Deactivate</button>
                         </td>
@@ -92,7 +96,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="5" class="p-r-0">
@@ -105,7 +109,7 @@
     </div>
 
 
-    <div *ngIf="!showServicePoints" class="col-xs-12 col-sm-12">
+    <div *ngIf="!showServicePoints && !editMode" class="col-xs-12 col-sm-12">
         <h4>Create Service Point </h4>
 
         <form #servicePointForm="ngForm" autocomplete="off">
@@ -248,9 +252,102 @@
         </div>
 
     </div>
-    <div class="col-xs-12 col-sm-12 m-t-10 m-b-10" *ngIf="!showServicePoints">
-        <button md-raised-button [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
-        <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <div *ngIf="editMode" class="col-xs-12 col-sm-12">
+        <form #servicePointUpdateForm="ngForm" autocomplete="off">
+            <div class="row m-t-25">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select required name="Services" [disabled]="true" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                            (change)="getStates(serviceline)">
+                            <md-option *ngFor="let item of services_array" [value]="item">
+                                {{item.serviceName}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="searchStateID" name="searchStateID">
+                            <md-option *ngFor="let state of provider_states" [value]="state">
+                                {{state.stateName}}
+                                <!-- <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+                                        {{item.stateName}} -->
+                            </md-option>
+                            <!-- </md-option> -->
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select required placeholder="District" [disabled]="true" [style.width]="'100%'" [(ngModel)]="searchDistrictID_edit" name="searchDistrictID">
+                            <md-option *ngFor="let district of districts" [value]="district.districtID">
+                                {{district.districtName}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none">
+                        <md-select required placeholder="Parking Place" [style.width]="'100%'" [disabled]="true" [(ngModel)]="searchParkingPlaceID_edit"
+                            name="searchParkingPlaceID">
+                            <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
+                                {{parkingPlace.parkingPlaceName}}
+                            </md-option>
+                        </md-select>
+
+                    </md-input-container>
+                </div>
+
+                <form #servicePointForm2="ngForm" autocomplete="off">
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <md-select placeholder="Taluk/Sub District" [style.width]="'100%'" [(ngModel)]="talukID" name="talukID">
+                                <md-option *ngFor="let taluk of taluks" value="taluk.districtBlockID">
+                                    {{taluk.blockName}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div> -->
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                        <md-input-container [style.width]="'100%'" myName>
+                            <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
+                                (blur)="checkExistance(servicePointName)">
+                            <md-hint>
+                                <span class="error_text" *ngIf="!servicePointN.valid  && ( servicePointN.dirty || servicePointN.touched)">Please enter Service Point Name</span>
+                                <span class="error_text" *ngIf="servicePointN.valid && servicePointNameExist">Service Point already exists</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+                    <div class="clearfix visible-md visible-sm"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
+                        </md-input-container>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container [style.width]="'100%'">
+                            <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
+                            <md-hint [hidden]=servicePointAddress.valid>
+                                <span class="error_text" *ngIf="!servicePointAddress.required  && ( servicePointAddress.dirty || servicePointAddress.touched)">Please enter address</span>
+                            </md-hint>
+                        </md-input-container>
+                    </div>
+
+                </form>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 m-t-10 m-b-10">
+        <button md-raised-button *ngIf="editMode" color="accent" class=" pull-right " (click)="updateServicePoints()">Update</button>
+        <button md-raised-button *ngIf="formMode" [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints()">Save</button>
+        <button md-raised-button *ngIf="editMode || formMode" color="primary" class="pull-left" (click)="back()">Back</button>
     </div>
 
 </div>

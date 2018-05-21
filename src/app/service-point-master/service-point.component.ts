@@ -11,6 +11,12 @@ import { MdCheckbox, MdSelect } from '@angular/material';
 })
 export class ServicePointComponent implements OnInit {
 
+    searchDistrictID_edit: any;
+    searchParkingPlaceID_edit: any;
+    editMode: boolean = false;
+    areaHQAddress: any;
+    districtID: any;
+    servicePointID: any;
     talukID: any;
     servicePointName: string;
     servicePointDesc: string;
@@ -158,8 +164,8 @@ export class ServicePointComponent implements OnInit {
             this.servicePointObj.districtName = this.searchDistrictID.districtName;
         }
         if (values.talukID != undefined) {
-            this.servicePointObj.districtBlockID = values.talukID.split("-")[0];
-            this.servicePointObj.blockName = values.talukID.split("-")[1];
+            this.servicePointObj.districtBlockID = values.talukID.districtBlockID;
+            this.servicePointObj.blockName = values.talukID.blockName;
         }
         this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
         if (this.searchParkingPlaceID != undefined) {
@@ -252,10 +258,50 @@ export class ServicePointComponent implements OnInit {
     }
 
     showList() {
-        this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
+        if (this.editMode) {
+            this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
+        }
+        else {
+            this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit);
+        }
+
         this.showServicePoints = true;
+        this.editMode = false;
         this.servicePointObj = [];
         this.servicePointList = [];
+    }
+    editservicePoint(spoint) {
+        debugger;
+        this.editMode = true;
+        this.providerServiceMapID = this.searchStateID.providerServiceMapID;
+        this.servicePointID = spoint.servicePointID;
+        this.servicePointName = spoint.servicePointName;
+        this.servicePointDesc = spoint.servicePointDesc;
+        this.searchDistrictID_edit = spoint.districtID;
+        this.talukID = spoint.districtBlockID;
+        this.searchParkingPlaceID_edit = spoint.parkingPlaceID
+        this.areaHQAddress = spoint.servicePointHQAddress
+
+    }
+    updateServicePoints(formValues) {
+        debugger;
+        let obj = {
+
+            "servicePointID": this.servicePointID,
+            "servicePointName": this.servicePointName,
+            "servicePointDesc": this.servicePointDesc,
+            "providerServiceMapID": this.searchStateID.providerServiceMapID,
+            "districtID": this.searchDistrictID_edit,
+            "modifiedBy": this.createdBy
+        }
+
+        this.servicePointMasterService.updateServicePoint(obj).subscribe(response => this.updateservicePointSuccessHandler(response));
+
+    }
+    updateservicePointSuccessHandler(response) {
+        this.servicePointList = [];
+        this.alertMessage.alert("Updated successfully", 'success');
+        this.showList();
     }
 
     /* db check of service name */
