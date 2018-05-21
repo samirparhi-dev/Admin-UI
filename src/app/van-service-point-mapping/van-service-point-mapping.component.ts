@@ -14,6 +14,8 @@ export class VanServicePointMappingComponent implements OnInit {
   userID: any;
   service: any;
   state: any;
+  districtID: any;
+  vanTypeID: any;
   parkingPlaceObj: any;
   obj: any;
   vanObj: any = {};
@@ -32,10 +34,8 @@ export class VanServicePointMappingComponent implements OnInit {
   searchParkingPlaceID: any;
 
   serviceID: any;
-  // formBuilder: FormBuilder = new FormBuilder();
-  // MappingForm: FormGroup;
-
-  vanServicePointMappingForm: FormGroup;
+  formBuilder: FormBuilder = new FormBuilder();
+  MappingForm: FormGroup;
 
   /*arrays*/
   services: any = [];
@@ -48,8 +48,7 @@ export class VanServicePointMappingComponent implements OnInit {
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
     public vanServicePointMappingService: VanServicePointMappingService,
-    private alertMessage: ConfirmationDialogsService,
-    private fb: FormBuilder) {
+    private alertMessage: ConfirmationDialogsService) {
     this.data = [];
     this.service_provider_id = this.commonDataService.service_providerID;
     this.countryID = 1; // hardcoded as country is INDIA
@@ -60,29 +59,10 @@ export class VanServicePointMappingComponent implements OnInit {
 
   ngOnInit() {
     this.userID = this.commonDataService.uid;
-    // this.MappingForm = this.formBuilder.group({
-    //     mappings: this.formBuilder.array([])
-    // });
-    this.getServiceLines();
-  }
-  vanID: any;
-  selectedVan(van) {
-    this.vanID = van.vanID
-    this.vanServicePointMappingForm = this.createVanServicePointMappingForm();
-  }
-
-  createVanServicePointMappingForm() {
-    return this.fb.group({
-      vanServicePointMappingList: new FormArray([])
-    })
-  }
-
-  initvanServicePointMapping(): FormGroup {
-    return this.fb.group({
-      servicePointName: null,
-      morningSession: null,
-      eveningSession: null
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
     });
+    this.getServiceLines();
   }
 
   getServiceLines() {
@@ -147,6 +127,8 @@ export class VanServicePointMappingComponent implements OnInit {
 
 
   getParkingPlaceSuccessHandler(response) {
+    this.vanID = "";
+    this.vanTypeID = "";
     this.availableParkingPlaces = response;
     for (let availableParkingPlaces of this.availableParkingPlaces) {
       if (availableParkingPlaces.deleted) {
@@ -191,112 +173,95 @@ export class VanServicePointMappingComponent implements OnInit {
     this.alertMessage.alert("Mapping saved successfully", 'success');
   }
 
-  getVanServicePointMappings(stateID, districtID, parkingPlaceID) {
-    console.log("van service point mapping", stateID, districtID, parkingPlaceID);
+  getVanServicePointMappings(districtID, parkingPlaceID, vanID) {
+    console.log("van service point mapping", districtID, parkingPlaceID, vanID);
+
     this.vanObj = {};
-    this.vanObj.stateID = stateID;
+   // this.vanObj.stateID = stateID;
     this.vanObj.districtID = districtID;
     this.vanObj.parkingPlaceID = parkingPlaceID;
-    this.vanObj.serviceProviderID = this.service_provider_id;
+    this.vanObj.vanID = vanID;
+    this.vanObj.providerServiceMapID = this.providerServiceMapID;
     this.vanServicePointMappingService.getVanServicePointMappings(this.vanObj).subscribe(response => this.getVanServicePointMappingsSuccessHandler(response));
   }
 
+  availableVanServicePointMappings: any = [];
+  remainingMaps: any = [];
+
   getVanServicePointMappingsSuccessHandler(response) {
-    let mapppedServicePoint = [];
-    let nonMapppedServicePoint = []
-    // let 
-    response.forEach((servicePoint) => {
-      if (servicePoint.vanID != undefined && servicePoint.vanID == this.vanID) {
-        mapppedServicePoint.push(servicePoint)
-      } else {
-        nonMapppedServicePoint.push(servicePoint)
-      }
-    })
-    console.log('nonMapppedServicePoint', JSON.stringify(nonMapppedServicePoint, null, 4));
-    console.log('mapppedServicePoint', JSON.stringify(mapppedServicePoint, null, 4));
     debugger;
-    nonMapppedServicePoint.forEach((servicePoint) => {
-      servicePoint.vanSession = null
-      mapppedServicePoint.push(servicePoint)
-    })
-    console.log('mapppedServicePoint', JSON.stringify(mapppedServicePoint, null, 4));
-    
-    let mapServicePoint = [];
-    mapppedServicePoint.forEach((servicePoint) => {
-      if (servicePoint.vanSession == 3) {
-        servicePoint.morningSession = true;
-        servicePoint.eveningSession = true;
-        mapServicePoint.push(servicePoint)
-      } else if (servicePoint.vanSession == 1) {
-        servicePoint.morningSession = true;
-        servicePoint.eveningSession = false;
-        mapServicePoint.push(servicePoint)
-      } else if (servicePoint.vanSession == 2) {
-        servicePoint.morningSession = false;
-        servicePoint.eveningSession = true;
-        mapServicePoint.push(servicePoint)
+    this.availableVanServicePointMappings = [];
+    this.availableVanServicePointMappings = response;
+
+    if (!this.MappingForm.controls['mappings']) {
+      this.MappingForm = this.formBuilder.group({
+        mappings: this.formBuilder.array([])
+      });
+    } else {
+      debugger;
+      let temp = this.MappingForm.controls['mappings'] as FormArray;
+      for (let i = 0; i < temp.length; i++) {
+        temp.removeAt(i);
       }
-    })
-    console.log('mapServicePoint', JSON.stringify(mapServicePoint, null, 4));
-    
+    }
+
+    this.servicePointIDList = [];
+    this.remainingMaps = [];
+
+    console.log('log', this.availableVanServicePointMappings, this.vanID);
+    console.log('log', this.MappingForm.value);
+
+    for (var i = 0; i < this.availableVanServicePointMappings.length; i++) {
+      if (this.availableVanServicePointMappings[i].vanID == undefined || this.vanID == this.availableVanServicePointMappings[i].vanID) {
+        this.servicePointIDList.push(this.availableVanServicePointMappings[i].servicePointID);
+        (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.availableVanServicePointMappings[i]));
+      } else {
+        this.remainingMaps.push(this.availableVanServicePointMappings[i]);
+      }
+    }
+
+    console.log('log', this.MappingForm.value);
+    console.log(this.servicePointIDList, this.remainingMaps);
+
+    for (var i = 0; i < this.remainingMaps.length; i++) {
+      debugger;
+      if (this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == -1) {
+        this.servicePointIDList.push(this.remainingMaps[i].servicePointID);
+        (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
+      }
+    }
+    debugger;
+    console.log(this.servicePointIDList, this.remainingMaps);
+
+    console.log('log', this.MappingForm.value);
+
+
+
   }
+  servicePointIDList: any = [];
+  createItem(obj): FormGroup {
 
-  // availableVanServicePointMappings: any = [];
-  // remainingMaps: any = [];
-  // getVanServicePointMappingsSuccessHandler(response) {
-  //     this.availableVanServicePointMappings = [];
-  //     this.availableVanServicePointMappings = response;
-  //     console.log("this.availableVanServicePointMappings", JSON.stringify(this.availableVanServicePointMappings, null, 4));
-  // this.MappingForm = this.formBuilder.group({
-  //     mappings: this.formBuilder.array([])
-  // });
-  // this.servicePointIDList = [];
+    let vanSession: any = "";
+    let vanServicePointMapID: any;
+    if (this.vanID == obj.vanID || obj.vanID == undefined) {
+      vanSession = obj.vanSession;
+      vanServicePointMapID = obj.vanServicePointMapID;
+    }
+    return this.formBuilder.group({
+      vanServicePointMapID: vanServicePointMapID,
+      vanID: this.vanID,
+      servicePointID: obj.servicePointID,
+      servicePointName: obj.servicePointName,
+      vanSession: vanSession,
+      providerServiceMapID: obj.providerServiceMapID,
+      deleted: obj.deleted,
+      isChanged: "",
+      vanSession1: (vanSession == '1' || vanSession == '3'),
+      vanSession2: (vanSession == '2' || vanSession == '3'),
 
-  // for (var i = 0; i < this.availableVanServicePointMappings.length; i++) {
-  //     debugger;
-  //     if (this.availableVanServicePointMappings[i].vanID == undefined || this.vanID == this.availableVanServicePointMappings[i].vanID) {
-  //         this.servicePointIDList.push(this.availableVanServicePointMappings[i].servicePointID);
-  //         (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.availableVanServicePointMappings[i]));
-  //     } else {
-  //         this.remainingMaps.push(this.availableVanServicePointMappings[i]);
-  //     }
+    })
 
-  // }
-  // for (var i = 0; i < this.remainingMaps.length; i++) {
-  //     debugger;
-  //     if (this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == -1) {
-  //         this.servicePointIDList.push(this.remainingMaps[i].servicePointID);
-  //         (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
-  //     }
-  // }
-  // console.log("servicePointIDList", this.servicePointIDList);
-
-  // }
-
-  // servicePointIDList: any = [];
-  // createItem(obj): FormGroup {
-
-  //     let vanSession: any = "";
-  //     let vanServicePointMapID: any;
-  //     if (this.vanID == obj.vanID || obj.vanID == undefined) {
-  //         vanSession = obj.vanSession;
-  //         vanServicePointMapID = obj.vanServicePointMapID;
-  //     }
-  //     return this.formBuilder.group({
-  //         vanServicePointMapID: vanServicePointMapID,
-  //         vanID: this.vanID,
-  //         servicePointID: obj.servicePointID,
-  //         servicePointName: obj.servicePointName,
-  //         vanSession: vanSession,
-  //         providerServiceMapID: obj.providerServiceMapID,
-  //         deleted: obj.deleted,
-  //         isChanged: "",
-  //         vanSession1: (vanSession == '1' || vanSession == '3'),
-  //         vanSession2: (vanSession == '2' || vanSession == '3'),
-
-  //     })
-
-  // }
+  }
 
   // servicePointObj: any;
   // getServicePoints(stateID, districtID, parkingPlaceID) {
@@ -314,53 +279,60 @@ export class VanServicePointMappingComponent implements OnInit {
   //     this.availableServicePoints = response;
   // }
 
-
+  vanID: any;
+  selectedVan(van) {
+    console.log("van", van);
+    
+    debugger;
+    this.vanID = van.vanID,
+    this.districtID = van.districtID,
+    this.searchParkingPlaceID = van.searchParkingPlaceID
+    console.log("van", this.vanID, this.districtID, this.searchParkingPlaceID);
+    
+  }
 
   vanServicePointMappingObj: any;
   vanServicePointMappingList: any = [];
-  //     storeVanServicePointMapping() {
-  //         console.log(this.MappingForm.value);
-  //         let mappings = this.MappingForm.value.mappings;
-  //         let mappingArray = <FormArray>this.MappingForm.controls.mappings;
-  //         for (let i = 0; i < mappings.length; i++) {
+  storeVanServicePointMapping() {
+    console.log(this.MappingForm.value);
+    let mappings = this.MappingForm.value.mappings;
+    let mappingArray = <FormArray>this.MappingForm.controls.mappings;
+    for (let i = 0; i < mappings.length; i++) {
 
-  //             let mappingGroup = <FormGroup>(mappingArray).controls[i];
+      let mappingGroup = <FormGroup>(mappingArray).controls[i];
 
-  //             console.log(mappingGroup.controls.vanSession1.touched);
-  //             if ((mappingGroup.controls.vanSession1.touched || mappingGroup.controls.vanSession2.touched)) {
-  //                 this.vanServicePointMappingObj = {};
-  //                 this.vanServicePointMappingObj.vanServicePointMapID = mappings[i].vanServicePointMapID
-  //                 this.vanServicePointMappingObj.vanID = this.vanID;
-  //                 this.vanServicePointMappingObj.servicePointID = mappings[i].servicePointID;
-  //                 if (mappings[i].vanSession1) {
-  //                     this.vanServicePointMappingObj.vanSession = 1;
-  //                 }
-  //                 if (mappings[i].vanSession2) {
-  //                     this.vanServicePointMappingObj.vanSession = 2;
-  //                 }
-  //                 if (mappings[i].vanSession1 && mappings[i].vanSession2) {
-  //                     this.vanServicePointMappingObj.vanSession = 3;
-  //                 }
-  //                 this.vanServicePointMappingObj.providerServiceMapID = this.providerServiceMapID;
+      console.log(mappingGroup.controls.vanSession1.touched);
+      if ((mappingGroup.controls.vanSession1.touched || mappingGroup.controls.vanSession2.touched)) {
+        this.vanServicePointMappingObj = {};
+        this.vanServicePointMappingObj.vanServicePointMapID = mappings[i].vanServicePointMapID
+        this.vanServicePointMappingObj.vanID = this.vanID;
+        this.vanServicePointMappingObj.servicePointID = mappings[i].servicePointID;
+        if (mappings[i].vanSession1) {
+          this.vanServicePointMappingObj.vanSession = 1;
+        }
+        if (mappings[i].vanSession2) {
+          this.vanServicePointMappingObj.vanSession = 2;
+        }
+        if (mappings[i].vanSession1 && mappings[i].vanSession2) {
+          this.vanServicePointMappingObj.vanSession = 3;
+        }
+        this.vanServicePointMappingObj.providerServiceMapID = this.providerServiceMapID;
 
-  //                 this.vanServicePointMappingObj.createdBy = this.createdBy;
+        this.vanServicePointMappingObj.createdBy = this.createdBy;
 
-  //                 this.vanServicePointMappingList.push(this.vanServicePointMappingObj);
-  //             }
-  //         }
-  //         let obj = { "vanServicePointMappings": this.vanServicePointMappingList };
-  //         console.log("req obj", JSON.stringify(obj, null, 4));
+        this.vanServicePointMappingList.push(this.vanServicePointMappingObj);
+      }
+    }
+    let obj = { "vanServicePointMappings": this.vanServicePointMappingList };
+    this.vanServicePointMappingService.saveVanServicePointMappings(obj).subscribe(response => this.saveMappingSuccessHandler(response));
+  }
 
-  //         this.vanServicePointMappingService.saveVanServicePointMappings(obj).subscribe(response => this.saveMappingSuccessHandler(response));
-  //     }
-
-  //     saveMappingSuccessHandler(response) {
-  //         console.log("response", JSON.stringify(response, null, 4));
-  //         debugger;
-  //         if (response.length > 0) {
-  //             this.MappingForm.reset();
-  //             this.getVanServicePointMappings(this.searchStateID, this.searchDistrictID, this.searchParkingPlaceID);
-  //             this.alertMessage.alert("Mapping saved successfully", 'success');
-  //         }
-  //     }
+  saveMappingSuccessHandler(response) {
+    debugger;
+    if (response.length > 0) {
+      console.log("van", this.vanID, this.districtID, this.searchParkingPlaceID);
+      this.getVanServicePointMappings(this.districtID, this.searchParkingPlaceID, this.vanID);
+      this.alertMessage.alert("Mapping saved successfully", 'success');
+    }
+  }
 }

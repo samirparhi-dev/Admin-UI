@@ -27,6 +27,7 @@ export class VanServicePointMappingService {
     _getServiceLineURL:any;
     _getDistrictListURL:any;
 
+    
     getServiceLines_new_url: any;
     getStates_new_url: any;
 
@@ -147,6 +148,6 @@ export class VanServicePointMappingService {
         return result;
     }
     handleError(error: Response | any) {
-        return Observable.throw(error.json());
+        return Observable.throw(error);
     }
 }

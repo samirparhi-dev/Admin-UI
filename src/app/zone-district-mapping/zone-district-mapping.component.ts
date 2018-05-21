@@ -114,6 +114,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showMappings = false;
     this.disableSelection = true;
     this.showListOfZonemapping = false;
+    this.availableZones = [];
     this.getAvailableZones(this.state.providerServiceMapID);
 
   }
@@ -122,14 +123,14 @@ export class ZoneDistrictMappingComponent implements OnInit {
   }
   getZonesSuccessHandler(response) {
     console.log('this.availableZones', this.availableZones);
-    this.availableZones = response;
-    // if (response != undefined) {
-    //   for (let zone of response) {
-    //     if (!zone.deleted) {
-    //       this.availableZones.push(zone);
-    //     }
-    //   }
-    // }
+    //this.availableZones = response;
+    if (response != undefined) {
+      for (let zone of response) {
+        if (!zone.deleted) {
+          this.availableZones.push(zone);
+        }
+      }
+    }
   }
 
   checkZone(zoneID, service, stateID) {
