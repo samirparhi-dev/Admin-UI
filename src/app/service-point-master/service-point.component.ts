@@ -40,6 +40,7 @@ export class ServicePointComponent implements OnInit {
     serviceID: any;
     createdBy: any;
     status: any;
+    formMode:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,
