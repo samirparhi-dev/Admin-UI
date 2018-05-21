@@ -74,7 +74,7 @@ export class loginContentClass implements OnInit {
         },
         (error: any) => {
           this.errorCallback(error)
-          this.alertMessage.alert(error, 'error');
+          // this.alertMessage.alert(error, 'error');
         });
     }
 

@@ -35,10 +35,10 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   ngOnInit() {
     this.super_admin_service.getAllProvider().subscribe(response => this.providerData_successHandler(response), err => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error');
     });
     this.super_admin_service.getAllStates(this.countryID).subscribe(response => this.getAllStates(response), err => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error');
     });
 
     this.getAllServicelines_new();
@@ -54,7 +54,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       this.servicelines = response;
     }, err => {
       console.log('Servicelines fetching error', err);
-      this.message.alert(err, 'error');
+      console.log(err, 'error');
     });
   }
 
@@ -121,7 +121,7 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.provider = provider;
     this.super_admin_service.getProviderStatus(provider)
       .subscribe(response => this.providerInfo_handler(response), err => {
-        this.message.alert(err, 'error');
+        console.log(err, 'error');
       });
   }
   providerInfo_handler(response) {
@@ -204,14 +204,14 @@ export class UpdateServiceProviderComponent implements OnInit {
     console.log('REQUEST Array', reqArray);
     this.super_admin_service.addProviderStateAndServiceLines(reqArray)
       .subscribe(response => this.servicelineAddedSuccesshandler(response), err => {
-        this.message.alert(err, 'error');
+        console.log(err, 'error');
       });
 
   }
   servicelineAddedSuccesshandler(response) {
     this.message.alert('Saved successfully', 'success');
     this.super_admin_service.getProviderStatus(this.provider).subscribe(res => this.providerInfo_handler(res), err => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error');
     });
     this.searchPage = true;
     this.state = '';
@@ -229,7 +229,7 @@ export class UpdateServiceProviderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.super_admin_service.getAllProvider()
         .subscribe(response => this.providerData_successHandler(response), err => {
-          this.message.alert(err, 'error');
+          console.log(err, 'error');
         });
 
 

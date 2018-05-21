@@ -106,7 +106,7 @@ export class ProviderAdminListComponent implements OnInit {
         this.searchResult = response;
       }
     }, err => {
-      this.dialogService.alert(err, 'error');
+      console.log(err, 'error')
       console.log("Error", err);
     })
   }
@@ -144,13 +144,13 @@ export class ProviderAdminListComponent implements OnInit {
     this.resetDob();
 
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
   }
   /*
@@ -220,7 +220,7 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -229,7 +229,7 @@ export class ProviderAdminListComponent implements OnInit {
       this.username_status = 'User ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
-     // this.username = null;
+      // this.username = null;
 
     }
     if (response.response == 'usernotexist') {
@@ -304,7 +304,7 @@ export class ProviderAdminListComponent implements OnInit {
 
           err => {
             console.log("Error", err);
-            this.dialogService.alert(err, 'error')
+            //this.dialogService.alert(err, 'error')
           }
         );
       }
@@ -495,7 +495,7 @@ export class ProviderAdminListComponent implements OnInit {
 
 
     },
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
   }
   /*
@@ -544,7 +544,7 @@ export class ProviderAdminListComponent implements OnInit {
             this.getAllProviderAdminDetails();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+              console.log(err, 'error');
               console.log(err);
             })
       }

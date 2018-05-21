@@ -99,7 +99,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
   }
   getAllLanguagesList() {
@@ -111,7 +111,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
   }
   getAllMappedLanguagesList() {
@@ -123,7 +123,7 @@ export class LanguageMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
-        this.alertService.alert(err, 'error');
+        //this.alertService.alert(err, 'error');
       });
   }
   getAvailableLanguages(username: any) {
@@ -174,7 +174,7 @@ export class LanguageMappingComponent implements OnInit {
           },
             err => {
               console.log('error', err);
-              this.alertService.alert(err, 'error');
+              // this.alertService.alert(err, 'error');
             });
       }
     });
@@ -195,7 +195,7 @@ export class LanguageMappingComponent implements OnInit {
           },
             err => {
               console.log('error', err);
-              this.alertService.alert(err, 'error');
+              //this.alertService.alert(err, 'error');
             });
       }
     });
@@ -481,7 +481,7 @@ export class LanguageMappingComponent implements OnInit {
         this.multiLanguages = [];
       }, err => {
         console.log(err, 'ERROR');
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
   }
   editRow(rowObject) {
@@ -541,7 +541,7 @@ export class LanguageMappingComponent implements OnInit {
           this.bufferArray = [];
         }, err => {
           console.log(err, 'ERROR');
-          this.alertService.alert(err, 'error');
+          // this.alertService.alert(err, 'error');
         });
 
     }

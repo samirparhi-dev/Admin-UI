@@ -57,7 +57,7 @@ export class SeverityTypeComponent implements OnInit {
       console.log('success while getting services', response);
       this.services = response;
     }, err => {
-      this.alertService.alert(err, 'error');
+
       console.log('err while getting services', err);
     })
   }
@@ -68,7 +68,7 @@ export class SeverityTypeComponent implements OnInit {
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
-      this.alertService.alert(err, 'error');
+
       console.log('err while getting states', err);
     })
 
@@ -218,7 +218,7 @@ export class SeverityTypeComponent implements OnInit {
       }
     },
       (err) => {
-        this.alertService.alert(err, 'error');
+
         console.log(err);
       })
   }

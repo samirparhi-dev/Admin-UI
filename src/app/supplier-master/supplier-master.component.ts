@@ -82,7 +82,7 @@ export class SupplierMasterComponent implements OnInit {
     this.addressStateID = state.stateID;
     this.supplierService.getAllDistricts(this.addressStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
-    }, (err) => this.dialogService.alert(err, 'error'));
+    }, (err) => console.log(err, 'error'));
   }
   getPermanentDistrictsSuccessHandler(response) {
     console.log("Display all Districts", response);

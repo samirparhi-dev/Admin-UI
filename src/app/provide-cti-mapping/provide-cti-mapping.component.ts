@@ -52,7 +52,7 @@ export class ProvideCtiMappingComponent implements OnInit {
 
   getAllProviders() {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error');
     });
   }
   getAllProvidersSuccesshandeler(response) {
@@ -66,7 +66,7 @@ export class ProvideCtiMappingComponent implements OnInit {
     console.log("campaignObj", this.service_provider);
     this._callServices.getAllMappedServicelinesAndStates(this.service_provider).subscribe(campaignListResponse =>
       this.getMappedServicelinesAndStatesSuccessHandler(campaignListResponse), err => {
-        this.message.alert(err, 'error');
+        console.log(err, 'error');
       })
 
   }
@@ -112,7 +112,7 @@ export class ProvideCtiMappingComponent implements OnInit {
           console.log("states", this.states_array);
         }
       }, err => {
-        this.message.alert(err, 'error');
+        console.log(err, 'error');
       });
   }
 
@@ -129,7 +129,8 @@ export class ProvideCtiMappingComponent implements OnInit {
           }
         }
       }, err => {
-        this.message.alert(err, 'error');
+        console.log(err, 'error')
+        console.log(err, 'error');
       });
   }
 
