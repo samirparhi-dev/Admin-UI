@@ -99,7 +99,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
   }
   getAvailableZoneDistrictMappings() {
-    debugger;
     this.zoneMasterService.getZoneDistrictMappings({ "providerServiceMapID": this.providerServiceMapID }).subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
   }
 

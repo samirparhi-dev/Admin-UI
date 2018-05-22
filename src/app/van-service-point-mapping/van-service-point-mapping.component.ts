@@ -98,23 +98,17 @@ export class VanServicePointMappingComponent implements OnInit {
     this.states = response;
   }
   setProviderServiceMapID(providerServiceMapID) {
-    debugger;
-    console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     this.getDistricts(this.state);
 
 
   }
   getDistricts(state) {
-    debugger;
     this.vanServicePointMappingService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
   }
   getDistrictsSuccessHandeler(response) {
     this.districts = response;
-    console.log("this.districts ", this.districts);
-
-
   }
 
   getParkingPlaces(stateID, districtID) {
@@ -127,8 +121,6 @@ export class VanServicePointMappingComponent implements OnInit {
 
 
   getParkingPlaceSuccessHandler(response) {
-    this.vanID = "";
-    this.vanTypeID = "";
     this.availableParkingPlaces = response;
     for (let availableParkingPlaces of this.availableParkingPlaces) {
       if (availableParkingPlaces.deleted) {
@@ -177,7 +169,7 @@ export class VanServicePointMappingComponent implements OnInit {
     console.log("van service point mapping", districtID, parkingPlaceID, vanID);
 
     this.vanObj = {};
-   // this.vanObj.stateID = stateID;
+    // this.vanObj.stateID = stateID;
     this.vanObj.districtID = districtID;
     this.vanObj.parkingPlaceID = parkingPlaceID;
     this.vanObj.vanID = vanID;
@@ -189,7 +181,6 @@ export class VanServicePointMappingComponent implements OnInit {
   remainingMaps: any = [];
 
   getVanServicePointMappingsSuccessHandler(response) {
-    debugger;
     this.availableVanServicePointMappings = [];
     this.availableVanServicePointMappings = response;
 
@@ -198,19 +189,11 @@ export class VanServicePointMappingComponent implements OnInit {
         mappings: this.formBuilder.array([])
       });
     } else {
-      debugger;
       let temp = this.MappingForm.controls['mappings'] as FormArray;
       for (let i = 0; i < temp.length; i++) {
         temp.removeAt(i);
       }
     }
-
-    this.servicePointIDList = [];
-    this.remainingMaps = [];
-
-    console.log('log', this.availableVanServicePointMappings, this.vanID);
-    console.log('log', this.MappingForm.value);
-
     for (var i = 0; i < this.availableVanServicePointMappings.length; i++) {
       if (this.availableVanServicePointMappings[i].vanID == undefined || this.vanID == this.availableVanServicePointMappings[i].vanID) {
         this.servicePointIDList.push(this.availableVanServicePointMappings[i].servicePointID);
@@ -220,22 +203,12 @@ export class VanServicePointMappingComponent implements OnInit {
       }
     }
 
-    console.log('log', this.MappingForm.value);
-    console.log(this.servicePointIDList, this.remainingMaps);
-
     for (var i = 0; i < this.remainingMaps.length; i++) {
-      debugger;
       if (this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == -1) {
         this.servicePointIDList.push(this.remainingMaps[i].servicePointID);
         (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
       }
     }
-    debugger;
-    console.log(this.servicePointIDList, this.remainingMaps);
-
-    console.log('log', this.MappingForm.value);
-
-
 
   }
   servicePointIDList: any = [];
@@ -281,14 +254,10 @@ export class VanServicePointMappingComponent implements OnInit {
 
   vanID: any;
   selectedVan(van) {
-    console.log("van", van);
-    
-    debugger;
     this.vanID = van.vanID,
-    this.districtID = van.districtID,
-    this.searchParkingPlaceID = van.searchParkingPlaceID
-    console.log("van", this.vanID, this.districtID, this.searchParkingPlaceID);
-    
+      this.districtID = van.districtID,
+      this.searchParkingPlaceID = van.searchParkingPlaceID
+
   }
 
   vanServicePointMappingObj: any;
@@ -328,9 +297,7 @@ export class VanServicePointMappingComponent implements OnInit {
   }
 
   saveMappingSuccessHandler(response) {
-    debugger;
     if (response.length > 0) {
-      console.log("van", this.vanID, this.districtID, this.searchParkingPlaceID);
       this.getVanServicePointMappings(this.districtID, this.searchParkingPlaceID, this.vanID);
       this.alertMessage.alert("Mapping saved successfully", 'success');
     }
