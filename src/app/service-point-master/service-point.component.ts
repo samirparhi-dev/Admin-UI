@@ -41,7 +41,6 @@ export class ServicePointComponent implements OnInit {
     serviceID: any;
     createdBy: any;
     status: any;
-    @ViewChild('servicePointForm') servicePointForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,

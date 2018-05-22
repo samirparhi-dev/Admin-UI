@@ -99,7 +99,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
   }
   getAvailableZoneDistrictMappings() {
-    debugger;
     this.zoneMasterService.getZoneDistrictMappings({ "providerServiceMapID": this.providerServiceMapID }).subscribe(response => this.getZoneDistrictMappingsSuccessHandler(response));
   }
 
@@ -233,7 +232,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   }
   resetDropdowns() {
     this.availableDistricts = [];
-    this.availableZones = [];
+    //this.availableZones = [];
   }
 
   storezoneMappings() {
