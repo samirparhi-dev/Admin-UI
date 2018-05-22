@@ -11,10 +11,9 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class VanComponent implements OnInit {
 
-    userID(arg0: any): any {
-        throw new Error("Method not implemented.");
-    }
-    serviceline:any;
+    showVansTable: boolean = false;
+    userID: any;
+    serviceline: any;
     showVans: any = true;
     availableVans: any = [];
     data: any;
@@ -52,6 +51,7 @@ export class VanComponent implements OnInit {
 
     showForm() {
         this.showVans = false;
+        this.showVansTable = false;
         //this.districts = [];
     }
     ngOnInit() {
@@ -130,6 +130,7 @@ export class VanComponent implements OnInit {
     getVanSuccessHandler(response) {
         this.availableVans = response;
         this.createButton = true;
+        this.showVansTable = true;
         for (let availableVan of this.availableVans) {
             this.availableVanNames.push(availableVan.vanName);
             this.availableVehicleNos.push(availableVan.vehicalNo);
@@ -302,6 +303,7 @@ export class VanComponent implements OnInit {
     showList() {
         this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.showVans = true;
+        this.showVansTable = true;
         this.editable = false;
         this.vanObj = [];
         this.vanList = [];
@@ -338,6 +340,7 @@ export class VanComponent implements OnInit {
     }
     editVanData(van) {
         debugger;
+        this.showVansTable = false;
         this.vanID = van.vanID;
         this.vanName = van.vanName
         this.vehicalNo = van.vehicalNo;

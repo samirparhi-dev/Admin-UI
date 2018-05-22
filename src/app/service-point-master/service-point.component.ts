@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
@@ -11,6 +11,7 @@ import { MdCheckbox, MdSelect } from '@angular/material';
 })
 export class ServicePointComponent implements OnInit {
 
+    formMode: boolean = false;
     searchDistrictID_edit: any;
     searchParkingPlaceID_edit: any;
     editMode: boolean = false;
@@ -24,7 +25,7 @@ export class ServicePointComponent implements OnInit {
     serviceline: any;
     services_array: any = [];
     userID: any;
-    showServicePoints: any = true;
+    showServicePoints: any = false;
     availableServicePoints: any = [];
     data: any;
     providerServiceMapID: any;
@@ -40,7 +41,6 @@ export class ServicePointComponent implements OnInit {
     serviceID: any;
     createdBy: any;
     status: any;
-    formMode:any;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,
@@ -54,7 +54,10 @@ export class ServicePointComponent implements OnInit {
     }
 
     showForm() {
+        // this.servicePointForm.resetForm();
         this.showServicePoints = false;
+        this.formMode = true;
+        this.editMode = false;
     }
     ngOnInit() {
         this.getProviderServices();
@@ -134,6 +137,7 @@ export class ServicePointComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
+        this.showServicePoints = true;
     }
 
     branches: any = [];
@@ -165,7 +169,7 @@ export class ServicePointComponent implements OnInit {
             this.servicePointObj.districtName = this.searchDistrictID.districtName;
         }
         if (values.talukID != undefined) {
-            this.servicePointObj.districtBlockID = values.talukID.districtBlockID;
+            this.servicePointObj.districtBlockID = values.talukID.blockID;
             this.servicePointObj.blockName = values.talukID.blockName;
         }
         this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
@@ -265,8 +269,9 @@ export class ServicePointComponent implements OnInit {
         else {
             this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit);
         }
-
+        //this.servicePointForm.resetForm();
         this.showServicePoints = true;
+        this.formMode = false;
         this.editMode = false;
         this.servicePointObj = [];
         this.servicePointList = [];
@@ -274,6 +279,8 @@ export class ServicePointComponent implements OnInit {
     editservicePoint(spoint) {
         debugger;
         this.editMode = true;
+        this.formMode = false;
+        this.showServicePoints = false;
         this.providerServiceMapID = this.searchStateID.providerServiceMapID;
         this.servicePointID = spoint.servicePointID;
         this.servicePointName = spoint.servicePointName;
@@ -287,12 +294,12 @@ export class ServicePointComponent implements OnInit {
     updateServicePoints(formValues) {
         debugger;
         let obj = {
-
             "servicePointID": this.servicePointID,
             "servicePointName": this.servicePointName,
             "servicePointDesc": this.servicePointDesc,
             "providerServiceMapID": this.searchStateID.providerServiceMapID,
             "districtID": this.searchDistrictID_edit,
+            "servicePointHQAddress": this.areaHQAddress,
             "modifiedBy": this.createdBy
         }
 
