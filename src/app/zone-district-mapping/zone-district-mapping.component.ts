@@ -20,6 +20,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   service_provider_id: any;
   checkExistDistricts: any;
   zoneDistrictMappingObj: any;
+  editZoneMappingValue: any;
   createdBy: any;
 
   editable: any = false;
@@ -113,7 +114,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showMappings = false;
     this.disableSelection = true;
     this.showListOfZonemapping = false;
-    this.availableZones = [];
+    //this.availableZones = [];
     this.getAvailableZones(this.state.providerServiceMapID);
 
   }
@@ -122,13 +123,33 @@ export class ZoneDistrictMappingComponent implements OnInit {
   }
   getZonesSuccessHandler(response) {
     console.log('this.availableZones', this.availableZones);
-    //this.availableZones = response;
-    if (response != undefined) {
-      for (let zone of response) {
-        if (!zone.deleted) {
-          this.availableZones.push(zone);
+    this.availableZones = response;
+    // if (response != undefined) {
+    //   for (let zone of response) {
+    //     if (!zone.deleted) {
+    //       this.availableZones.push(zone);
+    //     }
+    //   }
+    // }
+    if (this.editZoneMappingValue != undefined) {
+      if (this.availableZones) {
+        let zone = this.availableZones.filter((availableZonesRes) => {
+          if (this.editZoneMappingValue.zoneID == availableZonesRes.zoneID) {
+            return availableZonesRes;
+          }
+        })[0];
+        if (zone) {
+          this.zoneID = zone;
+          let state = Object.assign({'stateID':this.editZoneMappingValue.m_providerServiceMapping.state.stateID,'providerServiceMapID':this.editZoneMappingValue.providerServiceMapID})
+          console.log('state',state);
+          
+          this.checkZone(this.editZoneMappingValue.zoneID,
+            this.editZoneMappingValue.m_providerServiceMapping.m_serviceMaster,
+            state);
+
         }
       }
+
     }
   }
 
@@ -143,13 +164,32 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
   }
   getDistrictsSuccessHandeler(response, zoneID, service, stateID) {
+    debugger;
     this.districts = response;
-    if (this.districts)
+    if (this.districts) {
       this.checkExistance(service, zoneID, stateID);
+    }
+    if (this.editZoneMappingValue != undefined) {
+      if (this.districts) {
+        let district = this.districts.filter((districtsRes) => {
+          if (this.editZoneMappingValue.districtID == districtsRes.districtID) {
+            return districtsRes;
+          }
+        })[0];
+        if (district) {
+          this.districtID = district;
+          
+        }
+      }
+
+    }
+
   }
 
 
   checkExistance(service, zoneID, stateID) {
+    console.log("service, zoneID, stateID", service, zoneID, stateID);
+    
     this.districtID = [];
     this.existingDistricts = [];
 
@@ -160,7 +200,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         }
       }
     });
-
+   
     this.availableDistricts = this.districts.slice();
 
     let temp = [];
@@ -194,6 +234,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
       this.bufferDistrictsArray = [];
     }
+
 
   }
 
@@ -292,6 +333,41 @@ export class ZoneDistrictMappingComponent implements OnInit {
     })
   }
 
+  editZoneMapping(zoneDistrictMapping) {
+    console.log("zoneDistrictMapping", zoneDistrictMapping);
+
+    this.editable = true;
+    this.showMappings = false;
+    this.disableSelection = true;
+    this.showListOfZonemapping = false;
+    this.editZoneMappingValue = zoneDistrictMapping;
+    this.getAvailableZones(zoneDistrictMapping.providerServiceMapID);
+
+
+
+  }
+     
+  updateZoneMappingData(ZoneMapping) {
+    console.log("ZoneMapping", ZoneMapping);
+    
+    this.dataObj = {};
+    this.dataObj.zoneID = this.zoneID.zoneID;
+    this.dataObj.districtID = this.districtID.districtID;
+    this.dataObj.providerServiceMapID = this.editZoneMappingValue.providerServiceMapID;
+    this.dataObj.zoneDistrictMapID = this.editZoneMappingValue.zoneDistrictMapID;  
+    this.dataObj.modifiedBy = this.createdBy;
+    console.log("data", this.dataObj);
+    
+    this.zoneMasterService.updateZoneMappingData(this.dataObj).subscribe((response) => {
+      console.log("updated response", response);
+      this.updateHandler(response)
+    });
+  }
+  updateHandler(response) {
+    this.resetDropdowns();
+    this.showList();
+    this.editZoneMappingValue = null;
+    this.alertMessage.alert("Updated successfully", 'success');
+
+  }
 }
-
-
