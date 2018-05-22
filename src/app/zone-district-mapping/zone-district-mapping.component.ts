@@ -233,7 +233,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   }
   resetDropdowns() {
     this.availableDistricts = [];
-    this.availableZones = [];
+    //this.availableZones = [];
   }
 
   storezoneMappings() {
