@@ -48,7 +48,7 @@
             </div>
         </form>
     </div>
-    <div *ngIf="showVans  && !editable" class="col-xs-12 col-sm-12 ">
+    <div *ngIf="showVansTable" class="col-xs-12 col-sm-12 ">
         <h4>Available Vans</h4>
         <div class="table-responsive">
             <table [md2Data]="availableVans" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
@@ -200,7 +200,7 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md-input-container [style.width]="'100%'" myName>
-                            <input mdInput required placeholder="Van Name " [(ngModel)]="vanName" name="vanName" maxlength="50" #vanN="ngModel" (blur)="checkExistance(vanName)">
+                            <input mdInput required placeholder="Van Name " [(ngModel)]="vanName" name="vanName" maxlength="50" #vanN="ngModel" (keyup)="checkExistance(vanName)">
                             <md-hint>
                                 <span class="error_text" *ngIf="!vanN.valid  && ( vanN.dirty || vanN.touched)">Please enter Van Name</span>
                                 <span class="error_text" *ngIf="vanN.valid && vanNameExist">Van already exists</span>
@@ -210,7 +210,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md-input-container [style.width]="'100%'" PAN>
                             <input mdInput required placeholder="Vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo" minlength="10" maxlength="13"
-                                #vehicleN="ngModel" (blur)="checkVehicleExistance(vehicalNo)">
+                                #vehicleN="ngModel" (keyup)="checkVehicleExistance(vehicalNo)">
                             <md-hint>
                                 <span class="error_text" *ngIf="!vehicleN.valid  && ( vehicleN.dirty || vehicleN.touched)">Enter min: 10, max 13</span>
                                 <span class="error_text" *ngIf="vehicleN.valid && vehicleExist">Vehicle no already exists</span>
