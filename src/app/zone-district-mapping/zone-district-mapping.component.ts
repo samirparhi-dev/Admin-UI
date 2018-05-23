@@ -114,9 +114,11 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.disableSelection = true;
     this.showListOfZonemapping = false;
     this.getAvailableZones(this.state.providerServiceMapID);
-
+    
   }
   getAvailableZones(providerServiceMapID) {
+    console.log("zoneID", this.zoneID);
+
     this.zoneMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
   getZonesSuccessHandler(response) {
@@ -173,7 +175,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
         })[0];
         if (district) {
           this.districtID = district;
-            this.availableDistricts.push(district);
+          this.availableDistricts.push(district);
         }
       }
 
@@ -313,10 +315,12 @@ export class ZoneDistrictMappingComponent implements OnInit {
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.zoneDistrictMappingForm.resetForm();        
+        this.zoneDistrictMappingForm.resetForm();
+        this.resetDropdowns();
         this.showList();
         this.zoneDistrictMappingList = [];
         this.bufferCount = 0;
+        this.editZoneMappingValue=undefined;
       }
     })
   }
@@ -351,8 +355,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.updateHandler(response)
     });
   }
-  updateHandler(response) {    
-    this.zoneDistrictMappingForm.resetForm();    
+  updateHandler(response) {
     this.resetDropdowns();
     this.showList();
     this.editZoneMappingValue = null;
