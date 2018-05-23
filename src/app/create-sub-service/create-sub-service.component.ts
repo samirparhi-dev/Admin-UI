@@ -45,8 +45,8 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.getAllProviders()
       .subscribe(response => this.getAllProvidersSuccesshandeler(response),
         err => {
-        //  this.message.alert(err, 'error');
-        console.log(err, 'error response');
+          //  this.message.alert(err, 'error');
+          console.log(err, 'error response');
         });
 
   }
@@ -92,7 +92,7 @@ export class CreateSubServiceComponent implements OnInit {
       this.states = response;
     }, err => {
       console.log(err, 'error response');
-   //   this.message.alert(err, 'error');
+      //   this.message.alert(err, 'error');
     });
   }
 
@@ -107,7 +107,7 @@ export class CreateSubServiceComponent implements OnInit {
         });
       }, err => {
         console.log(err, 'Error in getting Services from Provider');
-     //   this.message.alert(err, 'error');
+        //   this.message.alert(err, 'error');
       });
   }
 
@@ -142,7 +142,7 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.populateTable(response, providerServiceMapID),
         err => {
           console.log(err, 'error response');
-        //  this.message.alert(err, 'error');
+          //  this.message.alert(err, 'error');
         });
   }
   populateTable(response, providerServiceMapID) {
@@ -155,7 +155,7 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(response => this.existingSubServiceHandler(response),
         err => {
           console.log(err, 'error response');
-       //   this.message.alert(err, 'error');
+          //   this.message.alert(err, 'error');
         })
   }
 
@@ -197,14 +197,14 @@ export class CreateSubServiceComponent implements OnInit {
 
         }, (err) => {
           console.log(err, 'error response');
-        //  this.message.alert(err, 'error');
+          //  this.message.alert(err, 'error');
         })
       } else {
         this.message.alert('Something went wrong', 'error');
       }
     }, (err) => {
       console.log(err, 'error response');
-    //  this.message.alert(err, 'error');
+      //  this.message.alert(err, 'error');
     });
     // const data_obj = {
     //   'providerServiceId': providerService.serviceProviderId,
@@ -277,7 +277,7 @@ export class CreateSubServiceComponent implements OnInit {
       }
     }, (err) => {
       console.log(err, 'error response');
-    //  this.message.alert(err, 'error');
+      //  this.message.alert(err, 'error');
     })
   }
 
@@ -308,15 +308,15 @@ export class CreateSubServiceComponent implements OnInit {
   }
   addSubService(flag) {
     this.searchForm = flag;
-    if (flag) {
-      if (this.state) {
+    // if (flag) {
+    if (this.state) {
 
-        this.getExistingOnSearch(this.state.providerServiceMapID);
-      }
-      else {
-        this.getExistingOnSearch(this.states[0].providerServiceMapID);
-      }
+      this.getExistingOnSearch(this.state.providerServiceMapID);
     }
+    else {
+      this.getExistingOnSearch(this.states[0].providerServiceMapID);
+    }
+    //  }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
@@ -349,8 +349,8 @@ export class CreateSubServiceComponent implements OnInit {
       }
     }, (err) => {
       console.log(err, 'error response');
-     //  this.message.alert(err, 'error');
-       });
+      //  this.message.alert(err, 'error');
+    });
   }
   clearFields() {
     this.subServiceDesc = '';
