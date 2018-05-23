@@ -263,8 +263,9 @@ export class ServicePointComponent implements OnInit {
     }
 
     showList() {
-        if (this.editMode) {
+        if (!this.editMode) {
             this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
+
         }
         else {
             this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit);
