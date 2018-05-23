@@ -46,7 +46,7 @@
             <th>S.No.</th>
             <th>Role</th>
             <th>Description</th>
-            <th>Screen Name</th>
+            <th>Feature Name</th>
             <th>Edit</th>
             <th>Action</th>
           </tr>
@@ -93,7 +93,7 @@
 <div class="row" *ngIf="showRoleCreationForm">
   <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10"> -->
   <form #addingForm="ngForm" id="roleAddForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Role" [(ngModel)]="role" minlength="1" maxlength="50" name="role" (keyup)="validateRole(role)"
           required #roles="ngModel">
@@ -160,7 +160,7 @@
             <th width="5%">S.No.</th>
             <th width="15%">Role</th>
             <th width="25%">Description</th>
-            <th width="20%">Screen Name</th>
+            <th width="20%">Feature Name</th>
             <th width="15%">Action</th>
           </tr>
         </thead>
