@@ -1,7 +1,8 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 *ngIf="showListOfZonemapping">Available Zone Mappings</h4>
-    <h4 *ngIf="!editable && !showListOfZonemapping">Map Zone with District</h4>   
+    <h4 *ngIf="!editable && !showListOfZonemapping">Map Zone with District</h4>
+    <h4 *ngIf="editable && !showListOfZonemapping">Edit Map Zone with District </h4>   
     <form #searchForm="ngForm" autocomplete="off">
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -47,14 +48,14 @@
           <th width="20%">Service</th>
           <th width="25%">State</th>
           <th width="30%">District</th>
-          <!-- <th width="10%">Edit</th> -->
+          <th width="20%">Edit</th>
           <th width="20%">Action</th>
         </tr>
       </thead>
       <tbody>
         <!-- <tr style="cursor: pointer" *ngFor="let zoneDistrictMapping of availableZoneDistrictMappings | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b}" > -->
         <tr *ngIf="availableZoneDistrictMappings.length == 0" class="record-not-found">
-          <td colspan="6" align="center">No records found</td>
+          <td colspan="7" align="center">No records found</td>
         </tr>
         <tr *ngFor="let zoneDistrictMapping of md2.data ;let i=index">
           <td>{{availableZoneDistrictMappings.indexOf(zoneDistrictMapping)+1}}</td>
@@ -62,10 +63,10 @@
           <td>{{zoneDistrictMapping.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
           <td>{{zoneDistrictMapping.m_providerServiceMapping.state.stateName}}</td>
           <td>{{zoneDistrictMapping.districtName}}</td>
-          <!-- <td>
+          <td>
             <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zoneDistrictMapping.deleted"
-              (click)="editZoneMapping(zoneMapping)">edit</md-icon>
-          </td> -->
+              (click)="editZoneMapping(zoneDistrictMapping)">edit</md-icon>
+          </td>
           <td>
             <button *ngIf="zoneDistrictMapping.deleted=='1'" md-raised-button color="accent" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Activate</button>
             <button *ngIf="zoneDistrictMapping.deleted=='0'" md-raised-button color="primary" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Deactivate</button>
@@ -75,7 +76,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3">
+          <td colspan="4">
             <md2-pagination></md2-pagination>
           </td>
           <td colspan="3" class="p-r-0 m-t-10">
@@ -89,37 +90,8 @@
 </div>
 
 <div class="row">
-  <div *ngIf="!showListOfZonemapping && (!showMappings || editable)">
+  <div *ngIf="!showListOfZonemapping && (!showMappings)">
     <form #zoneDistrictMappingForm="ngForm" autocomplete="off">
-
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
-            required #bindService="ngModel">
-            <md-option *ngFor="let item of services" [value]="item">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=bindService.valid>
-            <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
-          </md-hint>
-        </md-input-container>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="State" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
-            name="state" #bindState="ngModel" required>
-            <md-option *ngFor="let item of states" [value]="item">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-          <md-hint [hidden]=bindState.valid>
-            <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
-          </md-hint>
-        </md-input-container>
-      </div> -->
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
@@ -133,10 +105,10 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editable">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select multiple placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel"
+          <md-select multiple placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" 
             required>
             <md-option *ngFor="let district of availableDistricts" [value]="district">
               {{district.districtName}}
@@ -147,11 +119,23 @@
           </md-hint>
         </md-input-container>
       </div>
-
-
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="editable">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" 
+            required>
+            <md-option *ngFor="let district of availableDistricts" [value]="district">
+              {{district.districtName}}
+            </md-option>
+          </md-select>
+          <md-hint [hidden]=districtV.valid>
+            <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select district</span>
+          </md-hint>
+        </md-input-container>
+      </div>
     </form>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
-      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
+      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid && !editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
         (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
@@ -192,8 +176,9 @@
     </div> 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezoneMappings()">Save</button>
-      
+      <button *ngIf="!editable" [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezoneMappings()">Save</button>
+      <button *ngIf="editable" md-raised-button color="accent" class="pull-right" [disabled]="zoneDistrictMappingForm.invalid"
+        (click)="updateZoneMappingData(zoneDistrictMappingForm.value)">Update</button>
     </div>
   </div>
 </div>

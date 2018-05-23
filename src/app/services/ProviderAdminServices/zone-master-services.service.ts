@@ -36,6 +36,7 @@ export class ZoneMasterService {
     updateZOneStatusURL: any;
     updateZOneDistrictMappingURL: any;
     updateZoneDataURL: any;
+    updateZoneMappingDataUrl: any;
 
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -65,6 +66,7 @@ export class ZoneMasterService {
 
         this.getServiceLines_new_url = this.providerAdmin_Base_Url + 'm/role/serviceNew';
         this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
+        this.updateZoneMappingDataUrl = this.providerAdmin_Base_Url + "/zonemaster/edit/zoneDistrictMapping";
 
     };
 
@@ -97,7 +99,11 @@ export class ZoneMasterService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
+    updateZoneMappingData(data) {
+        return this.http.post(this.updateZoneMappingDataUrl, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
     updateZoneMappingStatus(data) {
         return this.http.post(this.updateZOneDistrictMappingURL, data)
             .map(this.handleSuccess)
