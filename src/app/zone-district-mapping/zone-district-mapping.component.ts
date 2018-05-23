@@ -96,7 +96,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.availableZones = [];
     this.providerServiceMapID = providerServiceMapID
     this.getAvailableZoneDistrictMappings();
-    //this.getAvailableZones(providerServiceMapID);
 
   }
   getAvailableZoneDistrictMappings() {
@@ -114,7 +113,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showMappings = false;
     this.disableSelection = true;
     this.showListOfZonemapping = false;
-    //this.availableZones = [];
     this.getAvailableZones(this.state.providerServiceMapID);
 
   }
@@ -122,7 +120,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.zoneMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
   getZonesSuccessHandler(response) {
-    console.log('this.availableZones', this.availableZones);
     this.availableZones = response;
     // if (response != undefined) {
     //   for (let zone of response) {
@@ -162,7 +159,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
   }
   getDistrictsSuccessHandeler(response, zoneID, service, stateID) {
-   
+
     this.districts = response;
     if (this.districts) {
       this.checkExistance(service, zoneID, stateID);
@@ -170,16 +167,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
     if (this.editZoneMappingValue != undefined) {
       if (this.districts) {
         let district = this.districts.filter((districtsRes) => {
-          if (this.editZoneMappingValue.districtID == districtsRes.districtID) {
+          if (this.editZoneMappingValue.districtID == districtsRes.districtID && this.editZoneMappingValue.zoneID === this.zoneID.zoneID) {
             return districtsRes;
           }
         })[0];
         if (district) {
           this.districtID = district;
-          console.log("this.districtID", this.districtID);
-          this.availableDistricts.push(district);
-          console.log(this.availableDistricts,'avalble districts');
-
+            this.availableDistricts.push(district);
         }
       }
 
@@ -249,7 +243,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.zoneDistrictMappingObj.stateName = this.state.stateName;
       this.zoneDistrictMappingObj.serviceID = this.service.serviceID;
       this.zoneDistrictMappingObj.createdBy = this.createdBy;
-      // this.checkBufferDuplicates(this.zoneDistrictMappingObj);
       this.zoneDistrictMappingList.push(this.zoneDistrictMappingObj);
       this.zoneDistrictMappingForm.resetForm();
       this.resetDropdowns();
@@ -320,7 +313,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.zoneDistrictMappingForm.resetForm();
+        this.zoneDistrictMappingForm.resetForm();        
         this.showList();
         this.zoneDistrictMappingList = [];
         this.bufferCount = 0;
@@ -358,18 +351,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.updateHandler(response)
     });
   }
-  updateHandler(response) {
-    this.resetObj() ;
+  updateHandler(response) {    
+    this.zoneDistrictMappingForm.resetForm();    
     this.resetDropdowns();
     this.showList();
     this.editZoneMappingValue = null;
     this.alertMessage.alert("Updated successfully", 'success');
 
   }
-  resetObj() {
 
-    this.districtID = null;
-    this.zoneID = null;
-
-  }
 }
