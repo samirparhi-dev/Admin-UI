@@ -272,7 +272,7 @@
           <tr *ngIf="objs.length == 0">
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
-          <tr *ngFor="let obj of objs; let i=index">
+          <tr *ngFor="let obj of md2.data; let i=index">
             <td>{{objs.indexOf(obj)+1}}</td>
             <td>{{obj.username}}</td>
             <td>{{obj.primaryEmail}}</td>

@@ -184,7 +184,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="cursor: pointer" *ngFor="let parkingPlace of md2.data ; let i=index">
+                        <tr *ngFor="let parkingPlace of md2.data ; let i=index">
                             <td>{{parkingPlaceList.indexOf(parkingPlace)+1}}</td>
                             <td>{{parkingPlace.stateName}}</td>
                             <td>{{parkingPlace.districtName}}</td>
