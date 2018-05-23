@@ -176,7 +176,7 @@
               <ul class="p-l-15">
                 <li class="p-l-5" *ngFor="let screen of obj.screen_name;let j=index ">
                   {{screen}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{screen}}" (click)="removeFeature(i,j)">cancel</md-icon>
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{screen}}" (click)="removeFeature(objs.indexOf(obj),j)">cancel</md-icon>
                 </li>
               </ul>
             </td>
