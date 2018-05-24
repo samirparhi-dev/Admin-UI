@@ -38,7 +38,7 @@
                         <!-- <md-form-field [style.width]=" '100%' ">
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
-                        <md-input-container style="width: 100% ">
+                        <md-input-container style="width: 100% " measuringUnit>
                             <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
                                 (change)="procedureUnique()">
 
@@ -86,7 +86,7 @@
                     </div>
                     <div class="clearfix visible-md "></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                        <md-input-container [style.width]="'100%'">
+                        <md-input-container [style.width]="'100%'" myProviderName>
                             <textarea mdInput required mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description"
                                 maxlength="99"></textarea>
                         </md-input-container>
