@@ -145,11 +145,11 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
     this.vanObj = {};
-    this.vanObj.stateID = stateID;
+    //this.vanObj.stateID = stateID;
     this.vanObj.districtID = districtID;
     this.vanObj.parkingPlaceID = parkingPlaceID;
     this.vanObj.vanTypeID = vanTypeID;
-    this.vanObj.serviceProviderID = this.service_provider_id;
+    this.vanObj.providerServiceMapID = this.state.providerServiceMapID;
     this.vanServicePointMappingService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
   }

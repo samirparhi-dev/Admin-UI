@@ -301,6 +301,7 @@ export class ServicePointComponent implements OnInit {
             "providerServiceMapID": this.searchStateID.providerServiceMapID,
             "districtID": this.searchDistrictID_edit,
             "servicePointHQAddress": this.areaHQAddress,
+            "districtBlockID": this.talukID,
             "modifiedBy": this.createdBy
         }
 

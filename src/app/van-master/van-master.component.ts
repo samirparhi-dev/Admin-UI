@@ -118,10 +118,10 @@ export class VanComponent implements OnInit {
     getVans(stateID, districtID, parkingPlaceID) {
         debugger;
         this.vanObj = {};
-        this.vanObj.stateID = stateID;
+        //  this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
-        this.vanObj.serviceProviderID = this.service_provider_id;
+        this.vanObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
         this.searchParkingPlaceID_Update = this.searchParkingPlaceID;
         this.vanMasterService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 

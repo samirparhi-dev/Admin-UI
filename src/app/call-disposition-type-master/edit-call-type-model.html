@@ -24,8 +24,8 @@
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<md-input-container class="p-t-7" style="width: 100% ">
-				<input mdInput placeholder="Call Sub Type" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1" maxlength="50"
-				 (keyup)="validateCallSubtype(callSubType)">
+				<input mdInput placeholder="Call Sub Type" [(ngModel)]="callSubType " name="callSubType" required #subType minlength="1"
+				 maxlength="50" (keyup)="validateCallSubtype(callSubType)">
 				<md-hint class="errorText" *ngIf="subCallTypeExist">
 					This sub call type exist for this service & call Type
 				</md-hint>
@@ -34,15 +34,15 @@
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
 			<label class="f-s-n-b">Fit To Block</label>
 			<md-radio-group [(ngModel)]="fitToBlock" (change)="fitToBlocks(fitToBlock)" name="fitToBlock">
-				<md-radio-button color="primary" class="p-l-10" value="true">YES</md-radio-button>
-				<md-radio-button color="primary" class="p-l-10" value="false">NO</md-radio-button>
+				<md-radio-button color="primary" [checked]="fitToBlock_y" class="p-l-10" [value]="true">Yes</md-radio-button>
+				<md-radio-button color="primary" [checked]="fitToBlock_n" class="p-l-10" [value]="false">No</md-radio-button>
 			</md-radio-group>
 		</div>
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
 			<label class="f-s-n-b">Fit For FollowUp</label>
 			<md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)" name="fitForFollowup">
-				<md-radio-button color="primary" class="p-l-10" value="true">YES</md-radio-button>
-				<md-radio-button color="primary" class="p-l-10" value="false">NO</md-radio-button>
+				<md-radio-button color="primary" class="p-l-10" [value]="true">Yes</md-radio-button>
+				<md-radio-button color="primary" class="p-l-10" [value]="false">No</md-radio-button>
 			</md-radio-group>
 		</div>
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
