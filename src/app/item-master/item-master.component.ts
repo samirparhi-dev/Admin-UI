@@ -71,9 +71,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   servicesSuccesshandler(res) {
-    this.services = res.filter((item) => {
-      console.log('item', item);     
-    })
+    this.services = res
+    // .filter((item) => {
+    //   console.log('item', item);     
+    // })
   }
 
   setProviderServiceMapID(providerServiceMapID) {

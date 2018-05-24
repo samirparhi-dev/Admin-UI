@@ -1,0 +1,119 @@
+<div class="col-xs-12 col-sm-12 bg-white">
+  <h4 class="m-t-20">Store/Self Consumption</h4>
+  <div class="row m-t-10">
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="form-group">
+        <label class="control-label" for="state">Select State</label>
+        <select class="form-control"  name="state " ngMode="state">
+          <option selected="selected">Select State</option>
+        </select>
+      </div>
+    </div> -->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="form-group">
+        <md-input-container class="width100" >
+          <input mdInput placeholder="Reference No" [(ngModel)]="refNo" name="refNo" minlength="2" maxlength="100"
+            required>
+        </md-input-container> 
+      </div>
+    </div>
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="form-group">
+        <label class="control-label" for="storeSubstore">Select Store/Substore</label>
+        <select class="form-control"  name="storeSubstore" ngMode="storeSubstore">
+          <option selected="selected">Select Store/Substore</option>
+        </select>
+      </div>
+    </div> -->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="form-group" >
+        <md-input-container class="width100" myProviderName>
+          <input mdInput placeholder="Reason" [(ngModel)]="reason" name="reason" minlength="2" maxlength="100"
+            required>
+        </md-input-container> 
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive m-t-10">
+    <table class="table table-striped stock">
+      <thead>
+              <tr>
+                <th  width="5%">
+                  S. No.
+                </th>
+                <th width="25%">
+                Item Name
+                </th>
+                <th width="20%">
+                  Batch No
+                </th>
+                <th width="10%">
+                 QOH
+                </th>
+                <th width="10%">
+                  Qty
+                </th>
+                <th width="10%">
+                  Action
+                </th>
+              </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of itemStockExit; let i=index" >
+          <td class="">
+           {{i+1}}
+          </td>
+          <td >
+            <md-input-container [style.width]="'90%'">
+              <input mdInput  class="width200px" required [mdAutocomplete]="tdAuto"  name="items" 
+                 #item1="ngModel" [(ngModel)]="item.item" 
+                (ngModelChange)="(tditems = filterItem(item.item))" >
+            </md-input-container>
+          
+            <md-autocomplete #tdAuto="mdAutocomplete" >
+              <md-option *ngFor="let itema of tditems" [value]="itema.itemName" (click)="getBatch(itema,i)">
+                <span>{{ itema.itemName }}</span>
+              </md-option>
+            </md-autocomplete> 
+
+          </td>
+          <td >
+            <md-select  class="width80" [(ngModel)]="item.batchNo" name="batchNo" #servicess
+            required >
+            <md-option *ngFor="let ser of item.batchSelection" [value]="ser">
+              {{ser.batchNo}}
+            </md-option>
+          </md-select>
+          </td>
+          <td class="">
+           <div class="p-t-14">{{item?.batchNo?.quantityInHand}}</div> 
+          </td>
+          <td >
+            <md-input-container class="width100" >
+              <input mdInput  [(ngModel)]="item.quantity" name="quantity" required>
+            </md-input-container> 
+          </td>
+          <td>
+              <md-icon class="cursorPointer m-t-10" mdTooltip="Remove" (click)="removeStock(i)">delete</md-icon>
+          </td>
+        </tr>
+        <tr>
+            <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><button type="button" class="btn btn-primary" (click)="addStock()">Add item</button></td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <button type="button" class="btn btn-default cu-green-btn pull-right  m-b-10" (click)="saveSelfConsumption()">Save</button>
+      <button type="button" class="btn btn-default  pull-right m-r-5 m-b-10">Print</button>
+      <button type="button" class="btn btn-default  pull-right m-r-5 m-b-10" (click)="reset()">Clear</button>
+    </div>
+  </div>
+  </div>
