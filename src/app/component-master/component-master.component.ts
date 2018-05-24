@@ -13,7 +13,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ComponentMasterComponent implements OnInit {
 
-  serviceline:any;
+  serviceline: any;
   searchStateID: any;
   provider_states: any = [];
   userID: any;
@@ -190,6 +190,8 @@ export class ComponentMasterComponent implements OnInit {
     })
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
+
+
   back() {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
@@ -439,6 +441,124 @@ export class ComponentMasterComponent implements OnInit {
     }
 
   }
+  get range_min() {
+    return this.componentForm.controls['range_min'].value;
+  }
+  get range_max() {
+    return this.componentForm.controls['range_max'].value;
+  }
+  get range_normal_min() {
+    return this.componentForm.controls['range_normal_min'].value;
+  }
+  get range_normal_max() {
+    return this.componentForm.controls['range_normal_max'].value;
+  }
+  setMaxRange() {
+    if (this.range_min == undefined && this.range_max != undefined) {
+      this.alertService.alert("Please select the min range");
+      this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_max <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+      this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else if (this.range_normal_min != undefined) {
+      this.setMinNormalRange();
+    }
+    else if (this.range_normal_min != undefined) {
+      this.setMaxNormalRange();
+    }
+    else {
+      return true;
+    }
+  }
+  setMinNormalRange() {
+    if (this.range_min == undefined && this.range_max == undefined) {
+      this.alertService.alert("Please select min and max range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_min == undefined) {
+      this.alertService.alert("Please select min range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_max == undefined) {
+      this.alertService.alert("Please select max range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
 
+    else if (this.range_normal_min <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+     this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else if (this.range_normal_min >= this.range_max) {
+      this.alertService.alert("Please select the range lesser than the max range");
+     this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else {
+      return true;
+    }
+
+  }
+  setMaxNormalRange() {
+    if (this.range_min == undefined && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select min, max and min normal range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_min == undefined) {
+      this.alertService.alert("Please select min range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_max == undefined) {
+      this.alertService.alert("Please select max range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_normal_min == undefined) {
+      this.alertService.alert("Please select min normal range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_normal_max <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+     this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else if (this.range_normal_max >= this.range_max) {
+      this.alertService.alert("Please select the range lesser than the max range");
+     this.componentForm.patchValue({
+        range_max: null
+      })
+    }
+    else if (this.range_normal_max <= this.range_normal_min) {
+      this.alertService.alert("Please select the range greater than the min normal range");
+     this.componentForm.patchValue({
+        range_max: null
+      })
+    } else {
+      return true;
+    }
+
+  }
 }
 
