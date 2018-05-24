@@ -19,7 +19,7 @@ export class ProcedureMasterComponent implements OnInit {
   services: any;
   disableSelection: boolean = false;
 
-  editMode: any;
+  editMode: boolean = false;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -135,6 +135,7 @@ export class ProcedureMasterComponent implements OnInit {
     this.disableSelection = false;
   }
   showForm() {
+    this.editMode = false;
     this.tableMode = false;
     this.saveEditMode = true;
     this.disableSelection = true;
@@ -371,6 +372,7 @@ export class ProcedureMasterComponent implements OnInit {
   }
 
   configProcedure(item, index) {
+    this.editMode = true;
     let male = false;
     let female = false;
     if (item.gender === 'Unisex') {

@@ -324,7 +324,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         this.bufferArray.push(obj);
       }
       else {
-        this.alertService.alert("Mapping for this hospital already exists");
+        this.alertService.alert("Already exist");
         this.hospital = "";
       }
 
