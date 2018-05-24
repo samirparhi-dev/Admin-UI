@@ -12,7 +12,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ProcedureComponentMappingComponent implements OnInit {
 
-  serviceline:any;
+  serviceline: any;
   searchStateID: any;
   provider_states: any = [];
   services_array: any = [];
@@ -38,10 +38,12 @@ export class ProcedureComponentMappingComponent implements OnInit {
   selectedComponent: any;
   selectedComponentList = [];
   selectedProcedureDescription: any;
+  selectedProcedureType: any;
   selectedComponentDescription: any;
 
   procedureList: any;
   componentList: any;
+  masterComponentList: any;
 
 
   mappedList = [];
@@ -114,13 +116,44 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.getComponentDropDown();
     this.getCurrentMappings();
   }
+  getProcedureDropDown() {
+    this.procedureComponentMappingServiceService
+      .getProceduresList(this.providerServiceMapID)
+      .subscribe(response => {
+        console.log("procedure List", response);
+        this.procedureList = this.filterProcedureListforNull(response)
+      });
+
+  }
+  getComponentDropDown() {
+    this.procedureComponentMappingServiceService
+      .getComponentsList(this.providerServiceMapID)
+      .subscribe(response => {
+        console.log("component list", response);
+        this.componentList = this.successhandeler(response);
+        this.masterComponentList = this.successhandeler(response)
+      });
+
+  }
+
+  getCurrentMappings() {
+    this.procedureComponentMappingServiceService.getCurrentMappings(this.providerServiceMapID)
+      .subscribe((res) => {
+        this.mappedList = res;
+        this.filteredMappedList = res;
+        this.tableMode = true;
+      });
+  }
+
 
   configProcedureMapping(item, index) {
+    debugger;
     this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
+        console.log("config procedure", res);
         if (res.length > 0) {
           console.log(JSON.stringify(res, null, 4), 'recheck')
           this.editMode = index >= 0 ? true : false;
@@ -134,6 +167,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   loadForConfig(res) {
+    debugger;
     let temp = this.procedureList.filter(procedure => {
       return procedure.procedureID == res[0].procedureID
     });
@@ -142,18 +176,26 @@ export class ProcedureComponentMappingComponent implements OnInit {
       this.selectedProcedure = temp[0];
       this.selectedComponentList = res[0].compListDetails;
       this.selectedProcedureDescription = res[0].procedureDesc;
+      this.selectedProcedureType = res[0].procedureType;
     } else {
       this.selectedComponentList = [];
     }
-  }
+    this.componentList = [];
+    let masters = Object.assign([], this.masterComponentList);
+    console.log("masters", masters);
+    debugger;
+    if (this.procedureList.procedureType == "Radiology") {
+      this.componentList = masters.filter((masterComponent) => {
+        return masterComponent.inputType == "FileUpload";
+        
+      })
+    } else {
+      this.componentList = masters.filter((masterComponent) => {
+        return masterComponent.inputType != "FileUpload";
+      })
 
-  getCurrentMappings() {
-    this.procedureComponentMappingServiceService.getCurrentMappings(this.providerServiceMapID)
-      .subscribe((res) => {
-        this.mappedList = res;
-        this.filteredMappedList = res;
-        this.tableMode = true;
-      });
+    }
+    console.log("load component list", this.componentList);
   }
 
   updateComponentMapList() {
@@ -266,7 +308,9 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   procedureSelected() {
     if (this.selectedProcedure) {
+      console.log("selected procedure", this.selectedProcedure);
       this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
+      this.selectedProcedureType = this.selectedProcedure.procedureType;
       this.configProcedureMapping(this.selectedProcedure, 0);
     } else {
       this.clearSelectedComponentsList();
@@ -304,18 +348,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.clearComponentValue();
     this.clearSelectedComponentsList();
   }
-  getProcedureDropDown() {
-    this.procedureComponentMappingServiceService
-      .getProceduresList(this.providerServiceMapID)
-      .subscribe(response => this.procedureList = this.filterProcedureListforNull(response));
 
-  }
-  getComponentDropDown() {
-    this.procedureComponentMappingServiceService
-      .getComponentsList(this.providerServiceMapID)
-      .subscribe(response => this.componentList = this.successhandeler(response));
-
-  }
 
   clearProcedureValue() {
     this.selectedProcedure = '';
