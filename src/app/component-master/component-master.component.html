@@ -64,7 +64,7 @@
                         </md-form-field> -->
                     <md-input-container style="width: 100% ">
                         <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName"
-                            (change)="componentUnique()" minlength="2" maxlength="50">
+                            (change)="componentUnique()" maxlength="50">
 
                         <md-hint >
                             <span class="error_text" *ngIf="componentForm.get('testComponentName').hasError('required') && componentForm.get('testComponentName').touched">Component Name is required</span>
@@ -75,7 +75,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <md-input-container [style.width]="'100%'">
                         <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description"
-                        minlength="2" maxlength="50"></textarea>
+                        maxlength="50"></textarea>
                     </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -119,35 +119,35 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-min" type="number" mdInput placeholder="Minimum Range *" [style.width]="'100%'" formControlName="range_min">
+                            <input id="component-min" type="number" mdInput placeholder="Minimum Range *" [style.width]="'100%'" (change)="setMinRange()" formControlName="range_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-max" type="number" mdInput placeholder="Maximum Range *" [style.width]="'100%'" formControlName="range_max">
+                            <input id="component-max" type="number" mdInput placeholder="Maximum Range *" [style.width]="'100%'" (change)="setMaxRange()" formControlName="range_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range *" [style.width]="'100%'" formControlName="range_normal_min">
+                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range *" [style.width]="'100%'" (change)="setMinNormalRange()" formControlName="range_normal_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range *" [style.width]="'100%'" formControlName="range_normal_max">
+                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range *" [style.width]="'100%'" (change)="setMaxNormalRange()" formControlName="range_normal_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
-                        <md-input-container style="width: 100% ">
-                            <input id="component-unit" mdInput placeholder="Measuring Unit *" [style.width]="'100%'" formControlName="measurementUnit">
+                        <md-input-container style="width: 100% " measuringUnit>
+                            <input id="component-unit" mdInput placeholder="Measuring Unit *" [style.width]="'100%'" [pattern]="measuringUnit" formControlName="measurementUnit">
                         </md-input-container>
                     </div>
                 </div>
-                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox'">
+                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox' && componentForm.value.inputType != 'fileUpload'">
 
                     <h4>Component Properties</h4>
 
