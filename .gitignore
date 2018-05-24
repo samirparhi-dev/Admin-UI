@@ -47,4 +47,4 @@ config.service.ts
 config.json
 *.properties
 
-package-lock.json
+
