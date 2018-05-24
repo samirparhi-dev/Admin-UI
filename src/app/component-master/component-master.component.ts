@@ -453,28 +453,32 @@ export class ComponentMasterComponent implements OnInit {
   get range_normal_max() {
     return this.componentForm.controls['range_normal_max'].value;
   }
+  setMinRange() {
+    if (this.range_max != undefined) {
+      this.setMaxRange();
+    } else if (this.range_normal_min != undefined) {
+      this.setMinNormalRange();
+    } else if (this.range_normal_max != undefined) {
+      this.setMaxNormalRange();
+    }
+  }
   setMaxRange() {
     if (this.range_min == undefined && this.range_max != undefined) {
       this.alertService.alert("Please select the min range");
       this.componentForm.patchValue({
         range_max: null
       })
-    }
-    else if (this.range_min != undefined && this.range_max <= this.range_min) {
+    } else if (this.range_min != undefined && this.range_max <= this.range_min) {
       this.alertService.alert("Please select the range greater than min range");
       this.componentForm.patchValue({
         range_max: null
       })
-    }
-    else if (this.range_normal_min != undefined) {
+    } else if (this.range_normal_min != undefined) {
       this.setMinNormalRange();
-    }
-    else if (this.range_normal_min != undefined) {
+    } else if (this.range_normal_min != undefined) {
       this.setMaxNormalRange();
     }
-    else {
-      return true;
-    }
+
   }
   setMinNormalRange() {
     if (this.range_min == undefined && this.range_max == undefined) {
@@ -495,70 +499,78 @@ export class ComponentMasterComponent implements OnInit {
         range_normal_min: null
       })
     }
-
-    else if (this.range_normal_min <= this.range_min) {
+    else if (this.range_min != undefined && this.range_normal_min <= this.range_min) {
       this.alertService.alert("Please select the range greater than min range");
-     this.componentForm.patchValue({
-        range_max: null
+      this.componentForm.patchValue({
+        range_normal_min: null
       })
     }
-    else if (this.range_normal_min >= this.range_max) {
+    else if (this.range_max != undefined && this.range_normal_min >= this.range_max) {
       this.alertService.alert("Please select the range lesser than the max range");
-     this.componentForm.patchValue({
+      this.componentForm.patchValue({
+        range_normal_min: null,
         range_max: null
       })
+    } else if (this.range_normal_max != undefined) {
+      this.setMaxNormalRange();
     }
-    else {
-      return true;
-    }
-
   }
   setMaxNormalRange() {
     if (this.range_min == undefined && this.range_max == undefined && this.range_normal_min == undefined) {
       this.alertService.alert("Please select min, max and min normal range");
       this.componentForm.patchValue({
-        range_normal_min: null
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select max and min normal range");
+      this.componentForm.patchValue({
+        range_normal_max: null
       })
     }
     else if (this.range_min == undefined) {
       this.alertService.alert("Please select min range");
       this.componentForm.patchValue({
-        range_normal_min: null
+        range_normal_max: null
       })
     }
     else if (this.range_max == undefined) {
       this.alertService.alert("Please select max range");
       this.componentForm.patchValue({
-        range_normal_min: null
+        range_normal_max: null
       })
     }
     else if (this.range_normal_min == undefined) {
       this.alertService.alert("Please select min normal range");
       this.componentForm.patchValue({
-        range_normal_min: null
+        range_normal_max: null
       })
     }
-    else if (this.range_normal_max <= this.range_min) {
+    else if (this.range_min != undefined && this.range_normal_max <= this.range_min && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select max and min normal range and also range should be greater than min range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_normal_max <= this.range_min) {
       this.alertService.alert("Please select the range greater than min range");
-     this.componentForm.patchValue({
-        range_max: null
+      this.componentForm.patchValue({
+        range_normal_max: null
       })
     }
-    else if (this.range_normal_max >= this.range_max) {
+    else if (this.range_max != undefined && this.range_normal_max >= this.range_max) {
       this.alertService.alert("Please select the range lesser than the max range");
-     this.componentForm.patchValue({
+      this.componentForm.patchValue({
+        range_normal_max: null,
         range_max: null
       })
     }
-    else if (this.range_normal_max <= this.range_normal_min) {
+    else if (this.range_normal_min != undefined && this.range_normal_max <= this.range_normal_min) {
       this.alertService.alert("Please select the range greater than the min normal range");
-     this.componentForm.patchValue({
-        range_max: null
+      this.componentForm.patchValue({
+        range_normal_max: null
       })
-    } else {
-      return true;
     }
-
   }
 }
 
