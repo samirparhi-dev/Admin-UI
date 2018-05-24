@@ -70,7 +70,7 @@ export class loginService {
 		// console.log("inside extractData:"+JSON.stringify(res.json()));
 		// let body = res.json();
 		//return body.data || {};
-		console.log('response in service', res);
+		console.log("response in service", res.json());			
 		if (res.json().data) {
 			return res.json().data;
 		} else {
@@ -79,8 +79,9 @@ export class loginService {
 	};
 
 	private handleError(error: Response | any) {
+		console.log("http error", error);
 		// In a real world app, you might use a remote logging infrastructure
-		return Observable.throw(error.json());
+		return Observable.throw(error);
 	};
 };
 

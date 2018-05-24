@@ -53,6 +53,7 @@ export class loginContentClass implements OnInit {
               this.dataSettingService.Userdata = { 'userName': 'Super Admin' };
               this.dataSettingService.role = 'SUPERADMIN';
               this.dataSettingService.uname = 'Super Admin';
+              this.dataSettingService.uid = response.userID;
               this.router.navigate(['/MultiRoleScreenComponent']);
             } else {
               this.alertMessage.alert('User is not super admin');
@@ -73,7 +74,7 @@ export class loginContentClass implements OnInit {
         },
         (error: any) => {
           this.errorCallback(error)
-          this.alertMessage.alert(error, 'error');
+          // this.alertMessage.alert(error, 'error');
         });
     }
 
@@ -92,7 +93,7 @@ export class loginContentClass implements OnInit {
       console.log('response.previlegeObj[0].serviceID', response.previlegeObj[0].serviceID);
       this.loginservice.getServiceProviderID(response.previlegeObj[0].serviceID)
         .subscribe(res => this.getServiceProviderMapIDSuccessHandeler(res),
-        (err) => this.alertMessage.alert(err, 'error'));
+          (err) => console.log('error in fetching service provider ID', err));
       // this.router.navigate(['/MultiRoleScreenComponent']);
       for (let i = 0; i < response.Previlege.length; i++) {
 

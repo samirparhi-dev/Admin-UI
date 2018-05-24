@@ -27,7 +27,7 @@
                         <td colspan="8" class="record-not-found">No records found</td>
                     </tr>
                     <tr *ngFor="let item of md2.data; let i= index">
-                        <td>{{(md2.activePage-1)*4+i+1}}</td>
+                        <td>{{searchResult.indexOf(item)+1}}</td>
                         <!-- <td>{{item.userID}}</td> -->
                         <td>{{item.titleName}}</td>
                         <td>{{item.userName}}</td>
@@ -155,7 +155,7 @@
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100">
-                            <input mdInput placeholder="Age" [(ngModel)]="age" name="user_age" minlength="1" maxlength="2"  [disabled]='disabled'>
+                            <input mdInput placeholder="Age" [(ngModel)]="age" name="user_age" minlength="1" maxlength="2" [disabled]='disabled'>
                             <!-- <md-hint class="errorText" *ngIf="userAge.touched && userAge.errors">Age is required</md-hint> -->
                         </md-input-container>
                     </div>
@@ -208,12 +208,12 @@
                         </h4>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editMode">
-                        <md-input-container class="width100">
-                            <input mdInput placeholder="User Name" ngModel name="user_name" [pattern]="userNamePattern" [(ngModel)]="username" minlength="2"
-                                maxlength="20" #uname="ngModel" (change)="checkUserNameAvailability(username)" required>
-                            <md-hint class="errorText">
-                                <span *ngIf="uname.hasError('pattern')">User name is required(can't end or start with special characters,min:2)</span>
-                                <span *ngIf="showHint && uname.touched">{{username_status}}</span>
+                        <md-input-container class="width100" PAN>
+                            <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
+                                (keyup)="checkUserNameAvailability(username)" required>
+                            <md-hint *ngIf="uname.touched">
+                                <span class="error_text" *ngIf="showHint && !uname.errors">{{username_status}}</span>
+                                <span class="error_text" [hidden]="!uname.errors">Min 2 characters required</span>
                             </md-hint>
                         </md-input-container>
                     </div>
@@ -222,6 +222,7 @@
                             <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                                 minlength="8" maxlength="12" #pwrd="ngModel" required>
                             <md-hint class="errorText">
+                                <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
                                 <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
                             </md-hint>
                         </md-input-container>
@@ -354,7 +355,7 @@
                                 <h4 class="pull-left">Permanent Address</h4>
                                 <div class="m-t-6 m-l-10">
                                     (
-                                    <md-checkbox class="m-l-5 m-r-5" color="primary" [(ngModel)]="checkAddress" name="check_address" [disabled]="!addressCtrl.valid"
+                                    <md-checkbox class="m-l-5 m-r-5" color="primary" [(ngModel)]="checkAddress" [checked]=checkAddress name="check_address" [disabled]="!addressCtrl.valid"
                                         (change)="addressCheck($event)" #myCheckBox>Same as current address</md-checkbox>)
                                 </div>
                             </div>
@@ -426,7 +427,7 @@
     <div class="row" *ngIf="(objs.length!=0)">
         <div class="col-xs-12 col-sm-12" *ngIf="objs.length>0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover m-b-0" [md2Data]="objs" #md2="md2DataTable" [rowsPerPage]="4">
+                <table class="table table-striped table-hover m-b-0" [md2Data]="objs" #md2="md2DataTable" [rowsPerPage]="3">
                     <thead>
                         <tr>
                             <th>S.No.</th>
@@ -438,12 +439,12 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of md2.data;let i = index ">
-                            <td>{{(md2.activePage-1)*5+i+1}}</td>
+                            <td>{{objs.indexOf(item)+1}}</td>
                             <td>{{item.username}}</td>
                             <td>{{item.emailID}}</td>
                             <td>{{item.emergency_contactNo}}</td>
                             <td>
-                                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(i)">delete</md-icon>
+                                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="remove_obj(objs.indexOf(item))">delete</md-icon>
                             </td>
                         </tr>
                     </tbody>
@@ -477,7 +478,8 @@
 
             <button *ngIf="!editMode && objs.length>0" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)"
                 (click)="createUser()">Save</button>
-            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan" (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
+            <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan"
+                (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
         </div>
     </div>
 </div>

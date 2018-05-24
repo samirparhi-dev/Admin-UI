@@ -52,7 +52,8 @@ export class HospitalMasterComponent implements OnInit {
 
     /*regEx*/
     website_expression: any = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    email_expression: any = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in)\b$/;
+
+    email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
     name_expression: any = /^[a-zA-Z ]*$/;
 
     constructor(public HospitalMasterService: HospitalMasterService,
@@ -130,7 +131,10 @@ export class HospitalMasterComponent implements OnInit {
 
         this.HospitalMasterService.getServices(this.userID)
             .subscribe(response => this.getServiceSuccessHandeler(response),
-                (err) => this.alertService.alert(err, 'error'));
+                (err) => {
+                     console.log("Error", err);
+                    // this.alertService.alert(err, 'error')
+            });
     }
 
     getServiceSuccessHandeler(response) {
@@ -151,7 +155,10 @@ export class HospitalMasterComponent implements OnInit {
         this.searchResultArray = [];
 
         this.HospitalMasterService.getDistricts(stateID).subscribe(response => this.getDistrictSuccessHandeler(response),
-            (err) => this.alertService.alert(err, 'error'));
+            (err) => {
+                 console.log("Error", err);
+                //this.alertService.alert(err, 'error')
+        });
 
     }
 
@@ -167,7 +174,10 @@ export class HospitalMasterComponent implements OnInit {
         this.searchResultArray = [];
 
         this.HospitalMasterService.getTaluks(districtID).subscribe(response => this.getTalukSuccessHandeler(response),
-            (err) => this.alertService.alert(err, 'error'));
+            (err) => {
+                 console.log("Error", err);
+               // this.alertService.alert(err, 'error')
+        });
     }
 
     getTalukSuccessHandeler(response) {
@@ -195,7 +205,10 @@ export class HospitalMasterComponent implements OnInit {
             "blockID": this.taluk
         }
         this.HospitalMasterService.getInstitutions(request_obj).subscribe(response => this.getInstitutionSuccessHandeler(response),
-            (err) => this.alertService.alert(err, 'error'));
+            (err) => {
+                 console.log("Error", err);
+                //this.alertService.alert(err, 'error')
+        });
     }
 
     getInstitutionSuccessHandeler(response) {
@@ -217,7 +230,10 @@ export class HospitalMasterComponent implements OnInit {
                     };
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Deactivated"),
-                        (err) => this.alertService.alert(err, 'error'));
+                        (err) => {
+                             console.log("Error", err);
+                           // this.alertService.alert(err, 'error')
+                    });
                 }
             })
 
@@ -232,7 +248,10 @@ export class HospitalMasterComponent implements OnInit {
                     };
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Activated"),
-                        (err) => this.alertService.alert(err, 'error'));
+                        (err) => {
+                             console.log("Error", err);
+                            //this.alertService.alert(err, 'error')
+                    });
                 }
             })
 
@@ -274,7 +293,10 @@ export class HospitalMasterComponent implements OnInit {
         request_Array.push(request_obj);
 
         this.HospitalMasterService.saveInstitution(request_Array).subscribe(response => this.saveInstitutionSuccessHandeler(response),
-            (err) => this.alertService.alert(err, 'error'));
+            (err) => {
+                 console.log("Error", err);
+                //this.alertService.alert(err, 'error')
+        });
 
     }
 
@@ -332,7 +354,7 @@ export class EditHospitalModal {
 
     /*regEx*/
     website_expression = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    email_expression = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+    email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 
 
     constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
@@ -380,7 +402,10 @@ export class EditHospitalModal {
         }
 
         this.HospitalMasterService.editInstitution(edit_request_obj).subscribe(response => this.editInstitutionSuccessHandeler(response),
-            (err) => this.alertService.alert(err, 'error'));
+            (err) => {
+                 console.log("Error", err);
+                // this.alertService.alert(err, 'error')
+        });
     }
 
 

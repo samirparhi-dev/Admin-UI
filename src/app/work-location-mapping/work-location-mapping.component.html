@@ -10,6 +10,7 @@
       <table [md2Data]="mappedWorkLocationsList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th md2SortBy="userName">User Name</th>
             <th>Serviceline</th>
             <th>State</th>
@@ -22,12 +23,13 @@
         </thead>
         <tbody>
           <tr *ngIf="mappedWorkLocationsList.length == 0">
-            <td colspan="8" class="record-not-found">No records found</td>
+            <td colspan="9" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+            <td>{{mappedWorkLocationsList.indexOf(service)+1}}</td>
             <td>{{service.userName}}</td>
             <td>{{service.serviceName}}</td>
-            <td>{{service.stateName}}</td>
+            <td>{{service.serviceName==="1097"?"All states":service.stateName}}</td>
             <td>{{service.workingDistrictName}}</td>
             <td>{{service.locationName}}</td>
             <td>{{service.roleName}}</td>
@@ -48,7 +50,7 @@
             <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="5" class="p-r-0">
+            <td colspan="4" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
             </td>
           </tr>
@@ -150,7 +152,7 @@
   </div>
   <div class="col-xs-12 col-sm-12" *ngIf="bufferArray.length>0">
     <div class="table-responsive">
-      <table class="table table-hover table-striped " [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped " [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th>S.No.</th>
@@ -165,7 +167,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{bufferArray.indexOf(item)+1}}</td>
             <td>{{item.userName}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.stateName}}</td>
@@ -175,12 +177,12 @@
               <ul class="m-l--25">
                 <li *ngFor="let obj of item.roleID1;let j=index ">
                   {{obj.roleName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(i,j)">cancel</md-icon>
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(bufferArray.indexOf(item),j)">cancel</md-icon>
                 </li>
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -242,7 +244,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select State" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit"
-            name="state" (change)="getAllDistricts(stateID_duringEdit); refresh1()" required>
+            name="state" (change)="refresh1();getAllDistricts(stateID_duringEdit);" required>
             <md-option *ngFor="let item of states_array" [value]="item.stateID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
               {{item.stateName}}
             </md-option>
@@ -255,7 +257,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select District" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="district_duringEdit"
-            name="district" (change)="getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,district_duringEdit); refresh3()"
+            name="district" (change)="refresh3();getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,district_duringEdit); "
             required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">
               {{item.districtName}}

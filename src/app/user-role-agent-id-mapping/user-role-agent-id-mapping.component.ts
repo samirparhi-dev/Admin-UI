@@ -32,7 +32,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   isNational = false;
 
   constructor(public _UserRoleAgentID_MappingService: UserRoleAgentID_MappingService,
-    public commonDataService: dataService, public alertService : ConfirmationDialogsService,
+    public commonDataService: dataService, public alertService: ConfirmationDialogsService,
     public dialog: MdDialog) {
     this.serviceProviderID = this.commonDataService.service_providerID;
   }
@@ -49,7 +49,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   getStates(serviceID, isNational) {
     this._UserRoleAgentID_MappingService.getStates(this.userID, serviceID, isNational)
       .subscribe(response => this.getStatesSuccessHandeler(response, isNational),
-    (err) =>  this.alertService.alert(err,'error'));
+        (err) => console.log(err, 'error'));
 
   }
 
@@ -83,7 +83,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
 
     this._UserRoleAgentID_MappingService.getServices(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response),
-    (err) => this.alertService.alert(err,'error'));
+        (err) => console.log(err, 'error'));
   }
 
   getServicesSuccessHandeler(response) {
@@ -94,7 +94,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   getRoles(providerServiceMapID) {
     this._UserRoleAgentID_MappingService.getRoles(providerServiceMapID)
       .subscribe(response => this.rolesSuccesshandeler(response),
-    (err) =>  this.alertService.alert(err,'error'));
+        (err) => console.log(err, 'error'));
   }
 
   rolesSuccesshandeler(response) {
@@ -139,7 +139,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
     }
     console.log(request_obj, "reqOBJ");
     this._UserRoleAgentID_MappingService.getEmployees(request_obj).subscribe(response => this.getEmployeesSuccessHandeler(response),
-  (err) =>  this.alertService.alert(err,'error'));
+      (err) => console.log(err, 'error'));
   }
 
   getEmployeesSuccessHandeler(response) {
@@ -195,9 +195,9 @@ export class AgentIDMappingModal {
   campaigns: any = [];
   agentIDs: any = [];
 
-  constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
+  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialog: MdDialog,
     public _UserRoleAgentID_MappingService: UserRoleAgentID_MappingService,
-    public commonDataService: dataService,  public alertService : ConfirmationDialogsService,
+    public commonDataService: dataService, public alertService: ConfirmationDialogsService,
     public dialogReff: MdDialogRef<AgentIDMappingModal>) {
 
   }
@@ -215,7 +215,7 @@ export class AgentIDMappingModal {
     if (this.providerServiceMapID != undefined) {
       this._UserRoleAgentID_MappingService.getAvailableCampaigns(this.providerServiceMapID)
         .subscribe(response => this.getAvailableCampaignsSuccessHandeler(response),
-      (err) =>  this.alertService.alert(err,'error'));
+          (err) => console.log(err, 'error'));
     }
 
 
@@ -232,7 +232,7 @@ export class AgentIDMappingModal {
   getAgentIDs(campaign_name) {
     this._UserRoleAgentID_MappingService.getAgentIDs(this.providerServiceMapID, campaign_name)
       .subscribe(response => this.getAgentIDsSuccessHandeler(response),
-    (err) =>  this.alertService.alert(err,'error'));
+        (err) => console.log(err, 'error'));
   }
 
   getAgentIDsSuccessHandeler(response) {
@@ -262,13 +262,13 @@ export class AgentIDMappingModal {
 
     this._UserRoleAgentID_MappingService.mapAgentID(req_array)
       .subscribe(response => this.mapAgentIDSuccessHandeler(response),
-    (err)=>  this.alertService.alert(err,'error'));
+        (err) => console.log(err, 'error'));
   }
 
 
   mapAgentIDSuccessHandeler(response) {
     if (response) {
-      this.alertService.alert('Mapping saved successfully','success');
+      this.alertService.alert('Mapping saved successfully', 'success');
       this.dialogReff.close("success");
     }
   }

@@ -52,7 +52,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.serviceID = this.serviceID104;
     this.drugMasterService.getDrugMappings(this.drugObj).subscribe(response => this.getDrugMappingsSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
   }
 
   getDrugMappingsSuccessHandeler(response) {
@@ -64,7 +64,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj.deleted = false;
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugGroups(this.drugObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log("error", err));
   }
   getDrugGroupsSuccessHandeler(response) {
     this.availableDrugGroups = response;
@@ -75,7 +75,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugObj.deleted = false;
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugMasterService.getDrugsList(this.drugObj).subscribe(response => this.getDrugsSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
   }
 
   getDrugsSuccessHandeler(response) {
@@ -84,17 +84,17 @@ export class DrugMappingComponent implements OnInit {
 
   getServices(stateID) {
     this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
   }
 
   getStates() {
     this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
   }
 
   getStatesByServiceID() {
     this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
-      (err) => this.alertMessage.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
   }
 
 
@@ -131,12 +131,12 @@ export class DrugMappingComponent implements OnInit {
   drugIdList: any = [];
   mappedDrugIDs: any = [];
   addDrugToList(values) {
-    
+
     let drugIdList = [];
     for (let drugs of values.drugIdList) {
       drugIdList.push(drugs.split("-")[0]);
       console.log("drugIdList", this.drugIdList);
-      
+
     }
 
     //find drug deselected from the list , and Remove drugGroup mapping with that drug
@@ -149,11 +149,11 @@ export class DrugMappingComponent implements OnInit {
       if (drugIdList.indexOf(mappedDrug.drugId.toString()) == -1) {
         this.dataObj.deleted = true;
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response),
-          (err) => this.alertMessage.alert(err, 'error'));
+          (err) => console.log(err, 'error'));
       } else if (mappedDrug.deleted) {
         this.dataObj.deleted = false;
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response),
-          (err) => this.alertMessage.alert(err, 'error'));
+          (err) => console.log(err, 'error'));
       }
     }
 
@@ -176,8 +176,8 @@ export class DrugMappingComponent implements OnInit {
         // } 
 
         this.drugObj.createdBy = this.createdBy;
-        this.checkDuplicates(this.drugObj);       
-       // this.drugMapping.push(this.drugObj);
+        this.checkDuplicates(this.drugObj);
+        // this.drugMapping.push(this.drugObj);
       } else {
         console.log("already mapped with these drugs");
         this.alertMessage.alert("Already mapped with these drugs");
@@ -193,7 +193,9 @@ export class DrugMappingComponent implements OnInit {
     else {
       debugger;
       for (let i = 0; i < this.drugMapping.length; i++) {
-        if (this.drugMapping[i].drugId === object.drugId && this.drugMapping[i].drugGroupID === object.drugGroupID) {
+        if (this.drugMapping[i].drugId === object.drugId
+          && this.drugMapping[i].drugGroupID === object.drugGroupID
+          && this.drugMapping[i].stateName === this.drugObj.stateName) {
           duplicateStatus = duplicateStatus + 1;
         }
       }
@@ -215,6 +217,7 @@ export class DrugMappingComponent implements OnInit {
     this.drugMapping = [];
     this.alertMessage.alert("Saved successfully", 'success');
     this.getAvailableMappings();
+    this.clearEdit();
   }
 
   dataObj: any = {};
@@ -237,7 +240,10 @@ export class DrugMappingComponent implements OnInit {
         this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
           this.alertMessage.alert(status + "d successfully", 'success')
           drugMapping.deleted = !drugMapping.deleted
-        }), (err) => this.alertMessage.alert(err, 'error');
+        }), (err) => {
+          console.log("error", err);
+          //console.log(err,'error')
+        };
       }
     });
   }
@@ -261,7 +267,7 @@ export class DrugMappingComponent implements OnInit {
       }
     })
   }
- 
+
   existingDrugs: any = [];
   checkExistance(stateID, drugGroupID) {
     debugger;
@@ -271,7 +277,7 @@ export class DrugMappingComponent implements OnInit {
     if (drugGroupID != undefined) {
       drugGroupID = drugGroupID.split("-")[0];
     }
-    
+
     for (let availableDrugMapping of this.availableDrugMappings) {
       if (availableDrugMapping.providerServiceMapID == this.providerServiceMapID && availableDrugMapping.drugGroupID == drugGroupID) {
         // finding exsting drug group mappings with drugs

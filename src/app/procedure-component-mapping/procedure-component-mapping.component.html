@@ -8,31 +8,31 @@
         <div class="row">
             <form #stateService="ngForm" autocomplete="off">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <md-input-container class="hide_underline width100">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
                         <input mdInput style="display:none">
-                        <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
-                            name="state" #statess required>
-                            <md-option *ngFor="let stat of states" value="{{stat.stateID}}">
-                                {{stat.stateName}}
+                        <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                            (change)="getStates(serviceline.serviceID)">
+                            <md-option *ngFor="let item of services_array" [value]="item">
+                                {{item.serviceName}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <md-input-container class="hide_underline width100">
+                    <md-input-container class="hide_underline" [style.width]="'100%'">
                         <input mdInput style="display:none">
-                        <md-select placeholder="Serviceline" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
-                            #servicess="ngModel" required>
-                            <md-option *ngFor="let ser of services" value="{{ser.serviceID}}" (click)="setProviderServiceMapID(ser.providerServiceMapID)">
-                                {{ser.serviceName}}
+                        <md-select required disabled={{disableSelection}} placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID"
+                            name="searchStateID" (change)="setProviderServiceMapID();">
+                            <md-option *ngFor="let state of provider_states" [value]="state">
+                                {{state.stateName}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
             </form>
         </div>
-
-        <div style="display: block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10">
+        <!-- <form #procedureService="ngForm" autocomplete="off"> -->
+        <div style="display: block;" *ngIf="saveMode" class="m-t-10">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name"
@@ -55,12 +55,7 @@
                     </md-input-container>
 
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-t-lg-5 m-t-md-5 m-t-sm-0 m-t-xs-0 ">
-                    <button [disabled]="!selectedComponent" id="updateButton" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" md-raised-button
-                        color="primary" (click)="updateComponentMapList()">Map</button>
 
-
-                </div>
                 <div *ngIf="selectedProcedure" class="col-xs-12 col-sm-6 col-md-5 col-lg-5 pull-right m-t-10 ">
                     <md-card class="push-top-card">
                         <md-card-header>
@@ -81,9 +76,9 @@
                         <md-card-footer>
                             <div align="right">
                                 <button *ngIf="editMode == false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1"
-                                    id="postMapDataButton" md-raised-button color="primary" (click)="postMappingData()">Save</button>
+                                    id="postMapDataButton" md-raised-button color="accent" (click)="postMappingData()">Save</button>
                                 <button *ngIf="editMode != false" style="margin-right: 40px; margin-bottom: 20px; border-radius: 50vh;" [disabled]="selectedComponentList.length < 1"
-                                    id="postMapDataButton2" md-raised-button color="primary" (click)="postMappingData()">Update</button>
+                                    id="postMapDataButton2" md-raised-button color="accent" (click)="postMappingData()">Update</button>
 
                             </div>
 
@@ -94,52 +89,21 @@
 
 
             </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12  ">
+                    <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();">Back</button>
+                    <button [disabled]="!selectedComponent" id="updateButton" class="pull-right" md-raised-button color="accent" (click)="updateComponentMapList()">Map</button>
+
+                </div>
+            </div>
         </div>
+        <!-- </form> -->
 
-        <!-- <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='procedureForm'>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                      
-                        <md-input-container style="width: 100% ">
-                            <input id="procedure-name" mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99">
-                        </md-input-container>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-t-15">
-                        <md-select id="procedure-type" placeholder="Procedure Type" [style.width]="'100%'" formControlName="type">
-                            <md-option value="Radiology">
-                                Radiology
-                            </md-option>
-                            <md-option value="Laboratory">
-                                Laboratory
-                            </md-option>
-                        </md-select>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
-                        Gender
-                        <div>
-                            <md-checkbox id='male' color="primary" formControlName="male">Male</md-checkbox>
-                            <md-checkbox id='female' color="primary" formControlName="female">Female</md-checkbox>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 m-t-15">
-                        <md-input-container [style.width]="'100%'">
-                            <textarea mdInput mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description" maxlength="99"></textarea>
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-12 col-md-4 col-lg-4 m-t-20 step-btn" align="left">
-                        <button *ngIf="!editMode" id="saveButton" md-raised-button color="primary" (click)="saveProcedure()">Save</button>
-                        <button *ngIf="editMode" id="updateButton" md-raised-button color="primary" (click)="updateProcedure()">Update</button>
-                    </div>
-                </div>
-
-            </div> -->
     </div>
 </div>
 <!-- </md-card> -->
 <!-- <md-card> -->
-<div *ngIf="providerServiceMapID  && service == '2'">
+<div *ngIf="tableMode">
     <div class="row xs-m-t-20 m-t-sm-0 m-t-md-0 m-t-lg-0">
 
         <div #tabledData class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
@@ -167,7 +131,7 @@
                             <td colspan="5" align="center">No records found</td>
                         </tr>
                         <tr *ngFor="let item of md2.data;let i = index ">
-                            <td>{{(md2.activePage-1)*4+i+1}}</td>
+                            <td>{{(md2.activePage-1)*3+i+1}}</td>
                             <td>{{item.procedureName}}</td>
                             <td>{{item.procedureDesc}}</td>
                             <td>{{item.compList}}</td>
@@ -182,10 +146,8 @@
                             <td colspan="4">
                                 <md2-pagination></md2-pagination>
                             </td>
-                            <td colspan="1">
-                                <span>Count:
-                                    <b>{{filteredMappedList.length}}</b>
-                                </span>
+                            <td colspan="1" class="p-r-0">
+                                <button class="pull-right" color="primary" id="resetButton" md-raised-button (click)="showForm();">Create New Procedure</button>
                             </td>
                         </tr>
                     </tfoot>

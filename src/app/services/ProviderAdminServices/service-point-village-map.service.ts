@@ -12,6 +12,7 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 export class ServicePointVillageMapService {
 
 
+    updateServicePointVillageMapsURL: string;
     providerAdmin_Base_Url: any;
     common_Base_Url: any;
 
@@ -49,10 +50,16 @@ export class ServicePointVillageMapService {
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
         this._getBranchListURL = this.common_Base_Url + 'location/village/';
+        this.updateServicePointVillageMapsURL = this.providerAdmin_Base_Url + '/servicePointMaster/edit/servicePointVillageMap';
     }
 
     saveServicePointVillageMaps(data) {
         return this.http.post(this.saveServicePointVillageMapsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    updateServicePointVillageMaps(data) {
+        return this.http.post(this.updateServicePointVillageMapsURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }

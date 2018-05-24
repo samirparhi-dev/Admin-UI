@@ -44,7 +44,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   minDate_doj: any;
   community: any;
   religion: any;
-  username_status: any;
+  username_status: string;
   showHint: boolean;
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
@@ -71,7 +71,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   permanentPincode: any;
   isPresent: any;
   isPermanent: any;
-  checkAddress: any;
+  checkAddress: boolean = false;
 
   //array
   searchResult: any = [];
@@ -94,7 +94,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   //constants & variables
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
+  // userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
   @ViewChild('userCreationForm') userCreationForm: NgForm;
@@ -240,32 +240,32 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+        (err) => this.dialogService.alert(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
+    debugger;
     if (response.response == 'userexist') {
-      this.username_status = 'User Login ID Exists!! Type Different Please!';
+      this.username_status = 'User ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
-      this.username = null;
+      // this.username = null;
 
     }
     if (response.response == 'usernotexist') {
-      if (
-        this.username != '' &&
-        (this.username != undefined && this.username != null)
-      ) {
+      if (this.username != '' && (this.username != undefined && this.username != null)) {
         console.log("if response", response);
         this.showHint = false;
         this.username_dependent_flag = false;
-      } else {
-        console.log("else response", response);
-        this.showHint = true;
-        this.username_dependent_flag = true;
-        this.username_status = 'Username can\'t be blank';
       }
+      // else 
+      // {
+      //   console.log("else response", response);
+      //   this.showHint = true;
+      //   this.username_dependent_flag = true;
+      //   this.username_status = 'Username is required';
+      // }
     }
   }
 
@@ -448,7 +448,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.isPermanent = '0';
       this.isPresent = '1';
       this.disable_permanentAddress_flag = false;
-      this.checkAddress = '';
+      this.checkAddress = false;
     }
   }
 
@@ -516,7 +516,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   checkDuplicatesInBuffer(tempObj) {
-    debugger;
     let duplicateAadhar = 0;
     let duplicatePan = 0;
     let duplicateName = 0
@@ -632,7 +631,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       reqObject.push(tempObj);
     }
     console.log("Details to be saved", reqObject);
-    debugger;
     this.employeeMasterNewService.createNewUser(reqObject).subscribe(response => {
       console.log("response", response);
       // if (response.stat)     
@@ -716,6 +714,11 @@ export class EmployeeMasterNewComponent implements OnInit {
         })
       }
     }
+    if (data.addressLine1 == data.permAddressLine1 && data.addressLine2 == data.permAddressLine2 &&
+      data.stateID == data.permStateID && data.districtID == data.permDistrictID && data.pinCode == data.permPinCode) {
+      this.checkAddress = true;
+    }
+
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -746,8 +749,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   limitDateInEdit(dateOfBirth) {
     console.log("Limit dateOfBirth", dateOfBirth);
-    debugger;
-
     this.maxdate = new Date();
     this.maxdate.setFullYear(this.today.getFullYear() - 20);
     this.mindate = new Date();
@@ -758,7 +759,6 @@ export class EmployeeMasterNewComponent implements OnInit {
  * calculate age based on the DOB
  */
   calculateAgeInEdit(dateOfBirth) {
-    debugger;
     if (dateOfBirth != undefined) {
       let existDobAge = new Date(dateOfBirth);
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
@@ -773,14 +773,21 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
-
     let doj: any = "";
     let dob: any = "";
     if (typeof userCreationFormValue.doj === "string") {
       doj = new Date(userCreationFormValue.doj);
     }
+    else {
+      doj = userCreationFormValue.doj;
+      console.log("doj", doj);
+    }
     if (typeof userCreationFormValue.user_dob === "string") {
       dob = new Date(userCreationFormValue.user_dob);
+    }
+    else {
+      dob = userCreationFormValue.user_dob;
+      console.log("dob", dob);
     }
     let update_tempObj = {
       'titleID': userCreationFormValue.title_Id,
@@ -829,7 +836,10 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.getAllUserDetails();
       this.showTable();
 
-    }, err => { this.dialogService.alert('error', err); });
+    }, err => {
+      console.log("error", err);
+      //this.dialogService.alert('error', err);
+    });
 
   }
 

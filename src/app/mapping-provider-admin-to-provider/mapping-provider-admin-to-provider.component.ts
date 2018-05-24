@@ -332,18 +332,27 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
         object['serviceProviderMapID1'] = providerServiceMapIDs;
         this.checkDuplicates(object);
+        this.filteredStates = [];
+        this.services_array = [];
       }
     }
     else if (form_values.state === undefined) {
 
       let obj = {
         'serviceProviderMapID1': this.providerServiceMapID_for1097,
-        'stateName': "all states",
+        'stateName': "All states",
       }
 
       providerServiceMapIDs.push(obj);
       object['serviceProviderMapID1'] = providerServiceMapIDs;
+      debugger;
+      this.filteredStates = [];
+      this.services_array = [];
       this.checkDuplicates(object);
+      this.filteredStates = [];
+      this.services_array = [];
+
+
     }
   }
   checkDuplicates(object) {
@@ -388,7 +397,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
               }
               else if (count > 0) {
                 console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].serviceName);
-                this,this.dialogService.alert('Already exists');
+                this, this.dialogService.alert('Already exists');
                 this.resetForm();
               }
             }
@@ -413,7 +422,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (servicesMatched === false) {
         this.bufferArray.push(object);
         this.resetForm();
-      }    
+      }
     }
   }
   mapServicelineState() {

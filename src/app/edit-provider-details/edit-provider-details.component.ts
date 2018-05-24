@@ -78,14 +78,16 @@ export class EditProviderDetailsComponent implements OnInit {
 
       this.dialogRef.close();
     }, (err) => {
-      this.message.alert(err, 'error');
+      console.log("error", err);
+      // this.message.alert(err, 'error');
     })
   }
   checkProviderNameAvailability(service_provider_name) {
 
     this.super_admin_service.checkProviderNameAvailability(service_provider_name)
       .subscribe(response => this.checkProviderNameAvailibilityHandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("error", err);
+        // this.message.alert(err, 'error');
       });
   }
 

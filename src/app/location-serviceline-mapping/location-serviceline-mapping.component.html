@@ -87,7 +87,7 @@
             <td width=15%>{{loc.locationName}}</td>
             <td width=15%>{{loc.serviceName}}</td>
             <td width=25%>{{loc.address}}</td>
-            <td width=20%>{{loc.stateName}}</td>
+            <td width=20%>{{loc.serviceName==="1097"?"All states":loc.stateName}}</td>
             <td width=15%>{{loc.districtName}}</td>
             <td width=10%>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!loc.deleted"

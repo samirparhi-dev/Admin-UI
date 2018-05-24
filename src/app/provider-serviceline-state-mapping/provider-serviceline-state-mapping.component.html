@@ -7,7 +7,7 @@
   <!-- pre-populated table showing the mappings available of providers to serviceline and state -->
   <div class="col-xs-12 col-sm-12 ">
     <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="8">
+      <table class="table table-hover table-striped" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -102,7 +102,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 " *ngIf="bufferArray.length>0">
     <div class="table-responsive m-t-15">
-      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -114,14 +114,14 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{bufferArray.indexOf(item)+1}}</td>
             <td>{{item.providerName}}</td>
             <td>{{item.serviceName}}</td>
             <td>
               <ul>
                 <li *ngFor="let obj of item.stateID1;let j=index ">
                   {{obj.stateName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeState(i,j)">cancel</md-icon>
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.stateName}}" (click)="removeState(bufferArray.indexOf(item),j)">cancel</md-icon>
                 </li>
                 <li *ngIf="item.stateID1.length==0">
                   {{'All State'}}
@@ -129,7 +129,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -144,7 +144,7 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 m-t-15 m-b-15">
 
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="mapServicelineState()">Save</button>

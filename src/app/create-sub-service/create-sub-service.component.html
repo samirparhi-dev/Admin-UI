@@ -72,7 +72,7 @@
             <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sub of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{data.indexOf(sub)+1}}</td>
             <td>{{sub.subServiceName}}</td>
             <td>{{sub.subServiceDesc}}</td>
             <td>
@@ -133,13 +133,13 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-4 col-md-8 col-lg-8  m-t-20" *ngIf="subServiceAvailable">
-      <label class="errorText">No Sub Service Available Please Select Different Service </label>
+      <label class="errorText">No Sub Service available please select different service </label>
     </div>
     <div class="col-xs-12 col-sm-4 col-md-8 col-lg-8  m-t-20" *ngIf="allServicesAdded">
-      <label class="errorText">All services Mapped </label>
+      <label class="errorText">All states mapped </label>
     </div>
-  </form>
-  <form #resetFieldsForm="ngForm" id="form2" autocomplete="off">
+    <!-- </form>
+  <form #resetFieldsForm="ngForm" id="form2" autocomplete="off"> -->
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -157,10 +157,11 @@
           maxlength="50">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <button md-raised-button color="primary" type="button" class="pull-left" (click)="back()">Back</button>
-      <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="accent" type="button" class="pull-right"
-        [disabled]="form.invalid || resetFieldsForm.invalid" (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
-    </div>
   </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <button md-raised-button color="primary" type="button" class="pull-left" (click)="back()">Back</button>
+    <button *ngIf="!subServiceAvailable && !allServicesAdded" md-raised-button color="accent" type="button" class="pull-right"
+      [disabled]="form.invalid " (click)="add(serviceProvider,state,serviceObj,subService,subServiceDesc)">Save</button>
+  </div>
+
 </div>

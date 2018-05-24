@@ -122,14 +122,15 @@ export class VillageMasterComponent implements OnInit {
 
     }
     checkDuplicates(object) {
+        debugger;
         let duplicateStatus = 0
         if (this.villageList.length === 0) {
             this.villageList.push(object);
         }
         else {
             for (let i = 0; i < this.villageList.length; i++) {
-                if (this.villageList[i].blockID === object.blockID
-                ) {
+                if (this.villageList[i].villageName === object.villageName
+                    && this.villageList[i].pinCode === object.pinCode) {
                     duplicateStatus = duplicateStatus + 1;
                     console.log("this.duplicateStatus", duplicateStatus);
                 }
@@ -364,7 +365,8 @@ export class EditVillageModal {
         this.village_names = this.data.village_names;
     }
 
-    checkExistance(villageName) {
+    checkExistance_edit(villageName) {
+        debugger;
         if (villageName != this.oldVillageName) {
             this.villageExist = this.village_names.includes(this.blockID + "-" + villageName.toUpperCase());
 
@@ -374,8 +376,6 @@ export class EditVillageModal {
         }
         console.log(this.villageExist);
     }
-
-
     update(editedVillageData) {
         this.dataObj = {};
         this.dataObj.districtBranchID = this.districtBranchID;

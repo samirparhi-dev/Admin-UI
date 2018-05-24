@@ -9,6 +9,7 @@ declare let jQuery: any;
   styleUrls: ['./create-sub-service.component.css']
 })
 export class CreateSubServiceComponent implements OnInit {
+  providerServiceMapID: any;
   services: any = [];
   subServices: any = [];
   services_array: any = [];
@@ -43,9 +44,10 @@ export class CreateSubServiceComponent implements OnInit {
     this.subServiceAvailable = false;
     this.sub_service.getAllProviders()
       .subscribe(response => this.getAllProvidersSuccesshandeler(response),
-      err => {
-        this.message.alert(err, 'error');
-      });
+        err => {
+          //  this.message.alert(err, 'error');
+          console.log(err, 'error response');
+        });
 
   }
   getAllProvidersSuccesshandeler(response) {
@@ -90,7 +92,7 @@ export class CreateSubServiceComponent implements OnInit {
       this.states = response;
     }, err => {
       console.log(err, 'error response');
-      this.message.alert(err, 'error');
+      //   this.message.alert(err, 'error');
     });
   }
 
@@ -105,7 +107,7 @@ export class CreateSubServiceComponent implements OnInit {
         });
       }, err => {
         console.log(err, 'Error in getting Services from Provider');
-        this.message.alert(err, 'error');
+        //   this.message.alert(err, 'error');
       });
   }
 
@@ -135,11 +137,13 @@ export class CreateSubServiceComponent implements OnInit {
   //   this.services = response;
   // }
   getExistingOnSearch(providerServiceMapID) {
+    this.providerServiceMapID = providerServiceMapID;
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.populateTable(response, providerServiceMapID),
-      err => {
-        this.message.alert(err, 'error');
-      });
+        err => {
+          console.log(err, 'error response');
+          //  this.message.alert(err, 'error');
+        });
   }
   populateTable(response, providerServiceMapID) {
     this.showTable = true;
@@ -149,9 +153,10 @@ export class CreateSubServiceComponent implements OnInit {
   getExistingSubService(providerServiceMapID) {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.existingSubServiceHandler(response),
-      err => {
-        this.message.alert(err, 'error');
-      })
+        err => {
+          console.log(err, 'error response');
+          //   this.message.alert(err, 'error');
+        })
   }
 
   existingSubServiceHandler(response) {
@@ -185,17 +190,21 @@ export class CreateSubServiceComponent implements OnInit {
       if (response.length > 0) {
         this.message.alert('Saved successfully', 'success');
         this.searchForm = true;
+        this.getExistingOnSearch(this.providerServiceMapID);
         this.sub_service.getSubServiceDetails(service.providerServiceMapID).subscribe((res) => {
           // this.showSubService(res, service.serviceName);
           this.clearFields();
+
         }, (err) => {
-          this.message.alert(err, 'error');
+          console.log(err, 'error response');
+          //  this.message.alert(err, 'error');
         })
       } else {
         this.message.alert('Something went wrong', 'error');
       }
     }, (err) => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
     });
     // const data_obj = {
     //   'providerServiceId': providerService.serviceProviderId,
@@ -241,6 +250,7 @@ export class CreateSubServiceComponent implements OnInit {
       if (res) {
         if (res.length === 0) {
           this.subServiceAvailable = true;
+          // this.message.alert('No Sub Service available please select different service');
         } else {
 
           let tempService = {};
@@ -261,11 +271,13 @@ export class CreateSubServiceComponent implements OnInit {
           this.subServiceAvailable = false;
           if (this.subServices.length == 0) {
             this.allServicesAdded = true;
+            // this.message.alert('All services Mapped');
           }
         }
       }
     }, (err) => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
     })
   }
 
@@ -296,15 +308,15 @@ export class CreateSubServiceComponent implements OnInit {
   }
   addSubService(flag) {
     this.searchForm = flag;
-    if (flag) {
-      if (this.state) {
+    // if (flag) {
+    if (this.state) {
 
-        this.getExistingOnSearch(this.state.providerServiceMapID);
-      }
-      else {
-        this.getExistingOnSearch(this.states[0].providerServiceMapID);
-      }
+      this.getExistingOnSearch(this.state.providerServiceMapID);
     }
+    else {
+      this.getExistingOnSearch(this.states[0].providerServiceMapID);
+    }
+    //  }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
@@ -335,10 +347,13 @@ export class CreateSubServiceComponent implements OnInit {
           this.deletedSuccessHandler(response)
         })
       }
-    }, (err) => { this.message.alert(err, 'error'); });
+    }, (err) => {
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
+    });
   }
   clearFields() {
-    // this.subServiceDesc = '';
+    this.subServiceDesc = '';
     jQuery("#form2").trigger('reset');
     if (this.state) {
 

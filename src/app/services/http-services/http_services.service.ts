@@ -28,13 +28,13 @@ export class HttpServices {
 
 	handleGetSuccess(response:Response)
 	{
-		console.log(response.json());
 		return response.json();
 	}
 
 	handleGetError(error: Response | any)
-	{
+	{		
 		return Observable.throw(error.json());
+		
 	}
 
 	postData(url:string,data:any)

@@ -36,6 +36,7 @@
       <table [md2Data]="feedbackTypes" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+            <th style="width: 5%">S.No.</th>
             <th style="width: 35%">Feedback Name</th>
             <th style="width: 35%">Feedback Description</th>
             <th style="width: 10%">Edit</th>
@@ -44,9 +45,10 @@
         </thead>
         <tbody>
           <tr *ngIf="feedbackTypes.length == 0">
-            <td colspan="4" class="record-not-found">No records found</td>
+            <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of  md2.data">
+            <td>{{feedbackTypes.indexOf(item)+1}}</td>
             <td>{{item.feedbackTypeName}}</td>
             <td>{{item.feedbackDesc}}</td>
             <td>
@@ -113,7 +115,7 @@
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="search_serviceline!='3'">
           <md-input-container [style.width]="'100%'">
-            <input mdInput placeholder="Feedback Name" name="feedbackName" [(ngModel)]="feedbackName" #feedback_name="ngModel" required>
+            <input mdInput placeholder="Feedback Name" name="feedbackName" myProviderName [(ngModel)]="feedbackName" #feedback_name="ngModel" required>
             <md-hint *ngIf="alreadyExist && feedback_name.touched">
               <span class="error_text">Feedback already exist</span>
             </md-hint>
@@ -136,7 +138,7 @@
           </md-input-container>
         </div>
         <!-- <div class="clearfix visible-md "></div> -->
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " myProviderName>
           <md-input-container [style.width]="'100%'">
             <input mdInput placeholder="Feedback Description" name="feedbackDesc" [(ngModel)]="feedbackDesc">
 
@@ -160,7 +162,7 @@
 
       <div class="m-t-15" *ngIf="(objs.length !=0)">
         <div class="table-responsive">
-          <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+          <table [md2Data]="objs" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="3">
             <thead>
               <tr>
                 <th>S.No.</th>
@@ -171,12 +173,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let obj of md2.data; let i = index ">
-                <td>{{(md2.activePage-1)*5+i+1}}</td>
+                <td>{{objs.indexOf(obj)+1}}</td>
                 <td>{{obj.feedbackTypeName}}</td>
                 <td>{{obj.feedbackDesc}}</td>
                 <td>
                   <md-icon mdSuffix class="mat-icon material-icons" mdTooltip="Remove" role="img" aria-hidden="true" style="cursor: pointer"
-                    (click)="remove_obj(i)">delete</md-icon>
+                    (click)="remove_obj(objs.indexOf(obj))">delete</md-icon>
 
                 </td>
               </tr>
@@ -193,7 +195,7 @@
           </table>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 m-t-15">
+      <div class="col-xs-12 col-sm-12 m-b-10 m-t-10">
         <div class="row">
           <button md-raised-button color="accent" [disabled]="!(objs.length>0)" class="pull-right " (click)="saveFeedback()">Save</button>
           <button class="pull-left" md-raised-button color="primary" (click)="back();this.editForm.reset();">Back</button>

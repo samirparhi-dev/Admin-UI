@@ -103,7 +103,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="(severityArray?.length !=0) && !firstPage">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="severityArray.length >0">
     <div class="table-responsive">
       <table [md2Data]="severityArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
         <thead>
@@ -118,12 +118,12 @@
           <tr *ngIf="severityArray.length == 0">
             <td colspan="5">NO RECORD FOUND!!</td>
           </tr>
-          <tr *ngFor="let obj of severityArray; let i=index">
-            <td>{{(md2.activePage-1)*4+i+1}}</td>
+          <tr *ngFor="let obj of md2.data; let i=index">
+            <td>{{severityArray.indexOf(obj)+1}}</td>
             <td>{{obj.severityTypeName}}</td>
             <td>{{obj.severityDesc}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(i)">delete</md-icon>
+              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(severityArray.indexOf(obj))">delete</md-icon>
             </td>
           </tr>
         </tbody>

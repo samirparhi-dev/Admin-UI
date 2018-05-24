@@ -71,7 +71,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
     this.callTypeSubtypeService.getServiceLinesNew(this.userID).subscribe(response =>
       this.successhandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
     this.request_array = [];
     this.request_object = {
@@ -95,7 +96,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     }
     this.callTypeSubtypeService.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -157,6 +159,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   }
 
   pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
+    debugger;
     if (this.isInbound === false && this.isOutbound === false && this.service.serviceID != 6) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
       this.fitToBlock = false;
@@ -178,8 +181,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
           'maxRedial': this.maxRedial,
           'createdBy': this.commonDataService.uname
         }
-        console.log('dummy obj', obj);
-        debugger;
+        console.log('dummy obj', obj);       
         if (this.temporarySubtypeArray.length === 0)
           this.temporarySubtypeArray.push(obj);
         else {
@@ -211,17 +213,18 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   }
 
-  removeFromCallSubType(index) {
-    this.temporarySubtypeArray.splice(index, 1);
-    console.log(this.temporarySubtypeArray);
-  }
+  // removeFromCallSubType(index) {
+  //   this.temporarySubtypeArray.splice(index, 1);
+  //   console.log(this.temporarySubtypeArray);
+  // }
   removeObj(index) {
     this.temporarySubtypeArray.splice(index, 1);
   }
   save() {
     this.callTypeSubtypeService.saveCallTypeSubtype(this.temporarySubtypeArray)
       .subscribe(response => this.saveCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -231,7 +234,8 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.showTable = true;
     this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID)
       .subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -495,7 +499,9 @@ export class EditCallType {
   get_calltype_subtype_history() {
     this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID)
       .subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        
+        // this.alertService.alert(err, 'error');
       });
   }
 

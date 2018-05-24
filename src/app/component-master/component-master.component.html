@@ -2,13 +2,36 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4 *ngIf="!editMode">Component Master</h4>
         <h4 *ngIf="editMode">Edit Component Master</h4>
-        <div *ngIf="unfilled" class="alert alert-danger" role="alert">
+        <!-- <div *ngIf="unfilled" class="alert alert-danger" role="alert">
             Please fill all the details
-        </div>
+        </div> -->
         <div>
             <form #stateService="ngForm" autocomplete="off">
                 <div class="row m-t-15">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                                (change)="getStates(serviceline.serviceID)">
+                                <md-option *ngFor="let item of services_array" [value]="item">
+                                    {{item.serviceName}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <md-input-container class="hide_underline" [style.width]="'100%'">
+                            <input mdInput style="display:none">
+                            <md-select required disabled={{disableSelection}} placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID"
+                                name="searchStateID" (change)="setProviderServiceMapID();">
+                                <md-option *ngFor="let state of provider_states" [value]="state">
+                                    {{state.stateName}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="hide_underline" [style.width]="'100%'">
                             <input mdInput style="display:none">
                             <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" (change)="getServices(state)"
@@ -29,30 +52,30 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>
-        <div style="display:block;" *ngIf="providerServiceMapID && service == '2'" class="m-t-10" [formGroup]='componentForm'>
+        <div style="display:block;" class="m-t-10" [formGroup]='componentForm'>
             <div class="row" *ngIf="saveEditMode">
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" measuringUnit>
                     <!-- <md-form-field [style.width]=" '100%' ">
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
                     <md-input-container style="width: 100% ">
-                        <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName" (change)="componentUnique()"
-                            maxlength="99">
-                    
-                            <md-hint >
-                                <span class="error_text" *ngIf="componentForm.get('testComponentName').hasError('required') && componentForm.get('testComponentName').touched">Component Name is required</span>
+                        <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName"
+                            (change)="componentUnique()" maxlength="50">
+
+                        <md-hint >
+                            <span class="error_text" *ngIf="componentForm.get('testComponentName').hasError('required') && componentForm.get('testComponentName').touched">Component Name is required</span>
                                 <span class="error_text" *ngIf="alreadyExist">Component name already exist</span>
-                            </md-hint>
-                            </md-input-container>
+                                </md-hint>
+                    </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <md-input-container [style.width]="'100%'">
+                    <md-input-container [style.width]="'100%'" myProviderName>
                         <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description"
-                            maxlength="99"></textarea>
+                        maxlength="50"></textarea>
                     </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -63,7 +86,7 @@
                         </li>
                         <!-- </label> -->
                         <li>
-                            <md-radio-group id="component-type" label="Input Type" [disabled]="editMode" placeholder="Input type" class="radio-group m-t--5 m-l-5"
+                            <md-radio-group id="component-type" label="Input Type" required [disabled]="editMode" placeholder="Input type" class="radio-group m-t--5 m-l-5"
                                 (change)="selected()" formControlName="inputType">
                                 <md-radio-button class="radio-button" value="RadioButton" color="primary">
 
@@ -76,6 +99,10 @@
                                 <md-radio-button color="primary" class="radio-button" value="DropDown">
 
                                     Drop Down
+                                </md-radio-button>
+                                <md-radio-button color="primary" class="radio-button" value="fileUpload">
+
+                                    File Upload
                                 </md-radio-button>
                             </md-radio-group>
                         </li>
@@ -92,35 +119,35 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-min" type="number" mdInput placeholder="Minimum Range" [style.width]="'100%'" formControlName="range_min">
+                            <input id="component-min" type="number" mdInput placeholder="Minimum Range *" [style.width]="'100%'" (change)="setMinRange()" formControlName="range_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-max" type="number" mdInput placeholder="Maximum Range" [style.width]="'100%'" formControlName="range_max">
+                            <input id="component-max" type="number" mdInput placeholder="Maximum Range *" [style.width]="'100%'" (change)="setMaxRange()" formControlName="range_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range" [style.width]="'100%'" formControlName="range_normal_min">
+                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range *" [style.width]="'100%'" (change)="setMinNormalRange()" formControlName="range_normal_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range" [style.width]="'100%'" formControlName="range_normal_max">
+                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range *" [style.width]="'100%'" (change)="setMaxNormalRange()" formControlName="range_normal_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
-                        <md-input-container style="width: 100% ">
-                            <input id="component-unit" mdInput placeholder="Measuring Unit" [style.width]="'100%'" formControlName="measurementUnit">
+                        <md-input-container style="width: 100% " measuringUnit>
+                            <input id="component-unit" mdInput placeholder="Measuring Unit *" [style.width]="'100%'" [pattern]="measuringUnit" formControlName="measurementUnit" maxlength="15">
                         </md-input-container>
                     </div>
                 </div>
-                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox'">
+                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox' && componentForm.value.inputType != 'fileUpload'">
 
                     <h4>Component Properties</h4>
 
@@ -131,7 +158,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                                     <md-input-container style="width: 100% ">
-                                        <input class="values" mdInput [errorStateMatcher]="myErrorStateMatcher.bind(this)" placeholder="Component Option" formControlName="name"
+                                        <input class="values" mdInput [errorStateMatcher]="myErrorStateMatcher.bind(this)" placeholder="Component Option *" formControlName="name"
                                             [style.width]="'100%'" maxlength="30">
                                     </md-input-container>
                                 </div>
@@ -157,14 +184,16 @@
 
 </div>
 <div *ngIf="saveEditMode">
-    <div *ngIf="providerServiceMapID && service == '2'" align="right">
+    <div align="right">
         <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();resetForm()">Back</button>
-        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist" (click)="saveComponent()">Save</button>
-        <button *ngIf="editMode" id="updateButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist" (click)="updateComponent()">Update</button>
+        <button *ngIf="!editMode" id="saveButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist "
+            (click)="saveComponent()">Save</button>
+        <button *ngIf="editMode" id="updateButton" md-raised-button color="accent" [disabled]="!componentForm.valid || alreadyExist"
+            (click)="updateComponent()">Update</button>
 
     </div>
 </div>
-<div *ngIf="tableMode && providerServiceMapID && service=='2' ">
+<div *ngIf="tableMode ">
     <div *ngIf="componentList?.length > 0" class="pull-right">
         <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
@@ -191,18 +220,18 @@
                             <td colspan="7" class="record-not-found">No records found</td>
                         </tr>
                         <tr *ngFor="let item of md2.data;let i=index">
-                            <td>{{(md2.activePage-1)*4+i+1}}</td>
+                            <td>{{filteredComponentList.indexOf(item)+1}}</td>
                             <td>{{item.testComponentName}}</td>
                             <td>{{item.inputType}}</td>
                             <td>{{item.testComponentDesc}}</td>
                             <td>{{item.createdBy}}</td>
                             <td>
-                                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" style="cursor:pointer" (click)="showForm();configComponent(item, i)">edit</md-icon>
+                                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" style="cursor:pointer" (click)="showForm();configComponent(item, filteredComponentList.indexOf(item))">edit</md-icon>
 
                             </td>
                             <td>
-                                <button md-raised-button color="accent" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, false)">Activate</button>
-                                <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, true)">Deactivate</button>
+                                <button md-raised-button color="accent" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, filteredComponentList.indexOf(item), false)">Activate</button>
+                                <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, filteredComponentList.indexOf(item), true)">Deactivate</button>
 
                             </td>
                         </tr>

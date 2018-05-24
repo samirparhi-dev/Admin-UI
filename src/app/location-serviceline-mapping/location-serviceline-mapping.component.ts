@@ -77,7 +77,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.provider_admin_location_serviceline_mapping.getServiceLinesNew(this.userID)
       .subscribe(response => this.servicesSuccesshandeler(response), err => {
         console.log('ERROR WHILE FETCHING SERVICES', err);
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
     // this.getAllWorkLocations();
@@ -148,7 +148,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.provider_admin_location_serviceline_mapping.getStatesNew(obj).
       subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
         console.log("error in fetching states");
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
   }
@@ -268,11 +268,23 @@ export class LocationServicelineMappingComponent implements OnInit {
       "createdBy": this.commonDataService.uname
     }
     let count = 0;
-    for (let a = 0; a < this.workLocations.length; a++) {
-      if (this.workLocations[a].locationName === newreqobj.locationName
-        && this.workLocations[a].districtID === parseInt(newreqobj.districtID)
-        && this.workLocations[a].address === newreqobj.address) {
-        count = count + 1;
+    if (newreqobj.stateID === "") {
+      for (let a = 0; a < this.workLocations.length; a++) {
+        if (this.workLocations[a].locationName === newreqobj.locationName
+          && this.workLocations[a].address === newreqobj.address
+          && this.workLocations[a].providerServiceMapID === newreqobj.providerServiceMapID[0]) {
+          count = count + 1;
+        }
+      }
+    }
+    else {
+      for (let a = 0; a < this.workLocations.length; a++) {
+        if (this.workLocations[a].locationName === newreqobj.locationName
+          && this.workLocations[a].districtID === parseInt(newreqobj.districtID)
+          && this.workLocations[a].address === newreqobj.address
+          && this.workLocations[a].providerServiceMapID === newreqobj.providerServiceMapID[0]) {
+          count = count + 1;
+        }
       }
     }
 
@@ -478,7 +490,7 @@ export class EditLocationModal {
     console.log(this.data, "modal content");
 
     this.serviceProviderName = this.data.toBeEditedOBJ.serviceProviderName;
-    this.stateName = this.data.toBeEditedOBJ.stateName;
+    this.stateName = this.data.toBeEditedOBJ.stateName === undefined ? "All states" : this.data.toBeEditedOBJ.stateName;
     this.districtName = this.data.toBeEditedOBJ.districtName;
     this.address = this.data.toBeEditedOBJ.address;
     this.officeID = this.data.toBeEditedOBJ.locationName;

@@ -80,7 +80,7 @@
           </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <!-- <td>{{i.providerServiceMapID}}</td> -->
-            <td width="5%">{{(md2.activePage-1)*4+k+1}}</td>
+            <td width="5%">{{data.indexOf(i)+1}}</td>
             <td width=20%>{{i.serviceProviderName}}</td>
 
             <td width=20%>{{i.serviceName}}</td>

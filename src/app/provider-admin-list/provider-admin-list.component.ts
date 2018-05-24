@@ -39,7 +39,7 @@ export class ProviderAdminListComponent implements OnInit {
   mindate: any;
   maxdate: any;
   admin_remarks: any;
-  username_status: any;
+  username_status: string;
   showHint: boolean;
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
@@ -75,7 +75,7 @@ export class ProviderAdminListComponent implements OnInit {
   searchResultArray: any = [];
   allProviderAdmin: any = [];
 
-  userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]{2,20}$/;
+  //userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;;
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -106,7 +106,7 @@ export class ProviderAdminListComponent implements OnInit {
         this.searchResult = response;
       }
     }, err => {
-      this.dialogService.alert(err, 'error');
+      console.log(err, 'error')
       console.log("Error", err);
     })
   }
@@ -144,13 +144,13 @@ export class ProviderAdminListComponent implements OnInit {
     this.resetDob();
 
     this.superadminService.getCommonRegistrationData().subscribe(response => this.showGenderOnCondition(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
     this.superadminService.getAllQualifications().subscribe(response => this.getEduQualificationSuccessHandler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
     this.superadminService.getAllMaritalStatus().subscribe(response => this.showAllMaritalSuccessHandler(response),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
   }
   /*
@@ -220,32 +220,30 @@ export class ProviderAdminListComponent implements OnInit {
     this.superadminService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log(err, 'error'));
   }
 
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
     if (response.response == 'userexist') {
-      this.username_status = 'User login ID exists';
+      this.username_status = 'User ID exists';
       this.showHint = true;
       this.username_dependent_flag = true;
-      this.username = null;
+      // this.username = null;
 
     }
     if (response.response == 'usernotexist') {
-      if (
-        this.username != '' &&
-        (this.username != undefined && this.username != null)
-      ) {
+      if (this.username != '' && (this.username != undefined && this.username != null)) {
         console.log("if response", response);
         this.showHint = false;
         this.username_dependent_flag = false;
-      } else {
-        console.log("else response", response);
-        this.showHint = true;
-        this.username_dependent_flag = true;
-        this.username_status = 'Username is required';
       }
+      //  else {
+      //   console.log("else response", response);
+      //   this.showHint = true;
+      //   this.username_dependent_flag = true;
+      //   this.username_status = 'Username is required';
+      // }
     }
   }
 
@@ -306,7 +304,7 @@ export class ProviderAdminListComponent implements OnInit {
 
           err => {
             console.log("Error", err);
-            this.dialogService.alert(err, 'error')
+            //this.dialogService.alert(err, 'error')
           }
         );
       }
@@ -384,14 +382,12 @@ export class ProviderAdminListComponent implements OnInit {
 
     }
     console.log("add objects", tempObj);
-    debugger;
     this.checkUserNameAvailability(name);
     this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
   }
 
   checkDuplicatesInBuffer(tempObj) {
-    debugger;
     let duplicateAadhar = 0;
     let duplicatePan = 0;
     let duplicateName = 0
@@ -418,25 +414,25 @@ export class ProviderAdminListComponent implements OnInit {
         this.objs.push(tempObj);
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
-        this.dialogService.alert("Aadhar, Pan number and Username already exist");
+        this.dialogService.alert("Aadhar, Pan number and Username already exists");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0) {
-        this.dialogService.alert("Aadhar and Pan number already exist");
+        this.dialogService.alert("Aadhar and Pan number already exists");
       }
       else if (duplicateAadhar > 0 && duplicateName > 0) {
-        this.dialogService.alert("Aadhar number and Username already exist");
+        this.dialogService.alert("Aadhar number and Username already exists");
       }
       else if (duplicatePan > 0 && duplicateName > 0) {
-        this.dialogService.alert("Pan number and Username already exist");
+        this.dialogService.alert("Pan number and Username already exists");
       }
       else if (duplicateAadhar > 0) {
-        this.dialogService.alert("Aadhar number already exist");
+        this.dialogService.alert("Aadhar number already exists");
       }
       else if (duplicatePan > 0) {
-        this.dialogService.alert("Pan number already exist");
+        this.dialogService.alert("Pan number already exists");
       }
       else {
-        this.dialogService.alert("Already exist");
+        this.dialogService.alert("Already exists");
       }
     }
   }
@@ -499,7 +495,7 @@ export class ProviderAdminListComponent implements OnInit {
 
 
     },
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log(err, 'error'));
 
   }
   /*
@@ -518,6 +514,9 @@ export class ProviderAdminListComponent implements OnInit {
       if (result === "success") {
         this.dialogService.alert("Updated successfully", 'success');
         this.getAllProviderAdminDetails();
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
       }
     });
   }
@@ -545,7 +544,7 @@ export class ProviderAdminListComponent implements OnInit {
             this.getAllProviderAdminDetails();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+              console.log(err, 'error');
               console.log(err);
             })
       }
@@ -753,7 +752,7 @@ export class EditProviderAdminModal {
       'middleName': this.admin_middleName,
       'lastName': this.admin_lastName,
       'genderID': this.gender,
-      'dOB': new Date(this.dob.valueOf() - 1 * this.dob.getTimezoneOffset() * 60 * 1000),
+      'dOB': this.dob,
       //  'age': this.age,
       'contactNo': this.primaryMobileNumber,
       'emailID': this.primaryEmail,

@@ -91,7 +91,7 @@
           <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" minlength="2"
             (keyup)="checkexistance(instituteDirectory)" maxlength="50" required #instituteDirName="ngModel">
           <md-hint>
-              <span class="error_text" *ngIf="instituteDirName.errors && instituteDirName.touched">Institute directory name is required</span>
+            <span class="error_text" *ngIf="instituteDirName.errors && instituteDirName.touched">Institute directory name is required</span>
             <span class="error_text" *ngIf="!instituteDirName.errors && instituteDirectoryExist">Institute directory already exist</span>
           </md-hint>
         </md-input-container>
@@ -121,11 +121,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of md2.data; let k=index; ">
-              <td>{{(md2.activePage-1)*4+k+1}}</td>
+              <td>{{bufferArray.indexOf(item)+1}}</td>
               <td>{{item.instituteDirectoryName}}</td>
               <td>{{item.instituteDirectoryDesc}}</td>
               <td>
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
               </td>
             </tr>
           </tbody>

@@ -57,7 +57,7 @@ export class SeverityTypeComponent implements OnInit {
       console.log('success while getting services', response);
       this.services = response;
     }, err => {
-      this.alertService.alert(err, 'error');
+
       console.log('err while getting services', err);
     })
   }
@@ -68,7 +68,7 @@ export class SeverityTypeComponent implements OnInit {
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
-      this.alertService.alert(err, 'error');
+
       console.log('err while getting states', err);
     })
 
@@ -133,6 +133,7 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   add(values) {
+    debugger;
     let obj = {
       'severityTypeName': values.severity,
       'severityDesc': values.description,
@@ -149,7 +150,7 @@ export class SeverityTypeComponent implements OnInit {
           count = count + 1;
         }
       }
-      if (count == 0 && (obj.severityTypeName != "" && obj.severityTypeName != undefined)) {
+      if (count == 0) {
         this.severityArray.push(obj);
       }
       else {
@@ -217,7 +218,7 @@ export class SeverityTypeComponent implements OnInit {
       }
     },
       (err) => {
-        this.alertService.alert(err, 'error');
+
         console.log(err);
       })
   }

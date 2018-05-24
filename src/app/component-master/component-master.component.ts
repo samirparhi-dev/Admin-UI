@@ -4,6 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ComponentMasterServiceService } from './../services/ProviderAdminServices/component-master-service.service';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
 
 @Component({
   selector: 'app-component-master',
@@ -12,9 +13,15 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 })
 export class ComponentMasterComponent implements OnInit {
 
-
+  serviceline: any;
+  searchStateID: any;
+  provider_states: any = [];
+  userID: any;
+  services_array: any = [];
+  checkradioButton: boolean;
+  checktextbox: boolean;
   state: any;
-  service: any;
+  service: any; z
 
   states: any;
   services: any;
@@ -31,7 +38,7 @@ export class ComponentMasterComponent implements OnInit {
   componentForm: FormGroup;
   componentList: any;
   filteredComponentList: any;
-  tableMode: boolean = true;
+  tableMode: boolean = false;
   saveEditMode: boolean = false;
   alreadyExist: boolean = false;
 
@@ -39,7 +46,8 @@ export class ComponentMasterComponent implements OnInit {
     private fb: FormBuilder,
     private alertService: ConfirmationDialogsService,
     public providerAdminRoleService: ProviderAdminRoleService,
-    private componentMasterServiceService: ComponentMasterServiceService) {
+    private componentMasterServiceService: ComponentMasterServiceService,
+    public stateandservices: ServicePointMasterService) {
     this.states = [];
     this.services = [];
 
@@ -63,15 +71,34 @@ export class ComponentMasterComponent implements OnInit {
     this.filteredComponentList = [];
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+    this.userID = this.commonDataService.uid;
 
+    // this.providerAdminRoleService.getStates(this.serviceProviderID)
+    //   .subscribe(response => {
+    //     this.states = this.successhandeler(response);
 
-    this.providerAdminRoleService.getStates(this.serviceProviderID)
+    //   }
+    //   );
+    this.getProviderServices();
+  }
+  getProviderServices() {
+    this.stateandservices.getServices(this.userID)
       .subscribe(response => {
-        this.states = this.successhandeler(response);
-
-      }
-      );
-
+        this.services_array = response;
+      }, err => {
+      });
+  }
+  getStates(serviceID) {
+    this.stateandservices.getStates(this.userID, serviceID, false).
+      subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+      });
+  }
+  getStatesSuccessHandeler(response, isNational) {
+    if (response) {
+      console.log(response, 'Provider States');
+      this.provider_states = response;
+      // this.createButton = false;
+    }
   }
 
   initComponentForm(): FormGroup {
@@ -108,14 +135,14 @@ export class ComponentMasterComponent implements OnInit {
   get testComponentName() {
     return this.componentForm.controls['testComponentName'].value;
   }
-  componentUnique() {    
+  componentUnique() {
     this.alreadyExist = false;
     console.log("filteredComponentList", this.filteredComponentList);
     let count = 0;
-    for (let a = 0; a < this.filteredComponentList.length; a++) {      
+    for (let a = 0; a < this.filteredComponentList.length; a++) {
       if (this.filteredComponentList[a].testComponentName === this.testComponentName) {
         count = count + 1;
-        console.log("count", count);        
+        console.log("count", count);
         if (count > 0) {
           this.alreadyExist = true;
         }
@@ -145,7 +172,10 @@ export class ComponentMasterComponent implements OnInit {
   getAvailableComponent() {
 
     this.componentMasterServiceService.getCurrentComponents(this.providerServiceMapID)
-      .subscribe((res) => { this.componentList = this.successhandeler(res); this.filteredComponentList = this.successhandeler(res); });
+      .subscribe((res) => {
+        this.componentList = this.successhandeler(res); this.filteredComponentList = this.successhandeler(res);
+        this.tableMode = true;
+      });
 
   }
 
@@ -160,21 +190,25 @@ export class ComponentMasterComponent implements OnInit {
     })
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
+
+
   back() {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.showTable();
-        this.alreadyExist =false;
+        this.alreadyExist = false;
       }
     })
   }
   showTable() {
     this.tableMode = true;
     this.saveEditMode = false;
+    this.disableSelection = false;
   }
   showForm() {
     this.tableMode = false;
     this.saveEditMode = true;
+    this.disableSelection = true;
   }
   saveComponent() {
     const apiObject = this.objectManipulate();
@@ -190,7 +224,9 @@ export class ComponentMasterComponent implements OnInit {
           console.log(res, 'resonse here');
           this.componentList.unshift(res);
           this.resetForm();
+          this.showTable();
           this.alertService.alert('Saved successfully', 'success');
+          // this.showTable();
         })
 
     }
@@ -214,6 +250,7 @@ export class ComponentMasterComponent implements OnInit {
           this.updateList(res);
           this.resetForm();
           this.alertService.alert('Updated successfully', 'success');
+          this.showTable();
         })
 
     }
@@ -228,9 +265,7 @@ export class ComponentMasterComponent implements OnInit {
 
 
 
-  /**
-   * Manipulate Form Object to as per API Need
-  */
+
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
 
@@ -282,18 +317,19 @@ export class ComponentMasterComponent implements OnInit {
 
 
 
-  setProviderServiceMapID(ProviderServiceMapID) {
-    this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
-    this.providerServiceMapID = ProviderServiceMapID;
+  setProviderServiceMapID() {
+    debugger;
+    this.commonDataService.provider_serviceMapID = this.searchStateID.providerServiceMapID;
+    this.providerServiceMapID = this.searchStateID.providerServiceMapID;
 
-    console.log('psmid', ProviderServiceMapID);
-    console.log(this.service);
+    console.log('psmid', this.searchStateID.providerServiceMapID);
+    //console.log(this.service);
     this.getAvailableComponent();
   }
 
   getServices(stateID) {
     console.log(this.serviceProviderID, stateID);
-    this.providerAdminRoleService.getServices(this.serviceProviderID, stateID)
+    this.providerAdminRoleService.getServices_filtered(this.serviceProviderID, stateID)
       .subscribe(response => this.servicesSuccesshandeler(response));
   }
 
@@ -381,31 +417,7 @@ export class ComponentMasterComponent implements OnInit {
       .subscribe((res) => { this.loadDataToEdit(res) })
     console.log(JSON.stringify(item, null, 4), 'item to patch');
     console.log(this.componentForm, 'form here');
-    // this.editMode = item.testComponentID;
-    //     this.editMode = 21;
-    //     this.componentForm.patchValue({
-    //       testComponentID: 21,
-    //       testComponentName: 'something',
-    //       testComponentDesc: 'some description',
-    //       range_normal_max: null,
-    //       range_normal_min: null,
-    //       range_min: null,
-    //       range_max: null,
-    //       measurementUnit: null,
-    //       inputType: 'DropDown',
 
-    //     });
-
-    //     let id = [{ name: 'sdddd' },
-    //     { name: 'cccc' }];
-
-    //     const val = <FormArray>this.componentForm.controls['compOpt'];
-    //     val.removeAt(0);
-    // id.forEach((element) => {
-
-    //   val.push(this.fb.group(element));
-    // })
-    //  this.componentForm.controls['compOpt'].push
   }
 
 
@@ -429,6 +441,139 @@ export class ComponentMasterComponent implements OnInit {
     }
 
   }
+  get range_min() {
+    return this.componentForm.controls['range_min'].value;
+  }
+  get range_max() {
+    return this.componentForm.controls['range_max'].value;
+  }
+  get range_normal_min() {
+    return this.componentForm.controls['range_normal_min'].value;
+  }
+  get range_normal_max() {
+    return this.componentForm.controls['range_normal_max'].value;
+  }
+   /*
+   * Minimum and maximum range validations
+   */
+  setMinRange() {
+    if (this.range_max != undefined) {
+      this.setMaxRange();
+    } else if (this.range_normal_min != undefined) {
+      this.setMinNormalRange();
+    } else if (this.range_normal_max != undefined) {
+      this.setMaxNormalRange();
+    }
+  }
+  setMaxRange() {
+    if (this.range_min == undefined && this.range_max != undefined) {
+      this.alertService.alert("Please select the min range");
+      this.componentForm.patchValue({
+        range_max: null
+      })
+    } else if (this.range_min != undefined && this.range_max <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+      this.componentForm.patchValue({
+        range_max: null
+      })
+    } else if (this.range_normal_min != undefined) {
+      this.setMinNormalRange();
+    } else if (this.range_normal_min != undefined) {
+      this.setMaxNormalRange();
+    }
 
+  }
+  setMinNormalRange() {
+    if (this.range_min == undefined && this.range_max == undefined) {
+      this.alertService.alert("Please select min and max range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_min == undefined) {
+      this.alertService.alert("Please select min range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_max == undefined) {
+      this.alertService.alert("Please select max range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_normal_min <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+      this.componentForm.patchValue({
+        range_normal_min: null
+      })
+    }
+    else if (this.range_max != undefined && this.range_normal_min >= this.range_max) {
+      this.alertService.alert("Please select the range lesser than the max range");
+      this.componentForm.patchValue({
+        range_normal_min: null,
+        range_max: null
+      })
+    } else if (this.range_normal_max != undefined) {
+      this.setMaxNormalRange();
+    }
+  }
+  setMaxNormalRange() {
+    if (this.range_min == undefined && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select min, max and min normal range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select max and min normal range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min == undefined) {
+      this.alertService.alert("Please select min range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_max == undefined) {
+      this.alertService.alert("Please select max range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_normal_min == undefined) {
+      this.alertService.alert("Please select min normal range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_normal_max <= this.range_min && this.range_max == undefined && this.range_normal_min == undefined) {
+      this.alertService.alert("Please select max and min normal range and also range should be greater than min range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_min != undefined && this.range_normal_max <= this.range_min) {
+      this.alertService.alert("Please select the range greater than min range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+    else if (this.range_max != undefined && this.range_normal_max >= this.range_max) {
+      this.alertService.alert("Please select the range lesser than the max range");
+      this.componentForm.patchValue({
+        range_normal_max: null,
+        range_max: null
+      })
+    }
+    else if (this.range_normal_min != undefined && this.range_normal_max <= this.range_normal_min) {
+      this.alertService.alert("Please select the range greater than the min normal range");
+      this.componentForm.patchValue({
+        range_normal_max: null
+      })
+    }
+  }
 }
 

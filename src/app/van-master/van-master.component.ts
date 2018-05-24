@@ -3,6 +3,7 @@ import { ProviderAdminRoleService } from "../services/ProviderAdminServices/stat
 import { dataService } from '../services/dataService/data.service';
 import { VanMasterService } from '../services/ProviderAdminServices/van-master-service.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
 
 @Component({
     selector: 'app-van-master',
@@ -10,6 +11,9 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class VanComponent implements OnInit {
 
+    showVansTable: boolean = false;
+    userID: any;
+    serviceline: any;
     showVans: any = true;
     availableVans: any = [];
     data: any;
@@ -20,35 +24,63 @@ export class VanComponent implements OnInit {
     editable: any = false;
     availableVanNames: any = [];
     availableVehicleNos: any = [];
+    services_array: any = [];
     countryID: any;
     searchStateID: any;
     searchDistrictID: any;
     searchParkingPlaceID: any;
+    searchDistrictID_Update: any;
+    searchParkingPlaceID_Update: any;
     serviceID: any;
     createdBy: any;
     status: any;
+    createButton: boolean = false;
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public vanMasterService: VanMasterService,
+        public servicePointMasterService: ServicePointMasterService,
         private alertMessage: ConfirmationDialogsService) {
         this.data = [];
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
         this.createdBy = this.commonDataService.uname;
+        this.userID = this.commonDataService.uid;
     }
 
     showForm() {
         this.showVans = false;
-        this.districts = [];
+        this.showVansTable = false;
+        //this.districts = [];
     }
     ngOnInit() {
-        this.getVans(null, null, null);
+        //  this.getVans(null, null, null);
         //this.getStates();
-        this.getStatesByServiceID();
+        //   this.getStatesByServiceID();
+        this.getProviderServices();
         this.getVanTypes();
     }
+    getProviderServices() {
+        this.servicePointMasterService.getServices(this.userID)
+            .subscribe(response => {
+                this.services_array = response;
+            }, err => {
+            });
+    }
+    getStates(serviceID) {
+        this.servicePointMasterService.getStates(this.userID, serviceID, false).
+            subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+            });
+    }
+    getStatesSuccessHandeler(response, isNational) {
+        if (response) {
+            console.log(response, 'Provider States');
+            this.provider_states = response;
+            this.createButton = false;
+        }
+    }
+
     obj: any;
     getVanTypes() {
         this.vanMasterService.getVanTypes().subscribe(response => this.getVanTypesSuccessHandler(response));
@@ -71,6 +103,8 @@ export class VanComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.createButton = false;
+        this.searchDistrictID_Update = this.searchDistrictID;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -82,17 +116,21 @@ export class VanComponent implements OnInit {
     }
 
     getVans(stateID, districtID, parkingPlaceID) {
+        debugger;
         this.vanObj = {};
         this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
         this.vanObj.serviceProviderID = this.service_provider_id;
+        this.searchParkingPlaceID_Update = this.searchParkingPlaceID;
         this.vanMasterService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
     }
 
     getVanSuccessHandler(response) {
         this.availableVans = response;
+        this.createButton = true;
+        this.showVansTable = true;
         for (let availableVan of this.availableVans) {
             this.availableVanNames.push(availableVan.vanName);
             this.availableVehicleNos.push(availableVan.vehicalNo);
@@ -104,26 +142,18 @@ export class VanComponent implements OnInit {
     vanObj: any;
     vanList: any = [];
     addVanToList(values) {
+        debugger;
         this.vanObj = {};
         this.vanObj.vanName = values.vanName;
         this.vanObj.vehicalNo = values.vehicalNo;
         this.vanObj.countryID = this.countryID;
-
-        if (values.stateID != undefined) {
-            this.vanObj.stateID = values.stateID.split("-")[0];
-            this.vanObj.stateName = values.stateID.split("-")[1];
-        }
-
-        if (values.districtID != undefined) {
-            this.vanObj.districtID = values.districtID.split("-")[0];
-            this.vanObj.districtName = values.districtID.split("-")[1];
-        }
-
-        if (values.parkingPlaceID != undefined) {
-            this.vanObj.parkingPlaceID = values.parkingPlaceID.split("-")[0];;
-            this.vanObj.parkingPlaceName = values.parkingPlaceID.split("-")[1];;
-        }
-        this.vanObj.providerServiceMapID = this.providerServiceMapID;
+        this.vanObj.stateID = this.searchStateID.stateID;
+        this.vanObj.stateName = this.searchStateID.stateName;
+        this.vanObj.districtID = this.searchDistrictID.districtID;
+        this.vanObj.districtName = this.searchDistrictID.districtName;
+        this.vanObj.parkingPlaceID = this.searchParkingPlaceID.parkingPlaceID;
+        this.vanObj.parkingPlaceName = this.searchParkingPlaceID.parkingPlaceName;
+        this.vanObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
         this.vanObj.vanTypeID = values.vanTypeID.split("-")[0];
         this.vanObj.vanType = values.vanTypeID.split("-")[1];
         this.vanObj.createdBy = this.createdBy;
@@ -142,17 +172,20 @@ export class VanComponent implements OnInit {
         }
         else if (this.vanList.length > 0) {
             for (let i = 0; i < this.vanList.length; i++) {
-                if (!(this.vanList[i].vanName === vanObj.vanName
-                    && this.vanList[i].stateName === vanObj.stateName
+                if (this.vanList[i].vanName === vanObj.vanName
+                    && this.vanList[i].providerServiceMapID === vanObj.providerServiceMapID
                     && this.vanList[i].districtName === vanObj.districtName
                     && this.vanList[i].parkingPlaceName === vanObj.parkingPlaceName
                     && this.vanList[i].vanType === vanObj.vanType
-                    && this.vanList[i].vehicalNo === vanObj.vehicalNo)) {
+                    && this.vanList[i].vehicalNo === vanObj.vehicalNo) {
                     count = 1;
                 }
             }
-            if (count === 1) {
+            if (count === 0) {
                 this.vanList.push(vanObj);
+            }
+            else {
+                this.alertMessage.alert("Already exists");
                 count = 0;
             }
         }
@@ -168,27 +201,28 @@ export class VanComponent implements OnInit {
     vanSuccessHandler(response) {
         this.vanList = [];
         this.alertMessage.alert("Saved successfully", 'success');
+        this.showList();
     }
 
-    stateSelection(stateID) {
-        this.getServices(stateID);
-    }
+    // stateSelection(stateID) {
+    //     this.getServices(stateID);
+    // }
 
-    getServices(stateID) {
-        this.vanMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
+    // getServices(stateID) {
+    //     this.vanMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
+    // }
 
-    getStates() {
-        this.vanMasterService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
+    // getStates() {
+    //     this.vanMasterService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    // }
 
-    getStatesSuccessHandeler(response) {
-        this.provider_states = response;
-    }
+    // getStatesSuccessHandeler(response) {
+    //     this.provider_states = response;
+    // }
 
-    getStatesByServiceID() {
-        this.vanMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
+    // getStatesByServiceID() {
+    //     this.vanMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
+    // }
 
 
     districts: any = [];
@@ -198,6 +232,7 @@ export class VanComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
+        this.createButton = false;
     }
     taluks: any = [];
     GetTaluks(districtID: number) {
@@ -218,17 +253,17 @@ export class VanComponent implements OnInit {
     }
 
 
-    getServicesSuccessHandeler(response) {
-        this.provider_services = response;
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.providerServiceMapID = provider_service.providerServiceMapID;
-            }
-        }
-        if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
-            this.alertMessage.alert("No Service available with the state selected");
-        }
-    }
+    // getServicesSuccessHandeler(response) {
+    //     this.provider_services = response;
+    //     for (let provider_service of this.provider_services) {
+    //         if ("MMU" == provider_service.serviceName) {
+    //             this.providerServiceMapID = provider_service.providerServiceMapID;
+    //         }
+    //     }
+    //     if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
+    //         this.alertMessage.alert("No Service available with the state selected");
+    //     }
+    // }
 
     dataObj: any = {};
     updateVanStatus(van) {
@@ -266,11 +301,9 @@ export class VanComponent implements OnInit {
     }
 
     showList() {
-        this.searchStateID = "";
-        this.searchDistrictID = "";
-        this.searchParkingPlaceID = "";
-        this.getVans(null, null, null);
+        this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.showVans = true;
+        this.showVansTable = true;
         this.editable = false;
         this.vanObj = [];
         this.vanList = [];
@@ -306,41 +339,38 @@ export class VanComponent implements OnInit {
         this.parkingPlaceID = "";
     }
     editVanData(van) {
-
+        debugger;
+        this.showVansTable = false;
         this.vanID = van.vanID;
         this.vanName = van.vanName
         this.vehicalNo = van.vehicalNo;
         this.vanTypeID = van.vanTypeID + "-" + van.vanType;
-        this.stateID = van.stateID + "-" + van.stateName;
-        this.districtID = van.districtID + "-" + van.districtName;
+        this.stateID = van.stateID;
+        this.searchDistrictID = van.districtID;
         this.providerServiceMapID = van.providerServiceMapID;
-        this.parkingPlaceID = van.parkingPlaceID + "-" + van.parkingPlaceName;
-        this.getStatesByServiceID();
-        this.getDistricts(van.stateID);
-        this.getParkingPlaces(van.stateID, van.districtID);
+        this.searchParkingPlaceID = van.parkingPlaceID;
+        // this.getStatesByServiceID();
+        // this.getDistricts(van.stateID);
+        //  this.getParkingPlaces(van.stateID, van.districtID);
 
         this.editable = true;
     }
 
     updateVanData(van) {
+        debugger;
         this.dataObj = {};
-        this.dataObj.vanID = van.vanID;
+        this.dataObj.vanID = this.vanID;
         this.dataObj.vanName = van.vanName;
         this.dataObj.vehicalNo = van.vehicalNo;
         this.dataObj.vanTypeID = van.vanTypeID.split("-")[0];
         this.dataObj.countryID = this.countryID;
-        this.dataObj.parkingPlaceID = van.parkingPlaceID.split("-")[0];
-        //this.dataObj.providerServiceMapID = van.serviceID.split("-")[0];
-        if (van.stateID != undefined) {
-            this.dataObj.stateID = van.stateID.split("-")[0];
-            this.dataObj.providerServiceMapID = this.providerServiceMapID
-        }
-        if (van.districtID != undefined) {
-            this.dataObj.districtID = van.districtID.split("-")[0];
-        }
+        this.dataObj.parkingPlaceID = this.searchParkingPlaceID;
+        this.dataObj.stateID = this.stateID;
+        this.dataObj.providerServiceMapID = this.providerServiceMapID;
+        this.dataObj.districtID = this.searchDistrictID;
         this.dataObj.modifiedBy = this.createdBy;
-
-
+        this.searchDistrictID = this.searchDistrictID_Update;
+        this.searchParkingPlaceID = this.searchParkingPlaceID_Update;
         this.vanMasterService.updateVanData(this.dataObj).subscribe(response => this.updateHandler(response));
 
     }
@@ -348,8 +378,15 @@ export class VanComponent implements OnInit {
     updateHandler(response) {
         this.editable = false;
         this.alertMessage.alert("Updated successfully", 'success');
-        this.getVans(null, null, null);
+        this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         //this.initializeObj();
+    }
+    back() {
+        this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.showList();
+            }
+        })
     }
 
 }

@@ -100,7 +100,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.providers = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log('Error', err);
       });
   }
@@ -113,7 +113,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.searchResult = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
         console.log('Error', err);
       });
   }
@@ -126,7 +126,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.states = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
       });
   }
 
@@ -138,7 +138,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.servicelines = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        console.log(err, 'error')
       });
   }
 
@@ -177,7 +177,6 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
 
   checkDuplicate_for1097(object) {
-    debugger;
     console.log(object, 'while checking dupes in case of 1097');
     let duplicate_exists = false;
 
@@ -203,8 +202,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
     }
     else {
       for (let i = 0; i < this.bufferArray.length; i++) {
-        if (this.bufferArray[i].serviceID === object.serviceID && this.bufferArray[i].serviceProviderID === object.serviceProviderID)
-         {
+        if (this.bufferArray[i].serviceID === object.serviceID && this.bufferArray[i].serviceProviderID === object.serviceProviderID) {
           duplicateStatus = duplicateStatus + 1;
         }
       }
@@ -265,7 +263,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         }
       }
       if (providerCount > 0 && servicelineMatched === false) {
-        this.bufferArray.push(object);        
+        this.bufferArray.push(object);
         this.resetForm();
       }
       if (providerCount === 0) {
@@ -320,7 +318,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         this.services = [];
         this.filteredStates = [];
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log(err, 'ERROR');
       });
   }
@@ -444,7 +442,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
           this.getAllMappings();
 
         }, err => {
-          this.dialogService.alert(err, 'error');
+
           console.log(err, 'update error handeler');
         });
     }
@@ -467,7 +465,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             this.getAllMappings();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }
@@ -489,7 +487,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             this.getAllMappings();
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }
