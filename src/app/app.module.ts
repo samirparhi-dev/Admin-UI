@@ -32,6 +32,7 @@ import { myEmail } from './directives/email/myEmail.directive';
 import { myUserName } from './directives/address/myAddress.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
+import { VehicleNO } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
 import { measuringUnit } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
@@ -217,7 +218,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
-    myProviderName, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    myProviderName, VehicleNO, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
     AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
     AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
     ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,
@@ -256,7 +257,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ItemToStoreMappingComponent,
     SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
     measuringUnit,
-   ],
+  ],
 
   imports: [
     BrowserModule,
