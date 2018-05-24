@@ -64,6 +64,7 @@ export class ItemMasterComponent implements OnInit {
 
   }
   getAllServices() {
+    debugger;
     this.commonServices.getServiceLines(this.userID).subscribe((response) => {
       console.log("serviceline", response);
       this.servicesSuccesshandler(response),
@@ -71,9 +72,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   servicesSuccesshandler(res) {
-    this.services = res.filter((item) => {
-      console.log('item', item);     
-    })
+    this.services =res;
+    // this.services = res.filter((item) => {
+    //   console.log('item', item);     
+    // })
   }
 
   setProviderServiceMapID(providerServiceMapID) {
@@ -200,6 +202,7 @@ export class ItemMasterComponent implements OnInit {
     console.log("manufacturers", this.manufacturers);
   }
   unitOfMeasuresList(providerServiceMapID) {
+    debugger;
     console.log('check inside Uom');
     this.itemService.getAllUoms(this.providerServiceMapID).subscribe((uomResponse) => {
       console.log("uomResponse", uomResponse);

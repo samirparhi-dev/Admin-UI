@@ -200,6 +200,8 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
+import {ManufacturemasterService} from './services/inventory-services/manufacturemaster.service';
+import {PhysicalstockService} from './services/inventory-services/physicalstock.service';
 
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
@@ -211,6 +213,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-master.component';
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
+
 
 @NgModule({
   declarations: [
@@ -334,7 +337,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,
+    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
