@@ -2180,7 +2180,24 @@ center;
 	border-width: 10px;
 	margin-left: -10px;
 }
+.stock .mat-input-wrapper {
+  padding-bottom: 0.8em !important;
+  }
+  .stock td{
+  padding: 0px !important;
+  }
+  .stock .md2-datepicker-trigger {
+  padding: 10px 0 4px 46px;
+  }
+  .stock td:nth-child(1){
+  padding: 15px !important; 
+  vertical-align: middle !important;  
+  } 
 
+  .stock .mat-input-infix{
+    margin-top:-2px;
+    padding:0px !important;
+  }
 @media (min-width: 317px) {
 
   .xs-pull-right{

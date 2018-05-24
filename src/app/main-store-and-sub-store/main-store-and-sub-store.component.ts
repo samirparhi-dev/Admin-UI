@@ -26,6 +26,8 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   edit_facilityDiscription: any;
   edit_facilityCode: any;
   uid: any;
+  edit_store:any;
+  storeType_arrayEdit:any;
 
   state: any;
   serviceline: any;
@@ -221,7 +223,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
       "facilityCode": formvalues.facilityCode,
       "facilityTypeID": formvalues.facilityType.facilityTypeID,
       "location": formvalues.createlocation,
-      "mainFacilityID": this.storeType === "MAIN" ? null : formvalues.store.mainFacilityID,
+      "mainFacilityID": formvalues.store,
       "physicalLocation": formvalues.physicalLocation,
       "storeType": this.storeType,
       "status": "active",
@@ -229,6 +231,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
       "createdBy": this.createdBy,
       "providerServiceMapID": this.providerServiceMapID
     }
+    debugger;
     this.checkDuplictes(obj);
   }
   checkDuplictes(object) {
@@ -278,7 +281,31 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.edit_facilityDiscription = editFormValues.facilityDesc;//facilityTypeID
     this.edit_location = editFormValues.location;
     this.edit_physicalLocation = editFormValues.physicalLocation;
-    editFormValues.storeType === "MAIN" ? this.edit_mainstore = true : this.edit_substore = true;
+    this.edit_store = editFormValues.mainFacilityID;
+    if(editFormValues.storeType === "MAIN"){
+      this.edit_mainstore = true ;
+       this.edit_substore = false;
+       var subStore=[];
+       subStore.push(this.facilityID);
+       for(var i=0;i<subStore.length;i++){
+        var stores=this.storeType_array.filter(
+          book => book.mainFacilityID == subStore[i]
+        );
+        stores.forEach(store =>{
+          subStore.push(store.facilityID)
+        }); 
+       }
+       
+       this.storeType_arrayEdit=this.storeType_array.filter(function(store){
+        return subStore.indexOf(store.facilityID) === -1;
+      });
+      //  this.storeType_array;
+
+    } else{
+      this.edit_mainstore = false;
+      this.edit_substore = true;
+      this.storeType_arrayEdit=this.storeType_array
+    }
     this.showEditForm();
     console.log("edit form values", editFormValues)
   }
