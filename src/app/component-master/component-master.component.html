@@ -226,12 +226,12 @@
                             <td>{{item.testComponentDesc}}</td>
                             <td>{{item.createdBy}}</td>
                             <td>
-                                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" style="cursor:pointer" (click)="showForm();configComponent(item, i)">edit</md-icon>
+                                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" style="cursor:pointer" (click)="showForm();configComponent(item, filteredComponentList.indexOf(item))">edit</md-icon>
 
                             </td>
                             <td>
-                                <button md-raised-button color="accent" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, false)">Activate</button>
-                                <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, i, true)">Deactivate</button>
+                                <button md-raised-button color="accent" *ngIf="item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, filteredComponentList.indexOf(item), false)">Activate</button>
+                                <button md-raised-button color="primary" *ngIf="!item.deleted" class=" m-r-10" (click)="toggleComponent(item.testComponentID, filteredComponentList.indexOf(item), true)">Deactivate</button>
 
                             </td>
                         </tr>

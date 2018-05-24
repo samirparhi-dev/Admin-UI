@@ -14,7 +14,7 @@ export class ProcedureMasterComponent implements OnInit {
 
   state: any;
   service: any;
-  serviceline:any;
+  serviceline: any;
   states: any;
   services: any;
   disableSelection: boolean = false;
@@ -221,9 +221,10 @@ export class ProcedureMasterComponent implements OnInit {
    * Manipulate Form Object to as per API Need
   */
   objectManipulate() {
+    debugger;
     const obj = Object.assign({}, this.procedureForm.value);
 
-    if (!obj.name || !obj.type || !obj.description || (!obj.gender && !obj.female)) {
+    if (!obj.name || !obj.type || !obj.description || (!obj.male && !obj.female)) {
       this.unfilled = true;
       return false
     } else {

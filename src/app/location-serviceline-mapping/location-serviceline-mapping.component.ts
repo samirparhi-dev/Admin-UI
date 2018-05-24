@@ -490,7 +490,7 @@ export class EditLocationModal {
     console.log(this.data, "modal content");
 
     this.serviceProviderName = this.data.toBeEditedOBJ.serviceProviderName;
-    this.stateName = this.data.toBeEditedOBJ.stateName;
+    this.stateName = this.data.toBeEditedOBJ.stateName === undefined ? "All states" : this.data.toBeEditedOBJ.stateName;
     this.districtName = this.data.toBeEditedOBJ.districtName;
     this.address = this.data.toBeEditedOBJ.address;
     this.officeID = this.data.toBeEditedOBJ.locationName;

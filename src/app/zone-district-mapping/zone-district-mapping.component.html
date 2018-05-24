@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 *ngIf="showListOfZonemapping">Available Zone Mappings</h4>
+    <h4 *ngIf="showListOfZonemapping">Zone District Mapping</h4>
     <h4 *ngIf="!editable && !showListOfZonemapping">Map Zone with District</h4>
-    <h4 *ngIf="editable && !showListOfZonemapping">Edit Map Zone with District </h4>   
+    <h4 *ngIf="editable && !showListOfZonemapping">Edit Map Zone with District </h4>
     <form #searchForm="ngForm" autocomplete="off">
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<div *ngIf="showListOfZonemapping && showMappings && !editable">  
+<div *ngIf="showListOfZonemapping && showMappings && !editable">
   <div class="table-responsive m-t-15">
     <table class="table table-striped table-hover" [md2Data]="availableZoneDistrictMappings" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
@@ -108,7 +108,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!editable">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select multiple placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" 
+          <md-select multiple placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel"
             required>
             <md-option *ngFor="let district of availableDistricts" [value]="district">
               {{district.districtName}}
@@ -122,8 +122,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="editable">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" 
-            required>
+          <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" required>
             <md-option *ngFor="let district of availableDistricts" [value]="district">
               {{district.districtName}}
             </md-option>
@@ -141,7 +140,7 @@
       </button>
     </div>
 
-   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="zoneDistrictMappingList.length>0">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="zoneDistrictMappingList.length>0">
       <div class="table-responsive">
         <table [md2Data]="zoneDistrictMappingList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
           <thead>
@@ -172,11 +171,12 @@
             </tr>
           </tfoot>
         </table>
-      </div>    
-    </div> 
+      </div>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button *ngIf="!editable" [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10" (click)="storezoneMappings()">Save</button>
+      <button *ngIf="!editable" [disabled]="zoneDistrictMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
+        (click)="storezoneMappings()">Save</button>
       <button *ngIf="editable" md-raised-button color="accent" class="pull-right" [disabled]="zoneDistrictMappingForm.invalid"
         (click)="updateZoneMappingData(zoneDistrictMappingForm.value)">Update</button>
     </div>
