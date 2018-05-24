@@ -453,6 +453,9 @@ export class ComponentMasterComponent implements OnInit {
   get range_normal_max() {
     return this.componentForm.controls['range_normal_max'].value;
   }
+   /*
+   * Minimum and maximum range validations
+   */
   setMinRange() {
     if (this.range_max != undefined) {
       this.setMaxRange();
