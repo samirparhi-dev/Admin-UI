@@ -117,6 +117,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.getCurrentMappings();
   }
   getProcedureDropDown() {
+    debugger;
     this.procedureComponentMappingServiceService
       .getProceduresList(this.providerServiceMapID)
       .subscribe(response => {
@@ -126,6 +127,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   }
   getComponentDropDown() {
+    debugger;
     this.procedureComponentMappingServiceService
       .getComponentsList(this.providerServiceMapID)
       .subscribe(response => {
