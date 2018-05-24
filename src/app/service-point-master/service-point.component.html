@@ -252,7 +252,7 @@
                 </tfoot>
             </table>
         </div>
-        <div class=" m-t-10 m-b-10">
+        <div class=" zm-t-10 m-b-10">
             <!-- <button md-raised-button *ngIf="editMode" color="accent" class=" pull-right " (click)="updateServicePoints()">Update</button> -->
             <button md-raised-button *ngIf="formMode" [disabled]="!(servicePointList.length>0)" color="accent" class=" pull-right " (click)="storeServicePoints();servicePointForm1.reset();">Save</button>
             <button md-raised-button *ngIf="formMode" color="primary" class="pull-left" (click)="back();servicePointForm1.reset();">Back</button>

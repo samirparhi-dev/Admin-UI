@@ -183,30 +183,40 @@ export class VanServicePointMappingComponent implements OnInit {
   getVanServicePointMappingsSuccessHandler(response) {
     this.availableVanServicePointMappings = [];
     this.availableVanServicePointMappings = response;
-
-    if (!this.MappingForm.controls['mappings']) {
-      this.MappingForm = this.formBuilder.group({
-        mappings: this.formBuilder.array([])
-      });
-    } else {
-      let temp = this.MappingForm.controls['mappings'] as FormArray;
-      for (let i = 0; i < temp.length; i++) {
-        temp.removeAt(i);
+    let temp = this.MappingForm.controls['mappings'] as FormArray;
+    temp.reset();
+    this.servicePointIDList = [];
+    console.log('temp', temp);
+    if (temp.length > 0) {
+      for (let i = 0; i <= temp.length; i++) {
+        temp.removeAt(0);
       }
     }
+    //   if (temp.length > 0) {
+
+    //     this.MappingForm = this.formBuilder.group({
+    //       mappings: this.formBuilder.array([])
+    //     });
+    //   } else {
+
+
+    // }
+    let remainarray: any = [];
+
     for (var i = 0; i < this.availableVanServicePointMappings.length; i++) {
-      if (this.availableVanServicePointMappings[i].vanID == undefined || this.vanID == this.availableVanServicePointMappings[i].vanID) {
+      if (this.availableVanServicePointMappings[i].vanID === undefined || this.availableVanServicePointMappings[i].vanID === null || this.vanID == this.availableVanServicePointMappings[i].vanID) {
         this.servicePointIDList.push(this.availableVanServicePointMappings[i].servicePointID);
-        (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.availableVanServicePointMappings[i]));
+        (temp).push(this.createItem(this.availableVanServicePointMappings[i]));
       } else {
-        this.remainingMaps.push(this.availableVanServicePointMappings[i]);
+
+        remainarray.push(this.availableVanServicePointMappings[i]);
       }
     }
-
+    this.remainingMaps = remainarray;
     for (var i = 0; i < this.remainingMaps.length; i++) {
-      if (this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == -1) {
+      if (this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == -1 || this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID) == null) {
         this.servicePointIDList.push(this.remainingMaps[i].servicePointID);
-        (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
+        (temp).push(this.createItem(this.remainingMaps[i]));
       }
     }
 

@@ -1,4 +1,4 @@
-<div class="row" >
+<!-- <div class="row" >
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Item to Store Mapping</h4>
   </div>
@@ -37,7 +37,7 @@
           <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
         </md-radio-group>
       </div> -->
-  </form>
+<!-- </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showFormFlag">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="itemFacilityMapView" #md2="md2DataTable" [rowsPerPage]="4">
@@ -49,11 +49,11 @@
             <th width="20%">Item Code</th>
             <th width="20%">itemName</th>
             <th width="20%">itemCategoryName</th>
-            <th width="10%">Action</th>
-            <!-- <th width="15%">Discontinued</th> -->
-            <!-- <th width="15%">Action</th> -->
-          </tr>
-        </thead>
+            <th width="10%">Action</th> -->
+<!-- <th width="15%">Discontinued</th> -->
+<!-- <th width="15%">Action</th> -->
+</tr>
+<!-- </thead>
         <tbody>
           <tr *ngIf="itemFacilityMapView?.length == 0" class="record-not-found">
             <td colspan="8" align="center">No records found</td>
@@ -68,16 +68,16 @@
             <td>
                 <button md-raised-button color="accent" *ngIf="item.deleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
                 <button md-raised-button color="primary" *ngIf="!item.deleted" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
-            </td>
-            <!-- <td>
+            </td> -->-->
+<!-- <td>
                 <md-checkbox color="primary" [(ngModel)]="discontinue" (change)="setDiscontinue(item.itemID)" [value]="item.discontinued"
                   #isDiscontinued="ngModel"></md-checkbox>
               </td> -->
-            <!-- <td>
+<!-- <td>
                 <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
                 <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
               </td> -->
-          </tr>
+<!-- </tr>
         </tbody>
         <tfoot>
           <tr>
@@ -180,13 +180,13 @@
 
 
 
+ -->
 
 
 
 
 
-
-  <div class="table-responsive">
+<!-- <div class="table-responsive">
     <table class="table table-striped table-hover" [md2Data]="bufferarray" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
         <tr>
@@ -198,8 +198,8 @@
           <th width="20%">itemCategoryName</th>
           <th width="10%">Delete</th>
           <!-- <th width="15%">Discontinued</th> -->
-          <!-- <th width="15%">Action</th> -->
-        </tr>
+<!-- <th width="15%">Action</th> -->
+<!-- </tr>
       </thead>
       <tbody>
         <tr *ngIf="bufferarray?.length == 0" class="record-not-found">
@@ -219,16 +219,16 @@
           <td>{{item.itemCategoryName}}</td>
           <td>
               <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
-          </td>
-          <!-- <td>
+          </td> -->-->
+<!-- <td>
                       <md-checkbox color="primary" [(ngModel)]="discontinue" (change)="setDiscontinue(item.itemID)" [value]="item.discontinued"
                         #isDiscontinued="ngModel"></md-checkbox>
                     </td> -->
-          <!-- <td>
+<!-- <td>
                       <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
                       <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
                     </td> -->
-        </tr>
+<!-- </tr>
       </tbody>
       <tfoot>
         <tr>
@@ -242,4 +242,4 @@
       </tfoot>
     </table>
   </div>
-</div>
+</div> -->
