@@ -22,21 +22,21 @@ export class EditCategorySubcategoryComponent implements OnInit {
   subCategoryDesc: any;
 
 
-  categories:any=[];
-  subcategories:any=[];
+  categories: any = [];
+  subcategories: any = [];
 
   categoryExist: boolean = false;
   subCategoryExist: boolean = false;
 
-  existing_category_name:any;
-  existing_subcategory_name:any;
+  existing_category_name: any;
+  existing_subcategory_name: any;
 
 
   constructor(private commonData: dataService,
-              private message: ConfirmationDialogsService, public dialogRef: MdDialogRef<EditCategorySubcategoryComponent>,
-              @Inject(MD_DIALOG_DATA) public data: any, private catService: CategorySubcategoryService) { }
+    private message: ConfirmationDialogsService, public dialogRef: MdDialogRef<EditCategorySubcategoryComponent>,
+    @Inject(MD_DIALOG_DATA) public data: any, private catService: CategorySubcategoryService) { }
   ngOnInit() {
-    console.log(this.data,"Modal window data");
+    console.log(this.data, "Modal window data");
     this.categoryObj = this.data.categoryObj;
 
     this.category_name = this.categoryObj.categoryName;
@@ -48,12 +48,12 @@ export class EditCategorySubcategoryComponent implements OnInit {
     this.subCategory = this.categoryObj.subCategoryName;
     this.subCategoryDesc = this.categoryObj.subCategoryDesc;
 
-    this.categories=this.data.categories;
-    this.subcategories=this.data.subcategories;
+    this.categories = this.data.categories;
+    this.subcategories = this.data.subcategories;
 
 
-    this.existing_category_name= this.categoryObj.categoryName;
-    this.existing_subcategory_name=this.categoryObj.subCategoryName;
+    this.existing_category_name = this.categoryObj.categoryName;
+    this.existing_subcategory_name = this.categoryObj.subCategoryName;
 
   }
   editCategory() {
@@ -65,10 +65,13 @@ export class EditCategorySubcategoryComponent implements OnInit {
     ;
     this.catService.editCategory(catObj).subscribe((response) => {
       if (response) {
-        this.message.alert('Updated successfully','success');
+        this.message.alert('Updated successfully', 'success');
         this.dialogRef.close(true);
       }
-    }, (err) => this.message.alert(err,'error'));
+    }, (err) => {
+      console.log("error", err);
+      // this.message.alert(err,'error')
+    });
   }
   editSubCategory() {
     const catObj = {};
@@ -79,10 +82,13 @@ export class EditCategorySubcategoryComponent implements OnInit {
     catObj['modifiedBy'] = this.commonData.uname;
     this.catService.editSubCategory(catObj).subscribe((response) => {
       if (response) {
-        this.message.alert('Updated successfully','success');
+        this.message.alert('Updated successfully', 'success');
         this.dialogRef.close(true);
       }
-    }, (err) => this.message.alert(err,'error'));
+    }, (err) => {
+      console.log("error", err);
+      //  this.message.alert(err,'error')
+    });
   }
 
 
@@ -93,11 +99,10 @@ export class EditCategorySubcategoryComponent implements OnInit {
         return item.categoryName.toString().toLowerCase().trim() === categoryName.toString().toLowerCase().trim();
       });
     }
-    if (categoriesExist!=undefined && categoriesExist.length > 0 && categoriesExist[0].categoryName!=this.existing_category_name) {
+    if (categoriesExist != undefined && categoriesExist.length > 0 && categoriesExist[0].categoryName != this.existing_category_name) {
       this.categoryExist = true;
     }
-    else if(categoryName.trim().length==0)
-    {
+    else if (categoryName.trim().length == 0) {
       this.categoryExist = true;
     }
     else {
@@ -107,31 +112,30 @@ export class EditCategorySubcategoryComponent implements OnInit {
   }
   checkSubCategory(subCategoryName: string) {
     let subCategoriesExist;
-    if (subCategoryName.trim().length>0) {
+    if (subCategoryName.trim().length > 0) {
       debugger;
-            //  console.log(response, "subcat response");
-            subCategoriesExist = this.subcategories.filter((obj) => {
+      //  console.log(response, "subcat response");
+      subCategoriesExist = this.subcategories.filter((obj) => {
 
-              return obj.categoryID === this.categoryID &&
-              obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
-            });
-          }
-          
-
-         if (subCategoriesExist!=undefined && subCategoriesExist.length > 0 && subCategoriesExist[0].subCategoryName!=this.existing_subcategory_name) {
-          this.subCategoryExist = true;
-        }
-          else if(subCategoryName.trim().length==0)
-          {
-            this.subCategoryExist = true;
-          }
-          else {
-            this.subCategoryExist = false;
-          }
-        }
+        return obj.categoryID === this.categoryID &&
+          obj.subCategoryName.toString().toLowerCase().trim() === subCategoryName.toString().toLowerCase().trim();
+      });
+    }
 
 
-      }
+    if (subCategoriesExist != undefined && subCategoriesExist.length > 0 && subCategoriesExist[0].subCategoryName != this.existing_subcategory_name) {
+      this.subCategoryExist = true;
+    }
+    else if (subCategoryName.trim().length == 0) {
+      this.subCategoryExist = true;
+    }
+    else {
+      this.subCategoryExist = false;
+    }
+  }
 
-      
+
+}
+
+
 

@@ -32,8 +32,9 @@ import { myEmail } from './directives/email/myEmail.directive';
 import { myUserName } from './directives/address/myAddress.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
+import { VehicleNO } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
-import { vehicleNo } from './directives/name/myName.directive';
+import { measuringUnit } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
 import { httpFactory } from './http.factory';
@@ -203,6 +204,8 @@ import { PharmacologicalMasterService } from './services/inventory-services/phar
 import {ManufacturemasterService} from './services/inventory-services/manufacturemaster.service';
 import {PhysicalstockService} from './services/inventory-services/physicalstock.service';
 
+import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
+import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
 import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
@@ -213,6 +216,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-master.component';
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
+import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
 
 
 @NgModule({
@@ -220,7 +224,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
-    myProviderName, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    myProviderName, VehicleNO, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
     AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
     AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
     ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,
@@ -258,7 +262,9 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
     SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
-    vehicleNo,
+    VehicleNO,
+    StoreSelfConsumptionComponent,
+    measuringUnit,
   ],
 
   imports: [
@@ -337,7 +343,8 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
+CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
+    ItemFacilityMappingService,StoreSelfConsumptionServiceService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

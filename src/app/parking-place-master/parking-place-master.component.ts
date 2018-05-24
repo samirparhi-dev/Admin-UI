@@ -11,22 +11,44 @@ import { NgForm } from '@angular/forms';
 })
 export class ParkingPlaceComponent implements OnInit {
 
+    userID: any;
+    service: any;
+    state: any;
+    districtID: any;
+    editParkingplaceValue: any;
+    parkingPlaceID: any;
+    parkingPlaceName: any;
+    parkingPlaceDesc: any;
+    stateID: any;
+    talukID: any;
+    areaHQAddress: any;
+    showTableFlag: boolean = false;
+    disableSelection: boolean = false;
     showParkingPlaces: any = true;
-    availableParkingPlaces: any = [];
+    parkingPlaceNameExist: any = false;
+    showListOfParking: any = true;
+
     data: any;
     providerServiceMapID: any;
     provider_states: any;
     provider_services: any;
     service_provider_id: any;
     editable: any = false;
-    availableParkingPlaceNames: any = [];
+
     countryID: any;
-    searchStateID: any;
-    searchDistrictID: any;
     serviceID: any;
     createdBy: any;
+    bufferCount: any = 0;
 
-    @ViewChild('searForm') searForm: NgForm
+    /* Arrays*/
+    services: any = [];
+    states: any = [];
+    districts: any = [];
+    taluks: any = [];
+    availableParkingPlaces: any = [];
+    availableParkingPlaceNames: any = [];
+
+    @ViewChild('searchForm') searchForm: NgForm
     @ViewChild('parkingPlaceForm') parkingPlaceForm: NgForm
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
@@ -41,12 +63,81 @@ export class ParkingPlaceComponent implements OnInit {
 
     showForm() {
         this.showParkingPlaces = false;
-        this.districts = [];
+        this.showTableFlag = false;
+        this.disableSelection = true;
+        this.showListOfParking = false;
+
     }
     ngOnInit() {
-        this.getParkingPlaces(null, null);
-        //this.getStates();
-        this.getStatesByServiceID();
+        this.userID = this.commonDataService.uid;
+        this.getServiceLines();      
+    }
+    getServiceLines() {
+        this.parkingPlaceMasterService.getServiceLinesNew(this.userID).subscribe((response) => {         
+            this.getServicesSuccessHandeler(response),
+                (err) => {
+                    console.log("ERROR in fetching serviceline", err);
+                    // this.alertMessage.alert(err, 'error');
+                }
+        });
+    }
+    getServicesSuccessHandeler(response) {
+        this.services = response;
+    }
+    getStates(value) {
+        let obj = {
+            'userID': this.userID,
+            'serviceID': value.serviceID,
+            'isNational': value.isNational
+        }
+        this.parkingPlaceMasterService.getStatesNew(obj).
+            subscribe((response) => {
+                this.getStatesSuccessHandeler(response),
+                    (err) => {
+                        console.log("error in fetching states", err);
+                    }
+                //this.alertMessage.alert(err, 'error');
+            });
+
+    }
+
+    getStatesSuccessHandeler(response) {      
+        this.states = response;
+    }
+    setProviderServiceMapID(providerServiceMapID) {
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+
+    }
+    getDistricts(state) {      
+        this.parkingPlaceMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+
+    }
+    getDistrictsSuccessHandeler(response) {      
+        this.districts = response;
+    }
+
+    GetTaluks(districtID) {      
+        this.parkingPlaceMasterService.getTaluks(districtID)
+            .subscribe(response => {
+                this.SetTaluks(response)
+            });
+    }
+    SetTaluks(response: any) {      
+        this.taluks = response;
+        if (this.editParkingplaceValue != undefined) {
+            if (this.taluks) {
+                let taluk = this.taluks.filter((talukRes) => {
+                    if (this.editParkingplaceValue.districtBlockID == talukRes.blockID) {
+                        return talukRes;
+                    }
+                })[0];
+                if (taluk) {
+                    this.talukID = taluk;
+                }
+            }
+
+        }
     }
     getParkingPlaces(stateID, districtID) {
         this.parkingPlaceObj = {};
@@ -58,6 +149,8 @@ export class ParkingPlaceComponent implements OnInit {
     }
 
     getParkingPlaceSuccessHandler(response) {
+        this.showTableFlag = true;
+        this.editable = false;
         this.availableParkingPlaces = response;
         for (let availableParkingPlace of this.availableParkingPlaces) {
             this.availableParkingPlaceNames.push(availableParkingPlace.parkingPlaceName);
@@ -66,73 +159,60 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
-    addParkingPlaceToList(values) {        
-        
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.parkingPlaceObj = {};                
-                this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
-                this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
-                this.parkingPlaceObj.countryID = this.countryID;
+    addParkingPlaceToList(values) {       
+        this.parkingPlaceObj = {};
+        this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
+        this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
+        this.parkingPlaceObj.countryID = this.countryID;
 
-                if (values.districtID != undefined) {
-                    this.parkingPlaceObj.districtID = values.districtID.split("-")[0];
-                    this.parkingPlaceObj.districtName = values.districtID.split("-")[1];
-                }
-                if (values.talukID != undefined) {
-                    this.parkingPlaceObj.districtBlockID = values.talukID.split("-")[0];
-                    this.parkingPlaceObj.blockName = values.talukID.split("-")[1];
-                }
-                if (values.stateID != undefined) {
-                    this.parkingPlaceObj.stateID = values.stateID.split("-")[0];
-                    this.parkingPlaceObj.stateName = values.stateID.split("-")[1];
-                }
-                this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
-                this.parkingPlaceObj.providerServiceMapID = provider_service.providerServiceMapID;
-                this.parkingPlaceObj.createdBy = this.createdBy;               
+        this.parkingPlaceObj.stateID = this.state.stateID;
+        this.parkingPlaceObj.stateName = this.state.stateName;
 
-            }
+        this.parkingPlaceObj.districtID = this.districtID.districtID;
+        this.parkingPlaceObj.districtName = this.districtID.districtName;
+
+        if (values.talukID != undefined) {
+            this.parkingPlaceObj.districtBlockID = values.talukID.blockID;
+            this.parkingPlaceObj.blockName = values.talukID.blockName;
         }
+        // if (values.stateID != undefined) {
+        //     this.parkingPlaceObj.stateID = values.stateID;
+        //     this.parkingPlaceObj.stateName = values.stateName;
+        // }
+        this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
+        this.parkingPlaceObj.providerServiceMapID = this.providerServiceMapID;
+        this.parkingPlaceObj.createdBy = this.createdBy;
+        this.checkDuplicates(this.parkingPlaceObj);
+    }
+    checkDuplicates(parkingPlaceObj) {
         if (this.parkingPlaceList.length == 0) {
             this.parkingPlaceList.push(this.parkingPlaceObj);
+            this.parkingPlaceForm.resetForm();
         }
-        else {            
-            let count = 0
-            let dbcount = 0;
-            for (let a = 0; a < this.parkingPlaceList.length; a++) {
+        else if (this.parkingPlaceList.length > 0) {
+            for (let a = 0; a < this.parkingPlaceList.length; a++) {              
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
-                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress
-                    && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
-                    count = count + 1;
+                    && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress) {
+                    // && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
+                    this.bufferCount = this.bufferCount + 1;
+                    console.log('Duplicate Combo Exists', this.bufferCount);
                 }
             }
-            if (count == 0) {
-                for (let a = 0; a < this.availableParkingPlaces.length; a++) {
-                    if (this.availableParkingPlaces[a].parkingPlaceName === this.dataObj.parkingPlaceName
-                        && this.availableParkingPlaces[a].stateID === parseInt(this.dataObj.stateID)
-                        && this.availableParkingPlaces[a].districtID === parseInt(this.dataObj.districtID)
-                        && this.availableParkingPlaces[a].areaHQAddress === this.dataObj.areaHQAddress
-                        && this.availableParkingPlaces[a].districtBlockID === parseInt(this.dataObj.districtBlockID)) {
-                        dbcount = dbcount + 1;
-                    }
-                }
-
-            }
-            if (count == 0 && dbcount == 0) {
-                this.parkingPlaceList.push(this.parkingPlaceObj);
-            }
-
-            else {
+            if (this.bufferCount > 0) {
                 this.alertMessage.alert("Already exists");
+                this.bufferCount = 0;
+                this.parkingPlaceForm.resetForm();
             }
+            else {
+                this.parkingPlaceList.push(this.parkingPlaceObj);              
+                this.parkingPlaceForm.resetForm();
+            }
+        }
 
-        }
-        if (this.parkingPlaceList.length <= 0) {
-            this.alertMessage.alert("No Service available with the state selected");
-        }
     }
+
     remove_obj(i) {
         this.parkingPlaceList.splice(i, 1);
     }
@@ -146,67 +226,8 @@ export class ParkingPlaceComponent implements OnInit {
     parkingPlaceSuccessHandler(response) {
         this.parkingPlaceList = [];
         this.alertMessage.alert("Saved successfully", 'success');
-        this.showList();
-    }
+        this.showList();    
 
-    stateSelection(stateID) {
-        this.getServices(stateID);
-    }
-
-    getServices(stateID) {
-        this.parkingPlaceMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
-
-    getStates() {
-        this.parkingPlaceMasterService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
-    getStatesSuccessHandeler(response) {
-        this.provider_states = response;
-    }
-
-    getStatesByServiceID() {
-        this.parkingPlaceMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
-
-    districts: any = [];
-    getDistricts(stateID) {
-        this.parkingPlaceMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-    }
-    getDistrictsSuccessHandeler(response) {
-        console.log(response, "districts retrieved");
-        this.districts = response;
-    }
-    taluks: any = [];
-    GetTaluks(districtID: number) {
-        this.parkingPlaceMasterService.getTaluks(districtID)
-            .subscribe(response => this.SetTaluks(response));
-    }
-    SetTaluks(response: any) {
-        this.taluks = response;
-    }
-
-    branches: any = [];
-    GetBranches(talukID: number) {
-        this.parkingPlaceMasterService.getBranches(talukID)
-            .subscribe(response => this.SetBranches(response));
-    }
-    SetBranches(response: any) {
-        this.branches = response;
-    }
-
-
-    getServicesSuccessHandeler(response) {
-        this.provider_services = response;
-        for (let provider_service of this.provider_services) {
-            if ("MMU" == provider_service.serviceName) {
-                this.providerServiceMapID = provider_service.providerServiceMapID;
-            }
-        }
-        if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
-            this.alertMessage.alert("No Service available with the state selected");
-        }
     }
 
     dataObj: any = {};
@@ -239,105 +260,71 @@ export class ParkingPlaceComponent implements OnInit {
     }
 
     showList() {
-        this.searchStateID = "";
-        this.searchDistrictID = "";
-        this.getParkingPlaces(null, null);
+        this.getParkingPlaces(this.state.stateID, this.districtID.districtID);
         this.showParkingPlaces = true;
         this.editable = false;
+        this.disableSelection = false;
+        this.showListOfParking = true;
     }
 
-    parkingPlaceNameExist: any = false;
+
     checkExistance(parkingPlaceName) {
-        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);
-        console.log(this.parkingPlaceNameExist);
+        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);      
     }
 
-    parkingPlaceID: any;
-    parkingPlaceName: any;
-    parkingPlaceDesc: any;
-    stateID: any;
-    districtID: any;
-    talukID: any;
-    areaHQAddress: any;
+
     initializeObj() {
         this.parkingPlaceID = "";
         this.parkingPlaceName = "";
         this.parkingPlaceDesc = "";
-        this.stateID = "";
-        this.districtID = "";
+       // this.stateID = "";
+        //this.districtID = "";
         this.talukID = "";
         this.areaHQAddress = "";
     }
-    editParkingPlaceData(parkingPlace) {
+    editParkingPlaceData(parkingPlace) {      
+        this.editable = true;
+        this.disableSelection = true;
+        this.showListOfParking = false;
+        this.editParkingplaceValue = parkingPlace;
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.parkingPlaceName = parkingPlace.parkingPlaceName
         this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
         this.areaHQAddress = parkingPlace.areaHQAddress;
-        this.stateID = parkingPlace.stateID + "-" + parkingPlace.stateName;
-        this.districtID = parkingPlace.districtID + "-" + parkingPlace.districtName;
-        if (parkingPlace.districtBlockID != undefined) {
-            this.talukID = parkingPlace.districtBlockID + "-" + parkingPlace.blockName;
-        }
-
-        this.serviceID = parkingPlace.m_providerServiceMapping.m_serviceMaster.serviceID + "-" + parkingPlace.providerServiceMapID;
-        this.getDistricts(parkingPlace.stateID);
+        // this.state = parkingPlace.stateID;
+        // this.service = parkingPlace.m_providerServiceMapping.m_serviceMaster.serviceID;      
         this.GetTaluks(parkingPlace.districtID);
-        this.GetBranches(parkingPlace.districtBlockID);
-        this.getStates();
-        this.getServices(parkingPlace.stateID);
-
-        this.editable = true;
     }
 
-    updateParkingPlaceData(parkingPlace) {
+    updateParkingPlaceData() {
+
         this.dataObj = {};
         this.dataObj.parkingPlaceID = this.parkingPlaceID;
-        this.dataObj.parkingPlaceName = parkingPlace.parkingPlaceName;
-        this.dataObj.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
-        this.dataObj.areaHQAddress = parkingPlace.areaHQAddress;
+        this.dataObj.parkingPlaceName = this.parkingPlaceName;
+        this.dataObj.parkingPlaceDesc = this.parkingPlaceDesc;
+        this.dataObj.areaHQAddress = this.areaHQAddress;
         //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];
-        if (parkingPlace.stateID != undefined) {
-            this.dataObj.stateID = parkingPlace.stateID.split("-")[0];
-        }
-        if (parkingPlace.districtID != undefined) {
-            this.dataObj.districtID = parkingPlace.districtID.split("-")[0];
-        }
-        if (parkingPlace.talukID != undefined) {
-            this.dataObj.districtBlockID = parkingPlace.talukID.split("-")[0];
-        }
-        let count = 0
-        debugger;
-        for (let a = 0; a < this.availableParkingPlaces.length; a++) {
-            if (this.availableParkingPlaces[a].parkingPlaceName === this.dataObj.parkingPlaceName
-                && this.availableParkingPlaces[a].stateID === parseInt(this.dataObj.stateID)
-                && this.availableParkingPlaces[a].districtID === parseInt(this.dataObj.districtID)
-                && this.availableParkingPlaces[a].areaHQAddress === this.dataObj.areaHQAddress
-                && this.availableParkingPlaces[a].districtBlockID === parseInt(this.dataObj.districtBlockID)) {
-                count = count + 1;
-            }
-        }
-        this.dataObj.modifiedBy = this.createdBy;
-        if (count == 0) {
-            this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
-        }
-        else {
-            this.alertMessage.alert("Already exists");
-        }
+        this.dataObj.service = this.service.serviceID;
+        this.dataObj.stateID = this.state.stateID;
+        this.dataObj.districtID = this.districtID.districtID;
+        this.dataObj.districtBlockID = this.talukID.blockID;      
+        this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
     }
 
-    updateHandler(response) {
+    updateHandler(response) {      
         this.editable = true;
         this.alertMessage.alert("Updated successfully", 'success');
-        //  this.getParkingPlaces(null, null);
         this.showList();
-        //this.initializeObj();
+        this.initializeObj();
+        this.editParkingplaceValue = null;    
+        
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.parkingPlaceForm.resetForm();
                 this.showList();
-                this.parkingPlaceList = [];
+                this.parkingPlaceList = [];               
             }
         })
     }

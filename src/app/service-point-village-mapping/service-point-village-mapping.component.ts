@@ -4,6 +4,7 @@ import { ProviderAdminRoleService } from "../services/ProviderAdminServices/stat
 import { dataService } from '../services/dataService/data.service';
 import { ServicePointVillageMapService } from '../services/ProviderAdminServices/service-point-village-map.service';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
+import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
 
 @Component({
     selector: 'app-service-point-village-mapping',
@@ -11,7 +12,18 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class ServicePointVillageMapComponent implements OnInit {
 
-    showServicePointVillageMaps: any = true;
+    formMode: boolean = false;
+    villageIdList_edit: any;
+    servicePointVillageMapID: any;
+    searchServicePointID_edit: any;
+    searchParkingPlaceID_edit: any;
+    searchDistrictID_edit: any;
+    editMode: boolean = false;
+    serviceline: any;
+    createButton: boolean = false;
+    services_array: any;
+    userID: any;
+    showServicePointVillageMaps: any = false;
     availableServicePointVillageMaps: any = [];
     data: any;
     providerServiceMapID: any;
@@ -30,22 +42,46 @@ export class ServicePointVillageMapComponent implements OnInit {
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointVillageMapService: ServicePointVillageMapService,
+        public servicePointMasterService: ServicePointMasterService,
         private alertMessage: ConfirmationDialogsService) {
         this.data = [];
         this.service_provider_id = this.commonDataService.service_providerID;
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
         this.createdBy = this.commonDataService.uname;
+        this.userID = this.commonDataService.uid;
     }
 
     showForm() {
         this.showServicePointVillageMaps = false;
-        this.districts = [];
+        this.formMode = true;
+
+        //  this.districts = [];
     }
     ngOnInit() {
-        this.getServicePointVillageMaps(null, null, null, null);
+        // this.getServicePointVillageMaps(null, null, null, null);
         //this.getStates();
-        this.getStatesByServiceID();
+        // this.getStatesByServiceID();
+        this.getProviderServices();
+    }
+    getProviderServices() {
+        this.servicePointMasterService.getServices(this.userID)
+            .subscribe(response => {
+                this.services_array = response;
+            }, err => {
+            });
+    }
+    getStates(serviceID) {
+        this.servicePointMasterService.getStates(this.userID, serviceID, false).
+            subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+            });
+    }
+    getStatesSuccessHandeler(response, isNational) {
+        if (response) {
+            console.log(response, 'Provider States');
+            this.provider_states = response;
+            this.createButton = false;
+        }
     }
 
     parkingPlaceObj: any;
@@ -60,6 +96,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -85,6 +122,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableServicePoints: any;
     getServicePointSuccessHandler(response) {
         this.availableServicePoints = response;
+        this.createButton = false;
         for (let availableServicePoint of this.availableServicePoints) {
             if (availableServicePoint.deleted) {
                 const index: number = this.availableServicePoints.indexOf(availableServicePoint);
@@ -108,6 +146,8 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     getServicePointVillageMapSuccessHandler(response) {
         this.availableServicePointVillageMaps = response;
+        this.createButton = true;
+        this.showServicePointVillageMaps = true;
         for (let availableServicePointVillageMap of this.availableServicePointVillageMaps) {
             this.availableServicePointVillageMapNames.push(availableServicePointVillageMap.m_servicepoint.servicePointName);
         }
@@ -123,72 +163,119 @@ export class ServicePointVillageMapComponent implements OnInit {
 
         let villageIds = [];
         for (let villages of values.villageIdList) {
-            villageIds.push(villages.split("-")[0]);
-        }
-
-        //find villages deselected from the list , and Remove village mapping with that servicepoint
-        for (let mappedVillage of this.mappedVillages) {
-            this.mappedVillageIDs.push(mappedVillage.districtBranchID); // fetching mapped districtID's
-
-            this.dataObj = {};
-            this.dataObj.servicePointVillageMapID = mappedVillage.servicePointVillageMapID;
-            this.dataObj.modifiedBy = this.createdBy;
-            if (villageIds.indexOf(mappedVillage.districtBranchID.toString()) == -1) {
-                this.dataObj.deleted = true;
-                this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
-            } else if (mappedVillage.deleted) {
-                this.dataObj.deleted = false;
-                this.servicePointVillageMapService.updateServicePointVillageMapStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
-            }
-        }
-
-        for (let villages of values.villageIdList) {
             let villageId = villages.split("-")[0];
             let villageName = villages.split("-")[1];
-            //   for (let provider_service of this.provider_services) {
-            //     if ("MMU" == provider_service.serviceName) {
-            //make a map of zone with District, If the districtId not in the mappedDistrictIDs( already mapped districtID's)
+
             if (this.mappedVillageIDs.indexOf(parseInt(villageId)) == -1) {
 
                 this.servicePointVillageMapObj = {};
 
-                if (values.stateID != undefined) {
-                    this.servicePointVillageMapObj.stateID = values.stateID.split("-")[0];
-                    this.servicePointVillageMapObj.stateName = values.stateID.split("-")[1];
-                }
 
-                if (values.districtID != undefined) {
-                    this.servicePointVillageMapObj.districtID = values.districtID.split("-")[0];
-                    this.servicePointVillageMapObj.districtName = values.districtID.split("-")[1];
-                }
-                if (values.talukID != undefined) {
-                    this.servicePointVillageMapObj.districtBlockID = values.talukID.split("-")[0];
-                    this.servicePointVillageMapObj.blockName = values.talukID.split("-")[1];
-                }
-                if (values.parkingPlaceID != undefined) {
-                    this.servicePointVillageMapObj.parkingPlaceID = values.parkingPlaceID.split("-")[0];
-                    this.servicePointVillageMapObj.parkingPlaceName = values.parkingPlaceID.split("-")[1];
-                }
+                this.servicePointVillageMapObj.stateID = this.searchStateID.stateID;
+                this.servicePointVillageMapObj.stateName = this.searchStateID.stateName;
 
-                if (values.servicePointID != undefined) {
-                    this.servicePointVillageMapObj.servicePointID = values.servicePointID.split("-")[0];
-                    this.servicePointVillageMapObj.servicePointName = values.servicePointID.split("-")[1];
-                }
+
+
+                this.servicePointVillageMapObj.districtID = this.searchDistrictID.districtID;
+                this.servicePointVillageMapObj.districtName = this.searchDistrictID.districtName;
+
+
+                this.servicePointVillageMapObj.parkingPlaceID = this.searchParkingPlaceID.parkingPlaceID;
+                this.servicePointVillageMapObj.parkingPlaceName = this.searchParkingPlaceID.parkingPlaceName;
+
+                this.servicePointVillageMapObj.servicePointID = this.searchServicePointID.servicePointID;
+                this.servicePointVillageMapObj.servicePointName = this.searchServicePointID.servicePointName;
+
                 this.servicePointVillageMapObj.districtBranchID = villageId;
                 this.servicePointVillageMapObj.villageName = villageName;
 
-                this.servicePointVillageMapObj.providerServiceMapID = this.providerServiceMapID;
+                this.servicePointVillageMapObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
 
                 this.servicePointVillageMapObj.createdBy = this.createdBy;
+                this.checkDuplicates(this.servicePointVillageMapObj);
 
-                this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
+
             }
         }
-        if (this.servicePointVillageMapList.length <= 0) {
-            this.alertMessage.alert("Mapping already exists");
-        }
+
     }
 
+    checkDuplicates(servicePointVillageMapObj) {
+        let count = 0;
+        if (this.servicePointVillageMapList.length == 0) {
+            if (!this.checkDb(this.servicePointVillageMapObj)) {
+                this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
+            }
+            else {
+                this.alertMessage.alert("Already Mapped");
+            }
+        }
+
+        else {
+            for (let i = 0; i < this.servicePointVillageMapList.length; i++) {
+                if (
+                    this.servicePointVillageMapList[i].providerServiceMapID === servicePointVillageMapObj.providerServiceMapID
+                    && this.servicePointVillageMapList[i].districtID === servicePointVillageMapObj.districtID
+                    && this.servicePointVillageMapList[i].parkingPlaceID === servicePointVillageMapObj.parkingPlaceID
+                    && this.servicePointVillageMapList[i].servicePointID === servicePointVillageMapObj.servicePointID
+                    && this.servicePointVillageMapList[i].districtBranchID === servicePointVillageMapObj.districtBranchID
+
+                ) {
+                    count = 1;
+
+                }
+            }
+            if (count === 0) {
+                if (!this.checkDb(this.servicePointVillageMapObj))
+                    this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
+                else {
+                    this.alertMessage.alert("Already Mapped");
+                }
+            }
+            else {
+                this.alertMessage.alert("Already Exists");
+                count = 0;
+            }
+        }
+    }
+    checkDb(servicePointVillageMapObj) {
+        debugger;
+        let count = 0;
+
+        for (let i = 0; i < this.availableServicePointVillageMaps.length; i++) {
+            if (this.editMode) {
+                if (
+                    this.availableServicePointVillageMaps[i].providerServiceMapID === servicePointVillageMapObj.providerServiceMapID
+                    && this.availableServicePointVillageMaps[i].m_providerServiceMapping.districtID === this.searchDistrictID_edit
+                    && this.availableServicePointVillageMaps[i].m_servicepoint.parkingPlaceID === this.searchParkingPlaceID_edit
+                    && this.availableServicePointVillageMaps[i].servicePointID === this.searchServicePointID_edit
+                    && this.availableServicePointVillageMaps[i].districtBranchID === parseInt(servicePointVillageMapObj.districtBranchID)
+
+                ) {
+                    count = 1;
+
+                }
+            }
+            else {
+                if (this.availableServicePointVillageMaps[i].providerServiceMapID === servicePointVillageMapObj.providerServiceMapID
+                    && this.availableServicePointVillageMaps[i].m_providerServiceMapping.districtID === servicePointVillageMapObj.districtID
+                    && this.availableServicePointVillageMaps[i].m_servicepoint.parkingPlaceID === servicePointVillageMapObj.parkingPlaceID
+                    && this.availableServicePointVillageMaps[i].servicePointID === servicePointVillageMapObj.servicePointID
+                    && this.availableServicePointVillageMaps[i].districtBranchID === parseInt(servicePointVillageMapObj.districtBranchID)
+                ) {
+                    count = 1;
+
+                }
+            }
+
+        }
+        if (count == 1) {
+            count = 0;
+            return true;
+        }
+        else
+            return false;
+    }
 
     storeServicePointVillageMaps() {
         let obj = { "servicePointVillageMaps": this.servicePointVillageMapList };
@@ -199,28 +286,10 @@ export class ServicePointVillageMapComponent implements OnInit {
     servicePointSuccessHandler(response) {
         this.servicePointVillageMapList = [];
         this.alertMessage.alert("Mapping saved successfully", 'success');
+        this.showList();
     }
 
-    stateSelection(stateID) {
-        this.getServices(stateID);
-    }
 
-    getServices(stateID) {
-        this.servicePointVillageMapService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    }
-
-    getStates() {
-        this.servicePointVillageMapService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
-
-    getStatesSuccessHandeler(response) {
-        this.provider_states = response;
-
-    }
-
-    getStatesByServiceID() {
-        this.servicePointVillageMapService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    }
 
 
     districts: any = [];
@@ -229,6 +298,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
+        this.createButton = false;
     }
     taluks: any = [];
     GetTaluks(districtID: number) {
@@ -288,54 +358,70 @@ export class ServicePointVillageMapComponent implements OnInit {
     updateStatusHandler(response) {
         console.log("Service Point status changed");
     }
+    editServiceVillageMapping(mapping) {
+        debugger;
+        this.editMode = true;
+        this.showServicePointVillageMaps = false;
+        this.formMode = false;
+        this.searchDistrictID_edit = mapping.m_providerServiceMapping.districtID;
+        this.searchParkingPlaceID_edit = mapping.m_servicepoint.parkingPlaceID;
+        this.searchServicePointID_edit = mapping.servicePointID;
+        this.providerServiceMapID = mapping.providerServiceMapID;
+        this.servicePointVillageMapID = mapping.servicePointVillageMapID;
+        this.villageIdList_edit = mapping.districtBranchID;
+
+    }
+    updateStoreServicePointVillageMaps() {
+        debugger;
+        let obj = {
+            "servicePointVillageMapID": this.servicePointVillageMapID,
+            "servicePointID": this.searchServicePointID_edit,
+            "districtBranchID": this.villageIdList_edit,
+            "providerServiceMapID": this.providerServiceMapID,
+            "modifiedBy": this.createdBy
+        }
+        if (!this.checkDb(obj))
+            this.servicePointVillageMapService.updateServicePointVillageMaps(obj).subscribe(response => this.updateServicePointSuccessHandler(response));
+        else
+            this.alertMessage.alert("Already Mapped");
+
+    }
+    updateServicePointSuccessHandler(response) {
+        this.servicePointVillageMapList = [];
+        this.alertMessage.alert("Mapping updated successfully", 'success');
+        this.showList();
+    }
 
     searchParkingPlaceID: any;
     searchServicePointID: any;
     showList() {
-        this.searchStateID = null;
-        this.searchDistrictID = null;
-        this.searchParkingPlaceID = null;
-        this.searchServicePointID = null;
-        this.getServicePointVillageMaps(null, null, null, null);
         this.showServicePointVillageMaps = true;
+        this.editMode = false;
+        this.formMode = false;
+        if (this.editMode) {
+            this.getServicePointVillageMaps(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit, this.searchServicePointID_edit);
+        }
+        else {
+            this.getServicePointVillageMaps(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID, this.searchServicePointID.servicePointID);
+        }
+
+        // this.showServicePointVillageMaps = true;
+        //this.createButton = false;
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
-                this.servicePointVillageMapForm.resetForm();
+                // this.servicePointVillageMapForm.resetForm();
                 this.showList();
+                this.villageIdList = undefined;
+
+
             }
         })
     }
     mappedVillages: any = [];
     villageIdList: any = [];
     existingVillages: any = [];
-    checkExistance(stateID, servicePointID) {
-        this.mappedVillages = [];
-        this.villageIdList = [];
-        this.existingVillages = [];
-        //this.mappedVillages = this.districts;
-        let providerServiceMapID = "";
-        if (stateID != undefined) {
-            providerServiceMapID = stateID.split("-")[2];
-        }
-        if (servicePointID != undefined) {
-            servicePointID = servicePointID.split("-")[0];
-        }
 
-
-        for (let servicePointVillageMap of this.availableServicePointVillageMaps) {
-            if (servicePointVillageMap.servicePointID == servicePointID && servicePointVillageMap.providerServiceMapID == providerServiceMapID) {
-                // finding exsting zone mappings with districts
-                this.mappedVillages.push(servicePointVillageMap);
-                // this.mappedVillages.push(zoneDistrictMappings.districtID);
-                if (!servicePointVillageMap.deleted) {
-                    this.existingVillages.push(servicePointVillageMap.districtBranchID + "-" + servicePointVillageMap.villageName);
-                }
-            }
-        }
-
-        this.villageIdList = this.existingVillages;
-    }
 
 }

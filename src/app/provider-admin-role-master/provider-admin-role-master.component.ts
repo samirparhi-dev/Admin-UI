@@ -89,7 +89,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.services = this.successhandeler(response)
     }, (err) => {
       console.log('ERROR in fetching serviceline');
-      this.alertService.alert(err, 'error');
+      console.log(err, 'error');
 
     });
     //    this.ProviderAdminRoleService.getRoles(this.serviceProviderID,"","").
@@ -100,7 +100,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(serviceID, 'b4 feature get');
     this.ProviderAdminRoleService.getFeature(serviceID)
       .subscribe(response => this.getFeaturesSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log(err, 'error');
       });
 
   }
@@ -121,7 +121,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.ProviderAdminRoleService.getStatesNew(obj).
       subscribe(response => this.statesSuccesshandeler(response, value), (err) => {
         console.log('error in fetching states');
-        this.alertService.alert(err, 'error');
+        console.log(err, 'error');
       });
 
 
@@ -196,12 +196,14 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(this.serviceProviderID, stateID, serviceID);
     this.ProviderAdminRoleService.getRoles(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+      console.log("searchresultarray", this.searchresultarray);
+
       this.filterScreens = [];
       for (var i = 0; i < this.searchresultarray.length; i++) {
         this.filterScreens.push(this.searchresultarray[i].screenName);
       }
     }, err => {
-      this.alertService.alert(err, 'error');
+      console.log(err, 'error');
     });
 
     if (serviceID == "" || serviceID == undefined) {
@@ -220,7 +222,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     this.ProviderAdminRoleService.createRoles(this.objs)
       .subscribe(response => this.createRolesSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log(err, 'error');
       });
 
   }
@@ -246,7 +248,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           this.edit_delete_RolesSuccessHandeler('response', 'delete');
           //this.edit_delete_RolesSuccessHandeler(response, "delete"));          
         }, err => {
-          this.alertService.alert(err, 'error');
+          console.log(err, 'error');
         })
 
       }
@@ -305,7 +307,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.ProviderAdminRoleService.editRole(obj)
       .subscribe(response => this.edit_delete_RolesSuccessHandeler(response, 'edit'),
         err => {
-          this.alertService.alert(err, 'error');
+          console.log(err, 'error');
         });
   }
 
@@ -365,6 +367,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
   setRoleFormFlag(flag) {
+    debugger;
     console.log('service', this.service.serviceID);
     this.hideAdd = true;
     this.setEditSubmitButton = false;
@@ -538,7 +541,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       console.log(count);
       if (count > 0) {
         this.othersExist = true;
-        this.alertService.alert("Already exist");
+        //  this.alertService.alert("Already exist");
         return false;
       }
       else {
@@ -645,7 +648,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
       }, err => {
         console.log('ERROR while updating feature to role', err);
-        this.alertService.alert(err, 'error');
+        console.log(err, 'error');
       });
 
   }

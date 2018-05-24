@@ -65,7 +65,10 @@ export class FeedbackTypeMasterComponent implements OnInit {
         if (isNational) {
           this.findFeedbackTypes(this.states[0].providerServiceMapID);
         }
-      }, (err) => this.alertService.alert(err, 'error'));
+      }, (err) => {
+        console.log("Error", err);
+        //this.alertService.alert(err, 'error')
+      });
   }
 
   getServiceLinesfromSearch(userID) {
@@ -74,7 +77,10 @@ export class FeedbackTypeMasterComponent implements OnInit {
         console.log("services", response);
         // this.search_serviceline = "";
         this.servicelines = response;
-      }, (err) => this.alertService.alert(err, 'error'));
+      }, (err) => {
+        console.log("Error", err);
+        //this.alertService.alert(err, 'error')
+      });
   }
 
   findFeedbackTypes(providerServiceMapID) {
@@ -85,7 +91,9 @@ export class FeedbackTypeMasterComponent implements OnInit {
       console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
       this.showTable = true;
-    }, (err) => this.alertService.alert(err, 'error'));
+    }, (err) => {
+      console.log("Error", err);
+    });
   }
 
   clear() {
@@ -135,7 +143,11 @@ export class FeedbackTypeMasterComponent implements OnInit {
           .subscribe((res) => {
             this.alertService.alert(this.confirmMessage + "d successfully", 'success');
             this.findFeedbackTypes(this.providerServiceMapID);
-          }, (err) => this.alertService.alert(err, 'error'));
+          }, (err) => {
+            this
+            console.log("Error", err);
+            //    .alertService.alert(err, 'error')
+          });
       }
     },
       (err) => {
@@ -223,7 +235,10 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.search_serviceline = this.previous_service_id;
 
         this.findFeedbackTypes(this.providerServiceMapID);
-      }, (err) => this.alertService.alert(err, 'error'));
+      }, (err) => {
+        console.log("Error", err);
+        //this.alertService.alert(err, 'error')
+      });
   }
 
   add_obj(name, desc) {
@@ -272,7 +287,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.editForm.resetForm();
       }
       else {
-        //this.feedbackNameExist = true;
+        this.feedbackNameExist = true;
         this.alertService.alert("Already exists");
       }
     }
@@ -345,7 +360,10 @@ export class EditFeedbackModal {
       .subscribe((res) => {
         this.dialog_Ref.close("success");
         this.alertService.alert("Updated successfully", 'success');
-      }, (err) => this.alertService.alert(err, 'error'));
+      }, (err) => {
+        console.log("Error", err);
+        //this.alertService.alert(err, 'error')
+      });
 
   }
 

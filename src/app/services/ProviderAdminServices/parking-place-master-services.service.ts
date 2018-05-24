@@ -28,6 +28,9 @@ export class ParkingPlaceMasterService {
     _getBlockListURL: any;
     _getBranchListURL: any;
 
+    getServiceLines_new_url: any;
+    getStates_new_url: any;
+
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
         private httpIntercept: InterceptedHttp) {
@@ -46,8 +49,25 @@ export class ParkingPlaceMasterService {
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
         this._getBranchListURL = this.common_Base_Url + 'location/village/';
-    }
 
+          /* serviceline and state */
+
+          this.getServiceLines_new_url = this.providerAdmin_Base_Url + 'm/role/serviceNew';
+          this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
+  
+    }
+    getServiceLinesNew(userID) {
+        return this.httpIntercept
+            .post(this.getServiceLines_new_url, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+    getStatesNew(obj) {
+        return this.httpIntercept
+            .post(this.getStates_new_url, obj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
     saveParkingPlace(data) {
         return this.http.post(this.saveParkingPlacesURL, data)
             .map(this.handleSuccess)
@@ -125,9 +145,21 @@ export class ParkingPlaceMasterService {
             return Observable.throw(res.json());
         }
     }
+    handleState_n_ServiceSuccess(response: Response) {
+
+        console.log(response.json().data, 'role service file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceName === "MMU") {
+                return item;
+            }
+        });
+        return result;
+    }
+
 
     handleError(error: Response | any) {
-        return Observable.throw(error.json());
+        return Observable.throw(error);
 
     }
 }

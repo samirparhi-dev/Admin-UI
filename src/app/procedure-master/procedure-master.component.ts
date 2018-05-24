@@ -4,7 +4,7 @@ import { ProcedureMasterServiceService } from '../services/ProviderAdminServices
 import { dataService } from '../services/dataService/data.service';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
-
+import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
 @Component({
   selector: 'app-procedure-master',
   templateUrl: './procedure-master.component.html',
@@ -14,12 +14,12 @@ export class ProcedureMasterComponent implements OnInit {
 
   state: any;
   service: any;
-
+  serviceline: any;
   states: any;
   services: any;
   disableSelection: boolean = false;
 
-  editMode: any;
+  editMode: boolean = false;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -30,17 +30,21 @@ export class ProcedureMasterComponent implements OnInit {
   procedureForm: FormGroup;
   procedureList: any;
   filteredprocedureList: any;
-  tableMode: boolean = true;
+  tableMode: boolean = false;
   saveEditMode: boolean = false;
   alreadyExist: boolean = false;
   bufferArray: any = [];
-
+  services_array: any = [];
+  userID: any;
+  provider_states: any = [];
+  searchStateID: any;
 
   constructor(private commonDataService: dataService,
     public alertService: ConfirmationDialogsService,
     private fb: FormBuilder,
     public providerAdminRoleService: ProviderAdminRoleService,
-    private procedureMasterServiceService: ProcedureMasterServiceService) {
+    private procedureMasterServiceService: ProcedureMasterServiceService,
+    public stateandservices: ServicePointMasterService) {
     this.states = [];
     this.services = [];
 
@@ -65,10 +69,30 @@ export class ProcedureMasterComponent implements OnInit {
 
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
+    this.userID = this.commonDataService.uid;
 
-    this.providerAdminRoleService.getStates(this.serviceProviderID)
-      .subscribe(response => this.states = this.successhandeler(response));
-
+    // this.providerAdminRoleService.getStates(this.serviceProviderID)
+    //   .subscribe(response => this.states = this.successhandeler(response));
+    this.getProviderServices();
+  }
+  getProviderServices() {
+    this.stateandservices.getServices(this.userID)
+      .subscribe(response => {
+        this.services_array = response;
+      }, err => {
+      });
+  }
+  getStates(serviceID) {
+    this.stateandservices.getStates(this.userID, serviceID, false).
+      subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
+      });
+  }
+  getStatesSuccessHandeler(response, isNational) {
+    if (response) {
+      console.log(response, 'Provider States');
+      this.provider_states = response;
+      // this.createButton = false;
+    }
   }
 
   initProcedureForm(): FormGroup {
@@ -87,9 +111,14 @@ export class ProcedureMasterComponent implements OnInit {
    * Get Details of Procedures available for this Service PRovider
   */
   getAvailableProcedures() {
+    debugger;
 
-    this.procedureMasterServiceService.getCurrentProcedures(this.providerServiceMapID)
-      .subscribe((res) => { this.procedureList = this.successhandeler(res); this.filteredprocedureList = this.successhandeler(res); });
+    this.procedureMasterServiceService.getCurrentProcedures(this.searchStateID.providerServiceMapID)
+      .subscribe((res) => {
+        this.procedureList = this.successhandeler(res);
+        this.filteredprocedureList = this.successhandeler(res);
+        this.tableMode = true;
+      });
 
   }
   back() {
@@ -103,10 +132,13 @@ export class ProcedureMasterComponent implements OnInit {
   showTable() {
     this.tableMode = true;
     this.saveEditMode = false;
+    this.disableSelection = false;
   }
   showForm() {
+    this.editMode = false;
     this.tableMode = false;
     this.saveEditMode = true;
+    this.disableSelection = true;
   }
   procedureUnique() {
     console.log("name", this.name);
@@ -190,6 +222,7 @@ export class ProcedureMasterComponent implements OnInit {
    * Manipulate Form Object to as per API Need
   */
   objectManipulate() {
+    debugger;
     const obj = Object.assign({}, this.procedureForm.value);
 
     if (!obj.name || !obj.type || !obj.description || (!obj.male && !obj.female)) {
@@ -210,7 +243,7 @@ export class ProcedureMasterComponent implements OnInit {
           procedureType: obj.type,
           procedureDesc: obj.description,
           createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
+          providerServiceMapID: this.searchStateID.providerServiceMapID,
           gender: 'Unisex'
         };
       } else if (obj.male && !obj.female) {
@@ -221,7 +254,7 @@ export class ProcedureMasterComponent implements OnInit {
           procedureType: obj.type,
           procedureDesc: obj.description,
           createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
+          providerServiceMapID: this.searchStateID.providerServiceMapID,
           gender: 'Male'
         };
       } else if (!obj.male && obj.female) {
@@ -232,7 +265,7 @@ export class ProcedureMasterComponent implements OnInit {
           procedureType: obj.type,
           procedureDesc: obj.description,
           createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.commonDataService.provider_serviceMapID,
+          providerServiceMapID: this.searchStateID.providerServiceMapID,
           gender: 'Female'
         };
       }
@@ -244,29 +277,29 @@ export class ProcedureMasterComponent implements OnInit {
 
 
 
-  setProviderServiceMapID(ProviderServiceMapID) {
-    this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
-    this.providerServiceMapID = ProviderServiceMapID;
+  setProviderServiceMapID() {
+    this.commonDataService.provider_serviceMapID = this.searchStateID.ProviderServiceMapID;
+    this.providerServiceMapID = this.searchStateID.ProviderServiceMapID;
 
-    console.log('psmid', ProviderServiceMapID);
+    console.log('psmid', this.searchStateID.ProviderServiceMapID);
     console.log(this.service);
     this.getAvailableProcedures();
   }
 
-  getServices(stateID) {
-    console.log(this.serviceProviderID, stateID);
-    this.providerAdminRoleService.getServices_filtered(this.serviceProviderID, stateID)
-      .subscribe(response => this.servicesSuccesshandeler(response));
-  }
+  // getServices(stateID) {
+  //   console.log(this.serviceProviderID, stateID);
+  //   this.providerAdminRoleService.getServices_filtered(this.serviceProviderID, stateID)
+  //     .subscribe(response => this.servicesSuccesshandeler(response));
+  // }
 
 
-  // For Service List
-  servicesSuccesshandeler(response) {
-    this.service = '';
-    this.services = response;
-    this.providerServiceMapID = null;
+  // // For Service List
+  // servicesSuccesshandeler(response) {
+  //   this.service = '';
+  //   this.services = response;
+  //   this.providerServiceMapID = null;
 
-  }
+  // }
   // For State List
   successhandeler(response) {
     return response;
@@ -339,6 +372,7 @@ export class ProcedureMasterComponent implements OnInit {
   }
 
   configProcedure(item, index) {
+    this.editMode = true;
     let male = false;
     let female = false;
     if (item.gender === 'Unisex') {
@@ -366,27 +400,5 @@ export class ProcedureMasterComponent implements OnInit {
   }
 
 
-  /**
-   * Manage Geneder String to Value
-   */
 
-
-  // /**
-  //   * Disable the Procedure for Doctor
-  //  */
-  // disableProcedure() {
-
-  //   this.procedureForm.patchValue({
-  //     disable: true
-  //   })
-
-  // }
-  // /**
-  //  * Enable the Procedure for Doctor
-  // */
-  // enableProcedure() {
-  //   this.procedureForm.patchValue({
-  //     disable: false
-  //   })
-  // }
 }

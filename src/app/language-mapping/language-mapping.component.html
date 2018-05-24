@@ -31,7 +31,8 @@
             <td>{{lang.weightage_Write}}</td>
             <td>{{lang.weightage_Speak}}</td>
             <td>
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editRow(lang)">edit</md-icon>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!lang.deleted" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="editRow(lang)">edit</md-icon>
 
               <td>
                 <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
@@ -73,7 +74,7 @@
                 <input mdInput style="display:none">
                 <md-select [(ngModel)]="username" name="username" placeholder="Select User Name " [style.width]="
               '100%' " required>
-                  <md-option *ngFor="let item of userNamesList " [value]="item ">{{item.userName}}</md-option>
+                  <md-option *ngFor="let item of userNamesList | OrderBy : 'userName' " [value]="item ">{{item.userName}}</md-option>
                 </md-select>
               </md-input-container>
             </div>
@@ -222,7 +223,7 @@
             <input mdInput style="display:none">
             <md-select name="user_name" placeholder="Select User Name " [style.width]="
               '100%' " [(ngModel)]="edit_Details.userID" [disabled]="disableUsername" required>
-              <md-option *ngFor="let item of userNamesList" [value]="item.userID">{{item.userName}}</md-option>
+              <md-option *ngFor="let item of userNamesList | OrderBy : 'userName'" [value]="item.userID">{{item.userName}}</md-option>
             </md-select>
           </md-input-container>
         </div>

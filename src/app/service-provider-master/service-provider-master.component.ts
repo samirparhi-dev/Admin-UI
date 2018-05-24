@@ -116,7 +116,7 @@ export class ServiceProviderMasterComponent implements OnInit {
           this.providerNameExist = false;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log(err, 'Error');
       });
   }
@@ -138,8 +138,8 @@ export class ServiceProviderMasterComponent implements OnInit {
   }
   save(form_value) {
     console.log(form_value, 'Form Value');
-    console.log("address", form_value.address2 === undefined ,form_value.address2);
-    
+    console.log("address", form_value.address2 === undefined, form_value.address2);
+
     const object = {
       'serviceProviderName': form_value.provider_name,
       'createdBy': this.createdBy,
@@ -152,7 +152,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)),
       'deleted': false
     }
-console.log("object", object);
+    console.log("object", object);
 
     const requestArray = [];
     requestArray.push(object);
@@ -173,7 +173,7 @@ console.log("object", object);
           this.getAllProviders();
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log(err, 'Error');
       });
   }
@@ -186,7 +186,7 @@ console.log("object", object);
           this.searchResult = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log('Error', err);
       });
   }
@@ -204,7 +204,7 @@ console.log("object", object);
             }
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }
@@ -224,7 +224,7 @@ console.log("object", object);
             }
           },
             (err) => {
-              this.dialogService.alert(err, 'error');
+
               console.log(err);
             })
       }
@@ -275,7 +275,7 @@ console.log("object", object);
         this.showTable();
 
       }, err => {
-        this.dialogService.alert(err, 'error');
+
         console.log('error', err);
       });
   }

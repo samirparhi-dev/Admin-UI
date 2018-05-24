@@ -126,7 +126,10 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	search() {
 		this.instituteDirectoryService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				// this.alertService.alert(err, 'error')
+			});
 	}
 
 	getInstituteDirectorySuccessHandeler(response) {
@@ -218,7 +221,10 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	save() {
 		this.instituteDirectoryService.saveInstituteDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				// this.alertService.alert(err, 'error')
+			});
 	}
 
 	saveSuccessHandeler(response) {
@@ -243,7 +249,10 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"),
-						(err) => this.alertService.alert(err, 'error'));
+						(err) => {
+							console.log("Error", err);
+							//is.alertService.alert(err, 'error')
+						});
 				}
 			});
 		}
@@ -257,7 +266,10 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteDirectoryService.toggle_activate_InstituteDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"),
-						(err) => this.alertService.alert(err, 'error'));
+						(err) => {
+							console.log("Error", err);
+							//is.alertService.alert(err, 'error')
+						});
 				}
 			});
 		}
@@ -324,7 +336,10 @@ export class EditInstituteDirectory {
 
 		}
 		this.instituteDirectoryService.editInstituteDirectory(obj).subscribe(response => this.updateSuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				// this.alertService.alert(err, 'error')
+			});
 	}
 
 	updateSuccessHandeler(response) {

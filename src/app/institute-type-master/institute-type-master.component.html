@@ -44,7 +44,7 @@
         </thead>
         <tbody>
           <tr *ngIf="searchResultArray.length == 0">
-            <td colspan="4" class="record-not-found">No records found</td>
+            <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{(md2.activePage-1)*5+i+1}}</td>

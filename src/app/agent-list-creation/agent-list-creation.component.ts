@@ -60,7 +60,8 @@ export class AgentListCreationComponent implements OnInit {
   getStates(serviceID, isNational) {
     this.state = '';
     this._AgentListCreationService.getStates(this.userID, serviceID, isNational)
-      .subscribe(response => this.getStatesSuccessHandeler(response, isNational), (err) => this.alertService.alert(err, 'error'));
+      .subscribe(response => this.getStatesSuccessHandeler(response, isNational), (err) => console.log("Error", err));
+      //this.alertService.alert(err, 'error'));
 
   }
 
@@ -75,7 +76,8 @@ export class AgentListCreationComponent implements OnInit {
   getServices(userID) {
     // this.service = '';
     this._AgentListCreationService.getServices(userID)
-      .subscribe(response => this.getServicesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
+      .subscribe(response => this.getServicesSuccessHandeler(response), (err) => console.log("Error", err));//
+      //this.alertService.alert(err, 'error'));
   }
 
   getServicesSuccessHandeler(response) {
@@ -106,7 +108,8 @@ export class AgentListCreationComponent implements OnInit {
   getCampaignNames(serviceName) {
     debugger;
     this._AgentListCreationService.getCampaignNames(serviceName)
-      .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => this.alertService.alert(err, 'error'));
+      .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => console.log("Error", err));
+      // this.alertService.alert(err, 'error'));
 
   }
 
@@ -321,7 +324,8 @@ export class AgentListCreationComponent implements OnInit {
     if (result === "GO") {
       this._AgentListCreationService.saveAgentListMapping(this.resultArray)
         .subscribe(response => this.saveSuccessHandeler(response),
-          (err) => this.alertService.alert(err, 'error'));
+          (err) => console.log("Error", err));
+          // this.alertService.alert(err, 'error'));
     }
     else {
       this.alertService.alert('Invalid entry in agent ID', 'error');
@@ -405,7 +409,8 @@ export class AgentListCreationComponent implements OnInit {
       this.getAllAgents(this.providerServiceMapID);
       // this.showTableFlag = true;
 
-    }, (err) => this.alertService.alert(err, 'error'));
+    }, (err) => console.log("Error", err));
+    //this.alertService.alert(err, 'error'));
 
 
 

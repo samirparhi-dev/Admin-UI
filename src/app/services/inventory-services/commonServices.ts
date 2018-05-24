@@ -64,6 +64,7 @@ export class CommonServices {
 
         console.log(response.json().data, 'service line success response');
         let result = [];
+        debugger;
         result = response.json().data.filter(function (item) {
             if (item.serviceID != 1 && item.serviceID != 3) {
                 return item;

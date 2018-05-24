@@ -53,9 +53,9 @@ export class SetPasswordComponent implements OnInit {
 				(response: any) => this.successCallback(response),
 				(error: any) => {
 					this.errorCallback(error);
-					this.alertService.alert(error, 'error');
+					console.log(error, 'error')
 				}
-				);
+			);
 		}
 		else {
 			this.alertService.alert('Password does not match');
@@ -65,7 +65,7 @@ export class SetPasswordComponent implements OnInit {
 	successCallback(response) {
 
 		console.log(response);
-		this.alertService.alert('Password changed successfully','success');
+		this.alertService.alert('Password changed successfully', 'success');
 		this.logout();
 		// this.router.navigate(['']);
 	}

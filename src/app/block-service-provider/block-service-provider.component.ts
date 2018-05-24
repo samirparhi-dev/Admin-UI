@@ -56,10 +56,12 @@ export class BlockServiceProviderComponent implements OnInit {
 
   ngOnInit() {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
-      this.message.alert(err, 'error');
+      console.log("Error", err);
+     // this.message.alert(err, 'error');
     });
     this.block_provider.getAllStatus().subscribe(response => this.getSuccess(response), err => {
-      this.message.alert(err, 'error');
+      console.log("Error", err);
+      //this.message.alert(err, 'error');
     });
   }
 
@@ -140,7 +142,8 @@ export class BlockServiceProviderComponent implements OnInit {
       //-- added by krishna Gunti for smart search --//
       this.loadingValues();
     }, err => {
-      this.message.alert(err, 'error');
+      console.log("Error", err);
+      //this.message.alert(err, 'error');
     });
   }
 
@@ -148,7 +151,8 @@ export class BlockServiceProviderComponent implements OnInit {
   getAllServicesOfProvider(serviceProviderID) {
     this.block_provider.getServicesOfProvider(serviceProviderID)
       .subscribe(response => this.getAllServicesOfProviderSuccesshandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
 
   }
@@ -252,28 +256,32 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getStatusOnProviderLevel(service_provider) {
     this.block_provider.getProviderLevelStatus(service_provider).subscribe(response => this.successhandeler1(response), err => {
-      this.message.alert(err, 'error');
+      console.log("Error", err);
+      //this.message.alert(err, 'error');
     });
   }
 
   getStatusOnProviderServiceLevel(service_provider, serviceline) {
     this.block_provider.getProvider_ServiceLineLevelStatus(service_provider, serviceline)
       .subscribe(response => this.successhandeler2(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
   }
 
   getStatusOnProviderStateLevel(service_provider, state) {
     this.block_provider.getProvider_StateLevelStatus(service_provider, state)
       .subscribe(response => this.successhandeler3(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+       // this.message.alert(err, 'error');
       });
   }
 
   getStatusOnProviderStateServiceLevel(service_provider, state, serviceline) {
     this.block_provider.getProvider_State_ServiceLineLevelStatus(service_provider, state, serviceline)
       .subscribe(response => this.successhandeler4(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
   }
 
@@ -310,7 +318,8 @@ export class BlockServiceProviderComponent implements OnInit {
     let reason = this.reason;// needs to be 3, but as of now being sent as 2 for checking as no val in table
     this.block_provider.block_unblock_provider(serviceProviderID, statusID, reason)
       .subscribe(response => this.block_unblock_providerSuccessHandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+       // this.message.alert(err, 'error');
       });
   }
 
@@ -327,7 +336,8 @@ export class BlockServiceProviderComponent implements OnInit {
     let reason = this.reason;
     this.block_provider.block_unblock_state(serviceProviderID, stateID, statusID, reason)
       .subscribe(response => this.block_unblock_stateSuccessHandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
   }
 
@@ -344,7 +354,8 @@ export class BlockServiceProviderComponent implements OnInit {
     let reason = this.reason;
     this.block_provider.block_unblock_serviceline(serviceProviderID, serviceID, statusID, reason)
       .subscribe(response => this.block_unblock_serviceSuccessHandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
 
   }
@@ -363,7 +374,8 @@ export class BlockServiceProviderComponent implements OnInit {
     let reason = this.reason;
     this.block_provider.block_unblock_serviceOfState(serviceProviderID, stateID, serviceID, statusID, reason)
       .subscribe(response => this.block_unblock_serviceOfStateSuccessHandeler(response), err => {
-        this.message.alert(err, 'error');
+        console.log("Error", err);
+        //this.message.alert(err, 'error');
       });
   }
 

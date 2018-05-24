@@ -49,7 +49,7 @@ export class ConfirmationDialogsService {
 
     public alert( message: string, status: string = 'info', titleAlign: string = 'center',
     messageAlign: string = 'center', btnOkText: string = 'Ok'): void {
-
+debugger;
         let dialogRef: MdDialogRef<CommonDialogComponent>;
         const config = new MdDialogConfig();
         // config.viewContainerRef = viewContainerRef;

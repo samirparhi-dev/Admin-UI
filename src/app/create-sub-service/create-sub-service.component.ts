@@ -45,7 +45,8 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.getAllProviders()
       .subscribe(response => this.getAllProvidersSuccesshandeler(response),
         err => {
-          this.message.alert(err, 'error');
+          //  this.message.alert(err, 'error');
+          console.log(err, 'error response');
         });
 
   }
@@ -91,7 +92,7 @@ export class CreateSubServiceComponent implements OnInit {
       this.states = response;
     }, err => {
       console.log(err, 'error response');
-      this.message.alert(err, 'error');
+      //   this.message.alert(err, 'error');
     });
   }
 
@@ -106,7 +107,7 @@ export class CreateSubServiceComponent implements OnInit {
         });
       }, err => {
         console.log(err, 'Error in getting Services from Provider');
-        this.message.alert(err, 'error');
+        //   this.message.alert(err, 'error');
       });
   }
 
@@ -140,7 +141,8 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.populateTable(response, providerServiceMapID),
         err => {
-          this.message.alert(err, 'error');
+          console.log(err, 'error response');
+          //  this.message.alert(err, 'error');
         });
   }
   populateTable(response, providerServiceMapID) {
@@ -152,7 +154,8 @@ export class CreateSubServiceComponent implements OnInit {
     this.sub_service.getSubServiceDetails(providerServiceMapID)
       .subscribe(response => this.existingSubServiceHandler(response),
         err => {
-          this.message.alert(err, 'error');
+          console.log(err, 'error response');
+          //   this.message.alert(err, 'error');
         })
   }
 
@@ -193,13 +196,15 @@ export class CreateSubServiceComponent implements OnInit {
           this.clearFields();
 
         }, (err) => {
-          this.message.alert(err, 'error');
+          console.log(err, 'error response');
+          //  this.message.alert(err, 'error');
         })
       } else {
         this.message.alert('Something went wrong', 'error');
       }
     }, (err) => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
     });
     // const data_obj = {
     //   'providerServiceId': providerService.serviceProviderId,
@@ -245,6 +250,7 @@ export class CreateSubServiceComponent implements OnInit {
       if (res) {
         if (res.length === 0) {
           this.subServiceAvailable = true;
+          // this.message.alert('No Sub Service available please select different service');
         } else {
 
           let tempService = {};
@@ -265,11 +271,13 @@ export class CreateSubServiceComponent implements OnInit {
           this.subServiceAvailable = false;
           if (this.subServices.length == 0) {
             this.allServicesAdded = true;
+            // this.message.alert('All services Mapped');
           }
         }
       }
     }, (err) => {
-      this.message.alert(err, 'error');
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
     })
   }
 
@@ -300,15 +308,15 @@ export class CreateSubServiceComponent implements OnInit {
   }
   addSubService(flag) {
     this.searchForm = flag;
-    if (flag) {
-      if (this.state) {
+    // if (flag) {
+    if (this.state) {
 
-        this.getExistingOnSearch(this.state.providerServiceMapID);
-      }
-      else {
-        this.getExistingOnSearch(this.states[0].providerServiceMapID);
-      }
+      this.getExistingOnSearch(this.state.providerServiceMapID);
     }
+    else {
+      this.getExistingOnSearch(this.states[0].providerServiceMapID);
+    }
+    //  }
     // this.serviceProvider = this.searchServiceProvider;
     // this.state = this.searchState;
     // this.serviceObj = this.searchServiceObj;
@@ -339,7 +347,10 @@ export class CreateSubServiceComponent implements OnInit {
           this.deletedSuccessHandler(response)
         })
       }
-    }, (err) => { this.message.alert(err, 'error'); });
+    }, (err) => {
+      console.log(err, 'error response');
+      //  this.message.alert(err, 'error');
+    });
   }
   clearFields() {
     this.subServiceDesc = '';

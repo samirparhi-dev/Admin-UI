@@ -54,9 +54,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		this.instituteSubDirectoryMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
 			this.successhandeler(response),
 				(err) => {
-					console.log("ERROR in fetching serviceline")
-					this.alertService.alert(err, 'error')
+					console.log("Error", err);
+					//this.alertService.alert(err, 'error')
 				}
+
 		});
 	}
 
@@ -100,10 +101,12 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		}
 		this.instituteSubDirectoryMasterService.getStatesNew(obj).
 			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-				console.log("error in fetching states")
-				this.alertService.alert(err, 'error')
+
+				console.log("Error", err);
+				//his.alertService.alert(err, 'error')
 			});
 	}
+
 	getStatesSuccessHandeler(response, value) {
 		this.states = response;
 		this.instituteDirectories = [];
@@ -127,7 +130,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	getInstituteDirectories() {
 		this.institute_directory = "";
 		this.instituteSubDirectoryMasterService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				//this.alertService.alert(err, 'error')
+			});
 
 	}
 
@@ -149,7 +155,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		}
 
 		this.instituteSubDirectoryMasterService.getInstituteSubDirectory(data).subscribe(response => this.getInstituteSubDirectorySuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				//this.alertService.alert(err, 'error')
+			});
 
 
 	}
@@ -248,7 +257,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	save() {
 		this.instituteSubDirectoryMasterService.saveInstituteSubDirectory(this.bufferArray).subscribe(response => this.saveSuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				//this.alertService.alert(err, 'error')
+			});
 	}
 
 	saveSuccessHandeler(response) {
@@ -272,7 +284,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Deactivated"),
-						(err) => this.alertService.alert(err, 'error'));
+						(err) => {
+							console.log("Error", err);
+							//s.alertService.alert(err, 'error')
+						});
 				}
 			});
 		}
@@ -286,7 +301,10 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 					};
 
 					this.instituteSubDirectoryMasterService.toggle_activate_InstituteSubDirectory(obj).subscribe(response => this.toggleActivateSuccessHandeler(response, "Activated"),
-						(err) => this.alertService.alert(err, 'error'));
+						(err) => {
+							console.log("Error", err);
+							//s.alertService.alert(err, 'error')
+						});
 				}
 			});
 		}
@@ -353,7 +371,10 @@ export class EditInstituteSubDirectory {
 
 		}
 		this.instituteSubDirectoryMasterService.editInstituteSubDirectory(obj).subscribe(response => this.updateSuccessHandeler(response),
-			(err) => this.alertService.alert(err, 'error'));
+			(err) => {
+				console.log("Error", err);
+				//this.alertService.alert(err, 'error')
+			});
 	}
 
 	updateSuccessHandeler(response) {

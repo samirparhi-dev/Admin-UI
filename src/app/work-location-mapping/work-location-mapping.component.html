@@ -23,13 +23,13 @@
         </thead>
         <tbody>
           <tr *ngIf="mappedWorkLocationsList.length == 0">
-            <td colspan="8" class="record-not-found">No records found</td>
+            <td colspan="9" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
             <td>{{mappedWorkLocationsList.indexOf(service)+1}}</td>
             <td>{{service.userName}}</td>
             <td>{{service.serviceName}}</td>
-            <td>{{service.stateName}}</td>
+            <td>{{service.serviceName==="1097"?"All states":service.stateName}}</td>
             <td>{{service.workingDistrictName}}</td>
             <td>{{service.locationName}}</td>
             <td>{{service.roleName}}</td>
@@ -50,7 +50,7 @@
             <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="5" class="p-r-0">
+            <td colspan="4" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New Mapping</button>
             </td>
           </tr>
@@ -177,7 +177,7 @@
               <ul class="m-l--25">
                 <li *ngFor="let obj of item.roleID1;let j=index ">
                   {{obj.roleName}}
-                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(i,j)">cancel</md-icon>
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.roleName}}" (click)="removeRole(bufferArray.indexOf(item),j)">cancel</md-icon>
                 </li>
               </ul>
             </td>

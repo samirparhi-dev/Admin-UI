@@ -73,7 +73,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
           this.findFeedbackTypes(this.states[0].providerServiceMapID);
         }
       }, err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       })
   }
 
@@ -84,7 +85,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
         // this.search_serviceline = "";
         this.servicelines = response;
       }, err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       })
   }
 
@@ -99,7 +101,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       this.feedbackTypes = response;
       this.natureTypes = [];
     }, err => {
-      this.alertService.alert(err, 'error');
+      console.log("Error", err);
+      // this.alertService.alert(err, 'error');
     })
   }
 
@@ -114,7 +117,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
         this.natureTypes = response;
         this.showTable = true;
       }, err => {
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       })
   }
 
@@ -166,14 +170,14 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
             this.findFeedbackNature(this.feedbackTypeID);
           },
             (err) => {
-              console.log(err);
-              this.alertService.alert(err, 'error');
+              console.log("Error", err);
+              // this.alertService.alert(err, 'error');
             })
       }
     },
       (err) => {
-        console.log(err);
-        this.alertService.alert(err, 'error');
+        console.log("Error", err);
+        // this.alertService.alert(err, 'error');
       })
   }
 
@@ -233,7 +237,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
 
         this.findFeedbackNature(this.feedbackTypeID);
       }, err => {
-        this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       })
   }
 

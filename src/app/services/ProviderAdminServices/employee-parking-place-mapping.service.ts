@@ -11,10 +11,14 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 @Injectable()
 export class EmployeeParkingPlaceMappingService {
 
+    getUsernamesURL: string;
+    deleteEmployeesURL: string;
     providerAdmin_Base_Url: any;
     common_Base_Url: any;
 
     saveEmployeeParkingPlaceMappingURL: any;
+    updateEmployeeParkingPlaceMappingURL: any;
+    userNameURL: any;
     getEmployeeURL: any;
     _getStateListBYServiceIDURL: any;
     _getServiceLineURL: any;
@@ -31,14 +35,43 @@ export class EmployeeParkingPlaceMappingService {
 
         // this.getEmployeeURL = this.providerAdmin_Base_Url + 'm/SearchEmployeeFilter';
         this.saveEmployeeParkingPlaceMappingURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/save/userParkingPlaces';
-        this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
-        this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
+        this.updateEmployeeParkingPlaceMappingURL = this.providerAdmin_Base_Url + '/parkingPlaceMaster/edit/userParkingPlaces1';
+        this.userNameURL = "";
+        this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/role/stateNew';
+        this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/serviceNew';
         this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
         this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlaces';
         this.getDesignationsURL = this.providerAdmin_Base_Url + 'm/getDesignation';
-        this.getEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/userParkingPlaces';
+        // this.getEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/userParkingPlaces';
+        this.getEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/userParkingPlaces1';
+        this.deleteEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/delete/userParkingPlaces1';
+        this.getUsernamesURL = this.providerAdmin_Base_Url + '/m/getEmployeeByDesignation';
+    }
+    getStates(userID, serviceID, isNationalFlag) {
+        return this.http.post(this._getStateListBYServiceIDURL,
+            {
+                'userID': userID,
+                'serviceID': serviceID,
+                'isNational': isNationalFlag
+            }).map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    DeleteEmpParkingMapping(requestObject) {
+        return this.http.post(this.deleteEmployeesURL, requestObject)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getUsernames(designationID) {
+        return this.http.post(this.getUsernamesURL, { 'designationID': designationID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
     }
 
+    getServices(userID) {
+        return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
     getDesignations() {
         return this.http.post(this.getDesignationsURL, {})
             .map(this.handleSuccess)
@@ -56,21 +89,33 @@ export class EmployeeParkingPlaceMappingService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
-    getStatesByServiceID(serviceID, serviceProviderID) {
-        return this.http.post(this._getStateListBYServiceIDURL,
-            { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
+    updateEmployeeParkingPlaceMappings(data) {
+        return this.http.post(this.updateEmployeeParkingPlaceMappingURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getUserNames(designationID) {
+        return this.http.post(this.userNameURL, {
+            'designationID': designationID
+        })
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
 
-    getServices(serviceProviderID, stateID) {
-        return this.http.post(this._getServiceLineURL, {
-            'serviceProviderID': serviceProviderID,
-            'stateID': stateID
-        }).map(this.handleSuccess)
-            .catch(this.handleError);
-    }
+    // getStatesByServiceID(serviceID, serviceProviderID) {
+    //     return this.http.post(this._getStateListBYServiceIDURL,
+    //         { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
+    //         .map(this.handleSuccess)
+    //         .catch(this.handleError);
+    // }
+
+    // getServices(serviceProviderID, stateID) {
+    //     return this.http.post(this._getServiceLineURL, {
+    //         'serviceProviderID': serviceProviderID,
+    //         'stateID': stateID
+    //     }).map(this.handleSuccess)
+    //         .catch(this.handleError);
+    // }
 
     getDistricts(stateId: number) {
         return this.http.get(this._getDistrictListURL + stateId)
@@ -92,6 +137,17 @@ export class EmployeeParkingPlaceMappingService {
         } else {
             return Observable.throw(res.json());
         }
+    }
+    handleState_n_ServiceSuccess(response: Response) {
+
+        console.log(response.json().data, 'service point file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceName == "MMU") {
+                return item;
+            }
+        });
+        return result;
     }
 
     handleError(error: Response | any) {

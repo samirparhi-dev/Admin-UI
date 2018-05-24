@@ -1,26 +1,51 @@
 <!-- <md-card> -->
-<div class="row" *ngIf="showEmployeeParkingPlaceMappings  && !editable">
+<div class="row" *ngIf="(showEmployeeParkingPlaceMappings  && !editable) &&(!editMode)">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>Employee Parking Place Mapping</h4>
+        <h4>User Parking Place Mapping</h4>
     </div>
 
     <form #searForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
                 <input mdInput style="display:none">
-                <md-select required placeholder="State" class="width100" [(ngModel)]="searchStateID" name="searchStateID" (change)="getDistricts(searchStateID);getServices(searchStateID)">
-                    <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+                <md-select required name="Services" [disabled]="formMode" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                    (change)="getStates(serviceline.serviceID)">
+                    <md-option *ngFor="let item of services_array" [value]="item">
+                        {{item.serviceName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+                <input mdInput style="display:none">
+                <md-select required placeholder="State" [disabled]="formMode" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID"
+                    (change)="getDistricts(searchStateID.stateID);">
+                    <md-option *ngFor="let state of provider_states" [value]="state">
                         {{state.stateName}}
                     </md-option>
                 </md-select>
             </md-input-container>
         </div>
+
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select required placeholder="District" class="width100" [(ngModel)]="searchDistrictID" name="searchDistrictID" (change)="getParkingPlaces(searchStateID,searchDistrictID);">
-                    <md-option *ngFor="let district of districts" [value]="district.districtID">
+                <md-select required placeholder="District" class="width100" [disabled]="formMode" [(ngModel)]="searchDistrictID" name="searchDistrictID"
+                    (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
+                    <md-option *ngFor="let district of districts" [value]="district">
                         {{district.districtName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select required placeholder="Parking Place" [disabled]="formMode" class="width100" [(ngModel)]="searchParkingPlaceID"
+                    name="searchParkingPlaceID">
+                    <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
+                        {{parkingPlace.parkingPlaceName}}
                     </md-option>
                 </md-select>
             </md-input-container>
@@ -29,8 +54,9 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select required placeholder="Designation" class="width100" [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
-                    <md-option *ngFor="let designation of designations" [value]="designation.designationID">
+                <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID.districtID,designationID.designationID);selectedParkingPlace(searchParkingPlaceID.parkingPlaceID);getUsernames(designationID.designationID);"
+                    [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
+                    <md-option *ngFor="let designation of designations" [value]="designation">
                         {{designation.designationName}}
                     </md-option>
 
@@ -40,61 +66,211 @@
                 </md-select>
             </md-input-container>
         </div>
+        <form #searchForm="ngForm" autocomplete="off">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="formMode">
+                <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none">
+                    <md-select required placeholder="Username" class="width100" [(ngModel)]="userID" name="userID" #userVal="ngModel">
+                        <md-option *ngFor="let userName of userNames" [value]="userName">
+                            {{userName.userName}}
+                        </md-option>
+
+                        <md-hint [hidden]=userVal.valid>
+                            <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
+                        </md-hint>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </form>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 m-t-20">
+            <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="formMode && !searchForm.invalid"
+                (click)="addParkingPlaceMapping(searchForm.value);this.searchForm.reset();">
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+            </button>
+        </div>
+    </form>
+    <div class="col-xs-12 col-sm-12" *ngIf="employeeParkingPlaceMappingList.length>0 && (formMode) ">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped " [md2Data]="employeeParkingPlaceMappingList" #md2="md2DataTable" [rowsPerPage]="3">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Serviceline</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Parking Place Name</th>
+                        <th>Designation</th>
+                        <th>Username</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of md2.data;let i = index ">
+                        <td>{{employeeParkingPlaceMappingList.indexOf(item)+1}}</td>
+                        <td>{{item.serviceName}}</td>
+                        <td>{{item.stateName}}</td>
+                        <td>{{item.districtName}}</td>
+                        <td>{{item.parkingPlaceName}}</td>
+                        <td>{{item.designationName}}</td>
+                        <td>{{item.userName}}</td>
+                        <td>
+                            <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(employeeParkingPlaceMappingList.indexOf(item))">delete</md-icon>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <md2-pagination></md2-pagination>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 m-t-15">
+        <button md-raised-button color="accent" *ngIf="formMode" class="pull-right" [disabled]="!(employeeParkingPlaceMappingList.length>0)"
+            (click)="saveParkingMpping()">Save</button>
+
+        <button md-raised-button color="primary" *ngIf="formMode || editMode" class="pull-left" (click)="showTable()">Back</button>
+
+    </div>
+</div>
+<div class="row" *ngIf="editMode">
+    <form #updateForm="ngForm" autocomplete="off">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+                <input mdInput style="display:none">
+                <md-select required name="Services" [disabled]="editMode" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                    (change)="getStates(serviceline.serviceID)">
+                    <md-option *ngFor="let item of services_array" [value]="item">
+                        {{item.serviceName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+                <input mdInput style="display:none">
+                <md-select required placeholder="State" [disabled]="editMode" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID"
+                    (change)="getDistricts(searchStateID.stateID);">
+                    <md-option *ngFor="let state of provider_states" [value]="state">
+                        {{state.stateName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select required placeholder="Parking Place" class="width100" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID"
-                    (change)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID,designationID)">
-                    <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID" (click)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID,designationID);selectedParkingPlace(parkingPlace);">
+                <md-select required placeholder="District" class="width100" [disabled]="editMode" [(ngModel)]="searchDistrictID_edit" name="searchDistrictID"
+                    (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
+                    <md-option *ngFor="let district of districts" [value]="district.districtID">
+                        {{district.districtName}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select required placeholder="Parking Place" [disabled]="editMode" class="width100" [(ngModel)]="searchParkingPlaceID_edit"
+                    name="searchParkingPlaceID">
+                    <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
                         {{parkingPlace.parkingPlaceName}}
                     </md-option>
                 </md-select>
             </md-input-container>
         </div>
 
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select required placeholder="Designation" class="width100" [(ngModel)]="designationID_edit" name="designationID" #designationVal="ngModel">
+                    <md-option *ngFor="let designation of designations" (click)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID.districtID,designationID.designationID);selectedParkingPlace(searchParkingPlaceID.parkingPlaceID);getUsernames(designationID.designationID);"
+                        [value]="designation.designationID">
+                        {{designation.designationName}}
+                    </md-option>
+
+                    <md-hint [hidden]=designationVal.valid>
+                        <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
+                    </md-hint>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="formMode || editMode">
+            <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none">
+                <md-select required placeholder="Username" class="width100" [(ngModel)]="userID" name="userID" #userVal="ngModel">
+                    <md-option *ngFor="let userName of userNames" [value]="userName.userID">
+                        {{userName.userName}}
+                    </md-option>
+
+                    <md-hint [hidden]=userVal.valid>
+                        <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
+                    </md-hint>
+                </md-select>
+            </md-input-container>
+        </div>
+
     </form>
+    <div class="col-xs-12 col-sm-12 m-t-15">
+        <button md-raised-button color="accent" *ngIf="editMode" class="pull-right" [disabled]="updateForm.invalid" (click)="updateParkingPlace(updateForm.value)">Update</button>
+        <button md-raised-button color="primary" *ngIf="editMode" class="pull-left" (click)="showTable()">Back</button>
+    </div>
 </div>
 
-<form class="c-b p-t-20" [formGroup]="MappingForm" autocomplete="off">
-    <div class="form-group" *ngIf="availableEmployeeParkingPlaceMappings.length!=0">
-        <table [md2Data]="MappingForm.get('mappings').controls" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+<form class="c-b p-t-20" autocomplete="off">
+    <div class="table-responsive" *ngIf="tableMode && (!formMode && !editMode)">
+        <table [md2Data]="availableEmployeeParkingPlaceMappings" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
             <thead>
                 <tr>
-                    <th width="10%">S.No.</th>
-                    <th width="10%">Employee Name</th>
-                    <th width="10%">User Name</th>
-                    <th width="5%">Gender</th>
-                    <th width="10%">Roles</th>
-                    <th width="10%">Contact No.</th>
+                    <th>S.No.</th>
+                    <th>Username</th>
+                    <th>Parking Place</th>
+                    <th>Edit</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody formArrayName="mappings">
-                <tr [formGroupName]="this.MappingForm.get('mappings').controls.indexOf(mapping)" *ngFor="let mapping of md2.data ">
+            <tbody>
+                <tr *ngIf="availableEmployeeParkingPlaceMappings.length == 0">
+                    <td colspan="5" class="record-not-found">No records found</td>
+                </tr>
+                <tr style="cursor: pointer" *ngFor="let mapping of md2.data;let i=index ">
+                    <td>{{availableEmployeeParkingPlaceMappings.indexOf(mapping)+1}}</td>
+                    <td> {{mapping.userName}}</td>
+                    <td>{{mapping.parkingPlaceName}}</td>
                     <td>
-                        <input mdInput required formControlName="parkingPlaceID" value="parkingPlaceID" [hidden]="true"> {{this.MappingForm.get('mappings').controls.indexOf(mapping)+1}}
+                        <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!mapping.deleted" role="img" aria-hidden="true" style="cursor: pointer"
+                            (click)="editParkingPlace(mapping)">edit</md-icon>
                     </td>
                     <td>
-                        <input mdInput formControlName="userID" value="mapping.controls.userID.value" [hidden]="true">
-                        <md-checkbox color="primary" formControlName="userMapped"></md-checkbox>
-                        {{mapping.controls.firstName.value}} {{mapping.controls.lastName.value}}</td>
-                    <td> {{mapping.controls.userName.value}}</td>
-                    <td>{{mapping.controls.genderName.value}}</td>
-                    <td>{{mapping.controls.roleName.value}}</td>
-                    <td>{{mapping.controls.emergencyContactNo.value}}</td>
+                        <button md-raised-button color="accent" *ngIf="mapping.deleted" class=" m-r-10" (click)="activate(mapping.userParkingPlaceMapID)">Activate</button>
+                        <button md-raised-button color="primary" *ngIf="!mapping.deleted" class=" m-r-10" (click)="deactivate(mapping.userParkingPlaceMapID)">Deactivate</button>
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="2">
                         <md2-pagination></md2-pagination>
                     </td>
                     <td colspan="3" class="p-r-0">
-                        <button md-button *ngIf="availableEmployeeParkingPlaceMappings.length!=0" md-raised-button class="btn btn-primary m-l-15 pull-right"
-                            [disabled]="searchParkingPlaceID==undefined" (click)="storeEmployeeParkingPlaceMapping();">Add Mapping</button>
+
+                        <button md-raised-button color="primary" *ngIf="tableMode" class="pull-right" (click)="showForm();">Add Mapping</button>
+
                     </td>
                 </tr>
             </tfoot>
         </table>
+
     </div>
+    <!-- <div class="" *ngIf="formMode">
+            <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+            <button md-raised-button color="accent" *ngIf="availableEmployeeParkingPlaceMappings.length!=0" class="pull-right" (click)="storeEmployeeParkingPlaceMapping();">Map</button>
+    
+        </div> -->
 </form>
 <!-- </md-card> -->
