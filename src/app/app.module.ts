@@ -201,7 +201,8 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
-
+import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
+import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
 
 import { FacilityMasterService } from './services/inventory-services/facilitytypemaster.service';
 import { Mainstroreandsubstore } from './services/inventory-services/mainstoreandsubstore.service';
@@ -212,6 +213,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-master.component';
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
+import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
 
 @NgModule({
   declarations: [
@@ -256,6 +258,8 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
     SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
+    VehicleNO,
+    StoreSelfConsumptionComponent,
     measuringUnit,
   ],
 
@@ -336,6 +340,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,
+    ItemFacilityMappingService,StoreSelfConsumptionServiceService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

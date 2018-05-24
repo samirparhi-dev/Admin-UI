@@ -125,7 +125,7 @@
     <div class="clearfix  visible-lg"></div>
     <form id="inputform" #storeAddForm="ngForm">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-        <md-input-container [style.width]="'100%'">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="facilityType" placeholder="Facility Type" [style.width]="'100%'" [(ngModel)]="create_facilityType">
             <md-option *ngFor="let item of facilityType_array" [value]="item">
@@ -193,7 +193,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="store" [disabled]="mainStoreDropdownState" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="create_store">
+          <md-select name="store" [required]="!mainStoreDropdownState" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="create_store">
             <md-option *ngFor="let item of storeType_array" [value]="item.facilityID">
               {{item.facilityName}}
             </md-option>
@@ -293,7 +293,7 @@
       <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput style="display:none">
+          <input mdInput class="hide_underline" style="display:none">
           <md-select required name="facilityType" placeholder="Facility Type" [disabled]="true" [style.width]="'100%'" [(ngModel)]="edit_facilityType">
             <md-option *ngFor="let item of facilityType_array" [value]="item.facilityTypeID">
               {{item.facilityTypeName}}
@@ -357,9 +357,9 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="store" [disabled]="edit_mainstore" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="edit_store">
-            <md-option *ngFor="let item of facilityType_array" [value]="item">
-              {{item.facilityTypeName}}
+          <md-select  name="store" [required]="!edit_mainstore" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="edit_store">
+            <md-option *ngFor="let item of storeType_arrayEdit" [value]="item.facilityID">
+              {{item.facilityName}}
             </md-option>
           </md-select>
         </md-input-container>
