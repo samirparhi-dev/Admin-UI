@@ -145,6 +145,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
 
     getServicePointVillageMapSuccessHandler(response) {
+        debugger;
         this.availableServicePointVillageMaps = response;
         this.createButton = true;
         this.showServicePointVillageMaps = true;
@@ -368,7 +369,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.searchServicePointID_edit = mapping.servicePointID;
         this.providerServiceMapID = mapping.providerServiceMapID;
         this.servicePointVillageMapID = mapping.servicePointVillageMapID;
-        this.villageIdList_edit = mapping.districtBranchID;
+        //  this.villageIdList_edit = mapping.districtBranchID;
 
     }
     updateStoreServicePointVillageMaps() {

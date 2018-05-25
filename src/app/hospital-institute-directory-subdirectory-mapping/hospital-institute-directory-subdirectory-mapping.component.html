@@ -70,21 +70,22 @@
         </md-select>
       </md-input-container>
     </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital">
-          <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}" (click)="setHospitalName(item.institutionName)">
-            {{item.institutionName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
+    <form #hospitalForm1="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital">
+            <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}" (click)="setHospitalName(item.institutionName)">
+              {{item.institutionName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </form>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <div>
         <button md-mini-fab *ngIf="showFormFlag" [disabled]="hospitalForm.invalid" class=" xs-pull-right sm-pull-left md-pull-left lg-pull-left"
-          color="primary" (click)="add_obj(hospital)">
+          color="primary" (click)="add_obj(hospital);hospitalForm1.reset();">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
 

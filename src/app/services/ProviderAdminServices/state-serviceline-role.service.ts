@@ -90,7 +90,7 @@ export class ProviderAdminRoleService {
 
   getRoles(obj) {
     return this.httpIntercept.post(this.find_Roles_By_State_Service_Url, obj)
-      .map(this.handleSuccess)
+      .map(this.handleState_n_ServiceSuccess_role)
       .catch(this.handleError);
   }
 
@@ -138,6 +138,17 @@ export class ProviderAdminRoleService {
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.statusID !== 4) {
+        return item;
+      }
+    });
+    return result;
+  }
+  handleState_n_ServiceSuccess_role(response: Response) {
+
+    console.log(response.json().data, 'role service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.deleted !== true) {
         return item;
       }
     });

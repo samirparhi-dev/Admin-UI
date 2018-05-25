@@ -70,10 +70,10 @@ export class ParkingPlaceComponent implements OnInit {
     }
     ngOnInit() {
         this.userID = this.commonDataService.uid;
-        this.getServiceLines();      
+        this.getServiceLines();
     }
     getServiceLines() {
-        this.parkingPlaceMasterService.getServiceLinesNew(this.userID).subscribe((response) => {         
+        this.parkingPlaceMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
             this.getServicesSuccessHandeler(response),
                 (err) => {
                     console.log("ERROR in fetching serviceline", err);
@@ -101,7 +101,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
 
-    getStatesSuccessHandeler(response) {      
+    getStatesSuccessHandeler(response) {
         this.states = response;
     }
     setProviderServiceMapID(providerServiceMapID) {
@@ -109,21 +109,21 @@ export class ParkingPlaceComponent implements OnInit {
         this.providerServiceMapID = providerServiceMapID;
 
     }
-    getDistricts(state) {      
+    getDistricts(state) {
         this.parkingPlaceMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
     }
-    getDistrictsSuccessHandeler(response) {      
+    getDistrictsSuccessHandeler(response) {
         this.districts = response;
     }
 
-    GetTaluks(districtID) {      
+    GetTaluks(districtID) {
         this.parkingPlaceMasterService.getTaluks(districtID)
             .subscribe(response => {
                 this.SetTaluks(response)
             });
     }
-    SetTaluks(response: any) {      
+    SetTaluks(response: any) {
         this.taluks = response;
         if (this.editParkingplaceValue != undefined) {
             if (this.taluks) {
@@ -159,7 +159,7 @@ export class ParkingPlaceComponent implements OnInit {
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
-    addParkingPlaceToList(values) {       
+    addParkingPlaceToList(values) {
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
         this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
@@ -190,7 +190,7 @@ export class ParkingPlaceComponent implements OnInit {
             this.parkingPlaceForm.resetForm();
         }
         else if (this.parkingPlaceList.length > 0) {
-            for (let a = 0; a < this.parkingPlaceList.length; a++) {              
+            for (let a = 0; a < this.parkingPlaceList.length; a++) {
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
@@ -206,7 +206,7 @@ export class ParkingPlaceComponent implements OnInit {
                 this.parkingPlaceForm.resetForm();
             }
             else {
-                this.parkingPlaceList.push(this.parkingPlaceObj);              
+                this.parkingPlaceList.push(this.parkingPlaceObj);
                 this.parkingPlaceForm.resetForm();
             }
         }
@@ -226,7 +226,7 @@ export class ParkingPlaceComponent implements OnInit {
     parkingPlaceSuccessHandler(response) {
         this.parkingPlaceList = [];
         this.alertMessage.alert("Saved successfully", 'success');
-        this.showList();    
+        this.showList();
 
     }
 
@@ -269,7 +269,7 @@ export class ParkingPlaceComponent implements OnInit {
 
 
     checkExistance(parkingPlaceName) {
-        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);      
+        this.parkingPlaceNameExist = this.availableParkingPlaceNames.includes(parkingPlaceName);
     }
 
 
@@ -277,12 +277,12 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceID = "";
         this.parkingPlaceName = "";
         this.parkingPlaceDesc = "";
-       // this.stateID = "";
+        // this.stateID = "";
         //this.districtID = "";
         this.talukID = "";
         this.areaHQAddress = "";
     }
-    editParkingPlaceData(parkingPlace) {      
+    editParkingPlaceData(parkingPlace) {
         this.editable = true;
         this.disableSelection = true;
         this.showListOfParking = false;
@@ -307,24 +307,26 @@ export class ParkingPlaceComponent implements OnInit {
         this.dataObj.service = this.service.serviceID;
         this.dataObj.stateID = this.state.stateID;
         this.dataObj.districtID = this.districtID.districtID;
-        this.dataObj.districtBlockID = this.talukID.blockID;      
+        if (this.talukID != undefined) {
+            this.dataObj.districtBlockID = this.talukID.blockID;
+        }
         this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
     }
 
-    updateHandler(response) {      
+    updateHandler(response) {
         this.editable = true;
         this.alertMessage.alert("Updated successfully", 'success');
         this.showList();
         this.initializeObj();
-        this.editParkingplaceValue = null;    
-        
+        this.editParkingplaceValue = null;
+
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.parkingPlaceForm.resetForm();
                 this.showList();
-                this.parkingPlaceList = [];               
+                this.parkingPlaceList = [];
             }
         })
     }

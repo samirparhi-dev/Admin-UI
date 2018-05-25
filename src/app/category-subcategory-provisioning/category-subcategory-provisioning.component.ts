@@ -240,7 +240,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     else {
       this.showCategoryTable = true;
-
+      this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
     }
   }
   callgetDetails(subService: any, providerServiceMap: any) {
@@ -417,6 +417,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         if (response.length > 0) {
           this.messageBox.alert('Saved successfully', 'success');
           this.serviceSubCatList.length = [];
+          if (this.nationalFlag) {
+            this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+
+          }
+          else {
+            this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+
+          }
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
       }, (err) => {
@@ -646,11 +654,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     if (this.nationalFlag) {
       this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
       this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+      // this.getDetails(this.sub_service);
     }
     else {
       this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
       this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
-
+      //  this.getDetails(this.sub_service);
     }
   }
   hideTable() {

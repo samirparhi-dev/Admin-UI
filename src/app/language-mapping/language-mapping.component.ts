@@ -402,6 +402,32 @@ export class LanguageMappingComponent implements OnInit {
 
 
   }
+  checkInDb_edit(langId, editedvalues) {
+    debugger;
+    let langcount = 0;
+    let count = 0;
+    for (let a = 0; a < this.LanguageMappedList.length; a++) {
+      if (this.LanguageMappedList[a].userID == this.userID
+        && this.LanguageMappedList[a].languageID == langId
+        && this.LanguageMappedList[a].weightage_Read == editedvalues.read_weightage
+        && this.LanguageMappedList[a].weightage_Write == editedvalues.write_weightage
+        && this.LanguageMappedList[a].weightage_Speak == editedvalues.speak_weightage) {
+        count = count + 1;
+      }
+    }
+
+    if (count <= 1) {
+      this.langExist = true;
+    }
+    else {
+      this.langExist = false;
+      this.alertService.alert('Already mapped');
+    }
+
+
+
+
+  }
 
   saveMapping() {
     console.log('final buffer', this.bufferArray);
@@ -512,11 +538,8 @@ export class LanguageMappingComponent implements OnInit {
     this.getAvailableLanguages(this.edit_Details.userID)
   }
   updateLanguage(editFormValues: any, langID: any) {
-    this.langExist = this.filteredLanguage.includes(langID);
-    if (!this.langExist) {
-      this.alertService.alert('Already exists');
-    }
-    else {
+    this.checkInDb_edit(langID, editFormValues);
+    if (this.langExist) {
       const obj = {
         'userLangID': this.userLangID,
         'userID': this.userID,
@@ -524,7 +547,7 @@ export class LanguageMappingComponent implements OnInit {
         'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
         'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
         'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
-        'languageID': editFormValues.language,
+        'languageID': this.languageID_edit,
         'weightage': 10,
         'canRead': editFormValues.read_weightage === undefined ? false : this.read,
         'canWrite': editFormValues.read_weightage === undefined ? false : this.write,

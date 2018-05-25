@@ -54,6 +54,9 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="data.length == 0">
+            <td colspan="6" class="record-not-found">No records found</td>
+          </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <td>{{(md2.activePage-1)*4+k+1}}</td>
             <td>{{i?.categoryName}}</td>
@@ -99,6 +102,9 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="subCat.length == 0">
+            <td colspan="7" class="record-not-found">No records found</td>
+          </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <td>{{subCat.indexOf(i)+1}}</td>
             <td width=25%>{{i?.subCategoryName}}</td>
