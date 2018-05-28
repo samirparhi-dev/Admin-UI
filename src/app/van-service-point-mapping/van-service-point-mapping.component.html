@@ -105,7 +105,9 @@
                 </tr>
             </thead>
             <tbody formArrayName="mappings">
-
+                <tr *ngIf="availableVanServicePointMappings.length == 0" class="record-not-found">
+                    <td colspan="4" align="center">No records found</td>
+                </tr>
                 <tr [formGroupName]="this.MappingForm.get('mappings').controls.indexOf(mapping)" *ngFor="let mapping of md2.data">
                     <td>
                         <input mdInput required formControlName="vanID" value="vanID" [hidden]="true"> {{this.MappingForm.get('mappings').controls.indexOf(mapping)+1}}

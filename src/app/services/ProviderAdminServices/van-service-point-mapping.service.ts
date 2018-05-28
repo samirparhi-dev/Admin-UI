@@ -112,7 +112,7 @@ export class VanServicePointMappingService {
 
     getVans(data){
          return this.http.post(this.getVansURL, data)
-        .map(this.handleSuccess)
+        .map(this.handleState_n_ServiceSuccess_vans)
         .catch(this.handleError);
     }
 
@@ -142,6 +142,17 @@ export class VanServicePointMappingService {
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.serviceName === "MMU") {
+                return item;
+            }
+        });
+        return result;
+    }
+    handleState_n_ServiceSuccess_vans(response: Response) {
+
+        console.log(response.json().data, 'role service file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.deleted !=true) {
                 return item;
             }
         });
