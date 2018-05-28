@@ -118,7 +118,7 @@ export class VanServicePointMappingService {
 
     getParkingPlaces(data){
         return this.http.post(this.getParkingPlacesURL, data)
-        .map(this.handleSuccess)
+        .map(this.handleState_n_ServiceSuccess_vans)
         .catch(this.handleError);
     }
 
