@@ -96,7 +96,7 @@ import { loginService } from './services/loginService/login.service';
 import { dataService } from './services/dataService/data.service';
 import { DashboardHttpServices } from './http-service/http-service.service';
 import { LanguageService } from './services/adminServices/AdminLanguage/language.service';
-import { RoleService } from './services/adminServices/AdminRole/Role.service';
+import { RoleService } from './services/adminServices/AdminRole/role.service';
 import { ServicemasterService } from './services/adminServices/AdminService/servicemaster.service';
 import { ScreenService } from './services/adminServices/AdminScreen/screen.service';
 import { HttpServices } from './services/http-services/http_services.service';

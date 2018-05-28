@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RoleService } from '../services/adminServices/AdminRole/Role.service';
+import { RoleService } from '../services/adminServices/AdminRole/role.service';
 import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-admin-role-master',
@@ -32,7 +32,7 @@ lastModDate:new FormControl('2017-05-26')
   }
 
 onSubmit() {
-	
+
 		let bodyString = this.userForm.value;
 		console.log(this.userForm.value)
 		this._RoleService.saveRole(bodyString)
