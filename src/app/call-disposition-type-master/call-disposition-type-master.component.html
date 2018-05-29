@@ -52,7 +52,7 @@
             <th>Outbound</th>
             <th>Max Redial</th>
             <th>Blocking Required</th>
-            <th>Followup Required</th>
+            <th>Follow-up Required</th>
             <th>Edit</th>
             <th>Action</th>
           </tr>
@@ -174,7 +174,7 @@
     </div>
     <div class="clearfix visible-md"></div>
     <div *ngIf="service.serviceID != 6" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 m-t-lg-25 m-t-md-0">
-      <label class="f-s-b">Fit For Followup</label>
+      <label class="f-s-b">Fit For Follow-up</label>
       <md-radio-group [(ngModel)]="fitForFollowup" (change)="fitForFollowups(fitForFollowup)">
         <md-radio-button color="primary" class="p-l-10" [value]="true">Yes</md-radio-button>
         <md-radio-button color="primary" class="p-l-10" [value]="false">No</md-radio-button>
@@ -196,7 +196,7 @@
             <th width="15%">Call Group Type</th>
             <th width="15%">callType</th>
             <th width="12%">Block</th>
-            <th width="12%">Followup</th>
+            <th width="12%">Follow-up</th>
             <th width="12%">Inbound</th>
             <th width="12%">Outbound</th>
             <th width="15%">Action</th>

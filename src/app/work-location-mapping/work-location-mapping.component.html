@@ -11,12 +11,12 @@
         <thead>
           <tr>
             <th>S.No.</th>
-            <th md2SortBy="userName">User Name</th>
+            <th>User Name</th>
             <th>Serviceline</th>
             <th>State</th>
             <th>District</th>
             <th>Work Location</th>
-            <th md2SortBy="roleName">Role</th>
+            <th>Role</th>
             <th>Edit</th>
             <th>Action</th>
           </tr>
@@ -25,7 +25,7 @@
           <tr *ngIf="mappedWorkLocationsList.length == 0">
             <td colspan="9" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+          <tr *ngFor="let service of md2.data;let i=index ">
             <td>{{mappedWorkLocationsList.indexOf(service)+1}}</td>
             <td>{{service.userName}}</td>
             <td>{{service.serviceName}}</td>
@@ -77,7 +77,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" required>
-            <md-option *ngFor="let user of userNamesList| OrderBy : 'userName'" [value]="user">
+            <md-option *ngFor="let user of userNamesList" [value]="user">
               {{user.userName}}
             </md-option>
           </md-select>
