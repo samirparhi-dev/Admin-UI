@@ -485,6 +485,9 @@ export class EditCallType {
   setIsOutbound(ev) {
     console.log(ev, 'OUTBOUND CHECKBOX');
     this.isOutbound = ev.checked;
+    if (!ev.checked) {
+      this.maxRedial = undefined;
+    }
   }
 
 
