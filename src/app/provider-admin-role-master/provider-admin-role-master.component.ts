@@ -183,6 +183,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   showAddButton: boolean = false;
 
   findRoles(stateID, serviceID, flagValue) {
+    debugger;
     this.showAddButtonFlag = flagValue;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
@@ -580,7 +581,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
 
       this.objs.splice(rowIndex, 1);
-
+      debugger;
       this.getFeatures(this.service.serviceID);
     }
   }

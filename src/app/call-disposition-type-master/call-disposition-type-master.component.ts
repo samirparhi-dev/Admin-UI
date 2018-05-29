@@ -457,7 +457,7 @@ export class EditCallType {
 
   ngOnInit() {
     debugger;
-    console.log(this.data);
+    console.log("edit data", this.data);
     this.service = this.data.service;
     this.callType = this.data.callGroupType;
     this.callSubType = this.data.callType;
@@ -589,16 +589,17 @@ export class EditCallType {
 
 
   modify(value) {
-    console.log(value);
+    debugger;
+    console.log("values to be updated", value);
     if (this.isInbound === false && this.isOutbound === false) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
     } else {
       let object = {
         'callTypeID': this.data.callTypeID,
-        'callGroupType': value.callType,
-        'callType': value.callSubType.trim(),
+        'callGroupType': this.data.callGroupType,
+        'callType': this.data.callType,
         'providerServiceMapID': this.data.providerServiceMapID,
-        'callTypeDesc': value.callType,
+        'callTypeDesc': this.data.callTypeDesc,
         'fitToBlock': value.fitToBlock,
         'fitForFollowup': value.fitForFollowup,
         'isInbound': this.isInbound,
