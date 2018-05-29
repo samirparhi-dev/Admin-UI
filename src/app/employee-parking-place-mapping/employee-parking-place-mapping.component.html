@@ -204,7 +204,7 @@
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
                 <md-select required placeholder="Username" class="width100" [(ngModel)]="userID" name="userID" #userVal="ngModel">
-                    <md-option *ngFor="let userName of userNames" [value]="userName.userID">
+                    <md-option *ngFor="let userName of userNames | OrderBy : 'userName'" [value]="userName.userID">
                         {{userName.userName}}
                     </md-option>
 

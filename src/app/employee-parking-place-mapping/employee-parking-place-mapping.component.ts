@@ -205,7 +205,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     // }
     getUsernames(designationID) {
-        this.employeeParkingPlaceMappingService.getUsernames(designationID).subscribe(response => this.getuserNamesSuccessHandeler(response));
+        this.employeeParkingPlaceMappingService.getUsernames(designationID, this.service_provider_id).subscribe(response => this.getuserNamesSuccessHandeler(response));
     }
     userNames: any = [];
     getuserNamesSuccessHandeler(response) {
@@ -447,7 +447,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     }
     getUsername(designationID) {
 
-        this.employeeParkingPlaceMappingService.getUserNames(designationID).
+        this.employeeParkingPlaceMappingService.getUserNames(designationID, this.service_provider_id).
             subscribe(response => this.getUserNameSuccessHandeler(response), err => {
             });
 

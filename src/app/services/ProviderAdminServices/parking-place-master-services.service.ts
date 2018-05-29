@@ -156,7 +156,7 @@ export class ParkingPlaceMasterService {
         });
         return result;
     }
-
+    
 
     handleError(error: Response | any) {
         return Observable.throw(error);
