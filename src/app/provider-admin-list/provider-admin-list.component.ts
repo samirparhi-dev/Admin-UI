@@ -744,6 +744,13 @@ export class EditProviderAdminModal {
       this.errorMessageForPan = '';
     }
   }
+  preventTyping(e: any) {
+    if (e.keyCode === 9) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   update() {
     var update_tempObj = {
