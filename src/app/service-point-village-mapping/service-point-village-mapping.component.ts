@@ -312,6 +312,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     branches: any = [];
     GetBranches(talukID: number) {
+        debugger;
         this.servicePointVillageMapService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response));
     }
@@ -369,7 +370,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.searchServicePointID_edit = mapping.servicePointID;
         this.providerServiceMapID = mapping.providerServiceMapID;
         this.servicePointVillageMapID = mapping.servicePointVillageMapID;
-        //  this.villageIdList_edit = mapping.districtBranchID;
+        this.villageIdList_edit = mapping.districtBranchID;
 
     }
     updateStoreServicePointVillageMaps() {

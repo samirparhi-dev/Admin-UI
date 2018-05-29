@@ -339,6 +339,9 @@ export class LanguageMappingComponent implements OnInit {
     this.read = false;
     this.write = false;
     this.speak = false;
+    this.ReadWeightageList = [];
+    this.WriteWeightageList = [];
+    this.SpeakWeightageList = [];
     this.showCheckboxes = false;
     this.checkDuplicates(obj);
 

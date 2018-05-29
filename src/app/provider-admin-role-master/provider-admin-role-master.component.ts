@@ -563,12 +563,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.objs.splice(index, 1);
   }
   removeFeature(rowIndex, FeatureIndex) {
+    debugger;
     this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
 
 
     for (let h = 0; h < this.tempFilterScreens.length; h++) {
-      if (this.tempFilterScreens[h].toUpperCase() === this.objs[rowIndex].screen_name[h].toUpperCase()) {
-        this.tempFilterScreens.splice(h, 1);
+      if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
+        this.tempFilterScreens.splice(rowIndex, 1);
       }
       else {
         continue;

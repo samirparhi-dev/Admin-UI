@@ -129,18 +129,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getStatesSuccessHandeler(response, value) {
 
     this.states = response;
+    this.subServices = [];
+    //this.sub_service = undefined;
     if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.getSubServices(value.isNational);
     }
     else {
       this.nationalFlag = value.isNational;
-      //   this.getSubServices(value.isNational)
+      this.getSubServices(value.isNational)
     }
   }
 
   getSubServices(value) {
-    this.sub_service = undefined;
+    //this.sub_service = undefined;
 
     if (value == 'get') {
       this.servicesGetting(this.state.providerServiceMapID);
@@ -148,6 +150,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     else if (value == true) {
 
       this.servicesGetting(this.states[0].providerServiceMapID);
+    }
+    else {
+      this.servicesGetting(this.state.providerServiceMapID);
     }
 
 

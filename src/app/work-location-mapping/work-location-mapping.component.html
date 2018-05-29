@@ -257,7 +257,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select District" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="district_duringEdit"
-            name="district" (change)="refresh3();getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,district_duringEdit); "
+            name="district" (change)="refresh3();getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,null); "
             required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">
               {{item.districtName}}
