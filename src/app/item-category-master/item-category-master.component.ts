@@ -32,6 +32,10 @@ export class ItemCategoryMasterComponent implements OnInit {
   subStore:boolean =false;
   filteredOptions: Observable<string[]>;
 selected:any;
+mainStore:any;
+create_referenceNumber:any;
+state:any;
+serviceline:any;
 
    fieldArray: Array<any> = [{}];
    newAttribute: any = {};
