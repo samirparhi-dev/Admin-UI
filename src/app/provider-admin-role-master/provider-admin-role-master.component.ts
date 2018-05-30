@@ -569,7 +569,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     if (rowIndex === 0) {
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
-        if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
           this.tempFilterScreens.splice(FeatureIndex, 1);
           this.getFeatures(this.service.serviceID);
 
@@ -581,7 +581,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
     else {
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
-        if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
           this.tempFilterScreens.splice(rowIndex, 1);
           this.getFeatures(this.service.serviceID);
 
