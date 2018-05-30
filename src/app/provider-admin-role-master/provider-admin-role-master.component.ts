@@ -195,7 +195,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       'isNational': this.nationalFlag
     }
     console.log(this.serviceProviderID, stateID, serviceID);
-    this.ProviderAdminRoleService.getRoles(obj).subscribe((response) => {
+    this.ProviderAdminRoleService.getRole(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
       console.log("searchresultarray", this.searchresultarray);
 

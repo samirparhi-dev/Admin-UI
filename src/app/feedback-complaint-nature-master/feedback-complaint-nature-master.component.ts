@@ -184,6 +184,11 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   changeTableFlag(flag) {
     this.searchForm = flag;
   }
+  changeTableFlag1(flag) {
+    this.searchForm = flag;
+    this.feedbackNature = undefined;
+    this.feedbackNatureDesc = undefined;
+  }
 
   validateFeedbackNature(feedbackNature) {
     // console.log("check",feedbackNature);
@@ -259,7 +264,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
   back() {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.editForm.resetForm();
+        this.changeTableFlag(true);
+       
         this.objs = [];
         this.changeTableFlag(true);      
       }
