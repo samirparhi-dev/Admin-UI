@@ -33,13 +33,13 @@ export class ItemCategoryMasterComponent implements OnInit {
   filteredOptions: Observable<string[]>;
 
 
-  private fieldArray: Array<any> = [{}];
-  private newAttribute: any = {};
+   fieldArray: Array<any> = [{}];
+   newAttribute: any = {};
 
   @ViewChild('stockAddForm') stockAddForm: NgForm;
 
   constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    private physicalStockService: PhysicalstockService,public dialogService: ConfirmationDialogsService) { }
+    public physicalStockService: PhysicalstockService,public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
