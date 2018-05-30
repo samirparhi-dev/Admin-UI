@@ -33,6 +33,7 @@ import { myUserName } from './directives/address/myAddress.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
 import { VehicleNO } from './directives/name/myName.directive';
+import { VehicleNONew } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
 import { measuringUnit } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
@@ -95,7 +96,7 @@ import { loginService } from './services/loginService/login.service';
 import { dataService } from './services/dataService/data.service';
 import { DashboardHttpServices } from './http-service/http-service.service';
 import { LanguageService } from './services/adminServices/AdminLanguage/language.service';
-import { RoleService } from './services/adminServices/AdminRole/Role.service';
+import { RoleService } from './services/adminServices/AdminRole/role.service';
 import { ServicemasterService } from './services/adminServices/AdminService/servicemaster.service';
 import { ScreenService } from './services/adminServices/AdminScreen/screen.service';
 import { HttpServices } from './services/http-services/http_services.service';
@@ -224,7 +225,7 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
 
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
-    myProviderName, VehicleNO, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    myProviderName, VehicleNO, VehicleNONew, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
     AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
     AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
     ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,
@@ -262,7 +263,7 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
     SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
-    VehicleNO,
+    VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
   ],

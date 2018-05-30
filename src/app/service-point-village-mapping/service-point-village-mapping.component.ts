@@ -145,6 +145,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
 
     getServicePointVillageMapSuccessHandler(response) {
+        debugger;
         this.availableServicePointVillageMaps = response;
         this.createButton = true;
         this.showServicePointVillageMaps = true;
@@ -311,6 +312,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     branches: any = [];
     GetBranches(talukID: number) {
+        debugger;
         this.servicePointVillageMapService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response));
     }

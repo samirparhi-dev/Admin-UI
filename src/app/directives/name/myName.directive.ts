@@ -139,6 +139,26 @@ export class VehicleNO {
 }
 @Directive({
 
+	selector: '[VehicleNONew]'
+})
+export class VehicleNONew {
+	constructor(element: ElementRef) {
+
+	}
+
+
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+
+
+}
+@Directive({
+
 	selector: '[measuringUnit]'
 })
 export class measuringUnit {
@@ -148,7 +168,7 @@ export class measuringUnit {
 
 
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!@#$^&*()+={};':",.<>?]*$/);
+		var regex = new RegExp(/^[~!@#$&*()+={};':"<>?]*$/);
 		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
 		if (regex.test(key)) {
 			ev.preventDefault();

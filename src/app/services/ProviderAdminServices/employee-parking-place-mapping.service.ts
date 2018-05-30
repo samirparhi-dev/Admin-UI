@@ -61,8 +61,8 @@ export class EmployeeParkingPlaceMappingService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-    getUsernames(designationID) {
-        return this.http.post(this.getUsernamesURL, { 'designationID': designationID })
+    getUsernames(designationID, sp) {
+        return this.http.post(this.getUsernamesURL, { 'designationID': designationID, 'serviceProviderID': sp })
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
@@ -94,9 +94,10 @@ export class EmployeeParkingPlaceMappingService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-    getUserNames(designationID) {
+    getUserNames(designationID, sp) {
         return this.http.post(this.userNameURL, {
-            'designationID': designationID
+            'designationID': designationID,
+            'serviceProviderID': sp
         })
             .map(this.handleSuccess)
             .catch(this.handleError);

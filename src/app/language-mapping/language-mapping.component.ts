@@ -339,6 +339,9 @@ export class LanguageMappingComponent implements OnInit {
     this.read = false;
     this.write = false;
     this.speak = false;
+    this.ReadWeightageList = [];
+    this.WriteWeightageList = [];
+    this.SpeakWeightageList = [];
     this.showCheckboxes = false;
     this.checkDuplicates(obj);
 
@@ -399,6 +402,32 @@ export class LanguageMappingComponent implements OnInit {
       this.checkduplication = true;
       this.alertService.alert('Already exists');
     }
+
+
+  }
+  checkInDb_edit(langId, editedvalues) {
+    debugger;
+    let langcount = 0;
+    let count = 0;
+    for (let a = 0; a < this.LanguageMappedList.length; a++) {
+      if (this.LanguageMappedList[a].userID == this.userID
+        && this.LanguageMappedList[a].languageID == langId
+        && this.LanguageMappedList[a].weightage_Read == editedvalues.read_weightage
+        && this.LanguageMappedList[a].weightage_Write == editedvalues.write_weightage
+        && this.LanguageMappedList[a].weightage_Speak == editedvalues.speak_weightage) {
+        count = count + 1;
+      }
+    }
+
+    if (count <= 1) {
+      this.langExist = true;
+    }
+    else {
+      this.langExist = false;
+      this.alertService.alert('Already mapped');
+    }
+
+
 
 
   }
@@ -493,9 +522,9 @@ export class LanguageMappingComponent implements OnInit {
     this.languageID_edit = rowObject.languageID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
-    this.isCheckedRead = rowObject.canRead;
-    this.isCheckedWrite = rowObject.canWrite;
-    this.isCheckedSpeak = rowObject.canSpeak;
+    this.isCheckedRead = rowObject.weightage_Read === 0 ? false : rowObject.canRead;
+    this.isCheckedWrite = rowObject.weightage_Write === 0 ? false : rowObject.canWrite;
+    this.isCheckedSpeak = rowObject.weightage_Speak === 0 ? false : rowObject.canSpeak;
     this.read = rowObject.canRead;
     this.write = rowObject.canWrite;
     this.speak = rowObject.canSpeak;
@@ -512,11 +541,8 @@ export class LanguageMappingComponent implements OnInit {
     this.getAvailableLanguages(this.edit_Details.userID)
   }
   updateLanguage(editFormValues: any, langID: any) {
-    this.langExist = this.filteredLanguage.includes(langID);
-    if (!this.langExist) {
-      this.alertService.alert('Already exists');
-    }
-    else {
+    this.checkInDb_edit(langID, editFormValues);
+    if (this.langExist) {
       const obj = {
         'userLangID': this.userLangID,
         'userID': this.userID,
@@ -524,7 +550,7 @@ export class LanguageMappingComponent implements OnInit {
         'weightage_Read': editFormValues.read_weightage === undefined ? 0 : editFormValues.read_weightage,
         'weightage_Write': editFormValues.write_weightage === undefined ? 0 : editFormValues.write_weightage,
         'weightage_Speak': editFormValues.speak_weightage === undefined ? 0 : editFormValues.speak_weightage,
-        'languageID': editFormValues.language,
+        'languageID': this.languageID_edit,
         'weightage': 10,
         'canRead': editFormValues.read_weightage === undefined ? false : this.read,
         'canWrite': editFormValues.read_weightage === undefined ? false : this.write,

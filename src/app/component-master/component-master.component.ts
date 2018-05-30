@@ -308,6 +308,8 @@ export class ComponentMasterComponent implements OnInit {
           }
         }
 
+      } else if(obj.inputType == 'FileUpload') {
+        obj.compOpt = [{'name': ""}];
       }
       obj.providerServiceMapID = this.providerServiceMapID;
       return obj;

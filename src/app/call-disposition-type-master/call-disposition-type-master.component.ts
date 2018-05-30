@@ -181,7 +181,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
           'maxRedial': this.maxRedial,
           'createdBy': this.commonDataService.uname
         }
-        console.log('dummy obj', obj);       
+        console.log('dummy obj', obj);
         if (this.temporarySubtypeArray.length === 0)
           this.temporarySubtypeArray.push(obj);
         else {
@@ -425,10 +425,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 })
 export class EditCallType {
 
+
   callType: any;
   callSubType: any;
-  fitToBlock: any;
-  fitForFollowup: any;
+  fitToBlock: boolean;
+  fitForFollowup: boolean;
   service: any;
 
   providerServiceMapID: any;
@@ -438,7 +439,10 @@ export class EditCallType {
   isInbound: boolean;
   isOutbound: boolean;
   maxRedial: any;
-
+  fitToBlock_y: boolean = false;
+  fitToBlock_n: boolean = false;
+  fitForFollowup_y: boolean = false;
+  fitForFollowup_n: boolean = false;
   tableData: any = [];
 
 
@@ -452,14 +456,13 @@ export class EditCallType {
 
 
   ngOnInit() {
-
-    console.log(this.data);
+    debugger;
+    console.log("edit data", this.data);
     this.service = this.data.service;
     this.callType = this.data.callGroupType;
     this.callSubType = this.data.callType;
     this.fitToBlock = this.data.fitToBlock;
     this.fitForFollowup = this.data.fitForFollowup;
-
     this.providerServiceMapID = this.data.providerServiceMapID;
     this.existingName = this.data.callType;
     this.isInbound = this.data.isInbound;
@@ -482,6 +485,9 @@ export class EditCallType {
   setIsOutbound(ev) {
     console.log(ev, 'OUTBOUND CHECKBOX');
     this.isOutbound = ev.checked;
+    if (!ev.checked) {
+      this.maxRedial = undefined;
+    }
   }
 
 
@@ -500,7 +506,7 @@ export class EditCallType {
     this.callTypeSubtypeService.getCallTypeSubType(this.providerServiceMapID)
       .subscribe(response => this.getCallTypeSubTypeSuccessHandeler(response), err => {
         console.log("error", err);
-        
+
         // this.alertService.alert(err, 'error');
       });
   }
@@ -586,16 +592,17 @@ export class EditCallType {
 
 
   modify(value) {
-    console.log(value);
+    debugger;
+    console.log("values to be updated", value);
     if (this.isInbound === false && this.isOutbound === false) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
     } else {
       let object = {
         'callTypeID': this.data.callTypeID,
-        'callGroupType': value.callType,
-        'callType': value.callSubType.trim(),
+        'callGroupType': this.data.callGroupType,
+        'callType': this.data.callType,
         'providerServiceMapID': this.data.providerServiceMapID,
-        'callTypeDesc': value.callType,
+        'callTypeDesc': this.data.callTypeDesc,
         'fitToBlock': value.fitToBlock,
         'fitForFollowup': value.fitForFollowup,
         'isInbound': this.isInbound,

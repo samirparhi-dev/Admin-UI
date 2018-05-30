@@ -83,7 +83,7 @@ export class VanMasterService {
 
     getParkingPlaces(data){
          return this.http.post(this.getParkingPlacesURL, data)
-        .map(this.handleSuccess)
+        .map(this.handleState_n_ServiceSuccess_parking)
         .catch(this.handleError);
      }
 
@@ -134,6 +134,17 @@ export class VanMasterService {
             .map( this.handleSuccess )
             .catch( this.handleError );
 
+    }
+    handleState_n_ServiceSuccess_parking(response: Response) {
+
+        console.log(response.json().data, 'role service file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.deleted !=true) {
+                return item;
+            }
+        });
+        return result;
     }
 
     handleSuccess(res: Response) {

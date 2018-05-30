@@ -2,92 +2,97 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Hospital-Institute Directory Mapping</h4>
   </div>
-
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="Serviceline" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="service" name="service"
-        required>
-        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational)">
-          {{item.serviceName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="State" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="state" name="state" (change)="getDistrict(state)"
-        required>
-        <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-          {{item.stateName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="District" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="district" name="district"
-        (change)="getTaluk(district)" required>
-        <md-option *ngFor="let item of districts" value="{{item.districtID}}">
-          {{item.districtName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="Taluk" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()"
-        required>
-        <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
-          {{item.blockName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" name="institute_directory"
-        disabled={{disableSelection}} (change)="getInstituteSubdirectory(institute_directory)" required>
-        <md-option *ngFor="let item of institute_directories" value="{{item.instituteDirectoryID}}">
-          {{item.instituteDirectoryName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select placeholder="Institute Sub Directory" [style.width]="'100%'" [(ngModel)]="institute_subdirectory" name="institute_subdirectory"
-        disabled={{disableSelection}} (change)="getMappingHistory()" required>
-        <md-option *ngFor="let item of institute_subdirectories" value="{{item.instituteSubDirectoryID}}">
-          {{item.instituteSubDirectoryName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
-    <md-input-container class="hide_underline" [style.width]="'100%'">
-      <input mdInput style="display:none">
-      <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital">
-        <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}" (click)="setHospitalName(item.institutionName)">
-          {{item.institutionName}}
-        </md-option>
-      </md-select>
-    </md-input-container>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <div>
-      <button md-mini-fab *ngIf="showFormFlag" class=" xs-pull-right sm-pull-left md-pull-left lg-pull-left" color="primary" (click)="add_obj(hospital)">
-        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-
+  <form #hospitalForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Serviceline" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="service" name="service"
+          required>
+          <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
-  </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="state" name="state" (change)="getDistrict(state)"
+          required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="District" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="district" name="district"
+          (change)="getTaluk(district)" required>
+          <md-option *ngFor="let item of districts" value="{{item.districtID}}">
+            {{item.districtName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Taluk" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()"
+          required>
+          <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
+            {{item.blockName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" name="institute_directory"
+          disabled={{disableSelection}} (change)="getInstituteSubdirectory(institute_directory)" required>
+          <md-option *ngFor="let item of institute_directories" value="{{item.instituteDirectoryID}}">
+            {{item.instituteDirectoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none">
+        <md-select placeholder="Institute Sub Directory" [style.width]="'100%'" [(ngModel)]="institute_subdirectory" name="institute_subdirectory"
+          disabled={{disableSelection}} (change)="getMappingHistory()" required>
+          <md-option *ngFor="let item of institute_subdirectories" value="{{item.instituteSubDirectoryID}}">
+            {{item.instituteSubDirectoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <form #hospitalForm1="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital" #hospitalName="ngModel">
+            <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}" (click)="setHospitalName(item.institutionName)">
+              {{item.institutionName}}
+            </md-option>
+          </md-select>      
+         
+        </md-input-container>
+      </div>
+    </form>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div>
+        <button md-mini-fab *ngIf="showFormFlag" [disabled]="hospitalForm1.invalid" class=" xs-pull-right sm-pull-left md-pull-left lg-pull-left"
+          color="primary" (click)="add_obj(hospital);hospitalForm1.reset();">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+
+      </div>
+    </div>
+  </form>
   <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="showTableFlag">
      <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
     </div> -->
@@ -96,15 +101,17 @@
       <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped " [rowsPerPage]="4">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th>Institution Name</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="searchResultArray.length == 0">
-            <td colspan="2" class="record-not-found">No records found</td>
+            <td colspan="3" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data">
+            <td>{{searchResultArray.indexOf(item)+1}}</td>
             <td>{{item.institute.institutionName}}</td>
             <td>
               <!--  <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon> -->
@@ -134,21 +141,23 @@
           <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped " [rowsPerPage]="4">
             <thead>
               <tr>
+                <th>S.No.</th>
                 <th>Institution Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of md2.data; let k=index; ">
+                <td>{{bufferArray.indexOf(item)+1}}</td>
                 <td>{{item.hospital_name}}</td>
                 <td>
-                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
                 </td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="2">
+                <td colspan="3">
                   <md2-pagination></md2-pagination>
                 </td>
               </tr>

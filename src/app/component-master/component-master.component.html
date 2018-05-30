@@ -58,7 +58,7 @@
         </div>
         <div style="display:block;" class="m-t-10" [formGroup]='componentForm'>
             <div class="row" *ngIf="saveEditMode">
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" measuringUnit>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <!-- <md-form-field [style.width]=" '100%' ">
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
@@ -100,7 +100,7 @@
 
                                     Drop Down
                                 </md-radio-button>
-                                <md-radio-button color="primary" class="radio-button" value="fileUpload">
+                                <md-radio-button color="primary" class="radio-button" value="FileUpload">
 
                                     File Upload
                                 </md-radio-button>
@@ -147,7 +147,7 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox' && componentForm.value.inputType != 'fileUpload'">
+                <div formArrayName="compOpt" *ngIf="componentForm.value.inputType && componentForm.value.inputType != 'TextBox' && componentForm.value.inputType != 'FileUpload'">
 
                     <h4>Component Properties</h4>
 

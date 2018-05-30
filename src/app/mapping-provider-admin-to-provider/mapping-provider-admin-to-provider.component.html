@@ -69,7 +69,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="ProviderAdmin" placeholder="Provider Admin" [style.width]="'100%'" [(ngModel)]="service_provider_admin">
-            <md-option *ngFor="let item of service_provider_admin_array | OrderBy : 'userName'" [value]="item">
+            <md-option *ngFor="let item of service_provider_admin_array" [value]="item">
               {{item.userName}}
             </md-option>
           </md-select>
@@ -80,7 +80,7 @@
           <input mdInput style="display:none">
           <md-select required name="serviceProvider" placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="service_provider"
             (change)="getProviderServices(service_provider)">
-            <md-option *ngFor="let item of service_provider_array | OrderBy : 'serviceProviderName'" [value]="item">
+            <md-option *ngFor="let item of service_provider_array" [value]="item">
               {{item.serviceProviderName}}
             </md-option>
           </md-select>

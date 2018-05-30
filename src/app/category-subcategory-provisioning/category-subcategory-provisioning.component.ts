@@ -129,18 +129,20 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getStatesSuccessHandeler(response, value) {
 
     this.states = response;
+    this.subServices = [];
+    //this.sub_service = undefined;
     if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.getSubServices(value.isNational);
     }
     else {
       this.nationalFlag = value.isNational;
-      //   this.getSubServices(value.isNational)
+      this.getSubServices(value.isNational)
     }
   }
 
   getSubServices(value) {
-    this.sub_service = undefined;
+    //this.sub_service = undefined;
 
     if (value == 'get') {
       this.servicesGetting(this.state.providerServiceMapID);
@@ -148,6 +150,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     else if (value == true) {
 
       this.servicesGetting(this.states[0].providerServiceMapID);
+    }
+    else {
+      this.servicesGetting(this.state.providerServiceMapID);
     }
 
 
@@ -167,6 +172,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           });
         }
         else if (this.selected_service_id === 3) {
+          this.showWellBeingFlag = true;
           this.subServices = response.filter(function (item) {
             if (item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase() ||
               item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase()) {
@@ -239,7 +245,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     else {
       this.showCategoryTable = true;
-
+      this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
     }
   }
   callgetDetails(subService: any, providerServiceMap: any) {
@@ -416,6 +422,14 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         if (response.length > 0) {
           this.messageBox.alert('Saved successfully', 'success');
           this.serviceSubCatList.length = [];
+          if (this.nationalFlag) {
+            this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+
+          }
+          else {
+            this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
+
+          }
           //  this.getDetails(this.sub_service, providerServiceMapID);
         }
       }, (err) => {
@@ -645,11 +659,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     if (this.nationalFlag) {
       this.getCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
       this.getSubCategory(this.states[0].providerServiceMapID, this.sub_service.subServiceID);
+      // this.getDetails(this.sub_service);
     }
     else {
       this.getCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
       this.getSubCategory(this.state.providerServiceMapID, this.sub_service.subServiceID);
-
+      //  this.getDetails(this.sub_service);
     }
   }
   hideTable() {
