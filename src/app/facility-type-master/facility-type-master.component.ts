@@ -37,6 +37,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   tableMode: boolean = true;
   formMode: boolean = false;
   editMode: boolean = false;
+  showTableFlag: boolean = false;
 
   @ViewChild('facilitySearchForm') facilitySearchForm: NgForm;
   @ViewChild('facilityAddForm') facilityAddForm: NgForm;
@@ -75,6 +76,7 @@ export class FacilityTypeMasterComponent implements OnInit {
         console.log('All services success', response);
         this.facilityMasterList = response;
         this.filteredfacilityMasterList = response;
+        this.showTableFlag=true;
         for (let availableFacilityCode of this.facilityMasterList) {
           this.availableFacilityTypeCode.push(availableFacilityCode.facilityTypeCode);
         }
@@ -110,6 +112,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.editMode = true;
   }
   filterfacilityMasterList(searchTerm?: string) {
+    debugger;
     if (!searchTerm) {
       this.filteredfacilityMasterList = this.facilityMasterList;
     }
@@ -117,10 +120,13 @@ export class FacilityTypeMasterComponent implements OnInit {
       this.filteredfacilityMasterList = [];
       this.facilityMasterList.forEach((item) => {
         for (let key in item) {
+          if(key=='facilityTypeCode'||key=='facilityTypeName' ||key=='facilityTypeDesc') 
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredfacilityMasterList.push(item); break;
           }
+        }
         }
       });
     }
@@ -232,6 +238,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     console.log("edit form values", editFormValues)
   }
   updateFacilityType(editedFormValues) {
+    debugger;
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
       "facilityTypeName": editedFormValues.facilityName,

@@ -23,6 +23,7 @@ export class ItemMasterComponent implements OnInit {
   discontinue: boolean;
   createdBy: any;
   confirmMessage: any;
+  discontinueMessage: any;
   itemCodeExist: any;
   editMode: boolean = false;
   showTableFlag: boolean = false;
@@ -35,6 +36,7 @@ export class ItemMasterComponent implements OnInit {
   itemsList: any = [];
   filteredItemList: any = [];
   categories: any = [];
+  discontinueresult: any = [];
   dosages: any = [];
   pharmacologies: any = [];
   manufacturers: any = [];
@@ -42,6 +44,20 @@ export class ItemMasterComponent implements OnInit {
   routes: any = [];
   itemArrayObj: any = [];
   availableItemCodeInList: any = [];
+  edit_itemType :any;
+  edit_itemCode:any;
+  edit_itemName:any;
+  edit_category:any;
+  edit_dose:any;
+  edit_pharmacology:any;
+  edit_manufacturer:any;
+  edit_strength:any;
+  edit_uom:any;
+  edit_drugType:any;
+  edit_composition:any;
+  edit_route:any;
+  edit_description:any;
+
 
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
@@ -109,6 +125,7 @@ export class ItemMasterComponent implements OnInit {
   }
 
   itemsSuccessHandler(itemListResponse) {
+    debugger;
     console.log("All items", itemListResponse);
     this.itemsList = itemListResponse;
     this.filteredItemList = itemListResponse;
@@ -129,6 +146,7 @@ export class ItemMasterComponent implements OnInit {
     this.routeAdminList(this.providerServiceMapID);
   }
   filterItemFromList(searchTerm?: string) {
+    debugger;
     if (!searchTerm) {
       this.filteredItemList = this.itemsList;
     }
@@ -136,18 +154,53 @@ export class ItemMasterComponent implements OnInit {
       this.filteredItemList = [];
       this.itemsList.forEach((item) => {
         for (let key in item) {
+          if(key=='itemCode' ||key=='itemName')
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredItemList.push(item); break;
           }
         }
+        }
       });
     }
 
   }
-  setDiscontinue(discontinue, itemID) {
+  // filterfacilityMasterList(searchTerm?: string) {
+  //   if (!searchTerm) {
+  //     this.filteredfacilityMasterList = this.facilityMasterList;
+  //   }
+  //   else {
+  //     this.filteredfacilityMasterList = [];
+  //     this.facilityMasterList.forEach((item) => {
+  //       for (let key in item) {
+  //         let value: string = '' + item[key];
+  //         if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+  //           this.filteredfacilityMasterList.push(item); break;
+  //         }
+  //       }
+  //     });
+  //   }
+
+  // }
+  setDiscontinue(itemID,discontinue) {
+    debugger;
+    if (discontinue) {
+      this.discontinueMessage = 'Item Discontinued';
+    } else {
+      this.discontinueMessage = 'Item Continued';
+    }
+    this.itemService.setDiscontinue(itemID,discontinue).subscribe((discontinueResponse) => {
+      this.discontinueSuccesshandler(discontinueResponse,this.discontinueMessage),
+        (err) => console.log("ERROR in setDiscontinue")
+    });
     console.log("value", discontinue, itemID);
 
+  }
+  discontinueSuccesshandler(discontinueResponse,discontinueMessage) {
+    this.discontinueresult = discontinueResponse
+    this.dialogService.alert(discontinueMessage, 'success');
+    console.log("discontinue List", this.discontinueresult);
   }
   checkCodeExistance(code) { 
     this.itemCodeExist = this.availableItemCodeInList.includes(code);
@@ -233,7 +286,7 @@ export class ItemMasterComponent implements OnInit {
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
-
+debugger;
     const multipleItem = {
       // "serviceName": this.service.serviceName,
       // "stateName": this.state.stateName,
@@ -303,17 +356,18 @@ export class ItemMasterComponent implements OnInit {
         this.itemArrayObj = [];
         this.showTableFlag = true;
         this.showFormFlag = false;
-
+        this.disableSelection = false;
       }
     })
   }
-  editItem(item) {
-    console.log("Existing Data", item);
+  editItem(itemlist) {
+    debugger;
+       console.log("Existing Data", itemlist);
     let dialog_Ref = this.dialog.open(EditItemMasterModal, {
       height: '500px',
       width: '900px',
       disableClose: true,
-      data: item
+      data: itemlist
     });
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -326,9 +380,9 @@ export class ItemMasterComponent implements OnInit {
   }
   activateDeactivate(itemID, flag) {
     if (flag) {
-      this.confirmMessage = 'Deactivate';
+      this.confirmMessage = 'Block';
     } else {
-      this.confirmMessage = 'Activate';
+      this.confirmMessage = 'Unblock';
     }
     this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
@@ -336,7 +390,7 @@ export class ItemMasterComponent implements OnInit {
         this.itemService.itemActivationDeactivation(itemID, flag)
           .subscribe((res) => {
             console.log('Activation or deactivation response', res);
-            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+            this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
             this.getAllItemsList(this.providerServiceMapID);
           }, (err) => this.dialogService.alert(err, 'error'))
       }

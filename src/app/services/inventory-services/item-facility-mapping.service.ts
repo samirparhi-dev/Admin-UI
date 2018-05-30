@@ -44,7 +44,6 @@ getAllFacilityItemMapping(serviceMapId) {
 getItemsOnCategory(serviceMapId,category) {
   console.log("pharmacology list", serviceMapId);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'getItem';
-  debugger;
   return this.http
       .post(this.getAllFacilityItemMappingUrl, { "providerServiceMapID": serviceMapId ,
       "itemCategoryID":category})

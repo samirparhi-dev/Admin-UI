@@ -40,17 +40,18 @@
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
                 <md-select placeholder="Category" class="width100" [(ngModel)]="category" name="category" disabled="true" required>
-                    <md-option *ngFor="let item of categories" [value]="item">
+                    <md-option *ngFor="let item of categories" [value]="item.itemCategoryID">
                         {{item.itemCategoryName}}
                     </md-option>
                 </md-select>
             </md-input-container>
+            
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select placeholder="Dose From" class="width100" [(ngModel)]="dose" name="dose" disabled="true" required>
-                    <md-option *ngFor="let item of dosages" [value]="item">
+                <md-select placeholder="Dose Form" class="width100" [(ngModel)]="dose" name="dose" disabled="true" required>
+                    <md-option *ngFor="let item of dosages" [value]="item.itemFormID">
                         {{item.itemForm}}
                     </md-option>
                 </md-select>
@@ -61,8 +62,8 @@
                 <input mdInput style="display:none">
                 <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="pharmacology" name="pharmacology" disabled="true"
                     required>
-                    <md-option *ngFor="let item of pharmacologies" [value]="item">
-                        {{item.categoryName}}
+                    <md-option *ngFor="let item of pharmacologies" [value]="item.pharmCategoryID">
+                        {{item.pharmCategoryName}}
                     </md-option>
                 </md-select>
             </md-input-container>
@@ -71,7 +72,7 @@
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
                 <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="manufacturer" name="manufacturer" disabled="true" required>
-                    <md-option *ngFor="let item of manufacturers" [value]="item">
+                    <md-option *ngFor="let item of manufacturers" [value]="item.manufacturerID">
                         {{item.manufacturerName}}
                     </md-option>
                 </md-select>
@@ -91,7 +92,7 @@
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
                 <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" disabled="true" required>
-                    <md-option *ngFor="let item of measures" [value]="item">
+                    <md-option *ngFor="let item of measures" [value]="item.uOMID">
                         {{item.uOMName}}
                     </md-option>
                 </md-select>
@@ -117,14 +118,14 @@
             <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
                 <md-select placeholder="Route Of Admin" class="width100" [(ngModel)]="route" name="route" disabled="true" required>
-                    <md-option *ngFor="let item of routes" [value]="item">
+                    <md-option *ngFor="let item of routes" [value]="item.routeID">
                         {{item.routeName}}
                     </md-option>
                 </md-select>
             </md-input-container>
         </div>
         <div class="clearfix"></div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" VehicleNO>
             <md-input-container class="width100">
                 <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
                     required>
