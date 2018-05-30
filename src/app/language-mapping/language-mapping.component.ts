@@ -522,9 +522,9 @@ export class LanguageMappingComponent implements OnInit {
     this.languageID_edit = rowObject.languageID;
     this.edit_Details = rowObject;
     this.showCheckboxes = true;
-    this.isCheckedRead = rowObject.canRead;
-    this.isCheckedWrite = rowObject.canWrite;
-    this.isCheckedSpeak = rowObject.canSpeak;
+    this.isCheckedRead = rowObject.weightage_Read === 0 ? false : rowObject.canRead;
+    this.isCheckedWrite = rowObject.weightage_Write === 0 ? false : rowObject.canWrite;
+    this.isCheckedSpeak = rowObject.weightage_Speak === 0 ? false : rowObject.canSpeak;
     this.read = rowObject.canRead;
     this.write = rowObject.canWrite;
     this.speak = rowObject.canSpeak;

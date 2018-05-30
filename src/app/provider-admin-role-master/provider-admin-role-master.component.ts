@@ -567,15 +567,31 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     debugger;
     this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
 
+    if (rowIndex === 0) {
+      for (let h = 0; h < this.tempFilterScreens.length; h++) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
+          this.tempFilterScreens.splice(FeatureIndex, 1);
+          this.getFeatures(this.service.serviceID);
 
-    for (let h = 0; h < this.tempFilterScreens.length; h++) {
-      if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
-        this.tempFilterScreens.splice(rowIndex, 1);
-      }
-      else {
-        continue;
+        }
+        else {
+          continue;
+        }
       }
     }
+    else {
+      for (let h = 0; h < this.tempFilterScreens.length; h++) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[h].screen_name[h].toUpperCase()) {
+          this.tempFilterScreens.splice(rowIndex, 1);
+          this.getFeatures(this.service.serviceID);
+
+        }
+        else {
+          continue;
+        }
+      }
+    }
+
     this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
     this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
