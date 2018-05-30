@@ -56,8 +56,8 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		this.instituteDirectoryService.getServiceLinesNew(this.userID).subscribe((response) => {
 			this.successhandeler(response),
 				(err) => {
-					console.log("ERROR in fetching serviceline")
-					this.alertService.alert(err, 'error');
+					console.log("ERROR in fetching serviceline", err);
+					//this.alertService.alert(err, 'error');
 				}
 		});
 	}
@@ -91,8 +91,8 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		}
 		this.instituteDirectoryService.getStatesNew(obj).
 			subscribe(response => this.getStatesSuccessHandeler(response, value), (err) => {
-				console.log("error in fetching states")
-				this.alertService.alert(err, 'error');
+				console.log("error in fetching states", err);
+				//this.alertService.alert(err, 'error');
 			});
 	}
 	// getServicesSuccessHandeler(response)
