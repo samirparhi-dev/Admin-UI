@@ -324,7 +324,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         this.bufferArray.push(obj);
       }
       else {
-        this.alertService.alert("Already exist");
+        // this.alertService.alert("Already exist");
         this.hospital = "";
       }
 
@@ -341,6 +341,9 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         if (count == 0 && (obj.institutionID != "" && obj.institutionID != undefined)) {
           this.bufferArray.push(obj);
         }
+        else {
+          this.alertService.alert("Already exists");
+        }
 
       }
       else {
@@ -349,14 +352,12 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
       }
 
     }
-
     /*resetting fields after entering in buffer array/or if duplicate exist*/
-    this.hospital = "";
+     this.hospital = "";
 
   }
 
   preventDuplicateMapping(hospital_id) {
-
     if (this.searchResultArray.length === 0) {
 
       return true;
@@ -371,6 +372,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
       }
       if (count > 0) {
+        this.alertService.alert("Already exists");
         return false;
       }
       else {
