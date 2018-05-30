@@ -304,6 +304,7 @@ export class EditSeverityModalComponent {
         console.log("error", err);
         //this.alertService.alert(err, 'error')});
   });
+  }
   addSeverity(value) {
     this.alreadyExist = false;
     console.log("searchArray", this.searchArray);
