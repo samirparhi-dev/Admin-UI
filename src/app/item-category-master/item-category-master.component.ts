@@ -31,7 +31,7 @@ export class ItemCategoryMasterComponent implements OnInit {
 
   subStore:boolean =false;
   filteredOptions: Observable<string[]>;
-
+selected:any;
 
    fieldArray: Array<any> = [{}];
    newAttribute: any = {};
