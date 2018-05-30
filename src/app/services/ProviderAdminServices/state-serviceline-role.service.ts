@@ -93,6 +93,11 @@ export class ProviderAdminRoleService {
       .map(this.handleState_n_ServiceSuccess_role)
       .catch(this.handleError);
   }
+  getRole(obj) {
+    return this.httpIntercept.post(this.find_Roles_By_State_Service_Url, obj)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
 
   createRoles(roles_array) {
     return this.httpIntercept.post(this.create_Roles_Url, roles_array)
