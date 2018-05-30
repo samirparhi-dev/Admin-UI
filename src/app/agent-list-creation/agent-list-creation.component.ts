@@ -102,6 +102,7 @@ export class AgentListCreationComponent implements OnInit {
     console.log('Agents list', agentsResponse);
     this.agentLists = agentsResponse;
     this.showTableFlag = true;
+    this.showFormFlag = false;
     this.editable = false;
 
   }

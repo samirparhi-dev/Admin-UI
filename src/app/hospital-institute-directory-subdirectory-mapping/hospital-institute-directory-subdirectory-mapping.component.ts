@@ -57,7 +57,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   getStates(serviceID, isNational) {
     this.hospitalInstituteMappingService.getStates(this.userID, serviceID, isNational)
       .subscribe(response => this.getStatesSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+       // this.alertService.alert(err, 'error');
       });
 
   }
@@ -133,7 +134,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.hospitalInstituteMappingService.getServices(userID)
       .subscribe(response => this.getServiceSuccessHandeler(response), err => {
         console.log('error while fetching service', err);
-        this.alertService.alert(err, 'error');
+        //this.alertService.alert(err, 'error');
       });
   }
 
@@ -157,7 +158,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
     this.hospitalInstituteMappingService.getDistricts(stateID)
       .subscribe(response => this.getDistrictSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+       // this.alertService.alert(err, 'error');
       });
 
   }
@@ -193,7 +195,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
     this.hospitalInstituteMappingService.getTaluks(districtID)
       .subscribe(response => this.getTalukSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        //this.alertService.alert(err, 'error');
       });
   }
 
@@ -220,7 +223,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     console.log("request obj to get", request_obj);
     this.hospitalInstituteMappingService.getInstitutions(request_obj)
       .subscribe(response => this.getInstitutionSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+        //this.alertService.alert(err, 'error');
       });
   }
 
@@ -234,7 +238,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   getInstituteDirectory() {
     this.hospitalInstituteMappingService.getInstituteDirectory(this.providerServiceMapID)
       .subscribe(response => this.getInstituteDirectorySuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+       // this.alertService.alert(err, 'error');
       });
   }
 
@@ -258,7 +263,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
     this.hospitalInstituteMappingService.getInstituteSubDirectory(data)
       .subscribe(response => this.getInstituteSubDirectorySuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+       // this.alertService.alert(err, 'error');
       });
 
 
@@ -293,7 +299,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
       console.log("GET REQ OBJ FOR GETTING MAPPINGS", reqObj);
       this.hospitalInstituteMappingService.getMappingList(reqObj)
         .subscribe(response => this.mappingHistorySuccessHandeler(response), err => {
-          this.alertService.alert(err, 'error');
+          console.log("error", err);
+          //this.alertService.alert(err, 'error');
         });
     }
 
@@ -396,7 +403,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     console.log("buffer array", this.bufferArray);
     this.hospitalInstituteMappingService.createMapping(this.bufferArray)
       .subscribe(response => this.saveSuccessHandeler(response), err => {
-        this.alertService.alert(err, 'error');
+        console.log("error", err);
+       // this.alertService.alert(err, 'error');
       });
   }
 
@@ -421,7 +429,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
           this.hospitalInstituteMappingService.toggleMappingStatus(obj)
             .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Deactivated"), err => {
-              this.alertService.alert(err, 'error');
+              console.log("error", err);
+              //this.alertService.alert(err, 'error');
             })
         }
       });
@@ -437,7 +446,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
           this.hospitalInstituteMappingService.toggleMappingStatus(obj)
             .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Activated"), err => {
-              this.alertService.alert(err, 'error');
+              console.log("error", err);
+              //this.alertService.alert(err, 'error');
             })
         }
       });

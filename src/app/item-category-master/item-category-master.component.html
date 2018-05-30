@@ -1,3 +1,144 @@
-<p>
-  item-category-master works!
-</p>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Physical Stock Entry</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+    <form id="addform" #stockAddForm="ngForm">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="Services" placeholder="Serviceline" required [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getstates(serviceline)">
+                <md-option *ngFor="let item of services_array" [value]="item">
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" required>
+                <md-option *ngFor="let item of states_array" [value]="item" >
+                  {{item.stateName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container [style.width]="'100%'">
+              <input mdInput required placeholder="Reference Number" PAN [(ngModel)]="create_referenceNumber" required
+                maxlength="100" name="referenceNumber" #referenceNumber="ngModel">
+              <md-hint>
+                <span class="error_text" *ngIf="!referenceNumber.valid  && ( referenceNumber.dirty || referenceNumber.touched)">Please enter Reference Number</span>
+              </md-hint>
+            </md-input-container>
+        </div> 
+        <div class="clearfix visible-md"></div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md2-datepicker class="width100"  [(ngModel)]="create_currentDate" name="currentDate" required 
+            #currentDate="ngModel" [disabled]="true"></md2-datepicker>
+        </div> 
+        <div class="clearfix visible-lg"></div>
+       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+          <md-radio-group [(ngModel)]="selected" name="selected" >
+            <md-radio-button *ngFor="let storetype of storeType" [value]="storetype" (change)="storeTypeselect(storetype)">
+              {{storetype}}
+              <span class="m-l-10"></span>
+             </md-radio-button>
+          </md-radio-group>
+        </div>  
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="mainStore" placeholder="MainStore" [style.width]="'100%'" [(ngModel)]="mainStore" (change)="getsubstore(mainStore)" >
+                <md-option *ngFor="let item of mainstore_array" [value]="item">
+                  {{item.facilityName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" >
+            <md-input-container class="hide_underline" [style.width]="'100%'" >
+              <input mdInput style="display:none" >
+              <md-select required name="subStore" placeholder="Sub Store" [style.width]="'100%'" [(ngModel)]="subStore" [disabled]="selected=='Main Store'">
+                <md-option *ngFor="let item of substore_array" [value]="item" >
+                  {{item.facilityName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+        </div>
+    </form>
+  </div>
+</div>
+<div class="table-responsive m-t-20">
+    <table class="table table-striped stock">
+      <thead>
+        <tr>
+          <th width="5%">S.No.</th>
+          <th width="30%">Item&nbsp;Name)</th>
+          <th width="5%">Qty(In&nbsp;Lowest&nbsp;Unit)</th>
+          <th width="15%">Cost&nbsp;Price</th>
+          <th width="15%">Batch&nbsp;Number</th>
+          <th width="20%">Expiry&nbsp;Date</th>
+          <th width="15%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="fieldArray.length == 0">
+          nothing
+        </tr>
+
+        <tr *ngFor="let field of fieldArray; let i = index">
+          <td class="p-t-10">
+            {{i+1}}
+          </td>
+            <td>
+               <md-input-container [style.width]="'90%'">
+                <input mdInput placeholder="Items" class="width200px" required [mdAutocomplete]="tdAuto"  name="{{field.itemname}}" 
+                   #item1="ngModel" [(ngModel)]="field.itemname" 
+                  (ngModelChange)="tditems = filterItem(field.itemname)" >
+              </md-input-container>
+            
+              <md-autocomplete #tdAuto="mdAutocomplete" [displayWith]="displayFn">
+                <md-option *ngFor="let item of tditems" [value]="item">
+                  <span>{{ item.itemName }}</span>
+                </md-option>
+              </md-autocomplete> 
+            </td>
+            <td>
+                <md-input-container [style.width]="'70%'" myMobileNumber>
+                <input mdInput [(ngModel)]="field.qty" required class="width200px" min="1" type="text" name="{{field.qty}}" />
+              </md-input-container> 
+            </td>
+            <td>
+                <md-input-container [style.width]="'90%'" myMobileNumber>
+                <input  mdInput [(ngModel)]="field.price" required class="width200px " type="text" name="{{field.price}}" />
+              </md-input-container> 
+            </td>
+            <td>
+              <md-input-container [style.width]="'90%'">
+              <input  mdInput [(ngModel)]="field.batchno" required class="width200px" type="text" name="{{field.batchno}}" />
+            </md-input-container> 
+           </td>
+           <td>
+                <md2-datepicker class="width100"  [(ngModel)]="field.expdate" name="expDate" required
+                #expDate="ngModel" (keydown)="preventTyping($event)"></md2-datepicker>
+           </td>
+            <td>
+                <md-icon  class="cursorPointer m-t-20 " mdTooltip="Remove" (click)="deleteFieldValue(i)">delete</md-icon>
+                <button *ngIf="i==(fieldArray.length-1)" [disabled]="!field.qty || !field.itemname || !field.batchno || !field.price || !field.expdate" md-mini-fab class="m-l-10" 
+                color="primary" (click)="addFieldValue()">
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+              </button>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+<div class="">
+    <button md-raised-button color="primary" class="pull-right  m-b-10" [disabled]="stockAddForm.invalid" *ngIf="fieldArray?.length > 0" (click)="saveItems(stockAddForm.value,fieldArray)">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="reset()">Clear</button>
+</div>

@@ -25,9 +25,12 @@ export class ItemToStoreMappingComponent implements OnInit {
   createdBy: any;
   storeType: boolean = true;
   showFormFlag: boolean = false;
+  showTableFlag: boolean = false;
   itemCategoryselected:any={};
+  
 
-
+  mappedItem :any=[];
+  filterItem:any=[];
   services: any = [];
   filteredItemList: any = [];
   itemFacilityMapList: any = [];
@@ -42,6 +45,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   mainstores:any=[];
   substores:any=[];
   mainStore:any={};
+  subStore:any={};
   @ViewChild('mappingFieldsForm') mappingFieldsForm: NgForm;
 
   constructor(public commonDataService: dataService,
@@ -88,17 +92,7 @@ export class ItemToStoreMappingComponent implements OnInit {
     this.getAllItemFacilityMapping(providerServiceMapID);
   }
 
-  getAllItemFacilityMapping(providerServiceMapID) {
-
-
-    this.itemFacilityMappingService.getAllFacilityItemMapping(providerServiceMapID).subscribe((response) => {
-      console.log("serviceline", response);
-      this.itemFacilityMapView = response;
-      this.itemFacilityMapList = response;
-      debugger;
-    },
-      (err) => { console.log("ERROR in fetching serviceline") });
-  }
+  
 
   setStores(providerServiceMapID) {
     this.storeService.getAllStores(providerServiceMapID).subscribe((response) => {
@@ -126,8 +120,6 @@ export class ItemToStoreMappingComponent implements OnInit {
       subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
         console.log("error in fetching states")
       });
-
-
   }
   getStatesSuccessHandeler(response, service) {
     this.states = response;
@@ -147,38 +139,73 @@ export class ItemToStoreMappingComponent implements OnInit {
         }
       });
     }
-
   }
 
   showForm() {
     this.showFormFlag = true;
   }
-
-  onCategorySelected(category,mainID) {
-    if(this.storeType){
-      this.itemFacilityMappingService.getItemsOnCategory(this.providerServiceMapID, category).subscribe((response) => {
-        console.log("serviceline", response);
-        this.itemsList = response;
-        debugger;
-      },
+  getAllItemFacilityMapping(providerServiceMapID) {
+    debugger;
+    this.itemFacilityMappingService.getAllFacilityItemMapping(providerServiceMapID).subscribe((response) => {
+      console.log("serviceline", response);
+      this.itemFacilityMapView = response;
+      this.itemFacilityMapList = response;
+      this.showTableFlag = true;
+      debugger;
+    },
+      (err) => { console.log("ERROR in fetching serviceline") });
+  }
+  onCategorySelected(categoryId,mainID) {
+    debugger;
+     if(this.mainStore.isMainFacility && this.mainStore.mainFacilityID==undefined){
+      this.itemFacilityMappingService.getItemsOnCategory(this.providerServiceMapID, categoryId).
+      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId),
         (err) => { console.log("ERROR in fetching items") });
-    }else{
-      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).subscribe((response) => {
-        console.log("serviceline", response);
-        this.itemsList = response;
-        debugger;
-      },
+     }
+     else {
+      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).
+      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId),
         (err) => { console.log("ERROR in fetching items") });
     }
-    
-
   }
+  onCategorySelectedSuccessHandeler(response,categoryId) {
+   
+    this.mappedItem=[];
+    this.itemFacilityMapList.forEach(element => {
+      if(element.facilityID==this.mainStore.facilityID)
+      {
+        this.mappedItem.push(element.itemName)
+      }
+    });
+    this.itemsList = response.filter(
+      item=> this.mappedItem.indexOf(item.itemName)==-1 && item.itemCategoryID==categoryId
+    );
 
+
+    // this.itemsList = this.filterItem.filter(
+    //   item=> item.itemCategoryID==categoryId
+    // );
+
+     // this.mappedItem=[];
+    // this.itemFacilityMapList.forEach(element => {
+    //   if(element.facilityID==this.mainStore.facilityID)
+    //   {
+    //     this.mappedItem.push(element)
+    //   }
+    // });
+    // this.filterItem = response.filter(
+    //   item=> item.itemName!=this.mappedItem.itemName
+    // );
+    // this.itemsList = this.filterItem.filter(
+    //   item=> item.itemCategoryID==categoryId
+    // );
+  }
   addtoBufferArray(value) {
-    
+    debugger;
     var obj = {
       "facilityID": value.mainStore.facilityID,
       "facilityName": value.mainStore.facilityName,
+      "facilityCode":value.mainStore.facilityCode,
       "itemID1": [],
       "item": [],
       "mappingType": "Individual",
@@ -218,20 +245,15 @@ export class ItemToStoreMappingComponent implements OnInit {
         this.dialogService.alert("Please add Items Before Proceeding");
         return;
       }
-
-     
     }
-    
     obj = this.checkInMain(obj);
     if (obj.itemID1.length > 0) {
       if (this.checkinBuffer(obj)) {
         this.bufferarray.push(obj);
       }
     }
-
     this.resetForm();
     debugger;
-
   }
 
   removeRow(index) {
@@ -272,11 +294,6 @@ export class ItemToStoreMappingComponent implements OnInit {
     return false;
   }
 
-  //   checkforitems(master,slave){
-  // for(){
-
-  // }
-  //   }
   checkInMain(input) {
     var obj = input;
     var faciltyitem = this.itemFacilityMapList.filter(function (item) {
@@ -297,22 +314,34 @@ export class ItemToStoreMappingComponent implements OnInit {
     }
     return obj
   }
+  back() {
+    this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.mappingFieldsForm.resetForm();
+        this.bufferarray = [];
+        this.showTableFlag = true;
+        this.showFormFlag = false;
+        this.disableSelection = false;
+        this.getAllItemFacilityMapping(this.providerServiceMapID)
+      }
+    })
+  }
   resetForm() {
+    debugger;
     this.mappingFieldsForm.reset();
     this.storeType=true;
     this.mapType=false;
-    // this.provider = undefined;
-    // this.serviceline = undefined;
-    // this.state = undefined;
-    // this.isNational = false;
+    
   }
 
   submitMapping() {
     this.itemFacilityMappingService.setFacilityItemMapping(this.bufferarray).subscribe(response => {
       console.log(response, 'after successful mapping of provider to service and state');
       this.dialogService.alert('Mapping saved successfully', 'success');
+      this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.bufferarray = [];
       this.resetForm();
+
     }, err => {
       this.dialogService.alert(err, 'error');
       console.log(err, 'ERROR');
@@ -333,6 +362,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
 
   deleteMapping(id,bool){
+    debugger;
     this.itemFacilityMappingService.deleteFacilityItemMapping(id,bool).subscribe(response => {
       // console.log(response, 'after successful mapping of provider to service and state');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
@@ -342,7 +372,7 @@ export class ItemToStoreMappingComponent implements OnInit {
     });
   }
   activate(id){
-this.deleteMapping(id,true);
+  this.deleteMapping(id,true);
   }
   deactivate(id){
     this.deleteMapping(id,false);

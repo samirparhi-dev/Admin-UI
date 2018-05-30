@@ -52,7 +52,7 @@ export class DrugGroupComponent implements OnInit {
     this.drugMasterService.getDrugGroups(this.drugGroupObj).subscribe(response => this.getDrugGroupsSuccessHandeler(response),
       (err) => {
         console.log("error", err);
-        this.alertMessage.alert(err, 'error')
+        //this.alertMessage.alert(err, 'error')
       });
   }
 
