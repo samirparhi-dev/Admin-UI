@@ -330,7 +330,10 @@ export class ProviderAdminListComponent implements OnInit {
             console.log("pan response", response);
             this.checkPanSuccessHandler(response);
           },
-          (err) => this.dialogService.alert(err, 'error'));
+          (err) => {
+            console.log("Error", err);
+            //this.dialogService.alert(err, 'error')
+          });
       }
     }
   }
