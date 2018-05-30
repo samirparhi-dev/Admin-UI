@@ -74,11 +74,12 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showFormFlag">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital">
+          <md-select required placeholder="Hospital" [style.width]="'100%'" [(ngModel)]="hospital" name="hospital" #hospitalName="ngModel">
             <md-option *ngFor="let item of hospitals" value="{{item.institutionID}}" (click)="setHospitalName(item.institutionName)">
               {{item.institutionName}}
             </md-option>
-          </md-select>
+          </md-select>      
+         
         </md-input-container>
       </div>
     </form>
@@ -100,15 +101,17 @@
       <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped " [rowsPerPage]="4">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th>Institution Name</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="searchResultArray.length == 0">
-            <td colspan="2" class="record-not-found">No records found</td>
+            <td colspan="3" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data">
+            <td>{{searchResultArray.indexOf(item)+1}}</td>
             <td>{{item.institute.institutionName}}</td>
             <td>
               <!--  <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon> -->
@@ -138,21 +141,23 @@
           <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-striped " [rowsPerPage]="4">
             <thead>
               <tr>
+                <th>S.No.</th>
                 <th>Institution Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of md2.data; let k=index; ">
+                <td>{{bufferArray.indexOf(item)+1}}</td>
                 <td>{{item.hospital_name}}</td>
                 <td>
-                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(k)">delete</md-icon>
+                  <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
                 </td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="2">
+                <td colspan="3">
                   <md2-pagination></md2-pagination>
                 </td>
               </tr>

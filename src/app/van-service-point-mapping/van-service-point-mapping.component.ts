@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { VanServicePointMappingService } from '../services/ProviderAdminServices/van-service-point-mapping.service';
@@ -44,6 +44,9 @@ export class VanServicePointMappingComponent implements OnInit {
   availableParkingPlaces: any = [];
   availableVanTypes: any = [];
   availableVans: any = [];
+
+  @ViewChild('searForm1') searForm1: NgForm;
+  @ViewChild('searchDistrictsForm') searchDistrictsForm: NgForm;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
@@ -97,7 +100,8 @@ export class VanServicePointMappingComponent implements OnInit {
   getStatesSuccessHandeler(response) {
     this.states = response;
   }
-  setProviderServiceMapID(providerServiceMapID) {
+  setProviderServiceMapID(providerServiceMapID) {    
+    this.resetFieldsOnStateChange();
     this.providerServiceMapID = providerServiceMapID;
     this.getDistricts(this.state);
 
@@ -187,8 +191,9 @@ export class VanServicePointMappingComponent implements OnInit {
     temp.reset();
     this.servicePointIDList = [];
     console.log('temp', temp);
-    if (temp.length > 0) {
-      for (let i = 0; i <= temp.length; i++) {
+    let tempLength = temp.length
+    if (tempLength > 0) {
+      for (let i = 0; i <= tempLength; i++) {
         temp.removeAt(0);
       }
     }
@@ -311,5 +316,9 @@ export class VanServicePointMappingComponent implements OnInit {
       this.getVanServicePointMappings(this.districtID, this.searchParkingPlaceID, this.vanID);
       this.alertMessage.alert("Mapping saved successfully", 'success');
     }
+  }
+  resetFieldsOnStateChange() {
+    this.searchDistrictsForm.resetForm();
+    this.searForm1.resetForm();
   }
 }

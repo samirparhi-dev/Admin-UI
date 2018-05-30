@@ -72,7 +72,7 @@
             <td width=15%>{{i.fitToBlock===false?"No":"Yes"}}</td>
             <td width=15%>{{i.fitForFollowup===false?"No":"Yes"}}</td>
             <td width=10%>
-              <span [hidden]="i.deleted">
+              <span [hidden]="i.deleted || i.callType ==='Wrapup Exceeds'">
                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editCallDisposition(i)">edit</md-icon>
               </span>
             </td>
@@ -145,7 +145,7 @@
           <input mdInput style="display:none">
           <md-select style="width: 100%" placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)">
             <md-option value="Valid" *ngIf="service.serviceID != 6">Valid</md-option>
-            <md-option value="Transfer" *ngIf="service.serviceID == 1">Transfer</md-option>
+            <md-option value="Transfer" *ngIf="service.serviceID == 1 || service.serviceID == 3">Transfer</md-option>
             <md-option value="Invalid" *ngIf="service.serviceID == 1">Invalid</md-option>
             <md-option value="Incomplete" *ngIf="service.serviceID == 3">Incomplete</md-option>
             <md-option value="Answered" *ngIf="service.serviceID == 6">Answered</md-option>
