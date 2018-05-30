@@ -20,6 +20,7 @@ export class ItemService {
     createItemUrl: any;
     updateItemUrl: any;
     itemActivationDeactivationUrl: any;
+    setDiscontinueUrl:any
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -110,7 +111,14 @@ export class ItemService {
             .catch(this.handleError)
 
     }
+    setDiscontinue(itemId,deleteFlag) {
+        this.setDiscontinueUrl = this.adminBaseUrl + 'discontinueItemMaster' + '/' + itemId + '/' + deleteFlag;
+        return this.http
+            .get(this.setDiscontinueUrl)
+            .map(this.extractData)
+            .catch(this.handleError)
 
+    }
 
 
     private extractCustomData(res: Response) {

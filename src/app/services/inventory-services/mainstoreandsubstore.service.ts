@@ -31,7 +31,7 @@ export class Mainstroreandsubstore {
         this.get_stores_Url = this.admin_Base_Url + '/getAllStore';
         this.save_stores_Url = this.admin_Base_Url + '/createStore';
         this.update_stores_Url = this.admin_Base_Url + '/editStore';
-        this.delete_stores_Url = this.admin_Base_Url + '/deleteFacility';
+        this.delete_stores_Url = this.admin_Base_Url + '/deleteStore';
         this.get_facilities_Url = this.admin_Base_Url + '/getFacility';
         this.get_itemCategory_Url = this.admin_Base_Url + '/getItemCategory';
         this.save_itemCategory_Url = this.admin_Base_Url + '/configItemIssue';
@@ -56,9 +56,10 @@ export class Mainstroreandsubstore {
             .catch(this.handleError);
     }
     deleteStore(deleteObj) {
+        debugger;
         return this.http.post(this.delete_stores_Url, deleteObj
         ).map(this.handleSuccess)
-            .catch(this.handleError);
+        .catch(this.handleError)
     }
     saveStore(obj) {
         return this.http.post(this.save_stores_Url, obj
@@ -105,6 +106,7 @@ export class Mainstroreandsubstore {
 
 
     handleSuccess(res: Response) {
+        debugger;
         console.log(res.json().data, 'Main Stores file success response');
         if (res.json().data) {
             return res.json().data;
@@ -149,10 +151,8 @@ export class Mainstroreandsubstore {
     }
 
     handleError(error: Response | any) {
+        debugger;
         return Observable.throw(error.json());
-    }
-
-
-
+    } 
 
 };

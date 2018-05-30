@@ -202,6 +202,9 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
+import {ManufacturemasterService} from './services/inventory-services/manufacturemaster.service';
+import {PhysicalstockService} from './services/inventory-services/physicalstock.service';
+
 import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
 import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
 
@@ -215,6 +218,7 @@ import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
+
 
 @NgModule({
   declarations: [
@@ -340,8 +344,8 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService,
+CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
+    ItemFacilityMappingService,StoreSelfConsumptionServiceService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
