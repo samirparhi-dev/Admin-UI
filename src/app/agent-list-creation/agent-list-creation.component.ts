@@ -47,6 +47,8 @@ export class AgentListCreationComponent implements OnInit {
   ngOnInit() {
     this.radio_option = '1';
     this.userID = this.commonDataService.uid;
+    console.log("userID", this.
+    userID);
     this.getServices(this.userID);
   }
 
@@ -178,7 +180,7 @@ export class AgentListCreationComponent implements OnInit {
         if (this.resultArray[z].agentID.toString()[0] === "2" ||
           this.resultArray[z].agentID.toString()[0] === "3" ||
           this.resultArray[z].agentID.toString()[0] === "4") {
-          console.log(this.resultArray[z].agentID.toString()[0]);
+          console.log("Validate One",this.resultArray[z].agentID.toString()[0]);
           tick = tick + 1;
         }
       }
