@@ -29,7 +29,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   itemCategoryselected:any={};
   
 
-  mappedItem :any=[];
+  mappedItem :number[]=[];
   filterItem:any=[];
   services: any = [];
   filteredItemList: any = [];
@@ -38,6 +38,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   states: any = [];
   stores: any = [];
   itemCategory: any = [];
+  tempItemCategory: any = [];
   itemsList: any = [];
   mapType: any = false;
   disableSelection: boolean = false;
@@ -83,6 +84,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
 
   setProviderServiceMapID(providerServiceMapID) {
+    debugger;
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
@@ -108,6 +110,7 @@ export class ItemToStoreMappingComponent implements OnInit {
     this.itemService.getAllItemsCategory(providerServiceMapID, 0).subscribe((response) => {
       console.log("serviceline", response);
       this.itemCategory = response;
+      this.tempItemCategory=response;
       debugger;
     },
       (err) => { console.log("ERROR in fetching serviceline") });
@@ -125,11 +128,12 @@ export class ItemToStoreMappingComponent implements OnInit {
     this.states = response;
   }
   filterItemFromList(searchTerm?: string) {
+    
     if (!searchTerm) {
       this.itemFacilityMapView = this.itemFacilityMapList;
     }
     else {
-      this.filteredItemList = [];
+      this.itemFacilityMapView = [];
       this.itemFacilityMapList.forEach((item) => {
         for (let key in item) {
           let value: string = '' + item[key];
@@ -157,48 +161,49 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
   onCategorySelected(categoryId,mainID) {
     debugger;
-     if(this.mainStore.isMainFacility && this.mainStore.mainFacilityID==undefined){
-      this.itemFacilityMappingService.getItemsOnCategory(this.providerServiceMapID, categoryId).
-      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId),
+    if(this.storeType)
+    {
+      if(this.mainStore.mainFacilityID==undefined){
+        this.itemFacilityMappingService.getItemsOnCategory(this.providerServiceMapID, categoryId).
+        subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.mainStore),
         (err) => { console.log("ERROR in fetching items") });
      }
      else {
       this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).
-      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId),
+      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.mainStore),
         (err) => { console.log("ERROR in fetching items") });
     }
+    }
+    else{
+      if(this.subStore.mainFacilityID==undefined){
+        this.itemFacilityMappingService.getItemsOnCategory(this.providerServiceMapID, categoryId).
+        subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.subStore),
+        (err) => { console.log("ERROR in fetching items") });
+     }
+     else {
+      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).
+      subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.subStore),
+        (err) => { console.log("ERROR in fetching items") });
+    }
+    }
+    
   }
-  onCategorySelectedSuccessHandeler(response,categoryId) {
-   
-    this.mappedItem=[];
+  onCategorySelectedSuccessHandeler(response,categoryId,storeType) {
+    var mappedItem=[];
     this.itemFacilityMapList.forEach(element => {
-      if(element.facilityID==this.mainStore.facilityID)
+      if(element.facilityID==storeType.facilityID)
       {
-        this.mappedItem.push(element.itemName)
+        mappedItem.push(parseInt(element.itemID))
       }
     });
+console.log(mappedItem)
     this.itemsList = response.filter(
-      item=> this.mappedItem.indexOf(item.itemName)==-1 && item.itemCategoryID==categoryId
+      
+      item=> {
+        console.log(item.itemID,"ddd",mappedItem.indexOf(item.itemID)==-1 && item.itemCategoryID==categoryId)
+        return mappedItem.indexOf(item.itemID)==-1 && item.itemCategoryID==categoryId
+      }
     );
-
-
-    // this.itemsList = this.filterItem.filter(
-    //   item=> item.itemCategoryID==categoryId
-    // );
-
-     // this.mappedItem=[];
-    // this.itemFacilityMapList.forEach(element => {
-    //   if(element.facilityID==this.mainStore.facilityID)
-    //   {
-    //     this.mappedItem.push(element)
-    //   }
-    // });
-    // this.filterItem = response.filter(
-    //   item=> item.itemName!=this.mappedItem.itemName
-    // );
-    // this.itemsList = this.filterItem.filter(
-    //   item=> item.itemCategoryID==categoryId
-    // );
   }
   addtoBufferArray(value) {
     debugger;
@@ -246,11 +251,15 @@ export class ItemToStoreMappingComponent implements OnInit {
         return;
       }
     }
-    obj = this.checkInMain(obj);
     if (obj.itemID1.length > 0) {
       if (this.checkinBuffer(obj)) {
         this.bufferarray.push(obj);
       }
+    }
+    else
+    {
+      this.dialogService.alert("No Items to add");
+        return;
     }
     this.resetForm();
     debugger;
@@ -295,6 +304,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
 
   checkInMain(input) {
+    debugger;
     var obj = input;
     var faciltyitem = this.itemFacilityMapList.filter(function (item) {
       return item.facilityID == obj.facilityID; // This value has to go in constant
@@ -317,21 +327,22 @@ export class ItemToStoreMappingComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.mappingFieldsForm.resetForm();
-        this.bufferarray = [];
-        this.showTableFlag = true;
-        this.showFormFlag = false;
-        this.disableSelection = false;
+        //this.mappingFieldsForm.resetForm();
+         this.bufferarray = [];
+         this.showTableFlag = true;
+         this.showFormFlag = false;
+        // this.disableSelection = false;
         this.getAllItemFacilityMapping(this.providerServiceMapID)
       }
     })
   }
   resetForm() {
     debugger;
-    this.mappingFieldsForm.reset();
+   // this.mappingFieldsForm.reset();
     this.storeType=true;
     this.mapType=false;
-    
+    this.mainstores=[];
+    this.setStores(this.providerServiceMapID);
   }
 
   submitMapping() {
@@ -350,14 +361,14 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
   filterStore(store){
     this.mainstores=store.filter(function (item) {
-      return item.isMainFacility == 1; // This value has to go in constant
+      return item.isMainFacility == 1 && item.deleted==false; // This value has to go in constant
     });
   }
 
   subStorelist(facID){
     this.itemCategoryselected={};
     this.substores=this.stores.filter(function (item) {
-      return item.mainFacilityID == facID; // This value has to go in constant
+      return item.mainFacilityID == facID && item.deleted==false; // This value has to go in constant
     });
   }
 

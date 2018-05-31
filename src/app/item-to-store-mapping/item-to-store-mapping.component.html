@@ -26,7 +26,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!showFormFlag&&itemFacilityMapView?.length > 0">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
       <md-input-container id="filterbox">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
@@ -35,7 +35,7 @@
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(!showFormFlag) && showTableFlag">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="itemFacilityMapList" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="itemFacilityMapView" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -48,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="itemFacilityMapView?.length == 0" class="record-not-found">
+          <tr *ngIf="itemFacilityMapView?.length == 0 ||itemFacilityMapList.length == 0" class="record-not-found">
             <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
@@ -85,8 +85,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <label class="f-s-n-b">Store Type</label>
       <md-radio-group [(ngModel)]="storeType" name="storeType">
-        <md-radio-button (change)="itemCategoryselected={};itemselected=[]" color="primary" class="p-l-10" [value]="true">Main Store</md-radio-button>
-        <md-radio-button (change)="itemCategoryselected={};itemselected=[]" color="primary" class="p-l-10" [value]="false">Sub Store</md-radio-button>
+        <md-radio-button (change)="itemCategoryselected={};itemselected=[];subStore=[]" color="primary" class="p-l-10" [value]="true">Main Store</md-radio-button>
+        <md-radio-button (change)="itemCategoryselected={};itemselected=[];subStore=[]" color="primary" class="p-l-10" [value]="false">Sub Store</md-radio-button>
       </md-radio-group>
     </div>
 
@@ -148,7 +148,7 @@
     <!-- </div> -->
     <!-- <div class="row"> -->
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-12 m-t-10 ">
-      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value)">
+      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -198,8 +198,8 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back();itemCategoryselected={};itemselected=[];subStore=[]">Back</button>
     <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Add Mapping</button>
-    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm()">Clear</button>
+    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm();itemCategoryselected={};itemselected=[];subStore=[]">Clear</button>
   </div>
-</div> -->
+</div> 
