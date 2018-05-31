@@ -132,14 +132,13 @@
           </md-hint>
         </md-input-container>
       </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+        <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid && !editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
+          (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value)">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
-      <button md-mini-fab color="primary" *ngIf="zoneDistrictMappingForm.valid && !editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
-        (click)="addZoneDistrictMappingToList(zoneDistrictMappingForm.value)">
-        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-    </div>
-
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="zoneDistrictMappingList.length>0">
       <div class="table-responsive">
         <table [md2Data]="zoneDistrictMappingList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">

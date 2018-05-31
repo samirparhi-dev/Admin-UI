@@ -38,14 +38,14 @@ export class ProcedureComponentMappingServiceService {
 
   getSelectedProcedureMappings(procedureID) {
     return this.http.get(`${this._getprocedureConfigDetailsURL}labModule/fetchProcCompMappingForSingleProcedure/${procedureID}`)
-    .map(this.handleSuccess)
-    .catch(this.handleSuccess)
+      .map(this.handleSuccess)
+      .catch(this.handleSuccess)
   }
 
   getCurrentMappings(providerServiceMapID) {
     return this.http.get(`${this._getCurrentMappingsURL}labModule/fetchprocCompMappingDelFalse/${providerServiceMapID}`)
-    .map(this.handleSuccess)
-    .catch(this.handleError)
+      .map(this.handleSuccess)
+      .catch(this.handleError)
   }
 
   getComponentsList(providerServiceMapID) {
@@ -55,9 +55,9 @@ export class ProcedureComponentMappingServiceService {
   }
 
   saveProcedureComponentMapping(apiObject) {
-    return this.http.post(this._setProcedureComponentMapURL, apiObject )
-    .map(this.handleSuccess)
-    .catch(this.handleError);
+    return this.http.post(this._setProcedureComponentMapURL, apiObject)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
   }
 
   handleSuccess(res: Response) {
