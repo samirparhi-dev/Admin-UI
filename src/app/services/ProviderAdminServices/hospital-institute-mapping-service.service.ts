@@ -57,7 +57,7 @@ export class HospitalInstituteMappingService {
   getStates(userID, serviceID, isNational) {
     return this.httpIntercept.post(this.get_State_Url,
       { 'userID': userID, 'serviceID': serviceID, 'isNational': isNational })
-      .map(this.handleState_n_ServiceSuccess)
+      .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
@@ -133,7 +133,7 @@ export class HospitalInstituteMappingService {
     console.log(response.json().data, 'HOSPITAL-MASTER-SERVICE success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.statusID !== 4) {
+      if (item.serviceID === 1 || item.serviceID === 3) {
         return item;
       }
     });
