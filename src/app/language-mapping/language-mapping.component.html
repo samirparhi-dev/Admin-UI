@@ -33,11 +33,12 @@
             <td>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!lang.deleted" role="img" aria-hidden="true" style="cursor: pointer"
                 (click)="editRow(lang)">edit</md-icon>
+            </td>
 
-              <td>
-                <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
-                <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
-              </td>
+            <td>
+              <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
+            </td>
           </tr>
         </tbody>
         <tfoot>
