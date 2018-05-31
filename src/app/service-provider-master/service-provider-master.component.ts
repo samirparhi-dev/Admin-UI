@@ -139,6 +139,12 @@ export class ServiceProviderMasterComponent implements OnInit {
   save(form_value) {
     console.log(form_value, 'Form Value');
     console.log("address", form_value.address2 === undefined, form_value.address2);
+    let valid_till: Date = new Date(form_value.valid_till);
+
+    valid_till.setHours(23);
+    valid_till.setMinutes(59);
+    valid_till.setSeconds(59);
+    valid_till.setMilliseconds(0);
 
     const object = {
       'serviceProviderName': form_value.provider_name,
@@ -149,7 +155,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       'primaryContactAddress': form_value.address1 + (form_value.address2 === undefined ? "" : ',' + form_value.address2),
       'statusID': '2',
       'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)),
-      'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)),
+      'validTill': new Date(valid_till.valueOf()  - 1 * (valid_till.getTimezoneOffset() * 60 * 1000)),
       'deleted': false
     }
     console.log("object", object);
