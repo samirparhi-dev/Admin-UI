@@ -31,15 +31,19 @@ export class ItemCategoryMasterComponent implements OnInit {
 
   subStore:boolean =false;
   filteredOptions: Observable<string[]>;
+selected:any;
+mainStore:any;
+create_referenceNumber:any;
+state:any;
+serviceline:any;
 
-
-  private fieldArray: Array<any> = [{}];
-  private newAttribute: any = {};
+   fieldArray: Array<any> = [{}];
+   newAttribute: any = {};
 
   @ViewChild('stockAddForm') stockAddForm: NgForm;
 
   constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    private physicalStockService: PhysicalstockService,public dialogService: ConfirmationDialogsService) { }
+    public physicalStockService: PhysicalstockService,public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;

@@ -47,7 +47,7 @@ export class AgentListCreationService {
         'serviceID': serviceID,
         'isNational': isNational
       })
-      .map(this.handleState_n_ServiceSuccess)
+      .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
@@ -62,7 +62,7 @@ export class AgentListCreationService {
   getAllAgents(providerServiceMapID) {
      return this.http
         .post(this.getAllAgents_Url , {"providerServiceMapID": providerServiceMapID})
-        .map(this.handleState_n_ServiceSuccess)
+        .map(this.handleSuccess)
         .catch(this.handleError)
   }
   getCampaignNames(serviceName) {
@@ -99,7 +99,7 @@ export class AgentListCreationService {
     console.log(response.json().data, 'AGENT LIST CREATION service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.statusID != 4) {
+      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 ) {
         return item;
       }
     });
