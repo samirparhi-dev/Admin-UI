@@ -26,7 +26,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   services: any;
   disableSelection: boolean = false;
 
-  editMode: any;
+  editMode: boolean = false;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -67,7 +67,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
  * Initiate Form
 */
   initiateForm() {
-    this.editMode = false;
+    // this.editMode = false;
     // By Default, it'll be set as enabled
     // this.componentForm = this.initComponentForm();
     // this.componentForm.patchValue({
@@ -147,6 +147,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
 
   configProcedureMapping(item, index) {
+    debugger;
     this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
@@ -157,6 +158,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
         if (res.length > 0) {
           console.log(JSON.stringify(res, null, 4), 'recheck')
           this.editMode = index >= 0 ? true : false;
+          if (this.editMode)
+            this.saveMode = false;
           // this.selectedProcedureType = item.procedureType;
 
           this.loadForConfig(res, item);
@@ -226,11 +229,11 @@ export class ProcedureComponentMappingComponent implements OnInit {
         } else {
 
           this.selectedComponentList.push(this.selectedComponent);
-
+          this.postMappingData();
           this.clearComponentValue();
         }
       } else {
-        this.alertService.alert('This Component is already mapped with selected Procedure');
+        this.alertService.alert('Already exists');
       }
     }
   }
@@ -249,6 +252,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
+        this.getCurrentMappings();
       })
   }
 
@@ -261,7 +265,9 @@ export class ProcedureComponentMappingComponent implements OnInit {
   updateListAsPerFunction(res) {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
-      this.alertService.alert('Mapping saved successfully', 'success');
+      if (!this.editMode)
+        this.alertService.alert('Mapping saved successfully', 'success');
+      else this.alertService.alert('Mapping updated successfully', 'success');
       this.showTable();
     } else if (this.editMode) {
       let index = -1;
@@ -329,7 +335,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
       this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
       this.selectedProcedureType = this.selectedProcedure.procedureType;
       console.log(this.selectedProcedureType)
-      this.configProcedureMapping(this.selectedProcedure, 0);
+      this.configProcedureMapping(this.selectedProcedure, -1);
     } else {
       this.clearSelectedComponentsList();
       this.selectedProcedureDescription = '';
@@ -358,6 +364,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
   showTable() {
     this.tableMode = true;
+    this.editMode = false;
     this.saveMode = false;
     this.disableSelection = false;
   }
