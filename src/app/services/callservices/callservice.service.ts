@@ -41,7 +41,7 @@ export class CallServices {
   getAllMappedServicelinesAndStates(serviceProviderID) {
     console.log("Mappedservice",serviceProviderID);
     
-    return this._httpInterceptor.post(this._getCampaignList, {"serviceProviderID":serviceProviderID}).map(this.extractData).catch(this.handleError);
+    return this._httpInterceptor.post(this._getCampaignList, {"serviceProviderID":serviceProviderID}).map(this.extractData_campaignList).catch(this.handleError);
   }
   getStates(userID, serviceID, isNational) {
     return this._httpInterceptor.post(this.get_State_Url,
@@ -86,6 +86,18 @@ export class CallServices {
     }
   };
 
+  // For specific serviceline
+  extractData_campaignList(response: Response) {
+
+    console.log(response.json().data, 'Mapped list');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 ) {
+        return item;
+      }
+    });
+    return result;
+  }
   private handleError(err: Response) {
     return Observable.throw(err.json());
   };
