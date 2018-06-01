@@ -135,6 +135,7 @@ export class BlockServiceProviderComponent implements OnInit {
   //** end **/
 
   getStates(serviceProviderID) {
+    debugger;
     this.block_provider.getStates(serviceProviderID).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
