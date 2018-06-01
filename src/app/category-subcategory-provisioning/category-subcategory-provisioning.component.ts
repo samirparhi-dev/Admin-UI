@@ -241,7 +241,11 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     console.log(choice, "search choice");
     if (choice == 1) {
       this.showCategoryTable = false;
-      this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
+      if (this.nationalFlag) {
+        this.getSubCategory(this.states[0].providerServiceMapID, this.sub_serviceID);
+      } else {
+        this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
+      }
     }
     else {
       this.showCategoryTable = true;
