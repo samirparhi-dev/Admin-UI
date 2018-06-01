@@ -157,6 +157,7 @@ export class VillageMasterComponent implements OnInit {
         this.alertMessage.alert("Saved successfully", 'success');
         this.villageForm.resetForm();
         this.showFormFlag = false;
+        this.disable_flag = false;
         this.villageList = [];
         this.GetBranches(this.searchTalukID);
     }
