@@ -105,14 +105,12 @@ export class BlockProvider {
   }
 
   getServicesOfProvider(serviceProviderID) {
-    debugger;
     return this._http.post(this.getAllServicesOfProvider_Url, {
       'serviceProviderID': serviceProviderID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }
   getServicesOfProvider_CTI(userID) {
-    debugger;
     return this._http.post(this.getAllServicesOfProvider_CTI_Url, {
       'userID': userID
     }).map(this.success_handeler)

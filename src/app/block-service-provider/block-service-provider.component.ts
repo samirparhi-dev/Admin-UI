@@ -135,6 +135,7 @@ export class BlockServiceProviderComponent implements OnInit {
   //** end **/
 
   getStates(serviceProviderID) {
+    debugger;
     this.block_provider.getStates(serviceProviderID).subscribe(response => {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
@@ -327,6 +328,7 @@ export class BlockServiceProviderComponent implements OnInit {
     console.log('b u provider success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderLevel(response[0].serviceProviderID);
+    this.getStates(this.service_provider);
   }
 
   blockState() {
@@ -364,6 +366,7 @@ export class BlockServiceProviderComponent implements OnInit {
     console.log('b u service success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
+    this.getStatus(response[0].serviceProviderID, response[0].state, response[0].serviceID);
   }
 
   blockServiceOfState() {
