@@ -140,7 +140,18 @@ export class BlockServiceProviderComponent implements OnInit {
       this.getStatesSuccesshandeler(response);
       this.getAllServicesOfProvider(serviceProviderID);
       this.getStatus(this.service_provider, this.state, this.serviceline);
-      //-- added by krishna Gunti for smart search --//
+      this.loadingValues();
+    }, err => {
+      console.log("Error", err);
+      //this.message.alert(err, 'error');
+    });
+  }
+  getStates_serviceline(serviceProviderID) {
+    debugger;
+    this.block_provider.getStates(serviceProviderID).subscribe(response => {
+      this.getStatesSuccesshandeler_1(response);
+      //  this.getAllServicesOfProvider(serviceProviderID);
+      this.getStatus(this.service_provider, this.state, this.serviceline);
       this.loadingValues();
     }, err => {
       console.log("Error", err);
@@ -196,6 +207,11 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getStatesSuccesshandeler(response) {
     this.reset();
+    this.states_array = response;
+    this.stateProviderArray = this.service_provider_array;
+  }
+  getStatesSuccesshandeler_1(response) {
+    // this.reset();
     this.states_array = response;
     this.stateProviderArray = this.service_provider_array;
   }
@@ -366,7 +382,7 @@ export class BlockServiceProviderComponent implements OnInit {
     console.log('b u service success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
-    this.getStates(serviceProviderID);
+    this.getStates_serviceline(serviceProviderID);
   }
 
   blockServiceOfState() {
