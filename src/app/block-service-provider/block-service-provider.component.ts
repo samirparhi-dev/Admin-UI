@@ -57,7 +57,7 @@ export class BlockServiceProviderComponent implements OnInit {
   ngOnInit() {
     this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
       console.log("Error", err);
-     // this.message.alert(err, 'error');
+      // this.message.alert(err, 'error');
     });
     this.block_provider.getAllStatus().subscribe(response => this.getSuccess(response), err => {
       console.log("Error", err);
@@ -273,7 +273,7 @@ export class BlockServiceProviderComponent implements OnInit {
     this.block_provider.getProvider_StateLevelStatus(service_provider, state)
       .subscribe(response => this.successhandeler3(response), err => {
         console.log("Error", err);
-       // this.message.alert(err, 'error');
+        // this.message.alert(err, 'error');
       });
   }
 
@@ -317,16 +317,17 @@ export class BlockServiceProviderComponent implements OnInit {
     let statusID = this.status;
     let reason = this.reason;// needs to be 3, but as of now being sent as 2 for checking as no val in table
     this.block_provider.block_unblock_provider(serviceProviderID, statusID, reason)
-      .subscribe(response => this.block_unblock_providerSuccessHandeler(response), err => {
+      .subscribe(response => this.block_unblock_providerSuccessHandeler(response, serviceProviderID), err => {
         console.log("Error", err);
-       // this.message.alert(err, 'error');
+        // this.message.alert(err, 'error');      
       });
   }
 
-  block_unblock_providerSuccessHandeler(response) {
+  block_unblock_providerSuccessHandeler(response, serviceProviderID) {
     console.log('b u provider success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderLevel(response[0].serviceProviderID);
+    this.getStates(serviceProviderID)
   }
 
   blockState() {
@@ -353,17 +354,18 @@ export class BlockServiceProviderComponent implements OnInit {
     let serviceID = this.data[0].serviceID;
     let reason = this.reason;
     this.block_provider.block_unblock_serviceline(serviceProviderID, serviceID, statusID, reason)
-      .subscribe(response => this.block_unblock_serviceSuccessHandeler(response), err => {
+      .subscribe(response => this.block_unblock_serviceSuccessHandeler(response, serviceProviderID), err => {
         console.log("Error", err);
         //this.message.alert(err, 'error');
       });
 
   }
 
-  block_unblock_serviceSuccessHandeler(response) {
+  block_unblock_serviceSuccessHandeler(response, serviceProviderID) {
     console.log('b u service success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
+    this.getStates(serviceProviderID);
   }
 
   blockServiceOfState() {

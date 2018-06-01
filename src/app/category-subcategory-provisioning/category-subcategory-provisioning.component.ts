@@ -137,13 +137,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     else {
       this.nationalFlag = value.isNational;
-      this.getSubServices(value.isNational)
+      //  this.getSubServices(value.isNational)
     }
   }
 
   getSubServices(value) {
     //this.sub_service = undefined;
-
+    debugger;
     if (value == 'get') {
       this.servicesGetting(this.state.providerServiceMapID);
     }
