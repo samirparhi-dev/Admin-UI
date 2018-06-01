@@ -36,6 +36,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   showFormFlag: boolean = false;
   disableSelection: boolean = false;
   isNational = false;
+  availableInstitute: any = [];
 
   @ViewChild('searchFields') searchFields: NgForm;
   @ViewChild('entryField') entryField: NgForm;
@@ -113,6 +114,9 @@ export class InstituteTypeMasterComponent implements OnInit {
     if (response) {
       this.showTableFlag = true;
       this.searchResultArray = response;
+      for (let availableIns of this.searchResultArray) {
+        this.availableInstitute.push(availableIns.institutionType);
+      }
     }
   }
 
@@ -273,6 +277,12 @@ export class InstituteTypeMasterComponent implements OnInit {
     });
 
   }
+  InstituteExist: any = false;
+  checkExistance(facilityCode) {
+    debugger;
+    this.InstituteExist = this.availableInstitute.includes(facilityCode);
+    console.log(this.InstituteExist);
+  }
 
 }
 
@@ -319,4 +329,5 @@ export class EditInstituteType {
       this.dialogReff.close("success");
     }
   }
+
 }
