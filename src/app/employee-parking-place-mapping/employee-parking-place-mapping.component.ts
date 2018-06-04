@@ -78,6 +78,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         if (response) {
             console.log(response, 'Provider States');
             this.provider_states = response;
+            this.availableEmployeeParkingPlaceMappings = [];
             // this.createButton = false;
         }
     }
@@ -114,6 +115,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     designations: any;
     getDesignationsSuccessHandeler(response) {
         this.designations = response;
+        this.employeeParkingPlaceMappingList = [];
         console.log('designation', response);
     }
 
@@ -148,7 +150,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     availableEmployeeParkingPlaceMappings: any = [];
     remainingMaps: any = [];
     getEmployeeParkingPlaceMappingsSuccessHandler(response) {
-        debugger;
+
         this.tableMode = true;
         this.availableEmployeeParkingPlaceMappings = [];
         this.availableEmployeeParkingPlaceMappings = response;
@@ -365,6 +367,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
+        this.availableEmployeeParkingPlaceMappings = [];
     }
 
     parkingPlaceObj: any;
@@ -380,6 +383,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.availableEmployeeParkingPlaceMappings = [];
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
