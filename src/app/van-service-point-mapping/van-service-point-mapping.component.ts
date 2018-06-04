@@ -116,6 +116,9 @@ export class VanServicePointMappingComponent implements OnInit {
   }
 
   getParkingPlaces(stateID, districtID) {
+    this.searForm1.controls.vanTypeID.reset();
+    this.searForm1.controls.vanID.reset();
+    this.availableVans = [];
     this.parkingPlaceObj = {};
     this.parkingPlaceObj.stateID = stateID;
     this.parkingPlaceObj.districtID = districtID;
@@ -133,7 +136,7 @@ export class VanServicePointMappingComponent implements OnInit {
           this.availableParkingPlaces.splice(index, 1);
         }
       }
-    }
+    }    
     this.getVanTypes();
   }
 
@@ -320,5 +323,9 @@ export class VanServicePointMappingComponent implements OnInit {
   resetFieldsOnStateChange() {
     this.searchDistrictsForm.resetForm();
     this.searForm1.resetForm();
+    this.districts = [];
+    this.availableParkingPlaces = [];
+    this.availableVanTypes = [];
+    this.availableVans = [];
   }
 }

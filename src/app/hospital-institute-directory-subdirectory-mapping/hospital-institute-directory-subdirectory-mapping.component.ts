@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HospitalInstituteMappingService } from '../services/ProviderAdminServices/hospital-institute-mapping-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -41,8 +42,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   showFormFlag = false;
   disableSelection = false;
 
-
-
+  @ViewChild('hospitalForm') hospitalForm: NgForm;
+  @ViewChild('hospitalForm2') hospitalForm2: NgForm;
   constructor(public hospitalInstituteMappingService: HospitalInstituteMappingService,
     public commonDataService: dataService,
     public alertService: ConfirmationDialogsService) {
@@ -54,19 +55,52 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.getServices(this.userID);
   }
 
+  getServices(userID) {
+    this.state = "";
+    this.district = "";
+    this.taluk = "";
+    this.institute_directory = "",
+      this.institute_subdirectory = "";
+
+    this.institute_directories = [];
+    this.institute_subdirectories = [];
+    this.taluks = [];
+
+    this.hospitalInstituteMappingService.getServices(userID)
+      .subscribe(response => this.getServiceSuccessHandeler(response), err => {
+        console.log('error while fetching service', err);
+        //this.alertService.alert(err, 'error');
+      });
+  }
+
+  getServiceSuccessHandeler(response) {
+    if (response) {
+      this.services = response;
+    }
+  }
   getStates(serviceID, isNational) {
     this.hospitalInstituteMappingService.getStates(this.userID, serviceID, isNational)
       .subscribe(response => this.getStatesSuccessHandeler(response), err => {
         console.log("error", err);
-       // this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
+  }
+  getStatesSuccessHandeler(response) {
+    this.hospitalForm.controls.state.reset();
+    this.hospitalForm2.resetForm();
+    this.districts = [];
+    this.taluks = [];
+    this.institute_directories = [];
+    this.institute_subdirectories = [];
+    if (response) {
+      this.states = response;
+    }
   }
 
   showForm() {
     this.showTableFlag = false;
     this.showFormFlag = true;
-
     this.disableSelection = true;
   }
 
@@ -104,62 +138,17 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.searchResultArray = [];
   }
 
-  getStatesSuccessHandeler(response) {
-    this.state = "";
-    this.district = "";
-    this.taluk = "";
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
 
-    this.institute_directories = [];
-    this.institute_subdirectories = [];
-    this.taluks = [];
-
-    if (response) {
-      this.states = response;
-    }
-  }
-
-  getServices(userID) {
-    this.state = "";
-    this.district = "";
-    this.taluk = "";
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
-
-    this.institute_directories = [];
-    this.institute_subdirectories = [];
-    this.taluks = [];
-
-    this.hospitalInstituteMappingService.getServices(userID)
-      .subscribe(response => this.getServiceSuccessHandeler(response), err => {
-        console.log('error while fetching service', err);
-        //this.alertService.alert(err, 'error');
-      });
-  }
-
-  getServiceSuccessHandeler(response) {
-    if (response) {
-      this.services = response;
-    }
-  }
 
   getDistrict(stateID) {
-    // this.service = "";
-    this.district = "";
-    this.taluk = "";
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
-
+    this.hospitalForm2.resetForm();
+    this.taluks = [];
     this.institute_directories = [];
     this.institute_subdirectories = [];
-    this.taluks = [];
-
-
     this.hospitalInstituteMappingService.getDistricts(stateID)
       .subscribe(response => this.getDistrictSuccessHandeler(response), err => {
         console.log("error", err);
-       // this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
   }
@@ -172,26 +161,16 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   }
 
   setProviderServiceMapID(providerServiceMapID) {
-    this.district = "";
-    this.taluk = "";
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
-
-    this.institute_directories = [];
-    this.institute_subdirectories = [];
-    this.taluks = [];
-
     this.providerServiceMapID = providerServiceMapID;
-
     this.getInstituteDirectory();
   }
 
   getTaluk(districtID) {
-    this.taluk = "";
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
-
-    this.taluks = [];
+    this.hospitalForm2.controls.taluk.reset();
+    this.hospitalForm2.controls.institute_directory.reset();
+    this.hospitalForm2.controls.institute_subdirectory.reset();
+    this.taluks = [];    
+    this.institute_subdirectories = [];
 
     this.hospitalInstituteMappingService.getTaluks(districtID)
       .subscribe(response => this.getTalukSuccessHandeler(response), err => {
@@ -205,12 +184,12 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     if (response) {
       this.taluks = response;
     }
+
   }
 
 
   getInstitutions() {
-    this.institute_directory = "",
-      this.institute_subdirectory = "";
+
     this.institute_subdirectories = [];
 
     let request_obj = {
@@ -226,6 +205,8 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         console.log("error", err);
         //this.alertService.alert(err, 'error');
       });
+    this.hospitalForm2.controls.institute_directory.reset();
+    this.hospitalForm2.controls.institute_subdirectory.reset();
   }
 
   getInstitutionSuccessHandeler(response) {
@@ -233,13 +214,14 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     if (response) {
       this.hospitals = response;
     }
+
   }
 
   getInstituteDirectory() {
     this.hospitalInstituteMappingService.getInstituteDirectory(this.providerServiceMapID)
       .subscribe(response => this.getInstituteDirectorySuccessHandeler(response), err => {
         console.log("error", err);
-       // this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
   }
 
@@ -264,14 +246,14 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.hospitalInstituteMappingService.getInstituteSubDirectory(data)
       .subscribe(response => this.getInstituteSubDirectorySuccessHandeler(response), err => {
         console.log("error", err);
-       // this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
 
 
   }
 
   getInstituteSubDirectorySuccessHandeler(response) {
-    this.institute_subdirectory = '';
+    this.hospitalForm2.controls.institute_subdirectory.reset();
     if (response) {
       console.log("INSTITUTE SUB DIRECTORY", response);
       this.institute_subdirectories = response.filter(function (item) {
@@ -280,6 +262,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
         }
       });
     }
+
   }
 
   getMappingHistory() {
@@ -360,7 +343,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
 
     }
     /*resetting fields after entering in buffer array/or if duplicate exist*/
-     this.hospital = "";
+    this.hospital = "";
 
   }
 
@@ -404,7 +387,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.hospitalInstituteMappingService.createMapping(this.bufferArray)
       .subscribe(response => this.saveSuccessHandeler(response), err => {
         console.log("error", err);
-       // this.alertService.alert(err, 'error');
+        // this.alertService.alert(err, 'error');
       });
   }
 
