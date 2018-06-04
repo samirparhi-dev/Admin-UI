@@ -9,7 +9,7 @@
             <md-input-container class="hide_underline" [style.width]="'100%'">
                 <input mdInput style="display:none">
                 <md-select required name="Services" [disabled]="formMode" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
-                    (change)="getStates(serviceline.serviceID)">
+                    (change)="getStates(serviceline.serviceID);resetform1.reset();resetform.reset();">
                     <md-option *ngFor="let item of services_array" [value]="item">
                         {{item.serviceName}}
                     </md-option>
@@ -20,52 +20,55 @@
             <md-input-container class="hide_underline" [style.width]="'100%'">
                 <input mdInput style="display:none">
                 <md-select required placeholder="State" [disabled]="formMode" [style.width]="'100%'" [(ngModel)]="searchStateID" name="searchStateID"
-                    (change)="getDistricts(searchStateID.stateID);">
+                    (change)="getDistricts(searchStateID.stateID);resetform1.reset();">
                     <md-option *ngFor="let state of provider_states" [value]="state">
                         {{state.stateName}}
                     </md-option>
                 </md-select>
             </md-input-container>
         </div>
+        <form #resetform="ngForm">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none">
+                    <md-select required placeholder="District" class="width100" [disabled]="formMode" [(ngModel)]="searchDistrictID" name="searchDistrictID"
+                        (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
+                        <md-option *ngFor="let district of districts" [value]="district">
+                            {{district.districtName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </form>
+        <form #resetform1="ngForm">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none">
+                    <md-select required placeholder="Parking Place" [disabled]="formMode" class="width100" [(ngModel)]="searchParkingPlaceID"
+                        name="searchParkingPlaceID">
+                        <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
+                            {{parkingPlace.parkingPlaceName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
-                <input mdInput style="display:none">
-                <md-select required placeholder="District" class="width100" [disabled]="formMode" [(ngModel)]="searchDistrictID" name="searchDistrictID"
-                    (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
-                    <md-option *ngFor="let district of districts" [value]="district">
-                        {{district.districtName}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
-                <input mdInput style="display:none">
-                <md-select required placeholder="Parking Place" [disabled]="formMode" class="width100" [(ngModel)]="searchParkingPlaceID"
-                    name="searchParkingPlaceID">
-                    <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
-                        {{parkingPlace.parkingPlaceName}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none">
+                    <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID.districtID,designationID.designationID);selectedParkingPlace(searchParkingPlaceID.parkingPlaceID);getUsernames(designationID.designationID);"
+                        [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
+                        <md-option *ngFor="let designation of designations" [value]="designation">
+                            {{designation.designationName}}
+                        </md-option>
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
-                <input mdInput style="display:none">
-                <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID,searchDistrictID.districtID,designationID.designationID);selectedParkingPlace(searchParkingPlaceID.parkingPlaceID);getUsernames(designationID.designationID);"
-                    [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
-                    <md-option *ngFor="let designation of designations" [value]="designation">
-                        {{designation.designationName}}
-                    </md-option>
-
-                    <md-hint [hidden]=designationVal.valid>
-                        <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
-                    </md-hint>
-                </md-select>
-            </md-input-container>
-        </div>
+                        <md-hint [hidden]=designationVal.valid>
+                            <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
+                        </md-hint>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </form>
         <form #searchForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="formMode">
                 <md-input-container class="hide_underline width100">
@@ -105,6 +108,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr *ngIf="employeeParkingPlaceMappingList.length == 0">
+                        <td colspan="8" class="record-not-found">No records found</td>
+                    </tr>
                     <tr *ngFor="let item of md2.data;let i = index ">
                         <td>{{employeeParkingPlaceMappingList.indexOf(item)+1}}</td>
                         <td>{{item.serviceName}}</td>

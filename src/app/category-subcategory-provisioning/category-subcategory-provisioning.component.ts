@@ -239,17 +239,21 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   // }
   searchReqObjChange(choice) {
     console.log(choice, "search choice");
-    if (choice == 1) {
-      this.showCategoryTable = false;
-      if (this.nationalFlag) {
-        this.getSubCategory(this.states[0].providerServiceMapID, this.sub_serviceID);
-      } else {
-        this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
+    if (this.nationalFlag != undefined) {
+
+
+      if (choice == 1) {
+        this.showCategoryTable = false;
+        if (this.nationalFlag) {
+          this.getSubCategory(this.states[0].providerServiceMapID, this.sub_serviceID);
+        } else {
+          this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
+        }
       }
-    }
-    else {
-      this.showCategoryTable = true;
-      this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
+      else {
+        this.showCategoryTable = true;
+        this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
+      }
     }
   }
   callgetDetails(subService: any, providerServiceMap: any) {

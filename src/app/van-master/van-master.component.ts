@@ -103,6 +103,7 @@ export class VanComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.availableVans = [];
         this.createButton = false;
         this.searchDistrictID_Update = this.searchDistrictID;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
@@ -232,6 +233,7 @@ export class VanComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
+        this.availableVans = [];
         this.createButton = false;
     }
     taluks: any = [];
