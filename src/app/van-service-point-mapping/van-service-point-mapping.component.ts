@@ -11,6 +11,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
   templateUrl: './van-service-point-mapping.component.html'
 })
 export class VanServicePointMappingComponent implements OnInit {
+  showTable: boolean = false;
   userID: any;
   service: any;
   state: any;
@@ -99,9 +100,10 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getStatesSuccessHandeler(response) {
     this.states = response;
+
   }
   setProviderServiceMapID(providerServiceMapID) {
-    this.availableVanServicePointMappings = []; 
+    this.availableVanServicePointMappings = [];
     this.resetFieldsOnStateChange();
     this.providerServiceMapID = providerServiceMapID;
     this.getDistricts(this.state);
@@ -114,13 +116,15 @@ export class VanServicePointMappingComponent implements OnInit {
   }
   getDistrictsSuccessHandeler(response) {
     this.districts = response;
+    this.availableVanServicePointMappings = [];
+    this.reseArray();
   }
 
   getParkingPlaces(stateID, districtID) {
     this.searForm1.controls.vanTypeID.reset();
     this.searForm1.controls.vanID.reset();
     this.availableVans = [];
-    
+
     this.parkingPlaceObj = {};
     this.parkingPlaceObj.stateID = stateID;
     this.parkingPlaceObj.districtID = districtID;
@@ -131,6 +135,8 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getParkingPlaceSuccessHandler(response) {
     this.availableParkingPlaces = response;
+    this.availableVanServicePointMappings = [];
+    this.reseArray();
     for (let availableParkingPlaces of this.availableParkingPlaces) {
       if (availableParkingPlaces.deleted) {
         const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -138,7 +144,7 @@ export class VanServicePointMappingComponent implements OnInit {
           this.availableParkingPlaces.splice(index, 1);
         }
       }
-    }    
+    }
     this.getVanTypes();
   }
 
@@ -150,6 +156,8 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVanTypesSuccessHandler(response) {
     this.availableVanTypes = response;
+    this.availableVanServicePointMappings = [];
+    this.reseArray();
   }
 
   getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
@@ -165,6 +173,9 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVanSuccessHandler(response) {
     this.availableVans = response;
+    this.availableVanServicePointMappings = [];
+    this.vanID = undefined;
+    this.reseArray();
     for (let availableVan of this.availableVans) {
       this.availableVanNames.push(availableVan.vanName);
     }
@@ -188,8 +199,14 @@ export class VanServicePointMappingComponent implements OnInit {
 
   availableVanServicePointMappings: any = [];
   remainingMaps: any = [];
+  reseArray() {
+    let temp = this.MappingForm.controls['mappings'] as FormArray;
+    temp.reset();
+    temp.removeAt(0);
+  }
 
   getVanServicePointMappingsSuccessHandler(response) {
+    this.showTable = true;
     this.availableVanServicePointMappings = [];
     this.availableVanServicePointMappings = response;
     let temp = this.MappingForm.controls['mappings'] as FormArray;

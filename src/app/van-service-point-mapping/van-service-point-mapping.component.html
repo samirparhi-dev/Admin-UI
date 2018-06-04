@@ -96,7 +96,7 @@
 </div>
 
 <form class="c-b p-t-30" [formGroup]="MappingForm" autocomplete="off">
-    <div class="form-group" *ngIf="availableVanServicePointMappings.length!=0">
+    <div class="form-group" *ngIf="showTable">
         <table [md2Data]="MappingForm.get('mappings').controls" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
             <thead>
                 <tr>
@@ -110,7 +110,8 @@
                 <tr *ngIf="availableVanServicePointMappings.length == 0" class="record-not-found">
                     <td colspan="4" align="center">No records found</td>
                 </tr>
-                <tr [formGroupName]="this.MappingForm.get('mappings').controls.indexOf(mapping)" *ngFor="let mapping of md2.data">
+                <tr [formGroupName]="this.MappingForm.get('mappings').controls.indexOf(mapping) && availableVanServicePointMappings.length == 0"
+                    *ngFor="let mapping of md2.data">
                     <td>
                         <input mdInput required formControlName="vanID" value="vanID" [hidden]="true"> {{this.MappingForm.get('mappings').controls.indexOf(mapping)+1}}
                     </td>
