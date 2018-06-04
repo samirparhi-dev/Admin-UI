@@ -86,7 +86,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           console.log('All Providers Success Handeler', response);
           this.service_provider_array = response;
         }
-      }, (err) =>  {
+      }, (err) => {
         // this.dialogService.alert(err, 'error');
         console.log('Error', err);
       });
@@ -112,7 +112,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   getProviderServices(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID).
       subscribe(response => this.getServiceSuccessHandeler(response),
-        (err) =>  {
+        (err) => {
           // this.dialogService.alert(err, 'error');
           console.log('Error', err);
         });
@@ -120,7 +120,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   getProviderServices_Edit(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider).
       subscribe(response => this.getServiceSuccessHandeler(response),
-        (err) =>  {
+        (err) => {
           // this.dialogService.alert(err, 'error');
           console.log('Error', err);
         });
@@ -508,7 +508,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
             }
           },
             err => {
-             // this.dialogService.alert(err, 'error');
+              // this.dialogService.alert(err, 'error');
               console.log('error', err);
             });
       }
@@ -528,7 +528,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
             }
           },
             err => {
-             // this.dialogService.alert(err, 'error');
+              // this.dialogService.alert(err, 'error');
               console.log('error', err);
             });
       }
@@ -576,7 +576,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.uSRMappingID = '';
         this.providermapID = '';
       }, err => {
-       // this.dialogService.alert(err, 'error');
+        // this.dialogService.alert(err, 'error');
         console.log('error', err);
       });
   }
