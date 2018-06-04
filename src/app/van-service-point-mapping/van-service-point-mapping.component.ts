@@ -100,7 +100,8 @@ export class VanServicePointMappingComponent implements OnInit {
   getStatesSuccessHandeler(response) {
     this.states = response;
   }
-  setProviderServiceMapID(providerServiceMapID) {    
+  setProviderServiceMapID(providerServiceMapID) {
+    this.availableVanServicePointMappings = []; 
     this.resetFieldsOnStateChange();
     this.providerServiceMapID = providerServiceMapID;
     this.getDistricts(this.state);
@@ -119,6 +120,7 @@ export class VanServicePointMappingComponent implements OnInit {
     this.searForm1.controls.vanTypeID.reset();
     this.searForm1.controls.vanID.reset();
     this.availableVans = [];
+    
     this.parkingPlaceObj = {};
     this.parkingPlaceObj.stateID = stateID;
     this.parkingPlaceObj.districtID = districtID;
