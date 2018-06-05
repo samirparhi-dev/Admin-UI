@@ -96,9 +96,6 @@ export class WorkLocationMappingComponent implements OnInit {
       }
     }
   }
-
-
-
   getProviderServices(userID) {
     this.worklocationmapping.getServices(userID)
       .subscribe(response => {
@@ -108,9 +105,6 @@ export class WorkLocationMappingComponent implements OnInit {
       });
 
   }
-
-
-
   getAllMappedWorkLocations() {
     // debugger;
     this.worklocationmapping.getMappedWorkLocationList(this.serviceProviderID)
