@@ -35,12 +35,13 @@
             <td>{{service.roleName}}</td>
             <td>
 
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted"
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted " class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted" class=" m-r-10"
+                (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>
           </tr>

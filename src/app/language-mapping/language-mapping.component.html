@@ -31,13 +31,13 @@
             <td>{{lang.weightage_Write}}</td>
             <td>{{lang.weightage_Speak}}</td>
             <td>
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!lang.deleted" role="img" aria-hidden="true" style="cursor: pointer"
-                (click)="editRow(lang)">edit</md-icon>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!lang.deleted && !lang.userDeleted" role="img" aria-hidden="true"
+                style="cursor: pointer" (click)="editRow(lang)">edit</md-icon>
             </td>
 
             <td>
-              <button md-raised-button color="accent" *ngIf="lang.deleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!lang.deleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="lang.deleted || lang.userDeleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!lang.deleted && !lang.userDeleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
             </td>
           </tr>
         </tbody>
