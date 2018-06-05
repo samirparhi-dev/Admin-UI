@@ -83,7 +83,7 @@ export class ServicePointVillageMapService {
     }
     getParkingPlaces(data) {
         return this.http.post(this.getParkingPlacesURL, data)
-            .map(this.handleSuccess)
+            .map(this.handleState_n_parkingplaces)
             .catch(this.handleError);
     }
 
@@ -133,6 +133,17 @@ export class ServicePointVillageMapService {
             .map(this.handleSuccess)
             .catch(this.handleError);
 
+    }
+    handleState_n_parkingplaces(response: Response) {
+
+        console.log(response.json().data, 'service point village file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (!item.deleted) {
+                return item;
+            }
+        });
+        return result;
     }
 
     handleSuccess(res: Response) {

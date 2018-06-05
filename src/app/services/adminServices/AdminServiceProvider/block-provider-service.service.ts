@@ -77,7 +77,7 @@ export class BlockProvider {
   }
 
   getAllProviders() {
-    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
+    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.handleState_n_Cti).catch(this.error_handeler);
   }
   getAllProviders_CTI() {
     return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.handleState_n_Cti).catch(this.error_handeler);
