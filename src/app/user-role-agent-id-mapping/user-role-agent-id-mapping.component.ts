@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { UserRoleAgentID_MappingService } from '../services/ProviderAdminServices/user-role-agentID-mapping-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-role-agent-id-mapping',
@@ -15,7 +16,6 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   /*ngModels*/
   userID: any;
   serviceProviderID: any;
-
   state: any;
   service: any;
   role: any;
@@ -31,6 +31,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   showTableFlag = false;
   isNational = false;
 
+  @ViewChild('searchCriteria') searchCriteria: NgForm;
   constructor(public _UserRoleAgentID_MappingService: UserRoleAgentID_MappingService,
     public commonDataService: dataService, public alertService: ConfirmationDialogsService,
     public dialog: MdDialog) {
@@ -67,10 +68,10 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   }
 
   getStatesSuccessHandeler(response, isNational) {
-    this.state = '';
+    this.searchCriteria.controls.state.reset();
+    this.searchCriteria.controls.role.reset();
     this.states = [];
     this.roles = [];
-    this.role = '';
     console.log("STATE", response);
     this.states = response;
 
@@ -79,8 +80,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
     }
   }
 
-  getServices(userID) {
-
+  getServices(userID) {   
     this._UserRoleAgentID_MappingService.getServices(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response),
         (err) => console.log(err, 'error'));
@@ -92,13 +92,14 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
   }
 
   getRoles(providerServiceMapID) {
+    this.searchResultArray = [];
+    this.searchCriteria.controls.role.reset();
     this._UserRoleAgentID_MappingService.getRoles(providerServiceMapID)
       .subscribe(response => this.rolesSuccesshandeler(response),
         (err) => console.log(err, 'error'));
   }
 
   rolesSuccesshandeler(response) {
-
     if (response.length == 0) {
       console.log("No Roles Found");
     }

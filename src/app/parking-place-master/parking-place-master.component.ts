@@ -105,6 +105,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.states = response;
     }
     setProviderServiceMapID(providerServiceMapID) {
+        this.availableParkingPlaces = [];
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
 
