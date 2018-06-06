@@ -26,7 +26,7 @@
             <td>{{searchResult.indexOf(item)+1}}</td>
             <td>{{item.serviceProviderName}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.stateName?item.stateName:'All State'}}</td>
+            <td>{{item.stateName?item.stateName:'All States'}}</td>
             <td>
               <md-icon mdTooltip="Edit" class="cursorPointer" *ngIf="!item.deleted && !item.serviceProviderDeleted" (click)="edit(item)">mode_edit</md-icon>
             </td>

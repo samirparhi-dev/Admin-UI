@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { EmployeeParkingPlaceMappingService } from '../services/ProviderAdminServices/employee-parking-place-mapping.service';
@@ -40,6 +40,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     formBuilder: FormBuilder = new FormBuilder();
     MappingForm: FormGroup;
 
+    @ViewChild('resetform1') resetform1: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public employeeParkingPlaceMappingService: EmployeeParkingPlaceMappingService,
@@ -264,8 +265,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     }
 
     addParkingPlaceMapping(objectToBeAdded: any, role) {
-        debugger;
-
         console.log(objectToBeAdded, "FORM VALUES");
         const parkingObj = {
             'stateID': this.searchStateID.stateID,
@@ -382,6 +381,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
+        this.resetform1.controls.designationID.reset();
         this.availableParkingPlaces = response;
         this.availableEmployeeParkingPlaceMappings = [];
         for (let availableParkingPlaces of this.availableParkingPlaces) {
@@ -492,6 +492,9 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
 
 
+    }
+    resetDesignation() {
+        this.resetform1.controls.designationID.reset();
     }
 
 }
