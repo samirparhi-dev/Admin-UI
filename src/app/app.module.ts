@@ -219,8 +219,12 @@ import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
+import { CreateUomMasterComponent } from './uom-master/create-uom-master/create-uom-master.component';
+import { SearchUomMasterComponent } from './uom-master/search-uom-master/search-uom-master.component';
 import { EditItemCategoryComponent } from './item-category-master/edit-item-category/edit-item-category.component';
 
+import { UomMasterService } from './services/inventory-services/uom-master.service';
+import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-uom-master.component';
 
 @NgModule({
   declarations: [
@@ -268,6 +272,9 @@ import { EditItemCategoryComponent } from './item-category-master/edit-item-cate
     VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
+    CreateUomMasterComponent,
+    SearchUomMasterComponent,
+    UpdateUomMasterComponent,
     EditItemCategoryComponent,
   ],
 
@@ -348,7 +355,7 @@ import { EditItemCategoryComponent } from './item-category-master/edit-item-cate
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService, ItemCategoryService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -359,7 +366,6 @@ import { EditItemCategoryComponent } from './item-category-master/edit-item-cate
       useFactory: SecurityFactory,
       deps: [XHRBackend, RequestOptions, Router, AuthService, ConfirmationDialogsService]
     }
-
   ],
 
   entryComponents: [
@@ -382,7 +388,6 @@ import { EditItemCategoryComponent } from './item-category-master/edit-item-cate
     EditProviderAdminModal,
     EditItemMasterModal,
     EditItemCategoryComponent
-
   ],
 
   bootstrap: [AppComponent]
