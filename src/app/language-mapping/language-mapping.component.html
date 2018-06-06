@@ -292,7 +292,8 @@
             </div>
           </div>
           <div *ngIf="showCheckboxes ">
-            <button name="langBtn " color="accent" md-raised-button class="pull-right" [disabled]="eform.invalid" (click)="updateLanguage(eform.value,languageID_edit);">Update</button>
+            <button name="langBtn " color="accent" md-raised-button class="pull-right" [disabled]="eform.invalid || (!read && !write && !speak)"
+              (click)="updateLanguage(eform.value,languageID_edit);">Update</button>
             <button name="backBtn " color="primary" md-raised-button class="pull-left" (click)="showTable() ">Back</button>
           </div>
         </div>

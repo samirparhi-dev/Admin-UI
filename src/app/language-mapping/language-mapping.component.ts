@@ -156,34 +156,33 @@ export class LanguageMappingComponent implements OnInit {
     }
 
   }
-  activate(userLangID,userexists) {
-    if(userexists)
-    {
+  activate(userLangID, userexists) {
+    if (userexists) {
       this.alertService.alert('User is inactive');
     }
-    else{
-    this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
-      if (response) {
-        const object = {
-          'userLangID': userLangID,
-          'deleted': false
-        };
+    else {
+      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+        if (response) {
+          const object = {
+            'userLangID': userLangID,
+            'deleted': false
+          };
 
-        this.languageMapping.DeleteLanguageMapping(object)
-          .subscribe(response => {
-            if (response) {
-              this.alertService.alert('Activated successfully', 'success');
-              /* refresh table */
-              this.getAllMappedLanguagesList();
-            }
-          },
-            err => {
-              console.log('error', err);
-              // this.alertService.alert(err, 'error');
-            });
-      }
-    });
-  }
+          this.languageMapping.DeleteLanguageMapping(object)
+            .subscribe(response => {
+              if (response) {
+                this.alertService.alert('Activated successfully', 'success');
+                /* refresh table */
+                this.getAllMappedLanguagesList();
+              }
+            },
+              err => {
+                console.log('error', err);
+                // this.alertService.alert(err, 'error');
+              });
+        }
+      });
+    }
 
   }
   deactivate(userLangID) {
