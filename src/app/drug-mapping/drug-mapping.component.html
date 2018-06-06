@@ -27,8 +27,8 @@
             <td>{{drugMapping.drugName}}</td>
             <td>{{drugMapping.remarks}}</td>
             <td>
-              <button *ngIf="drugMapping.deleted=='1' || drugMapping.drugGroupDeleted" md-raised-button color="accent" (click)="updateDrugMappingStatus(drugMapping)">Activate</button>
-              <button *ngIf="drugMapping.deleted=='0' && ! drugMapping.drugGroupDeleted" md-raised-button color="primary" (click)="updateDrugMappingStatus(drugMapping)">Deactivate</button>
+              <button *ngIf="drugMapping.deleted=='1' || drugMapping.drugGroupDeleted" md-raised-button color="accent" (click)="updateDrugMappingStatus(drugMapping,drugMapping.drugGroupDeleted)">Activate</button>
+              <button *ngIf="drugMapping.deleted=='0' && ! drugMapping.drugGroupDeleted" md-raised-button color="primary" (click)="updateDrugMappingStatus(drugMapping,false)">Deactivate</button>
             </td>
             <!--<td> <button class="btn activateBtn" (click)="editDrugMapping(drugMapping)">Edit</button></td>-->
           </tr>

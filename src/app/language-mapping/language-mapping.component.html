@@ -36,7 +36,7 @@
             </td>
 
             <td>
-              <button md-raised-button color="accent" *ngIf="lang.deleted || lang.userDeleted" class=" m-r-10" (click)="activate(lang.userLangID)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="lang.deleted || lang.userDeleted" class=" m-r-10" (click)="activate(lang.userLangID,lang.userDeleted)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!lang.deleted && !lang.userDeleted" class=" m-r-10" (click)="deactivate(lang.userLangID)">Deactivate</button>
             </td>
           </tr>

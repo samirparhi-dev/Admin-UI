@@ -119,8 +119,8 @@
                 aria-hidden="true" style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
             </td>
             <td width=20%>
-              <button *ngIf="i.subCategoryDeleted || i.categoryDeleted" md-raised-button color="accent" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
-              <button *ngIf="!i.subCategoryDeleted && !i.categoryDeleted" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
+              <button *ngIf="i.subCategoryDeleted || i.categoryDeleted" md-raised-button color="accent" (click)="deleteSubCategory(i.subCategoryID, false,i.categoryDeleted)">Activate</button>
+              <button *ngIf="!i.subCategoryDeleted && !i.categoryDeleted" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true,false)">Deactivate</button>
             </td>
           </tr>
         </tbody>

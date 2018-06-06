@@ -456,26 +456,31 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
 
   }
 
-  activate(providerServiceMapID) {
-    // this.dialogService.alert('Work In Progress for activate');
-    const object = {
-      'providerServiceMapID': providerServiceMapID,
-      'deleted': false
+  activate(providerServiceMapID, providerexists) {
+    if (providerexists) {
+      this.dialogService.alert('Provider is  inactive');
     }
-    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
-      if (res) {
-        this.superadminService.deleteMappedProviderServiceState(object)
-          .subscribe(response => {
-            console.log(response, 'success handeler after activation');
-            this.dialogService.alert('Activated successfully', 'success');
-            this.getAllMappings();
-          },
-            (err) => {
-
-              console.log(err);
-            })
+    else {
+      // this.dialogService.alert('Work In Progress for activate');
+      const object = {
+        'providerServiceMapID': providerServiceMapID,
+        'deleted': false
       }
-    })
+      this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
+        if (res) {
+          this.superadminService.deleteMappedProviderServiceState(object)
+            .subscribe(response => {
+              console.log(response, 'success handeler after activation');
+              this.dialogService.alert('Activated successfully', 'success');
+              this.getAllMappings();
+            },
+              (err) => {
+
+                console.log(err);
+              })
+        }
+      })
+    }
   }
 
   deactivate(providerServiceMapID) {
