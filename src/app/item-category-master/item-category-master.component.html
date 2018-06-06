@@ -8,7 +8,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="serviceline" name="services"
+        <md-select placeholder="Serviceline" class="width100" [disabled]="showCreationForm" [(ngModel)]="serviceline" name="services"
           (change)="getStates(serviceline)" required>
           <md-option *ngFor="let item of services_array" [value]="item">
             {{item.serviceName}}
@@ -19,7 +19,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" required>
+        <md-select placeholder="State" class="width100" [disabled]="showCreationForm" [(ngModel)]="state" name="state" required>
           <md-option *ngFor="let item of states_array" [value]="item" (click)="setProviderServiceMapID(item.providerServiceMapID)">
             {{item.stateName}}
           </md-option>
@@ -81,171 +81,87 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="showFormFlag">
-  <form #itemCreationForm='ngForm' autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-      <label class="f-s-n-b">Item Type</label>
-      <md-radio-group [(ngModel)]="itemType" name="itemType" required>
-        <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
-        <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
-      </md-radio-group>
-    </div>
+<div class="row" *ngIf="showCreationForm">
+  <form #categoryCreationForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100" PAN>
-        <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(code)"
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Code" [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
-          <span class="errorText" *ngIf="itemCodeExist">Item code is already exists</span>
+          <span class="errorText" [hidden]="!itemCode.errors">Category Code has to be of 1 to 10 Characters</span>
+          <span class="errorText" *ngIf="codeExists">Category code already exists</span>
+
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100" myProviderName>
-        <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
-        <md-hint *ngIf="itemName.touched || itemName.dirty">
-          <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100" myMobileNumber>
-        <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
-          required>
-        <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
-          <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <!-- <div class="clearfix"></div> -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" required>
-          <md-option *ngFor="let item of measures" [value]="item">
-            {{item.uOMName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Category" class="width100" [(ngModel)]="category" name="category" required>
-          <md-option *ngFor="let item of categories" [value]="item">
-            {{item.itemCategoryName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Dose Form" class="width100" [(ngModel)]="dose" name="dose" required>
-          <md-option *ngFor="let item of dosages" [value]="item">
-            {{item.itemForm}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="pharmacology" name="pharmacology" required>
-          <md-option *ngFor="let item of pharmacologies" [value]="item">
-            {{item.categoryName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="manufacturer" name="manufacturer" required>
-          <md-option *ngFor="let item of manufacturers" [value]="item">
-            {{item.manufacturerName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-      <label class="f-s-n-b">Drug Type</label>
-      <md-radio-group [(ngModel)]="drugType" name="drugType">
-        <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Scheduled</md-radio-button>
-        <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Scheduled</md-radio-button>
-      </md-radio-group>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100" VehicleNO>
-        <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
-          maxlength="300" required>
-        <md-hint *ngIf="itemComposition.touched || itemComposition.dirty">
-          <span class="errorText" [hidden]="!itemComposition.errors">Enter minimum 2 characters</span>
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Name" [(ngModel)]="itemCategoryName" name="name" minlength="1" maxlength="50"
+          #itemName="ngModel" required>
+        <md-hint *ngIf="itemName.touched || itemName.dirty ">
+          <span class="errorText" [hidden]="!itemCode.errors">Category Name has to be of 1 to 50 Characters</span>
+
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Route Of Admin" class="width100" [(ngModel)]="route" name="route" required>
-          <md-option *ngFor="let item of routes" [value]="item">
-            {{item.routeName}}
-          </md-option>
-        </md-select>
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Description" [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="50"
+          #itemDesc="ngModel" required>
+        <md-hint *ngIf="itemDesc.touched || itemDesc.dirty ">
+          <span class="errorText" [hidden]="!itemDesc.errors">Category Description has to be of 1 to 50 Characters</span>
+
+        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="width100" VehicleNO>
-        <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
-          required>
-      </md-input-container>
+    <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="categoryCreationForm.invalid"
+    color="primary" (click)="addForCreation()">
+    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+  </button>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf="!editMode && itemCreationForm.valid"
-        color="primary" (click)="addMultipleItemArray(itemCreationForm.value)">
-        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-      </button>
-    </div>
+
   </form>
-  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="itemArrayObj.length>0">
-    <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="itemArrayObj" #md2="md2DataTable" [rowsPerPage]="4">
-        <thead>
-          <tr>
-            <th width="5%">S.No.</th>
-            <th width="20%">Item Code</th>
-            <th width="20%">Item Type </th>
-            <th width="40%">Item Name</th>
-            <th width="40%">Item Description</th>
-            <th width="10%">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of md2.data;let i = index ">
-            <td>{{itemArrayObj.indexOf(item)+1}}</td>
-            <td>{{item.itemCode}}</td>
-            <td *ngIf="item.isMedical">Medical</td>
-            <td *ngIf="!item.isMedical">Non-Medical</td>
-            <td>{{item.itemName}}</td>
-            <td>{{item.itemDesc}}</td>
-            <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(itemArrayObj.indexOf(item))">delete</md-icon>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="7">
-              <md2-pagination></md2-pagination>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="forCreationObjects.length>0">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" [md2Data]="forCreationObjects" #md2="md2DataTable" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th width="5%">S.No.</th>
+              <th width="20%">Serviceline</th>
+              <th width="15%">State</th>
+              <th width="20%">Category Name </th>
+              <th width="20%">Category Code </th>
+              <th width="40%">Category Description</th>
+              <th width="10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of md2.data;let i = index ">
+              <td>{{forCreationObjects.indexOf(item)+1}}</td>
+              <td>{{item.serviceName}}</td>
+              <td>{{item.stateName}}</td>
+              <td>{{item.itemCategoryName}}</td>
+              <td>{{item.itemCategoryCode}}</td>
+              <td>{{item.itemCategoryDesc}}</td>
+              <td>
+                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(forCreationObjects.indexOf(item))">delete</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem()">Save</button>
-    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="itemCreationForm.reset()">Clear</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="forCreationObjects.length < 1" (click)="saveCategory()">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="categoryCreationForm.reset()">Clear</button>
   </div>
 </div>
