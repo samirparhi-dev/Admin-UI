@@ -221,7 +221,7 @@ export class BlockServiceProviderComponent implements OnInit {
 
   getStatesSuccesshandeler(response) {
     this.reset();
-    this.states_array = response;
+    //  this.states_array = response;
     this.stateProviderArray = this.service_provider_array;
   }
   getStatesSuccesshandeler_1(response) {
@@ -319,6 +319,7 @@ export class BlockServiceProviderComponent implements OnInit {
   successhandeler1(response) {
     // this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
+    this.states_array = response;
     this.data = response;
   }
 
