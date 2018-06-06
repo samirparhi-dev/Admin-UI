@@ -64,12 +64,12 @@
           <td>{{zoneDistrictMapping.m_providerServiceMapping.state.stateName}}</td>
           <td>{{zoneDistrictMapping.districtName}}</td>
           <td>
-            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zoneDistrictMapping.deleted"
+            <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zoneDistrictMapping.deleted && !zoneDistrictMapping.zoneDeleted"
               (click)="editZoneMapping(zoneDistrictMapping)">edit</md-icon>
           </td>
           <td>
-            <button *ngIf="zoneDistrictMapping.deleted=='1'" md-raised-button color="accent" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Activate</button>
-            <button *ngIf="zoneDistrictMapping.deleted=='0'" md-raised-button color="primary" (click)="updateZoneMappingStatus(zoneDistrictMapping)">Deactivate</button>
+            <button *ngIf="zoneDistrictMapping.deleted=='1' || zoneDistrictMapping.zoneDeleted" md-raised-button color="accent" (click)="updateZoneMappingStatus(zoneDistrictMapping,zoneDistrictMapping.zoneDeleted)">Activate</button>
+            <button *ngIf="zoneDistrictMapping.deleted=='0' && !zoneDistrictMapping.zoneDeleted" md-raised-button color="primary" (click)="updateZoneMappingStatus(zoneDistrictMapping,false)">Deactivate</button>
           </td>
 
         </tr>

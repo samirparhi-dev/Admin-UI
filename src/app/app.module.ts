@@ -201,6 +201,7 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { ItemCategoryService } from './services/inventory-services/item-category.service'
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
 import { ManufacturemasterService } from './services/inventory-services/manufacturemaster.service';
 import { PhysicalstockService } from './services/inventory-services/physicalstock.service';
@@ -220,6 +221,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
 import { CreateUomMasterComponent } from './uom-master/create-uom-master/create-uom-master.component';
 import { SearchUomMasterComponent } from './uom-master/search-uom-master/search-uom-master.component';
+import { EditItemCategoryComponent } from './item-category-master/edit-item-category/edit-item-category.component';
 
 import { UomMasterService } from './services/inventory-services/uom-master.service';
 import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-uom-master.component';
@@ -273,6 +275,7 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
     CreateUomMasterComponent,
     SearchUomMasterComponent,
     UpdateUomMasterComponent,
+    EditItemCategoryComponent,
   ],
 
   imports: [
@@ -352,7 +355,7 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -363,7 +366,6 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
       useFactory: SecurityFactory,
       deps: [XHRBackend, RequestOptions, Router, AuthService, ConfirmationDialogsService]
     }
-
   ],
 
   entryComponents: [
@@ -384,8 +386,8 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
     AgentIDMappingModal,
     EditVillageModal,
     EditProviderAdminModal,
-    EditItemMasterModal
-
+    EditItemMasterModal,
+    EditItemCategoryComponent
   ],
 
   bootstrap: [AppComponent]

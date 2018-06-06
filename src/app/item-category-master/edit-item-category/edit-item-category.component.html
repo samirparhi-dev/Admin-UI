@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="pull-left m-l-15">
+      <h4 class="modal-title">Edit Category</h4>
+  </div>
+  <div class="pull-right">
+      <button md-button class="pull-right" [md-dialog-close]="true">
+          <md-icon mdTooltip="close" class="mat-icon material-icons pull-right" role="img" aria-hidden="true" style="cursor: pointer">clear
+          </md-icon>
+      </button>
+  </div>
+</div>
+<div class="row m-t-20">
+  <form #editCategoryCreationForm='ngForm' autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100">
+              <input mdInput placeholder="Category Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" #itemCode="ngModel"
+              disabled="true" required>
+          </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100">
+              <input mdInput placeholder="Category Name" [(ngModel)]="name" name="name" minlength="1" maxlength="50" #itemName="ngModel"
+              disabled="true" required>
+          </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md-input-container class="width100">
+              <input mdInput placeholder="Category Description" [(ngModel)]="desc" name="desc" #itemDesc="ngModel" minlength="1" maxlength="50"
+                 required>
+          </md-input-container>
+      </div>
+      <div class="clearfix"></div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+      <button md-raised-button color="accent" class="pull-right" [disabled]="editCategoryCreationForm.pristine" (click)="update()">Update</button>
+  </div>
+</div>

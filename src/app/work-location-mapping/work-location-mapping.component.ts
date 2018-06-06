@@ -96,9 +96,6 @@ export class WorkLocationMappingComponent implements OnInit {
       }
     }
   }
-
-
-
   getProviderServices(userID) {
     this.worklocationmapping.getServices(userID)
       .subscribe(response => {
@@ -108,9 +105,6 @@ export class WorkLocationMappingComponent implements OnInit {
       });
 
   }
-
-
-
   getAllMappedWorkLocations() {
     // debugger;
     this.worklocationmapping.getMappedWorkLocationList(this.serviceProviderID)
@@ -291,8 +285,13 @@ export class WorkLocationMappingComponent implements OnInit {
     // this.getUserName(this.serviceProviderID);
   }
 
-  activate(uSRMappingID) {
+  activate(uSRMappingID,userDeactivated) {
     // debugger;
+    if(userDeactivated){
+      this.alertService.alert('User is inactive');
+    }
+    else
+    {
     this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
@@ -314,6 +313,7 @@ export class WorkLocationMappingComponent implements OnInit {
             });
       }
     });
+  }
 
   }
   deactivate(uSRMappingID) {

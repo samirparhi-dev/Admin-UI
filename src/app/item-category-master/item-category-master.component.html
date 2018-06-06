@@ -1,144 +1,167 @@
-<div class="row">
+<div class="row" >
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
-      <strong>Physical Stock Entry</strong>
+      <strong>Item Category Master</strong>
     </h4>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+  <form #searchForm='ngForm' autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Serviceline" class="width100" [disabled]="showCreationForm" [(ngModel)]="serviceline" name="services"
+          (change)="getStates(serviceline)" required>
+          <md-option *ngFor="let item of services_array" [value]="item">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" class="width100" [disabled]="showCreationForm" [(ngModel)]="state" name="state" required>
+          <md-option *ngFor="let item of states_array" [value]="item" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="itemsList?.length > 0 && showTableFlag">
+      <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+      </md-input-container>
+    </div>
 
-    <form id="addform" #stockAddForm="ngForm">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline" [style.width]="'100%'">
-              <input mdInput style="display:none">
-              <md-select required name="Services" placeholder="Serviceline" required [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getstates(serviceline)">
-                <md-option *ngFor="let item of services_array" [value]="item">
-                  {{item.serviceName}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline" [style.width]="'100%'">
-              <input mdInput style="display:none">
-              <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state" required>
-                <md-option *ngFor="let item of states_array" [value]="item" >
-                  {{item.stateName}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-            <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Reference Number" PAN [(ngModel)]="create_referenceNumber" required
-                maxlength="100" name="referenceNumber" #referenceNumber="ngModel">
-              <md-hint>
-                <span class="error_text" *ngIf="!referenceNumber.valid  && ( referenceNumber.dirty || referenceNumber.touched)">Please enter Reference Number</span>
-              </md-hint>
-            </md-input-container>
-        </div> 
-        <div class="clearfix visible-md"></div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-            <md2-datepicker class="width100"  [(ngModel)]="create_currentDate" name="currentDate" required 
-            #currentDate="ngModel" [disabled]="true"></md2-datepicker>
-        </div> 
-        <div class="clearfix visible-lg"></div>
-       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
-          <md-radio-group [(ngModel)]="selected" name="selected" >
-            <md-radio-button *ngFor="let storetype of storeType" [value]="storetype" (change)="storeTypeselect(storetype)">
-              {{storetype}}
-              <span class="m-l-10"></span>
-             </md-radio-button>
-          </md-radio-group>
-        </div>  
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline" [style.width]="'100%'">
-              <input mdInput style="display:none">
-              <md-select required name="mainStore" placeholder="MainStore" [style.width]="'100%'" [(ngModel)]="mainStore" (change)="getsubstore(mainStore)" >
-                <md-option *ngFor="let item of mainstore_array" [value]="item">
-                  {{item.facilityName}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" >
-            <md-input-container class="hide_underline" [style.width]="'100%'" >
-              <input mdInput style="display:none" >
-              <md-select required name="subStore" placeholder="Sub Store" [style.width]="'100%'" [(ngModel)]="subStore" [disabled]="selected=='Main Store'">
-                <md-option *ngFor="let item of substore_array" [value]="item" >
-                  {{item.facilityName}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-        </div>
-    </form>
+  </form>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTableFlag">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" [md2Data]="filteredItemList" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="20%">Category Code</th>
+            <th width="20%">Category Name</th>
+            <th width="30%">Category Description</th>
+            <th width="10%">Edit</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="itemsList.length == 0 ||filteredItemList.length==0" class="record-not-found">
+            <td colspan="8" align="center">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{item.itemCategoryCode}}</td>
+            <td>{{item.itemCategoryName}}</td>
+            <td>{{item.itemCategoryDesc}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="editItem(item)">edit</md-icon>
+            </td>
+
+            <td>
+              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemCategoryID,false)">Deactivate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemCategoryID,true)">Activate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="4" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Category</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </div>
-<div class="table-responsive m-t-20">
-    <table class="table table-striped stock">
-      <thead>
-        <tr>
-          <th width="5%">S.No.</th>
-          <th width="30%">Item&nbsp;Name)</th>
-          <th width="5%">Qty(In&nbsp;Lowest&nbsp;Unit)</th>
-          <th width="15%">Cost&nbsp;Price</th>
-          <th width="15%">Batch&nbsp;Number</th>
-          <th width="20%">Expiry&nbsp;Date</th>
-          <th width="15%"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="fieldArray.length == 0">
-          nothing
-        </tr>
+<div class="row" *ngIf="showCreationForm">
+  <form #categoryCreationForm='ngForm' autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Code" [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
+          #itemCode="ngModel" required>
+        <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
+          <span class="errorText" [hidden]="!itemCode.errors">Category Code has to be of 1 to 10 Characters</span>
+          <span class="errorText" *ngIf="codeExists">Category code already exists</span>
 
-        <tr *ngFor="let field of fieldArray; let i = index">
-          <td class="p-t-10">
-            {{i+1}}
-          </td>
-            <td>
-               <md-input-container [style.width]="'90%'">
-                <input mdInput placeholder="Items" class="width200px" required [mdAutocomplete]="tdAuto"  name="{{field.itemname}}" 
-                   #item1="ngModel" [(ngModel)]="field.itemname" 
-                  (ngModelChange)="tditems = filterItem(field.itemname)" >
-              </md-input-container>
-            
-              <md-autocomplete #tdAuto="mdAutocomplete" [displayWith]="displayFn">
-                <md-option *ngFor="let item of tditems" [value]="item">
-                  <span>{{ item.itemName }}</span>
-                </md-option>
-              </md-autocomplete> 
-            </td>
-            <td>
-                <md-input-container [style.width]="'70%'" myMobileNumber>
-                <input mdInput [(ngModel)]="field.qty" required class="width200px" min="1" type="text" name="{{field.qty}}" />
-              </md-input-container> 
-            </td>
-            <td>
-                <md-input-container [style.width]="'90%'" myMobileNumber>
-                <input  mdInput [(ngModel)]="field.price" required class="width200px " type="text" name="{{field.price}}" />
-              </md-input-container> 
-            </td>
-            <td>
-              <md-input-container [style.width]="'90%'">
-              <input  mdInput [(ngModel)]="field.batchno" required class="width200px" type="text" name="{{field.batchno}}" />
-            </md-input-container> 
-           </td>
-           <td>
-                <md2-datepicker class="width100"  [(ngModel)]="field.expdate" name="expDate" required
-                #expDate="ngModel" (keydown)="preventTyping($event)"></md2-datepicker>
-           </td>
-            <td>
-                <md-icon  class="cursorPointer m-t-20 " mdTooltip="Remove" (click)="deleteFieldValue(i)">delete</md-icon>
-                <button *ngIf="i==(fieldArray.length-1)" [disabled]="!field.qty || !field.itemname || !field.batchno || !field.price || !field.expdate" md-mini-fab class="m-l-10" 
-                color="primary" (click)="addFieldValue()">
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-              </button>
-            </td>
-        </tr>
-    </tbody>
-    </table>
-</div>
-<div class="">
-    <button md-raised-button color="primary" class="pull-right  m-b-10" [disabled]="stockAddForm.invalid" *ngIf="fieldArray?.length > 0" (click)="saveItems(stockAddForm.value,fieldArray)">Save</button>
-    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="reset()">Clear</button>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Name" [(ngModel)]="itemCategoryName" name="name" minlength="1" maxlength="50"
+          #itemName="ngModel" required>
+        <md-hint *ngIf="itemName.touched || itemName.dirty ">
+          <span class="errorText" [hidden]="!itemCode.errors">Category Name has to be of 1 to 50 Characters</span>
+
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="width100" >
+        <input mdInput placeholder="Item Category Description" [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="50"
+          #itemDesc="ngModel" required>
+        <md-hint *ngIf="itemDesc.touched || itemDesc.dirty ">
+          <span class="errorText" [hidden]="!itemDesc.errors">Category Description has to be of 1 to 50 Characters</span>
+
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" [disabled]="categoryCreationForm.invalid"
+    color="primary" (click)="addForCreation()">
+    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+  </button>
+    </div>
+
+  </form>
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="forCreationObjects.length>0">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" [md2Data]="forCreationObjects" #md2="md2DataTable" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th width="5%">S.No.</th>
+              <th width="20%">Serviceline</th>
+              <th width="15%">State</th>
+              <th width="20%">Category Name </th>
+              <th width="20%">Category Code </th>
+              <th width="40%">Category Description</th>
+              <th width="10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of md2.data;let i = index ">
+              <td>{{forCreationObjects.indexOf(item)+1}}</td>
+              <td>{{item.serviceName}}</td>
+              <td>{{item.stateName}}</td>
+              <td>{{item.itemCategoryName}}</td>
+              <td>{{item.itemCategoryCode}}</td>
+              <td>{{item.itemCategoryDesc}}</td>
+              <td>
+                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(forCreationObjects.indexOf(item))">delete</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="forCreationObjects.length < 1" (click)="saveCategory()">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="categoryCreationForm.reset()">Clear</button>
+  </div>
 </div>

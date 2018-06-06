@@ -1,13 +1,15 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServices } from '../services/inventory-services/commonServices';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
-import { PhysicalstockService } from '../services/inventory-services/physicalstock.service';
 import { MdRadioChange } from '@angular/material';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
-import {map, startWith} from 'rxjs/operators';
-
+import { map, startWith } from 'rxjs/operators';
+import { ItemCategoryService } from '../services/inventory-services/item-category.service';
+import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
+import { EditItemCategoryComponent } from './edit-item-category/edit-item-category.component';
 @Component({
   selector: 'app-item-category-master',
   templateUrl: './item-category-master.component.html',
@@ -19,184 +21,206 @@ export class ItemCategoryMasterComponent implements OnInit {
   uid: any;
   serviceProviderID: any;
   providerServiceMapID: any;
-  services_array:any [];
-  states_array:any[];
-  mainstore_array:any[];
-  substore_array:any[];
-  item_array:any[];
-  batch_array:any[];
-  storeType=['Main Store','Sub Store'];
-  create_currentDate:Date;
-  facilityID:any;
+  services_array: any[];
+  states_array: any[];
+  showTableFlag: Boolean = false;
+  showCreationForm: Boolean = false;
+  codeExists: Boolean = false;
+  itemsList = [];
+  filteredItemList = [];
 
-  subStore:boolean =false;
-  filteredOptions: Observable<string[]>;
-selected:any;
-mainStore:any;
-create_referenceNumber:any;
-state:any;
-serviceline:any;
 
-   fieldArray: Array<any> = [{}];
-   newAttribute: any = {};
+  //Creations
 
-  @ViewChild('stockAddForm') stockAddForm: NgForm;
+  itemCategoryCode = null;
+  itemCategoryName = null;
+  itemCategoryDesc = null;
+  forCreationObjects = [];
 
-  constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    public physicalStockService: PhysicalstockService,public dialogService: ConfirmationDialogsService) { }
+  state: any;
+  serviceline: any;
+
+
+  @ViewChild('searchForm') searchForm: NgForm;
+
+  @ViewChild('categoryCreationForm') categoryCreationForm: NgForm;
+
+  constructor(public commonservice: CommonServices, public commonDataService: dataService,
+    public dialogService: ConfirmationDialogsService, private itemCategoryService: ItemCategoryService, public dialog: MdDialog) { }
 
   ngOnInit() {
-    this.createdBy = this.commonDataService.uname;
-    console.log(this.createdBy, "CreatedBy");
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
-    this.create_currentDate = new Date();
-    this.facilityID=8;
+    this.createdBy = this.commonDataService.uname;
+    console.log('this.createdBy', this.createdBy);
     this.getServices();
-    }
-  filterItem(val: string) {
-    debugger;
-    if (val) {
-        const filterValue = val.toLowerCase();
-         return this.item_array.filter(item => item.itemName.toLowerCase().startsWith(filterValue));
-    }
   }
   getServices() {
-    debugger;
     this.commonservice.getServiceLines(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
+        this.state = '';
+        this.serviceline = '';
+        this.providerServiceMapID = '';
       }
     })
   }
-  getstates(service) {
-    debugger;
+  getStates(service) {
     this.commonservice.getStatesOnServices(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
         this.states_array = response;
-        this.providerServiceMapID=this.states_array[0].providerServiceMapID;
+        this.state = '';
+        this.providerServiceMapID = '';
       }
     })
+  }
+  setProviderServiceMapID(providerServiceMapID) {
+    this.providerServiceMapID = providerServiceMapID;
+    console.log(this.providerServiceMapID);
+    console.log(this.state);
+    console.log(this.serviceline);
+    this.getAllItemCategories();
   }
 
-  getMainStore()
-  {
-    
-    debugger;
-    var obj = {
-      "isMainFacility":"True",
-      "providerServiceMapID":this.providerServiceMapID
+  getAllItemCategories() {
+    if (this.providerServiceMapID) {
+      this.itemCategoryService.getAllItemCategory(this.providerServiceMapID).subscribe((res) => {
+        if (res.statusCode == 200) {
+          console.log(res.data);
+          this.showTableFlag = true;
+          this.itemsList = res.data;
+          this.filteredItemList = res.data;
+
+        }
+      });
     }
-    this.physicalStockService.getMainStore(obj).subscribe(response => {
-      if (response) {
-        console.log('All Mainstore success', response);
-        this.mainstore_array = response;
+  }
+
+  back() {
+    this.showTableFlag = true;
+    this.showCreationForm = false;
+    this.getAllItemCategories();
+  }
+  saveCategory() {
+    this.itemCategoryService.saveNewCategory(this.forCreationObjects)
+    .subscribe(res => {
+      if (res.statusCode == 200) {
+        console.log(res);
+        this.dialogService.alert('Category Created Successfully', 'success');
+        this.categoryCreationForm.reset();
+        this.forCreationObjects = [];
       }
     })
+
+
   }
-  getsubstore(mainstore){
-    debugger;
-    var obj = {
-      "isMainFacility":"False",
-      "providerServiceMapID":this.providerServiceMapID,
-      "mainFacilityID":mainstore.facilityID
-    }
-    this.physicalStockService.getSubStore(obj).subscribe(response => {
-      if (response) {
-        console.log('All Substore success', response);
-        this.substore_array = response;
-      }
+  removeRow(index) {
+    this.forCreationObjects.splice(index,1);
+  }
+
+  addForCreation() {
+    this.forCreationObjects.push({
+      serviceName: this.serviceline.serviceName,
+      stateName: this.state.stateName,
+      itemCategoryCode: this.itemCategoryCode,
+      itemCategoryName: this.itemCategoryName,
+      itemCategoryDesc: this.itemCategoryDesc,
+      createdBy: this.createdBy,
+      providerServiceMapID : this.providerServiceMapID
     })
-    this.getItem();
+    this.categoryCreationForm.reset();
+
   }
-  getItem(){
-    var obj = {
-      "providerServiceMapID":this.providerServiceMapID,
-      "facilityID":9
-    }
-    this.physicalStockService.getItem(obj).subscribe(response => {
-      if (response) {
-        console.log('All Item success', response);
-        this.item_array = response;
-      }
-    })
-  }
-  saveItems(stockAddForm,fieldArray){
-    debugger;
-    if(fieldArray)
-    {
-      console.log(fieldArray);
-    }
-    var itemstockarray=[];
-    for (var i = 0; i < fieldArray.length; i++) {
-      if(fieldArray[i])
-      var tempObj={
-        "batchNo":fieldArray[i].batchno,
-        "createdBy": this.createdBy,
-        "expiryDate":fieldArray[i].expdate ,
-        "facilityID":this.facilityID,
-        "itemID": fieldArray[i].itemname.itemID,
-        "quantity": fieldArray[i].qty
-      }
-      itemstockarray.push(tempObj);
-    }
-    var obj= {
-      "createdBy": this.createdBy,
-      "facilityID":this.facilityID,
-      "itemStockEntry":itemstockarray,
-      "providerServiceMapID": this.providerServiceMapID,
-      "refNo": stockAddForm.referenceNumber,
-      "status": "Active"
-    }
-    this.physicalStockService.savePhysicalStock(obj).subscribe(response => {
-      if (response) {
-        console.log('All stock entry success', response);
-        this.item_array = response;
-        this.dialogService.alert('Saved successfully', 'success');
-        this.reset();
-      }
-    })
-  }
-  preventTyping(e: any) {
-    if (e.keyCode === 9) {
-      return true;
+
+  filterItemFromList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredItemList = this.itemsList;
     } else {
-      return false;
+      this.filteredItemList = [];
+      this.itemsList.forEach((item) => {
+        for (let key in item) {
+          if (key == 'itemCategoryCode' || key == 'itemCategoryName' || key == 'itemCategoryDesc') {
+            const value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredItemList.push(item); break;
+            }
+          }
+        }
+      });
     }
-  }
-  storeTypeselect(selec){
-    debugger;
-    this.getMainStore();
-    this.substore_array=[];
 
   }
-  displayFn(item?: any): string | undefined {
-    return item ? item.itemName : undefined;
+
+  activateDeactivate(categoryID, flag) {
+    let confirmMessage
+    if (flag) {
+      confirmMessage = 'Deactivate';
+    } else {
+      confirmMessage = 'Activate';
+    }
+    this.dialogService.confirm('Confirm', 'Are you sure you want to ' + confirmMessage + '?').subscribe((res) => {
+      if (res) {
+        console.log('Deactivating or activating Obj', categoryID, flag);
+        this.itemCategoryService.categoryActivationDeactivation(categoryID, flag)
+          .subscribe((result) => {
+            if (result.statusCode == 200) {
+              console.log('Activation or deactivation response', result);
+              this.dialogService.alert(`${confirmMessage}d successfully`, 'success');
+              this.getAllItemCategories();
+            }
+            // this.getAllItemsList(this.providerServiceMapID);
+          }, (err) => this.dialogService.alert(err, 'error'))
+      }
+    },
+      (err) => {
+        console.log(err);
+      })
   }
-  addFieldValue() {
-    debugger;
-    this.fieldArray.push({})
+  editItem(itemlist) {
+    console.log('Existing Data', itemlist);
+    const dialog_Ref = this.dialog.open(EditItemCategoryComponent, {
+      height: '400px',
+      width: '900px',
+      disableClose: true,
+      data: {item: itemlist, providerServiceMapID: this.providerServiceMapID}
+    });
+    dialog_Ref.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === 'success') {
+        this.dialogService.alert('Category edited successfully', 'success');
+        this.getAllItemCategories();
+      }
+    });
+
   }
 
-deleteFieldValue(index) {
-  debugger;
-    this.fieldArray.splice(index, 1);
-   
+  showForm() {
+    this.showTableFlag = false;
+    this.showCreationForm = true;
+  }
+
+  checkCodeExistance(code) {
+    console.log(code)
+    let duplicate = 0;
+    this.itemsList.forEach((cat, i) => {
+      if (cat.itemCategoryCode == code) {
+        this.codeExists = true;
+        duplicate++;
+      }
+    })
+
+    if (duplicate) {
+      this.codeExists = true;
+    } else {
+      this.codeExists = false;
+    }
+
+
+  }
+
+
+
 }
-reset(){
-  debugger;
-//  this.stockAddForm.resetForm();
-  this.mainstore_array=[];
-  this.substore_array=[];
-  this.item_array=[];
-  this.states_array=[];
-   this.fieldArray=[];
-  this.fieldArray.push({});
-  //this.fieldArray.splice(0,this.fieldArray.length-1);
-  debugger;
 
-}
-
-}

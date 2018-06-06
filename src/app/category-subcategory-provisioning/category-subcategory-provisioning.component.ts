@@ -549,7 +549,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
 
-  deleteSubCategory(id, flag) {
+  deleteSubCategory(id, flag,catgexist) {
+    if(catgexist)
+    {
+      this.messageBox.alert("Category is inactive");
+    }
+    else{
     let confirmMessage;
     if (flag) {
       confirmMessage = 'Deactivate';
@@ -571,6 +576,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       }
     }, (err) => { });
   }
+}
 
   // to refresh the category after deletion
   refeshCategory(subService: any, providerServiceMap: any) {

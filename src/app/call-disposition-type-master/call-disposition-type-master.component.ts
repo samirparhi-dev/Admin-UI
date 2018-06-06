@@ -238,11 +238,23 @@ export class CallDispositionTypeMasterComponent implements OnInit {
         // this.alertService.alert(err, 'error');
       });
   }
-
+  dataWithoutWrapUp: any = [];
   getCallTypeSubTypeSuccessHandeler(response) {
+    this.dataWithoutWrapUp = [];
     console.log("call type subtype history", response);
     this.data = response;
+    console.log("this.data", this.data);
 
+    this.data.forEach(element => {
+      console.log("element", element);
+
+      if (element.callGroupType != 'Wrapup Exceeds') {
+        // this.data = [];
+        this.dataWithoutWrapUp.push(element);
+      }
+    })
+    this.data = this.dataWithoutWrapUp;
+    console.log("after this.data", this.data);
   }
 
 
@@ -261,7 +273,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     });
 
     if (this.provider_services.length == 0) {
-      this.alertService.alert('104 & 1097 are not working in this state');
+      this.alertService.alert('No servicelines mapped');
     }
   }
   // getServicesSuccessHandeler(response) {
