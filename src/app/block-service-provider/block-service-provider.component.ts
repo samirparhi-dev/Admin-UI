@@ -71,6 +71,20 @@ export class BlockServiceProviderComponent implements OnInit {
     }
     this.isNational = value;
     this.getStatus(this.service_provider, this.state, this.serviceline);
+    this.getstatesBasedOnService(this.service_provider, this.serviceline);
+
+  }
+  getstatesBasedOnService(provider, serviceID) {
+    let data =
+      {
+        "serviceProviderID": provider,
+        "serviceID": serviceID
+      }
+    this.block_provider.getStatesInServices(data).subscribe(response => {
+      this.getStatesSuccesshandeler_1(response);
+    }, err => {
+      console.log("Error", err);
+    });
 
   }
 
@@ -382,7 +396,7 @@ export class BlockServiceProviderComponent implements OnInit {
     console.log('b u service success handeler', response);
     this.message.alert('Updated successfully', 'success');
     this.getStatusOnProviderServiceLevel(response[0].serviceProviderID, response[0].serviceID);
-    this.getStates_serviceline(serviceProviderID);
+    this.getstatesBasedOnService(serviceProviderID, this.serviceline);
   }
 
   blockServiceOfState() {
