@@ -11,6 +11,7 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class ZoneComponent implements OnInit {
 
+  status: string;
   data: any;
   service: any;
   state: any;
@@ -283,9 +284,11 @@ export class ZoneComponent implements OnInit {
     let status;
     if (flag === true) {
       status = "Deactivate";
+      this.status = "Deactivate";
     }
     if (flag === false) {
       status = "Activate";
+      this.status = "Activate";
     }
 
     this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
@@ -299,12 +302,13 @@ export class ZoneComponent implements OnInit {
 
         zone.deleted = !zone.deleted;
       }
-      this.alertMessage.alert(status + "d successfully", 'success');
+
     });
 
   }
   updateStatusHandler(response) {
     console.log("Zone status changed");
+    this.alertMessage.alert(this.status + "d successfully", 'success');
 
   }
 

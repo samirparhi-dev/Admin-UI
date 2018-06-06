@@ -156,7 +156,12 @@ export class LanguageMappingComponent implements OnInit {
     }
 
   }
-  activate(userLangID) {
+  activate(userLangID,userexists) {
+    if(userexists)
+    {
+      this.alertService.alert('User is inactive');
+    }
+    else{
     this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
@@ -178,6 +183,7 @@ export class LanguageMappingComponent implements OnInit {
             });
       }
     });
+  }
 
   }
   deactivate(userLangID) {

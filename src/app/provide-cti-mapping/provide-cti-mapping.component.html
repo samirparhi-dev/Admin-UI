@@ -40,7 +40,7 @@
               <td>{{item.stateID===0 ?'All states':item.stateName}}</td>
               <td>{{item.cTI_CampaignName}}</td>
               <td>
-                <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted"
+                <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted && !item.serviceProviderDeleted"
                   (click)="editForm(item)">edit</md-icon>
               </td>
             </tr>

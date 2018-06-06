@@ -261,7 +261,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     });
 
     if (this.provider_services.length == 0) {
-      this.alertService.alert('104 & 1097 are not working in this state');
+      this.alertService.alert('No servicelines mapped');
     }
   }
   // getServicesSuccessHandeler(response) {

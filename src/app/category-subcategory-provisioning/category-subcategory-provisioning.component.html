@@ -115,12 +115,12 @@
             <td width=25%>{{i?.categoryName}}</td>
             <td width=30%>{{i?.categoryDesc}}</td>
             <td width=10%>
-              <md-icon *ngIf="i.subCategoryDeleted == false" mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true"
-                style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
+              <md-icon *ngIf="!i.subCategoryDeleted && !i.categoryDeleted" mdTooltip="edit" class="mat-icon material-icons" role="img"
+                aria-hidden="true" style="cursor: pointer" (click)="editSubCategory(i)">edit</md-icon>
             </td>
             <td width=20%>
-              <button *ngIf="i.subCategoryDeleted == true" md-raised-button color="accent" (click)="deleteSubCategory(i.subCategoryID, false)">Activate</button>
-              <button *ngIf="i.subCategoryDeleted == false" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true)">Deactivate</button>
+              <button *ngIf="i.subCategoryDeleted || i.categoryDeleted" md-raised-button color="accent" (click)="deleteSubCategory(i.subCategoryID, false,i.categoryDeleted)">Activate</button>
+              <button *ngIf="!i.subCategoryDeleted && !i.categoryDeleted" md-raised-button color="primary" (click)="deleteSubCategory(i.subCategoryID, true,false)">Deactivate</button>
             </td>
           </tr>
         </tbody>
@@ -171,8 +171,8 @@
           <input mdInput style="display:none">
           <!-- <md-select [disabled]="nationalFlag" required [(ngModel)]="state" class="width100" placeholder="State " name="stateName"
             (change)="getSubServices('get')"> -->
-            <md-select required [(ngModel)]="state" class="width100" placeholder="State " name="stateName"
-            (change)="getSubServices('get')" disabled>
+          <md-select required [(ngModel)]="state" class="width100" placeholder="State " name="stateName" (change)="getSubServices('get')"
+            disabled>
             <md-option *ngFor="let state of states" [value]="state">{{state.stateName}}</md-option>
           </md-select>
         </md-input-container>
@@ -180,7 +180,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select required [(ngModel)]="sub_service" class="width100" name="subserviceName" placeholder="Sub Service" (change)="checkSubService(selected_service_id,sub_service.subServiceName);getDetails(sub_service)" disabled>
+          <md-select required [(ngModel)]="sub_service" class="width100" name="subserviceName" placeholder="Sub Service" (change)="checkSubService(selected_service_id,sub_service.subServiceName);getDetails(sub_service)"
+            disabled>
             <md-option *ngFor="let subservice of subServices" [value]="subservice">{{subservice.subServiceName}}</md-option>
           </md-select>
         </md-input-container>
