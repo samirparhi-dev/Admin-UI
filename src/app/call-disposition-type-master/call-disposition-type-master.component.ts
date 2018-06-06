@@ -238,11 +238,23 @@ export class CallDispositionTypeMasterComponent implements OnInit {
         // this.alertService.alert(err, 'error');
       });
   }
-
+  dataWithoutWrapUp: any = [];
   getCallTypeSubTypeSuccessHandeler(response) {
+    this.dataWithoutWrapUp = [];
     console.log("call type subtype history", response);
     this.data = response;
+    console.log("this.data", this.data);
 
+    this.data.forEach(element => {
+      console.log("element", element);
+
+      if (element.callGroupType != 'Wrapup Exceeds') {
+        // this.data = [];
+        this.dataWithoutWrapUp.push(element);
+      }
+    })
+    this.data = this.dataWithoutWrapUp;
+    console.log("after this.data", this.data);
   }
 
 
