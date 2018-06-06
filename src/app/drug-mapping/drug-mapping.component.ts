@@ -221,31 +221,36 @@ export class DrugMappingComponent implements OnInit {
   }
 
   dataObj: any = {};
-  updateDrugMappingStatus(drugMapping) {
-    let flag = !drugMapping.deleted;
-    let status;
-    if (flag === true) {
-      status = "Deactivate";
+  updateDrugMappingStatus(drugMapping, druggroupexist) {
+    if (druggroupexist) {
+      this.alertMessage.alert("Drug group is inactive")
     }
-    if (flag === false) {
-      status = "Activate";
-    }
-    this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
-      if (response) {
-
-        this.dataObj = {};
-        this.dataObj.drugMapID = drugMapping.drugMapID;
-        this.dataObj.deleted = !drugMapping.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
-          this.alertMessage.alert(status + "d successfully", 'success')
-          drugMapping.deleted = !drugMapping.deleted
-        }), (err) => {
-          console.log("error", err);
-          //console.log(err,'error')
-        };
+    else {
+      let flag = !drugMapping.deleted;
+      let status;
+      if (flag === true) {
+        status = "Deactivate";
       }
-    });
+      if (flag === false) {
+        status = "Activate";
+      }
+      this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
+        if (response) {
+
+          this.dataObj = {};
+          this.dataObj.drugMapID = drugMapping.drugMapID;
+          this.dataObj.deleted = !drugMapping.deleted;
+          this.dataObj.modifiedBy = this.createdBy;
+          this.drugMasterService.updateDrugStatus(this.dataObj).subscribe(response => {
+            this.alertMessage.alert(status + "d successfully", 'success')
+            drugMapping.deleted = !drugMapping.deleted
+          }), (err) => {
+            console.log("error", err);
+            //console.log(err,'error')
+          };
+        }
+      });
+    }
   }
 
   updateStatusHandler(response) {

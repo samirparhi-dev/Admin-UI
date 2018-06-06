@@ -491,28 +491,33 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       }
     })
   }
-  activate(userID) {
-    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe(response => {
-      if (response) {
-        const object = {
-          'uSRMappingID': userID,
-          'deleted': false
-        };
+  activate(userID, providerexists) {
+    if (providerexists) {
+      this.dialogService.alert('Provider is inactive');
+    }
+    else {
+      this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe(response => {
+        if (response) {
+          const object = {
+            'uSRMappingID': userID,
+            'deleted': false
+          };
 
-        this.superadminService.activateProviderAdmin(object)
-          .subscribe(response => {
-            if (response) {
-              this.dialogService.alert('Activated successfully', 'success');
-              /* refresh table */
-              this.getAllMappedProviders();
-            }
-          },
-            err => {
-              // this.dialogService.alert(err, 'error');
-              console.log('error', err);
-            });
-      }
-    });
+          this.superadminService.activateProviderAdmin(object)
+            .subscribe(response => {
+              if (response) {
+                this.dialogService.alert('Activated successfully', 'success');
+                /* refresh table */
+                this.getAllMappedProviders();
+              }
+            },
+              err => {
+                // this.dialogService.alert(err, 'error');
+                console.log('error', err);
+              });
+        }
+      });
+    }
   }
   deactivate(userID) {
     this.dialogService.confirm('Confirm', "Are you sure want to Deactivate?").subscribe(response => {

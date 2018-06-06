@@ -285,8 +285,13 @@ export class WorkLocationMappingComponent implements OnInit {
     // this.getUserName(this.serviceProviderID);
   }
 
-  activate(uSRMappingID) {
+  activate(uSRMappingID,userDeactivated) {
     // debugger;
+    if(userDeactivated){
+      this.alertService.alert('User is inactive');
+    }
+    else
+    {
     this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
       if (response) {
         const object = {
@@ -308,6 +313,7 @@ export class WorkLocationMappingComponent implements OnInit {
             });
       }
     });
+  }
 
   }
   deactivate(uSRMappingID) {
