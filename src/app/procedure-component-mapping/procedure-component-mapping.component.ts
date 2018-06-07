@@ -163,6 +163,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
           // this.selectedProcedureType = item.procedureType;
 
           this.loadForConfig(res, item);
+          //   this.configProcedureMapping(this.selectedProcedure, -1);
+          this.procedureSelected_edit();
         } else {
           this.editMode = false;
           this.selectedComponentList = [];
@@ -177,6 +179,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   loadForConfig(res, item) {
+    debugger;
     console.log(this.masterComponentList, 'masterComponentList');
     let temp = this.procedureList.filter(procedure => {
       return procedure.procedureID == res[0].procedureID
@@ -194,7 +197,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
     }
     this.componentList = [];
     const masters = Object.assign([], this.masterComponentList);
-    this.filterComponentList(masters, item.procedureType);
+    this.filterComponentList(masters, temp[0].procedureType);
     console.log('loadCompList', this.componentList);
   }
 
@@ -327,6 +330,14 @@ export class ProcedureComponentMappingComponent implements OnInit {
     })
 
     return resp;
+  }
+  procedureSelected_edit() {
+    if (this.selectedProcedure) {
+      console.log("selected procedure", this.selectedProcedure);
+      this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
+      this.selectedProcedureType = this.selectedProcedure.procedureType;
+      console.log(this.selectedProcedureType)
+    }
   }
 
   procedureSelected() {
