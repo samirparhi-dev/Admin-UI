@@ -38,7 +38,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select required name="services" placeholder="Services" class="width100" [(ngModel)]="serviceObj" (change)="getAllStatesInService(serviceProvider.serviceProviderId,serviceObj.serviceID);setIsNational(serviceObj.isNational,serviceObj.providerServiceMapID)">
+        <md-select required name="services" placeholder="Serviceline" class="width100" [(ngModel)]="serviceObj" (change)="getAllStatesInService(serviceProvider.serviceProviderId,serviceObj.serviceID);setIsNational(serviceObj.isNational,serviceObj.providerServiceMapID)">
           <md-option *ngFor="let service of services" [value]="service">
             {{service.serviceName}}
           </md-option>
@@ -104,7 +104,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select required name="serviceProvider" placeholder="Service Provider" class="width100" [(ngModel)]="serviceProvider"
-          (change)="getServicesFromProvider(serviceProvider.serviceProviderId)">
+          (change)="getServicesFromProvider(serviceProvider.serviceProviderId)" disabled>
           <md-option *ngFor="let serviceProviderObj of serviceProviders" [value]="serviceProviderObj">
             {{serviceProviderObj.serviceProviderName}}
           </md-option>
@@ -115,7 +115,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select required name="services" placeholder="Serviceline" class="width100" [(ngModel)]="serviceObj" (change)="getAllStatesInService(serviceProvider.serviceProviderId,serviceObj.serviceID);setIsNational(serviceObj.isNational,serviceObj.providerServiceMapID)">
+        <md-select required name="services" placeholder="Serviceline" class="width100" [(ngModel)]="serviceObj" (change)="getAllStatesInService(serviceProvider.serviceProviderId,serviceObj.serviceID);setIsNational(serviceObj.isNational,serviceObj.providerServiceMapID)"
+          disabled>
           <md-option *ngFor="let service of services" [value]="service">
             {{service.serviceName}}
           </md-option>
@@ -125,7 +126,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select required name="state" placeholder="State" [disabled]="isNational" class="width100" [(ngModel)]="state" (change)="getExistingOnSearch(state.providerServiceMapID)">
+        <md-select required name="state" placeholder="State" class="width100" [(ngModel)]="state" (change)="getExistingOnSearch(state.providerServiceMapID)"
+          disabled>
           <md-option *ngFor="let stateObj of states" [value]="stateObj">
             {{stateObj.stateName}}
           </md-option>
@@ -140,23 +142,25 @@
     </div>
     <!-- </form>
   <form #resetFieldsForm="ngForm" id="form2" autocomplete="off"> -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select name="subService" placeholder="Sub Services" class="width100" [(ngModel)]="subService" required>
-          <md-option *ngFor="let subService of subServices" [value]="subService">
-            {{subService.subServiceName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-l-0">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
+          <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none">
+            <md-select name="subService" placeholder="Sub Services" class="width100" [(ngModel)]="subService" required>
+              <md-option *ngFor="let subService of subServices" [value]="subService">
+                {{subService.subServiceName}}
+              </md-option>
+            </md-select>
+          </md-input-container>
 
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
-      <md-input-container style="width: 100% " myProviderName>
-        <input id="description" required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc"
-          maxlength="50">
-      </md-input-container>
-    </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!subServiceAvailable && !allServicesAdded">
+          <md-input-container style="width: 100% " myProviderName>
+            <input id="description" required mdInput placeholder="Sub Service Description" [(ngModel)]="subServiceDesc" name="subServiceDesc"
+              maxlength="50">
+          </md-input-container>
+        </div>
+      </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <button md-raised-button color="primary" type="button" class="pull-left" (click)="back()">Back</button>

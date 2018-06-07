@@ -137,13 +137,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     }
     else {
       this.nationalFlag = value.isNational;
-      this.getSubServices(value.isNational)
+      //  this.getSubServices(value.isNational)
     }
   }
 
   getSubServices(value) {
     //this.sub_service = undefined;
-
+    debugger;
     if (value == 'get') {
       this.servicesGetting(this.state.providerServiceMapID);
     }
@@ -239,13 +239,21 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   // }
   searchReqObjChange(choice) {
     console.log(choice, "search choice");
-    if (choice == 1) {
-      this.showCategoryTable = false;
-      this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
-    }
-    else {
-      this.showCategoryTable = true;
-      this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
+    if (this.nationalFlag != undefined) {
+
+
+      if (choice == 1) {
+        this.showCategoryTable = false;
+        if (this.nationalFlag) {
+          this.getSubCategory(this.states[0].providerServiceMapID, this.sub_serviceID);
+        } else {
+          this.getSubCategory(this.state.providerServiceMapID, this.sub_serviceID);
+        }
+      }
+      else {
+        this.showCategoryTable = true;
+        this.getCategory(this.state.providerServiceMapID, this.sub_serviceID);
+      }
     }
   }
   callgetDetails(subService: any, providerServiceMap: any) {
@@ -541,7 +549,12 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
 
-  deleteSubCategory(id, flag) {
+  deleteSubCategory(id, flag,catgexist) {
+    if(catgexist)
+    {
+      this.messageBox.alert("Category is inactive");
+    }
+    else{
     let confirmMessage;
     if (flag) {
       confirmMessage = 'Deactivate';
@@ -563,6 +576,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       }
     }, (err) => { });
   }
+}
 
   // to refresh the category after deletion
   refeshCategory(subService: any, providerServiceMap: any) {

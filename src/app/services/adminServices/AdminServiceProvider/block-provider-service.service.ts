@@ -77,7 +77,10 @@ export class BlockProvider {
   }
 
   getAllProviders() {
-    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.success_handeler).catch(this.error_handeler);
+    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.handleState_n_Cti).catch(this.error_handeler);
+  }
+  getAllProviders_CTI() {
+    return this.httpInterceptor.post(this.getAllProviderUrl, {}).map(this.handleState_n_Cti).catch(this.error_handeler);
   }
   getAllSubService(serviceID) {
     return this._http.post(this.getAllSubService_URL, { 'serviceID': serviceID })
@@ -105,14 +108,12 @@ export class BlockProvider {
   }
 
   getServicesOfProvider(serviceProviderID) {
-    debugger;
     return this._http.post(this.getAllServicesOfProvider_Url, {
       'serviceProviderID': serviceProviderID
     }).map(this.success_handeler)
       .catch(this.error_handeler);
   }
   getServicesOfProvider_CTI(userID) {
-    debugger;
     return this._http.post(this.getAllServicesOfProvider_CTI_Url, {
       'userID': userID
     }).map(this.success_handeler)
@@ -224,6 +225,18 @@ export class BlockProvider {
       return Observable.throw(res.json());
     }
   }
+  handleState_n_Cti(response: Response) {
+
+    console.log(response.json().data, 'block provider service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (!item.deleted) {
+        return item;
+      }
+    });
+    return result;
+  }
+
 
   handleState_n_ServiceSuccess(response: Response) {
 

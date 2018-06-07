@@ -28,12 +28,14 @@
             <td>{{service.serviceName}}</td>
             <td>{{service.stateName===undefined || null ?"All states":service.stateName}}</td>
             <td>
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted  && !service.userDeleted"
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.uSRMDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="service.uSRMDeleted || service.serviceProviderDeleted || service.userDeleted"
+                class=" m-r-10" (click)="activate(service.uSRMappingID,service.serviceProviderDeleted,service.userDeleted)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted && !service.userDeleted"
+                class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>
           </tr>
@@ -118,7 +120,7 @@
   </div>
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
     <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>

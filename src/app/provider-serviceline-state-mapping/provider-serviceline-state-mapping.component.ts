@@ -210,10 +210,11 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         this.bufferArray.push(object);
       }
       else {
-        this.dialogService.alert('Already exist');
+        this.dialogService.alert('Already exists');
       }
     }
   }
+  count: any = 0;
   checkDuplicates(object) {
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
@@ -236,31 +237,36 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             /* the loop will run i times , where i= no of objects in States Array
                of OBJECT sent for verification */
             for (let i = 0; i < object.stateID1.length; i++) {
-              let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
+              // let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
 
               /* running second loop which will run j times , where j= no of objects in States Array
                of an OBJECT in buffer array */
               for (let j = 0; j < this.bufferArray[a].stateID1.length; j++) {
                 if (this.bufferArray[a].stateID1[j].stateID === object.stateID1[i].stateID) {
-                  count = count + 1;
-                  console.log('Duplicate Combo Exists', count);
+                  this.count = this.count + 1;
+                  console.log('Duplicate Combo Exists', this.count);
                 }
               }
-              if (count === 0) {
+              if (this.count === 0) {
                 this.bufferArray[a].stateID1.push(object.stateID1[i]);
                 this.resetForm();
               }
-              else if (count > 0) {
-                console.log('Duplicate Entry Already exists for ' + object.stateID1[i].stateName);
-                this.dialogService.alert("Already exists");
-                this.resetForm();
-              }
+              // else if (this.count > 0) {
+              //   console.log('Duplicate Entry Already exists for ' + object.stateID1[i].stateName);
+              //   this.dialogService.alert("Already exists");
+              //   this.resetForm();
+              // }
             }
           }
           else {
             continue;
           }
         }
+      }
+      if (this.count > 0) {
+        this.dialogService.alert("Already exists");
+        this.resetForm();
+        this.count = [];
       }
       if (providerCount > 0 && servicelineMatched === false) {
         this.bufferArray.push(object);
@@ -450,26 +456,31 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
 
   }
 
-  activate(providerServiceMapID) {
-    // this.dialogService.alert('Work In Progress for activate');
-    const object = {
-      'providerServiceMapID': providerServiceMapID,
-      'deleted': false
+  activate(providerServiceMapID, providerexists) {
+    if (providerexists) {
+      this.dialogService.alert('Provider is  inactive');
     }
-    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
-      if (res) {
-        this.superadminService.deleteMappedProviderServiceState(object)
-          .subscribe(response => {
-            console.log(response, 'success handeler after activation');
-            this.dialogService.alert('Activated successfully', 'success');
-            this.getAllMappings();
-          },
-            (err) => {
-
-              console.log(err);
-            })
+    else {
+      // this.dialogService.alert('Work In Progress for activate');
+      const object = {
+        'providerServiceMapID': providerServiceMapID,
+        'deleted': false
       }
-    })
+      this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe((res) => {
+        if (res) {
+          this.superadminService.deleteMappedProviderServiceState(object)
+            .subscribe(response => {
+              console.log(response, 'success handeler after activation');
+              this.dialogService.alert('Activated successfully', 'success');
+              this.getAllMappings();
+            },
+              (err) => {
+
+                console.log(err);
+              })
+        }
+      })
+    }
   }
 
   deactivate(providerServiceMapID) {

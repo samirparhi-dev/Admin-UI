@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import { InterceptedHttp } from '../../http.interceptor';
 import { ConfigService } from '../config/config.service';
 import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
-import { DSVRowAny } from 'd3';
+// import { DSVRowAny } from 'd3';
 /**
  * Author: krishna Gunti ( 378952 )
  * Date: 05-03-2018
@@ -96,7 +96,7 @@ export class WorkLocationMapping {
             .get(this.getAllDistrictsByProviderUrl + stateID)
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
-    } DSVRowAny
+    }
 
     getAllWorkLocations(serviceProviderID: any, stateID: any, serviceID: any, isNational: any, districtID: any) {
         this.districtID = districtID;

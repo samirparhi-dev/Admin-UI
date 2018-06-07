@@ -25,9 +25,9 @@ export class CallTypeSubtypeService {
   save_CallTypeSubType_Url: any;
   delete_SubCallType_Url: any;
   modify_CallTypeSubType_Url: any;
-  
+
   getServiceLines_new_url: any;
-  getStates_new_url:  any;
+  getStates_new_url: any;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -41,19 +41,19 @@ export class CallTypeSubtypeService {
     this.modify_CallTypeSubType_Url = this.admin_Base_Url + 'm/updateCalltypedata';
 
     this.getServiceLines_new_url = this.admin_Base_Url + 'm/role/serviceNew';
-		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
+    this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
   };
 
   getStates(serviceProviderID) {
     return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
+  getServiceLinesNew(userID) {
+    return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-	getServiceLinesNew(userID) {
-		return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
-			.map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
-	}
   getServices(serviceProviderID, stateID) {
     return this.http.post(this.get_Service_Url, {
       'serviceProviderID': serviceProviderID,
@@ -61,10 +61,10 @@ export class CallTypeSubtypeService {
     }).map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-	getStatesNew(obj) {
-		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
-	}
+  getStatesNew(obj) {
+    return this.httpIntercept.post(this.getStates_new_url, obj).map(this.handleSuccess)
+      .catch(this.handleError);
+  }
   // C.R.U.D
 
   getCallTypeSubType(serviceProviderMapID) {
@@ -103,12 +103,13 @@ export class CallTypeSubtypeService {
     console.log(response.json().data, 'role service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.statusID !== 4) {
+      if (item.serviceID === 3 || item.serviceID === 1) {
         return item;
       }
     });
     return result;
   }
+
 
   handleError(error: Response | any) {
     return Observable.throw(error.json());

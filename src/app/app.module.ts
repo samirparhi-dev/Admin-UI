@@ -201,11 +201,12 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { ItemCategoryService } from './services/inventory-services/item-category.service'
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
-import {ManufacturemasterService} from './services/inventory-services/manufacturemaster.service';
-import {PhysicalstockService} from './services/inventory-services/physicalstock.service';
 import {ItemFormService} from './services/inventory-services/item-form-service';
 import {RouteofAdminService} from './services/inventory-services/route-of-admin.service';
+import { ManufacturemasterService } from './services/inventory-services/manufacturemaster.service';
+import { PhysicalstockService } from './services/inventory-services/physicalstock.service';
 
 import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
 import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
@@ -222,7 +223,12 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
 import { ItemFormMasterComponent } from './item-form-master/item-form-master.component';
 import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component';
+import { CreateUomMasterComponent } from './uom-master/create-uom-master/create-uom-master.component';
+import { SearchUomMasterComponent } from './uom-master/search-uom-master/search-uom-master.component';
+import { EditItemCategoryComponent } from './item-category-master/edit-item-category/edit-item-category.component';
 
+import { UomMasterService } from './services/inventory-services/uom-master.service';
+import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-uom-master.component';
 
 @NgModule({
   declarations: [
@@ -273,6 +279,10 @@ import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component
     ItemFormMasterComponent,
     RouteOfAdminComponent,
     
+    CreateUomMasterComponent,
+    SearchUomMasterComponent,
+    UpdateUomMasterComponent,
+    EditItemCategoryComponent,
   ],
 
   imports: [
@@ -352,7 +362,7 @@ import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
 CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
-    ItemFacilityMappingService,StoreSelfConsumptionServiceService,ItemFormService,RouteofAdminService,
+    ItemFacilityMappingService,StoreSelfConsumptionServiceService,ItemFormService,RouteofAdminService, UomMasterService, ItemCategoryService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -363,7 +373,6 @@ CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterServ
       useFactory: SecurityFactory,
       deps: [XHRBackend, RequestOptions, Router, AuthService, ConfirmationDialogsService]
     }
-
   ],
 
   entryComponents: [
@@ -384,8 +393,8 @@ CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterServ
     AgentIDMappingModal,
     EditVillageModal,
     EditProviderAdminModal,
-    EditItemMasterModal
-
+    EditItemMasterModal,
+    EditItemCategoryComponent
   ],
 
   bootstrap: [AppComponent]

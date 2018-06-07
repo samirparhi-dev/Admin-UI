@@ -75,7 +75,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <md-input-container [style.width]="'100%'" myProviderName>
                         <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description"
-                        maxlength="50"></textarea>
+                            maxlength="50"></textarea>
                     </md-input-container>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -119,31 +119,36 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-min" type="number" mdInput placeholder="Minimum Range *" [style.width]="'100%'" (change)="setMinRange()" formControlName="range_min">
+                            <input id="component-min" type="number" mdInput placeholder="Minimum Range *" [style.width]="'100%'" (change)="setMinRange()"
+                                formControlName="range_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-max" type="number" mdInput placeholder="Maximum Range *" [style.width]="'100%'" (change)="setMaxRange()" formControlName="range_max">
+                            <input id="component-max" type="number" mdInput placeholder="Maximum Range *" [style.width]="'100%'" (change)="setMaxRange()"
+                                formControlName="range_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range *" [style.width]="'100%'" (change)="setMinNormalRange()" formControlName="range_normal_min">
+                            <input id="component-normal-min" type="number" mdInput placeholder="Minimum Normal Range *" [style.width]="'100%'" (change)="setMinNormalRange()"
+                                formControlName="range_normal_min">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% ">
-                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range *" [style.width]="'100%'" (change)="setMaxNormalRange()" formControlName="range_normal_max">
+                            <input id="component-normal-max" type="number" mdInput placeholder="Maximum Normal Range *" [style.width]="'100%'" (change)="setMaxNormalRange()"
+                                formControlName="range_normal_max">
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
                         <md-input-container style="width: 100% " measuringUnit>
-                            <input id="component-unit" mdInput placeholder="Measuring Unit *" [style.width]="'100%'" [pattern]="measuringUnit" formControlName="measurementUnit" maxlength="15">
+                            <input id="component-unit" mdInput placeholder="Measuring Unit *" [style.width]="'100%'" [pattern]="measuringUnit" formControlName="measurementUnit"
+                                maxlength="15">
                         </md-input-container>
                     </div>
                 </div>
@@ -194,12 +199,12 @@
     </div>
 </div>
 <div *ngIf="tableMode ">
-    <div *ngIf="componentList?.length > 0" class="pull-right">
+    <!-- <div *ngIf="componentList?.length > 0" class="pull-right">
         <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
         </md-input-container>
-    </div>
+    </div> -->
     <div class="row">
         <div #tabledData class="col-xs-12 col-sm-12 table-responsive m-t-15">
             <div class="table-responsive">

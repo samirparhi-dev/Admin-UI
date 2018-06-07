@@ -47,11 +47,11 @@ export class InstituteDirectoryMasterService {
 
 	getStates(serviceProviderID) {
 		return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
-			.map(this.handleState_n_ServiceSuccess)
+			.map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 	getStatesNew(obj) {
-		return this.httpIntercept.post(this.getStates_new_url,obj).map(this.handleState_n_ServiceSuccess)
+		return this.httpIntercept.post(this.getStates_new_url, obj).map(this.handleSuccess)
 			.catch(this.handleError);
 	}
 	getServices(serviceProviderID, stateID) {
@@ -101,7 +101,7 @@ export class InstituteDirectoryMasterService {
 		console.log(response.json().data, 'role service file success response');
 		let result = [];
 		result = response.json().data.filter(function (item) {
-			if (item.statusID !== 4) {
+			if (item.serviceID === 3 || item.serviceID === 1) {
 				return item;
 			}
 		});

@@ -80,6 +80,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         if (response) {
             console.log(response, 'Provider States');
             this.provider_states = response;
+            this.availableServicePointVillageMaps = [];
             this.createButton = false;
         }
     }
@@ -96,6 +97,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
@@ -122,6 +124,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableServicePoints: any;
     getServicePointSuccessHandler(response) {
         this.availableServicePoints = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableServicePoint of this.availableServicePoints) {
             if (availableServicePoint.deleted) {
@@ -299,6 +302,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
     }
     taluks: any = [];
