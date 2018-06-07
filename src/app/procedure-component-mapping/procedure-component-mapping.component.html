@@ -37,13 +37,7 @@
             <div class="row">
                 <!-- <form #proccompForm="ngForm" autocomplete="off"> -->
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="saveMode">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none">
-                        <md-select required [(ngModel)]="selectedProcedure" name="procedures" (change)="procedureSelected()" placeholder="Procedure Name"
-                            [style.width]=" '100%' ">
-                            <md-option *ngFor="let item of procedureList " [value]="item ">{{item.procedureName}}</md-option>
-                        </md-select>
-                    </md-input-container> -->
+
                     <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name"
                         [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
                     </md2-autocomplete>

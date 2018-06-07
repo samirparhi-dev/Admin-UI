@@ -169,7 +169,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.hospitalForm2.controls.taluk.reset();
     this.hospitalForm2.controls.institute_directory.reset();
     this.hospitalForm2.controls.institute_subdirectory.reset();
-    this.taluks = [];    
+    this.taluks = [];
     this.institute_subdirectories = [];
 
     this.hospitalInstituteMappingService.getTaluks(districtID)
@@ -401,39 +401,44 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   }
 
 
-  toggle_activate(instituteDirMapID, isDeleted) {
-    if (isDeleted === true) {
-      this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
-        if (response) {
-          let obj = {
-            "instituteDirMapID": instituteDirMapID,
-            "deleted": isDeleted
-          };
-
-          this.hospitalInstituteMappingService.toggleMappingStatus(obj)
-            .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Deactivated"), err => {
-              console.log("error", err);
-              //this.alertService.alert(err, 'error');
-            })
-        }
-      });
+  toggle_activate(instituteDirMapID, isDeleted, directory) {
+    if (directory) {
+      this.alertService.alert("Institute is inactive");
     }
+    else {
+      if (isDeleted === true) {
+        this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
+          if (response) {
+            let obj = {
+              "instituteDirMapID": instituteDirMapID,
+              "deleted": isDeleted
+            };
 
-    if (isDeleted === false) {
-      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
-        if (response) {
-          let obj = {
-            "instituteDirMapID": instituteDirMapID,
-            "deleted": isDeleted
-          };
+            this.hospitalInstituteMappingService.toggleMappingStatus(obj)
+              .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Deactivated"), err => {
+                console.log("error", err);
+                //this.alertService.alert(err, 'error');
+              })
+          }
+        });
+      }
 
-          this.hospitalInstituteMappingService.toggleMappingStatus(obj)
-            .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Activated"), err => {
-              console.log("error", err);
-              //this.alertService.alert(err, 'error');
-            })
-        }
-      });
+      if (isDeleted === false) {
+        this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+          if (response) {
+            let obj = {
+              "instituteDirMapID": instituteDirMapID,
+              "deleted": isDeleted
+            };
+
+            this.hospitalInstituteMappingService.toggleMappingStatus(obj)
+              .subscribe(response => this.toggleMappingStatusSuccessHandeler(response, "Activated"), err => {
+                console.log("error", err);
+                //this.alertService.alert(err, 'error');
+              })
+          }
+        });
+      }
     }
 
   }

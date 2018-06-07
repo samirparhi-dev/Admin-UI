@@ -324,6 +324,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.showList();
         this.initializeObj();
         this.editParkingplaceValue = null;
+        this.availableParkingPlaceNames = [];
 
     }
     back() {

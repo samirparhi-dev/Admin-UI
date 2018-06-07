@@ -11,6 +11,12 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class VanComponent implements OnInit {
 
+    searchParkingPlaceID_edit(arg0: any, arg1: any, arg2: any): any {
+        throw new Error("Method not implemented.");
+    }
+    searchDistrictID_edit(arg0: any, arg1: any, arg2: any): any {
+        throw new Error("Method not implemented.");
+    }
     showVansTable: boolean = false;
     userID: any;
     serviceline: any;
@@ -303,8 +309,12 @@ export class VanComponent implements OnInit {
     }
 
     showList() {
-        this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
-        this.showVans = true;
+        if (this.editable) {
+            this.getVans(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit); this.showVans = true;
+        }
+        else {
+            this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID); this.showVans = true;
+        }
         this.showVansTable = true;
         this.editable = false;
         this.vanObj = [];
@@ -348,9 +358,9 @@ export class VanComponent implements OnInit {
         this.vehicalNo = van.vehicalNo;
         this.vanTypeID = van.vanTypeID + "-" + van.vanType;
         this.stateID = van.stateID;
-        this.searchDistrictID = van.districtID;
+        this.searchDistrictID_edit = van.districtID;
         this.providerServiceMapID = van.providerServiceMapID;
-        this.searchParkingPlaceID = van.parkingPlaceID;
+        this.searchParkingPlaceID_edit = van.parkingPlaceID;
         // this.getStatesByServiceID();
         // this.getDistricts(van.stateID);
         //  this.getParkingPlaces(van.stateID, van.districtID);
@@ -366,10 +376,10 @@ export class VanComponent implements OnInit {
         this.dataObj.vehicalNo = van.vehicalNo;
         this.dataObj.vanTypeID = van.vanTypeID.split("-")[0];
         this.dataObj.countryID = this.countryID;
-        this.dataObj.parkingPlaceID = this.searchParkingPlaceID;
+        this.dataObj.parkingPlaceID = this.searchParkingPlaceID_edit;
         this.dataObj.stateID = this.stateID;
         this.dataObj.providerServiceMapID = this.providerServiceMapID;
-        this.dataObj.districtID = this.searchDistrictID;
+        this.dataObj.districtID = this.searchDistrictID_edit;
         this.dataObj.modifiedBy = this.createdBy;
         this.searchDistrictID = this.searchDistrictID_Update;
         this.searchParkingPlaceID = this.searchParkingPlaceID_Update;
@@ -381,6 +391,7 @@ export class VanComponent implements OnInit {
         this.editable = false;
         this.alertMessage.alert("Updated successfully", 'success');
         this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
+        this.availableVanNames = [];
         //this.initializeObj();
     }
     back() {
