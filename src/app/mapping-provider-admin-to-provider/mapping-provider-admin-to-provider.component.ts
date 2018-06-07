@@ -491,9 +491,12 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       }
     })
   }
-  activate(userID, providerexists) {
+  activate(userID, providerexists, userexist) {
     if (providerexists) {
       this.dialogService.alert('Provider is inactive');
+    }
+    else if (userexist) {
+      this.dialogService.alert('Provider Admin is inactive');
     }
     else {
       this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe(response => {

@@ -258,6 +258,7 @@ export class DrugListComponent implements OnInit {
     this.editable = false;
     this.alertMessage.alert('Updated successfully', 'success');
     this.getAvailableDrugs();
+    this.availableDrugNames = [];
   }
 
   drugNameExist: any = false;

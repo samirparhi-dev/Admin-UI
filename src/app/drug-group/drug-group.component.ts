@@ -242,6 +242,7 @@ export class DrugGroupComponent implements OnInit {
     this.editable = false;
     this.alertMessage.alert("Updated successfully", 'success');
     this.getAvailableDrugs();
+    this.availableDrugGroupNames = [];
   }
 
   groupNameExist: any = false;
