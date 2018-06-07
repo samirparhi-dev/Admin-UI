@@ -147,6 +147,7 @@ export class ItemToStoreMappingComponent implements OnInit {
 
   showForm() {
     this.showFormFlag = true;
+    this.showTableFlag = false;
   }
   getAllItemFacilityMapping(providerServiceMapID) {
     debugger;
@@ -196,7 +197,7 @@ export class ItemToStoreMappingComponent implements OnInit {
         mappedItem.push(parseInt(element.itemID))
       }
     });
-console.log(mappedItem)
+ console.log(mappedItem)
     this.itemsList = response.filter(
       
       item=> {
@@ -216,7 +217,8 @@ console.log(mappedItem)
       "mappingType": "Individual",
       "createdBy": "Akash",
       "status": "Active",
-      "providerServiceMapID": this.providerServiceMapID
+      "providerServiceMapID": this.providerServiceMapID,
+      "itemCategoryName":value.itemCategory.itemCategoryName      
     }
     if(!value.storeType){
     if(value.subStore!=undefined){

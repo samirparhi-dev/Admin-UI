@@ -213,7 +213,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   categoriesSuccesshandler(categoryResponse) {
-    this.categories = categoryResponse
+    this.categories = categoryResponse.filter(
+      category => category.deleted != true
+    );
     console.log("categories List", this.categories);
   }
   getDosageList(providerServiceMapID) {
@@ -223,7 +225,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   dosageSuccesshandler(dosageResponse) {
-    this.dosages = dosageResponse;
+    this.dosages = dosageResponse.filter(
+      dose => dose.deleted != true
+    );
     console.log("dosage list", this.dosages);
   }
   pharmacologiesList(providerServiceMapID) {
@@ -237,7 +241,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
-    this.pharmacologies = pharmacologyResponse;
+    this.pharmacologies = pharmacologyResponse.filter(
+      pharmacology => pharmacology.deleted != true
+    );
     console.log("pharmacology", this.pharmacologies);
   }
   manufacturerList(providerServiceMapID) {
@@ -251,7 +257,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   manufacturerSuccesshandler(manufacturerResponse) {
-    this.manufacturers = manufacturerResponse;
+    this.manufacturers = manufacturerResponse.filter(
+      manufacture => manufacture.deleted != true
+    );
     console.log("manufacturers", this.manufacturers);
   }
   unitOfMeasuresList(providerServiceMapID) {
@@ -265,7 +273,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   uomSuccesshandler(uomResponse) {
-    this.measures = uomResponse;
+    this.measures = uomResponse.filter(
+      uom => uom.deleted != true
+    );
     console.log("measures", this.measures);
   }
   routeAdminList(providerServiceMapID) {
@@ -277,7 +287,9 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   routeSuccesshandler(routeResponse) {
-    this.routes = routeResponse;
+    this.routes = routeResponse.filter(
+      route => route.deleted != true
+    );
     console.log("routes", this.routes);
   }
   resetAllForms() {
@@ -365,14 +377,14 @@ debugger;
        console.log("Existing Data", itemlist);
     let dialog_Ref = this.dialog.open(EditItemMasterModal, {
       height: '500px',
-      width: '900px',
+      width: '1100px',
       disableClose: true,
       data: itemlist
     });
     dialog_Ref.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === "success") {
-        this.dialogService.alert("Item edited successfully", 'success');
+        this.dialogService.alert("Item Updated successfully", 'success');
         this.getAllItemsList(this.providerServiceMapID);
       }
     });

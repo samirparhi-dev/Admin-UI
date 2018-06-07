@@ -38,6 +38,7 @@ export class SupplierMasterComponent implements OnInit {
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
+  displayTable: boolean = false;
 
   addressStateID: any;
   createdBy: any;
@@ -50,6 +51,7 @@ export class SupplierMasterComponent implements OnInit {
   bufferArray: any = [];
   districts_array: any = [];
   availableSupplierCode: any = [];
+  @ViewChild('supplierAddForm') supplierAddForm: NgForm;
 
   constructor(private supplierService: SuppliermasterService, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
@@ -89,6 +91,7 @@ export class SupplierMasterComponent implements OnInit {
     this.districts_array = response;
   }
   getAllSuppliers(providerServiceMapID) {
+    debugger;
     this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.supplierService.getAllSuppliers(providerServiceMapID).subscribe(response => {
@@ -96,6 +99,7 @@ export class SupplierMasterComponent implements OnInit {
         console.log('All stores services success', response);
         this.supplierList = response;
         this.filteredsupplierList = response;
+        this.displayTable=true;
         for (let availableSupplierCode of this.supplierList) {
           this.availableSupplierCode.push(availableSupplierCode.supplierCode);
         }
@@ -116,6 +120,8 @@ export class SupplierMasterComponent implements OnInit {
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
+      this.supplierAddForm.reset();
+      this.districts_array=[];
       this.resetDropdowns();
     }
 
@@ -194,7 +200,8 @@ export class SupplierMasterComponent implements OnInit {
   }
   add2buffer(formvalues) {
     debugger;
-    this.resetDropdowns();
+    //this.resetDropdowns();
+    this.districts_array=[];
     console.log("form values", formvalues);
     const obj = {
       "serviceName": this.serviceline.serviceName,
@@ -204,7 +211,7 @@ export class SupplierMasterComponent implements OnInit {
       "supplierDesc": formvalues.supplierDesc,
       "contactPerson": formvalues.contactPerson,
       "drugLicenseNo": formvalues.drugLicense,
-      "cST_GST_No ": formvalues.cstNo,
+      "cST_GST_No": formvalues.cstNo,
       "tIN_No": formvalues.tinNo,
       "email": formvalues.primaryEmail,
       "status": "active",
@@ -245,12 +252,12 @@ export class SupplierMasterComponent implements OnInit {
   removeRow(index) {
     this.bufferArray.splice(index, 1);
   }
-  saveStores() {
+  saveSupplier() {
     debugger;
-    console.log("object before saving the store", this.bufferArray);
+    console.log("object before saving the supplier", this.bufferArray);
     this.supplierService.saveSupplier(this.bufferArray).subscribe(response => {
       if (response) {
-        console.log(response, 'after successful creation of store');
+        console.log(response, 'after successful creation of supplier');
         this.dialogService.alert('Saved successfully', 'success');
         this.resetDropdowns();
         this.showTable();
@@ -270,7 +277,7 @@ export class SupplierMasterComponent implements OnInit {
     this.edit_supplierDesc = editFormValues.supplierDesc;
     this.edit_contactPerson = editFormValues.contactPerson;
     this.edit_drugLicense = editFormValues.drugLicenseNo;//facilityTypeID
-    this.edit_cstNo = editFormValues.cstNo;
+    this.edit_cstNo = editFormValues.cST_GST_No;
     this.edit_tinNo = editFormValues.tIN_No;
     this.edit_AddressLine1 = editFormValues.addressLine1;
     this.edit_AddressLine2 = editFormValues.addressLine2;

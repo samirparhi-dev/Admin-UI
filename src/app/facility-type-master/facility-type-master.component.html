@@ -27,9 +27,9 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="tableMode && providerServiceMapID">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="tableMode && providerServiceMapID">
         <div class="row" *ngIf="facilityMasterList?.length > 0" class="pull-right">
-          <md-input-container id="filterbox">
+          <md-input-container id="filterbox" class="">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterfacilityMasterList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
           </md-input-container>
@@ -44,8 +44,8 @@
       <table [md2Data]="filteredfacilityMasterList" *ngIf="showTableFlag" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th width="20%">Facility&nbsp;Type&nbsp;Name</th>
             <th width="20%">Facility&nbsp;Type&nbsp;Code</th>
+            <th width="20%">Facility&nbsp;Type&nbsp;Name</th>
             <th width="20%">Facility&nbsp;Type&nbsp;Description</th>
             <th width="5%">Edit</th>
             <th width="10%">Action</th>
@@ -56,8 +56,8 @@
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let facility of md2.data;let i=index ">
-            <td>{{facility.facilityTypeName}}</td>
             <td>{{facility.facilityTypeCode}}</td>
+            <td>{{facility.facilityTypeName}}</td>
             <td>{{facility.facilityTypeDesc}}</td>
             <td>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!facility.deleted"
@@ -116,7 +116,18 @@
       </div>
     </form>
     <div class="clearfix visible-md visible-lg"></div>
+    
     <form id="inputform" #facilityAddForm="ngForm" autocomplete="off">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container [style.width]="'100%'">
+              <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode"
+                maxlength="10" name="facilityCode" #facilityTypeCode="ngModel">
+              <md-hint>
+                <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
+                <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Type Code already exists</span>
+              </md-hint>
+            </md-input-container>
+          </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Facility Type Name" PAN [(ngModel)]="facilityName" maxlength="100" name="facilityName"
@@ -126,16 +137,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-        <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode"
-            maxlength="10" name="facilityCode" #facilityTypeCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
-            <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Type Code already exists</span>
-          </md-hint>
-        </md-input-container>
-      </div>
+      
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
@@ -157,10 +159,11 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="20%">Serviceline</th>
-            <th width="15%">State</th>
-            <th width="20%">Facility Type Name </th>
+            <!-- <th width="20%">Serviceline</th>
+            <th width="15%">State</th> -->
+           
             <th width="20%">Facility Type Code </th>
+            <th width="20%">Facility Type Name </th>
             <th width="40%">Facility Type Description</th>
             <th width="10%">Action</th>
           </tr>
@@ -168,10 +171,11 @@
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
             <td>{{bufferArray.indexOf(item)+1}}</td>
-            <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
-            <td>{{item.facilityTypeName}}</td>
+            <!-- <td>{{item.serviceName}}</td>
+            <td>{{item.stateName}}</td> -->
+           
             <td>{{item.facilityTypeCode}}</td>
+            <td>{{item.facilityTypeName}}</td>
             <td>{{item.facilityTypeDesc}}</td>
             <td>
               <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
@@ -229,6 +233,15 @@
       </div>
       <div class="clearfix visible-md visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+          <md-input-container [style.width]="'100%'">
+            <input mdInput required placeholder="Facility Type Code"  PAN maxlength="10" [(ngModel)]="edit_facilityCode" name="facilityCode"
+              #facilityTypeCode="ngModel">
+            <md-hint>
+              <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
+            </md-hint>
+          </md-input-container>
+        </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Facility Type Name"   maxlength="100" PAN [(ngModel)]="edit_facilityName" name="facilityName"
             #facilityTypeName="ngModel">
@@ -238,15 +251,7 @@
           <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Please enter Facility Type Name</span>
         </md-hint>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-        <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Type Code"  PAN maxlength="10" [(ngModel)]="edit_facilityCode" name="facilityCode"
-            #facilityTypeCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
-          </md-hint>
-        </md-input-container>
-      </div>
+     
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Facility Description" VehicleNO maxlength="100" [(ngModel)]="edit_facilityDiscription" name="facilityDescription">

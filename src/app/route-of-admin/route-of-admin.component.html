@@ -1,0 +1,259 @@
+<div class="row" *ngIf="tableMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Route of Admin</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+
+    <form id="form" autocomplete="off" #routeofAdminSearchForm="ngForm">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'"  [(ngModel)]="serviceline" (change)="getstates(serviceline)">
+            <md-option *ngFor="let item of services_array" [value]="item">
+              {{item.serviceName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [(ngModel)]="state">
+            <md-option *ngFor="let item of states_array" [value]="item" (click)="getAllRouteOfAdmin(item.providerServiceMapID)">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="tableMode && providerServiceMapID && routeList?.length>0">
+        <div class="row" *ngIf="routeList?.length > 0" class="pull-right">
+          <md-input-container id="filterbox">
+            <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterRouteList(filterTerm.value)">
+            <md-icon mdSuffix>search</md-icon>
+          </md-input-container>
+        </div>
+      </div>
+    </form>
+
+  </div>
+ 
+  <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
+    <div class="table-responsive">
+      <table [md2Data]="filteredRouteList"  #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+             <th width="20%">Route Code</th>
+            <th width="20%">Route Name</th>
+            <th width="20%">Route Description</th>
+            <th width="5%">Edit</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredRouteList.length == 0">
+            <td colspan="5" class="record-not-found">No records found</td>
+          </tr>
+          <tr style="cursor: pointer" *ngFor="let route of md2.data;let i=index ">
+            <td>sdfsd</td>
+            <!-- <td>{{route.routeCode}}</td> -->
+            <td>{{route.routeName}}</td>
+            <td>{{route.routeDesc}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!route.deleted"
+                (click)="editRoute(route)">edit</md-icon>
+            </td>
+            <td>
+              <button md-raised-button color="accent" *ngIf="route.deleted" class=" m-r-10" (click)="activateDeactivate(route.routeID,false)">Unblock</button>
+              <button md-raised-button color="primary" *ngIf="!route.deleted" class=" m-r-10" (click)="activateDeactivate(route.routeID,true)">Block</button>
+
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="4" class="p-r-0">
+              <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Add Route</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="formMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Route of Admin</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+      <form id="addform" #routeAddForm1="ngForm">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="Services" placeholder="Serviceline" [disabled]="true" [style.width]="'100%'" [(ngModel)]="serviceline"
+                (change)="getstates(serviceline)">
+                <md-option *ngFor="let item of services_array" [value]="item">
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="state">
+                <md-option *ngFor="let item of states_array" [value]="item">
+                  {{item.stateName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+      </form>
+      <div class="clearfix visible-md visible-lg"></div>
+      <form id="addform" #routeAddForm="ngForm" autocomplete="off">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+              <md-input-container [style.width]="'100%'">
+                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="create_routeCode" (blur)="checkExistance(create_routeCode)"
+                  maxlength="20" name="routeCode" #routeCode="ngModel">
+                <md-hint>
+                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
+                  <span class="error_text" *ngIf="pharmaCodeExist">Please enter Pharmacology Code</span>
+                </md-hint>
+              </md-input-container>
+            </div> 
+       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Route Name" myProviderName [(ngModel)]="create_routeName" maxlength="100" name="routeName"
+            #routeName="ngModel">
+          <md-hint>
+            <span class="error_text" *ngIf="!routeName.valid  && ( routeName.dirty || routeName.touched)">Please enter Route Name</span>
+          </md-hint>
+        </md-input-container>
+      </div> 
+       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput required placeholder="Route Description" VehicleNO [(ngModel)]="create_routeDesc" maxlength="100" name="routeDesc"
+            #routeDesc="ngModel">
+          <md-hint>
+            <span class="error_text" *ngIf="!routeDesc.valid  && ( routeDesc.dirty || routeDesc.touched)">Please enter Route Description</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-t-10 ">
+          <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && routeAddForm.valid"
+            color="primary" (click)="add2buffer(routeAddForm.value);this.routeAddForm.reset();">
+            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+          </button>
+        </div>   
+    </form> 
+  </div>
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th>Route Code</th>
+            <th>Route Name</th>
+            <th>Route Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let route of bufferArray;let i = index ">
+            <td>{{route.routeCode}}</td>
+            <td>{{route.routeName}}</td>
+            <td>{{route.routeDesc}}</td>
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="10">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 m-t-15">
+    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveRoute()">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="routeAddForm.reset()">Clear</button>
+  </div>
+</div> 
+<div class="row" *ngIf="editMode">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <strong>Edit Route</strong>
+    </h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+    <form id="Editform" #routeEditForm="ngForm">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="Services" placeholder="Serviceline" [disabled]="true" [style.width]="'100%'" [(ngModel)]="edit_Serviceline"
+                (change)="getProviderStatesInService()">
+                <md-option *ngFor="let item of services_array" [value]="item">
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+    
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="edit_State">
+                <md-option *ngFor="let item of states_array" [value]="item">
+                  {{item.stateName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="clearfix visible-md visible-lg"></div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+              <md-input-container [style.width]="'100%'">
+                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="edit_routeCode"   maxlength="100" [disabled]="true"
+                  name="routeCode" #routeCode="ngModel">
+                <!-- <md-hint>
+                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
+                </md-hint> -->
+              </md-input-container>
+            </div> 
+         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container [style.width]="'100%'">
+              <input mdInput required placeholder="Route Name" PAN [(ngModel)]="edit_routeName" [disabled]="true"  maxlength="100" 
+                name="routeName" #routeName="ngModel">
+              <!-- <md-hint>
+                <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
+              </md-hint> -->
+            </md-input-container>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <md-input-container [style.width]="'100%'">
+              <input mdInput required placeholder="ItemForm Description" VehicleNO [(ngModel)]="edit_routeDesc" maxlength="100" name="routeDesc"
+                #routeDesc="ngModel">
+              <md-hint>
+                <span class="error_text" *ngIf="!routeDesc.valid  && ( routeDesc.dirty || routeDesc.touched)">Please enter Route Description</span>
+              </md-hint>
+            </md-input-container>
+          </div>
+          
+   </form>
+   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+      <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="routeEditForm.invalid" (click)="updateRoute(routeEditForm.value)">Update</button>
+
+    </div>
+  </div>
+</div>

@@ -11,6 +11,9 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 export class PharmacologicalMasterService {
     adminBaseUrl: any;
     getPharmacologyListUrl: any;
+    savePharmacologyUrl :any;
+    updatePharmacologyUrl:any;
+    deletePharmacologyUrl:any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -26,10 +29,24 @@ export class PharmacologicalMasterService {
             .catch(this.handleError)
 
     }
-
-
-
-
+    savePharmacology(obj) {
+        this.savePharmacologyUrl = this.adminBaseUrl + 'createPharmacologicalcategory';
+        return this.http.post(this.savePharmacologyUrl, obj
+        ).map(this.extractCustomData)
+            .catch(this.handleError);
+    }
+    updatePharmacology(obj){
+        this.updatePharmacologyUrl = this.adminBaseUrl + 'editPharmacologicalcategory';
+        return this.http.post(this.updatePharmacologyUrl, obj
+        ).map(this.extractCustomData)
+            .catch(this.handleError);
+    }
+    deletePharmacology(obj){
+        this.deletePharmacologyUrl = this.adminBaseUrl + 'deletePharmacologicalcategory';
+        return this.http.post(this.deletePharmacologyUrl, obj
+        ).map(this.extractCustomData)
+            .catch(this.handleError);
+    }
     private extractCustomData(res: Response) {
         if (res.json().data) {
             console.log('Pharmacology Category Master Custom Service', res.json().data);

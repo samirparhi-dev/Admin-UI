@@ -204,6 +204,8 @@ import { ItemService } from './services/inventory-services/item.service';
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
 import {ManufacturemasterService} from './services/inventory-services/manufacturemaster.service';
 import {PhysicalstockService} from './services/inventory-services/physicalstock.service';
+import {ItemFormService} from './services/inventory-services/item-form-service';
+import {RouteofAdminService} from './services/inventory-services/route-of-admin.service';
 
 import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
 import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
@@ -218,6 +220,8 @@ import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
+import { ItemFormMasterComponent } from './item-form-master/item-form-master.component';
+import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component';
 
 
 @NgModule({
@@ -266,6 +270,9 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
+    ItemFormMasterComponent,
+    RouteOfAdminComponent,
+    
   ],
 
   imports: [
@@ -345,7 +352,7 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
 CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,ManufacturemasterService,PhysicalstockService,
-    ItemFacilityMappingService,StoreSelfConsumptionServiceService,
+    ItemFacilityMappingService,StoreSelfConsumptionServiceService,ItemFormService,RouteofAdminService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
