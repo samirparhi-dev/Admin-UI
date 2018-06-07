@@ -314,6 +314,7 @@ export class ServicePointComponent implements OnInit {
     updateservicePointSuccessHandler(response) {
         this.servicePointList = [];
         this.alertMessage.alert("Updated successfully", 'success');
+        this.availableServicePointNames = [];
         this.showList();
     }
 
