@@ -133,7 +133,8 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button [disabled]="drugList.length == 0" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storedrug()">Save</button>
-      <button *ngIf="editable" md-raised-button color="accent" [disabled]="drugForm.invalid || drugNameExist" class="pull-right" (click)="updateDrugData(drugForm.value);drugForm.reset()">Update</button>
+      <button *ngIf="editable" md-raised-button color="accent" [disabled]="drugForm.invalid || drugNameExist" class="pull-right"
+        (click)="updateDrugData(drugForm.value);drugForm.reset()">Update</button>
     </div>
   </div>
 </div>

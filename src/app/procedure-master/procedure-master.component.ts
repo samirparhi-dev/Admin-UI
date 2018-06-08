@@ -12,6 +12,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ProcedureMasterComponent implements OnInit {
 
+  alreadyExistcount: boolean;
   state: any;
   service: any;
   serviceline: any;
@@ -147,12 +148,30 @@ export class ProcedureMasterComponent implements OnInit {
     let count = 0;
     for (let a = 0; a < this.filteredprocedureList.length; a++) {
 
-      if (this.filteredprocedureList[a].procedureName === this.name) {
+      if (this.filteredprocedureList[a].procedureName === this.name && !this.filteredprocedureList[a].deleted) {
         count = count + 1;
         console.log("count", count);
 
         if (count > 0) {
           this.alreadyExist = true;
+        }
+      }
+    }
+  }
+  procedureUnique_actvate(name) {
+    debugger;
+    console.log("name", name);
+    this.alreadyExistcount = false;
+    console.log("filteredprocedureList", this.filteredprocedureList);
+    let count = 0;
+    for (let a = 0; a < this.filteredprocedureList.length; a++) {
+
+      if (this.filteredprocedureList[a].procedureName === name && !this.filteredprocedureList[a].deleted) {
+        count = count + 1;
+        console.log("count", count);
+
+        if (count >= 1) {
+          this.alreadyExistcount = true;
         }
       }
     }
@@ -167,7 +186,7 @@ export class ProcedureMasterComponent implements OnInit {
     let count = 0;
     debugger;
     for (let a = 0; a < this.filteredprocedureList.length; a++) {
-      if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"]) {
+      if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"] && !this.filteredprocedureList[a].deleted) {
         count = count + 1;
       }
     }
@@ -310,7 +329,49 @@ export class ProcedureMasterComponent implements OnInit {
    *Enable/ Disable Procedure
    *
    */
-  toggleProcedure(procedureID, index, toggle) {
+  toggleProcedure(procedureID, index, toggle, procedureName) {
+    debugger;
+    let activateProcdure = false;
+    this.procedureUnique_actvate(procedureName);
+    if (this.alreadyExistcount) {
+      this.alertService.confirm('Confirm', "Duplicate procedure already exists do you want to enable it?").subscribe(response => {
+        if (response) {
+          this.activate(procedureID, index, toggle);
+        }
+      })
+    }
+    else {
+      this.activate(procedureID, index, toggle);
+    }
+
+  }
+  activate(procedureID, index, toggle) {
+    let text;
+    if (!toggle)
+      text = "Are you sure you want to Activate?";
+    else
+      text = "Are you sure you want to Deactivate?";
+
+    this.alertService.confirm('Confirm', text).subscribe(response => {
+      if (response) {
+        console.log(procedureID, index, 'index');
+        this.procedureMasterServiceService.toggleProcedure({ procedureID: procedureID, deleted: toggle })
+          .subscribe((res) => {
+            console.log(res, 'changed');
+            if (res) {
+              if (!toggle)
+                this.alertService.alert("Activated successfully", 'success');
+              else
+                this.alertService.alert("Deactivated successfully", 'success');
+              this.updateList(res);
+              // this.procedureList[index] = res;
+            }
+          })
+      }
+
+    })
+  }
+  deactivatetoggleProcedure(procedureID, index, toggle) {
     let text;
     if (!toggle)
       text = "Are you sure you want to Activate?";

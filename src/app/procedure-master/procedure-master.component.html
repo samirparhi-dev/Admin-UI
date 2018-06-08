@@ -148,8 +148,8 @@
                                     (click)="showForm();configProcedure(item, filteredprocedureList.indexOf(item))">edit</md-icon>
                             </td>
                             <td>
-                                <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), false)">Activate</button>
-                                <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), true)">Deactivate</button>
+                                <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), false,item.procedureName)">Activate</button>
+                                <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="deactivatetoggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), true)">Deactivate</button>
 
                             </td>
                         </tr>
