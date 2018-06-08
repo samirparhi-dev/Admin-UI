@@ -164,7 +164,7 @@ debugger;
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
     this.itemFormID=editformvalues.itemFormID
-    this.edit_itemFormCode=editformvalues.itemFormName;
+    this.edit_itemFormCode=editformvalues.itemFormCode;
     this.edit_itemFormDesc=editformvalues.itemFormDesc;
     this.edit_itemFormName=editformvalues.itemForm;
     this.showEditForm();

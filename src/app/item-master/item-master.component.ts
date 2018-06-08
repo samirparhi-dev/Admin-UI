@@ -415,12 +415,6 @@ debugger;
 
 }
 
-
-
-
-
-
-
 @Component({
   selector: 'EditItemMasterModal',
   templateUrl: './edit-item-master.html',
@@ -505,7 +499,7 @@ export class EditItemMasterModal {
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
     this.pharmacologies = pharmacologyResponse;
-    console.log("pharmacology", this.pharmacologies);
+    console.log("editpharmacology", this.pharmacologies);
   }
   manufacturerList(providerServiceMapID) {
     console.log('check inside manufacturer');
@@ -547,12 +541,13 @@ export class EditItemMasterModal {
     console.log("routes", this.routes);
   }
   edit() {
+    debugger;
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
     this.name = this.data.itemName;
     this.category = this.data.itemCategoryID;
     this.dose = this.data.itemFormID;
-    this.pharmacology = this.data.pharmacologyCategoryID;
+    this.pharmacology = this.data.pharmCategoryID;
     this.manufacturer = this.data.manufacturerID;
     this.strength = this.data.strength;
     this.uom = this.data.uomID;

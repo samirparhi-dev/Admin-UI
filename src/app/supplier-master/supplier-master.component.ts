@@ -29,6 +29,7 @@ export class SupplierMasterComponent implements OnInit {
   edit_supplierName: any;
   edit_supplierCode: any;
   edit_state: any;
+  edit_state1: any;
   edit_serviceline: any;
   serviceline: any;
   uid: any;
@@ -80,8 +81,8 @@ export class SupplierMasterComponent implements OnInit {
       }
     })
   }
-  getDistricts(state) {
-    this.addressStateID = state.stateID;
+  getDistricts(stateID) {
+    this.addressStateID = stateID;
     this.supplierService.getAllDistricts(this.addressStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
     }, (err) => console.log(err, 'error'));
@@ -269,8 +270,8 @@ export class SupplierMasterComponent implements OnInit {
   }
   editsupplier(editFormValues) {
     debugger;
-    this.edit_serviceline = this.serviceline;
-    this.edit_state = this.state;
+    this.edit_serviceline = this.serviceline.serviceID;
+    this.edit_state = this.state.stateID;
     this.supplierID = editFormValues.supplierID;
     this.edit_supplierCode = editFormValues.supplierCode;
     this.edit_supplierName = editFormValues.supplierName;
@@ -281,11 +282,13 @@ export class SupplierMasterComponent implements OnInit {
     this.edit_tinNo = editFormValues.tIN_No;
     this.edit_AddressLine1 = editFormValues.addressLine1;
     this.edit_AddressLine2 = editFormValues.addressLine2;
-    this.edit_district = editFormValues.district;
-    this.edit_Pincode = editFormValues.pincode;
+    this.edit_state1=editFormValues.stateID;
+    this.getDistricts(editFormValues.stateID);
+    this.edit_Pincode = editFormValues.pinCode;
     this.edit_contactNo = editFormValues.phoneNo1;
     this.edit_emergencyContactNo = editFormValues.phoneNo2;
     this.edit_emailID = editFormValues.email;
+    this.edit_district = editFormValues.districtID;
     this.showEditForm();
     console.log("edit form values", editFormValues)
   }

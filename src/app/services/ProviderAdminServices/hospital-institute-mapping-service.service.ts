@@ -84,8 +84,9 @@ export class HospitalInstituteMappingService {
 
 
   getInstitutions(data) {
+    debugger;
     return this.httpIntercept.post(this.get_Institution_Url, data)
-      .map(this.handleSuccess)
+      .map(this.handleState_n_Hospital)
       .catch(this.handleError);
   }
 
@@ -134,6 +135,17 @@ export class HospitalInstituteMappingService {
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.serviceID === 1 || item.serviceID === 3) {
+        return item;
+      }
+    });
+    return result;
+  }
+  handleState_n_Hospital(response: Response) {
+
+    console.log(response.json().data, 'HOSPITAL-MASTER-SERVICE success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (!item.deleted) {
         return item;
       }
     });
