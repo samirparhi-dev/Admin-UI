@@ -38,8 +38,8 @@
                 <!-- <form #proccompForm="ngForm" autocomplete="off"> -->
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="saveMode">
 
-                    <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name"
-                        [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
+                    <md2-autocomplete required name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName"
+                        placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
                     </md2-autocomplete>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="saveMode">
@@ -51,8 +51,9 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="editMode">
 
-                    <md2-autocomplete name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName" placeholder="Procedure Name"
-                        [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel" disabled>
+                    <md2-autocomplete required name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName"
+                        placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel"
+                        disabled>
                     </md2-autocomplete>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="editMode">
@@ -71,7 +72,7 @@
                             <md-option *ngFor="let item of componentList " [value]="item ">{{item.testComponentName}}</md-option>
                         </md-select>
                     </md-input-container> -->
-                    <md2-autocomplete name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList"
+                    <md2-autocomplete required name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList"
                         item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1"
                         #autocompleteControl="ngModel">
                     </md2-autocomplete>
@@ -88,7 +89,8 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12  ">
                     <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back();">Back</button>
-                    <button *ngIf="saveMode " id="updateButton" class="pull-right" md-raised-button color="accent" (click)="updateComponentMapList();">Save</button>
+                    <button *ngIf="saveMode " id="updateButton" class="pull-right" md-raised-button color="accent" [disabled]="!selectedProcedure || !selectedComponent"
+                        (click)="updateComponentMapList();">Save</button>
                     <button *ngIf="editMode" id="postMapDataButton2" class="pull-right" md-raised-button color="accent" (click)="updateComponentMapList();">Update</button>
 
                 </div>
@@ -120,12 +122,12 @@
                             <th width="30%">Description</th>
                             <th width="25%">Mapped Components</th>
                             <!-- <th width="10%">Created By</th> -->
-                            <th width="10%">Edit</th>
+                            <!-- <th width="10%">Edit</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredMappedList.length == 0" class="record-not-found">
-                            <td colspan="5" align="center">No records found</td>
+                            <td colspan="4" align="center">No records found</td>
                         </tr>
                         <tr *ngFor="let item of md2.data;let i = index ">
                             <td>{{(md2.activePage-1)*3+i+1}}</td>
@@ -133,14 +135,14 @@
                             <td>{{item.procedureDesc}}</td>
                             <td>{{item.compList}}</td>
                             <!-- <td>{{item.createdBy}}</td> -->
-                            <td>
+                            <!-- <td>
                                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="configProcedureMapping(item, i)">edit</md-icon>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4">
+                            <td colspan="3">
                                 <md2-pagination></md2-pagination>
                             </td>
                             <td colspan="1" class="p-r-0">
