@@ -2355,6 +2355,9 @@ center;
    .sm-m-t--25{
     margin-top: -25px;
   }
+  .sm-m-t-25{
+    margin-top: 25px;
+  }
 }
 
 @media (min-width: 992px) {
