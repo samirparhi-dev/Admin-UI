@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CallDispositionTypeMasterComponent implements OnInit {
 
+  note: string;
   service_provider_id: any;
   providerServiceMapID: any;
   // ngmodels
@@ -125,6 +126,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {
         this.hideTable(false);
+        this.reset();
+        this.callType = "";
+        this.request_array = [];
       }
     })
   }
@@ -152,6 +156,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   setIsOutbound(ev) {
     console.log(ev, "OUTBOUND CHECKBOX");
+    this.note = "This functionality is only applicable for 104";
     this.isOutbound = ev.checked;
     if (!ev.checked) {
       this.maxRedial = undefined;
@@ -438,6 +443,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 export class EditCallType {
 
 
+  note: string;
   callType: any;
   callSubType: any;
   fitToBlock: boolean;
@@ -496,6 +502,7 @@ export class EditCallType {
 
   setIsOutbound(ev) {
     console.log(ev, 'OUTBOUND CHECKBOX');
+    this.note = "This functionality is only applicable for 104";
     this.isOutbound = ev.checked;
     if (!ev.checked) {
       this.maxRedial = undefined;
