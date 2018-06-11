@@ -1,0 +1,15 @@
+.input-full-width {
+    width: 100%;
+}
+
+.m-t-20 {
+    margin-top: 20px;
+}
+
+.readonly-input {
+    cursor: not-allowed;
+}
+
+.box{
+    height: 60px;
+}

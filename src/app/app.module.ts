@@ -225,10 +225,15 @@ import { EditItemCategoryComponent } from './item-category-master/edit-item-cate
 
 import { UomMasterService } from './services/inventory-services/uom-master.service';
 import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-uom-master.component';
+import { CreateStoreMappingComponent } from './store-mapping/create-store-mapping/create-store-mapping.component';
+import { UpdateStoreMappingComponent } from './store-mapping/update-store-mapping/update-store-mapping.component';
+import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/view-store-mapping.component';
+
+import { StoreMappingService } from './services/inventory-services/store-mapping.service';
+
 
 @NgModule({
   declarations: [
-
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
     myProviderName, VehicleNO, VehicleNONew, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
@@ -276,6 +281,9 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
     SearchUomMasterComponent,
     UpdateUomMasterComponent,
     EditItemCategoryComponent,
+    CreateStoreMappingComponent,
+    UpdateStoreMappingComponent,
+    ViewStoreMappingComponent,
   ],
 
   imports: [
@@ -355,7 +363,7 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService, StoreMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
