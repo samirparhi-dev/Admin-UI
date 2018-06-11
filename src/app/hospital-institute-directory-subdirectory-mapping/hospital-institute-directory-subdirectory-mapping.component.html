@@ -7,13 +7,13 @@
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="Serviceline" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="service" name="service"
-         #serviceModel="ngModel" required>
+          #serviceModel="ngModel" required>
           <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational)">
             {{item.serviceName}}
           </md-option>
         </md-select>
         <md-hint [hidden]=serviceModel.valid *ngIf="!disableSelection">
-            <span class="error_text" *ngIf="!serviceModel.required  && ( serviceModel.dirty || serviceModel.touched )">Please select serviceline </span>
+          <span class="error_text" *ngIf="!serviceModel.required  && ( serviceModel.dirty || serviceModel.touched )">Please select serviceline </span>
         </md-hint>
       </md-input-container>
     </div>
@@ -21,13 +21,13 @@
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="State" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="state" name="state" (change)="getDistrict(state)"
-         #stateModel="ngModel" required>
+          #stateModel="ngModel" required>
           <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
             {{item.stateName}}
           </md-option>
         </md-select>
         <md-hint [hidden]=stateModel.valid *ngIf="!disableSelection">
-            <span class="error_text" *ngIf="!stateModel.required  && ( stateModel.dirty || stateModel.touched )">Please select state </span>
+          <span class="error_text" *ngIf="!stateModel.required  && ( stateModel.dirty || stateModel.touched )">Please select state </span>
         </md-hint>
       </md-input-container>
     </div>
@@ -42,7 +42,7 @@
             </md-option>
           </md-select>
           <md-hint [hidden]=districtModel.valid *ngIf="!disableSelection">
-              <span class="error_text" *ngIf="!districtModel.required  && ( districtModel.dirty || districtModel.touched )">Please select district </span>
+            <span class="error_text" *ngIf="!districtModel.required  && ( districtModel.dirty || districtModel.touched )">Please select district </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -50,13 +50,13 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Taluk" [style.width]="'100%'" disabled={{disableSelection}} [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()"
-           #talukModel="ngModel" required>
+            #talukModel="ngModel" required>
             <md-option *ngFor="let item of taluks" value="{{item.blockID}}">
               {{item.blockName}}
             </md-option>
           </md-select>
           <md-hint [hidden]=talukModel.valid *ngIf="!disableSelection">
-              <span class="error_text" *ngIf="!talukModel.required  && ( talukModel.dirty || talukModel.touched )">Please select taluk </span>
+            <span class="error_text" *ngIf="!talukModel.required  && ( talukModel.dirty || talukModel.touched )">Please select taluk </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -65,13 +65,14 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Institute Directory" [style.width]="'100%'" [(ngModel)]="institute_directory" name="institute_directory"
-            disabled={{disableSelection}} (change)="getInstituteSubdirectory(institute_directory)" #instituteDirModel="ngModel" required>
+            disabled={{disableSelection}} (change)="getInstituteSubdirectory(institute_directory)" #instituteDirModel="ngModel"
+            required>
             <md-option *ngFor="let item of institute_directories" value="{{item.instituteDirectoryID}}">
               {{item.instituteDirectoryName}}
             </md-option>
           </md-select>
           <md-hint [hidden]=instituteDirModel.valid *ngIf="!disableSelection">
-              <span class="error_text" *ngIf="!instituteDirModel.required  && ( instituteDirModel.dirty || instituteDirModel.touched )">Please select institute directory </span>
+            <span class="error_text" *ngIf="!instituteDirModel.required  && ( instituteDirModel.dirty || instituteDirModel.touched )">Please select institute directory </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -85,7 +86,7 @@
             </md-option>
           </md-select>
           <md-hint [hidden]=instituteSubDirModel.valid *ngIf="!disableSelection">
-              <span class="error_text" *ngIf="!instituteSubDirModel.required  && ( instituteSubDirModel.dirty || instituteSubDirModel.touched )">Please select institute directory </span>
+            <span class="error_text" *ngIf="!instituteSubDirModel.required  && ( instituteSubDirModel.dirty || instituteSubDirModel.touched )">Please select institute directory </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -100,7 +101,7 @@
             </md-option>
           </md-select>
           <md-hint [hidden]=hospitalName.valid *ngIf="!disableSelection">
-              <span class="error_text" *ngIf="!hospitalName.required  && ( hospitalName.dirty || hospitalName.touched )">Please select institute directory </span>
+            <span class="error_text" *ngIf="!hospitalName.required  && ( hospitalName.dirty || hospitalName.touched )">Please select institute directory </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -137,8 +138,8 @@
             <td>{{item.institute.institutionName}}</td>
             <td>
               <!--  <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="openEditModal(item)">edit</md-icon> -->
-              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteDirMapID,false)">Activate</button>
-              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirMapID,true)">Deactivate</button>
+              <button *ngIf="item.deleted  || item.institute.deleted" md-raised-button color="accent" (click)="toggle_activate(item.instituteDirMapID,false,item.institute.deleted)">Activate</button>
+              <button *ngIf="!item.deleted && ! item.institute.deleted" md-raised-button color="primary" (click)="toggle_activate(item.instituteDirMapID,true,false)">Deactivate</button>
             </td>
           </tr>
         </tbody>

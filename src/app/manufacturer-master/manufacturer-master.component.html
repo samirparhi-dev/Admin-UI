@@ -6,7 +6,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 p-a-0">
 
-    <form id="form" #storeSearchForm="ngForm">
+    <form id="form" #manfactureSearchForm="ngForm">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -27,29 +27,29 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="tableMode && providerServiceMapID && manufactureList?.length > 0">
-        <!-- <div class="row" *ngIf="manufactureList?.length > 0" class="pull-right"> -->
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="tableMode && providerServiceMapID && manufactureList?.length > 0">
+         <div class="row"  class="pull-right"> 
           <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterManufactureList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
           </md-input-container>
-        <!-- </div> -->
+        </div> 
       </div>
     </form>
 
   </div>
  
-  <div class="col-xs-12 col-sm-12">
+  <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
     <div class="table-responsive">
-      <table [md2Data]="filteredManufactureList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+      <table [md2Data]="filteredManufactureList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4" >
         <thead>
           <tr>
-            <!-- <th>State</th> -->
-            <th>Manufacture&nbsp;Name</th>
-            <th>Manufacture&nbsp;Code</th>
-            <th>Manufacture&nbsp;Description</th>
-            <th>Edit</th>
-            <th>Action</th>
+            <th width="20%">Manufacture&nbsp;Code</th>
+            <th width="20%">Manufacture&nbsp;Name</th>
+            <th width="20%">Manufacture&nbsp;Description</th>
+            <!-- <th>CST/GST No.</th> -->
+            <th width="5%">Edit</th>
+            <th width="10%">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -57,10 +57,10 @@
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let manufacture of filteredManufactureList;let i=index ">
-            <!-- <td>{{supplier.stateName}}</td> -->
-            <td>{{manufacture.manufacturerName}}</td>
             <td>{{manufacture.manufacturerCode}}</td>
+            <td>{{manufacture.manufacturerName}}</td>
             <td>{{manufacture.manufacturerDesc}}</td>
+            <!-- <td>{{manufacture.manufacturerDesc}}</td> -->
             <td>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!manufacture.deleted"
               (click)="editManufacture(manufacture)">edit</md-icon>
@@ -93,11 +93,35 @@
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-     <form id="addform" #manufactureAddForm="ngForm">
+      <form id="addform" #manufactureAddForm1="ngForm">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="Services" placeholder="Serviceline" [disabled]="true" [style.width]="'100%'" [(ngModel)]="serviceline"
+                (change)="getstates(serviceline)">
+                <md-option *ngFor="let item of services_array" [value]="item">
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="state">
+                <md-option *ngFor="let item of states_array" [value]="item">
+                  {{item.stateName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+        </form>
+        <div class="clearfix visible-md visible-lg"></div>
+     <form id="addform" #manufactureAddForm="ngForm" autocomplete="off">
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Manufacture Code" PAN [(ngModel)]="create_manufactureCode" (blur)="checkExistance(create_manufactureCode)"
-            maxlength="100" name="manufactureCode" #manufactureCode="ngModel">
+            maxlength="20" name="manufactureCode" #manufactureCode="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!manufactureCode.valid  && ( manufactureCode.dirty || manufactureCode.touched)">Please enter Manufacture Code</span>
             <span class="error_text" *ngIf="manufactureCodeExist">Please enter Manufacture Code</span>
@@ -106,7 +130,7 @@
       </div> 
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Manufacture Name" PAN [(ngModel)]="create_manufactureName" maxlength="100" name="manufactureName"
+          <input mdInput required placeholder="Manufacture Name" myProviderName [(ngModel)]="create_manufactureName" maxlength="100" name="manufactureName"
             #manufactureName="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!manufactureName.valid  && ( manufactureName.dirty || manufactureName.touched)">Please enter Manufacture Name</span>
@@ -115,16 +139,16 @@
       </div> 
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Manufacture Description" PAN [(ngModel)]="create_manufactureDesc" maxlength="100" name="manufactureDesc"
+          <input mdInput required placeholder="Manufacture Description" VehicleNO [(ngModel)]="create_manufactureDesc" maxlength="100" name="manufactureDesc"
             #manufactureDesc="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!manufactureDesc.valid  && ( manufactureDesc.dirty || manufactureDesc.touched)">Please enter Manufacture Discription</span>
+            <span class="error_text" *ngIf="!manufactureDesc.valid  && ( manufactureDesc.dirty || manufactureDesc.touched)">Please enter Manufacture Description</span>
           </md-hint>
         </md-input-container>
       </div>
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Contact Person" [(ngModel)]="create_contactPerson" maxlength="100" name="contactPerson"
+          <input mdInput required placeholder="Contact Person" myProviderName [(ngModel)]="create_contactPerson" maxlength="20" name="contactPerson"
             #contactPerson="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!contactPerson.valid  && ( contactPerson.dirty || contactPerson.touched)">Please enter Contact Person</span>
@@ -133,7 +157,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Status" [(ngModel)]="status1" maxlength="100" name="status1"
+          <input mdInput required placeholder="Status" [(ngModel)]="status1" maxlength="10" name="status1"
             #status="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!status1?.valid  && ( status1?.dirty || status1?.touched)">Please enter Status</span>
@@ -143,7 +167,7 @@
      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No.)" PAN [(ngModel)]="create_cstNo" maxlength="100" name="cstNo" #cstNo="ngModel">
+          <input mdInput required placeholder="CST/GST No.)" PAN [(ngModel)]="create_cstNo" maxlength="20" name="cstNo" #cstNo="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>
           </md-hint>
@@ -188,9 +212,10 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveManufacture()">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="manufactureAddForm.reset()">Clear</button>
   </div>
 </div> 
  <div class="row" *ngIf="editMode">
@@ -201,9 +226,32 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
     <form id="Editform" #manufactureEditForm="ngForm">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="Services" placeholder="Serviceline" [disabled]="true" [style.width]="'100%'" [(ngModel)]="edit_Serviceline"
+                (change)="getProviderStatesInService()">
+                <md-option *ngFor="let item of services_array" [value]="item">
+                  {{item.serviceName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+    
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none">
+              <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="edit_State">
+                <md-option *ngFor="let item of states_array" [value]="item">
+                  {{item.stateName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="clearfix visible-md visible-lg"></div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Manufacture Code" PAN [(ngModel)]="edit_manufactureCode"  maxlength="100"
+              <input mdInput required placeholder="Manufacture Code" PAN [(ngModel)]="edit_manufactureCode" [disabled]="true"  maxlength="100"
                 name="manufactureCode" #manufactureCode="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!manufactureCode.valid  && ( manufactureCode.dirty || manufactureCode.touched)">Please enter Manufacture Code</span>
@@ -212,7 +260,7 @@
           </div> 
          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Manufacture Name" PAN [(ngModel)]="edit_manufactureName"  maxlength="100"
+              <input mdInput required placeholder="Manufacture Name" PAN [(ngModel)]="edit_manufactureName" [disabled]="true"  maxlength="100" 
                 name="manufactureName" #manufactureName="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!manufactureName.valid  && ( manufactureName.dirty || manufactureName.touched)">Please enter Manufacture Name</span>
@@ -221,7 +269,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Manufacture Description" PAN [(ngModel)]="edit_manufactureDesc" maxlength="100" name="manufactureDesc"
+              <input mdInput required placeholder="Manufacture Description" VehicleNO [(ngModel)]="edit_manufactureDesc" maxlength="100" name="manufactureDesc"
                 #manufactureDesc="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!manufactureDesc.valid  && ( manufactureDesc.dirty || manufactureDesc.touched)">Please enter Manufacture Description</span>
@@ -230,7 +278,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Contact Person" [(ngModel)]="edit_contactPerson"  maxlength="100" name="contactPerson"
+              <input mdInput required placeholder="Contact Person" [(ngModel)]="edit_contactPerson" [disabled]="true"   maxlength="100" name="contactPerson"
                 #contactPerson="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!contactPerson.valid  && ( contactPerson.dirty || contactPerson.touched)">Please enter Contact Person</span>
@@ -239,7 +287,7 @@
           </div> 
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="Status" [(ngModel)]="edit_status" maxlength="100" name="status2"
+                <input mdInput required placeholder="Status" [(ngModel)]="edit_status" [disabled]="true" maxlength="100" name="status2" 
                   #status2="ngModel">
                 <md-hint>
                   <span class="error_text" *ngIf="!status2.valid  && ( status2.dirty || status2.touched)">Please enter Status</span>
@@ -248,7 +296,7 @@
             </div> 
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo"  maxlength="100" name="cstNo"
+                <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo" [disabled]="true"  maxlength="100" name="cstNo"
                   #cstNo="ngModel">
                 <md-hint>
                   <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>

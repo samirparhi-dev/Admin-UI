@@ -27,20 +27,28 @@
           </md-select>
         </md-input-container>
       </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="tableMode && providerServiceMapID">
+        <div class="row" *ngIf="supplierList?.length > 0" class="pull-right">
+          <md-input-container id="filterbox" class="">
+            <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filtersupplierList(filterTerm.value)">
+            <md-icon mdSuffix>search</md-icon>
+          </md-input-container>
+        </div>
+      </div>
 
     </form>
 
   </div>
   <!-- pre-populated table showing the number of providers available -->
-  <div class="col-xs-12 col-sm-12" *ngIf="tableMode && providerServiceMapID">
+  <!-- <div class="col-xs-12 col-sm-12" *ngIf="tableMode && providerServiceMapID">
     <div class="row" *ngIf="supplierList?.length > 0" class="pull-right">
       <md-input-container id="filterbox">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filtersupplierList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
-  </div>
-  <div class="col-xs-12 col-sm-12">
+  </div> -->
+  <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
     <div class="table-responsive">
       <table [md2Data]="filteredsupplierList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
@@ -48,7 +56,7 @@
             <!-- <th>State</th> -->
             <th>Supplier&nbsp;Name</th>
             <th>Supplier&nbsp;Code</th>
-            <th>Supplier&nbsp;Discription</th>
+            <th>Supplier&nbsp;Description</th>
             <th>Drug&nbsp;License&nbsp;No.</th>
             <th>Contact Person</th>
             <th>TIN No.</th>
@@ -85,7 +93,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create Store</button>
+              <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create Supplier</button>
             </td>
           </tr>
         </tfoot>
@@ -101,7 +109,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
 
-    <form id="addform" #supplierAddForm="ngForm">
+    <form id="addform" #supplierAddForm1="ngForm">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -113,9 +121,22 @@
           </md-select>
         </md-input-container>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" [disabled]="true" >
+            <md-option *ngFor="let item of states_array" [value]="item" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </form>
+    <div class="clearfix visible-md visible-lg"></div>
+    <form id="addform" #supplierAddForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" (blur)="checkExistance(create_supplierCode)"
+          <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" maxlength="20"  (blur)="checkExistance(create_supplierCode)"
             maxlength="100" name="supplierCode" #supplierCode="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!supplierCode.valid  && ( supplierCode.dirty || supplierCode.touched)">Please enter Supplier Code</span>
@@ -123,10 +144,10 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix visible-sm"></div>
+  
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Name" PAN [(ngModel)]="create_supplierName" maxlength="100" name="supplierName"
+          <input mdInput required placeholder="Supplier Name" PAN [(ngModel)]="create_supplierName" maxlength="200" name="supplierName"
             #supplierName="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!supplierName.valid  && ( supplierName.dirty || supplierName.touched)">Please enter Supplier Name</span>
@@ -136,17 +157,17 @@
       <div class="clearfix  visible-md"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Discription" PAN [(ngModel)]="create_supplierDesc" maxlength="100" name="supplierDesc"
+          <input mdInput required placeholder="Supplier Description" PAN [(ngModel)]="create_supplierDesc" maxlength="100" name="supplierDesc"
             #supplierDesc="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!supplierDesc.valid  && ( supplierDesc.dirty || supplierDesc.touched)">Please enter Supplier Discription</span>
+            <span class="error_text" *ngIf="!supplierDesc.valid  && ( supplierDesc.dirty || supplierDesc.touched)">Please enter Supplier Description</span>
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix visible-lg"></div>
+      <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Contact Person" [(ngModel)]="create_contactPerson" maxlength="100" name="contactPerson"
+          <input mdInput required placeholder="Contact Person" [(ngModel)]="create_contactPerson" maxlength="50" name="contactPerson"
             #contactPerson="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!contactPerson.valid  && ( contactPerson.dirty || contactPerson.touched)">Please enter Contact Person</span>
@@ -155,7 +176,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Dl.No.(Drug License No.)" PAN [(ngModel)]="create_drugLicense" maxlength="100" name="drugLicense"
+          <input mdInput required placeholder="Dl.No.(Drug License No.)" PAN [(ngModel)]="create_drugLicense" maxlength="50" name="drugLicense"
             #drugLicense="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!drugLicense.valid  && ( drugLicense.dirty || drugLicense.touched)">Please enter Drug License</span>
@@ -164,7 +185,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No.)" PAN [(ngModel)]="create_cstNo" maxlength="100" name="cstNo" #cstNo="ngModel">
+          <input mdInput required placeholder="CST/GST No.)" PAN [(ngModel)]="create_cstNo" maxlength="50" name="cstNo" #cstNo="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>
           </md-hint>
@@ -172,22 +193,12 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="TIN No." PAN [(ngModel)]="create_tinNo" maxlength="100" name="tinNo" #tinNo="ngModel">
+          <input mdInput required placeholder="TIN No." PAN [(ngModel)]="create_tinNo" maxlength="50" name="tinNo" #tinNo="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!tinNo.valid  && ( tinNo.dirty || tinNo.touched)">Please enter TIN No</span>
           </md-hint>
         </md-input-container>
       </div>
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-        <md-input-container [style.width]="'100%'">
-          <input mdInput style="display:none">
-          <md-select required name="country" placeholder="Country" [style.width]="'100%'" [(ngModel)]="create_country">
-            <md-option *ngFor="let item of country_array" [value]="item">
-              {{item.countryName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div> -->
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <md-input-container class="width100">
           <input mdInput placeholder="Address Line 1" [(ngModel)]="AddressLine1" name="addressLine1" minlength="2" maxlength="200"
@@ -209,7 +220,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="state" placeholder="State" [style.width]="'100%'" (change)="getDistricts(create_state)" [(ngModel)]="create_state">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" (change)="getDistricts(create_state.stateID)" [(ngModel)]="create_state">
             <md-option *ngFor="let item of states_array" [value]="item">
               {{item.stateName}}
             </md-option>
@@ -232,7 +243,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix  visible-md"></div>
+      <div class="clearfix  visible-md visible-sm"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Contact No." [(ngModel)]="contactNo" name="primaryMobileNo" minlength="10" maxlength="10" #mobileNo="ngModel"
@@ -272,28 +283,30 @@
         <thead>
           <tr>
             <th>S.No.</th>
-            <th>Serviceline</th>
-            <th>State</th>
+            <!-- <th>Serviceline</th> -->
+            <th>Supplier&nbsp;Code </th>
             <th>Supplier&nbsp;Name</th>
-            <th>Supplier&nbsp;Type&nbsp;Code </th>
-            <th>Supplier&nbsp;Type&nbsp;Description</th>
+            
+            <th>Supplier&nbsp;Description</th>
             <th>Drug License No. </th>
             <th>CST/GST No. </th>
             <th>TIN No.</th>
+            <th>State</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of md2.data;let i = index ">
             <td>{{bufferArray.indexOf(item)+1}}</td>
-            <td>{{item.serviceName}}</td>
-            <td>{{item.stateName}}</td>
-            <td>{{item.supplierName}}</td>
+            <!-- <td>{{item.serviceName}}</td> -->
             <td>{{item.supplierCode}}</td>
+            <td>{{item.supplierName}}</td>
+           
             <td>{{item.supplierDesc}}</td>
-            <td>{{item.drugLicense}}</td>
+            <td>{{item.drugLicenseNo}}</td>
             <td>{{item.cST_GST_No}}</td>
             <td>{{item.tIN_No}}</td>
+            <td>{{item.stateName}}</td>
             <td>
               <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
@@ -311,7 +324,8 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
-    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveStores()">Save</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveSupplier()">Save</button>
+    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="supplierAddForm.reset();districts_array=[];">Clear</button>
 
   </div>
 </div>
@@ -329,12 +343,23 @@
           <input mdInput style="display:none">
           <md-select required name="Services" placeholder="Serviceline" [disabled]="true" [style.width]="'100%'" [(ngModel)]="edit_serviceline"
             (change)="getstates(serviceline)">
-            <md-option *ngFor="let item of services_array" [value]="item">
+            <md-option *ngFor="let item of services_array" [value]="item.serviceID">
               {{item.serviceName}}
             </md-option>
           </md-select>
         </md-input-container>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none">
+          <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="edit_state">
+            <md-option *ngFor="let item of states_array" [value]="item.stateID">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div class="clearfix visible-md visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="edit_supplierCode" [disabled]="true" maxlength="100"
@@ -344,7 +369,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix visible-sm"></div>
+      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Supplier Name" PAN [(ngModel)]="edit_supplierName" [disabled]="true" maxlength="100"
@@ -357,7 +382,7 @@
       <div class="clearfix  visible-md"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Discription" PAN [(ngModel)]="edit_supplierDesc" maxlength="100" name="supplierDesc"
+          <input mdInput required placeholder="Supplier Description" PAN [(ngModel)]="edit_supplierDesc" maxlength="100" name="supplierDesc"
             #supplierDesc="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!supplierDesc.valid  && ( supplierDesc.dirty || supplierDesc.touched)">Please enter Supplier Discription</span>
@@ -432,8 +457,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="edit_state">
-            <md-option *ngFor="let item of states_array" [value]="item">
+          <md-select required name="edit_state1" placeholder="State" [style.width]="'100%'" [disabled]="true" [(ngModel)]="edit_state1" >
+            <md-option *ngFor="let item of states_array" [value]="item.stateID">
               {{item.stateName}}
             </md-option>
           </md-select>
@@ -442,7 +467,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
-          <md-select placeholder="District" class="width100" [(ngModel)]="edit_district" [disabled]="true" name="district" required>
+          <md-select placeholder="District" class="width100" [(ngModel)]="edit_district" [disabled]="true" name="edit_district" required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">{{item.districtName}}</md-option>
           </md-select>
         </md-input-container>
@@ -456,7 +481,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix  visible-md"></div>
+      <div class="clearfix  visible-md visible-sm"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Contact No." [(ngModel)]="edit_contactNo" [disabled]="true" name="primaryMobileNo" minlength="10"

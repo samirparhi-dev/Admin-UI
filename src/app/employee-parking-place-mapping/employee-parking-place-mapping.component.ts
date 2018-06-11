@@ -156,57 +156,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.availableEmployeeParkingPlaceMappings = [];
         this.availableEmployeeParkingPlaceMappings = response;
 
-        // this.MappingForm = this.formBuilder.group({
-        //     mappings: this.formBuilder.array([])
-        // });
-        this.parkingPlaceIDList = [];
-
-        // for (var i = 0; i < this.availableEmployeeParkingPlaceMappings.length; i++) {
-
-        //     if (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID == undefined ||
-        //         (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].deleted == true) ||
-        //         (this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID != undefined && this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID == this.parkingPlaceID)
-        //     ) {
-        //         this.parkingPlaceIDList.push(this.availableEmployeeParkingPlaceMappings[i].parkingPlaceID);
-        //         (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.availableEmployeeParkingPlaceMappings[i]));
-        //     }
-        // }
-
-        // for(var i = 0; i < this.remainingMaps.length; i++){
-        //         if(this.servicePointIDList.indexOf(this.remainingMaps[i].servicePointID)==-1 ){
-        //             this.servicePointIDList.push(this.remainingMaps[i].servicePointID);
-        //             (<FormArray>this.MappingForm.get('mappings')).push(this.createItem(this.remainingMaps[i]));
-        //         }
-        // }
 
     }
     parkingPlaceIDList: any = [];
-    // createItem(obj): FormGroup {
 
-    //     let userParkingPlaceMapID: any;
-    //     // if(this.parkingPlaceID == obj.parkingPlaceID || obj.parkingPlaceID == undefined){
-    //     //     userParkingPlaceMapID = obj.userParkingPlaceMapID;
-    //     // }
-    //     return this.formBuilder.group({
-    //         userParkingPlaceMapID: obj.userParkingPlaceMapID,
-    //         parkingPlaceID: this.parkingPlaceID,
-    //         userID: obj.userID,
-    //         // firstName: obj.m_user.firstName,
-    //         // lastName: obj.m_user.lastName,
-    //         // userName: obj.m_user.userName,
-    //         stateID: obj.stateID,
-    //         districtID: obj.districtID,
-    //         // roleID: obj.m_user.m_userServiceRoleMapping.roleID,
-    //         // roleName: obj.m_user.m_userServiceRoleMapping.roleName,
-    //         providerServiceMapID: obj.providerServiceMapID,
-    //         // emergencyContactNo: obj.m_user.emergencyContactNo,
-    //         deleted: obj.deleted,
-    //         designationID: obj.m_user.designationID,
-    //         userMapped: (obj.deleted != undefined && !obj.deleted)
-
-    //     })
-
-    // }
     getUsernames(designationID) {
         this.employeeParkingPlaceMappingService.getUsernames(designationID, this.service_provider_id).subscribe(response => this.getuserNamesSuccessHandeler(response));
     }
@@ -215,28 +168,33 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.userNames = response;
         console.log('userNames', response);
     }
-    activate(userLangID) {
-        this.alertMessage.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
-            if (response) {
-                const object = {
-                    'userParkingPlaceMapID': userLangID,
-                    'deleted': false
-                };
+    activate(userLangID, userexist) {
+        if (userexist) {
+            this.alertMessage.alert("User is inactive");
+        }
+        else {
+            this.alertMessage.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+                if (response) {
+                    const object = {
+                        'userParkingPlaceMapID': userLangID,
+                        'deleted': false
+                    };
 
-                this.employeeParkingPlaceMappingService.DeleteEmpParkingMapping(object)
-                    .subscribe(response => {
-                        if (response) {
-                            this.alertMessage.alert('Activated successfully', 'success');
-                            /* refresh table */
-                            this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID.districtID, this.designationID.designationID);
-                        }
-                    },
-                        err => {
-                            console.log('error', err);
-                            // this.alertService.alert(err, 'error');
-                        });
-            }
-        });
+                    this.employeeParkingPlaceMappingService.DeleteEmpParkingMapping(object)
+                        .subscribe(response => {
+                            if (response) {
+                                this.alertMessage.alert('Activated successfully', 'success');
+                                /* refresh table */
+                                this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID.districtID, this.designationID.designationID);
+                            }
+                        },
+                            err => {
+                                console.log('error', err);
+                                // this.alertService.alert(err, 'error');
+                            });
+                }
+            });
+        }
 
     }
     deactivate(userLangID) {

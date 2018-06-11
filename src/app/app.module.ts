@@ -203,6 +203,8 @@ import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { ItemCategoryService } from './services/inventory-services/item-category.service'
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
+import {ItemFormService} from './services/inventory-services/item-form-service';
+import {RouteofAdminService} from './services/inventory-services/route-of-admin.service';
 import { ManufacturemasterService } from './services/inventory-services/manufacturemaster.service';
 import { PhysicalstockService } from './services/inventory-services/physicalstock.service';
 
@@ -219,6 +221,8 @@ import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
+import { ItemFormMasterComponent } from './item-form-master/item-form-master.component';
+import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component';
 import { CreateUomMasterComponent } from './uom-master/create-uom-master/create-uom-master.component';
 import { SearchUomMasterComponent } from './uom-master/search-uom-master/search-uom-master.component';
 import { EditItemCategoryComponent } from './item-category-master/edit-item-category/edit-item-category.component';
@@ -277,6 +281,9 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
     VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
+    ItemFormMasterComponent,
+    RouteOfAdminComponent,
+    
     CreateUomMasterComponent,
     SearchUomMasterComponent,
     UpdateUomMasterComponent,
@@ -363,7 +370,7 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService, StoreMappingService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService, ItemFormService,RouteofAdminService, StoreMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

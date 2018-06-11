@@ -185,13 +185,19 @@
                                         <li style="cursor:pointer" (click)='show("46")'>
                                             <a>Item Category Master</a>
                                         </li>
-                                        <li style="cursor:pointer" (click)='show("47")'>
+                                        <!-- <li style="cursor:pointer" (click)='show("47")'>
                                             <a>Store Self Consumption</a>
+                                        </li> -->
+                                        <li style="cursor:pointer" (click)='show("47")'>
+                                            <a>Item Form Master</a>
                                         </li>
                                         <li style="cursor:pointer" (click)='show("48")'>
+                                            <a>Route of Admin</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("50")'>
                                             <a>Unit of Measurement Master</a>
                                         </li>
-                                        <li style="cursor:pointer" (click)='show("49")'>
+                                        <li style="cursor:pointer" (click)='show("51")'>
                                             <a>Van/Parking Place to Store Mapping</a>
                                         </li>
                                     </ul>
@@ -259,9 +265,11 @@
                             <app-manufacturer-master *ngSwitchCase="44"></app-manufacturer-master>
                             <app-pharmacological-category-master *ngSwitchCase="45"></app-pharmacological-category-master>
                             <app-item-category-master *ngSwitchCase="46"></app-item-category-master>
-                            <app-store-self-consumption *ngSwitchCase="47"></app-store-self-consumption>
-                            <app-search-uom-master *ngSwitchCase="48"></app-search-uom-master>
-                            <app-view-store-mapping *ngSwitchCase="49"></app-view-store-mapping>
+                            <app-item-form-master *ngSwitchCase="47"></app-item-form-master>
+                            <app-route-of-admin *ngSwitchCase="48"></app-route-of-admin>
+                            <app-store-self-consumption *ngSwitchCase="49"></app-store-self-consumption>
+                            <app-search-uom-master *ngSwitchCase="50"></app-search-uom-master>
+                            <app-view-store-mapping *ngSwitchCase="51"></app-view-store-mapping>
                         </div>
                     </div>
                 </div>

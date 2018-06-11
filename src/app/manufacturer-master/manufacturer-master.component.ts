@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonServices } from '../services/inventory-services/commonServices';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
@@ -30,10 +30,16 @@ export class ManufacturerMasterComponent implements OnInit {
   filteredManufactureList: any = [];
   availableManufactureCode: any = [];
   bufferArray: any = [];
+  state: any;
+  edit_State: any;
+  serviceline: any;
+  edit_Serviceline: any;
 
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
+  displayTable: boolean = false;
+  @ViewChild('manufactureAddForm') manufactureAddForm: NgForm;
   
   constructor(public commonservice:CommonServices,public commonDataService: dataService,
     private manufactureService: ManufacturemasterService,public dialogService: ConfirmationDialogsService) { }
@@ -71,13 +77,15 @@ export class ManufacturerMasterComponent implements OnInit {
         console.log('All stores services success', response);
         this.manufactureList = response;
         this.filteredManufactureList = response;
+        this.displayTable=true;
         for (let availableManufactureCode of this.manufactureList) {
-          this.availableManufactureCode.push(availableManufactureCode.supplierCode);
+          this.availableManufactureCode.push(availableManufactureCode.manufactureCode);
         }
       }
     })
   }
   filterManufactureList(searchTerm?: string) {
+    debugger;
     if (!searchTerm) {
       this.filteredManufactureList = this.manufactureList;
     }
@@ -85,10 +93,13 @@ export class ManufacturerMasterComponent implements OnInit {
       this.filteredManufactureList = [];
       this.manufactureList.forEach((item) => {
         for (let key in item) {
+          if(key=="manufacturerCode" || key=="manufacturerName")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredManufactureList.push(item); break;
           }
+        }
         }
       });
     }
@@ -96,7 +107,6 @@ export class ManufacturerMasterComponent implements OnInit {
   }
   add2buffer(formvalues) {
     debugger;
-    //this.resetDropdowns();
     console.log("form values", formvalues);
     const obj = {
       "manufacturerCode": formvalues.manufactureCode,
@@ -111,16 +121,18 @@ export class ManufacturerMasterComponent implements OnInit {
     this.checkDuplictes(obj);
   }
   checkDuplictes(object) {
+    debugger;
     let duplicateStatus = 0
     if (this.bufferArray.length === 0) {
       this.bufferArray.push(object);
     }
     else {
       for (let i = 0; i < this.bufferArray.length; i++) {
-        if (this.bufferArray[i].manufacturrCode === object.manufacturerCode &&
-          this.bufferArray[i].manufacturerName === object.manufacturerName
+        if (this.bufferArray[i].manufacturerCode == object.manufacturerCode &&
+          this.bufferArray[i].manufacturerName == object.manufacturerName
         ) {
           duplicateStatus = duplicateStatus + 1;
+          this.dialogService.alert("Manufacturer is already added in list");
         }
       }
       if (duplicateStatus === 0) {
@@ -131,6 +143,8 @@ export class ManufacturerMasterComponent implements OnInit {
   editManufacture(editformvalues)
   {
     debugger;
+    this.edit_Serviceline = this.serviceline;
+    this.edit_State = this.state;
     this.manufactureId=editformvalues.manufacturerID;
   this.edit_manufactureCode=editformvalues.manufacturerCode;
   this.edit_manufactureName=editformvalues.manufacturerName;
@@ -145,20 +159,15 @@ export class ManufacturerMasterComponent implements OnInit {
     debugger;
     const editObj={
       "manufacturerDesc": editformvalues.manufactureDesc,
-      "manufacturerCode": editformvalues.manufactureCode,
-      "manufacturerName": editformvalues.manufactureName,
-      "contactPerson": editformvalues.contactPerson,
-      "status":editformvalues.status2,
-      "cST_GST_No": editformvalues.cstNo,
       "ModifiedBy": this.createdBy,
       "manufacturerID":this.manufactureId
     }
     this.manufactureService.updateManufacture(editObj).subscribe(response => {
       if (response) {
+        this.showTable();
         console.log(response, 'after successful updation of Store');
         this.dialogService.alert('Updated successfully', 'success');
-        this.showTable();
-        this.getAllManufactures(this.providerServiceMapID);
+        
       }
     }, err => {
       console.log(err, 'ERROR');
@@ -225,19 +234,23 @@ export class ManufacturerMasterComponent implements OnInit {
 
   }
   showTable() {
-    if (this.editMode) {
+    if(this.editMode)
+    {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
-     // this.resetDropdowns();
+      this.displayTable=true;
+      this.getAllManufactures(this.providerServiceMapID);
     }
-    else {
+    else{
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
-     // this.resetDropdowns();
+      this.displayTable=true;
+      this.manufactureAddForm.reset();
+      this.getAllManufactures(this.providerServiceMapID);
     }
   }
   saveManufacture() {
@@ -247,9 +260,7 @@ export class ManufacturerMasterComponent implements OnInit {
       if (response) {
         console.log(response, 'after successful creation of store');
         this.dialogService.alert('Saved successfully', 'success');
-        //this.resetDropdowns();
         this.showTable();
-        this.getAllManufactures(this.providerServiceMapID);
       }
     }, err => {
       console.log(err, 'ERROR');

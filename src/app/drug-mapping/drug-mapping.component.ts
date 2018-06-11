@@ -181,6 +181,7 @@ export class DrugMappingComponent implements OnInit {
       } else {
         console.log("already mapped with these drugs");
         this.alertMessage.alert("Already mapped with these drugs");
+        this.mappedDrugIDs=[];
       }
     }
 

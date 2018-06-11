@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { Mainstroreandsubstore } from '../services/inventory-services/mainstoreandsubstore.service';
 import { dataService } from '../services/dataService/data.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-item-issue-method-config',
@@ -31,12 +32,15 @@ export class ItemIssueMethodConfigComponent implements OnInit {
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid
+    this.setItemIssue();
+    this.getServices();
+  }
+  setItemIssue(){
     this.ItemIssue_array = [
       { value: 1, Name: 'First In First Out' },
       { value: 2, Name: 'First Expiry First Out' },
       { value: 3, Name: 'Last In First Out' }
     ];
-    this.getServices();
   }
 
   getServices() {
@@ -56,13 +60,26 @@ export class ItemIssueMethodConfigComponent implements OnInit {
     })
   }
   getItemCategory(providerServiceMapID) {
+    debugger;
     this.providerServiceMapID = providerServiceMapID;
     this.storeService.getItemCategory(providerServiceMapID).subscribe(response => {
       if (response) {
         console.log('All Item Categories success based on service', response);
         this.itemCategory_array = response;
+        this.setItemIssue();
       }
     })
+  }
+  getIssueType(itemCategoryID)
+  {
+    debugger;
+    var item=this.itemCategory_array.filter(
+      category => category.itemCategoryID == itemCategoryID
+    );
+    var issueType=this.ItemIssue_array.filter(
+      itemissue => itemissue.Name == item[0].issueType
+    );
+    this.itemIssue=issueType;
   }
   saveConfig() {
     const obj = {
@@ -74,7 +91,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
     debugger;
     this.storeService.saveItemIssueConfig(this.object).subscribe(response => {
       if (response) {
-        this.dialogService.alert("Item issue method configured successfully");
+        this.dialogService.alert("Item issue method configured successfully", 'success');
       }
     })
   }

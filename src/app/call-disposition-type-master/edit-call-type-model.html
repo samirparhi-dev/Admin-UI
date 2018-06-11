@@ -14,8 +14,9 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
 			<md-input-container class="hide_underline width100">
 				<input mdInput style="display:none">
-				<md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)" disabled>
-					<md-option value="Valid">Valid</md-option>					
+				<md-select style="width: 100% " placeholder="Call Type" [(ngModel)]="callType" name="callType" required (change)="callTypeSelected(callType)"
+				 disabled>
+					<md-option value="Valid">Valid</md-option>
 					<md-option value="Transfer" *ngIf="service == 1 || service == 3">Transfer</md-option>
 					<md-option value="Invalid" *ngIf="service == 1">Invalid</md-option>
 					<md-option value="Incomplete" *ngIf="service == 3">Incomplete</md-option>
@@ -51,10 +52,10 @@
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
 			<md-checkbox color="primary" [(ngModel)]="isOutbound" name="OB" (change)="setIsOutbound($event)" #isOutboundCheckbox>Is-Outbound</md-checkbox>
 		</div>
-		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" *ngIf="isOutbound">
 			<md-input-container class="hide_underline width100">
 				<input mdInput style="display:none">
-				<md-select style="width: 100%" placeholder="Maximum Redial" [(ngModel)]="maxRedial" name="maxRedial" *ngIf="isOutbound">
+				<md-select style="width: 100%" placeholder="Maximum Redial" [(ngModel)]="maxRedial" name="maxRedial">
 					<md-option value="1">1</md-option>
 					<md-option value="2">2</md-option>
 					<md-option value="3">3</md-option>
@@ -66,6 +67,7 @@
 					<md-option value="9">9</md-option>
 					<md-option value="10">10</md-option>
 				</md-select>
+				<label class="maxRedialNote">{{note}}</label>
 			</md-input-container>
 		</div>
 	</form>

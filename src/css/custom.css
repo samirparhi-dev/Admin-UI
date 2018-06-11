@@ -2202,6 +2202,11 @@ center;
     margin-top:-2px;
     padding:0px !important;
   }
+  .maxRedialNote
+{
+    color: #b3b3b3;
+    font-size: 12px;
+}
 @media (min-width: 317px) {
 
   .xs-pull-right{
@@ -2354,6 +2359,9 @@ center;
    }
    .sm-m-t--25{
     margin-top: -25px;
+  }
+  .sm-m-t-25{
+    margin-top: 25px;
   }
 }
 

@@ -367,6 +367,7 @@ export class ZoneComponent implements OnInit {
     this.resetDropdowns();
     this.showList();
     this.editZoneValue = null;
+    this.availableZoneNames = [];
     this.alertMessage.alert("Updated successfully", 'success');
 
   }
