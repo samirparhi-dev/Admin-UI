@@ -156,7 +156,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   setIsOutbound(ev) {
     console.log(ev, "OUTBOUND CHECKBOX");
-    this.note = "(*This functionality is only applicable for 104)";
+    this.note = "(* This functionality is only applicable for 104 )";
     this.isOutbound = ev.checked;
     if (!ev.checked) {
       this.maxRedial = undefined;
@@ -502,7 +502,7 @@ export class EditCallType {
 
   setIsOutbound(ev) {
     console.log(ev, 'OUTBOUND CHECKBOX');
-    this.note = "(*This functionality is only applicable for 104)";
+    this.note = "(* This functionality is only applicable for 104 )";
     this.isOutbound = ev.checked;
     if (!ev.checked) {
       this.maxRedial = undefined;
