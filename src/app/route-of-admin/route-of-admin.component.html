@@ -44,6 +44,7 @@
       <table [md2Data]="filteredRouteList"  #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+              <th width="5%">S.No.</th>
              <th width="20%">Route Code</th>
             <th width="20%">Route Name</th>
             <th width="20%">Route Description</th>
@@ -56,8 +57,8 @@
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let route of md2.data;let i=index ">
-            <td>sdfsd</td>
-            <!-- <td>{{route.routeCode}}</td> -->
+              <td>{{filteredRouteList.indexOf(route)+1}}</td>
+            <td>{{route.routeCode}}</td>
             <td>{{route.routeName}}</td>
             <td>{{route.routeDesc}}</td>
             <td>
@@ -158,6 +159,7 @@
       <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
+              <th width="5%">S.No.</th>
             <th>Route Code</th>
             <th>Route Name</th>
             <th>Route Description</th>
@@ -166,6 +168,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let route of bufferArray;let i = index ">
+              <td>{{bufferArray.indexOf(route)+1}}</td>
             <td>{{route.routeCode}}</td>
             <td>{{route.routeName}}</td>
             <td>{{route.routeDesc}}</td>

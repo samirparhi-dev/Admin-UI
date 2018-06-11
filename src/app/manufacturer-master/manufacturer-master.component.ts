@@ -93,7 +93,7 @@ export class ManufacturerMasterComponent implements OnInit {
       this.filteredManufactureList = [];
       this.manufactureList.forEach((item) => {
         for (let key in item) {
-          if(key=="manufacturerCode" || key=="manufacturerName")
+          if(key=="manufacturerCode" || key=="manufacturerName" ||key =="manufacturerDesc")
           {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
@@ -165,7 +165,7 @@ export class ManufacturerMasterComponent implements OnInit {
     this.manufactureService.updateManufacture(editObj).subscribe(response => {
       if (response) {
         this.showTable();
-        console.log(response, 'after successful updation of Store');
+        console.log(response, 'after successful updation of manufacure');
         this.dialogService.alert('Updated successfully', 'success');
         
       }
@@ -234,25 +234,18 @@ export class ManufacturerMasterComponent implements OnInit {
 
   }
   showTable() {
-    if(this.editMode)
+    if(!this.editMode)
     {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.getAllManufactures(this.providerServiceMapID);
-    }
-    else{
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
       this.manufactureAddForm.reset();
+    }
+      this.tableMode = true;
+      this.formMode = false;
+      this.editMode = false;
+      this.bufferArray = [];
+      this.displayTable=true;
+      
       this.getAllManufactures(this.providerServiceMapID);
     }
-  }
   saveManufacture() {
     debugger;
     console.log("object before saving the store", this.bufferArray);

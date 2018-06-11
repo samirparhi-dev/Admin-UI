@@ -44,6 +44,7 @@
       <table [md2Data]="filteredPharmacologicalList" #md2="md2DataTable" class="table tablfe-hover table-striped" [rowsPerPage]="4" >
         <thead>
           <tr>
+            <th width="5%">S.No.</th>
             <th>Pharmacology&nbsp;Code</th>
             <th>Pharmacology&nbsp;Name</th>
             <th>Pharmacology&nbsp;Description</th>
@@ -57,6 +58,7 @@
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let pharm of filteredPharmacologicalList;let i=index ">
+              <td>{{filteredPharmacologicalList.indexOf(pharm)+1}}</td>
             <td>{{pharm.pharmCategoryCode}}</td>
             <td>{{pharm.pharmCategoryName}}</td>
             <td>{{pharm.pharmCategoryDesc}}</td>
@@ -160,6 +162,7 @@
       <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
+            <th width="5%">S.No.</th>
             <th>Pharmacology&nbsp;Code</th>
             <th>Pharmacology&nbsp;Name</th>
             <th>Pharmacology&nbsp;Description</th>
@@ -168,6 +171,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of bufferArray;let i = index ">
+              <td>{{bufferArray.indexOf(item)+1}}</td>
             <td>{{item.pharmCategoryCode}}</td>
             <td>{{item.pharmCategoryName}}</td>
             <td>{{item.pharmCategoryDesc}}</td>

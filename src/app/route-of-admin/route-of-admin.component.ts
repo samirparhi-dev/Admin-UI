@@ -92,10 +92,13 @@ export class RouteOfAdminComponent implements OnInit {
       this.filteredRouteList = [];
       this.routeList.forEach((item) => {
         for (let key in item) {
+          if(key=="routeCode" ||key=="routeName" ||key=="routeDesc")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredRouteList.push(item); break;
         }
+      }
         }
       });
     }
@@ -184,7 +187,7 @@ export class RouteOfAdminComponent implements OnInit {
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
     this.routeID=editformvalues.routeID
-    // this.edit_routeCode=editformvalues.routeCode;
+     this.edit_routeCode=editformvalues.routeCode;
     this.edit_routeDesc=editformvalues.routeDesc;
     this.edit_routeName=editformvalues.routeName;
     this.showEditForm();
