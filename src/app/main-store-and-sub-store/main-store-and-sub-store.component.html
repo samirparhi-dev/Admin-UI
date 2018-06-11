@@ -44,6 +44,7 @@
       <table [md2Data]="filteredstoresList" #md2="md2DataTable" *ngIf="showTableFlag" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
+          <th width="5%">S.No.</th>
             <th>Facility&nbsp;Name</th>
             <th>Facility&nbsp;Code</th>
             <th>Facility&nbsp;Description</th>
@@ -59,6 +60,7 @@
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let facility of md2.data;let i=index ">
+              <td>{{filteredstoresList.indexOf(facility)+1}}</td>
             <td>{{facility.facilityName}}</td>
             <td>{{facility.facilityCode}}</td>
             <td>{{facility.facilityDesc}}</td>
@@ -78,10 +80,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="6">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0">
+            <td colspan="6" class="p-r-0">
               <button md-raised-button color="primary" *ngIf="createButton " class="pull-right" (click)="showForm()">Create Store</button>
             </td>
           </tr>

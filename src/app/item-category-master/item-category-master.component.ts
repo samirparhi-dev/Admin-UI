@@ -10,6 +10,7 @@ import { ItemCategoryService } from '../services/inventory-services/item-categor
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { EditItemCategoryComponent } from './edit-item-category/edit-item-category.component';
+import { debug } from 'util';
 @Component({
   selector: 'app-item-category-master',
   templateUrl: './item-category-master.component.html',
@@ -23,12 +24,21 @@ export class ItemCategoryMasterComponent implements OnInit {
   providerServiceMapID: any;
   services_array: any[];
   states_array: any[];
-  showTableFlag: Boolean = false;
-  showCreationForm: Boolean = false;
+  
   codeExists: Boolean = false;
   itemsList = [];
   filteredItemList = [];
+  edit_Serviceline : any;
+  edit_State :any;
+  edit_code:any;
+  edit_name:any;
+  edit_desc:any;
+  itemCategoryID:any;
 
+  editMode: boolean = false;
+  showTableFlag: Boolean = false;
+  showCreationForm: Boolean = false;
+  tableMode: boolean = true;
 
   //Creations
 
@@ -99,9 +109,18 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
 
   back() {
+    debugger;
+    // if(!this.editMode)
+    // {
+    //   this.categoryCreationForm.reset();
+    // }
+    
+    this.tableMode=true;
     this.showTableFlag = true;
+    this.editMode=false;
     this.showCreationForm = false;
     this.getAllItemCategories();
+    this.forCreationObjects = [];
   }
   saveCategory() {
     this.itemCategoryService.saveNewCategory(this.forCreationObjects)
@@ -111,6 +130,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         this.dialogService.alert('Category Created Successfully', 'success');
         this.categoryCreationForm.reset();
         this.forCreationObjects = [];
+        this.back();
       }
     })
 
@@ -180,25 +200,58 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
   editItem(itemlist) {
     console.log('Existing Data', itemlist);
-    const dialog_Ref = this.dialog.open(EditItemCategoryComponent, {
-      height: '400px',
-      width: '900px',
-      disableClose: true,
-      data: {item: itemlist, providerServiceMapID: this.providerServiceMapID}
-    });
-    dialog_Ref.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      if (result === 'success') {
-        this.dialogService.alert('Category edited successfully', 'success');
-        this.getAllItemCategories();
-      }
-    });
-
+    // const dialog_Ref = this.dialog.open(EditItemCategoryComponent, {
+    //   height: '400px',
+    //   width: '900px',
+    //   disableClose: true,
+    //   data: {item: itemlist, providerServiceMapID: this.providerServiceMapID}
+    // });
+    // dialog_Ref.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    //   if (result === 'success') {
+    //     this.dialogService.alert('Category edited successfully', 'success');
+    //     this.getAllItemCategories();
+    //   }
+    // });
+    this.itemCategoryID=itemlist.itemCategoryID;
+    this.edit_Serviceline = this.serviceline;
+    this.edit_State = this.state;
+    this.edit_code=itemlist.itemCategoryCode;
+    this.edit_desc=itemlist.itemCategoryDesc;
+    this.edit_name=itemlist.itemCategoryName;
+    this.showEditForm();
   }
-
+  updateItem(editformvalues)
+  {
+    debugger;
+    const editObj={
+      "itemCategoryID": this.itemCategoryID,
+      "itemCategoryDesc": this.edit_desc,
+      "providerServiceMapID": this.providerServiceMapID,
+      "modifiedBy":  this.createdBy
+    }
+    this.itemCategoryService.editItemCategory(editObj).subscribe(response => {
+      if (response) {
+        this.back();
+        console.log(response, 'after successful updation of Item category');
+        this.dialogService.alert('Updated successfully', 'success');
+        
+      }
+    }, err => {
+      console.log(err, 'ERROR');
+    })
+  }
+  showEditForm() {
+    debugger;
+    this.tableMode = false;
+    this.showCreationForm = false;
+    this.editMode = true;
+  }
   showForm() {
+    this.tableMode = false;
     this.showTableFlag = false;
     this.showCreationForm = true;
+    this.editMode = false;
   }
 
   checkCodeExistance(code) {

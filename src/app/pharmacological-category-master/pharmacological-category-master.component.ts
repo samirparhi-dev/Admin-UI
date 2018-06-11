@@ -137,10 +137,13 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
       this.filteredPharmacologicalList = [];
       this.pharmacologicalList.forEach((item) => {
         for (let key in item) {
+          if(key=="pharmCategoryCode"||key=="pharmCategoryName"||key=="pharmCategoryDesc")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredPharmacologicalList.push(item); break;
           }
+        }
         }
       });
     }

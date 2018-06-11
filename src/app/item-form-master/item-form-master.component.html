@@ -44,6 +44,7 @@
         <table [md2Data]="filteredItemFormList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4" >
           <thead>
             <tr>
+                <th width="5%">S.No.</th>
               <th>ItemForm Code</th>
               <th>ItemForm Name</th>
               <th>ItemForm Description</th>
@@ -56,6 +57,7 @@
               <td colspan="8" class="record-not-found">No records found</td>
             </tr>
             <tr style="cursor: pointer" *ngFor="let itemForm of filteredItemFormList;let i=index ">
+                <td>{{filteredItemFormList.indexOf(itemForm)+1}}</td>
               <td>{{itemForm.itemFormCode}}</td>
               <td>{{itemForm.itemForm}}</td>
               <td>{{itemForm.itemFormDesc}}</td>
@@ -157,6 +159,7 @@
           <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
             <thead>
               <tr>
+                  <th width="5%">S.No.</th>
                 <th>ItemForm Code</th>
                 <th>ItemForm Name</th>
                 <th>ItemForm Description</th>
@@ -165,6 +168,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of bufferArray;let i = index ">
+                <td>{{bufferArray.indexOf(item)+1}}</td>
                 <td>{{item.itemFormCode}}</td>
                 <td>{{item.itemForm}}</td>
                 <td>{{item.itemFormDesc}}</td>

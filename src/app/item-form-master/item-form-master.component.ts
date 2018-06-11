@@ -92,10 +92,13 @@ debugger;
       this.filteredItemFormList = [];
       this.itemformList.forEach((item) => {
         for (let key in item) {
+          if(key=="itemFormCode"||key=="itemForm"||key=="itemFormDesc")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredItemFormList.push(item); break;
-        }
+          }
+         }
         }
       });
     }
