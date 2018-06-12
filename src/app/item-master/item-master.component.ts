@@ -29,34 +29,43 @@ export class ItemMasterComponent implements OnInit {
   showTableFlag: boolean = false;
   showFormFlag: boolean = false; 
   disableSelection: boolean = false;
-
+ tableMode: boolean = true;
+ 
   /*Arrays*/
   services: any = [];
   states: any = [];
   itemsList: any = [];
   filteredItemList: any = [];
   categories: any = [];
+  edit_categories: any = [];
   discontinueresult: any = [];
   dosages: any = [];
+  edit_dosages: any = [];
   pharmacologies: any = [];
+  edit_pharmacologies: any = [];
   manufacturers: any = [];
+  edit_Manufacturerlist: any = [];
   measures: any = [];
+  edit_measures: any = [];
   routes: any = [];
+  edit_routes: any = [];
   itemArrayObj: any = [];
   availableItemCodeInList: any = [];
-  edit_itemType :any;
-  edit_itemCode:any;
-  edit_itemName:any;
-  edit_category:any;
-  edit_dose:any;
-  edit_pharmacology:any;
-  edit_manufacturer:any;
-  edit_strength:any;
-  edit_uom:any;
-  edit_drugType:any;
-  edit_composition:any;
-  edit_route:any;
-  edit_description:any;
+  edit_serviceline:any;
+  edit_state:any;
+  edit_ItemType :any;
+  edit_Code:any;
+  edit_Name:any;
+  edit_Category:any;
+  edit_Dose:any;
+  edit_Pharmacology:any;
+  edit_Manufacturer:any;
+  edit_Strength:any;
+  edit_Uom:any;
+  edit_DrugType:any;
+  edit_Composition:any;
+  edit_Route:any;
+  edit_Description:any;
 
 
   @ViewChild('searchForm') searchForm: NgForm;
@@ -98,7 +107,13 @@ export class ItemMasterComponent implements OnInit {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
-    this.getAllItemsList(providerServiceMapID);
+     this.getAllItemsList(providerServiceMapID);
+    this.getCategoriesList(this.providerServiceMapID);
+    this.getDosageList(this.providerServiceMapID);
+    this.pharmacologiesList(this.providerServiceMapID);
+    this.manufacturerList(this.providerServiceMapID);
+    this.unitOfMeasuresList(this.providerServiceMapID);
+    this.routeAdminList(this.providerServiceMapID);
   }
 
   getStates(service) {
@@ -135,15 +150,16 @@ export class ItemMasterComponent implements OnInit {
     }
   }
   showForm() {
+    this.tableMode=false;
     this.showTableFlag = false;
     this.showFormFlag = true;
     this.disableSelection = true;
-    this.getCategoriesList(this.providerServiceMapID);
-    this.getDosageList(this.providerServiceMapID);
-    this.pharmacologiesList(this.providerServiceMapID);
-    this.manufacturerList(this.providerServiceMapID);
-    this.unitOfMeasuresList(this.providerServiceMapID);
-    this.routeAdminList(this.providerServiceMapID);
+    // this.getCategoriesList(this.providerServiceMapID);
+    // this.getDosageList(this.providerServiceMapID);
+    // this.pharmacologiesList(this.providerServiceMapID);
+    // this.manufacturerList(this.providerServiceMapID);
+    // this.unitOfMeasuresList(this.providerServiceMapID);
+    // this.routeAdminList(this.providerServiceMapID);
   }
   filterItemFromList(searchTerm?: string) {
     debugger;
@@ -213,6 +229,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   categoriesSuccesshandler(categoryResponse) {
+    this.edit_categories=categoryResponse;
     this.categories = categoryResponse.filter(
       category => category.deleted != true
     );
@@ -225,6 +242,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   dosageSuccesshandler(dosageResponse) {
+    this.edit_dosages=dosageResponse;
     this.dosages = dosageResponse.filter(
       dose => dose.deleted != true
     );
@@ -241,6 +259,8 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
+    debugger;
+    this.edit_pharmacologies=pharmacologyResponse;
     this.pharmacologies = pharmacologyResponse.filter(
       pharmacology => pharmacology.deleted != true
     );
@@ -257,6 +277,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   manufacturerSuccesshandler(manufacturerResponse) {
+    this.edit_Manufacturerlist=manufacturerResponse;
     this.manufacturers = manufacturerResponse.filter(
       manufacture => manufacture.deleted != true
     );
@@ -273,6 +294,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   uomSuccesshandler(uomResponse) {
+    this.edit_measures=uomResponse;
     this.measures = uomResponse.filter(
       uom => uom.deleted != true
     );
@@ -287,6 +309,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   routeSuccesshandler(routeResponse) {
+    this.edit_routes=routeResponse;
     this.routes = routeResponse.filter(
       route => route.deleted != true
     );
@@ -308,7 +331,7 @@ debugger;
       "itemDesc": formValue.description,
       "itemCategoryID": formValue.category.itemCategoryID,
       "itemFormID": formValue.dose.itemFormID,
-      "pharmacologyCategoryID": formValue.pharmacology.categoryID,
+      "pharmacologyCategoryID": formValue.pharmacology.pharmacologyCategoryID,
       "manufacturerID": formValue.manufacturer.manufacturerID,
       "strength": formValue.strength,
       "uomID": formValue.uom.uOMID,
@@ -346,6 +369,8 @@ debugger;
   showTable() {
     this.showTableFlag = true;
     this.showFormFlag = false;
+    this.tableMode=true;
+    this.editMode=false;
   }
   saveItem() {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
@@ -353,8 +378,9 @@ debugger;
         console.log(response, 'item created');
         this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
-        this.dialogService.alert('Item created successfully');        
+        this.dialogService.alert('Item Created Successfully', 'success');
         this.showTable();
+        
         this.getAllItemsList(this.providerServiceMapID);
       }
     }, err => {
@@ -364,8 +390,11 @@ debugger;
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.itemCreationForm.resetForm();
+
+        //this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
+        this.tableMode=true;
+        this.editMode=false;
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.disableSelection = false;
@@ -375,20 +404,68 @@ debugger;
   editItem(itemlist) {
     debugger;
        console.log("Existing Data", itemlist);
-    let dialog_Ref = this.dialog.open(EditItemMasterModal, {
-      height: '500px',
-      width: '1100px',
-      disableClose: true,
-      data: itemlist
-    });
-    dialog_Ref.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      if (result === "success") {
-        this.dialogService.alert("Item Updated successfully", 'success');
-        this.getAllItemsList(this.providerServiceMapID);
-      }
-    });
+    // let dialog_Ref = this.dialog.open(EditItemMasterModal, {
+    //   height: '500px',
+    //   width: '1100px',
+    //   disableClose: true,
+    //   data: itemlist
+    // });
+    // dialog_Ref.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    //   if (result === "success") {
+    //     this.dialogService.alert("Item Updated successfully", 'success');
+    //     this.getAllItemsList(this.providerServiceMapID);
+    //   }
+    // });
+    this.edit_serviceline=this.service;
+    this.edit_state=this.state;
+    this.edit_ItemType = itemlist.isMedical;
+    this.edit_Code = itemlist.itemCode;
+    this.edit_Name = itemlist.itemName;
+    this.edit_Category = itemlist.itemCategoryID;
+    this.edit_Dose = itemlist.itemFormID;
+    this.edit_Pharmacology = itemlist.pharmacologyCategoryID;
+    this.edit_Manufacturer = itemlist.manufacturerID;
+    this.edit_Strength = itemlist.strength;
+    this.edit_Uom = itemlist.uomID;
+    this.edit_DrugType = itemlist.isScheduledDrug;
+    this.edit_Composition = itemlist.composition;
+    this.edit_Route = itemlist.routeID;
+    this.edit_Description = itemlist.itemDesc;
+    this.showEditForm();
+  }
+  showEditForm() {
+    debugger;
+    this.tableMode = false;
+    this.showFormFlag = false;
+    this.editMode = true;
+  }
+  update() {
+    let updateItemObject = {
+      // "isMedical": this.edit_ItemType,
+      // "itemCode": this.edit_Code,
+      // "itemName": this.edit_Name,
+      "itemDesc": this.edit_Description,
+      // "itemCategoryID": this.category,
+      // "itemFormID": this.dose,
+      // "pharmacologyCategoryID": this.pharmacology,
+      // "manufacturerID": this.manufacturer,
+      // "strength": this.strength,
+      // "uomID": this.uom,
+      // "isScheduledDrug": this.drugType,
+      // "composition": this.composition,
+      // "routeID": this.route,     
+      // "status": "active",
+      "providerServiceMapID": this.providerServiceMapID,
+     // "itemID": this.data.itemID,
+      'modifiedBy': this.createdBy
 
+    }    
+    this.itemService.updateItem(updateItemObject).subscribe(response => {
+      console.log("Data to be update", response);
+     // this.dialogRef.close("success");
+
+    })
   }
   activateDeactivate(itemID, flag) {
     if (flag) {

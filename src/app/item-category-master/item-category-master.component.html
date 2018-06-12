@@ -118,7 +118,7 @@
   <form #categoryCreationForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Category Code" [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
+        <input mdInput placeholder="Item Category Code" PAN [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
           <span class="errorText" [hidden]="!itemCode.errors">Category Code has to be of 1 to 10 Characters</span>
@@ -129,7 +129,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Category Name" [(ngModel)]="itemCategoryName" name="name" minlength="1" maxlength="50"
+        <input mdInput placeholder="Item Category Name" myProviderName [(ngModel)]="itemCategoryName" name="name" minlength="1" maxlength="50"
           #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty ">
           <span class="errorText" [hidden]="!itemCode.errors">Category Name has to be of 1 to 50 Characters</span>
@@ -139,12 +139,9 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Category Description" [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="50"
-          #itemDesc="ngModel" required>
-        <md-hint *ngIf="itemDesc.touched || itemDesc.dirty ">
-          <span class="errorText" [hidden]="!itemDesc.errors">Category Description has to be of 1 to 50 Characters</span>
-
-        </md-hint>
+        <input mdInput placeholder="Item Category Description" VehicleNO [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="50"
+          #itemDesc="ngModel" >
+        
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -206,7 +203,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
               <input mdInput style="display:none">
-              <md-select placeholder="Serviceline" class="width100" [disabled]="true" [(ngModel)]="serviceline" name="services"
+              <md-select placeholder="Serviceline" class="width100" [disabled]="true" [(ngModel)]="edit_Serviceline" name="services"
                 (change)="getStates(serviceline)" required>
                 <md-option *ngFor="let item of services_array" [value]="item">
                   {{item.serviceName}}
@@ -217,7 +214,7 @@
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline width100">
               <input mdInput style="display:none">
-              <md-select placeholder="State" class="width100" [disabled]="true" [(ngModel)]="state" name="state" required>
+              <md-select placeholder="State" class="width100" [disabled]="true" [(ngModel)]="edit_State" name="state" required>
                 <md-option *ngFor="let item of states_array" [value]="item" (click)="setProviderServiceMapID(item.providerServiceMapID)">
                   {{item.stateName}}
                 </md-option>
@@ -239,8 +236,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="width100">
-                <input mdInput placeholder="Category Description" [(ngModel)]="edit_desc" name="desc" #itemDesc="ngModel" minlength="1" maxlength="50"
-                   required>
+                <input mdInput placeholder="Category Description" VehicleNO [(ngModel)]="edit_desc" name="desc" #itemDesc="ngModel" minlength="1" maxlength="50">
             </md-input-container>
         </div>
         <div class="clearfix"></div>

@@ -133,7 +133,7 @@
           </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Type Name" PAN [(ngModel)]="facilityName" maxlength="100" name="facilityName"
+          <input mdInput required placeholder="Facility Type Name" myProviderName [(ngModel)]="facilityName" maxlength="100" name="facilityName"
             #facilityTypeName="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Please enter Facility Type Name</span>
@@ -142,7 +142,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Description" PAN [(ngModel)]="facilityDiscription" maxlength="100" name="facilityDescription">
+          <input mdInput  placeholder="Facility Description" VehicleNO [(ngModel)]="facilityDiscription" maxlength="100" name="facilityDescription">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 ">
@@ -254,7 +254,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Description" VehicleNO maxlength="100" [(ngModel)]="edit_facilityDiscription"
+          <input mdInput  placeholder="Facility Description" VehicleNO maxlength="100" [(ngModel)]="edit_facilityDiscription"
             name="facilityDescription">
         </md-input-container>
       </div>
