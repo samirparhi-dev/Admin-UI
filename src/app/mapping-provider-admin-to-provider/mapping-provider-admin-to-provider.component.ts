@@ -488,6 +488,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (res) {
         this.showTable();
         this.resetForm();
+        this.isNational = false;
       }
     })
   }

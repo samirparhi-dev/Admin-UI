@@ -37,7 +37,7 @@ export class CreateSubServiceComponent implements OnInit {
   added: boolean = false;
 
   isNational = false;
-  @ViewChild('form') form : NgForm;
+  @ViewChild('form') form: NgForm;
   constructor(private sub_service: BlockProvider,
     private commonData: dataService,
     private message: ConfirmationDialogsService) { }
@@ -329,8 +329,8 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.addSubService(true);
+          this.form.controls.subServiceDesc.reset();
         }
-        this.form.controls.subServiceDesc.reset();
       })
   }
   confirmMessage: any;
