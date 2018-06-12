@@ -240,11 +240,15 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   showTable() {
     if (this.editMode) {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
+      this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        if (response) {
+          this.tableMode = true;
+          this.formMode = false;
+          this.editMode = false;
+          this.bufferArray = [];
+          this.resetDropdowns();
+        }
+      });
     }
     else {
 
@@ -261,11 +265,16 @@ export class WorkLocationMappingComponent implements OnInit {
         });
       }
       else {
-        this.tableMode = true;
-        this.formMode = false;
-        this.editMode = false;
-        this.bufferArray = [];
-        this.resetDropdowns();
+        this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+          if (response) {
+            this.tableMode = true;
+            this.formMode = false;
+            this.editMode = false;
+            this.bufferArray = [];
+            this.resetDropdowns();
+            this.isNational = false;
+          }
+        });
       }
     }
 
@@ -285,35 +294,34 @@ export class WorkLocationMappingComponent implements OnInit {
     // this.getUserName(this.serviceProviderID);
   }
 
-  activate(uSRMappingID,userDeactivated) {
+  activate(uSRMappingID, userDeactivated) {
     // debugger;
-    if(userDeactivated){
+    if (userDeactivated) {
       this.alertService.alert('User is inactive');
     }
-    else
-    {
-    this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
-      if (response) {
-        const object = {
-          'uSRMappingID': uSRMappingID,
-          'deleted': false
-        };
+    else {
+      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+        if (response) {
+          const object = {
+            'uSRMappingID': uSRMappingID,
+            'deleted': false
+          };
 
-        this.worklocationmapping.DeleteWorkLocationMapping(object)
-          .subscribe(response => {
-            if (response) {
-              this.alertService.alert('Activated successfully', 'success');
-              /* refresh table */
-              this.getAllMappedWorkLocations();
-            }
-          },
-            err => {
-              console.log('error', err);
-              console.log(err, 'error');
-            });
-      }
-    });
-  }
+          this.worklocationmapping.DeleteWorkLocationMapping(object)
+            .subscribe(response => {
+              if (response) {
+                this.alertService.alert('Activated successfully', 'success');
+                /* refresh table */
+                this.getAllMappedWorkLocations();
+              }
+            },
+              err => {
+                console.log('error', err);
+                console.log(err, 'error');
+              });
+        }
+      });
+    }
 
   }
   deactivate(uSRMappingID) {
@@ -690,7 +698,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   refresh3() {
     // refreshing ngModels of worklocation, roles
-    this.district_duringEdit=undefined;
+    this.district_duringEdit = undefined;
     this.workLocationID_duringEdit = undefined;
     this.roleID_duringEdit = undefined;
   }
