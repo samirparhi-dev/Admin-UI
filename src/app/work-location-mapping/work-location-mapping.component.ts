@@ -245,7 +245,6 @@ export class WorkLocationMappingComponent implements OnInit {
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-
     }
     else {
 
@@ -257,6 +256,7 @@ export class WorkLocationMappingComponent implements OnInit {
             this.editMode = false;
             this.bufferArray = [];
             this.resetDropdowns();
+            this.isNational = false;
           }
         });
       }

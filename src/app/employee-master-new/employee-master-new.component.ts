@@ -195,6 +195,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
+        this.objs = [];
       }
     })
   }
