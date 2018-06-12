@@ -26,12 +26,14 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
+        <div class="row"  class="pull-right">
       <md-input-container id="filterbox">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
+  </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(!showFormFlag) && showTableFlag">
     <div class="table-responsive">
@@ -132,7 +134,7 @@
         </md-select>
       </md-input-container>
     </div>
-
+<div class="clearfix visible-sm"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -147,8 +149,8 @@
 
     <!-- </div> -->
     <!-- <div class="row"> -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-12 m-t-10 ">
-      <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
+    <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 m-t-10 ">
+      <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -162,7 +164,8 @@
             <th width="5%">S.No.</th>
             <th width="20%">Facility Code</th>
             <th width="20%">Facility Name</th>
-            <th width="20%">ItemName</th>
+            <th width="20%">Item Category</th>
+            <th width="20%">Item Name</th>
             <th width="10%">Delete</th>
           </tr>
         </thead>
@@ -174,8 +177,9 @@
             <td>{{(md2.activePage-1)*4+i+1}}</td>
             <td>{{item.facilityCode}}</td>
             <td>{{item.facilityName}}</td>
+            <td>{{item.itemCategoryName}}</td>
             <td>
-              <ul>
+              <ul class="p-l-15">
                 <li *ngFor="let obj of item.item;let j=index ">
                   {{obj.itemName}}
                   <md-icon class="cursorPointer" mdTooltip="Remove {{obj.itemName}}" (click)="removeItem((md2.activePage-1)*5+i,j)">cancel</md-icon>
@@ -189,7 +193,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="6">
               <md2-pagination></md2-pagination>
             </td>
           </tr>
@@ -197,7 +201,7 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back();itemCategoryselected={};itemselected=[];subStore=[]">Back</button>
     <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Add Mapping</button>
     <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm();itemCategoryselected={};itemselected=[];subStore=[]">Clear</button>

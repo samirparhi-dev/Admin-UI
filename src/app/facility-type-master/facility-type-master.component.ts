@@ -241,14 +241,14 @@ export class FacilityTypeMasterComponent implements OnInit {
     debugger;
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
-      "facilityTypeName": editedFormValues.facilityName,
-      "facilityTypeDesc": editedFormValues.facilityDescription,
-      "facilityTypeCode": editedFormValues.facilityCode
+    //  "facilityTypeName": editedFormValues.facilityName,
+      "facilityTypeDesc": editedFormValues.facilityDescription
+     // "facilityTypeCode": editedFormValues.facilityCode
     }
     this.facility.updateFacility(editObj).subscribe(response => {
       if (response) {
         console.log(response, 'after successful updation of facility type master');
-        this.dialogService.alert('Facility Type updated successfully');
+        this.dialogService.alert('Facility Type updated successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllFacilities(this.providerServiceMapID);

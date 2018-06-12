@@ -26,12 +26,14 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="itemsList?.length > 0 && showTableFlag">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemsList?.length > 0 && showTableFlag">
+        <div class="row" class="pull-right">
       <md-input-container id="filterbox">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
+  </div>
     <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <label class="f-s-n-b">Item type</label>
       <md-radio-group [(ngModel)]="itemType" name="itemType">
@@ -94,14 +96,14 @@
 </div>
 <div class="row" *ngIf="showFormFlag">
   <form #itemCreationForm='ngForm' autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
       <label class="f-s-n-b">Item Type</label>
       <md-radio-group [(ngModel)]="itemType" name="itemType" required>
-        <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
-        <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
+        <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Medical</md-radio-button>
+        <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Medical</md-radio-button>
       </md-radio-group>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(code)"
           #itemCode="ngModel" required>
@@ -111,7 +113,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty">
@@ -119,7 +121,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
           required>
@@ -129,7 +131,7 @@
       </md-input-container>
     </div>
     <!-- <div class="clearfix"></div> -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="UOM" class="width100" [(ngModel)]="uom" name="uom" required>
@@ -139,7 +141,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Category" class="width100" [(ngModel)]="category" name="category" required>
@@ -149,27 +151,27 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Dose Form" class="width100" [(ngModel)]="dose" name="dose" required>
+        <md-select placeholder="Item Form" class="width100" [(ngModel)]="dose" name="dose" required>
           <md-option *ngFor="let item of dosages" [value]="item">
             {{item.itemForm}}
           </md-option>
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="pharmacology" name="pharmacology" required>
           <md-option *ngFor="let item of pharmacologies" [value]="item">
-            {{item.categoryName}}
+            {{item.pharmCategoryName}}
           </md-option>
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="manufacturer" name="manufacturer" required>
@@ -179,14 +181,16 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <label class="f-s-n-b">Drug Type</label>
       <md-radio-group [(ngModel)]="drugType" name="drugType">
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Scheduled</md-radio-button>
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Scheduled</md-radio-button>
       </md-radio-group>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+
+    <div class="clearfix visible-sm"></div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="width100" VehicleNO>
         <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
           maxlength="300" required>
@@ -195,7 +199,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Route Of Admin" class="width100" [(ngModel)]="route" name="route" required>
@@ -205,13 +209,13 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" VehicleNO>
         <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
           required>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf="!editMode && itemCreationForm.valid"
         color="primary" (click)="addMultipleItemArray(itemCreationForm.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
@@ -226,7 +230,7 @@
             <th width="5%">S.No.</th>
             <th width="20%">Item Code</th>
             <th width="20%">Item Type </th>
-            <th width="40%">Item Name</th>
+            <th width="30%">Item Name</th>
             <th width="40%">Item Description</th>
             <th width="10%">Action</th>
           </tr>
@@ -254,7 +258,7 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem()">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="itemCreationForm.reset()">Clear</button>
