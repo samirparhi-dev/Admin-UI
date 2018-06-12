@@ -240,43 +240,47 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   showTable() {
     if (this.editMode) {
-      this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
-        if (response) {
-          this.tableMode = true;
-          this.formMode = false;
-          this.editMode = false;
-          this.bufferArray = [];
-          this.resetDropdowns();
-        }
-      });
+      this.tableMode = true;
+      this.formMode = false;
+      this.editMode = false;
+      this.bufferArray = [];
+      this.resetDropdowns();
     }
     else {
 
       if (this.bufferArray.length > 0) {
-        this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
-          if (response) {
-            this.tableMode = true;
-            this.formMode = false;
-            this.editMode = false;
-            this.bufferArray = [];
-            this.resetDropdowns();
-            this.isNational = false;
-          }
-        });
+        // this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        //   if (response) {
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
+        this.bufferArray = [];
+        this.resetDropdowns();
+        this.isNational = false;
+        //   }
+        // });
       }
       else {
-        this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
-          if (response) {
-            this.tableMode = true;
-            this.formMode = false;
-            this.editMode = false;
-            this.bufferArray = [];
-            this.resetDropdowns();
-            this.isNational = false;
-          }
-        });
+        // this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        //   if (response) {
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
+        this.bufferArray = [];
+        this.resetDropdowns();
+        this.isNational = false;
+        //   }
+        // });
       }
     }
+
+  }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+      if (response) {
+        this.showTable();
+      }
+    });
 
   }
   showForm() {
