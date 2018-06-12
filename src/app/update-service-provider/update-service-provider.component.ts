@@ -140,6 +140,7 @@ export class UpdateServiceProviderComponent implements OnInit {
           this.serviceline = "";
           // this.servicelines = [];
           this.allServicesMapped = false;
+          this.isNational = false;
         }
       }, err => {
 

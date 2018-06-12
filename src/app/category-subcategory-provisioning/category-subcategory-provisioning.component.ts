@@ -144,7 +144,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   getSubServices(value) {
     //this.sub_service = undefined;
     debugger;
+
     if (value == 'get') {
+      
       this.servicesGetting(this.state.providerServiceMapID);
     }
     else if (value == true) {
@@ -160,6 +162,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
   servicesGetting(proServiceMapID) {
     debugger;
+    this.data = [];
     this.CategorySubcategoryService.getSubService(proServiceMapID)
       .subscribe((response) => {
         this.showWellBeingFlag = false;

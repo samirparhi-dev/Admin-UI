@@ -63,10 +63,10 @@
 <div class="row" *ngIf="formMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 *ngIf="!editMode">
-      <strong>Work-Location-Mapping</strong>
+      <strong>Work Location Mapping</strong>
     </h4>
     <h4 *ngIf="editMode">
-      <strong>Edit Work-Location-Mapping</strong>
+      <strong>Edit Work Location Mapping</strong>
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
@@ -200,7 +200,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15">
     <button md-raised-button color="accent" class="pull-right" [disabled]="!(bufferArray.length>0)" (click)="saveWorkLocations()">Save</button>
-    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
 
   </div>
 </div>
@@ -291,7 +291,7 @@
 
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button *ngIf="!formMode" md-raised-button color="accent" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceeform.value);">Update</button>
     </div>
   </div>
