@@ -142,11 +142,11 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   getSubServices(value) {
-    //this.sub_service = undefined;
+    this.sub_service = undefined;
     debugger;
 
     if (value == 'get') {
-      
+
       this.servicesGetting(this.state.providerServiceMapID);
     }
     else if (value == true) {
@@ -552,34 +552,33 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
 
-  deleteSubCategory(id, flag,catgexist) {
-    if(catgexist)
-    {
+  deleteSubCategory(id, flag, catgexist) {
+    if (catgexist) {
       this.messageBox.alert("Category is inactive");
     }
-    else{
-    let confirmMessage;
-    if (flag) {
-      confirmMessage = 'Deactivate';
-    } else {
-      confirmMessage = 'Activate';
-    }
-    this.messageBox.confirm('Confirm', 'Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
-      if (res) {
-        this.CategorySubcategoryService.deleteSubCategory(id, flag)
-          .subscribe((response) => {
-            if (response) {
-              // console.log(response,"after delete");
-              this.messageBox.alert(confirmMessage + "d successfully", 'success');
-              this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
-            }
-          }, (err) => {
-
-          });
+    else {
+      let confirmMessage;
+      if (flag) {
+        confirmMessage = 'Deactivate';
+      } else {
+        confirmMessage = 'Activate';
       }
-    }, (err) => { });
+      this.messageBox.confirm('Confirm', 'Are you sure want to ' + confirmMessage + '?').subscribe((res) => {
+        if (res) {
+          this.CategorySubcategoryService.deleteSubCategory(id, flag)
+            .subscribe((response) => {
+              if (response) {
+                // console.log(response,"after delete");
+                this.messageBox.alert(confirmMessage + "d successfully", 'success');
+                this.refeshCategory(this.sub_serviceID, this.providerServiceMapID);
+              }
+            }, (err) => {
+
+            });
+        }
+      }, (err) => { });
+    }
   }
-}
 
   // to refresh the category after deletion
   refeshCategory(subService: any, providerServiceMap: any) {
