@@ -119,7 +119,7 @@ export class CreateStoreMappingComponent implements OnInit {
         if (value) {
           this.mainStoreList = this.storeList.filter(item => !item.parkingPlaceID && item.isMainFacility);
         } else {
-          this.mainStoreList = this.storeList.slice();
+          this.mainStoreList = this.storeList.filter(item => item.isMainFacility);
         }
         this.resetForm();
       })
