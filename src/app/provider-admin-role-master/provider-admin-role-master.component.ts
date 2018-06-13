@@ -142,7 +142,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   statesSuccesshandeler(response, value) {
     this.state = '';
     this.states = response;
-    this.showAddButtonFlag = false;
+    this.searchresultarray = [];
+    //this.showAddButtonFlag = false;
 
     if (value.isNational) {
       this.nationalFlag = value.isNational;
@@ -458,25 +459,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           this.getFeatures(this.service.serviceID);
         }
 
-        /*for(let z=0;z<feature.length;z++)
-        {
-          let obj = {
-            'roleName': role.trim(),
-            'roleDesc': desc,
-            'screenID': feature[z].screenID,
-            'screen_name':feature[z].screenName,
-            'createdBy': this.commonDataService.uname,
-            'createdDate': new Date(),
-              'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
-            };
 
-            console.log("Pushed OBJ",obj);
-            if(obj.roleName.trim().length>0)
-            {
-              this.objs.push(obj);
-            }
-
-          }*/
 
       }
       else {

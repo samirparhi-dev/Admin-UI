@@ -153,7 +153,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     debugger;
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
-  this.pharmCategoryID=editformvalues.pharmCategoryID;
+  this.pharmCategoryID=editformvalues.pharmacologyCategoryID;
   this.edit_pharmaCode=editformvalues.pharmCategoryCode;
   this.edit_pharmaName=editformvalues.pharmCategoryName;
   this.edit_pharmaDesc=editformvalues.pharmCategoryDesc;
@@ -165,7 +165,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     const editObj={
       "pharmCategoryDesc": editformvalues.pharmaDesc,
       "ModifiedBy": this.createdBy,
-      "pharmCategoryID":this.pharmCategoryID
+      "pharmacologyCategoryID":this.pharmCategoryID
     }
     this.pharmacologicalService.updatePharmacology(editObj).subscribe(response => {
       if (response) {

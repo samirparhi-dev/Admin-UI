@@ -269,7 +269,8 @@
                     </td>
                     <td colspan="3" class="p-r-0">
 
-                        <button md-raised-button color="primary" *ngIf="tableMode" class="pull-right" (click)="showForm();">Add Mapping</button>
+                        <button md-raised-button color="primary" [disabled]="!searchDistrictID || !searchParkingPlaceID || !designationID " class="pull-right"
+                            (click)="showForm();">Add Mapping</button>
 
                     </td>
                 </tr>

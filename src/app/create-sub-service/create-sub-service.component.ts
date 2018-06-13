@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BlockProvider } from '../services/adminServices/AdminServiceProvider/block-provider-service.service';
 import { dataService } from './../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 declare let jQuery: any;
 @Component({
   selector: 'app-create-sub-service',
@@ -36,6 +37,7 @@ export class CreateSubServiceComponent implements OnInit {
   added: boolean = false;
 
   isNational = false;
+  @ViewChild('form') form: NgForm;
   constructor(private sub_service: BlockProvider,
     private commonData: dataService,
     private message: ConfirmationDialogsService) { }
@@ -86,6 +88,7 @@ export class CreateSubServiceComponent implements OnInit {
       'serviceID': serviceID
     };
     this.state = undefined;
+    this.data = [];
     this.sub_service.getStatesInServices(data).subscribe(response => {
       console.log(response, 'successful response');
       this.states = undefined;
@@ -102,6 +105,7 @@ export class CreateSubServiceComponent implements OnInit {
         console.log(response, 'Success in getting Services from Provider');
         this.serviceObj = undefined;
         this.state = undefined;
+        this.data = [];
         this.services = response.filter(function (obj) {
           return obj.serviceID == 3 || obj.serviceID == 1;
         });
@@ -327,6 +331,7 @@ export class CreateSubServiceComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.addSubService(true);
+          this.form.controls.subServiceDesc.reset();
         }
       })
   }

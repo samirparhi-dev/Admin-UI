@@ -45,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+          <tr *ngIf="data.length == 0" class="record-not-found">
             <td colspan="5" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sev of md2.data; let i=index">
@@ -68,7 +68,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showAddScreen()">Add Severity</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="searchForm.invalid" (click)="showAddScreen()">Add Severity</button>
             </td>
           </tr>
         </tfoot>

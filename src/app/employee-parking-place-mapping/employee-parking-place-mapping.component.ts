@@ -318,6 +318,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     designationID: any;
     districts: any = [];
     getDistricts(stateID) {
+        this.availableParkingPlaces = [];
         //  this.designationID = "";
         this.employeeParkingPlaceMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }

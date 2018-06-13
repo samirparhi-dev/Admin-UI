@@ -67,6 +67,7 @@ export class VillageMasterComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         this.availableVillages = [];
         this.taluks = [];
+        this.searchDistrictID = undefined;
         this.districts = response;
         console.log(this.districts)
     }
@@ -78,6 +79,8 @@ export class VillageMasterComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
+        this.availableVillages = [];
+        this.searchTalukID = undefined;
     }
 
     GetBranches(talukID: number) {

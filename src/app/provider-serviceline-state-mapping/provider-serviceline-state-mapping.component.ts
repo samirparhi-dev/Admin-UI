@@ -144,7 +144,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
 
   add2bufferArray(form_values) {
     this.resetDropDowns();
-
+    debugger;
     console.log(form_values, 'form values after adding');
     const object = {
       'serviceProviderID': form_values.provider.serviceProviderId,
@@ -216,6 +216,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
   count: any = 0;
   checkDuplicates(object) {
+    debugger;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
@@ -237,7 +238,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
             /* the loop will run i times , where i= no of objects in States Array
                of OBJECT sent for verification */
             for (let i = 0; i < object.stateID1.length; i++) {
-              // let count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
+              this.count = 0;  // counter to check if duplicate state comes for a 'Existing Provider and Existing Service'
 
               /* running second loop which will run j times , where j= no of objects in States Array
                of an OBJECT in buffer array */
@@ -247,20 +248,22 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
                   console.log('Duplicate Combo Exists', this.count);
                 }
               }
+
               if (this.count === 0) {
                 this.bufferArray[a].stateID1.push(object.stateID1[i]);
                 this.resetForm();
               }
-              // else if (this.count > 0) {
-              //   console.log('Duplicate Entry Already exists for ' + object.stateID1[i].stateName);
-              //   this.dialogService.alert("Already exists");
-              //   this.resetForm();
-              // }
             }
+            // if (this.count > 0) {
+            //   // console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].serviceName);
+            //   this.dialogService.alert('Already exists');
+            //   this.resetForm();
+            // }
+
           }
-          else {
-            continue;
-          }
+          // else {
+          //   continue;
+          // }
         }
       }
       if (this.count > 0) {

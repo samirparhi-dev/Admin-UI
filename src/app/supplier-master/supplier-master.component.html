@@ -138,7 +138,7 @@
   
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Name" PAN [(ngModel)]="create_supplierName" maxlength="200" name="supplierName"
+          <input mdInput required placeholder="Supplier Name" myProviderName [(ngModel)]="create_supplierName" maxlength="200" name="supplierName"
             #supplierName="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!supplierName.valid  && ( supplierName.dirty || supplierName.touched)">Please enter Supplier Name</span>
@@ -148,17 +148,17 @@
       <div class="clearfix  visible-md"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Description" PAN [(ngModel)]="create_supplierDesc" maxlength="100" name="supplierDesc"
+          <input mdInput  placeholder="Supplier Description" myProviderName [(ngModel)]="create_supplierDesc" maxlength="100" name="supplierDesc"
             #supplierDesc="ngModel">
-          <md-hint>
+          <!-- <md-hint>
             <span class="error_text" *ngIf="!supplierDesc.valid  && ( supplierDesc.dirty || supplierDesc.touched)">Please enter Supplier Description</span>
-          </md-hint>
+          </md-hint> -->
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Contact Person" [(ngModel)]="create_contactPerson" maxlength="50" name="contactPerson"
+          <input mdInput required placeholder="Contact Person" myProviderName [(ngModel)]="create_contactPerson" maxlength="50" name="contactPerson"
             #contactPerson="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!contactPerson.valid  && ( contactPerson.dirty || contactPerson.touched)">Please enter Contact Person</span>
@@ -167,7 +167,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Dl.No.(Drug License No.)" PAN [(ngModel)]="create_drugLicense" maxlength="50" name="drugLicense"
+          <input mdInput required placeholder="DL.No.(Drug License No.)" PAN [(ngModel)]="create_drugLicense" maxlength="50" name="drugLicense"
             #drugLicense="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!drugLicense.valid  && ( drugLicense.dirty || drugLicense.touched)">Please enter Drug License</span>
@@ -176,17 +176,17 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No.)" PAN [(ngModel)]="create_cstNo" maxlength="50" name="cstNo" #cstNo="ngModel">
+          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter valid CST/GST No</span>
           </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="TIN No." PAN [(ngModel)]="create_tinNo" maxlength="50" name="tinNo" #tinNo="ngModel">
+          <input mdInput required placeholder="TIN No." myMobileNumber [(ngModel)]="create_tinNo" minlength="12" maxlength="12" name="tinNo" #tinNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!tinNo.valid  && ( tinNo.dirty || tinNo.touched)">Please enter TIN No</span>
+            <span class="error_text" *ngIf="!tinNo.valid  && ( tinNo.dirty || tinNo.touched)">Please enter valid TIN No</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -363,7 +363,7 @@
       
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Name" PAN [(ngModel)]="edit_supplierName" [disabled]="true" maxlength="100"
+          <input mdInput required placeholder="Supplier Name" myProviderName [(ngModel)]="edit_supplierName" [disabled]="true" maxlength="100"
             name="supplierName" #supplierName="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!supplierName.valid  && ( supplierName.dirty || supplierName.touched)">Please enter Supplier Name</span>
@@ -373,17 +373,17 @@
       <div class="clearfix  visible-md"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Description" PAN [(ngModel)]="edit_supplierDesc" maxlength="100" name="supplierDesc"
+          <input mdInput  placeholder="Supplier Description" myProviderName [(ngModel)]="edit_supplierDesc" maxlength="100" name="supplierDesc"
             #supplierDesc="ngModel">
-          <md-hint>
+          <!-- <md-hint>
             <span class="error_text" *ngIf="!supplierDesc.valid  && ( supplierDesc.dirty || supplierDesc.touched)">Please enter Supplier Discription</span>
-          </md-hint>
+          </md-hint> -->
         </md-input-container>
       </div>
       <div class="clearfix visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Contact Person" [(ngModel)]="edit_contactPerson" [disabled]="true" maxlength="100" name="contactPerson"
+          <input mdInput required placeholder="Contact Person" myProviderName [(ngModel)]="edit_contactPerson" [disabled]="true" maxlength="100" name="contactPerson"
             #contactPerson="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!contactPerson.valid  && ( contactPerson.dirty || contactPerson.touched)">Please enter Contact Person</span>
@@ -392,7 +392,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Dl.No.(Drug License No.)" PAN [(ngModel)]="edit_drugLicense" [disabled]="true" maxlength="100"
+          <input mdInput required placeholder="DL.No.(Drug License No.)" PAN [(ngModel)]="edit_drugLicense" [disabled]="true" maxlength="100"
             name="drugLicense" #drugLicense="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!drugLicense.valid  && ( drugLicense.dirty || drugLicense.touched)">Please enter Drug License</span>
@@ -401,7 +401,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo" [disabled]="true" maxlength="100" name="cstNo"
+          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo" [disabled]="true" minlength="15" maxlength="15" name="cstNo"
             #cstNo="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>
@@ -410,7 +410,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="TIN No.)" PAN [(ngModel)]="edit_tinNo" [disabled]="true" maxlength="100" name="tinNo"
+          <input mdInput required placeholder="TIN No." myMobileNumber [(ngModel)]="edit_tinNo" [disabled]="true" minlengt="12" maxlength="12" name="tinNo"
             #tinNo="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!tinNo.valid  && ( tinNo.dirty || tinNo.touched)">Please enter TIN No</span>
