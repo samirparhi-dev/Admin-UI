@@ -65,6 +65,7 @@ export class SeverityTypeComponent implements OnInit {
   getProviderStates(serviceID, isNational) {
     this.severityTypeService.getStates(this.userID, serviceID, isNational).subscribe(response => {
       console.log('success while getting states', response);
+      this.stateId = undefined;
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
@@ -303,7 +304,7 @@ export class EditSeverityModalComponent {
       (err) => {
         console.log("error", err);
         //this.alertService.alert(err, 'error')});
-  });
+      });
   }
   addSeverity(value) {
     this.alreadyExist = false;
