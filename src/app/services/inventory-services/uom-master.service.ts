@@ -23,7 +23,7 @@ export class UomMasterService {
   getAllUOMMaster(serviceMapID) {
     let getUOMUrl = this.adminBaseUrl + 'getUom';
     return this.http
-      .post(getUOMUrl, { providerServiceMapID: serviceMapID})
+      .post(getUOMUrl, { providerServiceMapID: serviceMapID })
       .map(this.extractData)
       .catch(this.handleError)
   }
@@ -31,25 +31,33 @@ export class UomMasterService {
   postUOMMaster(UOMMaster) {
     let postUOMUrl = this.adminBaseUrl + 'createUom';
     return this.http
-    .post(postUOMUrl, UOMMaster)
-    .map(this.extractData)
-    .catch(this.handleError)
+      .post(postUOMUrl, UOMMaster)
+      .map(this.extractData)
+      .catch(this.handleError)
   }
 
   updateUOMMaster(UOMMaster) {
     let updateUOMUrl = this.adminBaseUrl + 'editUom';
     return this.http
-    .post(updateUOMUrl, UOMMaster)
-    .map(this.extractData)
-    .catch(this.handleError)
+      .post(updateUOMUrl, UOMMaster)
+      .map(this.extractData)
+      .catch(this.handleError)
+  }
+
+  checkForUniqueUOMCode(uOMCode, providerServiceMapID) {
+    let checkUniqueUOMCodeUrl = this.adminBaseUrl + 'checkUomCode';
+    return this.http
+      .post(checkUniqueUOMCodeUrl, { uOMCode, providerServiceMapID })
+      .map(this.extractData)
+      .catch(this.handleError)
   }
 
   toggleDeleted(uomID, flag) {
     let toggleDeletedUrl = this.adminBaseUrl + 'deleteUom';
     return this.http
-    .post(toggleDeletedUrl, { uOMID: uomID, deleted: flag})
-    .map(this.extractData)
-    .catch(this.handleError)
+      .post(toggleDeletedUrl, { uOMID: uomID, deleted: flag })
+      .map(this.extractData)
+      .catch(this.handleError)
   }
 
   private extractData(res: Response) {

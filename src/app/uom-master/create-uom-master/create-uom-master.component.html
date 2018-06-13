@@ -1,45 +1,18 @@
-<div class="row m-t-20">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <button type="button" md-raised-button color="primary" class="pull-right" (click)="switchToViewMode()">Search UOM Master</button>
-  </div>
-</div>
-
 <form [formGroup]="UOMMasterForm" autocomplete="off">
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <!-- <md-select class="input-full-width" placeholder="Serviceline" formControlName="service" name="service" required>
-        <md-option *ngFor="let service of serviceLineList" [value]="service">
-          {{service.serviceName}}
-        </md-option>
-      </md-select> -->
-      <md-input-container class="input-full-width readonly-input">
-        <input class="readonly-input" mdInput placeholder="Serviceline" formControlName="service" name="service" readonly>
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 readonly-input">
-      <!-- <md-select class="input-full-width" placeholder="State" formControlName="state" name="state" required>
-        <md-option *ngFor="let state of stateList" [value]="state">
-          {{state.stateName}}
-        </md-option>
-      </md-select> -->
-      <md-input-container class="input-full-width">
-        <input class="readonly-input" mdInput placeholder="State" formControlName="state" name="state" readonly>
-      </md-input-container>
-    </div>
-
-    <div class="clearfix"></div>
-
+  <div class="row m-t-20">
     <ng-container formGroupName="UOM">
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
-          <input mdInput placeholder="UOM Code" name="uomCode" formControlName="uOMCode">
+          <input mdInput placeholder="UOM Code" name="uomCode" formControlName="uOMCode" required (blur)="checkForUniqueUOMCode()">
+          <md-error *ngIf="UOMMasterForm.controls['UOM'].controls['uOMCode'].hasError('unique')">
+            Please enter a unique uom code
+          </md-error>
         </md-input-container>
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
-          <input mdInput placeholder="UOM Name" name="uOMName" formControlName="uOMName">
+          <input mdInput placeholder="UOM Name" name="uOMName" formControlName="uOMName" required>
         </md-input-container>
       </div>
 
@@ -87,8 +60,12 @@
 
 
 <div class="row m-t-20">
-  <div class="col-xs-12">
+  <div class="col-xs-12 col-sm-6">
+    <button type="button" md-raised-button color="primary" class="pull-left" (click)="switchToViewMode()">Back</button>
+  </div>
+  <div class="col-xs-12 col-sm-6">
     <button type="button" [disabled]="UOMMasterList.length == 0" md-raised-button color="primary" class="pull-right" (click)="submitUOMForm()">Submit</button>
     <!-- <button type="button" md-raised-button color="primary" class="pull-right m-r-5" (click)="resetUOMForm()">Reset</button> -->
   </div>
+
 </div>
