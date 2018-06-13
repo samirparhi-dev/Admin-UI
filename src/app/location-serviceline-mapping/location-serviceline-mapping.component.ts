@@ -155,6 +155,7 @@ export class LocationServicelineMappingComponent implements OnInit {
   getStatesSuccessHandeler(response, value) {
     this.search_state = "";
     this.states = response;
+    this.workLocations = [];
     if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.setPSMID(response[0].providerServiceMapID);
@@ -163,7 +164,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     }
     else {
       this.nationalFlag = value.isNational;
-      this.showTable = false;
+      //  this.showTable = false;
     }
   }
   setPSMID(psmID) {
@@ -218,24 +219,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       'serviceID': serviceID,
       'isNational': this.nationalFlag
     }
-    // if (this.search_serviceline.serviceID != "") {
-    //   reqOBJ["stateID"] = this.search_state ? this.search_state : '';
-    //   reqOBJ["serviceID"] = this.search_serviceline.serviceID ? this.search_serviceline.serviceID : '';
-    //   console.log(reqOBJ);
 
-    //   this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
-    //     response => this.findLocationsSuccesshandeler(response)
-    //   );
-    // }
-    // else {
-    //   reqOBJ["stateID"] = this.search_state ? this.search_state : '';
-    //   console.log(reqOBJ);
-
-    //   this.provider_admin_location_serviceline_mapping.getWorkLocationsOnState(reqOBJ).subscribe(
-    //     response => this.findLocationsSuccesshandeler(response)
-    //   );
-
-    // }
     this.provider_admin_location_serviceline_mapping.getWorkLocations(reqOBJ).subscribe(
       response => {
         this.showTable = true;

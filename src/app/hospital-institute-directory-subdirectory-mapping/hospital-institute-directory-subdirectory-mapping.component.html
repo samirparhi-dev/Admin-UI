@@ -149,7 +149,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="2" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create Mapping</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="hospitalForm2.invalid" (click)="showForm()">Create Mapping</button>
             </td>
           </tr>
         </tfoot>

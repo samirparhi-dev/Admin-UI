@@ -86,7 +86,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="5" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Village</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="searchFields.invalid" (click)="showForm()">Add Village</button>
             </td>
           </tr>
         </tfoot>

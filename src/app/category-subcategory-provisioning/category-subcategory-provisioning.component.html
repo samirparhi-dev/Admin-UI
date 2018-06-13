@@ -84,7 +84,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Sub Category</button>
+              <button class="pull-right" md-raised-button color="primary" [disabled]=" !sub_service" (click)="hideTable()">Add New Category/Sub Category</button>
             </td>
           </tr>
         </tfoot>
@@ -130,7 +130,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" (click)="hideTable()">Add New Category/Sub Category</button>
+              <button class="pull-right" md-raised-button color="primary" [disabled]=" !sub_service" (click)="hideTable()">Add New Category/Sub Category</button>
             </td>
           </tr>
         </tfoot>

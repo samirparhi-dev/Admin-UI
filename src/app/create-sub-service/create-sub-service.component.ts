@@ -88,6 +88,7 @@ export class CreateSubServiceComponent implements OnInit {
       'serviceID': serviceID
     };
     this.state = undefined;
+    this.data = [];
     this.sub_service.getStatesInServices(data).subscribe(response => {
       console.log(response, 'successful response');
       this.states = undefined;
@@ -104,6 +105,7 @@ export class CreateSubServiceComponent implements OnInit {
         console.log(response, 'Success in getting Services from Provider');
         this.serviceObj = undefined;
         this.state = undefined;
+        this.data = [];
         this.services = response.filter(function (obj) {
           return obj.serviceID == 3 || obj.serviceID == 1;
         });
