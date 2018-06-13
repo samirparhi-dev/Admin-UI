@@ -87,6 +87,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     parkingPlaceObj: any;
     getParkingPlaces(stateID, districtID) {
+        this.availableServicePoints = [];
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
@@ -298,6 +299,8 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     districts: any = [];
     getDistricts(stateID) {
+        this.availableParkingPlaces = [];
+        this.availableServicePoints = [];
         this.servicePointVillageMapService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
