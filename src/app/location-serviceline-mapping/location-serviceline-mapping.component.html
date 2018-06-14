@@ -5,27 +5,7 @@
     <h4 class="pull-left">Job Location Serviceline Mapping Master</h4>
   </div>
   <form #searchForm="ngForm" id="searchForm" autocomplete="off">
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [(ngModel)]="search_state" name="state" (change)="getServiceLinesfromSearch(serviceProviderID,search_state)"
-          required>
-          <md-option *ngFor="let item of states" value="{{item.stateID}}">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Service Line" class="width100" [(ngModel)]="search_serviceline" name="serviceline" (change)="findLocations()">
-          <md-option *ngFor="let service of servicelines" value="{{service.serviceID}}" (click)="setPSMID(service.providerServiceMapID);servicelineSelected(service.providerServiceMapID)">
-            {{service.serviceName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div> -->
+
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -50,15 +30,7 @@
       </md-input-container>
     </div>
   </form>
-  <!--         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <button class="m-t-10" md-mini-fab color="primary" (click)="findLocations(search_state,search_serviceline)">
-            <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
-          </button>
-        </div> -->
-  <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
-      <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
-    </div> -->
-  <!-- table area -->
+
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showTable">
     <div class="table-responsive">
       <table [md2Data]="workLocations" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
@@ -106,21 +78,15 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="changeTableFlag(false)">Add Work Location</button>
+              <button md-raised-button color="primary" [disabled]="searchForm.invalid" class="pull-right" (click)="changeTableFlag(false)">Add Work Location</button>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
-    <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button class="pull-right" md-raised-button color="primary" (click)="changeTableFlag(false)">Add Work Location</button>
-      </div> -->
-  </div>
-  <!--     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
 
-      </div>
-    </div> -->
+  </div>
+
 </div>
 <!--new location form starts -->
 <div class="row" *ngIf="showForm">
@@ -128,48 +94,7 @@
     <h4 class="pull-left">Add Work Location</h4>
   </div> -->
   <form #f="ngForm" id="locationForm" autocomplete="off">
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [(ngModel)]="state" name="state" #State="ngModel" (change)="getDistricts(serviceProviderID,state);getServiceLines(serviceProviderID,state)"
-          required>
-          <md-option *ngFor="let item of states" value="{{item.stateID}}">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select [(ngModel)]="providerServiceMapIDs" class="p-t-14" multiple name="serviceLine" placeholder="ServiceLine" class="width100"
-          #serviceLine="ngModel" required (change)="servicelineSelected(providerServiceMapIDs)">
-          <md-option *ngFor="let sl of servicelines" [value]="sl.providerServiceMapID" (click)="setSL(sl.serviceID)">{{sl.serviceName}}</md-option>
-        </md-select>
-      </md-input-container>
-    </div> -->
 
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select [(ngModel)]="service_id" class="p-t-14" name="serviceLine" placeholder="Serviceline" class="width100"
-          #serviceLine="ngModel" required (change)="setSL(service_id.serviceID);getStates(service_id.serviceID,service_id.isNational);setIsNational(service_id.isNational)">
-          <md-option *ngFor="let sl of servicelines" [value]="sl">{{sl.serviceName}}</md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [disabled]="isNational" [(ngModel)]="state" name="state" #State="ngModel" (change)="getDistricts(serviceProviderID,state)"
-          required>
-          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setPSMID_onStateSeletion(item.providerServiceMapID)">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div> -->
-    <!-- above code commented on 11/4/18 - gursimran -->
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!nationalFlag">
       <md-input-container class="hide_underline width100">

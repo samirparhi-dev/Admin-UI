@@ -405,6 +405,13 @@ export class WorkLocationMappingComponent implements OnInit {
     else {
       this.duplicatestatus = false;
     }
+    this.resetAllArrays();
+  }
+  resetAllArrays() {
+    this.states_array = [];
+    this.districts_array = [];
+    this.workLocationsList = [];
+    this.RolesList = [];
   }
   deleteRow(i) {
     this.bufferArray.splice(i, 1);

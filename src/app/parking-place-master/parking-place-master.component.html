@@ -107,7 +107,7 @@
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="4" class="p-r-0 m-t-10">
-                            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Parking Place</button>
+                            <button md-raised-button color="primary" class="pull-right" [disabled]="searchForm.invalid" (click)="showForm()">Add Parking Place</button>
                         </td>
                     </tr>
                 </tfoot>

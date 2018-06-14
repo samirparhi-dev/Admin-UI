@@ -99,7 +99,7 @@
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="6" class="p-r-0">
-                            <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm();">Create New Van</button>
+                            <button md-raised-button color="primary" [disabled]="!createButton" class="pull-right" (click)="showForm();">Create New Van</button>
                         </td>
                     </tr>
                 </tfoot>
