@@ -27,7 +27,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   showFormFlag: boolean = false;
   showTableFlag: boolean = false;
   itemCategoryselected:any={};
-  
+  create_filterTerm:string;
 
   mappedItem :number[]=[];
   filterItem:any=[];
@@ -374,20 +374,21 @@ export class ItemToStoreMappingComponent implements OnInit {
     });
   }
 
-  deleteMapping(id,bool){
+  deleteMapping(id,bool,Message){
     debugger;
     this.itemFacilityMappingService.deleteFacilityItemMapping(id,bool).subscribe(response => {
-      // console.log(response, 'after successful mapping of provider to service and state');
+      this.dialogService.alert(Message+' successfully', 'success');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
+      this.create_filterTerm='';
     }, err => {
       this.dialogService.alert(err, 'error');
       console.log(err, 'ERROR');
     });
   }
   activate(id){
-  this.deleteMapping(id,true);
+  this.deleteMapping(id,false,'Activated');
   }
   deactivate(id){
-    this.deleteMapping(id,false);
+    this.deleteMapping(id,true,'Deactivated');
   }
 }

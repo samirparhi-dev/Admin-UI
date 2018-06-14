@@ -26,6 +26,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   edit_Serviceline: any;
   createdBy: any;
   serviceProviderID: any;
+  create_filterTerm:string;
 
   services_array: any = [];
   states_array: any = [];
@@ -85,21 +86,13 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
 
   showTable() {
-    if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-    }
-
+      this.getAllFacilities(this.providerServiceMapID);
+      this.create_filterTerm='';
   }
   showForm() {
     this.tableMode = false;
@@ -146,6 +139,7 @@ export class FacilityTypeMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Facility Type activated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -168,6 +162,7 @@ export class FacilityTypeMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Facility Type Deactivated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {

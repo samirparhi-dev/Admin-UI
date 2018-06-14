@@ -18,6 +18,8 @@ export class SuppliermasterService {
     delete_supplier_Url: any;
     save_supplier_Url: any;
     update_supplier_Url: any;
+    getAll_State_Url: any;
+    getAll_Country:any;
 
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -29,6 +31,8 @@ export class SuppliermasterService {
         this.delete_supplier_Url = this.admin_Base_Url + 'deleteSupplier';
         this.save_supplier_Url = this.admin_Base_Url + 'createSupplier';
         this.update_supplier_Url = this.admin_Base_Url + 'editSupplier';
+        this.getAll_State_Url = this.common_Base_Url + 'location/states/';
+        this.getAll_Country = this.common_Base_Url + 'location/getCountries';
     };
     getServices(userID) {
         return this.http.post(this.get_Service_Url,
@@ -56,6 +60,18 @@ export class SuppliermasterService {
     getAllDistricts(stateID) {
         return this.http
             .get(this.getAll_Districts_Url + stateID)
+            .map(this.handleSuccess)
+            .catch(this.handleError)
+    }
+    getAllStates() {
+        return this.http
+            .get(this.getAll_State_Url + 1)
+            .map(this.handleSuccess)
+            .catch(this.handleError)
+    }
+    getAllCountry() {
+        return this.http
+            .get(this.getAll_Country)
             .map(this.handleSuccess)
             .catch(this.handleError)
     }

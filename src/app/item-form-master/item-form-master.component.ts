@@ -33,6 +33,7 @@ export class ItemFormMasterComponent implements OnInit {
   confirmMessage:any;
   edit_itemFormCode:any;
   availableItemFormCode:any;
+  create_filterTerm:string;
 
   formMode: boolean = false;
   tableMode: boolean = true;
@@ -192,24 +193,13 @@ debugger;
     })
   }
   showTable() {
-    if(this.editMode)
-    {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.displayTable=true;
       this.getAllItemForm(this.providerServiceMapID);
-    }
-    else{
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.itemAddForm.reset();
-      this.getAllItemForm(this.providerServiceMapID);
-    }
+      this.create_filterTerm='';
   }
   activateDeactivate(itemFormID,flag) {
     debugger;
@@ -228,6 +218,7 @@ debugger;
         .subscribe((res) => {
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllItemForm(this.providerServiceMapID);
+            this.create_filterTerm='';
         }, (err) => {
           console.log("error", err);
         });
