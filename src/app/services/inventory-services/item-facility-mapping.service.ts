@@ -69,7 +69,7 @@ deleteFacilityItemMapping(mapID,bool) {
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'deleteItemtoStrore';
   debugger;
   return this.http
-      .post(this.getAllFacilityItemMappingUrl, { "itemStoreMapID":mapID,"deleted":bool})
+      .post(this.getAllFacilityItemMappingUrl, { "itemFacilityMapID":mapID,"deleted":bool})
       .map(this.extractData)
       .catch(this.handleError)
 

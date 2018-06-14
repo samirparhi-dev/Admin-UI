@@ -50,7 +50,7 @@
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemsList?.length > 0 && showTableFlag">
         <div class="row" class="pull-right">
       <md-input-container id="filterbox">
-        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
+        <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="create_filterTerm" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
@@ -253,8 +253,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" VehicleNO>
-        <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100"
-          >
+        <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100">
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
@@ -456,6 +455,6 @@
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-      <button md-raised-button color="accent" class="pull-right" (click)="update()">Update</button>
+      <button md-raised-button color="accent" class="pull-right" (click)="update(editItemCreationForm.value)">Update</button>
   </div>
 </div>

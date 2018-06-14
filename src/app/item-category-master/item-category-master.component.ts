@@ -34,6 +34,7 @@ export class ItemCategoryMasterComponent implements OnInit {
   edit_name:any;
   edit_desc:any;
   itemCategoryID:any;
+  create_filterTerm:string;
 
   editMode: boolean = false;
   showTableFlag: Boolean = false;
@@ -110,17 +111,13 @@ export class ItemCategoryMasterComponent implements OnInit {
 
   back() {
     debugger;
-    // if(!this.editMode)
-    // {
-    //   this.categoryCreationForm.reset();
-    // }
-    
     this.tableMode=true;
     this.showTableFlag = true;
     this.editMode=false;
     this.showCreationForm = false;
-    this.getAllItemCategories();
     this.forCreationObjects = [];
+    this.getAllItemCategories();
+    this.create_filterTerm='';
   }
   saveCategory() {
     this.itemCategoryService.saveNewCategory(this.forCreationObjects)
@@ -189,6 +186,7 @@ export class ItemCategoryMasterComponent implements OnInit {
               console.log('Activation or deactivation response', result);
               this.dialogService.alert(`${confirmMessage}d successfully`, 'success');
               this.getAllItemCategories();
+              this.create_filterTerm='';
             }
             // this.getAllItemsList(this.providerServiceMapID);
           }, (err) => this.dialogService.alert(err, 'error'))
@@ -269,11 +267,6 @@ export class ItemCategoryMasterComponent implements OnInit {
     } else {
       this.codeExists = false;
     }
-
-
   }
-
-
-
 }
 

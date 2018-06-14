@@ -29,7 +29,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   uid: any;
   edit_store:any;
   storeType_arrayEdit:any;
-
+  create_filterTerm:string;
   state: any;
   serviceline: any;
   storeType: string;
@@ -142,21 +142,13 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
 
   showTable() {
-    if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-    }
-
+      this.getAllStores(this.providerServiceMapID);
+      this.create_filterTerm='';
   }
   showForm() {
     this.tableMode = false;
@@ -193,7 +185,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
           {
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllStores(this.providerServiceMapID);
-            
+            this.create_filterTerm='';
           }
         
         }, (err) => {

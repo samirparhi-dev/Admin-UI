@@ -38,6 +38,7 @@ export class RouteOfAdminComponent implements OnInit {
   tableMode: boolean = true;
   editMode: boolean = false;
   displayTable: boolean = false;
+  create_filterTerm:string;
 
   @ViewChild('routeAddForm') routeAddForm: NgForm;
   constructor(public commonservice:CommonServices,public commonDataService: dataService,
@@ -163,24 +164,13 @@ export class RouteOfAdminComponent implements OnInit {
     })
   }
   showTable() {
-    if(this.editMode)
-    {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.displayTable=true;
       this.getAllRouteOfAdmin(this.providerServiceMapID);
-    }
-    else{
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.routeAddForm.reset();
-      this.getAllRouteOfAdmin(this.providerServiceMapID);
-    }
+      this.create_filterTerm='';
   }
   editRoute(editformvalues)
   {
@@ -228,6 +218,7 @@ export class RouteOfAdminComponent implements OnInit {
         .subscribe((res) => {
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllRouteOfAdmin(this.providerServiceMapID);
+            this.create_filterTerm='';
         }, (err) => {
           console.log("error", err);
         });
