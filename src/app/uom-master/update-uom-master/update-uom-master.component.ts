@@ -39,8 +39,8 @@ export class UpdateUomMasterComponent implements OnInit {
     return this.fb.group({
       UOM: this.fb.group({
         uOMID: null,
-        uOMCode: null,
-        uOMName: null,
+        uOMCode: { value: null, disabled: true },
+        uOMName: { value: null, disabled: true },
         uOMDesc: null
       })
     })
@@ -48,12 +48,12 @@ export class UpdateUomMasterComponent implements OnInit {
 
   updateUOMForm() {
     let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
-    let UOMMaster = Object.assign({}, temp.UOM, { modifiedBy: this.createdBy, providerServiceMapID: this.providerServiceMapID })
+    let UOMMaster = Object.assign({}, this.updateUOMValue.UOM, { uOMDesc: temp.UOM.uOMDesc, modifiedBy: this.createdBy, providerServiceMapID: this.providerServiceMapID })
 
     this.uomMasterService.updateUOMMaster(UOMMaster)
       .subscribe(response => {
         console.log('UOM', response);
-        if (response){
+        if (response) {
           this.notificationService.alert("Updated successfully", 'success');
           this.switchToViewMode();
         }
