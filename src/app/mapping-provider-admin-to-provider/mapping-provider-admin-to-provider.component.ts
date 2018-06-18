@@ -75,7 +75,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.providerAdminList = response;
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        // this.dialogService.alert(err, 'error');
         console.log('Error', err);
       });
   }
@@ -86,7 +86,10 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           console.log('All Providers Success Handeler', response);
           this.service_provider_array = response;
         }
-      }, (err) => this.dialogService.alert(err, 'error'));
+      }, (err) => {
+        // this.dialogService.alert(err, 'error');
+        console.log('Error', err);
+      });
   }
   getAllProviderAdmins() {
     this.superadminService.getAllProviderAdmins()
@@ -97,7 +100,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           this.filteredStates = [];
         }
       }, err => {
-        this.dialogService.alert(err, 'error');
+        //this.dialogService.alert(err, 'error');
         console.log('Error', err);
       });
   }
@@ -109,12 +112,18 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
   getProviderServices(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider.serviceProviderId || serviceProvider.serviceProviderID).
       subscribe(response => this.getServiceSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => {
+          // this.dialogService.alert(err, 'error');
+          console.log('Error', err);
+        });
   }
   getProviderServices_Edit(serviceProvider) {
     this.superadminService.getProviderServices(serviceProvider).
       subscribe(response => this.getServiceSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => {
+          // this.dialogService.alert(err, 'error');
+          console.log('Error', err);
+        });
   }
   getServiceSuccessHandeler(response) {
     if (response) {
@@ -167,7 +176,10 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.setIsNational(national);
 
       },
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => {
+          // this.dialogService.alert(err, 'error');
+          console.log('Error', err);
+        });
 
   }
 
@@ -476,31 +488,40 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       if (res) {
         this.showTable();
         this.resetForm();
+        this.isNational = false;
       }
     })
   }
-  activate(userID) {
-    this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe(response => {
-      if (response) {
-        const object = {
-          'uSRMappingID': userID,
-          'deleted': false
-        };
+  activate(userID, providerexists, userexist) {
+    if (providerexists) {
+      this.dialogService.alert('Provider is inactive');
+    }
+    else if (userexist) {
+      this.dialogService.alert('Provider Admin is inactive');
+    }
+    else {
+      this.dialogService.confirm('Confirm', "Are you sure want to Activate?").subscribe(response => {
+        if (response) {
+          const object = {
+            'uSRMappingID': userID,
+            'deleted': false
+          };
 
-        this.superadminService.activateProviderAdmin(object)
-          .subscribe(response => {
-            if (response) {
-              this.dialogService.alert('Activated successfully', 'success');
-              /* refresh table */
-              this.getAllMappedProviders();
-            }
-          },
-            err => {
-              this.dialogService.alert(err, 'error');
-              console.log('error', err);
-            });
-      }
-    });
+          this.superadminService.activateProviderAdmin(object)
+            .subscribe(response => {
+              if (response) {
+                this.dialogService.alert('Activated successfully', 'success');
+                /* refresh table */
+                this.getAllMappedProviders();
+              }
+            },
+              err => {
+                // this.dialogService.alert(err, 'error');
+                console.log('error', err);
+              });
+        }
+      });
+    }
   }
   deactivate(userID) {
     this.dialogService.confirm('Confirm', "Are you sure want to Deactivate?").subscribe(response => {
@@ -516,7 +537,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
             }
           },
             err => {
-              this.dialogService.alert(err, 'error');
+              // this.dialogService.alert(err, 'error');
               console.log('error', err);
             });
       }
@@ -564,7 +585,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         this.uSRMappingID = '';
         this.providermapID = '';
       }, err => {
-        this.dialogService.alert(err, 'error');
+        // this.dialogService.alert(err, 'error');
         console.log('error', err);
       });
   }

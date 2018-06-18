@@ -19,6 +19,7 @@ export class SupplierMasterComponent implements OnInit {
   edit_emailID: any;
   edit_Pincode: any;
   edit_district: any;
+  edit_country: any;
   edit_AddressLine2: any;
   edit_AddressLine1: any;
   edit_tinNo: any;
@@ -29,15 +30,20 @@ export class SupplierMasterComponent implements OnInit {
   edit_supplierName: any;
   edit_supplierCode: any;
   edit_state: any;
+  edit_state1: any;
   edit_serviceline: any;
   serviceline: any;
   uid: any;
+  permnantstates_array:any=[];
+  country_array:any=[];
   emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
-
+  create_filterTerm:string;
 
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
+  displayTable: boolean = false;
+  countryCheck:boolean=false;
 
   addressStateID: any;
   createdBy: any;
@@ -50,6 +56,7 @@ export class SupplierMasterComponent implements OnInit {
   bufferArray: any = [];
   districts_array: any = [];
   availableSupplierCode: any = [];
+  @ViewChild('supplierAddForm') supplierAddForm: NgForm;
 
   constructor(private supplierService: SuppliermasterService, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
@@ -60,6 +67,7 @@ export class SupplierMasterComponent implements OnInit {
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
     this.getServices();
+    this.getAllCountry();
   }
   getServices() {
     this.supplierService.getServices(this.uid).subscribe(response => {
@@ -78,8 +86,8 @@ export class SupplierMasterComponent implements OnInit {
       }
     })
   }
-  getDistricts(state) {
-    this.addressStateID = state.stateID;
+  getDistricts(stateID) {
+    this.addressStateID = stateID;
     this.supplierService.getAllDistricts(this.addressStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
     }, (err) => console.log(err, 'error'));
@@ -88,7 +96,33 @@ export class SupplierMasterComponent implements OnInit {
     console.log("Display all Districts", response);
     this.districts_array = response;
   }
+  getAllStates(countryID) {
+    debugger;
+    if(countryID!=1)
+    {
+      this.countryCheck=true;
+    }
+    else{
+      this.supplierService.getAllStates().subscribe(response => {
+        this.getPermanentStatesSuccessHandler(response)
+      }, (err) => console.log(err, 'error'));
+    }
+   }
+    getPermanentStatesSuccessHandler(response) {
+      console.log("Display all Districts", response);
+      this.permnantstates_array = response;
+    }
+    getAllCountry() {
+      this.supplierService.getAllCountry().subscribe(response => {
+        this.getCountrySuccessHandler(response)
+      }, (err) => console.log(err, 'error'));
+   }
+   getCountrySuccessHandler(response) {
+      console.log("Display all Country", response);
+      this.country_array = response;
+    }
   getAllSuppliers(providerServiceMapID) {
+    debugger;
     this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.supplierService.getAllSuppliers(providerServiceMapID).subscribe(response => {
@@ -96,6 +130,7 @@ export class SupplierMasterComponent implements OnInit {
         console.log('All stores services success', response);
         this.supplierList = response;
         this.filteredsupplierList = response;
+        this.displayTable=true;
         for (let availableSupplierCode of this.supplierList) {
           this.availableSupplierCode.push(availableSupplierCode.supplierCode);
         }
@@ -104,26 +139,20 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   showTable() {
-    if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-    }
-
+      this.getAllSuppliers(this.providerServiceMapID);
+      this.create_filterTerm='';
+      //this.filteredsupplierList = this.supplierList;
   }
   showForm() {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
+    this.countryCheck=false;
   }
   showEditForm() {
     this.tableMode = false;
@@ -161,6 +190,7 @@ export class SupplierMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Activated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
+            this.create_filterTerm='';
             }
           },
             err => {
@@ -183,6 +213,7 @@ export class SupplierMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Deactivated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -194,7 +225,8 @@ export class SupplierMasterComponent implements OnInit {
   }
   add2buffer(formvalues) {
     debugger;
-    this.resetDropdowns();
+    //this.resetDropdowns();
+    this.districts_array=[];
     console.log("form values", formvalues);
     const obj = {
       "serviceName": this.serviceline.serviceName,
@@ -204,7 +236,7 @@ export class SupplierMasterComponent implements OnInit {
       "supplierDesc": formvalues.supplierDesc,
       "contactPerson": formvalues.contactPerson,
       "drugLicenseNo": formvalues.drugLicense,
-      "cST_GST_No ": formvalues.cstNo,
+      "cST_GST_No": formvalues.cstNo,
       "tIN_No": formvalues.tinNo,
       "email": formvalues.primaryEmail,
       "status": "active",
@@ -212,15 +244,12 @@ export class SupplierMasterComponent implements OnInit {
       "phoneNo2": formvalues.emergencyContactNo,
       "createdBy": this.createdBy,
       "providerServiceMapID": this.providerServiceMapID,
-      // "supplierAddress": {
       "addressLine1": formvalues.addressLine1,
       "addressLine2": formvalues.addressLine2,
       "districtID": formvalues.district,
       "stateID": formvalues.state.stateID,
       "pinCode": formvalues.pincode,
-      // }
-
-
+      "countryID":formvalues.country.countryID,
     }
     this.checkDuplictes(obj);
   }
@@ -245,12 +274,12 @@ export class SupplierMasterComponent implements OnInit {
   removeRow(index) {
     this.bufferArray.splice(index, 1);
   }
-  saveStores() {
+  saveSupplier() {
     debugger;
-    console.log("object before saving the store", this.bufferArray);
+    console.log("object before saving the supplier", this.bufferArray);
     this.supplierService.saveSupplier(this.bufferArray).subscribe(response => {
       if (response) {
-        console.log(response, 'after successful creation of store');
+        console.log(response, 'after successful creation of supplier');
         this.dialogService.alert('Saved successfully', 'success');
         this.resetDropdowns();
         this.showTable();
@@ -262,23 +291,27 @@ export class SupplierMasterComponent implements OnInit {
   }
   editsupplier(editFormValues) {
     debugger;
-    this.edit_serviceline = this.serviceline;
-    this.edit_state = this.state;
+    this.edit_serviceline = this.serviceline.serviceID;
+    this.edit_state = this.state.stateID;
+    this.getAllStates(editFormValues.countryID);
+    this.getDistricts(editFormValues.stateID);
     this.supplierID = editFormValues.supplierID;
     this.edit_supplierCode = editFormValues.supplierCode;
     this.edit_supplierName = editFormValues.supplierName;
     this.edit_supplierDesc = editFormValues.supplierDesc;
     this.edit_contactPerson = editFormValues.contactPerson;
     this.edit_drugLicense = editFormValues.drugLicenseNo;//facilityTypeID
-    this.edit_cstNo = editFormValues.cstNo;
+    this.edit_cstNo = editFormValues.cST_GST_No;
     this.edit_tinNo = editFormValues.tIN_No;
     this.edit_AddressLine1 = editFormValues.addressLine1;
     this.edit_AddressLine2 = editFormValues.addressLine2;
-    this.edit_district = editFormValues.district;
-    this.edit_Pincode = editFormValues.pincode;
+    this.edit_state1=editFormValues.stateID;
+    this.edit_Pincode = editFormValues.pinCode;
     this.edit_contactNo = editFormValues.phoneNo1;
     this.edit_emergencyContactNo = editFormValues.phoneNo2;
     this.edit_emailID = editFormValues.email;
+    this.edit_district = editFormValues.districtID;
+    this.edit_country=editFormValues.countryID;
     this.showEditForm();
     console.log("edit form values", editFormValues)
   }

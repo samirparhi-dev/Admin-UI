@@ -63,7 +63,7 @@ export class EmployeeParkingPlaceMappingService {
     }
     getUsernames(designationID, sp) {
         return this.http.post(this.getUsernamesURL, { 'designationID': designationID, 'serviceProviderID': sp })
-            .map(this.handleSuccess)
+            .map(this.handleState_n_Usernames)
             .catch(this.handleError);
     }
 
@@ -99,7 +99,7 @@ export class EmployeeParkingPlaceMappingService {
             'designationID': designationID,
             'serviceProviderID': sp
         })
-            .map(this.handleSuccess)
+            .map(this.handleState_n_Usernames)
             .catch(this.handleError);
     }
 
@@ -127,10 +127,20 @@ export class EmployeeParkingPlaceMappingService {
 
     getParkingPlaces(data) {
         return this.http.post(this.getParkingPlacesURL, data)
-            .map(this.handleSuccess)
+            .map(this.handleState_n_parkingplaces)
             .catch(this.handleError);
     }
+    handleState_n_parkingplaces(response: Response) {
 
+        console.log(response.json().data, 'service point village file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (!item.deleted) {
+                return item;
+            }
+        });
+        return result;
+    }
     handleSuccess(res: Response) {
         console.log(res.json().data, '--- in employee parking place master SERVICE');
         if (res.json().data) {
@@ -145,6 +155,17 @@ export class EmployeeParkingPlaceMappingService {
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.serviceName == "MMU") {
+                return item;
+            }
+        });
+        return result;
+    }
+    handleState_n_Usernames(response: Response) {
+
+        console.log(response.json().data, 'service point file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (!item.deleted) {
                 return item;
             }
         });

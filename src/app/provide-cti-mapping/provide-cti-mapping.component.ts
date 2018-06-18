@@ -51,7 +51,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
 
   getAllProviders() {
-    this.block_provider.getAllProviders().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
+    this.block_provider.getAllProviders_CTI().subscribe(response => this.getAllProvidersSuccesshandeler(response), err => {
       console.log(err, 'error');
     });
   }

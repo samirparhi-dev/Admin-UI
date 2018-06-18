@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CallDispositionTypeMasterComponent implements OnInit {
 
+  note: string;
   service_provider_id: any;
   providerServiceMapID: any;
   // ngmodels
@@ -125,6 +126,9 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {
         this.hideTable(false);
+        this.reset();
+        this.callType = "";
+        this.request_array = [];
       }
     })
   }
@@ -152,6 +156,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 
   setIsOutbound(ev) {
     console.log(ev, "OUTBOUND CHECKBOX");
+    this.note = "(* This functionality is only applicable for 104 )";
     this.isOutbound = ev.checked;
     if (!ev.checked) {
       this.maxRedial = undefined;
@@ -238,11 +243,23 @@ export class CallDispositionTypeMasterComponent implements OnInit {
         // this.alertService.alert(err, 'error');
       });
   }
-
+  dataWithoutWrapUp: any = [];
   getCallTypeSubTypeSuccessHandeler(response) {
+    this.dataWithoutWrapUp = [];
     console.log("call type subtype history", response);
     this.data = response;
+    console.log("this.data", this.data);
 
+    this.data.forEach(element => {
+      console.log("element", element);
+
+      if (element.callGroupType != 'Wrapup Exceeds') {
+        // this.data = [];
+        this.dataWithoutWrapUp.push(element);
+      }
+    })
+    this.data = this.dataWithoutWrapUp;
+    console.log("after this.data", this.data);
   }
 
 
@@ -261,7 +278,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     });
 
     if (this.provider_services.length == 0) {
-      this.alertService.alert('104 & 1097 are not working in this state');
+      this.alertService.alert('No servicelines mapped');
     }
   }
   // getServicesSuccessHandeler(response) {
@@ -426,6 +443,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
 export class EditCallType {
 
 
+  note: string;
   callType: any;
   callSubType: any;
   fitToBlock: boolean;
@@ -457,7 +475,7 @@ export class EditCallType {
 
   ngOnInit() {
     debugger;
-    console.log(this.data);
+    console.log("edit data", this.data);
     this.service = this.data.service;
     this.callType = this.data.callGroupType;
     this.callSubType = this.data.callType;
@@ -484,7 +502,11 @@ export class EditCallType {
 
   setIsOutbound(ev) {
     console.log(ev, 'OUTBOUND CHECKBOX');
+    this.note = "(* This functionality is only applicable for 104 )";
     this.isOutbound = ev.checked;
+    if (!ev.checked) {
+      this.maxRedial = undefined;
+    }
   }
 
 
@@ -589,16 +611,17 @@ export class EditCallType {
 
 
   modify(value) {
-    console.log(value);
+    debugger;
+    console.log("values to be updated", value);
     if (this.isInbound === false && this.isOutbound === false) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
     } else {
       let object = {
         'callTypeID': this.data.callTypeID,
-        'callGroupType': value.callType,
-        'callType': value.callSubType.trim(),
+        'callGroupType': this.data.callGroupType,
+        'callType': this.data.callType,
         'providerServiceMapID': this.data.providerServiceMapID,
-        'callTypeDesc': value.callType,
+        'callTypeDesc': this.data.callTypeDesc,
         'fitToBlock': value.fitToBlock,
         'fitForFollowup': value.fitForFollowup,
         'isInbound': this.isInbound,

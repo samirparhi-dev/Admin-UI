@@ -128,7 +128,8 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 	}
 
 	getInstituteDirectories() {
-		this.institute_directory = "";
+		this.searchResultArray = [];
+		this.institute_directory = undefined;
 		this.instituteSubDirectoryMasterService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
 			(err) => {
 				console.log("Error", err);

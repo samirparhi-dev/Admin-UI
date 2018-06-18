@@ -96,7 +96,7 @@ import { loginService } from './services/loginService/login.service';
 import { dataService } from './services/dataService/data.service';
 import { DashboardHttpServices } from './http-service/http-service.service';
 import { LanguageService } from './services/adminServices/AdminLanguage/language.service';
-import { RoleService } from './services/adminServices/AdminRole/Role.service';
+import { RoleService } from './services/adminServices/AdminRole/role.service';
 import { ServicemasterService } from './services/adminServices/AdminService/servicemaster.service';
 import { ScreenService } from './services/adminServices/AdminScreen/screen.service';
 import { HttpServices } from './services/http-services/http_services.service';
@@ -201,7 +201,13 @@ import { AuthGuard } from './services/authGuardService/auth-guard.services';
 /*Inventory Services*/
 import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
+import { ItemCategoryService } from './services/inventory-services/item-category.service'
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
+import {ItemFormService} from './services/inventory-services/item-form-service';
+import {RouteofAdminService} from './services/inventory-services/route-of-admin.service';
+import { ManufacturemasterService } from './services/inventory-services/manufacturemaster.service';
+import { PhysicalstockService } from './services/inventory-services/physicalstock.service';
+
 import { ItemFacilityMappingService } from './services/inventory-services/item-facility-mapping.service';
 import { StoreSelfConsumptionServiceService } from './services/inventory-services/store-self-consumption-service.service';
 
@@ -215,10 +221,23 @@ import { ManufacturerMasterComponent } from './manufacturer-master/manufacturer-
 import { PharmacologicalCategoryMasterComponent } from './pharmacological-category-master/pharmacological-category-master.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { StoreSelfConsumptionComponent } from './store-self-consumption/store-self-consumption.component';
+import { ItemFormMasterComponent } from './item-form-master/item-form-master.component';
+import { RouteOfAdminComponent } from './route-of-admin/route-of-admin.component';
+import { CreateUomMasterComponent } from './uom-master/create-uom-master/create-uom-master.component';
+import { SearchUomMasterComponent } from './uom-master/search-uom-master/search-uom-master.component';
+import { EditItemCategoryComponent } from './item-category-master/edit-item-category/edit-item-category.component';
+
+import { UomMasterService } from './services/inventory-services/uom-master.service';
+import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-uom-master.component';
+import { CreateStoreMappingComponent } from './store-mapping/create-store-mapping/create-store-mapping.component';
+import { UpdateStoreMappingComponent } from './store-mapping/update-store-mapping/update-store-mapping.component';
+import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/view-store-mapping.component';
+
+import { StoreMappingService } from './services/inventory-services/store-mapping.service';
+
 
 @NgModule({
   declarations: [
-
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
     myProviderName, VehicleNO, VehicleNONew, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
@@ -262,6 +281,16 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
+    ItemFormMasterComponent,
+    RouteOfAdminComponent,
+    
+    CreateUomMasterComponent,
+    SearchUomMasterComponent,
+    UpdateUomMasterComponent,
+    EditItemCategoryComponent,
+    CreateStoreMappingComponent,
+    UpdateStoreMappingComponent,
+    ViewStoreMappingComponent,
   ],
 
   imports: [
@@ -340,8 +369,8 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService,
+    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService, ItemFormService,RouteofAdminService, StoreMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -352,7 +381,6 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
       useFactory: SecurityFactory,
       deps: [XHRBackend, RequestOptions, Router, AuthService, ConfirmationDialogsService]
     }
-
   ],
 
   entryComponents: [
@@ -373,8 +401,8 @@ import { StoreSelfConsumptionComponent } from './store-self-consumption/store-se
     AgentIDMappingModal,
     EditVillageModal,
     EditProviderAdminModal,
-    EditItemMasterModal
-
+    EditItemMasterModal,
+    EditItemCategoryComponent
   ],
 
   bootstrap: [AppComponent]

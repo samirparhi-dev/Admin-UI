@@ -65,7 +65,9 @@ export class VillageMasterComponent implements OnInit {
         this.villageMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
+        this.availableVillages = [];
         this.taluks = [];
+        this.searchDistrictID = undefined;
         this.districts = response;
         console.log(this.districts)
     }
@@ -77,6 +79,8 @@ export class VillageMasterComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
+        this.availableVillages = [];
+        this.searchTalukID = undefined;
     }
 
     GetBranches(talukID: number) {
@@ -157,6 +161,7 @@ export class VillageMasterComponent implements OnInit {
         this.alertMessage.alert("Saved successfully", 'success');
         this.villageForm.resetForm();
         this.showFormFlag = false;
+        this.disable_flag = false;
         this.villageList = [];
         this.GetBranches(this.searchTalukID);
     }

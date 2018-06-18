@@ -23,25 +23,52 @@ export class ItemMasterComponent implements OnInit {
   discontinue: boolean;
   createdBy: any;
   confirmMessage: any;
+  discontinueMessage: any;
   itemCodeExist: any;
   editMode: boolean = false;
   showTableFlag: boolean = false;
   showFormFlag: boolean = false; 
   disableSelection: boolean = false;
-
+ tableMode: boolean = true;
+ create_filterTerm:string;
+ 
   /*Arrays*/
   services: any = [];
   states: any = [];
   itemsList: any = [];
   filteredItemList: any = [];
   categories: any = [];
+  edit_categories: any = [];
+  discontinueresult: any = [];
   dosages: any = [];
+  edit_dosages: any = [];
   pharmacologies: any = [];
+  edit_pharmacologies: any = [];
   manufacturers: any = [];
+  edit_Manufacturerlist: any = [];
   measures: any = [];
+  edit_measures: any = [];
   routes: any = [];
+  edit_routes: any = [];
   itemArrayObj: any = [];
   availableItemCodeInList: any = [];
+  edit_serviceline:any;
+  edit_state:any;
+  edit_ItemType :any;
+  edit_Code:any;
+  edit_Name:any;
+  edit_Category:any;
+  edit_Dose:any;
+  edit_Pharmacology:any;
+  edit_Manufacturer:any;
+  edit_Strength:any;
+  edit_Uom:any;
+  edit_DrugType:any;
+  edit_Composition:any;
+  edit_Route:any;
+  edit_Description:any;
+  itemID:any;
+
 
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
@@ -64,6 +91,7 @@ export class ItemMasterComponent implements OnInit {
 
   }
   getAllServices() {
+    debugger;
     this.commonServices.getServiceLines(this.userID).subscribe((response) => {
       console.log("serviceline", response);
       this.servicesSuccesshandler(response),
@@ -71,8 +99,8 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   servicesSuccesshandler(res) {
-    this.services = res
-    // .filter((item) => {
+    this.services =res;
+    // this.services = res.filter((item) => {
     //   console.log('item', item);     
     // })
   }
@@ -81,7 +109,13 @@ export class ItemMasterComponent implements OnInit {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
-    this.getAllItemsList(providerServiceMapID);
+     this.getAllItemsList(providerServiceMapID);
+    this.getCategoriesList(this.providerServiceMapID);
+    this.getDosageList(this.providerServiceMapID);
+    this.pharmacologiesList(this.providerServiceMapID);
+    this.manufacturerList(this.providerServiceMapID);
+    this.unitOfMeasuresList(this.providerServiceMapID);
+    this.routeAdminList(this.providerServiceMapID);
   }
 
   getStates(service) {
@@ -108,6 +142,7 @@ export class ItemMasterComponent implements OnInit {
   }
 
   itemsSuccessHandler(itemListResponse) {
+    debugger;
     console.log("All items", itemListResponse);
     this.itemsList = itemListResponse;
     this.filteredItemList = itemListResponse;
@@ -117,17 +152,13 @@ export class ItemMasterComponent implements OnInit {
     }
   }
   showForm() {
+    this.tableMode=false;
     this.showTableFlag = false;
     this.showFormFlag = true;
     this.disableSelection = true;
-    this.getCategoriesList(this.providerServiceMapID);
-    this.getDosageList(this.providerServiceMapID);
-    this.pharmacologiesList(this.providerServiceMapID);
-    this.manufacturerList(this.providerServiceMapID);
-    this.unitOfMeasuresList(this.providerServiceMapID);
-    this.routeAdminList(this.providerServiceMapID);
   }
   filterItemFromList(searchTerm?: string) {
+    debugger;
     if (!searchTerm) {
       this.filteredItemList = this.itemsList;
     }
@@ -135,18 +166,38 @@ export class ItemMasterComponent implements OnInit {
       this.filteredItemList = [];
       this.itemsList.forEach((item) => {
         for (let key in item) {
+          if(key=='itemCode' ||key=='itemName')
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredItemList.push(item); break;
           }
         }
+        }
       });
     }
 
   }
-  setDiscontinue(discontinue, itemID) {
+
+  setDiscontinue(itemID,discontinue) {
+    debugger;
+    if (discontinue) {
+      this.discontinueMessage = 'Item Discontinued';
+    } else {
+      this.discontinueMessage = 'Item Continued';
+    }
+    this.itemService.setDiscontinue(itemID,discontinue).subscribe((discontinueResponse) => {
+      this.discontinueSuccesshandler(discontinueResponse,this.discontinueMessage),
+        (err) => console.log("ERROR in setDiscontinue")
+    });
     console.log("value", discontinue, itemID);
 
+  }
+  discontinueSuccesshandler(discontinueResponse,discontinueMessage) {
+    this.discontinueresult = discontinueResponse
+    this.create_filterTerm='';
+    this.dialogService.alert(discontinueMessage, 'success');
+    console.log("discontinue List", this.discontinueresult);
   }
   checkCodeExistance(code) { 
     this.itemCodeExist = this.availableItemCodeInList.includes(code);
@@ -159,7 +210,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   categoriesSuccesshandler(categoryResponse) {
-    this.categories = categoryResponse
+    this.edit_categories=categoryResponse;
+    this.categories = categoryResponse.filter(
+      category => category.deleted != true
+    );
     console.log("categories List", this.categories);
   }
   getDosageList(providerServiceMapID) {
@@ -169,7 +223,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   dosageSuccesshandler(dosageResponse) {
-    this.dosages = dosageResponse;
+    this.edit_dosages=dosageResponse;
+    this.dosages = dosageResponse.filter(
+      dose => dose.deleted != true
+    );
     console.log("dosage list", this.dosages);
   }
   pharmacologiesList(providerServiceMapID) {
@@ -183,7 +240,11 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
-    this.pharmacologies = pharmacologyResponse;
+    debugger;
+    this.edit_pharmacologies=pharmacologyResponse;
+    this.pharmacologies = pharmacologyResponse.filter(
+      pharmacology => pharmacology.deleted != true
+    );
     console.log("pharmacology", this.pharmacologies);
   }
   manufacturerList(providerServiceMapID) {
@@ -197,10 +258,14 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   manufacturerSuccesshandler(manufacturerResponse) {
-    this.manufacturers = manufacturerResponse;
+    this.edit_Manufacturerlist=manufacturerResponse;
+    this.manufacturers = manufacturerResponse.filter(
+      manufacture => manufacture.deleted != true
+    );
     console.log("manufacturers", this.manufacturers);
   }
   unitOfMeasuresList(providerServiceMapID) {
+    debugger;
     console.log('check inside Uom');
     this.itemService.getAllUoms(this.providerServiceMapID).subscribe((uomResponse) => {
       console.log("uomResponse", uomResponse);
@@ -210,7 +275,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   uomSuccesshandler(uomResponse) {
-    this.measures = uomResponse;
+    this.edit_measures=uomResponse;
+    this.measures = uomResponse.filter(
+      uom => uom.deleted != true
+    );
     console.log("measures", this.measures);
   }
   routeAdminList(providerServiceMapID) {
@@ -222,7 +290,10 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   routeSuccesshandler(routeResponse) {
-    this.routes = routeResponse;
+    this.edit_routes=routeResponse;
+    this.routes = routeResponse.filter(
+      route => route.deleted != true
+    );
     console.log("routes", this.routes);
   }
   resetAllForms() {
@@ -231,7 +302,7 @@ export class ItemMasterComponent implements OnInit {
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
-
+debugger;
     const multipleItem = {
       // "serviceName": this.service.serviceName,
       // "stateName": this.state.stateName,
@@ -241,7 +312,7 @@ export class ItemMasterComponent implements OnInit {
       "itemDesc": formValue.description,
       "itemCategoryID": formValue.category.itemCategoryID,
       "itemFormID": formValue.dose.itemFormID,
-      "pharmacologyCategoryID": formValue.pharmacology.categoryID,
+      "pharmacologyCategoryID": formValue.pharmacology.pharmacologyCategoryID,
       "manufacturerID": formValue.manufacturer.manufacturerID,
       "strength": formValue.strength,
       "uomID": formValue.uom.uOMID,
@@ -279,6 +350,8 @@ export class ItemMasterComponent implements OnInit {
   showTable() {
     this.showTableFlag = true;
     this.showFormFlag = false;
+    this.tableMode=true;
+    this.editMode=false;
   }
   saveItem() {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
@@ -286,8 +359,9 @@ export class ItemMasterComponent implements OnInit {
         console.log(response, 'item created');
         this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
-        this.dialogService.alert('Item created successfully');        
+        this.dialogService.alert('Item Created Successfully', 'success');
         this.showTable();
+        
         this.getAllItemsList(this.providerServiceMapID);
       }
     }, err => {
@@ -297,36 +371,64 @@ export class ItemMasterComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
+        this.tableMode=true;
+        this.editMode=false;
         this.showTableFlag = true;
         this.showFormFlag = false;
-
+        this.disableSelection = false;
+        this.getAllItemsList(this.providerServiceMapID);
+        this.create_filterTerm='';
       }
     })
   }
-  editItem(item) {
-    console.log("Existing Data", item);
-    let dialog_Ref = this.dialog.open(EditItemMasterModal, {
-      height: '500px',
-      width: '900px',
-      disableClose: true,
-      data: item
-    });
-    dialog_Ref.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      if (result === "success") {
-        this.dialogService.alert("Item edited successfully", 'success');
-        this.getAllItemsList(this.providerServiceMapID);
-      }
-    });
-
+  editItem(itemlist) {
+    debugger;
+       console.log("Existing Data", itemlist);
+       this.itemID=itemlist.itemID;
+    this.edit_serviceline=this.service;
+    this.edit_state=this.state;
+    this.edit_ItemType = itemlist.isMedical;
+    this.edit_Code = itemlist.itemCode;
+    this.edit_Name = itemlist.itemName;
+    this.edit_Category = itemlist.itemCategoryID;
+    this.edit_Dose = itemlist.itemFormID;
+    this.edit_Pharmacology = itemlist.pharmacologyCategoryID;
+    this.edit_Manufacturer = itemlist.manufacturerID;
+    this.edit_Strength = itemlist.strength;
+    this.edit_Uom = itemlist.uomID;
+    this.edit_DrugType = itemlist.isScheduledDrug;
+    this.edit_Composition = itemlist.composition;
+    this.edit_Route = itemlist.routeID;
+    this.edit_Description = itemlist.itemDesc;
+    this.showEditForm();
+  }
+  showEditForm() {
+    debugger;
+    this.tableMode = false;
+    this.showFormFlag = false;
+    this.editMode = true;
+  }
+  update(editItemCreationForm) {
+    debugger;
+    let updateItemObject = {
+      "itemDesc": editItemCreationForm.description,
+      "providerServiceMapID": this.providerServiceMapID,
+      'modifiedBy': this.createdBy,
+      "itemID":this.itemID
+    }    
+    this.itemService.updateItem(updateItemObject).subscribe(response => {
+      this.dialogService.alert('Updated successfully', 'success');
+      this.getAllItemsList(this.providerServiceMapID);
+      this.showTable();
+      console.log("Data to be update", response);
+    })
   }
   activateDeactivate(itemID, flag) {
     if (flag) {
-      this.confirmMessage = 'Deactivate';
+      this.confirmMessage = 'Block';
     } else {
-      this.confirmMessage = 'Activate';
+      this.confirmMessage = 'Unblock';
     }
     this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
       if (res) {
@@ -334,8 +436,9 @@ export class ItemMasterComponent implements OnInit {
         this.itemService.itemActivationDeactivation(itemID, flag)
           .subscribe((res) => {
             console.log('Activation or deactivation response', res);
-            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+            this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
             this.getAllItemsList(this.providerServiceMapID);
+            this.create_filterTerm='';
           }, (err) => this.dialogService.alert(err, 'error'))
       }
     },
@@ -346,12 +449,6 @@ export class ItemMasterComponent implements OnInit {
 
 
 }
-
-
-
-
-
-
 
 @Component({
   selector: 'EditItemMasterModal',
@@ -437,7 +534,7 @@ export class EditItemMasterModal {
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
     this.pharmacologies = pharmacologyResponse;
-    console.log("pharmacology", this.pharmacologies);
+    console.log("editpharmacology", this.pharmacologies);
   }
   manufacturerList(providerServiceMapID) {
     console.log('check inside manufacturer');
@@ -479,12 +576,13 @@ export class EditItemMasterModal {
     console.log("routes", this.routes);
   }
   edit() {
+    debugger;
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
     this.name = this.data.itemName;
     this.category = this.data.itemCategoryID;
     this.dose = this.data.itemFormID;
-    this.pharmacology = this.data.pharmacologyCategoryID;
+    this.pharmacology = this.data.pharmCategoryID;
     this.manufacturer = this.data.manufacturerID;
     this.strength = this.data.strength;
     this.uom = this.data.uomID;

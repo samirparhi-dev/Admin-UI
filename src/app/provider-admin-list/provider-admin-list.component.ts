@@ -330,7 +330,10 @@ export class ProviderAdminListComponent implements OnInit {
             console.log("pan response", response);
             this.checkPanSuccessHandler(response);
           },
-          (err) => this.dialogService.alert(err, 'error'));
+          (err) => {
+            console.log("Error", err);
+            //this.dialogService.alert(err, 'error')
+          });
       }
     }
   }
@@ -505,7 +508,7 @@ export class ProviderAdminListComponent implements OnInit {
     console.log("Existing Data", item);
     let dialog_Ref = this.dialog.open(EditProviderAdminModal, {
       height: '500px',
-      width: '900px',
+      width: '1000px',
       disableClose: true,
       data: item
     });
@@ -742,6 +745,13 @@ export class EditProviderAdminModal {
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';
+    }
+  }
+  preventTyping(e: any) {
+    if (e.keyCode === 9) {
+      return true;
+    } else {
+      return false;
     }
   }
 

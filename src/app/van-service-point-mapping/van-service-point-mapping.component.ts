@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderAdminRoleService } from "../services/ProviderAdminServices/state-serviceline-role.service";
 import { dataService } from '../services/dataService/data.service';
 import { VanServicePointMappingService } from '../services/ProviderAdminServices/van-service-point-mapping.service';
@@ -11,6 +11,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
   templateUrl: './van-service-point-mapping.component.html'
 })
 export class VanServicePointMappingComponent implements OnInit {
+  showTable: boolean = false;
   userID: any;
   service: any;
   state: any;
@@ -44,6 +45,9 @@ export class VanServicePointMappingComponent implements OnInit {
   availableParkingPlaces: any = [];
   availableVanTypes: any = [];
   availableVans: any = [];
+
+  @ViewChild('searForm1') searForm1: NgForm;
+  @ViewChild('searchDistrictsForm') searchDistrictsForm: NgForm;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
@@ -96,8 +100,11 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getStatesSuccessHandeler(response) {
     this.states = response;
+
   }
   setProviderServiceMapID(providerServiceMapID) {
+    this.availableVanServicePointMappings = [];
+    this.resetFieldsOnStateChange();
     this.providerServiceMapID = providerServiceMapID;
     this.getDistricts(this.state);
 
@@ -109,9 +116,15 @@ export class VanServicePointMappingComponent implements OnInit {
   }
   getDistrictsSuccessHandeler(response) {
     this.districts = response;
+    this.availableVanServicePointMappings = [];
+    this.reseArray();
   }
 
   getParkingPlaces(stateID, districtID) {
+    this.searchDistrictsForm.controls.searchParkingPlaceID.reset();
+    this.searForm1.resetForm();
+    this.availableVans = [];
+
     this.parkingPlaceObj = {};
     this.parkingPlaceObj.stateID = stateID;
     this.parkingPlaceObj.districtID = districtID;
@@ -122,6 +135,7 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getParkingPlaceSuccessHandler(response) {
     this.availableParkingPlaces = response;
+    this.reseArray();
     for (let availableParkingPlaces of this.availableParkingPlaces) {
       if (availableParkingPlaces.deleted) {
         const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -141,6 +155,8 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVanTypesSuccessHandler(response) {
     this.availableVanTypes = response;
+    this.availableVanServicePointMappings = [];
+    this.reseArray();
   }
 
   getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
@@ -156,6 +172,8 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVanSuccessHandler(response) {
     this.availableVans = response;
+    this.vanID = undefined;
+    this.reseArray();
     for (let availableVan of this.availableVans) {
       this.availableVanNames.push(availableVan.vanName);
     }
@@ -167,7 +185,6 @@ export class VanServicePointMappingComponent implements OnInit {
 
   getVanServicePointMappings(districtID, parkingPlaceID, vanID) {
     console.log("van service point mapping", districtID, parkingPlaceID, vanID);
-
     this.vanObj = {};
     // this.vanObj.stateID = stateID;
     this.vanObj.districtID = districtID;
@@ -179,16 +196,23 @@ export class VanServicePointMappingComponent implements OnInit {
 
   availableVanServicePointMappings: any = [];
   remainingMaps: any = [];
+  reseArray() {
+    let temp = this.MappingForm.controls['mappings'] as FormArray;
+    temp.reset();
+    temp.removeAt(0);
+  }
 
   getVanServicePointMappingsSuccessHandler(response) {
+    this.showTable = true;
     this.availableVanServicePointMappings = [];
     this.availableVanServicePointMappings = response;
     let temp = this.MappingForm.controls['mappings'] as FormArray;
     temp.reset();
     this.servicePointIDList = [];
     console.log('temp', temp);
-    if (temp.length > 0) {
-      for (let i = 0; i <= temp.length; i++) {
+    let tempLength = temp.length
+    if (tempLength > 0) {
+      for (let i = 0; i <= tempLength; i++) {
         temp.removeAt(0);
       }
     }
@@ -311,5 +335,20 @@ export class VanServicePointMappingComponent implements OnInit {
       this.getVanServicePointMappings(this.districtID, this.searchParkingPlaceID, this.vanID);
       this.alertMessage.alert("Mapping saved successfully", 'success');
     }
+  }
+  resetFieldsOnStateChange() {
+    this.searchDistrictsForm.resetForm();
+    this.searForm1.resetForm();
+    this.districts = [];
+    this.availableParkingPlaces = [];
+    this.availableVanTypes = [];
+    this.availableVans = [];
+  }
+  resetFields() {   
+    this.searForm1.resetForm();
+    this.availableVans = [];
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
+    });
   }
 }

@@ -26,6 +26,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   edit_Serviceline: any;
   createdBy: any;
   serviceProviderID: any;
+  create_filterTerm:string;
 
   services_array: any = [];
   states_array: any = [];
@@ -37,6 +38,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   tableMode: boolean = true;
   formMode: boolean = false;
   editMode: boolean = false;
+  showTableFlag: boolean = false;
 
   @ViewChild('facilitySearchForm') facilitySearchForm: NgForm;
   @ViewChild('facilityAddForm') facilityAddForm: NgForm;
@@ -75,6 +77,7 @@ export class FacilityTypeMasterComponent implements OnInit {
         console.log('All services success', response);
         this.facilityMasterList = response;
         this.filteredfacilityMasterList = response;
+        this.showTableFlag=true;
         for (let availableFacilityCode of this.facilityMasterList) {
           this.availableFacilityTypeCode.push(availableFacilityCode.facilityTypeCode);
         }
@@ -83,21 +86,13 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
 
   showTable() {
-    if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-    }
-
+      this.getAllFacilities(this.providerServiceMapID);
+      this.create_filterTerm='';
   }
   showForm() {
     this.tableMode = false;
@@ -110,6 +105,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.editMode = true;
   }
   filterfacilityMasterList(searchTerm?: string) {
+    debugger;
     if (!searchTerm) {
       this.filteredfacilityMasterList = this.facilityMasterList;
     }
@@ -117,10 +113,13 @@ export class FacilityTypeMasterComponent implements OnInit {
       this.filteredfacilityMasterList = [];
       this.facilityMasterList.forEach((item) => {
         for (let key in item) {
+          if(key=='facilityTypeCode'||key=='facilityTypeName' ||key=='facilityTypeDesc') 
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredfacilityMasterList.push(item); break;
           }
+        }
         }
       });
     }
@@ -140,6 +139,7 @@ export class FacilityTypeMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Facility Type activated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -162,6 +162,7 @@ export class FacilityTypeMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Facility Type Deactivated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -232,16 +233,17 @@ export class FacilityTypeMasterComponent implements OnInit {
     console.log("edit form values", editFormValues)
   }
   updateFacilityType(editedFormValues) {
+    debugger;
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
-      "facilityTypeName": editedFormValues.facilityName,
-      "facilityTypeDesc": editedFormValues.facilityDescription,
-      "facilityTypeCode": editedFormValues.facilityCode
+    //  "facilityTypeName": editedFormValues.facilityName,
+      "facilityTypeDesc": editedFormValues.facilityDescription
+     // "facilityTypeCode": editedFormValues.facilityCode
     }
     this.facility.updateFacility(editObj).subscribe(response => {
       if (response) {
         console.log(response, 'after successful updation of facility type master');
-        this.dialogService.alert('Facility Type updated successfully');
+        this.dialogService.alert('Facility Type updated successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllFacilities(this.providerServiceMapID);

@@ -26,7 +26,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   services: any;
   disableSelection: boolean = false;
 
-  editMode: any;
+  editMode: boolean = false;
   serviceProviderID: any;
 
   STATE_ID: any;
@@ -67,7 +67,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
  * Initiate Form
 */
   initiateForm() {
-    this.editMode = false;
+    // this.editMode = false;
     // By Default, it'll be set as enabled
     // this.componentForm = this.initComponentForm();
     // this.componentForm.patchValue({
@@ -117,7 +117,6 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.getCurrentMappings();
   }
   getProcedureDropDown() {
-    debugger;
     this.procedureComponentMappingServiceService
       .getProceduresList(this.providerServiceMapID)
       .subscribe(response => {
@@ -127,7 +126,6 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   }
   getComponentDropDown() {
-    debugger;
     this.procedureComponentMappingServiceService
       .getComponentsList(this.providerServiceMapID)
       .subscribe(response => {
@@ -153,51 +151,69 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
+    console.log(item, 'here item')
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
         console.log("config procedure", res);
         if (res.length > 0) {
           console.log(JSON.stringify(res, null, 4), 'recheck')
           this.editMode = index >= 0 ? true : false;
-          this.loadForConfig(res);
+          if (this.editMode)
+            this.saveMode = false;
+          // this.selectedProcedureType = item.procedureType;
+
+          this.loadForConfig(res, item);
+          //   this.configProcedureMapping(this.selectedProcedure, -1);
+          this.procedureSelected_edit();
         } else {
           this.editMode = false;
           this.selectedComponentList = [];
+          // this.selectedProcedureType = item.procedureType;
+
+          const masters = Object.assign([], this.masterComponentList);
+          this.filterComponentList(masters, item.procedureType);
+
         }
       })
 
   }
 
-  loadForConfig(res) {
+  loadForConfig(res, item) {
     debugger;
+    console.log(this.masterComponentList, 'masterComponentList');
     let temp = this.procedureList.filter(procedure => {
       return procedure.procedureID == res[0].procedureID
     });
-
+    console.log(temp, 'temp')
     if (temp.length > 0) {
       this.selectedProcedure = temp[0];
       this.selectedComponentList = res[0].compListDetails;
       this.selectedProcedureDescription = res[0].procedureDesc;
-      this.selectedProcedureType = res[0].procedureType;
+      // this.selectedProcedureType = res[0].procedureType;
     } else {
+      // this.selectedProcedureType = res[0].procedureType;
+
       this.selectedComponentList = [];
     }
     this.componentList = [];
-    let masters = Object.assign([], this.masterComponentList);
-    console.log("masters", masters);
-    debugger;
-    if (this.procedureList.procedureType == "Radiology") {
-      this.componentList = masters.filter((masterComponent) => {
-        return masterComponent.inputType == "FileUpload";
-        
-      })
-    } else {
-      this.componentList = masters.filter((masterComponent) => {
-        return masterComponent.inputType != "FileUpload";
-      })
+    const masters = Object.assign([], this.masterComponentList);
+    this.filterComponentList(masters, temp[0].procedureType);
+    console.log('loadCompList', this.componentList);
+  }
 
+  filterComponentList(compMaster, typeOfProcedure) {
+    if (compMaster) {
+      if (typeOfProcedure === 'Radiology') {
+        this.componentList = compMaster.filter((comp) => {
+          return comp.inputType === 'FileUpload';
+        });
+      } else if (typeOfProcedure !== 'Radiology') {
+        this.componentList = compMaster.filter((comp) => {
+          return comp.inputType !== 'FileUpload';
+        });
+      }
     }
-    console.log("load component list", this.componentList);
+    console.log(this.componentList, 'compList')
   }
 
   updateComponentMapList() {
@@ -210,12 +226,17 @@ export class ProcedureComponentMappingComponent implements OnInit {
         }
       })
       if (index < 0) {
+        console.log(this.selectedComponentList, this.selectedComponentList.length, 'lengtho', this.selectedProcedureType, 'type')
+        if (this.selectedComponentList.length > 0 && this.selectedProcedureType === 'Radiology') {
+          this.alertService.alert('A Radiology Test can not have more than one component mapped');
+        } else {
 
-        this.selectedComponentList.push(this.selectedComponent);
-
-        this.clearComponentValue();
+          this.selectedComponentList.push(this.selectedComponent);
+          this.postMappingData();
+          this.clearComponentValue();
+        }
       } else {
-        this.alertService.alert('This Component is already mapped with selected Procedure.');
+        this.alertService.alert('Already exists');
       }
     }
   }
@@ -234,19 +255,22 @@ export class ProcedureComponentMappingComponent implements OnInit {
         this.clearProcedureValue();
         this.clearComponentValue();
         this.clearSelectedComponentsList();
+        this.getCurrentMappings();
       })
   }
 
 
 
   /**
-   * 
+   *
    * Update Mapped List as per 'Save' or 'Update'
    */
   updateListAsPerFunction(res) {
     if (!this.editMode) {
       this.mappedList.unshift(res[0]);
-      this.alertService.alert('Mapping saved successfully', 'success');
+      if (!this.editMode)
+        this.alertService.alert('Mapping saved successfully', 'success');
+      else this.alertService.alert('Mapping updated successfully', 'success');
       this.showTable();
     } else if (this.editMode) {
       let index = -1;
@@ -307,16 +331,26 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
     return resp;
   }
+  procedureSelected_edit() {
+    if (this.selectedProcedure) {
+      console.log("selected procedure", this.selectedProcedure);
+      this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
+      this.selectedProcedureType = this.selectedProcedure.procedureType;
+      console.log(this.selectedProcedureType)
+    }
+  }
 
   procedureSelected() {
     if (this.selectedProcedure) {
       console.log("selected procedure", this.selectedProcedure);
       this.selectedProcedureDescription = this.selectedProcedure.procedureDesc;
       this.selectedProcedureType = this.selectedProcedure.procedureType;
-      this.configProcedureMapping(this.selectedProcedure, 0);
+      console.log(this.selectedProcedureType)
+      this.configProcedureMapping(this.selectedProcedure, -1);
     } else {
       this.clearSelectedComponentsList();
       this.selectedProcedureDescription = '';
+      this.selectedProcedureType = '';
       this.editMode = false;
     }
   }
@@ -341,6 +375,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
   showTable() {
     this.tableMode = true;
+    this.editMode = false;
     this.saveMode = false;
     this.disableSelection = false;
   }

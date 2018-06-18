@@ -80,12 +80,14 @@ export class ServicePointVillageMapComponent implements OnInit {
         if (response) {
             console.log(response, 'Provider States');
             this.provider_states = response;
+            this.availableServicePointVillageMaps = [];
             this.createButton = false;
         }
     }
 
     parkingPlaceObj: any;
     getParkingPlaces(stateID, districtID) {
+        this.availableServicePoints = [];
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
@@ -96,6 +98,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableParkingPlaces: any;
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
@@ -122,6 +125,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableServicePoints: any;
     getServicePointSuccessHandler(response) {
         this.availableServicePoints = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableServicePoint of this.availableServicePoints) {
             if (availableServicePoint.deleted) {
@@ -295,10 +299,13 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     districts: any = [];
     getDistricts(stateID) {
+        this.availableParkingPlaces = [];
+        this.availableServicePoints = [];
         this.servicePointVillageMapService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
+        this.availableServicePointVillageMaps = [];
         this.createButton = false;
     }
     taluks: any = [];
@@ -312,6 +319,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     branches: any = [];
     GetBranches(talukID: number) {
+        debugger;
         this.servicePointVillageMapService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response));
     }
@@ -369,7 +377,7 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.searchServicePointID_edit = mapping.servicePointID;
         this.providerServiceMapID = mapping.providerServiceMapID;
         this.servicePointVillageMapID = mapping.servicePointVillageMapID;
-        //  this.villageIdList_edit = mapping.districtBranchID;
+        this.villageIdList_edit = mapping.districtBranchID;
 
     }
     updateStoreServicePointVillageMaps() {

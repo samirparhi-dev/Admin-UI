@@ -1,13 +1,15 @@
-<!-- <div class="row" >
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">Item to Store Mapping</h4>
+    <h4>
+      <strong>Item to Store Mapping</strong>
+    </h4>
   </div>
   <form #searchForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" name="services" [disabled]="showFormFlag"
-          (change)="getStates(service)" required>
+        <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" name="services" [disabled]="showFormFlag" (change)="getStates(service)"
+          required>
           <md-option *ngFor="let item of services" [value]="item">
             {{item.serviceName}}
           </md-option>
@@ -24,21 +26,16 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!showFormFlag&&itemFacilityMapView?.length > 0">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
+        <div class="row"  class="pull-right">
       <md-input-container id="filterbox">
-        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
+        <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="create_filterTerm" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-        <label class="f-s-n-b">Item type</label>
-        <md-radio-group [(ngModel)]="itemType" name="itemType">
-          <md-radio-button color="primary" class="p-l-10" [value]="true">Medical</md-radio-button>
-          <md-radio-button color="primary" class="p-l-10" [value]="false">Non-Medical</md-radio-button>
-        </md-radio-group>
-      </div> -->
-<!-- </form>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showFormFlag">
+  </div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(!showFormFlag) && showTableFlag">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="itemFacilityMapView" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
@@ -49,13 +46,11 @@
             <th width="20%">Item Code</th>
             <th width="20%">itemName</th>
             <th width="20%">itemCategoryName</th>
-            <th width="10%">Action</th> -->
-<!-- <th width="15%">Discontinued</th> -->
-<!-- <th width="15%">Action</th> -->
-<!-- </tr> -->
-<!-- </thead>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngIf="itemFacilityMapView?.length == 0" class="record-not-found">
+          <tr *ngIf="itemFacilityMapView?.length == 0 ||itemFacilityMapList.length == 0" class="record-not-found">
             <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
@@ -66,18 +61,10 @@
             <td>{{item.itemName}}</td>
             <td>{{item.itemCategoryName}}</td>
             <td>
-                <button md-raised-button color="accent" *ngIf="item.deleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
-                <button md-raised-button color="primary" *ngIf="!item.deleted" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
-            </td> -->-->
-<!-- <td>
-                <md-checkbox color="primary" [(ngModel)]="discontinue" (change)="setDiscontinue(item.itemID)" [value]="item.discontinued"
-                  #isDiscontinued="ngModel"></md-checkbox>
-              </td> -->
-<!-- <td>
-                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
-                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
-              </td> -->
-<!-- </tr>
+              <button md-raised-button color="accent" *ngIf="item.itemFacilityMappingDeleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!(item.itemFacilityMappingDeleted)" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
+            </td>
+          </tr>
         </tbody>
         <tfoot>
           <tr>
@@ -85,7 +72,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!state?.stateID>0">Add Mapping</button>
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()" [disabled]="!(state?.stateID>0)">Add Mapping</button>
             </td>
           </tr>
         </tfoot>
@@ -94,152 +81,129 @@
   </div>
 </div>
 
-<div class="col-xs-12 col-sm-12 bg-white" *ngIf="showFormFlag">
-  
+<div class="row" *ngIf="showFormFlag">
+
   <form autocomplete="off" #mappingFieldsForm="ngForm">
-  <div class="row  m-t-10">
-    
-    
-   
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
+      <label class="f-s-n-b">Store Type</label>
+      <md-radio-group [(ngModel)]="storeType" name="storeType">
+        <md-radio-button (change)="itemCategoryselected={};itemselected=[];subStore=[]" color="primary" class="p-l-10" [value]="true">Main Store</md-radio-button>
+        <md-radio-button (change)="itemCategoryselected={};itemselected=[];subStore=[]" color="primary" class="p-l-10" [value]="false">Sub Store</md-radio-button>
+      </md-radio-group>
+    </div>
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
-            <label class="f-s-n-b">Store Type</label>
-            <md-radio-group [(ngModel)]="storeType" name="storeType">
-              <md-radio-button (change)="itemCategoryselected={};itemselected=[]" color="primary" class="p-l-10" [value]="true">Main Store</md-radio-button>
-              <md-radio-button (change)="itemCategoryselected={};itemselected=[]" color="primary" class="p-l-10" [value]="false">Sub Store</md-radio-button>
-            </md-radio-group>
-          </div> 
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        
-          <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
-            <md-select placeholder="Main Store" class="width100"  [(ngModel)]="mainStore" name="mainStore" required>
-              <md-option *ngFor="let store of mainstores" [value]="store" (click)="subStorelist(store.facilityID)">
-                {{store.facilityName}}
-              </md-option>
-            </md-select>
-          </md-input-container>
-       
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-          <input mdInput style="display:none">
-          <md-select placeholder="Sub Store" class="width100" [(ngModel)]="subStore" name="subStore" [disabled]="storeType">
-            <md-option *ngFor="let store of substores " [value]="store" >
-              {{store.facilityName}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-        
-      </div>
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Main Store" class="width100" [(ngModel)]="mainStore" name="mainStore" required>
+          <md-option *ngFor="let store of mainstores" [value]="store" (click)="subStorelist(store.facilityID)">
+            {{store.facilityName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Sub Store" class="width100" [(ngModel)]="subStore" name="subStore" [disabled]="storeType">
+          <md-option *ngFor="let store of substores " [value]="store">
+            {{store.facilityName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
     </div>
     <div class="clearfix"></div>
-<div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
-        <label class="f-s-n-b">Map Type</label>
-        <md-radio-group [(ngModel)]="mapType" name="mapType">
-          <md-radio-button color="primary" class="p-l-10" [value]="false">Individual Mapping</md-radio-button>
-          <md-radio-button (click)="itemselected=[]" color="primary" class="p-l-10" [value]="true">Bulk Mapping</md-radio-button>
-        </md-radio-group>
-   
-  </div>
+      <label class="f-s-n-b">Map Type</label>
+      <md-radio-group [(ngModel)]="mapType" name="mapType">
+        <md-radio-button color="primary" class="p-l-10" [value]="false">Individual Mapping</md-radio-button>
+        <md-radio-button (click)="itemselected=[]" color="primary" class="p-l-10" [value]="true">Bulk Mapping</md-radio-button>
+      </md-radio-group>
+
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
-            <md-select placeholder="Item Category" class="width100" [(ngModel)]="itemCategoryselected" name="itemCategory" [disabled]="(storeType&&!(mainStore?.facilityID>0))||(!storeType&&!(subStore?.facilityID>0))">
-              <md-option *ngFor="let store of itemCategory" [value]="store" (click)="onCategorySelected(store.itemCategoryID,mainStore.facilityID)">
-                {{store.itemCategoryName}}
-              </md-option>
-            </md-select>
-          </md-input-container>
-      </div>
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Item Category" class="width100" [(ngModel)]="itemCategoryselected" name="itemCategory" [disabled]="(storeType&&!(mainStore?.facilityID>0))||(!storeType&&!(subStore?.facilityID>0))">
+          <md-option *ngFor="let category of itemCategory" [value]="category" (click)="onCategorySelected(category.itemCategoryID,mainStore.facilityID)">
+            {{category.itemCategoryName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+<div class="clearfix visible-sm"></div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Item Name" class="width100" [disabled]="mapType||!(itemCategoryselected?.itemCategoryID>0)" [(ngModel)]="itemselected"
+          name="itemName" [multiple]="true">
+          <md-option *ngFor="let store of itemsList" [value]="store">
+            {{store.itemName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="hide_underline width100">
-              <input mdInput style="display:none">
-              <md-select placeholder="Item Name" class="width100" [disabled]="mapType||!(itemCategoryselected?.itemCategoryID>0)" [(ngModel)]="itemselected" name="itemName" [multiple]="true">
-                <md-option *ngFor="let store of itemsList" [value]="store">
-                  {{store.itemName}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-                </div>
-
-</div>
-
-  </div>
+    <!-- </div> -->
+    <!-- <div class="row"> -->
+    <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 m-t-10 ">
+      <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
   </form>
 
-  <div class="row">
-    <div class="col-xs-12 col-sm-12">
-      <button type="button" class="btn btn-default cu-green-btn pull-right m-b-10" (click)="addtoBufferArray(mappingFieldsForm.value)">Add</button>
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferarray.length>0">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" [md2Data]="bufferarray" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="20%">Facility Code</th>
+            <th width="20%">Facility Name</th>
+            <th width="20%">Item Category</th>
+            <th width="20%">Item Name</th>
+            <th width="10%">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="bufferarray?.length == 0" class="record-not-found">
+            <td colspan="8" align="center">No records Added</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{item.facilityCode}}</td>
+            <td>{{item.facilityName}}</td>
+            <td>{{item.itemCategoryName}}</td>
+            <td>
+              <ul class="p-l-15">
+                <li *ngFor="let obj of item.item;let j=index ">
+                  {{obj.itemName}}
+                  <md-icon class="cursorPointer" mdTooltip="Remove {{obj.itemName}}" (click)="removeItem((md2.activePage-1)*5+i,j)">cancel</md-icon>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
-
-
-
- -->
-
-
-
-
-
-<!-- <div class="table-responsive">
-    <table class="table table-striped table-hover" [md2Data]="bufferarray" #md2="md2DataTable" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th width="5%">S.No.</th>
-          <th width="20%">Facility Type</th>
-          <th width="20%">Facility Name</th>
-          <th width="20%">Item Code</th>
-          <th width="20%">itemName</th>
-          <th width="20%">itemCategoryName</th>
-          <th width="10%">Delete</th>
-          <!-- <th width="15%">Discontinued</th> -->
-<!-- <th width="15%">Action</th> -->
-<!-- </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="bufferarray?.length == 0" class="record-not-found">
-          <td colspan="8" align="center">No records Added</td>
-        </tr>
-        <tr *ngFor="let item of md2.data; let i=index">
-          <td>{{(md2.activePage-1)*4+i+1}}</td>
-          <td>{{item.facilityTypeName}}</td>
-          <td>{{item.facilityName}}</td>
-          <td>{{item.itemCode}}</td>
-          <td><ul>
-              <li *ngFor="let obj of item.item;let j=index ">
-                {{obj.itemName}}
-                <md-icon class="cursorPointer" mdTooltip="Remove {{obj.itemName}}" (click)="removeItem((md2.activePage-1)*5+i,j)">cancel</md-icon>
-              </li>
-            </ul></td>
-          <td>{{item.itemCategoryName}}</td>
-          <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
-          </td> -->-->
-<!-- <td>
-                      <md-checkbox color="primary" [(ngModel)]="discontinue" (change)="setDiscontinue(item.itemID)" [value]="item.discontinued"
-                        #isDiscontinued="ngModel"></md-checkbox>
-                    </td> -->
-<!-- <td>
-                      <button *ngIf="item.deleted" md-raised-button color="accent" (click)="activateDeactivate(item.itemID,false)">Activate</button>
-                      <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="activateDeactivate(item.itemID,true)">Deactivate</button>
-                    </td> -->
-<!-- </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="4">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="4" class="p-r-0">
-            <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Add Mapping</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+  <div class="col-xs-12 col-sm-12 m-t-10">
+    <button md-raised-button color="primary" class="pull-left" (click)="back();itemCategoryselected={};itemselected=[];subStore=[]">Back</button>
+    <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Add Mapping</button>
+    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm();itemCategoryselected={};itemselected=[];subStore=[]">Clear</button>
   </div>
-</div> -->
+</div> 

@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class ParkingPlaceComponent implements OnInit {
 
+    status: string;
     userID: any;
     service: any;
     state: any;
@@ -105,6 +106,8 @@ export class ParkingPlaceComponent implements OnInit {
         this.states = response;
     }
     setProviderServiceMapID(providerServiceMapID) {
+        this.districtID = undefined;
+        this.availableParkingPlaces = [];
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
 
@@ -237,9 +240,11 @@ export class ParkingPlaceComponent implements OnInit {
         let status;
         if (flag === true) {
             status = "Deactivate";
+            this.status = "Deactivate";
         }
         if (flag === false) {
             status = "Activate";
+            this.status = "Activate";
         }
 
         this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
@@ -252,11 +257,12 @@ export class ParkingPlaceComponent implements OnInit {
 
                 parkingPlace.deleted = !parkingPlace.deleted;
             }
-            this.alertMessage.alert(status + "d successfully", 'success');
+
         });
     }
     updateStatusHandler(response) {
         console.log("Parking place status changed");
+        this.alertMessage.alert(this.status + "d successfully", 'success');
     }
 
     showList() {
@@ -319,6 +325,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.showList();
         this.initializeObj();
         this.editParkingplaceValue = null;
+        this.availableParkingPlaceNames = [];
 
     }
     back() {

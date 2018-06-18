@@ -142,7 +142,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   statesSuccesshandeler(response, value) {
     this.state = '';
     this.states = response;
-    this.showAddButtonFlag = false;
+    this.searchresultarray = [];
+    //this.showAddButtonFlag = false;
 
     if (value.isNational) {
       this.nationalFlag = value.isNational;
@@ -183,6 +184,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   showAddButton: boolean = false;
 
   findRoles(stateID, serviceID, flagValue) {
+    debugger;
     this.showAddButtonFlag = flagValue;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
@@ -194,7 +196,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       'isNational': this.nationalFlag
     }
     console.log(this.serviceProviderID, stateID, serviceID);
-    this.ProviderAdminRoleService.getRoles(obj).subscribe((response) => {
+    this.ProviderAdminRoleService.getRole(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
       console.log("searchresultarray", this.searchresultarray);
 
@@ -457,25 +459,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
           this.getFeatures(this.service.serviceID);
         }
 
-        /*for(let z=0;z<feature.length;z++)
-        {
-          let obj = {
-            'roleName': role.trim(),
-            'roleDesc': desc,
-            'screenID': feature[z].screenID,
-            'screen_name':feature[z].screenName,
-            'createdBy': this.commonDataService.uname,
-            'createdDate': new Date(),
-              'providerServiceMapID': this.commonDataService.provider_serviceMapID    // this needs to be fed dynmically!!!
-            };
 
-            console.log("Pushed OBJ",obj);
-            if(obj.roleName.trim().length>0)
-            {
-              this.objs.push(obj);
-            }
-
-          }*/
 
       }
       else {
@@ -563,23 +547,40 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.objs.splice(index, 1);
   }
   removeFeature(rowIndex, FeatureIndex) {
+    debugger;
     this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
 
+    if (rowIndex === 0) {
+      for (let h = 0; h < this.tempFilterScreens.length; h++) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
+          this.tempFilterScreens.splice(FeatureIndex, 1);
+          this.getFeatures(this.service.serviceID);
 
-    for (let h = 0; h < this.tempFilterScreens.length; h++) {
-      if (this.tempFilterScreens[h].toUpperCase() === this.objs[rowIndex].screen_name[h].toUpperCase()) {
-        this.tempFilterScreens.splice(h, 1);
-      }
-      else {
-        continue;
+        }
+        else {
+          continue;
+        }
       }
     }
+    else {
+      for (let h = 0; h < this.tempFilterScreens.length; h++) {
+        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
+          this.tempFilterScreens.splice(rowIndex, 1);
+          this.getFeatures(this.service.serviceID);
+
+        }
+        else {
+          continue;
+        }
+      }
+    }
+
     this.objs[rowIndex].screen_name.splice(FeatureIndex, 1);
     this.objs[rowIndex].screenID.splice(FeatureIndex, 1);
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
 
       this.objs.splice(rowIndex, 1);
-
+      debugger;
       this.getFeatures(this.service.serviceID);
     }
   }

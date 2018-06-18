@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class ZoneDistrictMappingComponent implements OnInit {
 
+  status: string;
   userID: any;
   service: any;
   zoneID: any;
@@ -123,6 +124,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showMappings = false;
     this.disableSelection = true;
     this.showListOfZonemapping = false;
+    this.availableZones = [];
     this.getAvailableZones(this.state.providerServiceMapID);
 
   }
@@ -135,14 +137,13 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.zoneMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
   getZonesSuccessHandler(response) {
-    this.availableZones = response;
-    // if (response != undefined) {
-    //   for (let zone of response) {
-    //     if (!zone.deleted) {
-    //       this.availableZones.push(zone);
-    //     }
-    //   }
-    // }
+    if (response != undefined) {
+      for (let zone of response) {
+        if (!zone.deleted) {
+          this.availableZones.push(zone);
+        }
+      }
+    }
 
     // On edit - populate available zones
     if (this.editZoneMappingValue != undefined) {
@@ -303,30 +304,40 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showMappings = false;
   }
 
-  updateZoneMappingStatus(zoneMapping) {
-    let flag = !zoneMapping.deleted;
-    let status;
-    if (flag === true) {
-      status = "Deactivate";
+  updateZoneMappingStatus(zoneMapping, zoneexist) {
+    if (zoneexist) {
+      this.alertMessage.alert("Zone is inactive");
     }
-    if (flag === false) {
-      status = "Activate";
-    }
-    this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
-      if (response) {
-        this.dataObj = {};
-        this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
-        this.dataObj.deleted = !zoneMapping.deleted;
-        this.dataObj.modifiedBy = this.createdBy;
-        this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+    else {
 
-        zoneMapping.deleted = !zoneMapping.deleted;
+
+      let flag = !zoneMapping.deleted;
+      let status;
+      if (flag === true) {
+        status = "Deactivate";
+        this.status = "Deactivate";
       }
-      this.alertMessage.alert(status + "d successfully", 'success');
-    });
+      if (flag === false) {
+        status = "Activate";
+        this.status = "Activate";
+      }
+      this.alertMessage.confirm('Confirm', "Are you sure you want to " + status + "?").subscribe(response => {
+        if (response) {
+          this.dataObj = {};
+          this.dataObj.zoneDistrictMapID = zoneMapping.zoneDistrictMapID;
+          this.dataObj.deleted = !zoneMapping.deleted;
+          this.dataObj.modifiedBy = this.createdBy;
+          this.zoneMasterService.updateZoneMappingStatus(this.dataObj).subscribe(response => this.updateStatusHandler(response));
+
+          zoneMapping.deleted = !zoneMapping.deleted;
+        }
+
+      });
+    }
   }
   updateStatusHandler(response) {
     console.log("Zone District Mapping status changed", response);
+    this.alertMessage.alert(this.status + "d successfully", 'success');
   }
 
   back() {

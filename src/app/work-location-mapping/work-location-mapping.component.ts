@@ -96,9 +96,6 @@ export class WorkLocationMappingComponent implements OnInit {
       }
     }
   }
-
-
-
   getProviderServices(userID) {
     this.worklocationmapping.getServices(userID)
       .subscribe(response => {
@@ -108,9 +105,6 @@ export class WorkLocationMappingComponent implements OnInit {
       });
 
   }
-
-
-
   getAllMappedWorkLocations() {
     // debugger;
     this.worklocationmapping.getMappedWorkLocationList(this.serviceProviderID)
@@ -191,28 +185,50 @@ export class WorkLocationMappingComponent implements OnInit {
         console.log(err, 'error');
       });
   }
-  getAvailableMappings(formvalues, role) {
+  getAvailableMappings(formvalues, role, serviceProviderMapID, districtID) {
     const alreadyMappedWorklocations = [];
+    debugger;
+    if (districtID != null) {
+      for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
+        if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
+          && this.mappedWorkLocationsList[i].providerServiceMapID === serviceProviderMapID
+          && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === districtID
+          && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
+          debugger;
+          for (let j = 0; j < role.length; j++) {
+            if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
+              if (this.filteredRoles != '') {
+                this.filteredRoles = this.filteredRoles + ', ' + role[j].roleName;
 
-    for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
-      if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
-        && this.mappedWorkLocationsList[i].providerServiceMapID === formvalues.state.providerServiceMapID
-        && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district.districtID
-        && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
-        debugger;
-        for (let j = 0; j < role.length; j++) {
-          if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
-            if (this.filteredRoles != '') {
-              this.filteredRoles = this.filteredRoles + ', ' + role[j].roleName;
+              } else {
+                this.filteredRoles = role[j].roleName
 
-            } else {
-              this.filteredRoles = role[j].roleName
-
+              }
             }
           }
         }
       }
     }
+    else {
+      for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
+        if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
+          && this.mappedWorkLocationsList[i].providerServiceMapID === serviceProviderMapID
+          && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
+          for (let j = 0; j < role.length; j++) {
+            if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
+              if (this.filteredRoles != '') {
+                this.filteredRoles = this.filteredRoles + ', ' + role[j].roleName;
+
+              } else {
+                this.filteredRoles = role[j].roleName
+
+              }
+            }
+          }
+        }
+      }
+    }
+
     var filteredRole = this.filteredRoles;
     if (this.filteredRoles != '') {
       this.alertService.alert('This mapping already exists with  ' + filteredRole + ' role');
@@ -229,29 +245,42 @@ export class WorkLocationMappingComponent implements OnInit {
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-
     }
     else {
 
       if (this.bufferArray.length > 0) {
-        this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
-          if (response) {
-            this.tableMode = true;
-            this.formMode = false;
-            this.editMode = false;
-            this.bufferArray = [];
-            this.resetDropdowns();
-          }
-        });
-      }
-      else {
+        // this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        //   if (response) {
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
         this.bufferArray = [];
         this.resetDropdowns();
+        this.isNational = false;
+        //   }
+        // });
+      }
+      else {
+        // this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+        //   if (response) {
+        this.tableMode = true;
+        this.formMode = false;
+        this.editMode = false;
+        this.bufferArray = [];
+        this.resetDropdowns();
+        this.isNational = false;
+        //   }
+        // });
       }
     }
+
+  }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
+      if (response) {
+        this.showTable();
+      }
+    });
 
   }
   showForm() {
@@ -269,29 +298,34 @@ export class WorkLocationMappingComponent implements OnInit {
     // this.getUserName(this.serviceProviderID);
   }
 
-  activate(uSRMappingID) {
+  activate(uSRMappingID, userDeactivated) {
     // debugger;
-    this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
-      if (response) {
-        const object = {
-          'uSRMappingID': uSRMappingID,
-          'deleted': false
-        };
+    if (userDeactivated) {
+      this.alertService.alert('User is inactive');
+    }
+    else {
+      this.alertService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+        if (response) {
+          const object = {
+            'uSRMappingID': uSRMappingID,
+            'deleted': false
+          };
 
-        this.worklocationmapping.DeleteWorkLocationMapping(object)
-          .subscribe(response => {
-            if (response) {
-              this.alertService.alert('Activated successfully', 'success');
-              /* refresh table */
-              this.getAllMappedWorkLocations();
-            }
-          },
-            err => {
-              console.log('error', err);
-              console.log(err, 'error');
-            });
-      }
-    });
+          this.worklocationmapping.DeleteWorkLocationMapping(object)
+            .subscribe(response => {
+              if (response) {
+                this.alertService.alert('Activated successfully', 'success');
+                /* refresh table */
+                this.getAllMappedWorkLocations();
+              }
+            },
+              err => {
+                console.log('error', err);
+                console.log(err, 'error');
+              });
+        }
+      });
+    }
 
   }
   deactivate(uSRMappingID) {
@@ -318,7 +352,9 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   addWorkLocation(objectToBeAdded: any, role) {
     debugger;
-    if (!this.getAvailableMappings(objectToBeAdded, role)) {
+    let statesIDEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID;
+    let districtEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.district.districtID : null;
+    if (!this.getAvailableMappings(objectToBeAdded, role, statesIDEdit, districtEdit)) {
       console.log(objectToBeAdded, "FORM VALUES");
       const workLocationObj = {
         'previleges': [],
@@ -330,7 +366,7 @@ export class WorkLocationMappingComponent implements OnInit {
         'workingLocation': objectToBeAdded.worklocation.locationName,
         'roleID1': [],
         // tslint:disable-next-line:max-line-length
-        'providerServiceMapID': objectToBeAdded.state ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID,
+        'providerServiceMapID': objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID,
         'createdBy': this.createdBy,
         'workingLocationID': objectToBeAdded.worklocation.pSAddMapID
 
@@ -343,11 +379,11 @@ export class WorkLocationMappingComponent implements OnInit {
         workLocationObj['stateName'] = 'All States';
       }
 
-      if (objectToBeAdded.district) {
+      if (objectToBeAdded.district != undefined) {
         workLocationObj['district'] = objectToBeAdded.district.districtName;
       }
       else {
-        workLocationObj['district'] = '-';
+        workLocationObj['district'] = null;
       }
 
       let roleArray = [];
@@ -369,6 +405,13 @@ export class WorkLocationMappingComponent implements OnInit {
     else {
       this.duplicatestatus = false;
     }
+    this.resetAllArrays();
+  }
+  resetAllArrays() {
+    this.states_array = [];
+    this.districts_array = [];
+    this.workLocationsList = [];
+    this.RolesList = [];
   }
   deleteRow(i) {
     this.bufferArray.splice(i, 1);
@@ -568,9 +611,19 @@ export class WorkLocationMappingComponent implements OnInit {
     this.getProviderServices(this.userID);
     this.checkService_forIsNational();
     this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
-    this.getAllDistricts_duringEdit(this.edit_Details.stateID);
-    this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-    this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
+    if (this.edit_Details.stateID === undefined) {
+      this.set_currentPSM_ID_duringEdit(this.edit_Details.providerServiceMapID);
+      this.stateID_duringEdit = '';
+      this.district_duringEdit = null;
+      this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
+      this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
+    }
+    else {
+      this.getAllDistricts_duringEdit(this.edit_Details.stateID);
+      this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
+      this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
+    }
+
 
   }
   // autoPopulateDropdowns() {
@@ -632,7 +685,7 @@ export class WorkLocationMappingComponent implements OnInit {
       if (isNational) {
         this.set_currentPSM_ID_duringEdit(this.states_array[0].providerServiceMapID);
         this.stateID_duringEdit = '';
-        this.district_duringEdit = '';
+        this.district_duringEdit = null;
         this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
         this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
       }
@@ -656,6 +709,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
   refresh3() {
     // refreshing ngModels of worklocation, roles
+    this.district_duringEdit = undefined;
     this.workLocationID_duringEdit = undefined;
     this.roleID_duringEdit = undefined;
   }
@@ -716,8 +770,7 @@ export class WorkLocationMappingComponent implements OnInit {
     const alreadyMappedWorklocations = [];
     for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
       if (this.mappedWorkLocationsList[i].userID === this.userID_duringEdit
-        && this.mappedWorkLocationsList[i].serviceID === formvalues.serviceID
-        && this.mappedWorkLocationsList[i].stateID === formvalues.state
+        && this.mappedWorkLocationsList[i].providerServiceMapID === this.providerServiceMapID
         && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === formvalues.district
         && parseInt(this.mappedWorkLocationsList[i].workingLocationID) === formvalues.worklocation
         && this.mappedWorkLocationsList[i].roleID === formvalues.role) {

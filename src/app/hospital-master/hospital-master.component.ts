@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { HospitalMasterService } from '../services/ProviderAdminServices/hospital-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -49,12 +50,16 @@ export class HospitalMasterComponent implements OnInit {
     disabled_flag: boolean = false;
     showTableFlag: boolean = false;
     showFormFlag: boolean = false;
+    disableSecFields: boolean = false;
+    disableTertiaryFields: boolean = false;
 
     /*regEx*/
     website_expression: any = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
 
     email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
     name_expression: any = /^[a-zA-Z ]*$/;
+
+    @ViewChild ('institutionForm1') institutionForm1: NgForm;
 
     constructor(public HospitalMasterService: HospitalMasterService,
         public commonDataService: dataService,
@@ -89,6 +94,8 @@ export class HospitalMasterComponent implements OnInit {
         this.disabled_flag = true;
         this.showTableFlag = false;
         this.showFormFlag = true;
+        this.disableSecFields = true;
+        this.disableTertiaryFields = true;
     }
 
     back() {
@@ -132,9 +139,9 @@ export class HospitalMasterComponent implements OnInit {
         this.HospitalMasterService.getServices(this.userID)
             .subscribe(response => this.getServiceSuccessHandeler(response),
                 (err) => {
-                     console.log("Error", err);
+                    console.log("Error", err);
                     // this.alertService.alert(err, 'error')
-            });
+                });
     }
 
     getServiceSuccessHandeler(response) {
@@ -156,9 +163,9 @@ export class HospitalMasterComponent implements OnInit {
 
         this.HospitalMasterService.getDistricts(stateID).subscribe(response => this.getDistrictSuccessHandeler(response),
             (err) => {
-                 console.log("Error", err);
+                console.log("Error", err);
                 //this.alertService.alert(err, 'error')
-        });
+            });
 
     }
 
@@ -175,9 +182,9 @@ export class HospitalMasterComponent implements OnInit {
 
         this.HospitalMasterService.getTaluks(districtID).subscribe(response => this.getTalukSuccessHandeler(response),
             (err) => {
-                 console.log("Error", err);
-               // this.alertService.alert(err, 'error')
-        });
+                console.log("Error", err);
+                // this.alertService.alert(err, 'error')
+            });
     }
 
     getTalukSuccessHandeler(response) {
@@ -206,9 +213,9 @@ export class HospitalMasterComponent implements OnInit {
         }
         this.HospitalMasterService.getInstitutions(request_obj).subscribe(response => this.getInstitutionSuccessHandeler(response),
             (err) => {
-                 console.log("Error", err);
+                console.log("Error", err);
                 //this.alertService.alert(err, 'error')
-        });
+            });
     }
 
     getInstitutionSuccessHandeler(response) {
@@ -231,9 +238,9 @@ export class HospitalMasterComponent implements OnInit {
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Deactivated"),
                         (err) => {
-                             console.log("Error", err);
-                           // this.alertService.alert(err, 'error')
-                    });
+                            console.log("Error", err);
+                            // this.alertService.alert(err, 'error')
+                        });
                 }
             })
 
@@ -249,9 +256,9 @@ export class HospitalMasterComponent implements OnInit {
 
                     this.HospitalMasterService.deleteInstitution(obj).subscribe(response => this.deleteInstitutionSuccessHandeler(response, "Activated"),
                         (err) => {
-                             console.log("Error", err);
+                            console.log("Error", err);
                             //this.alertService.alert(err, 'error')
-                    });
+                        });
                 }
             })
 
@@ -294,9 +301,9 @@ export class HospitalMasterComponent implements OnInit {
 
         this.HospitalMasterService.saveInstitution(request_Array).subscribe(response => this.saveInstitutionSuccessHandeler(response),
             (err) => {
-                 console.log("Error", err);
+                console.log("Error", err);
                 //this.alertService.alert(err, 'error')
-        });
+            });
 
     }
 
@@ -306,6 +313,29 @@ export class HospitalMasterComponent implements OnInit {
             this.alertService.alert("Saved successfully", 'success');
             this.back();
             this.getInstitutions();
+        }
+    }
+    enableSecNumberAndEmailFields() {
+        debugger;
+        if (this.secondary_contact_person_name.length == 0) {
+            this.disableSecFields = true;
+            this.institutionForm1.controls.secondary_contact_number.reset();
+            this.institutionForm1.controls.secondary_emailID.reset();
+        }
+        else {
+            this.disableSecFields = false;
+        }
+    }
+
+    enableTertiaryNumberAndEmailFields() {
+        debugger;
+        if (this.tertiary_contact_person_name.length == 0) {
+            this.disableTertiaryFields = true;
+            this.institutionForm1.controls.tertiary_contact_number.reset();
+            this.institutionForm1.controls.tertiary_emailID.reset();
+        }
+        else {
+            this.disableTertiaryFields = false;
         }
     }
 
@@ -403,9 +433,9 @@ export class EditHospitalModal {
 
         this.HospitalMasterService.editInstitution(edit_request_obj).subscribe(response => this.editInstitutionSuccessHandeler(response),
             (err) => {
-                 console.log("Error", err);
+                console.log("Error", err);
                 // this.alertService.alert(err, 'error')
-        });
+            });
     }
 
 
@@ -415,5 +445,6 @@ export class EditHospitalModal {
             this.dialogReff.close("success");
         }
     }
+
 
 }

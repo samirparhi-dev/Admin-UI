@@ -107,7 +107,7 @@
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="4" class="p-r-0 m-t-10">
-                            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Parking Place</button>
+                            <button md-raised-button color="primary" class="pull-right" [disabled]="searchForm.invalid" (click)="showForm()">Add Parking Place</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -149,7 +149,7 @@
                     <input mdInput placeholder="Description" [(ngModel)]="parkingPlaceDesc" name="parkingPlaceDesc" minlength="2" maxlength="100">
                 </md-input-container>
             </div>
-
+            <div class="clearfix visible-md "></div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <md-input-container class="width100" myAddress>
                     <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #parkingPlaceAddress="ngModel"
@@ -160,8 +160,8 @@
                 </md-input-container>
             </div>
         </form>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button md-mini-fab color="primary" *ngIf="parkingPlaceForm.valid && !parkingPlaceNameExist && !editable" class="pull-right"
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
+            <button md-mini-fab color="primary" *ngIf="parkingPlaceForm.valid && !parkingPlaceNameExist && !editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
                 (click)="addParkingPlaceToList(parkingPlaceForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>

@@ -25,7 +25,7 @@
           <tr *ngIf="mappedWorkLocationsList.length == 0">
             <td colspan="9" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let service of md2.data;let i=index ">
+          <tr *ngFor="let service of md2.data;let i=index ">
             <td>{{mappedWorkLocationsList.indexOf(service)+1}}</td>
             <td>{{service.userName}}</td>
             <td>{{service.serviceName}}</td>
@@ -35,12 +35,13 @@
             <td>{{service.roleName}}</td>
             <td>
 
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted"
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted" class=" m-r-10" (click)="activate(service.uSRMappingID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted" class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted " class=" m-r-10" (click)="activate(service.uSRMappingID,service.userDeleted)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted" class=" m-r-10"
+                (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>
           </tr>
@@ -62,10 +63,10 @@
 <div class="row" *ngIf="formMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 *ngIf="!editMode">
-      <strong>Work-Location-Mapping</strong>
+      <strong>Work Location Mapping</strong>
     </h4>
     <h4 *ngIf="editMode">
-      <strong>Edit Work-Location-Mapping</strong>
+      <strong>Edit Work Location Mapping</strong>
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
@@ -77,7 +78,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" required>
-            <md-option *ngFor="let user of userNamesList| OrderBy : 'userName'" [value]="user">
+            <md-option *ngFor="let user of userNamesList" [value]="user">
               {{user.userName}}
             </md-option>
           </md-select>
@@ -199,7 +200,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15">
     <button md-raised-button color="accent" class="pull-right" [disabled]="!(bufferArray.length>0)" (click)="saveWorkLocations()">Save</button>
-    <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
 
   </div>
 </div>
@@ -209,7 +210,7 @@
       <strong>Work-Location-Mapping</strong>
     </h4>
     <h4 *ngIf="editMode">
-      <strong>Edit Work-Location-Mapping</strong>
+      <strong>Edit Work Location Mapping</strong>
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
@@ -257,7 +258,7 @@
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select placeholder="Select District" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="district_duringEdit"
-            name="district" (change)="refresh3();getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,district_duringEdit); "
+            name="district" (change)="refresh3();getAllWorkLocations_duringEdit(stateID_duringEdit,serviceID_duringEdit,isNational_edit,null); "
             required>
             <md-option *ngFor="let item of districts_array" [value]="item.districtID">
               {{item.districtName}}
@@ -290,7 +291,7 @@
 
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button *ngIf="!formMode" md-raised-button color="accent" class="pull-right" [disabled]="workplaceeform.invalid" (click)="updateWorkLocation(workplaceeform.value);">Update</button>
     </div>
   </div>

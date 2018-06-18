@@ -128,7 +128,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         console.log("All details of the user", response);
         this.searchResult = response;
       }
-    }, (err) => this.dialogService.alert(err, 'error'));
+    }, (err) => console.log('error',err));
   }
   showForm() {
     this.tableMode = false;
@@ -137,25 +137,25 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.resetDob();
 
     this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllQualifications().subscribe(res => this.getAllQualificationsSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
     this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res),
-      (err) => this.dialogService.alert(err, 'error'));
+      (err) => console.log('error',err));
 
   }
   /*
@@ -195,6 +195,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
+        this.objs = [];
       }
     })
   }
@@ -240,7 +241,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -342,7 +343,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.employeeMasterNewService.validateAadhar(this.aadharNumber).subscribe(
           (response: any) => {
             this.checkAadharSuccessHandler(response);
-          }, (err) => this.dialogService.alert(err, 'error'));
+          }, (err) => console.log('error',err));
       }
     }
   }
@@ -365,7 +366,7 @@ export class EmployeeMasterNewComponent implements OnInit {
           response => {
             console.log("pan response", response);
             this.checkPanSuccessHandler(response);
-          }, (err) => this.dialogService.alert(err, 'error'));
+          }, (err) => console.log('error',err));
       }
     }
   }
@@ -407,7 +408,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     this.employeeMasterNewService.getAllDistricts(currentStateID).subscribe(response => {
       this.getCurrentDistrictsSuccessHandler(response)
-    }, (err) => this.dialogService.alert(err, 'error'));
+    }, (err) => console.log('error',err));
   }
   getCurrentDistrictsSuccessHandler(response) {
     console.log("Display all Districts", response);
@@ -419,7 +420,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   getPermanentDistricts(permanentStateID) {
     this.employeeMasterNewService.getAllDistricts(permanentStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
-    }, (err) => this.dialogService.alert(err, 'error'));
+    }, (err) => console.log('error',err));
   }
   getPermanentDistrictsSuccessHandler(response) {
     console.log("Display all Districts", response);
@@ -641,7 +642,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
 
 
-    }), (err) => this.dialogService.alert(err, 'error');
+    }), (err) => console.log('error',err);
 
   }
 
@@ -666,25 +667,25 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.showEditForm();
     if (this.formMode == true && this.editMode == true) {
       this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllMaritalStatuses().subscribe(res => this.getAllMaritalStatusesSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllQualifications().subscribe(res => this.getAllQualificationsSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllCommunities().subscribe(res => this.getCommunitiesSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllReligions().subscribe(res => this.getReligionSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.employeeMasterNewService.getAllStates(this.countryId).subscribe(res => this.getAllStatesSuccessHandler(res),
-        (err) => this.dialogService.alert(err, 'error'));
+        (err) => console.log('error',err));
 
       this.edit(data);
     }
@@ -865,7 +866,7 @@ export class EmployeeMasterNewComponent implements OnInit {
             console.log('Activation or deactivation response', res);
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllUserDetails();
-          }, (err) => this.dialogService.alert(err, 'error'))
+          }, (err) => console.log('error',err))
       }
     },
       (err) => {

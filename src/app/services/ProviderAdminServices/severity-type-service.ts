@@ -41,7 +41,7 @@ export class SeverityTypeService {
         'userID': userID,
         'serviceID': serviceID,
         'isNational': isNationalFlag
-      }).map(this.handleState_n_ServiceSuccess)
+      }).map(this.handleSuccess)
       .catch(this.handleError);
   }
 
@@ -88,7 +88,8 @@ export class SeverityTypeService {
     console.log(response.json().data, 'severity service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.statusID != 4) {
+      debugger;
+      if (item.serviceID === 3 || item.serviceID === 1) {
         return item;
       }
     });

@@ -22,13 +22,14 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   edit_substore: boolean = false;
   edit_mainstore: any = false;
   edit_physicalLocation: any;
+  confirmMessage: any;
   edit_location: any;
   edit_facilityDiscription: any;
   edit_facilityCode: any;
   uid: any;
   edit_store:any;
   storeType_arrayEdit:any;
-
+  create_filterTerm:string;
   state: any;
   serviceline: any;
   storeType: string;
@@ -36,6 +37,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
+  showTableFlag: boolean = false;
   mainStoreDropdownState: boolean = false;
   create_Main_Store_radiobutton: boolean = false;
   create_Sub_Store_radiobutton: boolean = false;
@@ -83,6 +85,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     })
   }
   getAllStores(providerServiceMapID) {
+    debugger;
     this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.storeService.getAllStores(providerServiceMapID).subscribe(response => {
@@ -90,6 +93,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
         console.log('All stores services success', response);
         this.storesList = response;
         this.filteredstoresList = response;
+        this.showTableFlag=true;
         for (let availableFacilityCode of this.storesList) {
           this.availableFacilityCode.push(availableFacilityCode.facilityCode);
         }
@@ -138,21 +142,13 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
 
   showTable() {
-    if (this.editMode) {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.resetDropdowns();
-    }
-    else {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-    }
-
+      this.getAllStores(this.providerServiceMapID);
+      this.create_filterTerm='';
   }
   showForm() {
     this.tableMode = false;
@@ -166,51 +162,40 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.formMode = false;
     this.editMode = true;
   }
-  activate(facilityTypeID) {
-    this.dialogService.confirm('Confirm', "Are you sure you want to Activate?").subscribe(response => {
+  activateDeactivate(facilityTypeID,flag) {
+    debugger;
+    if (flag) {
+      this.confirmMessage = 'Deactivate';
+    } else {
+      this.confirmMessage = 'Activate';
+    }
+    this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
       if (response) {
         const object = {
-          "facilityTypeID": facilityTypeID,
-          "deleted": false
-
+          "facilityID": facilityTypeID,
+          "deleted": flag
         };
-
-        // this.storeService.deleteStore(object)
-        //   .subscribe(response => {
-        //     if (response) {
-        //       this.dialogService.alert('Store  activated successfully','success');
-        //       this.getAllStores(this.providerServiceMapID);
-        //     }
-        //   },
-        //     err => {
-        //       console.log('error', err);
-        //     });
+        this.storeService.deleteStore(object)
+        .subscribe((res) => {
+          if(res.response!=undefined)
+          {
+            this.dialogService.alert(res.response, 'error');
+          }
+          else 
+          {
+            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+            this.getAllStores(this.providerServiceMapID);
+            this.create_filterTerm='';
+          }
+        
+        }, (err) => {
+          console.log("error", err);
+        });
       }
     });
 
   }
-  deactivate(facilityTypeID) {
-    this.dialogService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
-      if (response) {
-        const object = {
-          "facilityTypeID": facilityTypeID,
-          "deleted": true
-        };
-
-        // this.storeService.deleteStore(object)
-        //   .subscribe(response => {
-        //     if (response) {
-        //       this.dialogService.alert('Store Deactivated successfully','success');
-        //       this.getAllStores(this.providerServiceMapID);
-        //     }
-        //   },
-        //     err => {
-        //       console.log('error', err);
-        //     });
-      }
-    });
-
-  }
+ 
   add2bufferArray(formvalues) {
     debugger;
     this.resetDropdowns();
@@ -222,6 +207,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
       "facilityDesc": formvalues.facilityDescription,
       "facilityCode": formvalues.facilityCode,
       "facilityTypeID": formvalues.facilityType.facilityTypeID,
+      "facilityType": formvalues.facilityType.facilityTypeName,
       "location": formvalues.createlocation,
       "mainFacilityID": formvalues.store,
       "physicalLocation": formvalues.physicalLocation,
@@ -299,8 +285,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
        this.storeType_arrayEdit=this.storeType_array.filter(function(store){
         return subStore.indexOf(store.facilityID) === -1;
       });
-      //  this.storeType_array;
-
     } else{
       this.edit_mainstore = false;
       this.edit_substore = true;
@@ -341,6 +325,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     }
     else {
       this.storeType = "SUB";
+      this.create_store = undefined;
     }
     this.mainStoreDropdownState = value;
   }

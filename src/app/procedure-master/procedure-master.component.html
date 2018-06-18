@@ -38,7 +38,7 @@
                         <!-- <md-form-field [style.width]=" '100%' ">
                             <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
                         </md-form-field> -->
-                        <md-input-container style="width: 100% " measuringUnit>
+                        <md-input-container style="width: 100% ">
                             <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
                                 (change)="procedureUnique()">
 
@@ -72,7 +72,7 @@
                             <input mdInput style="display:none">
                             <ul class="list-inline list-unstyled">
                                 <li>
-                                    <strong> Gender*</strong>
+                                    <strong> Gender</strong>
                                 </li>
                                 <li>
 
@@ -110,12 +110,12 @@
 </div>
 
 <div *ngIf="tableMode ">
-    <div *ngIf="procedureList?.length > 0" class="pull-right">
+    <!-- <div *ngIf="procedureList?.length > 0" class="pull-right">
         <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterprocedureList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
         </md-input-container>
-    </div>
+    </div> -->
     <div class="row">
         <div #tabledData class="col-xs-12 col-sm-12">
             <div class="table-responsive">
@@ -148,8 +148,8 @@
                                     (click)="showForm();configProcedure(item, filteredprocedureList.indexOf(item))">edit</md-icon>
                             </td>
                             <td>
-                                <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), false)">Activate</button>
-                                <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), true)">Deactivate</button>
+                                <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), false,item.procedureName)">Activate</button>
+                                <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="deactivatetoggleProcedure(item.procedureID, filteredprocedureList.indexOf(item), true)">Deactivate</button>
 
                             </td>
                         </tr>

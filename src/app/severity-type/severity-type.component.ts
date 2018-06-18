@@ -65,6 +65,7 @@ export class SeverityTypeComponent implements OnInit {
   getProviderStates(serviceID, isNational) {
     this.severityTypeService.getStates(this.userID, serviceID, isNational).subscribe(response => {
       console.log('success while getting states', response);
+      this.stateId = undefined;
       this.states = response;
       this.setIsNational(isNational);
     }, err => {
@@ -105,7 +106,10 @@ export class SeverityTypeComponent implements OnInit {
     this.providerServiceMapID = psmID;
     this.search = true;
     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-      (err) => this.alertService.alert(err, 'error'));
+      (err) => {
+        console.log("Error", err);
+        //this.dialogService.alert(err, 'error')
+      });
 
   }
 
@@ -184,7 +188,10 @@ export class SeverityTypeComponent implements OnInit {
   }
   finalSubmit() {
     this.severityTypeService.addSeverity(this.severityArray).subscribe(response => this.createdSuccessHandler(response),
-      (err) => this.alertService.alert(err, 'error'));
+      (err) => {
+        console.log("Error", err);
+        //this.dialogService.alert(err, 'error')
+      });
   }
   createdSuccessHandler(res) {
     // alert("severity added successfully");
@@ -225,7 +232,10 @@ export class SeverityTypeComponent implements OnInit {
   deleteSuccessHandler(res) {
     // alert("deleted successfully");
     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-      (err) => this.alertService.alert(err, 'error'));
+      (err) => {
+        console.log("Error", err);
+        //this.dialogService.alert(err, 'error')
+      });
 
     this.alertService.alert(this.confirmMessage + "d successfully", 'success');
   }
@@ -247,7 +257,10 @@ export class SeverityTypeComponent implements OnInit {
       if (result === "success") {
         this.alertService.alert("Updated successfully", 'success');
         this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
-          (err) => this.alertService.alert(err, 'error'));
+          (err) => {
+            console.log("Error", err);
+            //this.dialogService.alert(err, 'error')
+          });
       }
 
     });
@@ -288,7 +301,10 @@ export class EditSeverityModalComponent {
       "severityDesc": value.description
     }
     this.severityTypeService.modifySeverity(object).subscribe(response => this.modifiedSuccessHandler(response),
-      (err) => this.alertService.alert(err, 'error'));
+      (err) => {
+        console.log("error", err);
+        //this.alertService.alert(err, 'error')});
+      });
   }
   addSeverity(value) {
     this.alreadyExist = false;

@@ -79,7 +79,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="stateService.invalid" (click)="setRoleFormFlag(true)">Add Roles</button>
             </td>
           </tr>
         </tfoot>
