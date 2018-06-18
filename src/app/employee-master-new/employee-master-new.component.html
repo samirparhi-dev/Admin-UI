@@ -258,7 +258,7 @@
                 <form #demographicsDetailsForm="ngForm" autocomplete="off">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="50" #ftName="ngModel"
+                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel"
                                 required>
                             <md-hint *ngIf="ftName.touched">
                                 <span class="errorText" [hidden]="!ftName.errors">Enter minimum 2 characters</span>
@@ -267,7 +267,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="50" #mtName="ngModel"
+                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel"
                                 required>
                             <md-hint *ngIf="mtName.touched">
                                 <span class="errorText" [hidden]="!mtName.errors">Enter minimum 2 characters</span>
@@ -307,7 +307,7 @@
                             <div class="clearfix"></div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="width100">
-                                    <input mdInput placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" minlength="2" maxlength="200"
+                                    <input mdInput placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" maxlength="50"
                                         #currentAddress1="ngModel" required>
                                     <md-hint *ngIf="currentAddress1.touched">
                                         <span class="errorText" [hidden]="!currentAddress1.errors">Address is required</span>
@@ -316,7 +316,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="width100">
-                                    <input mdInput placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" minlength="2" maxlength="200"
+                                    <input mdInput placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" maxlength="50"
                                         #currentAddress2="ngModel">
                                     <md-hint *ngIf="currentAddress2.touched">
                                         <span class="errorText" [hidden]="!currentAddress2.errors">Address is required</span>
@@ -369,8 +369,8 @@
                             <div class="clearfix"></div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="width100">
-                                    <input mdInput placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1" minlength="2"
-                                        maxlength="200" #permanentAddress1="ngModel" required>
+                                    <input mdInput placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1"
+                                        maxlength="50" #permanentAddress1="ngModel" required>
                                     <md-hint *ngIf="permanentAddress1.touched">
                                         <span class="errorText" [hidden]="!permanentAddress1.errors">Address is required</span>
                                     </md-hint>
@@ -378,8 +378,8 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="width100">
-                                    <input mdInput placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2" minlength="2"
-                                        maxlength="200" #permanentAddress2="ngModel">
+                                    <input mdInput placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2"
+                                        maxlength="50" #permanentAddress2="ngModel">
                                     <md-hint *ngIf="permanentAddress2.touched">
                                         <span class="errorText" [hidden]="!permanentAddress2.errors">Address is required</span>
                                     </md-hint>

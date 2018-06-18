@@ -129,7 +129,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="width100" myProviderName>
             <input mdInput name="feedbackNature" placeholder="Nature of Complaint" [(ngModel)]="feedbackNature" #newFeedbackNature="ngModel"
-              (keyup)="validateFeedbackNature(feedbackNature)" required>
+              (keyup)="validateFeedbackNature(feedbackNature)" maxlength="50" required>
             <md-hint>
               <span class="error_text" *ngIf="newFeedbackNature.touched && newFeedbackNature.errors ">Nature of Complaint is required</span>
               <span class="error_text" *ngIf="natureExists && newFeedbackNature.touched">{{msg}}</span>

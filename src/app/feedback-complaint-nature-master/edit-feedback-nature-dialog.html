@@ -14,7 +14,7 @@
     <div class="m-t-15">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Nature of Complaint" name="feedbackNature" [(ngModel)]="feedbackNature" (keyup)="validateFeedback(feedbackNature)"
-          #fbNature="ngModel" required>
+          #fbNature="ngModel" maxlength="50" required>
         <md-hint *ngIf="fbNature.errors && fbNature.touched">
           <span class="error_text">Nature of complaint is required</span>
         </md-hint>
@@ -25,7 +25,7 @@
     </div>
     <div class="m-t-15">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Feedback Nature Description" name="feedbackNatureDesc" [(ngModel)]="feedbackNatureDesc" #fbNatureDesc="ngModel">
+        <input mdInput placeholder="Feedback Nature Description" name="feedbackNatureDesc" [(ngModel)]="feedbackNatureDesc" #fbNatureDesc="ngModel" maxlength="100">
         <!-- <md-hint *ngIf="fbNatureDesc.errors && fbNatureDesc.touched">
               <span class="error_text">Feedback Nature Description is required</span>
           </md-hint> -->

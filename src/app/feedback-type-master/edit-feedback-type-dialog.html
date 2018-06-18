@@ -40,7 +40,7 @@
     </div>
     <div class="m-t-10">
       <md-input-container style="width: 100%">
-        <input mdInput placeholder="Feedback Desc" name="feedbackDesc" [(ngModel)]="feedbackDesc" #fbDesc="ngModel">
+        <input mdInput placeholder="Feedback Desc" name="feedbackDesc" [(ngModel)]="feedbackDesc" #fbDesc="ngModel" maxlength="100">
         <!-- <md-hint *ngIf="fbDesc.errors && fbDesc.touched">
               <span class="error_text">Feedback Description is required</span>
           </md-hint> -->
