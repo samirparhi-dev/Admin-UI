@@ -115,7 +115,8 @@
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="search_serviceline!='3'">
           <md-input-container [style.width]="'100%'">
-            <input mdInput placeholder="Feedback Name" name="feedbackName" myProviderName [(ngModel)]="feedbackName" #feedback_name="ngModel" required>
+            <input mdInput placeholder="Feedback Name" name="feedbackName" myProviderName [(ngModel)]="feedbackName" #feedback_name="ngModel"
+              required>
             <md-hint *ngIf="alreadyExist && feedback_name.touched">
               <span class="error_text">Feedback already exist</span>
             </md-hint>
@@ -146,8 +147,7 @@
 
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 " *ngIf="editForm.valid && !feedbackExists">
-          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
-            type="button" (click)="add_obj(feedbackName,feedbackDesc);">
+          <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" type="button" (click)="add_obj(feedbackName,feedbackDesc);this.editForm.reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
         </div>
