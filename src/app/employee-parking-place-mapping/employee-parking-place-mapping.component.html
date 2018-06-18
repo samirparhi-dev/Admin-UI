@@ -62,10 +62,11 @@
                             {{designation.designationName}}
                         </md-option>
 
-                        <md-hint [hidden]=designationVal.valid>
-                            <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
-                        </md-hint>
+
                     </md-select>
+                    <md-hint [hidden]=designationVal.valid>
+                        <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
+                    </md-hint>
                 </md-input-container>
             </div>
         </form>
@@ -78,10 +79,11 @@
                             {{userName.userName}}
                         </md-option>
 
-                        <md-hint [hidden]=userVal.valid>
-                            <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
-                        </md-hint>
+
                     </md-select>
+                    <md-hint [hidden]=userVal.valid>
+                        <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
+                    </md-hint>
                 </md-input-container>
             </div>
         </form>
@@ -204,10 +206,11 @@
                         {{designation.designationName}}
                     </md-option>
 
-                    <md-hint [hidden]=designationVal.valid>
-                        <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
-                    </md-hint>
+
                 </md-select>
+                <md-hint [hidden]=designationVal.valid>
+                    <span class="error_text" *ngIf="!designationVal.required  && ( designationVal.dirty || designationVal.touched)">Please select Designation </span>
+                </md-hint>
             </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="formMode || editMode">
@@ -218,10 +221,11 @@
                         {{userName.userName}}
                     </md-option>
 
-                    <md-hint [hidden]=userVal.valid>
-                        <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
-                    </md-hint>
+
                 </md-select>
+                <md-hint [hidden]=userVal.valid>
+                    <span class="error_text" *ngIf="!userVal.required  && ( userVal.dirty || userVal.touched)">Please select Username </span>
+                </md-hint>
             </md-input-container>
         </div>
 
