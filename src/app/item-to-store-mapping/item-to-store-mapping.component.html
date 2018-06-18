@@ -29,7 +29,7 @@
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
         <div class="row"  class="pull-right">
       <md-input-container id="filterbox">
-        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
+        <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="create_filterTerm" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
     </div>
@@ -61,8 +61,8 @@
             <td>{{item.itemName}}</td>
             <td>{{item.itemCategoryName}}</td>
             <td>
-              <button md-raised-button color="accent" *ngIf="item.deleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!(item.deleted)" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="item.itemFacilityMappingDeleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!(item.itemFacilityMappingDeleted)" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
             </td>
           </tr>
         </tbody>

@@ -124,6 +124,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
         console.log(response, 'after successful creation of pharmacology');
         this.dialogService.alert('Saved successfully', 'success');
         this.showTable();
+        this.getAllPharmacology(this.providerServiceMapID);
       }
     }, err => {
       console.log(err, 'ERROR');
@@ -170,6 +171,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     this.pharmacologicalService.updatePharmacology(editObj).subscribe(response => {
       if (response) {
         this.showTable();
+        this.getAllPharmacology(this.providerServiceMapID);
         console.log(response, 'after successful updation of Pharmacology');
         this.dialogService.alert('Updated successfully', 'success');
         
@@ -188,7 +190,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
       if (response) {
         const object = {
-          "pharmCategoryID": pharmaCategoryID,
+          "pharmacologyCategoryID": pharmaCategoryID,
           "deleted": flag
         };
         this.pharmacologicalService.deletePharmacology(object)
@@ -224,25 +226,13 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     this.editMode = true;
   }
   showTable() {
-    if(this.editMode)
-    {
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.displayTable=true;
-      this.getAllPharmacology(this.providerServiceMapID);
-    }
-    else{
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.PharmaAddForm.reset();
-      this.getAllPharmacology(this.providerServiceMapID);
-    }
-      
+      this.filteredPharmacologicalList = this.pharmacologicalList;
+      // this.getAllPharmacology(this.providerServiceMapID);
   }
   PharmaCodeExist:any=false;
   checkExistance(pharmaCode) {

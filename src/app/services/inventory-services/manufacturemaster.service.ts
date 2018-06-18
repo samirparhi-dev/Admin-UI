@@ -15,6 +15,9 @@ export class ManufacturemasterService {
     save_manufacture_Url: any;
     update_manufacture_Url:any;
     delete_manufacture_Url:any;
+    getAll_Districts_Url: any;
+    getAll_State_Url: any;
+    getAll_Country: any;
 
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -23,6 +26,9 @@ export class ManufacturemasterService {
         this.save_manufacture_Url=this.admin_Base_Url + 'createManufacturer';
         this.update_manufacture_Url=this.admin_Base_Url + 'editManufacturer';
         this.delete_manufacture_Url=this.admin_Base_Url + 'deleteManufacturer';
+        this.getAll_Districts_Url = this.common_Base_Url + 'location/districts/';
+        this.getAll_State_Url = this.common_Base_Url + 'location/states/';
+        this.getAll_Country = this.common_Base_Url + 'location/getCountries';
     };
 
     getAllManufacture(providerServiceMapID) {
@@ -45,6 +51,24 @@ export class ManufacturemasterService {
         return this.http.post(this.delete_manufacture_Url, obj
         ).map(this.handleSuccess)
             .catch(this.handleError);
+    }
+    getAllDistricts(stateID) {
+        return this.http
+            .get(this.getAll_Districts_Url + stateID)
+            .map(this.handleSuccess)
+            .catch(this.handleError)
+    }
+    getAllStates(countryID) {
+        return this.http
+            .get(this.getAll_State_Url + countryID)
+            .map(this.handleSuccess)
+            .catch(this.handleError)
+    }
+    getAllCountry() {
+        return this.http
+            .get(this.getAll_Country)
+            .map(this.handleSuccess)
+            .catch(this.handleError)
     }
     handleError(error: Response | any) {
         return Observable.throw(error.json());

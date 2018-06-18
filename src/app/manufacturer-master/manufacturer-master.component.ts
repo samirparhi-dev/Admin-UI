@@ -23,9 +23,18 @@ export class ManufacturerMasterComponent implements OnInit {
   edit_manufactureCode:any;
   edit_status:any;
   edit_cstNo:any;
+  edit_AddressLine1:any;
+  edit_AddressLine2:any;
+  edit_permanentstate:any;
+  edit_Country:any;
+  edit_District:any;
+  edit_Pincode:any;
   manufactureId:any;
   services_array: any = [];
   states_array: any = [];
+  permnantstates_array: any = [];
+  country_array:any=[];
+  districts_array:any=[];
   manufactureList: any = [];
   filteredManufactureList: any = [];
   availableManufactureCode: any = [];
@@ -34,11 +43,13 @@ export class ManufacturerMasterComponent implements OnInit {
   edit_State: any;
   serviceline: any;
   edit_Serviceline: any;
+  create_filterTerm:string;
 
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
   displayTable: boolean = false;
+  countryCheck:boolean=false;
   @ViewChild('manufactureAddForm') manufactureAddForm: NgForm;
   
   constructor(public commonservice:CommonServices,public commonDataService: dataService,
@@ -50,6 +61,7 @@ export class ManufacturerMasterComponent implements OnInit {
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
     this.getServices();
+    this.getAllCountry();
   }
   getServices() {
     this.commonservice.getServiceLines(this.uid).subscribe(response => {
@@ -84,6 +96,41 @@ export class ManufacturerMasterComponent implements OnInit {
       }
     })
   }
+  getDistricts(stateID) {
+  //  this.addressStateID = stateID;
+    this.manufactureService.getAllDistricts(stateID).subscribe(response => {
+      this.getPermanentDistrictsSuccessHandler(response)
+    }, (err) => console.log(err, 'error'));
+ }
+  getPermanentDistrictsSuccessHandler(response) {
+    console.log("Display all Districts", response);
+    this.districts_array = response;
+  }
+  getAllStates(countryID) {
+    debugger;
+    if(countryID!=1)
+    {
+      this.countryCheck=true;
+    }
+    else{
+      this.manufactureService.getAllStates(countryID).subscribe(response => {
+        this.getPermanentStatesSuccessHandler(response)
+      }, (err) => console.log(err, 'error'));
+    }
+   }
+    getPermanentStatesSuccessHandler(response) {
+      console.log("Display all State", response);
+      this.permnantstates_array = response;
+    }
+    getAllCountry() {
+        this.manufactureService.getAllCountry().subscribe(response => {
+          this.getCountrySuccessHandler(response)
+        }, (err) => console.log(err, 'error'));
+     }
+     getCountrySuccessHandler(response) {
+        console.log("Display all Country", response);
+        this.country_array = response;
+      }
   filterManufactureList(searchTerm?: string) {
     debugger;
     if (!searchTerm) {
@@ -116,7 +163,14 @@ export class ManufacturerMasterComponent implements OnInit {
       "status":formvalues.status1,
       "cST_GST_No": formvalues.cstNo,
       'providerServiceMapID':this.providerServiceMapID,
-      'createdBy':this.createdBy
+      'createdBy':this.createdBy,
+      "addressLine1":formvalues.addressLine1,
+      "addressLine2":formvalues.addressLine2,
+      "districtID": formvalues.district,
+      "stateID": formvalues.state.stateID,
+      "countryID":formvalues.country.countryID,
+      "pinCode":formvalues.pincode,
+      "stateName": formvalues.state.stateName
     }
     this.checkDuplictes(obj);
   }
@@ -146,12 +200,20 @@ export class ManufacturerMasterComponent implements OnInit {
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
     this.manufactureId=editformvalues.manufacturerID;
-  this.edit_manufactureCode=editformvalues.manufacturerCode;
-  this.edit_manufactureName=editformvalues.manufacturerName;
-  this.edit_manufactureDesc=editformvalues.manufacturerDesc;
-  this.edit_contactPerson=editformvalues.contactPerson;
-  this.edit_status=editformvalues.status;
+    this.getAllStates(editformvalues.countryID);
+    this.getDistricts(editformvalues.stateID);
+    this.edit_manufactureCode=editformvalues.manufacturerCode;
+    this.edit_manufactureName=editformvalues.manufacturerName;
+     this.edit_manufactureDesc=editformvalues.manufacturerDesc;
+     this.edit_contactPerson=editformvalues.contactPerson;
+     this.edit_status=editformvalues.status;
   this.edit_cstNo=editformvalues.cST_GST_No;
+  this.edit_AddressLine1=editformvalues.addressLine1;
+  this.edit_AddressLine2=editformvalues.addressLine2;
+  this.edit_permanentstate=editformvalues.stateID;
+  this.edit_Country=editformvalues.countryID;
+  this.edit_District=editformvalues.districtID;
+  this.edit_Pincode=editformvalues.pinCode;
   this.showEditForm();
   }
   updatemanufactre(editformvalues)
@@ -178,6 +240,7 @@ export class ManufacturerMasterComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
+    this.countryCheck=false;
   }
   showEditForm() {
     debugger;
@@ -202,6 +265,7 @@ export class ManufacturerMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Activated successfully', 'success');
               this.getAllManufactures(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -224,6 +288,7 @@ export class ManufacturerMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Deactivated successfully', 'success');
               this.getAllManufactures(this.providerServiceMapID);
+              this.create_filterTerm='';
             }
           },
             err => {
@@ -234,17 +299,15 @@ export class ManufacturerMasterComponent implements OnInit {
 
   }
   showTable() {
-    if(!this.editMode)
-    {
-      this.manufactureAddForm.reset();
-    }
       this.tableMode = true;
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
       this.displayTable=true;
-      
       this.getAllManufactures(this.providerServiceMapID);
+      this.countryCheck=false;
+      this.create_filterTerm='';
+     // this.filteredManufactureList = this.manufactureList;
     }
   saveManufacture() {
     debugger;

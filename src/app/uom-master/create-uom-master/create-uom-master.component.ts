@@ -32,17 +32,11 @@ export class CreateUomMasterComponent implements OnInit {
     if (this.otherDetails) {
       this.createdBy = this.otherDetails.createdBy;
       this.providerServiceMapID = this.otherDetails.providerServiceMapID;
-      this.UOMMasterForm.patchValue({
-        service: this.otherDetails.service.serviceName,
-        state: this.otherDetails.state.stateName
-      });
     }
   }
 
   createUOMMasterForm() {
     return this.fb.group({
-      service: null,
-      state: null,
       UOM: this.fb.group({
         uOMCode: null,
         uOMName: null,
@@ -52,11 +46,31 @@ export class CreateUomMasterComponent implements OnInit {
   }
 
   addToUOMMasterList() {
-    let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
-    if (temp && temp.UOM && temp.UOM.uOMCode){
-      this.UOMMasterList.push(temp.UOM);
-      this.UOMMasterForm.controls['UOM'].reset();
+    if (this.UOMMasterForm.valid) {
+      let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
+      if (temp && temp.UOM && temp.UOM.uOMCode) {
+        this.UOMMasterList.push(temp.UOM);
+        this.UOMMasterForm.controls['UOM'].reset();
+      }
+    } else {
+      this.notificationService.alert("Enter the required field or valid value");
     }
+  }
+
+  checkForUniqueUOMCode() {
+    let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
+    let arr = this.UOMMasterList.filter(item => item.uOMCode == temp.UOM.uOMCode);
+
+    this.uomMasterService.checkForUniqueUOMCode(temp.UOM.uOMCode, this.providerServiceMapID)
+      .subscribe(response => {
+        console.log(response);
+        let flag = response.response;
+        if ( flag == 'true' || arr.length > 0) {
+          (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].setErrors({ unique: true });
+        } else {
+          (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].clearValidators();
+        }
+      })
   }
 
   deleteFromUOMMasterList(i) {
@@ -72,8 +86,7 @@ export class CreateUomMasterComponent implements OnInit {
 
     this.uomMasterService.postUOMMaster(temp)
       .subscribe(response => {
-        console.log('UOM', response);
-        if (response.length > 0){
+        if (response.length > 0) {
           this.notificationService.alert("Created successfully", 'success');
           this.switchToViewMode();
         }
@@ -86,6 +99,4 @@ export class CreateUomMasterComponent implements OnInit {
   switchToViewMode() {
     this.modeChange.emit('view');
   }
-
-
 }

@@ -30,6 +30,7 @@ export class ItemMasterComponent implements OnInit {
   showFormFlag: boolean = false; 
   disableSelection: boolean = false;
  tableMode: boolean = true;
+ create_filterTerm:string;
  
   /*Arrays*/
   services: any = [];
@@ -66,6 +67,7 @@ export class ItemMasterComponent implements OnInit {
   edit_Composition:any;
   edit_Route:any;
   edit_Description:any;
+  itemID:any;
 
 
   @ViewChild('searchForm') searchForm: NgForm;
@@ -154,12 +156,6 @@ export class ItemMasterComponent implements OnInit {
     this.showTableFlag = false;
     this.showFormFlag = true;
     this.disableSelection = true;
-    // this.getCategoriesList(this.providerServiceMapID);
-    // this.getDosageList(this.providerServiceMapID);
-    // this.pharmacologiesList(this.providerServiceMapID);
-    // this.manufacturerList(this.providerServiceMapID);
-    // this.unitOfMeasuresList(this.providerServiceMapID);
-    // this.routeAdminList(this.providerServiceMapID);
   }
   filterItemFromList(searchTerm?: string) {
     debugger;
@@ -182,23 +178,7 @@ export class ItemMasterComponent implements OnInit {
     }
 
   }
-  // filterfacilityMasterList(searchTerm?: string) {
-  //   if (!searchTerm) {
-  //     this.filteredfacilityMasterList = this.facilityMasterList;
-  //   }
-  //   else {
-  //     this.filteredfacilityMasterList = [];
-  //     this.facilityMasterList.forEach((item) => {
-  //       for (let key in item) {
-  //         let value: string = '' + item[key];
-  //         if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-  //           this.filteredfacilityMasterList.push(item); break;
-  //         }
-  //       }
-  //     });
-  //   }
 
-  // }
   setDiscontinue(itemID,discontinue) {
     debugger;
     if (discontinue) {
@@ -215,6 +195,7 @@ export class ItemMasterComponent implements OnInit {
   }
   discontinueSuccesshandler(discontinueResponse,discontinueMessage) {
     this.discontinueresult = discontinueResponse
+    this.create_filterTerm='';
     this.dialogService.alert(discontinueMessage, 'success');
     console.log("discontinue List", this.discontinueresult);
   }
@@ -390,33 +371,21 @@ debugger;
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-
-        //this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
         this.tableMode=true;
         this.editMode=false;
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.disableSelection = false;
+        this.getAllItemsList(this.providerServiceMapID);
+        this.create_filterTerm='';
       }
     })
   }
   editItem(itemlist) {
     debugger;
        console.log("Existing Data", itemlist);
-    // let dialog_Ref = this.dialog.open(EditItemMasterModal, {
-    //   height: '500px',
-    //   width: '1100px',
-    //   disableClose: true,
-    //   data: itemlist
-    // });
-    // dialog_Ref.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    //   if (result === "success") {
-    //     this.dialogService.alert("Item Updated successfully", 'success');
-    //     this.getAllItemsList(this.providerServiceMapID);
-    //   }
-    // });
+       this.itemID=itemlist.itemID;
     this.edit_serviceline=this.service;
     this.edit_state=this.state;
     this.edit_ItemType = itemlist.isMedical;
@@ -440,31 +409,19 @@ debugger;
     this.showFormFlag = false;
     this.editMode = true;
   }
-  update() {
+  update(editItemCreationForm) {
+    debugger;
     let updateItemObject = {
-      // "isMedical": this.edit_ItemType,
-      // "itemCode": this.edit_Code,
-      // "itemName": this.edit_Name,
-      "itemDesc": this.edit_Description,
-      // "itemCategoryID": this.category,
-      // "itemFormID": this.dose,
-      // "pharmacologyCategoryID": this.pharmacology,
-      // "manufacturerID": this.manufacturer,
-      // "strength": this.strength,
-      // "uomID": this.uom,
-      // "isScheduledDrug": this.drugType,
-      // "composition": this.composition,
-      // "routeID": this.route,     
-      // "status": "active",
+      "itemDesc": editItemCreationForm.description,
       "providerServiceMapID": this.providerServiceMapID,
-     // "itemID": this.data.itemID,
-      'modifiedBy': this.createdBy
-
+      'modifiedBy': this.createdBy,
+      "itemID":this.itemID
     }    
     this.itemService.updateItem(updateItemObject).subscribe(response => {
+      this.dialogService.alert('Updated successfully', 'success');
+      this.getAllItemsList(this.providerServiceMapID);
+      this.showTable();
       console.log("Data to be update", response);
-     // this.dialogRef.close("success");
-
     })
   }
   activateDeactivate(itemID, flag) {
@@ -481,6 +438,7 @@ debugger;
             console.log('Activation or deactivation response', res);
             this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
             this.getAllItemsList(this.providerServiceMapID);
+            this.create_filterTerm='';
           }, (err) => this.dialogService.alert(err, 'error'))
       }
     },
