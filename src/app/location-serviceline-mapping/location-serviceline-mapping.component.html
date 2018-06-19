@@ -119,7 +119,7 @@
     <div class="clearfix visible-sm"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container myAddress class="width100">
-        <input mdInput placeholder="Office Address Line 1" maxlength="150" [(ngModel)]="office_address1" name="office_address1" #officeAddress1="ngModel"
+        <input mdInput placeholder="Office Address Line 1" maxlength="140" [(ngModel)]="office_address1" name="office_address1" #officeAddress1="ngModel"
           required>
         <md-hint *ngIf="officeAddress1.errors && officeAddress1.touched">
           <span class="error_text">Address1 is required</span>
@@ -129,7 +129,7 @@
     <div class="clearfix visible-md"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container myAddress class="width100">
-        <input mdInput placeholder="Office Address Line 2" maxlength="150" [(ngModel)]="office_address2 " name="office_address2"
+        <input mdInput placeholder="Office Address Line 2" maxlength="140" [(ngModel)]="office_address2 " name="office_address2"
           #officeAddress2="ngModel" required>
         <md-hint *ngIf="officeAddress2.errors && officeAddress2.touched">
           <span class="error_text">Address2 is required</span>
