@@ -4,9 +4,10 @@
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
           <input mdInput placeholder="UOM Code" name="uomCode" formControlName="uOMCode" required (blur)="checkForUniqueUOMCode()">
-          <md-error *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].hasError('unique')">
-            Please enter a unique uom code
-          </md-error>
+          <md-hint *ngIf="UOMMasterForm.controls['UOM'].invalid && (UOMMasterForm.controls['UOM'].dirty || UOMMasterForm.controls['UOM'].touched)">
+            <span class="error_text" *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].hasError('required')">Please enter Uom Code</span>
+            <span class="error_text" *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].hasError('unique')">Please enter unique Uom Code</span>
+          </md-hint>
         </md-input-container>
       </div>
 

@@ -1,9 +1,10 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServices } from '../services/inventory-services/commonServices';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
 import {ItemFormService} from '../services/inventory-services/item-form-service';
+import { ItemService } from '../services/inventory-services/item.service';
 
 @Component({
   selector: 'app-item-form-master',
@@ -40,7 +41,7 @@ export class ItemFormMasterComponent implements OnInit {
   editMode: boolean = false;
   displayTable: boolean = false;
   @ViewChild('itemAddForm') itemAddForm: NgForm;
-  constructor(public commonservice:CommonServices,public commonDataService: dataService,
+  constructor(public commonservice:CommonServices,public commonDataService: dataService, private itemService: ItemService,
     public dialogService: ConfirmationDialogsService,private itemFormservice:ItemFormService) { }
 
   ngOnInit() {
@@ -132,17 +133,19 @@ debugger;
     this.checkDuplictes(obj);
   }
   checkDuplictes(object) {
-    debugger;
+    console.log(object);
     let duplicateStatus = 0
     if (this.bufferArray.length === 0) {
       this.bufferArray.push(object);
     }
     else {
+      debugger;
       for (let i = 0; i < this.bufferArray.length; i++) {
-        if (this.bufferArray[i].itemFormName == object.itemFormName ||
+        if (this.bufferArray[i].itemForm == object.itemForm ||
           this.bufferArray[i].itemFormCode == object.itemFormCode) {
           duplicateStatus = duplicateStatus + 1;
-          this.dialogService.alert("ItemForm is already added in list");
+
+          this.dialogService.alert(`ItemForm is already added in list`);
         }
       }
       if (duplicateStatus === 0) {
@@ -186,7 +189,7 @@ debugger;
         this.showTable();
         console.log(response, 'after successful updation of Item Form');
         this.dialogService.alert('Updated successfully', 'success');
-        
+
       }
     }, err => {
       console.log(err, 'ERROR');
@@ -228,7 +231,35 @@ debugger;
   }
   ItemFormCodeExist:any=false;
   checkExistance(itemFormCode) {
-    this.ItemFormCodeExist = this.availableItemFormCode.includes(itemFormCode);
-    console.log(this.ItemFormCodeExist);
+    // this.ItemFormCodeExist = this.availableItemFormCode.includes(itemFormCode);
+    // console.log(this.ItemFormCodeExist);
+    this.itemService.confirmItemCodeUnique(itemFormCode, 'itemform', this.providerServiceMapID)
+    .subscribe((res) => {
+      if (res && res.statusCode == 200 && res.data) {
+          console.log(res)
+          console.log(res.data)
+          console.log(res.data.response)
+          // this.itemCodeExist = res.data.response;
+           this.localCodeExists(itemFormCode, res.data.response)
+      }
+    })
+  }
+
+  localCodeExists(code, returned) {
+    let duplicateStatus = 0
+    if (this.bufferArray.length > 0) {
+      for (let i = 0; i < this.bufferArray.length; i++) {
+        if (this.bufferArray[i].itemFormCode === code
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+    }
+  }
+  if (duplicateStatus > 0 || returned == 'true') {
+    this.ItemFormCodeExist = true;
+  } else {
+    this.ItemFormCodeExist = false;
+  }
+
   }
 }

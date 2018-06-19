@@ -5,7 +5,7 @@
       </h4>
     </div>
     <div class="col-xs-12 col-sm-12 p-a-0">
-  
+
       <form id="form" #itemFormSearch="ngForm">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -36,9 +36,9 @@
           </div>
         </div>
       </form>
-  
+
     </div>
-   
+
     <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
       <div class="table-responsive">
         <table [md2Data]="filteredItemFormList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4" >
@@ -68,7 +68,7 @@
               <td>
                 <button md-raised-button color="accent" *ngIf="itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,false)">Unblock</button>
                 <button md-raised-button color="primary" *ngIf="!itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,true)">Block</button>
-  
+
               </td>
             </tr>
           </tbody>
@@ -124,10 +124,10 @@
                       maxlength="20" name="itemFormCode" #itemFormCode="ngModel">
                     <md-hint>
                       <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Please enter Item Form Code</span>
-                      <span class="error_text" *ngIf="pharmaCodeExist">Please enter Pharmacology Code</span>
+                      <span class="error_text" *ngIf="ItemFormCodeExist">ItemForm Code Exists</span>
                     </md-hint>
                   </md-input-container>
-                </div> 
+                </div>
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
               <input mdInput required placeholder="ItemForm Name" myProviderName [(ngModel)]="create_itemFormName" maxlength="100" name="itemFormName"
@@ -136,21 +136,21 @@
                 <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
               </md-hint>
             </md-input-container>
-          </div> 
+          </div>
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
               <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="create_itemFormDesc" maxlength="100" name="itemFormDesc"
                 #itemFormDesc="ngModel">
-             
+
             </md-input-container>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3 m-t-10 ">
-              <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-left" *ngIf="!editMode && itemAddForm.valid"
+              <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-left" *ngIf="!editMode && itemAddForm.valid && !ItemFormCodeExist"
                 color="primary" (click)="add2buffer(itemAddForm.value);this.itemAddForm.reset();">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
               </button>
-            </div>   
-        </form> 
+            </div>
+        </form>
       </div>
       <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
         <div class="table-responsive">
@@ -190,7 +190,7 @@
         <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveItemForm()">Save</button>
         <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="itemAddForm.reset()">Clear</button>
       </div>
-    </div> 
+    </div>
     <div class="row" *ngIf="editMode">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h4>
@@ -210,7 +210,7 @@
                     </md-select>
                   </md-input-container>
                 </div>
-          
+
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                   <md-input-container class="hide_underline" [style.width]="'100%'">
                     <input mdInput style="display:none">
@@ -230,10 +230,10 @@
                         <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Please enter ItemForm Code</span>
                       </md-hint>
                     </md-input-container>
-                  </div> 
+                  </div>
                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                   <md-input-container [style.width]="'100%'">
-                    <input mdInput required placeholder="ItemForm Name" myProviderName [(ngModel)]="edit_itemFormName" [disabled]="true"  maxlength="100" 
+                    <input mdInput required placeholder="ItemForm Name" myProviderName [(ngModel)]="edit_itemFormName" [disabled]="true"  maxlength="100"
                       name="itemFormName" #itemFormName="ngModel">
                     <!-- <md-hint>
                       <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
@@ -244,15 +244,15 @@
                   <md-input-container [style.width]="'100%'">
                     <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="edit_itemFormDesc" maxlength="100" name="itemFormDesc"
                       #itemFormDesc="ngModel">
-                    
+
                   </md-input-container>
                 </div>
-                
+
          </form>
          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
             <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>
             <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="itemEditForm.invalid" (click)="updateItemForm(itemEditForm.value)">Update</button>
-      
+
           </div>
         </div>
       </div>

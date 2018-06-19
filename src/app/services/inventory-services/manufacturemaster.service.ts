@@ -13,8 +13,8 @@ export class ManufacturemasterService {
     common_Base_Url: any;
     get_manufacture_Url: any;
     save_manufacture_Url: any;
-    update_manufacture_Url:any;
-    delete_manufacture_Url:any;
+    update_manufacture_Url: any;
+    delete_manufacture_Url: any;
     getAll_Districts_Url: any;
     getAll_State_Url: any;
     getAll_Country: any;
@@ -23,9 +23,9 @@ export class ManufacturemasterService {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
         this.get_manufacture_Url = this.admin_Base_Url + 'getManufacturer';
-        this.save_manufacture_Url=this.admin_Base_Url + 'createManufacturer';
-        this.update_manufacture_Url=this.admin_Base_Url + 'editManufacturer';
-        this.delete_manufacture_Url=this.admin_Base_Url + 'deleteManufacturer';
+        this.save_manufacture_Url = this.admin_Base_Url + 'createManufacturer';
+        this.update_manufacture_Url = this.admin_Base_Url + 'editManufacturer';
+        this.delete_manufacture_Url = this.admin_Base_Url + 'deleteManufacturer';
         this.getAll_Districts_Url = this.common_Base_Url + 'location/districts/';
         this.getAll_State_Url = this.common_Base_Url + 'location/states/';
         this.getAll_Country = this.common_Base_Url + 'location/getCountries';
@@ -36,18 +36,18 @@ export class ManufacturemasterService {
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
-    
+
     saveManufacture(obj) {
         return this.http.post(this.save_manufacture_Url, obj
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
-    updateManufacture(obj){
+    updateManufacture(obj) {
         return this.http.post(this.update_manufacture_Url, obj
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
-    deleteManufacture(obj){
+    deleteManufacture(obj) {
         return this.http.post(this.delete_manufacture_Url, obj
         ).map(this.handleSuccess)
             .catch(this.handleError);
@@ -69,6 +69,13 @@ export class ManufacturemasterService {
             .get(this.getAll_Country)
             .map(this.handleSuccess)
             .catch(this.handleError)
+    }
+    checkForUniqueManufacturerCode(manufacturerCode, providerServiceMapID) {
+        let checkUrl = this.admin_Base_Url + "checkManufacturerCode";
+        return this.http
+            .post(checkUrl, { manufacturerCode, providerServiceMapID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
     }
     handleError(error: Response | any) {
         return Observable.throw(error.json());

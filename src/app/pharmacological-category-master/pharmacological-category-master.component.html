@@ -124,9 +124,9 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="create_pharmaCode" (blur)="checkExistance(create_pharmaCode)"
             maxlength="20" name="pharmaCode" #pharmaCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!pharmaCode.valid  && ( pharmaCode.dirty || pharmaCode.touched)">Please enter Pharmacology Code</span>
-            <span class="error_text" *ngIf="pharmaCodeExist">Please enter Pharmacology Code</span>
+          <md-hint *ngIf="pharmaCode.invalid && (pharmaCode.dirty || pharmaCode.touched)">
+            <span class="error_text" *ngIf="pharmaCode.hasError('required')">Please enter Pharmacology Code</span>
+            <span class="error_text" *ngIf="pharmaCode.hasError('unique')">Please enter unique Pharmacology Code</span>
           </md-hint>
         </md-input-container>
       </div>

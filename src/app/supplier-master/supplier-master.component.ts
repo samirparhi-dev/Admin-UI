@@ -34,16 +34,16 @@ export class SupplierMasterComponent implements OnInit {
   edit_serviceline: any;
   serviceline: any;
   uid: any;
-  permnantstates_array:any=[];
-  country_array:any=[];
+  permnantstates_array: any = [];
+  country_array: any = [];
   emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
-  create_filterTerm:string;
+  create_filterTerm: string;
 
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
   displayTable: boolean = false;
-  countryCheck:boolean=false;
+  countryCheck: boolean = false;
 
   addressStateID: any;
   createdBy: any;
@@ -98,29 +98,29 @@ export class SupplierMasterComponent implements OnInit {
   }
   getAllStates(countryID) {
     debugger;
-    if(countryID!=1)
-    {
-      this.countryCheck=true;
+    if (countryID != 1) {
+      this.countryCheck = true;
     }
-    else{
+    else {
       this.supplierService.getAllStates().subscribe(response => {
         this.getPermanentStatesSuccessHandler(response)
       }, (err) => console.log(err, 'error'));
     }
-   }
-    getPermanentStatesSuccessHandler(response) {
-      console.log("Display all Districts", response);
-      this.permnantstates_array = response;
-    }
-    getAllCountry() {
-      this.supplierService.getAllCountry().subscribe(response => {
-        this.getCountrySuccessHandler(response)
-      }, (err) => console.log(err, 'error'));
-   }
-   getCountrySuccessHandler(response) {
-      console.log("Display all Country", response);
-      this.country_array = response;
-    }
+  }
+  getPermanentStatesSuccessHandler(response) {
+    console.log("Display all Districts", response);
+    this.permnantstates_array = response;
+  }
+  getAllCountry() {
+    this.supplierService.getAllCountry().subscribe(response => {
+      this.getCountrySuccessHandler(response)
+    }, (err) => console.log(err, 'error'));
+  }
+  getCountrySuccessHandler(response) {
+    console.log("Display all Country", response);
+    this.country_array = response;
+  }
+
   getAllSuppliers(providerServiceMapID) {
     debugger;
     this.createButton = true;
@@ -130,7 +130,7 @@ export class SupplierMasterComponent implements OnInit {
         console.log('All stores services success', response);
         this.supplierList = response;
         this.filteredsupplierList = response;
-        this.displayTable=true;
+        this.displayTable = true;
         for (let availableSupplierCode of this.supplierList) {
           this.availableSupplierCode.push(availableSupplierCode.supplierCode);
         }
@@ -139,20 +139,20 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   showTable() {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-      this.getAllSuppliers(this.providerServiceMapID);
-      this.create_filterTerm='';
-      //this.filteredsupplierList = this.supplierList;
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    this.bufferArray = [];
+    this.resetDropdowns();
+    this.getAllSuppliers(this.providerServiceMapID);
+    this.create_filterTerm = '';
+    //this.filteredsupplierList = this.supplierList;
   }
   showForm() {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
-    this.countryCheck=false;
+    this.countryCheck = false;
   }
   showEditForm() {
     this.tableMode = false;
@@ -190,12 +190,12 @@ export class SupplierMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Activated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
-            this.create_filterTerm='';
+              this.create_filterTerm = '';
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+          });
       }
     });
 
@@ -213,12 +213,12 @@ export class SupplierMasterComponent implements OnInit {
             if (response) {
               this.dialogService.alert('Deactivated successfully', 'success');
               this.getAllSuppliers(this.providerServiceMapID);
-              this.create_filterTerm='';
+              this.create_filterTerm = '';
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+          });
       }
     });
 
@@ -226,7 +226,7 @@ export class SupplierMasterComponent implements OnInit {
   add2buffer(formvalues) {
     debugger;
     //this.resetDropdowns();
-    this.districts_array=[];
+    this.districts_array = [];
     console.log("form values", formvalues);
     const obj = {
       "serviceName": this.serviceline.serviceName,
@@ -249,7 +249,7 @@ export class SupplierMasterComponent implements OnInit {
       "districtID": formvalues.district,
       "stateID": formvalues.state.stateID,
       "pinCode": formvalues.pincode,
-      "countryID":formvalues.country.countryID,
+      "countryID": formvalues.country.countryID,
     }
     this.checkDuplictes(obj);
   }
@@ -305,13 +305,13 @@ export class SupplierMasterComponent implements OnInit {
     this.edit_tinNo = editFormValues.tIN_No;
     this.edit_AddressLine1 = editFormValues.addressLine1;
     this.edit_AddressLine2 = editFormValues.addressLine2;
-    this.edit_state1=editFormValues.stateID;
+    this.edit_state1 = editFormValues.stateID;
     this.edit_Pincode = editFormValues.pinCode;
     this.edit_contactNo = editFormValues.phoneNo1;
     this.edit_emergencyContactNo = editFormValues.phoneNo2;
     this.edit_emailID = editFormValues.email;
     this.edit_district = editFormValues.districtID;
-    this.edit_country=editFormValues.countryID;
+    this.edit_country = editFormValues.countryID;
     this.showEditForm();
     console.log("edit form values", editFormValues)
   }
@@ -335,12 +335,27 @@ export class SupplierMasterComponent implements OnInit {
       console.log(err, 'ERROR');
     })
   }
+
   resetDropdowns() {
 
   }
+
   SupplierCodeExist: any = false;
   checkExistance(supplierCode) {
-    this.SupplierCodeExist = this.availableSupplierCode.includes(supplierCode);
-    console.log(this.SupplierCodeExist);
+    if (supplierCode) {
+      this.supplierService.checkForUniqueSupplierCode(supplierCode, this.providerServiceMapID)
+        .subscribe(response => {
+          let temp = this.bufferArray.filter(item => item.supplierCode == supplierCode);
+          if (response.response == 'true' || temp.length > 0) {
+            this.SupplierCodeExist = true;
+            this.supplierAddForm.controls['supplierCode'].setErrors({ unique: true });
+          }
+          else {
+            this.SupplierCodeExist = false;
+            this.supplierAddForm.controls['supplierCode'].setErrors(null);
+          }
+          console.log(response.response, temp.length, this.SupplierCodeExist);
+        })
+    }
   }
 }

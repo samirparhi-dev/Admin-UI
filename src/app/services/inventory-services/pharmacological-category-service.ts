@@ -11,9 +11,9 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 export class PharmacologicalMasterService {
     adminBaseUrl: any;
     getPharmacologyListUrl: any;
-    savePharmacologyUrl :any;
-    updatePharmacologyUrl:any;
-    deletePharmacologyUrl:any;
+    savePharmacologyUrl: any;
+    updatePharmacologyUrl: any;
+    deletePharmacologyUrl: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -21,10 +21,10 @@ export class PharmacologicalMasterService {
         this.adminBaseUrl = this.basepaths.getAdminBaseUrl();
     };
 
-    getAllPharmacologyList(providerServiceMapID) {       
-        this.getPharmacologyListUrl = this.adminBaseUrl + 'getPharmacologicalcategory';        
+    getAllPharmacologyList(providerServiceMapID) {
+        this.getPharmacologyListUrl = this.adminBaseUrl + 'getPharmacologicalcategory';
         return this.http
-            .post(this.getPharmacologyListUrl , {"providerServiceMapID": providerServiceMapID})
+            .post(this.getPharmacologyListUrl, { "providerServiceMapID": providerServiceMapID })
             .map(this.extractData)
             .catch(this.handleError)
 
@@ -35,16 +35,22 @@ export class PharmacologicalMasterService {
         ).map(this.extractCustomData)
             .catch(this.handleError);
     }
-    updatePharmacology(obj){
+    updatePharmacology(obj) {
         this.updatePharmacologyUrl = this.adminBaseUrl + 'editPharmacologicalcategory';
         return this.http.post(this.updatePharmacologyUrl, obj
         ).map(this.extractCustomData)
             .catch(this.handleError);
     }
-    deletePharmacology(obj){
+    deletePharmacology(obj) {
         this.deletePharmacologyUrl = this.adminBaseUrl + 'deletePharmacologicalcategory';
         return this.http.post(this.deletePharmacologyUrl, obj
         ).map(this.extractCustomData)
+            .catch(this.handleError);
+    }
+    checkForUniquePharmacolgyCategory(pharmCategoryCode, providerServiceMapID) {
+        let checkUrl = this.adminBaseUrl + "checkPharmacologicalcategoryCode";
+        return this.http.post(checkUrl, { pharmCategoryCode, providerServiceMapID })
+            .map(this.extractData)
             .catch(this.handleError);
     }
     private extractCustomData(res: Response) {
@@ -55,7 +61,7 @@ export class PharmacologicalMasterService {
             return Observable.throw(res.json());
         }
     }
-        private extractData(res: Response) {
+    private extractData(res: Response) {
         if (res.json().data && res.json().statusCode == 200) {
             console.log('Pharmacology Category Master Service', res.json(), res.json().data);
             return res.json().data;
@@ -63,10 +69,10 @@ export class PharmacologicalMasterService {
             return Observable.throw(res.json());
         }
     }
-        private handleCustomError(error: Response | any) {
+    private handleCustomError(error: Response | any) {
         return Observable.throw(error.json());
     }
-        private handleError(error: Response | any) {
+    private handleError(error: Response | any) {
         return Observable.throw(error.json());
     }
 }

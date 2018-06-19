@@ -125,9 +125,9 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Manufacturer Code" PAN [(ngModel)]="create_manufactureCode" (blur)="checkExistance(create_manufactureCode)"
             maxlength="20" name="manufactureCode" #manufactureCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!manufactureCode.valid  && ( manufactureCode.dirty || manufactureCode.touched)">Please enter Manufacture Code</span>
-            <span class="error_text" *ngIf="manufactureCodeExist">Please enter Manufacture Code</span>
+          <md-hint *ngIf="manufactureCode.invalid && (manufactureCode.dirty || manufactureCode.touched)">
+            <span class="error_text" *ngIf="manufactureCode.hasError('required')">Please enter Manufacture Code</span>
+            <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Please enter unique Manufacture Code</span>
           </md-hint>
         </md-input-container>
       </div> 

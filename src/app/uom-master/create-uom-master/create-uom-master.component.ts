@@ -59,18 +59,19 @@ export class CreateUomMasterComponent implements OnInit {
 
   checkForUniqueUOMCode() {
     let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
-    let arr = this.UOMMasterList.filter(item => item.uOMCode == temp.UOM.uOMCode);
-
-    this.uomMasterService.checkForUniqueUOMCode(temp.UOM.uOMCode, this.providerServiceMapID)
-      .subscribe(response => {
-        console.log(response);
-        let flag = response.response;
-        if ( flag == 'true' || arr.length > 0) {
-          (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].setErrors({ unique: true });
-        } else {
-          (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].clearValidators();
-        }
-      })
+    if (temp.UOM.uOMCode) {
+      let arr = this.UOMMasterList.filter(item => item.uOMCode == temp.UOM.uOMCode);
+      this.uomMasterService.checkForUniqueUOMCode(temp.UOM.uOMCode, this.providerServiceMapID)
+        .subscribe(response => {
+          let flag = response.response;
+          if (flag == 'true' || arr.length > 0) {
+            (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].setErrors({ unique: true });
+          } else {
+            (<FormGroup>this.UOMMasterForm.controls['UOM']).controls['uOMCode'].setErrors(null);
+          }
+          console.log(response, temp.length);
+        })
+    }
   }
 
   deleteFromUOMMasterList(i) {
