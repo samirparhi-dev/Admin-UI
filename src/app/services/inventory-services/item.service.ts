@@ -16,6 +16,7 @@ export class ItemService {
     getAllPharmacologyCategoryUrl: any;
     getAllManufacturersUrl: any;
     getAllUomUrl: any;
+    checkiTemCodeUniqueUrl: any;
     getAllRoutesUrl: any;
     createItemUrl: any;
     updateItemUrl: any;
@@ -29,21 +30,21 @@ export class ItemService {
     };
     getAllItems(serviceMapID) {
         console.log("serviceMapID", serviceMapID);
-        this.getItemsUrl = this.adminBaseUrl + 'getItemMaster/' + serviceMapID;        
+        this.getItemsUrl = this.adminBaseUrl + 'getItemMaster/' + serviceMapID;
         return this.http
             .get(this.getItemsUrl)
             .map(this.extractData)
             .catch(this.handleError)
     }
     getAllItemsCategory(serviceMapID, flag) {
-        console.log("serviceMapID", serviceMapID, flag);       
-        this.getItemsCategoryUrl = this.adminBaseUrl + 'getItemCategory/' + serviceMapID + '/' + flag;       
+        console.log("serviceMapID", serviceMapID, flag);
+        this.getItemsCategoryUrl = this.adminBaseUrl + 'getItemCategory/' + serviceMapID + '/' + flag;
         return this.http
             .get(this.getItemsCategoryUrl)
             .map(this.extractData)
             .catch(this.handleError)
     }
-    getAllDosages(serviceMapID) {       
+    getAllDosages(serviceMapID) {
         this.getDosageUrl = this.adminBaseUrl + 'getItemForm' + '/' + serviceMapID;
         return this.http
             .get(this.getDosageUrl)
@@ -103,6 +104,17 @@ export class ItemService {
             .catch(this.handleError)
 
     }
+    confirmItemCodeUnique(code, type, serviceID) {
+      this.checkiTemCodeUniqueUrl = this.adminBaseUrl + 'checkCode';
+     return this.http.post(this.checkiTemCodeUniqueUrl,{
+        code: code,
+        name: type,
+        providerServiceMapID: serviceID
+      } )
+      .map( res => res.json());
+
+    }
+
     itemActivationDeactivation(itemID, flag) {
         this.itemActivationDeactivationUrl = this.adminBaseUrl + 'blockItemMaster' + '/'+ itemID + '/' + flag;
         return this.http

@@ -38,7 +38,7 @@
     </form>
 
   </div>
- 
+
   <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
     <div class="table-responsive">
       <table [md2Data]="filteredRouteList"  #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
@@ -124,10 +124,10 @@
                   maxlength="20" name="routeCode" #routeCode="ngModel">
                 <md-hint>
                   <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
-                  <span class="error_text" *ngIf="pharmaCodeExist">Please enter Pharmacology Code</span>
+                  <span class="error_text" *ngIf="RouteCodeExist">RouteCode Exists</span>
                 </md-hint>
               </md-input-container>
-            </div> 
+            </div>
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Route Name" myProviderName [(ngModel)]="create_routeName" maxlength="100" name="routeName"
@@ -136,21 +136,21 @@
             <span class="error_text" *ngIf="!routeName.valid  && ( routeName.dirty || routeName.touched)">Please enter Route Name</span>
           </md-hint>
         </md-input-container>
-      </div> 
+      </div>
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="Route Description" VehicleNO [(ngModel)]="create_routeDesc" maxlength="100" name="routeDesc"
             #routeDesc="ngModel">
-          
+
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-t-10 ">
-          <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && routeAddForm.valid"
+          <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && routeAddForm.valid && !RouteCodeExist"
             color="primary" (click)="add2buffer(routeAddForm.value);this.routeAddForm.reset();">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
-        </div>   
-    </form> 
+        </div>
+    </form>
   </div>
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
     <div class="table-responsive">
@@ -190,7 +190,7 @@
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveRoute()">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="routeAddForm.reset()">Clear</button>
   </div>
-</div> 
+</div>
 <div class="row" *ngIf="editMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
@@ -210,7 +210,7 @@
               </md-select>
             </md-input-container>
           </div>
-    
+
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline" [style.width]="'100%'">
               <input mdInput style="display:none">
@@ -230,10 +230,10 @@
                   <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
                 </md-hint> -->
               </md-input-container>
-            </div> 
+            </div>
          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Route Name" PAN [(ngModel)]="edit_routeName" [disabled]="true"  maxlength="100" 
+              <input mdInput required placeholder="Route Name" PAN [(ngModel)]="edit_routeName" [disabled]="true"  maxlength="100"
                 name="routeName" #routeName="ngModel">
               <!-- <md-hint>
                 <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
@@ -244,10 +244,10 @@
             <md-input-container [style.width]="'100%'">
               <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="edit_routeDesc" maxlength="100" name="routeDesc"
                 #routeDesc="ngModel">
-             
+
             </md-input-container>
           </div>
-          
+
    </form>
    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="showTable()">Back</button>

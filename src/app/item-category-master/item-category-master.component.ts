@@ -4,6 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdRadioChange } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { ItemService } from '../services/inventory-services/item.service';
 import { NgForm } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { ItemCategoryService } from '../services/inventory-services/item-category.service';
@@ -24,7 +25,7 @@ export class ItemCategoryMasterComponent implements OnInit {
   providerServiceMapID: any;
   services_array: any[];
   states_array: any[];
-  
+
   codeExists: Boolean = false;
   itemsList = [];
   filteredItemList = [];
@@ -57,6 +58,7 @@ export class ItemCategoryMasterComponent implements OnInit {
   @ViewChild('categoryCreationForm') categoryCreationForm: NgForm;
 
   constructor(public commonservice: CommonServices, public commonDataService: dataService,
+    public itemService: ItemService,
     public dialogService: ConfirmationDialogsService, private itemCategoryService: ItemCategoryService, public dialog: MdDialog) { }
 
   ngOnInit() {
@@ -233,7 +235,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         this.back();
         console.log(response, 'after successful updation of Item category');
         this.dialogService.alert('Updated successfully', 'success');
-        
+
       }
     }, err => {
       console.log(err, 'ERROR');
@@ -253,20 +255,50 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
 
   checkCodeExistance(code) {
-    console.log(code)
-    let duplicate = 0;
-    this.itemsList.forEach((cat, i) => {
-      if (cat.itemCategoryCode == code) {
-        this.codeExists = true;
-        duplicate++;
+    // console.log(code)
+    // let duplicate = 0;
+    // this.itemsList.forEach((cat, i) => {
+    //   if (cat.itemCategoryCode == code) {
+    //     this.codeExists = true;
+    //     duplicate++;
+    //   }
+    // })
+
+    // if (duplicate) {
+    //   this.codeExists = true;
+    // } else {
+    //   this.codeExists = false;
+    // }
+
+    this.itemService.confirmItemCodeUnique(code, 'Itemcategory', this.providerServiceMapID)
+    .subscribe((res) => {
+      if (res && res.statusCode == 200 && res.data) {
+          console.log(res)
+          console.log(res.data)
+          console.log(res.data.response)
+          // this.itemCodeExist = res.data.response;
+          this.localCodeExists(code, res.data.response)
       }
     })
+  }
 
-    if (duplicate) {
-      this.codeExists = true;
-    } else {
-      this.codeExists = false;
+  localCodeExists(code, returned) {
+    let duplicateStatus = 0
+    if (this.forCreationObjects.length > 0) {
+      for (let i = 0; i < this.forCreationObjects.length; i++) {
+        if (this.forCreationObjects[i].itemCategoryCode === code
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+
+        }
     }
+  }
+  if (duplicateStatus > 0 || returned == 'true') {
+    this.codeExists = true;
+  } else {
+    this.codeExists = false;
+  }
+
   }
 }
 
