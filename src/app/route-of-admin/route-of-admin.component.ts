@@ -1,9 +1,10 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServices } from '../services/inventory-services/commonServices';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
-import {RouteofAdminService} from '../services/inventory-services/route-of-admin.service';
+import { RouteofAdminService } from '../services/inventory-services/route-of-admin.service';
+import { ItemService } from '../services/inventory-services/item.service';
 
 @Component({
   selector: 'app-route-of-admin',
@@ -19,7 +20,7 @@ export class RouteOfAdminComponent implements OnInit {
   providerServiceMapID: any;
   routeList: any = [];
   filteredRouteList: any = [];
-  RouteID:any;
+  RouteID: any;
   services_array: any = [];
   states_array: any = [];
   bufferArray: any = [];
@@ -27,27 +28,28 @@ export class RouteOfAdminComponent implements OnInit {
   edit_State: any;
   serviceline: any;
   edit_Serviceline: any;
-  edit_routeName:any;
-  edit_routeDesc:any;
-  edit_routeCode:any;
-  confirmMessage:any;
-  availableRouteCode:any;
-  routeID:any;
+  edit_routeName: any;
+  edit_routeDesc: any;
+  edit_routeCode: any;
+  confirmMessage: any;
+  availableRouteCode: any;
+  routeID: any;
 
   formMode: boolean = false;
   tableMode: boolean = true;
   editMode: boolean = false;
   displayTable: boolean = false;
-  create_filterTerm:string;
+  create_filterTerm: string;
 
   @ViewChild('routeAddForm') routeAddForm: NgForm;
-  constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    public dialogService: ConfirmationDialogsService,private routeAdminService:RouteofAdminService) { }
+  constructor(public commonservice: CommonServices, public commonDataService: dataService,
+    public itemService: ItemService,
+    public dialogService: ConfirmationDialogsService, private routeAdminService: RouteofAdminService) { }
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
     console.log(this.createdBy, "CreatedBy");
-   this.serviceProviderID = this.commonDataService.service_providerID;
+    this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
     this.getServices();
   }
@@ -77,7 +79,7 @@ export class RouteOfAdminComponent implements OnInit {
         console.log('All stores services success', response);
         this.routeList = response;
         this.filteredRouteList = response;
-        this.displayTable=true;
+        this.displayTable = true;
         // for (let availableRouteCode of this.routeList) {
         //   this.availableRouteCode.push(availableRouteCode.routeCode);
         // }
@@ -93,13 +95,12 @@ export class RouteOfAdminComponent implements OnInit {
       this.filteredRouteList = [];
       this.routeList.forEach((item) => {
         for (let key in item) {
-          if(key=="routeCode" ||key=="routeName" ||key=="routeDesc")
-          {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredRouteList.push(item); break;
-        }
-      }
+          if (key == "routeCode" || key == "routeName" || key == "routeDesc") {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredRouteList.push(item); break;
+            }
+          }
         }
       });
     }
@@ -125,9 +126,9 @@ export class RouteOfAdminComponent implements OnInit {
     const obj = {
       "routeName": formvalues.routeName,
       "routeDesc": formvalues.routeDesc,
-      "routeCode":formvalues.routeCode,
-      'providerServiceMapID':this.providerServiceMapID,
-      'createdBy':this.createdBy
+      "routeCode": formvalues.routeCode,
+      'providerServiceMapID': this.providerServiceMapID,
+      'createdBy': this.createdBy
     }
     this.checkDuplictes(obj);
   }
@@ -164,71 +165,95 @@ export class RouteOfAdminComponent implements OnInit {
     })
   }
   showTable() {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.getAllRouteOfAdmin(this.providerServiceMapID);
-      this.create_filterTerm='';
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    this.bufferArray = [];
+    this.displayTable = true;
+    this.getAllRouteOfAdmin(this.providerServiceMapID);
+    this.create_filterTerm = '';
   }
-  editRoute(editformvalues)
-  {
+  editRoute(editformvalues) {
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
-    this.routeID=editformvalues.routeID
-     this.edit_routeCode=editformvalues.routeCode;
-    this.edit_routeDesc=editformvalues.routeDesc;
-    this.edit_routeName=editformvalues.routeName;
+    this.routeID = editformvalues.routeID
+    this.edit_routeCode = editformvalues.routeCode;
+    this.edit_routeDesc = editformvalues.routeDesc;
+    this.edit_routeName = editformvalues.routeName;
     this.showEditForm();
   }
-  updateRoute(editformvalues)
-  {
+  updateRoute(editformvalues) {
     debugger;
-    const editObj={
+    const editObj = {
       "routeDesc": editformvalues.routeDesc,
       "ModifiedBy": this.createdBy,
-      "routeID":this.routeID
+      "routeID": this.routeID
     }
     this.routeAdminService.updateItemRoute(editObj).subscribe(response => {
       if (response) {
         this.showTable();
         console.log(response, 'after successful updation of Item Form');
         this.dialogService.alert('Updated successfully', 'success');
-        
+
       }
     }, err => {
       console.log(err, 'ERROR');
     })
   }
-  activateDeactivate(routeID,flag) {
+  activateDeactivate(routeID, flag) {
     debugger;
     if (flag) {
       this.confirmMessage = 'Block';
     } else {
       this.confirmMessage = 'Unblock';
     }
-    this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe(response => {
       if (response) {
         const object = {
-          "routeID":routeID,
+          "routeID": routeID,
           "deleted": flag
         };
         this.routeAdminService.deleteItemRoute(object)
-        .subscribe((res) => {
+          .subscribe((res) => {
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllRouteOfAdmin(this.providerServiceMapID);
-            this.create_filterTerm='';
-        }, (err) => {
-          console.log("error", err);
-        });
+            this.create_filterTerm = '';
+          }, (err) => {
+            console.log("error", err);
+          });
       }
     });
 
   }
-  RouteCodeExist:any=false;
+  RouteCodeExist: any = false;
   checkExistance(routeCode) {
-    this.RouteCodeExist = this.availableRouteCode.includes(routeCode);
-    console.log(this.RouteCodeExist);
+    this.itemService.confirmItemCodeUnique(routeCode, 'route', this.providerServiceMapID)
+      .subscribe((res) => {
+        if (res && res.statusCode == 200 && res.data) {
+          console.log(res)
+          console.log(res.data)
+          console.log(res.data.response)
+          // this.itemCodeExist = res.data.response;
+          this.localCodeExists(routeCode, res.data.response)
+        }
+      })
+  }
+
+  localCodeExists(code, returned) {
+    let duplicateStatus = 0
+    if (this.bufferArray.length > 0) {
+      for (let i = 0; i < this.bufferArray.length; i++) {
+        if (this.bufferArray[i].routeCode === code
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+      }
+    }
+    if (duplicateStatus > 0 || returned == 'true') {
+      this.RouteCodeExist = true;
+    } else {
+      this.RouteCodeExist = false;
+    }
   }
 }
+
