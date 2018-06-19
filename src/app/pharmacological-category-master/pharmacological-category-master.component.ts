@@ -22,10 +22,10 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
   filteredPharmacologicalList: any = [];
   availablepharmacologicalCode: any = [];
   bufferArray: any = [];
-  edit_pharmaName:any;
-  edit_pharmaDesc:any;
-  edit_pharmaCode:any;
-  pharmCategoryID:any;
+  edit_pharmaName: any;
+  edit_pharmaDesc: any;
+  edit_pharmaCode: any;
+  pharmCategoryID: any;
   confirmMessage: any;
   state: any;
   edit_State: any;
@@ -38,8 +38,8 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
   displayTable: boolean = false;
   @ViewChild('PharmaAddForm') PharmaAddForm: NgForm;
 
-  constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    public dialogService: ConfirmationDialogsService,private pharmacologicalService: PharmacologicalMasterService) { }
+  constructor(public commonservice: CommonServices, public commonDataService: dataService,
+    public dialogService: ConfirmationDialogsService, private pharmacologicalService: PharmacologicalMasterService) { }
 
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
@@ -74,7 +74,7 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
         console.log('All stores services success', response);
         this.pharmacologicalList = response;
         this.filteredPharmacologicalList = response;
-        this.displayTable=true;
+        this.displayTable = true;
         for (let availablepharmacologicalCode of this.pharmacologicalList) {
           this.availablepharmacologicalCode.push(availablepharmacologicalCode.pharmCategoryCode);
         }
@@ -88,8 +88,8 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
       "pharmCategoryCode": formvalues.pharmaCode,
       "pharmCategoryName": formvalues.pharmaName,
       "pharmCategoryDesc": formvalues.pharmaDesc,
-      'providerServiceMapID':this.providerServiceMapID,
-      'createdBy':this.createdBy
+      'providerServiceMapID': this.providerServiceMapID,
+      'createdBy': this.createdBy
     }
     this.checkDuplictes(obj);
   }
@@ -138,35 +138,33 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
       this.filteredPharmacologicalList = [];
       this.pharmacologicalList.forEach((item) => {
         for (let key in item) {
-          if(key=="pharmCategoryCode"||key=="pharmCategoryName"||key=="pharmCategoryDesc")
-          {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredPharmacologicalList.push(item); break;
+          if (key == "pharmCategoryCode" || key == "pharmCategoryName" || key == "pharmCategoryDesc") {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredPharmacologicalList.push(item); break;
+            }
           }
-        }
         }
       });
     }
 
   }
-  editPharm(editformvalues){
+  editPharm(editformvalues) {
     debugger;
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
-  this.pharmCategoryID=editformvalues.pharmacologyCategoryID;
-  this.edit_pharmaCode=editformvalues.pharmCategoryCode;
-  this.edit_pharmaName=editformvalues.pharmCategoryName;
-  this.edit_pharmaDesc=editformvalues.pharmCategoryDesc;
-  this.showEditForm();
+    this.pharmCategoryID = editformvalues.pharmacologyCategoryID;
+    this.edit_pharmaCode = editformvalues.pharmCategoryCode;
+    this.edit_pharmaName = editformvalues.pharmCategoryName;
+    this.edit_pharmaDesc = editformvalues.pharmCategoryDesc;
+    this.showEditForm();
   }
-  updatepharmacology(editformvalues)
-  {
+  updatepharmacology(editformvalues) {
     debugger;
-    const editObj={
+    const editObj = {
       "pharmCategoryDesc": editformvalues.pharmaDesc,
       "ModifiedBy": this.createdBy,
-      "pharmacologyCategoryID":this.pharmCategoryID
+      "pharmacologyCategoryID": this.pharmCategoryID
     }
     this.pharmacologicalService.updatePharmacology(editObj).subscribe(response => {
       if (response) {
@@ -174,41 +172,39 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
         this.getAllPharmacology(this.providerServiceMapID);
         console.log(response, 'after successful updation of Pharmacology');
         this.dialogService.alert('Updated successfully', 'success');
-        
+
       }
     }, err => {
       console.log(err, 'ERROR');
     })
   }
-  activateDeactivate(pharmaCategoryID,flag) {
+  activateDeactivate(pharmaCategoryID, flag) {
     debugger;
     if (flag) {
       this.confirmMessage = 'Deactivate';
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe(response => {
       if (response) {
         const object = {
           "pharmacologyCategoryID": pharmaCategoryID,
           "deleted": flag
         };
         this.pharmacologicalService.deletePharmacology(object)
-        .subscribe((res) => {
-          if(res.response!=undefined)
-          {
-            this.dialogService.alert(res.response, 'error');
-          }
-          else 
-          {
-            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
-            this.getAllPharmacology(this.providerServiceMapID);
-            
-          }
-        
-        }, (err) => {
-          console.log("error", err);
-        });
+          .subscribe((res) => {
+            if (res.response != undefined) {
+              this.dialogService.alert(res.response, 'error');
+            }
+            else {
+              this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+              this.getAllPharmacology(this.providerServiceMapID);
+
+            }
+
+          }, (err) => {
+            console.log("error", err);
+          });
       }
     });
 
@@ -226,18 +222,30 @@ export class PharmacologicalCategoryMasterComponent implements OnInit {
     this.editMode = true;
   }
   showTable() {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.displayTable=true;
-      this.filteredPharmacologicalList = this.pharmacologicalList;
-      // this.getAllPharmacology(this.providerServiceMapID);
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    this.bufferArray = [];
+    this.displayTable = true;
+    this.filteredPharmacologicalList = this.pharmacologicalList;
+    // this.getAllPharmacology(this.providerServiceMapID);
   }
-  PharmaCodeExist:any=false;
+
+  PharmaCodeExist: any = false;
   checkExistance(pharmaCode) {
-    debugger;
-    this.PharmaCodeExist = this.availablepharmacologicalCode.includes(pharmaCode);
-    console.log(this.PharmaCodeExist);
+    if (pharmaCode) {
+      this.pharmacologicalService.checkForUniquePharmacolgyCategory(pharmaCode, this.providerServiceMapID)
+        .subscribe(response => {
+          let temp = this.bufferArray.filter(item => item.pharmCategoryCode == pharmaCode);
+          if (response.response == 'true' || temp.length > 0) {
+            this.PharmaCodeExist = true;
+            this.PharmaAddForm.controls["pharmaCode"].setErrors({ unique: true });
+          } else {
+            this.PharmaCodeExist = false;
+            this.PharmaAddForm.controls["pharmaCode"].setErrors(null);
+          }
+          console.log(response.response, this.PharmaCodeExist, temp.length);
+        })
+    }
   }
 }

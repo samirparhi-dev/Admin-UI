@@ -19,7 +19,7 @@ export class SuppliermasterService {
     save_supplier_Url: any;
     update_supplier_Url: any;
     getAll_State_Url: any;
-    getAll_Country:any;
+    getAll_Country: any;
 
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
@@ -90,6 +90,14 @@ export class SuppliermasterService {
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
+
+    checkForUniqueSupplierCode(supplierCode, providerServiceMapID) {
+        let checkUrl = this.admin_Base_Url + "checkSupplierCode";
+        return this.http.post(checkUrl, { supplierCode, providerServiceMapID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    
     handleSuccess(res: Response) {
         console.log(res.json().data, 'Main Stores file success response');
         if (res.json().data) {

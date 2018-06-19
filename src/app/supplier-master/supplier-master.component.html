@@ -129,9 +129,9 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" maxlength="20"  (blur)="checkExistance(create_supplierCode)"
             maxlength="100" name="supplierCode" #supplierCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!supplierCode.valid  && ( supplierCode.dirty || supplierCode.touched)">Please enter Supplier Code</span>
-            <span class="error_text" *ngIf="SupplierCodeExist">Please enter Supplier Code</span>
+          <md-hint *ngIf="supplierCode.invalid && (supplierCode.dirty || supplierCode.touched)">
+            <span class="error_text" *ngIf="supplierCode.hasError('required')">Please enter Supplier Code</span>
+            <span class="error_text" *ngIf="supplierCode.hasError('unique')">Please enter unique Supplier Code</span>
           </md-hint>
         </md-input-container>
       </div>
