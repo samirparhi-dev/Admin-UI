@@ -27,11 +27,11 @@ export class ItemMasterComponent implements OnInit {
   itemCodeExist: any;
   editMode: boolean = false;
   showTableFlag: boolean = false;
-  showFormFlag: boolean = false; 
+  showFormFlag: boolean = false;
   disableSelection: boolean = false;
  tableMode: boolean = true;
  create_filterTerm:string;
- 
+
   /*Arrays*/
   services: any = [];
   states: any = [];
@@ -101,7 +101,7 @@ export class ItemMasterComponent implements OnInit {
   servicesSuccesshandler(res) {
     this.services =res;
     // this.services = res.filter((item) => {
-    //   console.log('item', item);     
+    //   console.log('item', item);
     // })
   }
 
@@ -199,9 +199,37 @@ export class ItemMasterComponent implements OnInit {
     this.dialogService.alert(discontinueMessage, 'success');
     console.log("discontinue List", this.discontinueresult);
   }
-  checkCodeExistance(code) { 
-    this.itemCodeExist = this.availableItemCodeInList.includes(code);
-    console.log(this.itemCodeExist);
+  checkCodeExistance(code) {
+    // console.log(code);
+    // this.itemCodeExist = this.availableItemCodeInList.includes(code);
+    this.itemService.confirmItemCodeUnique(code, 'itemmaster', this.providerServiceMapID)
+    .subscribe((res) => {
+      if (res && res.statusCode == 200 && res.data) {
+          console.log(res)
+          console.log(res.data)
+          console.log(res.data.response)
+          // this.itemCodeExist = res.data.response;
+          this.localCodeExists(code, res.data.response)
+      }
+    })
+  }
+
+  localCodeExists(code, returned) {
+    let duplicateStatus = 0
+    if (this.itemArrayObj.length > 0) {
+      for (let i = 0; i < this.itemArrayObj.length; i++) {
+        if (this.itemArrayObj[i].itemCode === code
+        ) {
+          duplicateStatus = duplicateStatus + 1;
+        }
+    }
+  }
+  if (duplicateStatus > 0 || returned == 'true') {
+    this.itemCodeExist = true;
+  } else {
+    this.itemCodeExist = false;
+  }
+
   }
   getCategoriesList(providerServiceMapID) {
     this.itemService.getAllItemsCategory(this.providerServiceMapID, 0).subscribe((categoryResponse) => {
@@ -306,24 +334,24 @@ debugger;
     const multipleItem = {
       // "serviceName": this.service.serviceName,
       // "stateName": this.state.stateName,
-      "isMedical": formValue.itemType,
-      "itemCode": formValue.code,
-      "itemName": formValue.name,
-      "itemDesc": formValue.description,
-      "itemCategoryID": formValue.category.itemCategoryID,
-      "itemFormID": formValue.dose.itemFormID,
-      "pharmacologyCategoryID": formValue.pharmacology.pharmacologyCategoryID,
-      "manufacturerID": formValue.manufacturer.manufacturerID,
-      "strength": formValue.strength,
-      "uomID": formValue.uom.uOMID,
-      "isScheduledDrug": formValue.drugType,
-      "composition": formValue.composition,
-      "routeID": formValue.route.routeID,
-      "createdBy": this.createdBy,      
-      "providerServiceMapID": this.providerServiceMapID,
-      "status": "active"
+      'isMedical': formValue.itemType,
+      'itemCode': formValue.code,
+      'itemName': formValue.name,
+      'itemDesc': formValue.description,
+      'itemCategoryID': formValue.category.itemCategoryID,
+      'itemFormID': formValue.dose.itemFormID,
+      'pharmacologyCategoryID': formValue.pharmacology.pharmacologyCategoryID,
+      'manufacturerID': formValue.manufacturer.manufacturerID,
+      'strength': formValue.strength,
+      'uomID': formValue.uom.uOMID,
+      'isScheduledDrug': formValue.drugType,
+      'composition': formValue.composition,
+      'routeID': formValue.route.routeID,
+      'createdBy': this.createdBy,
+      'providerServiceMapID': this.providerServiceMapID,
+      'status': 'active'
     }
-    console.log("multipleItem", multipleItem);    
+    console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
     this.itemCreationForm.resetForm();
   }
@@ -361,7 +389,7 @@ debugger;
         this.itemArrayObj = [];
         this.dialogService.alert('Item Created Successfully', 'success');
         this.showTable();
-        
+
         this.getAllItemsList(this.providerServiceMapID);
       }
     }, err => {
@@ -416,7 +444,7 @@ debugger;
       "providerServiceMapID": this.providerServiceMapID,
       'modifiedBy': this.createdBy,
       "itemID":this.itemID
-    }    
+    }
     this.itemService.updateItem(updateItemObject).subscribe(response => {
       this.dialogService.alert('Updated successfully', 'success');
       this.getAllItemsList(this.providerServiceMapID);
@@ -489,9 +517,9 @@ export class EditItemMasterModal {
 
   ngOnInit() {
     console.log("Initial value", this.data);
-    this.setProviderServiceMapID(this.data); 
+    this.setProviderServiceMapID(this.data);
   }
-  setProviderServiceMapID(data) {   
+  setProviderServiceMapID(data) {
     this.providerServiceMapID = this.data.providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
     this.getCategoriesList(this.providerServiceMapID);
@@ -500,7 +528,7 @@ export class EditItemMasterModal {
     this.manufacturerList(this.providerServiceMapID);
     this.unitOfMeasuresList(this.providerServiceMapID);
     this.routeAdminList(this.providerServiceMapID);
-    this.edit();  
+    this.edit();
   }
   getCategoriesList(providerServiceMapID) {
     this.itemService.getAllItemsCategory(this.providerServiceMapID, 0).subscribe((categoryResponse) => {
@@ -606,13 +634,13 @@ export class EditItemMasterModal {
       "uomID": this.uom,
       "isScheduledDrug": this.drugType,
       "composition": this.composition,
-      "routeID": this.route,     
+      "routeID": this.route,
       "status": "active",
       "providerServiceMapID": this.data.providerServiceMapID,
       "itemID": this.data.itemID,
       'modifiedBy': this.data.createdBy
 
-    }    
+    }
     this.itemService.updateItem(updateItemObject).subscribe(response => {
       console.log("Data to be update", response);
       this.dialogRef.close("success");
