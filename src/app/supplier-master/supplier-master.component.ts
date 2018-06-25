@@ -87,6 +87,7 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   getDistricts(stateID) {
+    debugger;
     this.addressStateID = stateID;
     this.supplierService.getAllDistricts(this.addressStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
@@ -320,7 +321,13 @@ export class SupplierMasterComponent implements OnInit {
     const editObj = {
       "supplierID": this.supplierID,
       "supplierDesc": editedFormValues.supplierDesc,
-      "ModifiedBy": this.createdBy
+      "ModifiedBy": this.createdBy,
+      "addressLine1": editedFormValues.addressLine1,
+      "addressLine2": editedFormValues.addressLine2,
+      "districtID": editedFormValues.edit_district,
+      "stateID": editedFormValues.edit_state1,
+      "pinCode": editedFormValues.pincode,
+      "countryID": editedFormValues.country
     }
 
     this.supplierService.updateSupplier(editObj).subscribe(response => {

@@ -220,7 +220,13 @@ export class ManufacturerMasterComponent implements OnInit {
     const editObj = {
       "manufacturerDesc": editformvalues.manufactureDesc,
       "ModifiedBy": this.createdBy,
-      "manufacturerID": this.manufactureId
+      "manufacturerID": this.manufactureId,
+      "addressLine1": editformvalues.addressLine1,
+      "addressLine2": editformvalues.addressLine2,
+      "districtID": editformvalues.district,
+      "stateID": editformvalues.edit_permanentstate,
+      "countryID": editformvalues.country,
+      "pinCode": editformvalues.pincode,
     }
     this.manufactureService.updateManufacture(editObj).subscribe(response => {
       if (response) {

@@ -287,7 +287,7 @@
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-    <form id="Editform" #manufactureEditForm="ngForm">
+    <form id="Editform" #manufactureEditForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline" [style.width]="'100%'">
               <input mdInput style="display:none">
@@ -365,7 +365,7 @@
             </div>  
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="width100">
-                <input mdInput placeholder="Address Line 1" [(ngModel)]="edit_AddressLine1" [disabled]="true" name="addressLine1" minlength="2" maxlength="200"
+                <input mdInput placeholder="Address Line 1" [(ngModel)]="edit_AddressLine1"  name="addressLine1" minlength="2" maxlength="200"
                   #Address1="ngModel" required>
                 <md-hint *ngIf="Address1.touched">
                   <span class="errorText" [hidden]="!Address1.errors">Address is required</span>
@@ -374,7 +374,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="width100">
-                <input mdInput placeholder="Address Line 2" [(ngModel)]="edit_AddressLine2" [disabled]="true" name="addressLine2" minlength="2" maxlength="200"
+                <input mdInput placeholder="Address Line 2" [(ngModel)]="edit_AddressLine2"  name="addressLine2" minlength="2" maxlength="200"
                   #Address2="ngModel">
                 <md-hint *ngIf="Address2.touched">
                   <span class="errorText" [hidden]="!Address2.errors">Address is required</span>
@@ -384,7 +384,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="hide_underline" [style.width]="'100%'">
                 <input mdInput style="display:none">
-                <md-select required name="country" placeholder="Country" [style.width]="'100%'" [disabled]="true"  [(ngModel)]="edit_Country">
+                <md-select required name="country" placeholder="Country" [style.width]="'100%'"   [(ngModel)]="edit_Country"  (change)="getAllStates(edit_Country)">
                   <md-option *ngFor="let item of country_array" [value]="item.countryID">
                     {{item.countryName}}
                   </md-option>
@@ -394,7 +394,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="hide_underline" [style.width]="'100%'">
                 <input mdInput style="display:none">
-                <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="true" (change)="getDistricts(edit_permanentstate.stateID)" [(ngModel)]="edit_permanentstate">
+                <md-select required name="edit_permanentstate" placeholder="State" [style.width]="'100%'"  (change)="getDistricts(edit_permanentstate)" [(ngModel)]="edit_permanentstate">
                   <md-option *ngFor="let item of permnantstates_array" [value]="item.stateID">
                     {{item.stateName}}
                   </md-option>
@@ -404,14 +404,14 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="hide_underline width100">
                 <input mdInput style="display:none">
-                <md-select placeholder="District" class="width100" [(ngModel)]="edit_District" [disabled]="true" name="district" required>
+                <md-select placeholder="District" class="width100" [(ngModel)]="edit_District"  name="edit_District" required>
                   <md-option *ngFor="let item of districts_array" [value]="item.districtID">{{item.districtName}}</md-option>
                 </md-select>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <md-input-container class="width100" myMobileNumber>
-                <input mdInput placeholder="Pincode" [(ngModel)]="edit_Pincode" [disabled]="true" name="pincode" minlength="6" maxlength="6" #Pin="ngModel" required>
+                <input mdInput placeholder="Pincode" [(ngModel)]="edit_Pincode"  name="pincode" minlength="6" maxlength="6" #Pin="ngModel" required>
                 <md-hint *ngIf="Pin.touched">
                   <span class="errorText" [hidden]="!Pin.errors">Pincode is required</span>
                 </md-hint>
