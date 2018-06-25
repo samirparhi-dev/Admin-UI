@@ -45,9 +45,9 @@
           <thead>
             <tr>
                 <th width="5%">S.No.</th>
-              <th>ItemForm Code</th>
-              <th>ItemForm Name</th>
-              <th>ItemForm Description</th>
+              <th>Item Form Code</th>
+              <th>Item Form Name</th>
+              <th>Item Form Description</th>
               <th>Edit</th>
               <th>Action</th>
             </tr>
@@ -66,8 +66,8 @@
                 (click)="editItemForm(itemForm)">edit</md-icon>
               </td>
               <td>
-                <button md-raised-button color="accent" *ngIf="itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,false)">Unblock</button>
-                <button md-raised-button color="primary" *ngIf="!itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,true)">Block</button>
+                <button md-raised-button color="accent" *ngIf="itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,false)">Activate</button>
+                <button md-raised-button color="primary" *ngIf="!itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,true)">Deactivate</button>
 
               </td>
             </tr>
@@ -78,7 +78,7 @@
                 <md2-pagination></md2-pagination>
               </td>
               <td colspan="4" class="p-r-0">
-                <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create ItemForm</button>
+                <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create Item Form</button>
               </td>
             </tr>
           </tfoot>
@@ -120,17 +120,17 @@
           <form id="addform" #itemAddForm="ngForm" autocomplete="off">
               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                   <md-input-container [style.width]="'100%'">
-                    <input mdInput required placeholder="ItemForm Code" PAN [(ngModel)]="create_itemFormCode" (blur)="checkExistance(create_itemFormCode)"  minlength="1"
+                    <input mdInput required placeholder="Item Form Code" PAN [(ngModel)]="create_itemFormCode" (blur)="checkExistance(create_itemFormCode)"  minlength="1"
                       maxlength="20" name="itemFormCode" #itemFormCode="ngModel">
                     <md-hint>
                       <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Enter minimum 1 character</span>
-                      <span class="error_text" *ngIf="ItemFormCodeExist">ItemForm Code Exists</span>
+                      <span class="error_text" *ngIf="ItemFormCodeExist">Item Form Code Exists</span>
                     </md-hint>
                   </md-input-container>
                 </div>
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="ItemForm Name" myProviderName [(ngModel)]="create_itemFormName" maxlength="100" name="itemFormName"
+              <input mdInput required placeholder="Item Form Name" myProviderName [(ngModel)]="create_itemFormName" maxlength="100" name="itemFormName"
                 #itemFormName="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
@@ -139,7 +139,7 @@
           </div>
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="create_itemFormDesc" maxlength="100" name="itemFormDesc"
+              <input mdInput  placeholder="Item Form Description" VehicleNO [(ngModel)]="create_itemFormDesc" maxlength="100" name="itemFormDesc"
                 #itemFormDesc="ngModel">
 
             </md-input-container>
@@ -158,9 +158,9 @@
             <thead>
               <tr>
                   <th width="5%">S.No.</th>
-                <th>ItemForm Code</th>
-                <th>ItemForm Name</th>
-                <th>ItemForm Description</th>
+                <th>Item Form Code</th>
+                <th>Item Form Name</th>
+                <th>Item Form Description</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -224,7 +224,7 @@
                 <div class="clearfix visible-md visible-lg"></div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                     <md-input-container [style.width]="'100%'">
-                      <input mdInput required placeholder="ItemForm Code" PAN [(ngModel)]="edit_itemFormCode"   maxlength="100" [disabled]="true"
+                      <input mdInput required placeholder="Item Form Code" PAN [(ngModel)]="edit_itemFormCode"   maxlength="100" [disabled]="true"
                         name="itemFormCode" #itemFormCode="ngModel">
                       <md-hint>
                         <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Please enter ItemForm Code</span>
@@ -233,7 +233,7 @@
                   </div>
                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                   <md-input-container [style.width]="'100%'">
-                    <input mdInput required placeholder="ItemForm Name" myProviderName [(ngModel)]="edit_itemFormName" [disabled]="true"  maxlength="100"
+                    <input mdInput required placeholder="Item Form Name" myProviderName [(ngModel)]="edit_itemFormName" [disabled]="true"  maxlength="100"
                       name="itemFormName" #itemFormName="ngModel">
                     <!-- <md-hint>
                       <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
@@ -242,7 +242,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                   <md-input-container [style.width]="'100%'">
-                    <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="edit_itemFormDesc" maxlength="100" name="itemFormDesc"
+                    <input mdInput  placeholder="Item Form Description" VehicleNO [(ngModel)]="edit_itemFormDesc" maxlength="100" name="itemFormDesc"
                       #itemFormDesc="ngModel">
 
                   </md-input-container>

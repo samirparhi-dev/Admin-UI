@@ -219,7 +219,7 @@ export class ManufacturerMasterComponent implements OnInit {
     debugger;
     const editObj = {
       "manufacturerDesc": editformvalues.manufactureDesc,
-      "ModifiedBy": this.createdBy,
+      "modifiedBy": this.createdBy,
       "manufacturerID": this.manufactureId,
       "addressLine1": editformvalues.addressLine1,
       "addressLine2": editformvalues.addressLine2,

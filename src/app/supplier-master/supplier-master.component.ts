@@ -321,7 +321,7 @@ export class SupplierMasterComponent implements OnInit {
     const editObj = {
       "supplierID": this.supplierID,
       "supplierDesc": editedFormValues.supplierDesc,
-      "ModifiedBy": this.createdBy,
+      "modifiedBy": this.createdBy,
       "addressLine1": editedFormValues.addressLine1,
       "addressLine2": editedFormValues.addressLine2,
       "districtID": editedFormValues.edit_district,

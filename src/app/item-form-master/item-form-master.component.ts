@@ -207,9 +207,9 @@ debugger;
   activateDeactivate(itemFormID,flag) {
     debugger;
     if (flag) {
-      this.confirmMessage = 'Block';
+      this.confirmMessage = 'Deactivate';
     } else {
-      this.confirmMessage = 'Unblock';
+      this.confirmMessage = 'Activate';
     }
     this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
       if (response) {
