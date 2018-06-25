@@ -35,6 +35,7 @@ import { myProviderName } from './directives/name/myName.directive';
 import { VehicleNO } from './directives/name/myName.directive';
 import { VehicleNONew } from './directives/name/myName.directive';
 import { PAN } from './directives/name/myName.directive';
+import { DLNO } from './directives/name/myName.directive';
 import { measuringUnit } from './directives/name/myName.directive';
 import { InterceptedHttp } from './http.interceptor'
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service'
@@ -240,7 +241,7 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
   declarations: [
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
-    myProviderName, VehicleNO, VehicleNONew, PAN, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    myProviderName, VehicleNO, VehicleNONew, PAN,DLNO, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
     AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
     AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
     ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,

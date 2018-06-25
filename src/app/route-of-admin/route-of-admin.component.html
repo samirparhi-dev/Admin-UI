@@ -120,10 +120,10 @@
       <form id="addform" #routeAddForm="ngForm" autocomplete="off">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="create_routeCode" (blur)="checkExistance(create_routeCode)"
+                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="create_routeCode" (blur)="checkExistance(create_routeCode)" minlength="1"
                   maxlength="20" name="routeCode" #routeCode="ngModel">
                 <md-hint>
-                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
+                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Enter minimum 1 character</span>
                   <span class="error_text" *ngIf="RouteCodeExist">RouteCode Exists</span>
                 </md-hint>
               </md-input-container>

@@ -6,7 +6,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 p-a-0">
 
-    <form id="form" #storeSearchForm="ngForm">
+    <form id="form" #storeSearchForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -127,10 +127,10 @@
     <form id="addform" #supplierAddForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" maxlength="20"  (blur)="checkExistance(create_supplierCode)"
-            maxlength="100" name="supplierCode" #supplierCode="ngModel">
+          <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" minlength="1" maxlength="15" (blur)="checkExistance(create_supplierCode)"
+           name="supplierCode" #supplierCode="ngModel">
           <md-hint *ngIf="supplierCode.invalid && (supplierCode.dirty || supplierCode.touched)">
-            <span class="error_text" *ngIf="supplierCode.hasError('required')">Please enter Supplier Code</span>
+            <span class="error_text" *ngIf="supplierCode.hasError('required')">Enter minimum 1 character</span>
             <span class="error_text" *ngIf="supplierCode.hasError('unique')">Please enter unique Supplier Code</span>
           </md-hint>
         </md-input-container>
@@ -167,7 +167,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="DL.No.(Drug License No.)" PAN [(ngModel)]="create_drugLicense" maxlength="50" name="drugLicense"
+          <input mdInput required placeholder="DL.No.(Drug License No.)" DLNO [(ngModel)]="create_drugLicense" maxlength="50" name="drugLicense"
             #drugLicense="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!drugLicense.valid  && ( drugLicense.dirty || drugLicense.touched)">Please enter Drug License</span>
@@ -324,7 +324,7 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 m-t-15 m-b-15">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable();supplierAddForm.reset();districts_array=[];permnantstates_array=[];">Back</button>
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveSupplier()">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="supplierAddForm.reset();districts_array=[];permnantstates_array=[];">Clear</button>

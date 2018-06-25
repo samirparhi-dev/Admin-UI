@@ -121,7 +121,7 @@
         <input mdInput placeholder="Item Category Code" PAN [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Category Code has to be of 1 to 10 Characters</span>
+          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 character</span>
           <span class="errorText" *ngIf="codeExists">Category code already exists</span>
 
         </md-hint>

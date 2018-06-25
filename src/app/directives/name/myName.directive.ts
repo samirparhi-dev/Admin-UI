@@ -178,5 +178,26 @@ export class measuringUnit {
 
 }
 
+@Directive({
+
+	selector: '[DLNO]'
+})
+export class DLNO {
+	constructor(element: ElementRef) {
+
+	}
+
+
+	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
+		var regex = new RegExp(/^[~ !@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
+		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+		if (regex.test(key)) {
+			ev.preventDefault();
+		}
+	}
+
+
+}
+
 
 

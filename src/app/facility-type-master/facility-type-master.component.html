@@ -123,10 +123,10 @@
     <form id="inputform" #facilityAddForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode"
+              <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode" minlength="1"
                 maxlength="10" name="facilityCode" #facilityTypeCode="ngModel">
               <md-hint>
-                <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
+                <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Enter minimum 1 character</span>
                 <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Type Code already exists</span>
               </md-hint>
             </md-input-container>

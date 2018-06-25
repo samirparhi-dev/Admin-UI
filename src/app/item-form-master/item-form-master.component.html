@@ -6,7 +6,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 p-a-0">
 
-      <form id="form" #itemFormSearch="ngForm">
+      <form id="form" #itemFormSearch="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
@@ -120,10 +120,10 @@
           <form id="addform" #itemAddForm="ngForm" autocomplete="off">
               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                   <md-input-container [style.width]="'100%'">
-                    <input mdInput required placeholder="ItemForm Code" PAN [(ngModel)]="create_itemFormCode" (blur)="checkExistance(create_itemFormCode)"
+                    <input mdInput required placeholder="ItemForm Code" PAN [(ngModel)]="create_itemFormCode" (blur)="checkExistance(create_itemFormCode)"  minlength="1"
                       maxlength="20" name="itemFormCode" #itemFormCode="ngModel">
                     <md-hint>
-                      <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Please enter Item Form Code</span>
+                      <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Enter minimum 1 character</span>
                       <span class="error_text" *ngIf="ItemFormCodeExist">ItemForm Code Exists</span>
                     </md-hint>
                   </md-input-container>

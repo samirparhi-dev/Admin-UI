@@ -151,7 +151,7 @@
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(code)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
+          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 character</span>
           <span class="errorText" *ngIf="itemCodeExist">Item code is already exists</span>
         </md-hint>
       </md-input-container>

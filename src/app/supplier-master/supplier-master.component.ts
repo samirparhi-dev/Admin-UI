@@ -36,7 +36,7 @@ export class SupplierMasterComponent implements OnInit {
   uid: any;
   permnantstates_array: any = [];
   country_array: any = [];
-  emailPattern = /^[0-9a-z_.]+@[a-z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   create_filterTerm: string;
 
   formMode: boolean = false;

@@ -6,7 +6,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 p-a-0">
 
-    <form id="form" #manfactureSearchForm="ngForm">
+    <form id="form" #manfactureSearchForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -123,10 +123,10 @@
      <form id="addform" #manufactureAddForm="ngForm" autocomplete="off">
        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Manufacturer Code" PAN [(ngModel)]="create_manufactureCode" (blur)="checkExistance(create_manufactureCode)"
-            maxlength="20" name="manufactureCode" #manufactureCode="ngModel">
+          <input mdInput required placeholder="Manufacturer Code" PAN [(ngModel)]="create_manufactureCode" (blur)="checkExistance(create_manufactureCode)" minlength="1"
+            maxlength="15" name="manufactureCode" #manufactureCode="ngModel">
           <md-hint *ngIf="manufactureCode.invalid && (manufactureCode.dirty || manufactureCode.touched)">
-            <span class="error_text" *ngIf="manufactureCode.hasError('required')">Please enter Manufacture Code</span>
+            <span class="error_text" *ngIf="manufactureCode.hasError('required')">Enter minimum 1 character</span>
             <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Please enter unique Manufacture Code</span>
           </md-hint>
         </md-input-container>
