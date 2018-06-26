@@ -118,7 +118,9 @@ export class RouteOfAdminComponent implements OnInit {
     this.editMode = true;
   }
   removeRow(index) {
+    debugger;
     this.bufferArray.splice(index, 1);
+    
   }
   add2buffer(formvalues) {
     debugger;
@@ -215,7 +217,7 @@ export class RouteOfAdminComponent implements OnInit {
         };
         this.routeAdminService.deleteItemRoute(object)
           .subscribe((res) => {
-            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+            this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
             this.getAllRouteOfAdmin(this.providerServiceMapID);
             this.create_filterTerm = '';
           }, (err) => {

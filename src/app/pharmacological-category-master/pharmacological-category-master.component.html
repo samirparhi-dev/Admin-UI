@@ -125,8 +125,8 @@
           <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="create_pharmaCode" (blur)="checkExistance(create_pharmaCode)"  minlength="1"
             maxlength="15" name="pharmaCode" #pharmaCode="ngModel">
           <md-hint *ngIf="pharmaCode.invalid && (pharmaCode.dirty || pharmaCode.touched)">
-            <span class="error_text" *ngIf="pharmaCode.hasError('required')">Enter minimum 1 character</span>
-            <span class="error_text" *ngIf="pharmaCode.hasError('unique')">Please enter unique Pharmacology Code</span>
+            <span class="error_text" *ngIf="pharmaCode.hasError('required')">Pharmacology Code is required</span>
+            <span class="error_text" *ngIf="pharmaCode.hasError('unique')">Pharmacology Code already exists</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -135,7 +135,7 @@
           <input mdInput required placeholder="Pharmacology Name" myProviderName [(ngModel)]="create_pharmaName" maxlength="100" name="pharmaName"
             #pharmaName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!pharmaName.valid  && ( pharmaName.dirty || pharmaName.touched)">Please enter Pharmacology Name</span>
+            <span class="error_text" *ngIf="!pharmaName.valid  && ( pharmaName.dirty || pharmaName.touched)">Pharmacology Name is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -229,25 +229,18 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="edit_pharmaCode" maxlength="15" [disabled]="true"
             name="pharmaCode" #pharmaCode="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!pharmaCode.valid  && ( pharmaCode.dirty || pharmaCode.touched)">Please enter Pharmacology Code</span>
-          </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Pharmacology Name" PAN [(ngModel)]="edit_pharmaName" maxlength="100" [disabled]="true"
             name="pharmaName" #pharmaName="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!pharmaName.valid  && ( pharmaName.dirty || pharmaName.touched)">Please enter Pharmacology Name</span>
-          </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput placeholder="Pharmacology Description" VehicleNO [(ngModel)]="edit_pharmaDesc" maxlength="100" name="pharmaDesc"
             #pharmaDesc="ngModel">
-
         </md-input-container>
       </div>
 

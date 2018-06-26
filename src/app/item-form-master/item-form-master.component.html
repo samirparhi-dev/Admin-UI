@@ -123,8 +123,8 @@
                     <input mdInput required placeholder="Item Form Code" PAN [(ngModel)]="create_itemFormCode" (blur)="checkExistance(create_itemFormCode)"  minlength="1"
                       maxlength="15" name="itemFormCode" #itemFormCode="ngModel">
                     <md-hint>
-                      <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Enter minimum 1 character</span>
-                      <span class="error_text" *ngIf="ItemFormCodeExist">Item Form Code Exists</span>
+                      <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Item Form Code is required</span>
+                      <span class="error_text" *ngIf="ItemFormCodeExist">Item Form Code exists</span>
                     </md-hint>
                   </md-input-container>
                 </div>
@@ -133,7 +133,7 @@
               <input mdInput required placeholder="Item Form Name" myProviderName [(ngModel)]="create_itemFormName" maxlength="100" name="itemFormName"
                 #itemFormName="ngModel">
               <md-hint>
-                <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Please enter ItemForm Name</span>
+                <span class="error_text" *ngIf="!itemFormName.valid  && ( itemFormName.dirty || itemFormName.touched)">Item Form Name is required</span>
               </md-hint>
             </md-input-container>
           </div>
@@ -226,9 +226,9 @@
                     <md-input-container [style.width]="'100%'">
                       <input mdInput required placeholder="Item Form Code" PAN [(ngModel)]="edit_itemFormCode"   maxlength="15" [disabled]="true"
                         name="itemFormCode" #itemFormCode="ngModel">
-                      <md-hint>
-                        <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Please enter ItemForm Code</span>
-                      </md-hint>
+                      <!-- <md-hint>
+                        <span class="error_text" *ngIf="!itemFormCode.valid  && ( itemFormCode.dirty || itemFormCode.touched)">Item Form Code</span>
+                      </md-hint> -->
                     </md-input-container>
                   </div>
                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
