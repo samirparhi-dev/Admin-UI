@@ -130,8 +130,8 @@
           <input mdInput required placeholder="Supplier Code" PAN [(ngModel)]="create_supplierCode" minlength="1" maxlength="15" (blur)="checkExistance(create_supplierCode)"
            name="supplierCode" #supplierCode="ngModel">
           <md-hint *ngIf="supplierCode.invalid && (supplierCode.dirty || supplierCode.touched)">
-            <span class="error_text" *ngIf="supplierCode.hasError('required')">Enter minimum 1 character</span>
-            <span class="error_text" *ngIf="supplierCode.hasError('unique')">Please enter unique Supplier Code</span>
+            <span class="error_text" *ngIf="supplierCode.hasError('required')">Supplier Code is required</span>
+            <span class="error_text" *ngIf="supplierCode.hasError('unique')">Supplier Code already exists</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -141,7 +141,7 @@
           <input mdInput required placeholder="Supplier Name" myProviderName [(ngModel)]="create_supplierName" maxlength="100" name="supplierName"
             #supplierName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!supplierName.valid  && ( supplierName.dirty || supplierName.touched)">Please enter Supplier Name</span>
+            <span class="error_text" *ngIf="!supplierName.valid  && ( supplierName.dirty || supplierName.touched)">Supplier Name is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -150,9 +150,6 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="Supplier Description" VehicleNO [(ngModel)]="create_supplierDesc" maxlength="100" name="supplierDesc"
             #supplierDesc="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!supplierDesc.valid">Please enter Supplier Description</span>
-          </md-hint>
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
@@ -160,9 +157,9 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="Contact Person" myProviderName [(ngModel)]="create_contactPerson" maxlength="50" name="contactPerson"
             #contactPerson="ngModel">
-          <md-hint>
+          <!-- <md-hint>
             <span class="error_text" *ngIf="contactPerson.errors">Please enter Contact Person</span>
-          </md-hint>
+          </md-hint> -->
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -170,7 +167,7 @@
           <input mdInput  placeholder="DL.No.(Drug License No.)" DLNO [(ngModel)]="create_drugLicense" minlength="1" maxlength="15" name="drugLicense"
             #drugLicense="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="drugLicense.errors">Please enter valid Drug License</span>
+            <span class="error_text" *ngIf="drugLicense.errors">Required min 1 max 15 digit DL.No</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -178,7 +175,7 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter valid CST/GST No</span>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -186,7 +183,7 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="TIN No." myMobileNumber [(ngModel)]="create_tinNo" minlength="12" maxlength="12" name="tinNo" #tinNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="tinNo.errors">Please enter valid TIN No</span>
+            <span class="error_text" *ngIf="tinNo.errors">Required 12 digit TIN number</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -204,7 +201,7 @@
           <input mdInput placeholder="Address Line 2" [(ngModel)]="AddressLine2" name="addressLine2" minlength="2" maxlength="100"
             #Address2="ngModel">
           <md-hint *ngIf="Address2.touched">
-            <span class="errorText" [hidden]="!Address2.errors">Enter minimum 2 letters</span>
+            <span class="errorText" [hidden]="!Address2.errors">Address is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -241,7 +238,7 @@
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Pincode" [(ngModel)]="Pincode" name="pincode" minlength="6" maxlength="6" #Pin="ngModel" >
           <md-hint *ngIf="Pin.touched">
-            <span class="errorText" [hidden]="!Pin.errors">Enter valid Pincode</span>
+            <span class="errorText" [hidden]="!Pin.errors">Required 6 digit Pincode</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -401,10 +398,10 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput  placeholder="DL.No.(Drug License No.)" DLNO [(ngModel)]="edit_drugLicense" maxlength="100"
+          <input mdInput  placeholder="DL.No.(Drug License No.)" DLNO [(ngModel)]="edit_drugLicense" maxlength="15"
             name="drugLicense" #drugLicense="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="drugLicense.errors">Please enter valid Drug License</span>
+            <span class="error_text" *ngIf="drugLicense.errors">Required min 1 max 15 digit DL.No </span>
           </md-hint>
         </md-input-container>
       </div>
@@ -413,7 +410,7 @@
           <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo"  minlength="15" maxlength="15" name="cstNo"
             #cstNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Please enter CST/GST No</span>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -422,7 +419,7 @@
           <input mdInput  placeholder="TIN No." myMobileNumber [(ngModel)]="edit_tinNo" minlength="12" maxlength="12" name="tinNo"
             #tinNo="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="tinNo.errors">Please enter valid TIN No</span>
+            <span class="error_text" *ngIf="tinNo.errors">Required 12 digit TIN number</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -474,7 +471,7 @@
           <input mdInput placeholder="Pincode" [(ngModel)]="edit_Pincode" name="pincode"  minlength="6" maxlength="6"
             #Pin="ngModel" >
           <md-hint *ngIf="Pin.touched">
-            <span class="errorText" [hidden]="!Pin.errors">Enter valid Pincode</span>
+            <span class="errorText" [hidden]="!Pin.errors">Required 6 digit Pincode</span>
           </md-hint>
         </md-input-container>
       </div>

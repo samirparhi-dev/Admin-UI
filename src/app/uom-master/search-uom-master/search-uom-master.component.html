@@ -19,11 +19,13 @@
         </md-option>
       </md-select>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-4" *ngIf="(UOMMasterList.length > 0 || filteredUOMMasterList.length > 0) && mode == 'view'">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="(UOMMasterList.length > 0 || filteredUOMMasterList.length > 0) && mode == 'view'">
+        <div class="row" class="pull-right">
       <md-input-container class="input-full-width">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterUOMMasterList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
       </md-input-container>
+    </div>
     </div>
   </div>
 </form>
@@ -35,11 +37,11 @@
         <thead>
           <tr>
             <th style="width: 5%">S.No.</th>
-            <th style="width: 15%">UOM Code</th>
-            <th style="width: 20%">UOM Name</th>
-            <th style="width: 40%">Description</th>
-            <th style="width: 10%">Edit</th>
-            <th style="width: 10%">&nbsp;</th>
+            <th>UOM Code</th>
+            <th>UOM Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody *ngIf="UOMMasterList.length == 0 || filteredUOMMasterList.length == 0">
