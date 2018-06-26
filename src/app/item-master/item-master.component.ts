@@ -29,8 +29,8 @@ export class ItemMasterComponent implements OnInit {
   showTableFlag: boolean = false;
   showFormFlag: boolean = false;
   disableSelection: boolean = false;
- tableMode: boolean = true;
- create_filterTerm:string;
+  tableMode: boolean = true;
+  create_filterTerm: string;
 
   /*Arrays*/
   services: any = [];
@@ -52,22 +52,24 @@ export class ItemMasterComponent implements OnInit {
   edit_routes: any = [];
   itemArrayObj: any = [];
   availableItemCodeInList: any = [];
-  edit_serviceline:any;
-  edit_state:any;
-  edit_ItemType :any;
-  edit_Code:any;
-  edit_Name:any;
-  edit_Category:any;
-  edit_Dose:any;
-  edit_Pharmacology:any;
-  edit_Manufacturer:any;
-  edit_Strength:any;
-  edit_Uom:any;
-  edit_DrugType:any;
-  edit_Composition:any;
-  edit_Route:any;
-  edit_Description:any;
-  itemID:any;
+  edit_serviceline: any;
+  edit_state: any;
+  edit_ItemType: any;
+  edit_Code: any;
+  edit_Name: any;
+  edit_Category: any;
+  edit_Dose: any;
+  edit_Pharmacology: any;
+  edit_Manufacturer: any;
+  edit_Strength: any;
+  edit_Uom: any;
+  edit_DrugType: any;
+  edit_Composition: any;
+  edit_Route: any;
+  edit_Description: any;
+  itemID: any;
+
+  drugType = false;
 
 
   @ViewChild('searchForm') searchForm: NgForm;
@@ -99,7 +101,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   servicesSuccesshandler(res) {
-    this.services =res;
+    this.services = res;
     // this.services = res.filter((item) => {
     //   console.log('item', item);
     // })
@@ -109,7 +111,7 @@ export class ItemMasterComponent implements OnInit {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     console.log('psmid', this.providerServiceMapID);
-     this.getAllItemsList(providerServiceMapID);
+    this.getAllItemsList(providerServiceMapID);
     this.getCategoriesList(this.providerServiceMapID);
     this.getDosageList(this.providerServiceMapID);
     this.pharmacologiesList(this.providerServiceMapID);
@@ -152,7 +154,7 @@ export class ItemMasterComponent implements OnInit {
     }
   }
   showForm() {
-    this.tableMode=false;
+    this.tableMode = false;
     this.showTableFlag = false;
     this.showFormFlag = true;
     this.disableSelection = true;
@@ -166,36 +168,35 @@ export class ItemMasterComponent implements OnInit {
       this.filteredItemList = [];
       this.itemsList.forEach((item) => {
         for (let key in item) {
-          if(key=='itemCode' ||key=='itemName')
-          {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredItemList.push(item); break;
+          if (key == 'itemCode' || key == 'itemName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredItemList.push(item); break;
+            }
           }
-        }
         }
       });
     }
 
   }
 
-  setDiscontinue(itemID,discontinue) {
+  setDiscontinue(itemID, discontinue) {
     debugger;
     if (discontinue) {
       this.discontinueMessage = 'Item Discontinued';
     } else {
       this.discontinueMessage = 'Item Continued';
     }
-    this.itemService.setDiscontinue(itemID,discontinue).subscribe((discontinueResponse) => {
-      this.discontinueSuccesshandler(discontinueResponse,this.discontinueMessage),
+    this.itemService.setDiscontinue(itemID, discontinue).subscribe((discontinueResponse) => {
+      this.discontinueSuccesshandler(discontinueResponse, this.discontinueMessage),
         (err) => console.log("ERROR in setDiscontinue")
     });
     console.log("value", discontinue, itemID);
 
   }
-  discontinueSuccesshandler(discontinueResponse,discontinueMessage) {
+  discontinueSuccesshandler(discontinueResponse, discontinueMessage) {
     this.discontinueresult = discontinueResponse
-    this.create_filterTerm='';
+    this.create_filterTerm = '';
     this.dialogService.alert(discontinueMessage, 'success');
     console.log("discontinue List", this.discontinueresult);
   }
@@ -203,15 +204,15 @@ export class ItemMasterComponent implements OnInit {
     // console.log(code);
     // this.itemCodeExist = this.availableItemCodeInList.includes(code);
     this.itemService.confirmItemCodeUnique(code, 'itemmaster', this.providerServiceMapID)
-    .subscribe((res) => {
-      if (res && res.statusCode == 200 && res.data) {
+      .subscribe((res) => {
+        if (res && res.statusCode == 200 && res.data) {
           console.log(res)
           console.log(res.data)
           console.log(res.data.response)
           // this.itemCodeExist = res.data.response;
           this.localCodeExists(code, res.data.response)
-      }
-    })
+        }
+      })
   }
 
   localCodeExists(code, returned) {
@@ -222,13 +223,13 @@ export class ItemMasterComponent implements OnInit {
         ) {
           duplicateStatus = duplicateStatus + 1;
         }
+      }
     }
-  }
-  if (duplicateStatus > 0 || returned == 'true') {
-    this.itemCodeExist = true;
-  } else {
-    this.itemCodeExist = false;
-  }
+    if (duplicateStatus > 0 || returned == 'true') {
+      this.itemCodeExist = true;
+    } else {
+      this.itemCodeExist = false;
+    }
 
   }
   getCategoriesList(providerServiceMapID) {
@@ -238,7 +239,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   categoriesSuccesshandler(categoryResponse) {
-    this.edit_categories=categoryResponse;
+    this.edit_categories = categoryResponse;
     this.categories = categoryResponse.filter(
       category => category.deleted != true
     );
@@ -251,7 +252,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   dosageSuccesshandler(dosageResponse) {
-    this.edit_dosages=dosageResponse;
+    this.edit_dosages = dosageResponse;
     this.dosages = dosageResponse.filter(
       dose => dose.deleted != true
     );
@@ -269,7 +270,7 @@ export class ItemMasterComponent implements OnInit {
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
     debugger;
-    this.edit_pharmacologies=pharmacologyResponse;
+    this.edit_pharmacologies = pharmacologyResponse;
     this.pharmacologies = pharmacologyResponse.filter(
       pharmacology => pharmacology.deleted != true
     );
@@ -286,7 +287,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   manufacturerSuccesshandler(manufacturerResponse) {
-    this.edit_Manufacturerlist=manufacturerResponse;
+    this.edit_Manufacturerlist = manufacturerResponse;
     this.manufacturers = manufacturerResponse.filter(
       manufacture => manufacture.deleted != true
     );
@@ -303,7 +304,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   uomSuccesshandler(uomResponse) {
-    this.edit_measures=uomResponse;
+    this.edit_measures = uomResponse;
     this.measures = uomResponse.filter(
       uom => uom.deleted != true
     );
@@ -318,7 +319,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   routeSuccesshandler(routeResponse) {
-    this.edit_routes=routeResponse;
+    this.edit_routes = routeResponse;
     this.routes = routeResponse.filter(
       route => route.deleted != true
     );
@@ -330,7 +331,7 @@ export class ItemMasterComponent implements OnInit {
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
-debugger;
+    debugger;
     const multipleItem = {
       // "serviceName": this.service.serviceName,
       // "stateName": this.state.stateName,
@@ -378,8 +379,8 @@ debugger;
   showTable() {
     this.showTableFlag = true;
     this.showFormFlag = false;
-    this.tableMode=true;
-    this.editMode=false;
+    this.tableMode = true;
+    this.editMode = false;
   }
   saveItem() {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
@@ -400,22 +401,22 @@ debugger;
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.itemArrayObj = [];
-        this.tableMode=true;
-        this.editMode=false;
+        this.tableMode = true;
+        this.editMode = false;
         this.showTableFlag = true;
         this.showFormFlag = false;
         this.disableSelection = false;
         this.getAllItemsList(this.providerServiceMapID);
-        this.create_filterTerm='';
+        this.create_filterTerm = '';
       }
     })
   }
   editItem(itemlist) {
     debugger;
-       console.log("Existing Data", itemlist);
-       this.itemID=itemlist.itemID;
-    this.edit_serviceline=this.service;
-    this.edit_state=this.state;
+    console.log("Existing Data", itemlist);
+    this.itemID = itemlist.itemID;
+    this.edit_serviceline = this.service;
+    this.edit_state = this.state;
     this.edit_ItemType = itemlist.isMedical;
     this.edit_Code = itemlist.itemCode;
     this.edit_Name = itemlist.itemName;
@@ -443,7 +444,7 @@ debugger;
       "itemDesc": editItemCreationForm.description,
       "providerServiceMapID": this.providerServiceMapID,
       'modifiedBy': this.createdBy,
-      "itemID":this.itemID
+      "itemID": this.itemID
     }
     this.itemService.updateItem(updateItemObject).subscribe(response => {
       this.dialogService.alert('Updated successfully', 'success');
@@ -466,7 +467,7 @@ debugger;
             console.log('Activation or deactivation response', res);
             this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
             this.getAllItemsList(this.providerServiceMapID);
-            this.create_filterTerm='';
+            this.create_filterTerm = '';
           }, (err) => this.dialogService.alert(err, 'error'))
       }
     },
@@ -510,7 +511,7 @@ export class EditItemMasterModal {
 
   @ViewChild('editItemCreationForm') editItemCreationForm: NgForm;
 
-  constructor(@Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
+  constructor( @Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
     public itemService: ItemService,
     public dialogRef: MdDialogRef<EditItemMasterModal>,
     public dialogService: ConfirmationDialogsService) { }
