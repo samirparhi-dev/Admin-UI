@@ -246,7 +246,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.storeService.saveStore(this.bufferArray).subscribe(response => {
       if (response) {
         console.log(response, 'after successful creation of store');
-        this.dialogService.alert('Saved successfully');
+        this.dialogService.alert('Saved successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllStores(this.providerServiceMapID);
@@ -306,7 +306,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.storeService.updateStore(editObj).subscribe(response => {
       if (response) {
         console.log(response, 'after successful updation of Store');
-        this.dialogService.alert('Updated successfully');
+        this.dialogService.alert('Updated successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllStores(this.providerServiceMapID);

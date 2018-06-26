@@ -27,13 +27,13 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemFacilityMapList?.length > 0 && showTableFlag">
-        <div class="row"  class="pull-right">
-      <md-input-container id="filterbox">
-        <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="create_filterTerm" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
-        <md-icon mdSuffix>search</md-icon>
-      </md-input-container>
+      <div class="row" class="pull-right">
+        <md-input-container id="filterbox">
+          <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="create_filterTerm" #filterTerm (keyup)="filterItemFromList(filterTerm.value)">
+          <md-icon mdSuffix>search</md-icon>
+        </md-input-container>
+      </div>
     </div>
-  </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="(!showFormFlag) && showTableFlag">
     <div class="table-responsive">
@@ -134,7 +134,9 @@
         </md-select>
       </md-input-container>
     </div>
-<div class="clearfix visible-sm"></div>
+
+    <div class="clearfix visible-sm"></div>
+    
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
@@ -150,7 +152,8 @@
     <!-- </div> -->
     <!-- <div class="row"> -->
     <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 m-t-10 ">
-      <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-right" color="primary" (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
+      <button *ngIf="mappingFieldsForm.valid" md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-right" color="primary"
+        (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -203,7 +206,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back();itemCategoryselected={};itemselected=[];subStore=[]">Back</button>
-    <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Add Mapping</button>
+    <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Save</button>
     <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm();itemCategoryselected={};itemselected=[];subStore=[]">Clear</button>
   </div>
-</div> 
+</div>

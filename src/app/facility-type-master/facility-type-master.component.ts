@@ -27,7 +27,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   edit_Serviceline: any;
   createdBy: any;
   serviceProviderID: any;
-  create_filterTerm:string;
+  create_filterTerm: string;
 
   services_array: any = [];
   states_array: any = [];
@@ -45,7 +45,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   @ViewChild('facilityAddForm') facilityAddForm: NgForm;
   @ViewChild('faciliTypEditForm') faciliTypEditForm: NgForm;
 
-  constructor(public commonservice: CommonServices,private facility: FacilityMasterService, public commonDataService: dataService,
+  constructor(public commonservice: CommonServices, private facility: FacilityMasterService, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -78,7 +78,7 @@ export class FacilityTypeMasterComponent implements OnInit {
         console.log('All services success', response);
         this.facilityMasterList = response;
         this.filteredfacilityMasterList = response;
-        this.showTableFlag=true;
+        this.showTableFlag = true;
         for (let availableFacilityCode of this.facilityMasterList) {
           this.availableFacilityTypeCode.push(availableFacilityCode.facilityTypeCode);
         }
@@ -87,13 +87,13 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
 
   showTable() {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-      this.getAllFacilities(this.providerServiceMapID);
-      this.create_filterTerm='';
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    this.bufferArray = [];
+    this.resetDropdowns();
+    this.getAllFacilities(this.providerServiceMapID);
+    this.create_filterTerm = '';
   }
   showForm() {
     this.tableMode = false;
@@ -114,13 +114,12 @@ export class FacilityTypeMasterComponent implements OnInit {
       this.filteredfacilityMasterList = [];
       this.facilityMasterList.forEach((item) => {
         for (let key in item) {
-          if(key=='facilityTypeCode'||key=='facilityTypeName' ||key=='facilityTypeDesc') 
-          {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredfacilityMasterList.push(item); break;
+          if (key == 'facilityTypeCode' || key == 'facilityTypeName' || key == 'facilityTypeDesc') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredfacilityMasterList.push(item); break;
+            }
           }
-        }
         }
       });
     }
@@ -138,14 +137,14 @@ export class FacilityTypeMasterComponent implements OnInit {
         this.facility.deleteFacility(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Facility Type activated successfully', 'success');
+              this.dialogService.alert('Activated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
-              this.create_filterTerm='';
+              this.create_filterTerm = '';
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+          });
       }
     });
 
@@ -161,14 +160,14 @@ export class FacilityTypeMasterComponent implements OnInit {
         this.facility.deleteFacility(object)
           .subscribe(response => {
             if (response) {
-              this.dialogService.alert('Facility Type Deactivated successfully', 'success');
+              this.dialogService.alert('Deactivated successfully', 'success');
               this.getAllFacilities(this.providerServiceMapID);
-              this.create_filterTerm='';
+              this.create_filterTerm = '';
             }
           },
-            err => {
-              console.log('error', err);
-            });
+          err => {
+            console.log('error', err);
+          });
       }
     });
 
@@ -237,10 +236,10 @@ export class FacilityTypeMasterComponent implements OnInit {
     debugger;
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
-    //  "facilityTypeName": editedFormValues.facilityName,
+      //  "facilityTypeName": editedFormValues.facilityName,
       "modifiedBy": this.createdBy,
       "facilityTypeDesc": editedFormValues.facilityDescription
-     // "facilityTypeCode": editedFormValues.facilityCode
+      // "facilityTypeCode": editedFormValues.facilityCode
     }
     this.facility.updateFacility(editObj).subscribe(response => {
       if (response) {

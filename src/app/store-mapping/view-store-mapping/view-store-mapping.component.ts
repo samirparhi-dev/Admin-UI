@@ -145,7 +145,7 @@ export class ViewStoreMappingComponent implements OnInit {
             this.dialogService.alert("Unmapped successfully", 'success');
             this.getAllStore(this.providerServiceMapID);
           }, (err) => {
-            this.dialogService.alert(err, 'error')
+            this.dialogService.alert(err.errorMessage, 'error')
           });
       }
     });
