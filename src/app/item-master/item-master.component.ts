@@ -438,10 +438,16 @@ export class ItemMasterComponent implements OnInit {
     this.showFormFlag = false;
     this.editMode = true;
   }
+
   update(editItemCreationForm) {
     debugger;
     let updateItemObject = {
       "itemDesc": editItemCreationForm.description,
+      'isMedical': editItemCreationForm.itemType,
+      'itemCategoryID': editItemCreationForm.category,
+      'pharmacologyCategoryID': editItemCreationForm.pharmacology,
+      'manufacturerID': editItemCreationForm.manufacturer,
+      'isScheduledDrug': editItemCreationForm.drugType,
       "providerServiceMapID": this.providerServiceMapID,
       'modifiedBy': this.createdBy,
       "itemID": this.itemID
