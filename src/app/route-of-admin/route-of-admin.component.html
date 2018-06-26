@@ -121,7 +121,7 @@
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
                 <input mdInput required placeholder="Route Code" PAN [(ngModel)]="create_routeCode" (blur)="checkExistance(create_routeCode)" minlength="1"
-                  maxlength="20" name="routeCode" #routeCode="ngModel">
+                  maxlength="15" name="routeCode" #routeCode="ngModel">
                 <md-hint>
                   <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Enter minimum 1 character</span>
                   <span class="error_text" *ngIf="RouteCodeExist">RouteCode Exists</span>
@@ -198,7 +198,7 @@
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-    <form id="Editform" #routeEditForm="ngForm">
+    <form id="Editform" #routeEditForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="hide_underline" [style.width]="'100%'">
               <input mdInput style="display:none">
@@ -224,7 +224,7 @@
           <div class="clearfix visible-md visible-lg"></div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="edit_routeCode"   maxlength="100" [disabled]="true"
+                <input mdInput required placeholder="Route Code" PAN [(ngModel)]="edit_routeCode"   maxlength="15" [disabled]="true"
                   name="routeCode" #routeCode="ngModel">
                 <!-- <md-hint>
                   <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Please enter Route Code</span>
@@ -242,7 +242,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
-              <input mdInput  placeholder="ItemForm Description" VehicleNO [(ngModel)]="edit_routeDesc" maxlength="100" name="routeDesc"
+              <input mdInput  placeholder="Route Description" VehicleNO [(ngModel)]="edit_routeDesc" maxlength="100" name="routeDesc"
                 #routeDesc="ngModel">
 
             </md-input-container>
