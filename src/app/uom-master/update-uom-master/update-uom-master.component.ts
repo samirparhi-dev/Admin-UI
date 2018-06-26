@@ -58,7 +58,7 @@ export class UpdateUomMasterComponent implements OnInit {
           this.switchToViewMode();
         }
       }, (err) => {
-        this.notificationService.alert(err, 'error')
+        this.notificationService.alert(err.errorMessage, 'error')
         console.error("error in updating uom masters")
       });
   }
