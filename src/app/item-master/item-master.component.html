@@ -144,7 +144,7 @@
 
   <form #itemCreationForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
-      <label class="f-s-n-b">Item Type</label>
+      <label class="f-s-n-b">Item Type<em>*</em></label>
       <md-radio-group [(ngModel)]="itemType" name="itemType" required>
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Medical</md-radio-button>
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Medical</md-radio-button>
