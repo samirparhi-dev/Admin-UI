@@ -27,9 +27,9 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   edit_facilityDiscription: any;
   edit_facilityCode: any;
   uid: any;
-  edit_store:any;
-  storeType_arrayEdit:any;
-  create_filterTerm:string;
+  edit_store: any;
+  storeType_arrayEdit: any;
+  create_filterTerm: string;
   state: any;
   serviceline: any;
   storeType: string;
@@ -93,7 +93,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
         console.log('All stores services success', response);
         this.storesList = response;
         this.filteredstoresList = response;
-        this.showTableFlag=true;
+        this.showTableFlag = true;
         for (let availableFacilityCode of this.storesList) {
           this.availableFacilityCode.push(availableFacilityCode.facilityCode);
         }
@@ -142,13 +142,13 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
 
   showTable() {
-      this.tableMode = true;
-      this.formMode = false;
-      this.editMode = false;
-      this.bufferArray = [];
-      this.resetDropdowns();
-      this.getAllStores(this.providerServiceMapID);
-      this.create_filterTerm='';
+    this.tableMode = true;
+    this.formMode = false;
+    this.editMode = false;
+    this.bufferArray = [];
+    this.resetDropdowns();
+    this.getAllStores(this.providerServiceMapID);
+    this.create_filterTerm = '';
   }
   showForm() {
     this.tableMode = false;
@@ -162,40 +162,38 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.formMode = false;
     this.editMode = true;
   }
-  activateDeactivate(facilityTypeID,flag) {
+  activateDeactivate(facilityTypeID, flag) {
     debugger;
     if (flag) {
       this.confirmMessage = 'Deactivate';
     } else {
       this.confirmMessage = 'Activate';
     }
-    this.dialogService.confirm('Confirm', "Are you sure you want to "+ this.confirmMessage+"?").subscribe(response => {
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe(response => {
       if (response) {
         const object = {
           "facilityID": facilityTypeID,
           "deleted": flag
         };
         this.storeService.deleteStore(object)
-        .subscribe((res) => {
-          if(res.response!=undefined)
-          {
-            this.dialogService.alert(res.response, 'error');
-          }
-          else 
-          {
-            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
-            this.getAllStores(this.providerServiceMapID);
-            this.create_filterTerm='';
-          }
-        
-        }, (err) => {
-          console.log("error", err);
-        });
+          .subscribe((res) => {
+            if (res.response != undefined) {
+              this.dialogService.alert(res.response, 'error');
+            }
+            else {
+              this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
+              this.getAllStores(this.providerServiceMapID);
+              this.create_filterTerm = '';
+            }
+
+          }, (err) => {
+            console.log("error", err);
+          });
       }
     });
 
   }
- 
+
   add2bufferArray(formvalues) {
     debugger;
     this.resetDropdowns();
@@ -268,35 +266,38 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.edit_location = editFormValues.location;
     this.edit_physicalLocation = editFormValues.physicalLocation;
     this.edit_store = editFormValues.mainFacilityID;
-    if(editFormValues.storeType === "MAIN"){
-      this.edit_mainstore = true ;
-       this.edit_substore = false;
-       var subStore=[];
-       subStore.push(this.facilityID);
-       for(var i=0;i<subStore.length;i++){
-        var stores=this.storeType_array.filter(
+    if (editFormValues.storeType === "MAIN") {
+      this.edit_mainstore = true;
+      this.edit_substore = false;
+      var subStore = [];
+      subStore.push(this.facilityID);
+      for (var i = 0; i < subStore.length; i++) {
+        var stores = this.storeType_array.filter(
           book => book.mainFacilityID == subStore[i]
         );
-        stores.forEach(store =>{
+        stores.forEach(store => {
           subStore.push(store.facilityID)
-        }); 
-       }
-       
-       this.storeType_arrayEdit=this.storeType_array.filter(function(store){
+        });
+      }
+
+      this.storeType_arrayEdit = this.storeType_array.filter(function (store) {
         return subStore.indexOf(store.facilityID) === -1;
       });
-    } else{
+    } else {
       this.edit_mainstore = false;
       this.edit_substore = true;
-      this.storeType_arrayEdit=this.storeType_array
+      this.storeType_arrayEdit = this.storeType_array
     }
     this.showEditForm();
     console.log("edit form values", editFormValues)
   }
+
   updateFacilityType(editedFormValues) {
     debugger;
     const editObj = {
       "facilityID": this.facilityID,
+      "location": editedFormValues.createlocation,
+      "physicalLocation": editedFormValues.physicalLocation,
       "facilityDesc": editedFormValues.facilityDescription,
       "ModifiedBy": this.createdBy
     }

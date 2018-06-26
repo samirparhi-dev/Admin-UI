@@ -44,7 +44,7 @@
       <table [md2Data]="filteredstoresList" #md2="md2DataTable" *ngIf="showTableFlag" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
-          <th width="5%">S.No.</th>
+            <th width="5%">S.No.</th>
             <th>Facility&nbsp;Name</th>
             <th>Facility&nbsp;Code</th>
             <th>Facility&nbsp;Description</th>
@@ -60,7 +60,7 @@
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr style="cursor: pointer" *ngFor="let facility of md2.data;let i=index ">
-              <td>{{filteredstoresList.indexOf(facility)+1}}</td>
+            <td>{{filteredstoresList.indexOf(facility)+1}}</td>
             <td>{{facility.facilityName}}</td>
             <td>{{facility.facilityCode}}</td>
             <td>{{facility.facilityDesc}}</td>
@@ -123,7 +123,9 @@
         </md-input-container>
       </div>
     </form>
+
     <div class="clearfix  visible-lg"></div>
+
     <form id="inputform" #storeAddForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -138,7 +140,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Facility Code" (blur)="checkExistance(create_facilityCode)" PAN [(ngModel)]="create_facilityCode"
-            maxlength="10" name="facilityCode" #facilityTypeCode="ngModel">
+            maxlength="15" name="facilityCode" #facilityTypeCode="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
             <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility already exists</span>
@@ -157,13 +159,13 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Description" VehicleNO [(ngModel)]="create_facilityDiscription" maxlength="50" name="facilityDescription">
+          <input mdInput placeholder="Facility Description" VehicleNO [(ngModel)]="create_facilityDiscription" maxlength="100" name="facilityDescription">
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Location" VehicleNO [(ngModel)]="create_location" maxlength="50" name="createlocation" #location="ngModel">
+          <input mdInput placeholder="Location" VehicleNO [(ngModel)]="create_location" maxlength="100" name="createlocation" #location="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!location.valid  && ( location.dirty || location.touched)">Please enter location</span>
           </md-hint>
@@ -171,7 +173,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Physical Location" VehicleNO [(ngModel)]="create_physicalLocation" maxlength="50" name="physicalLocation"
+          <input mdInput placeholder="Physical Location" VehicleNO [(ngModel)]="create_physicalLocation" maxlength="100" name="physicalLocation"
             #physicalLocation="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!physicalLocation.valid  && ( physicalLocation.dirty || physicalLocation.touched)">Please enter Physical Location</span>
@@ -181,14 +183,14 @@
       <div class="clearfix  visible-sm "></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <label class="f-s-n-b">Store Type</label>
-        <md-radio-group>
+        <md-radio-group required>
           <md-radio-button color="primary" class="p-l-10" [checked]="create_Main_Store_radiobutton" (change)="disbleDropdown(true)"
             [value]=true>Main Store</md-radio-button>
           <md-radio-button color="primary" class="p-l-10" [checked]="create_Sub_Store_radiobutton" (change)="disbleDropdown(false)"
             [value]=false>Sub Store</md-radio-button>
         </md-radio-group>
       </div>
-      
+
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -252,7 +254,7 @@
   <div class="col-xs-12 col-sm-12 m-t-15">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable();storeAddForm.reset();">Back</button>
     <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveStores()">Save</button>
-    <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="storeAddForm.reset()">Clear</button>
+    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="storeAddForm.reset()">Clear</button>
 
   </div>
 </div>
@@ -289,9 +291,10 @@
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
+
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput  style="display:none">
+          <input mdInput style="display:none">
           <md-select required name="facilityType" placeholder="Facility Type" [disabled]="true" [style.width]="'100%'" [(ngModel)]="edit_facilityType">
             <md-option *ngFor="let item of facilityType_array" [value]="item.facilityTypeID">
               {{item.facilityTypeName}}
@@ -301,7 +304,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Code" [disabled]="true" myProviderName maxlength="10" [(ngModel)]="edit_facilityCode"
+          <input mdInput required placeholder="Facility Code" [disabled]="true" myProviderName maxlength="15" [(ngModel)]="edit_facilityCode"
             name="facilityCode" #facilityTypeCode="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
@@ -318,16 +321,16 @@
           </md-hint>
         </md-input-container>
       </div>
-      
+
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Facility Description" PAN maxlength="50" [(ngModel)]="edit_facilityDiscription" name="facilityDescription">
+          <input mdInput placeholder="Facility Description" PAN maxlength="100" [(ngModel)]="edit_facilityDiscription" name="facilityDescription">
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Location" [(ngModel)]="edit_location" [disabled]="true" name="createlocation" #location="ngModel">
+          <input mdInput maxlength="100" placeholder="Location" [(ngModel)]="edit_location" name="createlocation" #location="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!location.valid  && ( location.dirty || location.touched)">Please enter location</span>
           </md-hint>
@@ -335,7 +338,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Physical Location" [(ngModel)]="edit_physicalLocation" [disabled]="true" name="physicalLocation"
+          <input mdInput maxlength="100" placeholder="Physical Location" [(ngModel)]="edit_physicalLocation" name="physicalLocation"
             #physicalLocation="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!physicalLocation.valid  && ( physicalLocation.dirty || physicalLocation.touched)">Please enter Physical Location</span>
@@ -353,7 +356,8 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
-          <md-select  name="store" [required]="!edit_mainstore" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="edit_store" [disabled]="true">
+          <md-select name="store" [required]="!edit_mainstore" placeholder="Main Store" [style.width]="'100%'" [(ngModel)]="edit_store"
+            [disabled]="true">
             <md-option *ngFor="let item of storeType_arrayEdit" [value]="item.facilityID">
               {{item.facilityName}}
             </md-option>
