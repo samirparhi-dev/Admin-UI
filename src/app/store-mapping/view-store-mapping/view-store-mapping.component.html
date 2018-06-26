@@ -29,7 +29,7 @@
 </form>
 
 <ng-container *ngIf="mode == 'view'">
-  <div class="row m-t-20" *ngIf="storeList.length > 0 || filteredStoreList.length > 0">
+  <div class="row m-t-20" *ngIf="storeSearchForm.value.service && storeSearchForm.value.state">
     <div class="col-xs-12">
       <table class="table table-striped" [md2Data]="filteredStoreList" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
