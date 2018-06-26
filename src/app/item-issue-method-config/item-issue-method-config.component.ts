@@ -3,6 +3,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 import { Mainstroreandsubstore } from '../services/inventory-services/mainstoreandsubstore.service';
 import { dataService } from '../services/dataService/data.service';
 import { isNullOrUndefined } from 'util';
+import { CommonServices } from '../services/inventory-services/commonServices';
 
 @Component({
   selector: 'app-item-issue-method-config',
@@ -25,7 +26,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   serviceline: any;
   uid: any;
 
-  constructor(private storeService: Mainstroreandsubstore, public commonDataService: dataService,
+  constructor(public commonservice: CommonServices,private storeService: Mainstroreandsubstore, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -44,7 +45,7 @@ export class ItemIssueMethodConfigComponent implements OnInit {
   }
 
   getServices() {
-    this.storeService.getServices(this.uid).subscribe(response => {
+    this.commonservice.getServiceLines(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;

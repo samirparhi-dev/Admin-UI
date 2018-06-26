@@ -66,7 +66,7 @@ export class CommonServices {
         let result = [];
         debugger;
         result = response.json().data.filter(function (item) {
-            if (item.serviceID != 1 && item.serviceID != 3) {
+            if (item.serviceID == 2) {
                 return item;
             }
         });

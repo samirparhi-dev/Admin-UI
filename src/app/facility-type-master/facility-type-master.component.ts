@@ -3,6 +3,7 @@ import { FacilityMasterService } from '../services/inventory-services/facilityty
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { dataService } from '../services/dataService/data.service';
 import { NgForm } from '@angular/forms';
+import { CommonServices } from '../services/inventory-services/commonServices';
 
 @Component({
   selector: 'app-facility-type-master',
@@ -44,7 +45,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   @ViewChild('facilityAddForm') facilityAddForm: NgForm;
   @ViewChild('faciliTypEditForm') faciliTypEditForm: NgForm;
 
-  constructor(private facility: FacilityMasterService, public commonDataService: dataService,
+  constructor(public commonservice: CommonServices,private facility: FacilityMasterService, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -54,7 +55,7 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
 
   getServices() {
-    this.facility.getServices(this.commonDataService.uid).subscribe(response => {
+    this.commonservice.getServiceLines(this.commonDataService.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;

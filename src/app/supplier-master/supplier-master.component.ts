@@ -3,6 +3,7 @@ import { SuppliermasterService } from '../services/inventory-services/supplierma
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { dataService } from '../services/dataService/data.service';
 import { NgForm } from '@angular/forms';
+import { CommonServices } from '../services/inventory-services/commonServices';
 
 @Component({
   selector: 'app-supplier-master',
@@ -58,7 +59,7 @@ export class SupplierMasterComponent implements OnInit {
   availableSupplierCode: any = [];
   @ViewChild('supplierAddForm') supplierAddForm: NgForm;
 
-  constructor(private supplierService: SuppliermasterService, public commonDataService: dataService,
+  constructor(public commonservice: CommonServices,private supplierService: SuppliermasterService, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -70,7 +71,7 @@ export class SupplierMasterComponent implements OnInit {
     this.getAllCountry();
   }
   getServices() {
-    this.supplierService.getServices(this.uid).subscribe(response => {
+    this.commonservice.getServiceLines(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;

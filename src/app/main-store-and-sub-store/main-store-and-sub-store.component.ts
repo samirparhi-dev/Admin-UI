@@ -3,6 +3,7 @@ import { Mainstroreandsubstore } from '../services/inventory-services/mainstorea
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { dataService } from '../services/dataService/data.service';
 import { NgForm } from '@angular/forms';
+import { CommonServices } from '../services/inventory-services/commonServices';
 
 
 @Component({
@@ -59,7 +60,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   @ViewChild('storeSearchForm') facilitySearchForm: NgForm;
   @ViewChild('storeAddForm') facilityAddForm: NgForm;
   @ViewChild('storeEditForm') faciliTypEditForm: NgForm;
-  constructor(private storeService: Mainstroreandsubstore, public commonDataService: dataService,
+  constructor(public commonservice: CommonServices,private storeService: Mainstroreandsubstore, public commonDataService: dataService,
     public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
@@ -69,7 +70,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.getServices();
   }
   getServices() {
-    this.storeService.getServices(this.uid).subscribe(response => {
+    this.commonservice.getServiceLines(this.uid).subscribe(response => {
       if (response) {
         console.log('All services success', response);
         this.services_array = response;
