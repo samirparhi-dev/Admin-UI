@@ -233,7 +233,7 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
 import { CreateStoreMappingComponent } from './store-mapping/create-store-mapping/create-store-mapping.component';
 import { UpdateStoreMappingComponent } from './store-mapping/update-store-mapping/update-store-mapping.component';
 import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/view-store-mapping.component';
-
+import { ExpiryDateAlertConfigurationComponent} from '././expiry-date-alert-configuration/expiry-date-alert-configuration.component';
 import { StoreMappingService } from './services/inventory-services/store-mapping.service';
 
 
@@ -278,13 +278,14 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
     ItemMasterComponent, MainStoreAndSubStoreComponent,
     ItemIssueMethodConfigComponent,
     ItemToStoreMappingComponent,
-    SupplierMasterComponent, EditItemMasterModal, ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
+    SupplierMasterComponent, EditItemMasterModal,
+    ManufacturerMasterComponent, PharmacologicalCategoryMasterComponent, ItemCategoryMasterComponent,
     VehicleNO, VehicleNONew,
     StoreSelfConsumptionComponent,
     measuringUnit,
     ItemFormMasterComponent,
     RouteOfAdminComponent,
-    
+    ExpiryDateAlertConfigurationComponent,
     CreateUomMasterComponent,
     SearchUomMasterComponent,
     UpdateUomMasterComponent,
@@ -370,8 +371,10 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,
     ProcedureComponentMappingServiceService, AuthGuard,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
-    CommonServices, FacilityMasterService, Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService, UomMasterService, ItemCategoryService, ItemFormService,RouteofAdminService, StoreMappingService,
+    CommonServices, FacilityMasterService,
+    Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
+    ItemFacilityMappingService, StoreSelfConsumptionServiceService,
+    UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

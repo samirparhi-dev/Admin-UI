@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <!-- 
+    <!--
         @Author : Sunil K Sundaram
         @Date   : 21-May-17
         @Email  : sunil.ks@gmail.com
@@ -64,7 +64,7 @@
                                 <echo>exec-dir: ${project.build.directory}</echo>
                             </tasks>
                             <executable>npm</executable>
-                            <!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory>  --> 
+                            <!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory>  -->
                             <arguments>
                                 <argument>install</argument>
                                 <!-- use save-dev or save if you understand the consequences, else -->
@@ -86,11 +86,11 @@
                                 <echo>dist-dir: ${project.build.outputDirectory}</echo>
                             </tasks>
                             <!-- incase working dir is different use below -->
-                            <!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory>  -->    
-                            <executable>ng</executable>
+                            <!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory>  -->
+                            <executable>npm</executable>
                             <arguments>
-                                <argument>build</argument>
-                                <argument>--prod</argument>
+                                <argument>run</argument>
+                                <argument>build-prod</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -109,13 +109,13 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${basedir}/target/WEB-INF</outputDirectory>
-                            <resources>          
+                            <resources>
                                 <resource>
                                     <directory>dist</directory>
                                     <filtering>true</filtering>
                                 </resource>
-                            </resources>              
-                        </configuration>            
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin> -->
