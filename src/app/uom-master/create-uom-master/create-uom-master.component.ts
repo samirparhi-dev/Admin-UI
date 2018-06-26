@@ -46,6 +46,7 @@ export class CreateUomMasterComponent implements OnInit {
   }
 
   addToUOMMasterList() {
+    debugger;
     if (this.UOMMasterForm.valid) {
       let temp = JSON.parse(JSON.stringify(this.UOMMasterForm.value));
       if (temp && temp.UOM && temp.UOM.uOMCode) {

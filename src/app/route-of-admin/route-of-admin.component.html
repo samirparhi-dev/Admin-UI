@@ -123,8 +123,8 @@
                 <input mdInput required placeholder="Route Code" PAN [(ngModel)]="create_routeCode" (blur)="checkExistance(create_routeCode)" minlength="1"
                   maxlength="15" name="routeCode" #routeCode="ngModel">
                 <md-hint>
-                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Enter minimum 1 character</span>
-                  <span class="error_text" *ngIf="RouteCodeExist">RouteCode Exists</span>
+                  <span class="error_text" *ngIf="!routeCode.valid  && ( routeCode.dirty || routeCode.touched)">Route Code is required</span>
+                  <span class="error_text" *ngIf="RouteCodeExist">Route Code exists</span>
                 </md-hint>
               </md-input-container>
             </div>
@@ -133,7 +133,7 @@
           <input mdInput required placeholder="Route Name" myProviderName [(ngModel)]="create_routeName" maxlength="100" name="routeName"
             #routeName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!routeName.valid  && ( routeName.dirty || routeName.touched)">Please enter Route Name</span>
+            <span class="error_text" *ngIf="!routeName.valid  && ( routeName.dirty || routeName.touched)">Route Name is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -171,7 +171,7 @@
             <td>{{route.routeName}}</td>
             <td>{{route.routeDesc}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(route))">delete</md-icon>
             </td>
           </tr>
         </tbody>
