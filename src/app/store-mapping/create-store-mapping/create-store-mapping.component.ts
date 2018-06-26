@@ -22,6 +22,7 @@ export class CreateStoreMappingComponent implements OnInit {
   storeList = [];
   mainStoreList = [];
   subStoreList = [];
+  mainParkingPlaceList = [];
   parkingPlaceList = [];
   vanList = [];
   createdBy: any;
@@ -64,7 +65,8 @@ export class CreateStoreMappingComponent implements OnInit {
   getParkingPlace(providerServiceMapID) {
     this.parkingSubs = this.storeMappingService.getAllParkingPlace(providerServiceMapID).
       subscribe(response => {
-        this.parkingPlaceList = response.filter(item => !item.facilityID);
+        this.mainParkingPlaceList = response.slice();
+        this.parkingPlaceList = response.slice();
       }, (err) => {
         this.notificationService.alert(err, 'error')
         console.error("error in fetching parking place")
@@ -93,11 +95,16 @@ export class CreateStoreMappingComponent implements OnInit {
     temp.controls['facilityName'].valueChanges
       .subscribe(value => {
         if (value && value.parkingPlaceID) {
+          let temp = this.mainParkingPlaceList.filter(item => item.parkingPlaceID == value.parkingPlaceID);
+          if (temp.length > 0)
+            (<FormGroup>this.storeMappingForm.controls['storeMapping']).controls['parkingPlaceName'].setValue(temp[0]);
+
           this.subStoreList = this.storeList.filter(item => item.mainFacilityID == value.facilityID && item.isMainFacility == false && !item.vanID);
           if (this.subStoreList.length == 0)
             this.notificationService.alert("All substore mapped");
         } else if (value && this.isMainFacility == false) {
           this.notificationService.alert("No Parking Place mapped");
+          (<FormGroup>this.storeMappingForm.controls['storeMapping']).controls['parkingPlaceName'].setValue(null);
         }
       })
   }
@@ -118,8 +125,10 @@ export class CreateStoreMappingComponent implements OnInit {
       .subscribe(value => {
         if (value) {
           this.mainStoreList = this.storeList.filter(item => !item.parkingPlaceID && item.isMainFacility);
+          this.parkingPlaceList = this.mainParkingPlaceList.filter(item => !item.facilityID);
         } else {
           this.mainStoreList = this.storeList.filter(item => item.isMainFacility);
+          this.parkingPlaceList = this.mainParkingPlaceList.slice();
         }
         this.resetForm();
       })

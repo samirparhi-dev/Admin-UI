@@ -12,23 +12,16 @@
 
     <ng-container *ngIf="isMainFacility != undefined || isMainFacility != null">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
-        <md-select class="input-full-width" placeholder="Main Store" formControlName="facilityName" name="facilityName">
+        <md-select class="input-full-width" placeholder="Main Store" formControlName="facilityName" name="facilityName" [required]="true">
           <md-option *ngFor="let store of mainStoreList" [value]="store">
             {{store.facilityName}}
           </md-option>
         </md-select>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
-        <md-select class="input-full-width" placeholder="Sub Store" formControlName="subFacilityName" name="subFacilityName">
-          <md-option *ngFor="let store of subStoreList" [value]="store">
-            {{store.facilityName}}
-          </md-option>
-        </md-select>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility">
-        <md-select class="input-full-width" placeholder="Parking Place" formControlName="parkingPlaceName" name="parkingPlaceName">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+        <md-select class="input-full-width" placeholder="Parking Place" formControlName="parkingPlaceName" name="parkingPlaceName"
+          [disabled]="isMainFacility == false" [required]="true">
           <md-option *ngFor="let parkingPlace of parkingPlaceList" [value]="parkingPlace">
             {{parkingPlace.parkingPlaceName}}
           </md-option>
@@ -36,7 +29,15 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
-        <md-select class="input-full-width" placeholder="Van" formControlName="vanName" name="vanName">
+        <md-select class="input-full-width" placeholder="Sub Store" formControlName="subFacilityName" name="subFacilityName" [required]="true">
+          <md-option *ngFor="let store of subStoreList" [value]="store">
+            {{store.facilityName}}
+          </md-option>
+        </md-select>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
+        <md-select class="input-full-width" placeholder="Van" formControlName="vanName" name="vanName" [required]="true">
           <md-option *ngFor="let van of vanList" [value]="van">
             {{van.vanName}}
           </md-option>
@@ -44,7 +45,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
-        <button type="button" md-mini-fab color="primary" (click)="addToStoreMappingList()">
+        <button *ngIf="storeMappingForm.valid" type="button" md-mini-fab color="primary" (click)="addToStoreMappingList()">
           <md-icon>add</md-icon>
         </button>
       </div>
