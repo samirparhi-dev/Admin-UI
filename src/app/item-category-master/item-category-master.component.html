@@ -118,7 +118,7 @@
   <form #categoryCreationForm='ngForm' autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Category Code" PAN [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="10" (change)="checkCodeExistance(itemCode.value)"
+        <input mdInput placeholder="Item Category Code" PAN [(ngModel)]="itemCategoryCode" name="code" minlength="1" maxlength="15" (change)="checkCodeExistance(itemCode.value)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
           <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 character</span>
@@ -132,14 +132,14 @@
         <input mdInput placeholder="Item Category Name" myProviderName [(ngModel)]="itemCategoryName" name="name" minlength="1" maxlength="100"
           #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Category Name has to be of 1 to 50 Characters</span>
+          <span class="errorText" [hidden]="!itemCode.errors">Category Name has to be of 1 to 100 Characters</span>
 
         </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Category Description" VehicleNO [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="50"
+        <input mdInput placeholder="Item Category Description" VehicleNO [(ngModel)]="itemCategoryDesc" name="desc" minlength="1" maxlength="100"
           #itemDesc="ngModel" >
 
       </md-input-container>
@@ -224,19 +224,19 @@
           <div class="clearfix visible-md visible-lg"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="width100">
-                <input mdInput placeholder="Category Code" [(ngModel)]="edit_code" name="code" minlength="1" maxlength="10" #itemCode="ngModel"
+                <input mdInput placeholder="Category Code" [(ngModel)]="edit_code" name="code" minlength="1" maxlength="15" #itemCode="ngModel"
                 disabled="true" required>
             </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="width100">
-                <input mdInput placeholder="Category Name" [(ngModel)]="edit_name" name="name" minlength="1" maxlength="50" #itemName="ngModel"
+                <input mdInput placeholder="Category Name" [(ngModel)]="edit_name" name="name" minlength="1" maxlength="100" #itemName="ngModel"
                 disabled="true" required>
             </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <md-input-container class="width100">
-                <input mdInput placeholder="Category Description" VehicleNO [(ngModel)]="edit_desc" name="desc" #itemDesc="ngModel" minlength="1" maxlength="50">
+                <input mdInput placeholder="Category Description" VehicleNO [(ngModel)]="edit_desc" name="desc" #itemDesc="ngModel" minlength="1" maxlength="100">
             </md-input-container>
         </div>
         <div class="clearfix"></div>

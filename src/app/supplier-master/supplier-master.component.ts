@@ -327,7 +327,14 @@ export class SupplierMasterComponent implements OnInit {
       "districtID": editedFormValues.edit_district,
       "stateID": editedFormValues.edit_state1,
       "pinCode": editedFormValues.pincode,
-      "countryID": editedFormValues.country
+      "countryID": editedFormValues.country,
+      "contactPerson": editedFormValues.contactPerson,
+      "drugLicenseNo": editedFormValues.drugLicense,
+      "cST_GST_No": editedFormValues.cstNo,
+      "tIN_No": editedFormValues.tinNo,
+      "email": editedFormValues.primaryEmail,
+      "phoneNo1": editedFormValues.primaryMobileNo,
+      "phoneNo2": editedFormValues.emergencyContactNo,
     }
 
     this.supplierService.updateSupplier(editObj).subscribe(response => {

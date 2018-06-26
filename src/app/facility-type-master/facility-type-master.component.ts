@@ -237,6 +237,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
     //  "facilityTypeName": editedFormValues.facilityName,
+      "modifiedBy": this.createdBy,
       "facilityTypeDesc": editedFormValues.facilityDescription
      // "facilityTypeCode": editedFormValues.facilityCode
     }

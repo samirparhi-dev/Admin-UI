@@ -186,7 +186,7 @@ export class RouteOfAdminComponent implements OnInit {
     debugger;
     const editObj = {
       "routeDesc": editformvalues.routeDesc,
-      "ModifiedBy": this.createdBy,
+      "modifiedBy": this.createdBy,
       "routeID": this.routeID
     }
     this.routeAdminService.updateItemRoute(editObj).subscribe(response => {

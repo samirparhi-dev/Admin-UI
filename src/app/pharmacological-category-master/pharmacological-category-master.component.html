@@ -123,7 +123,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="create_pharmaCode" (blur)="checkExistance(create_pharmaCode)"  minlength="1"
-            maxlength="20" name="pharmaCode" #pharmaCode="ngModel">
+            maxlength="15" name="pharmaCode" #pharmaCode="ngModel">
           <md-hint *ngIf="pharmaCode.invalid && (pharmaCode.dirty || pharmaCode.touched)">
             <span class="error_text" *ngIf="pharmaCode.hasError('required')">Enter minimum 1 character</span>
             <span class="error_text" *ngIf="pharmaCode.hasError('unique')">Please enter unique Pharmacology Code</span>
@@ -201,7 +201,7 @@
     </h4>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-    <form id="Editform" #pharmacologyEditForm="ngForm">
+    <form id="Editform" #pharmacologyEditForm="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
@@ -227,7 +227,7 @@
       <div class="clearfix visible-md visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="edit_pharmaCode" maxlength="100" [disabled]="true"
+          <input mdInput required placeholder="Pharmacology Code" PAN [(ngModel)]="edit_pharmaCode" maxlength="15" [disabled]="true"
             name="pharmaCode" #pharmaCode="ngModel">
           <md-hint>
             <span class="error_text" *ngIf="!pharmaCode.valid  && ( pharmaCode.dirty || pharmaCode.touched)">Please enter Pharmacology Code</span>

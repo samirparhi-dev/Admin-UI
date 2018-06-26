@@ -200,19 +200,6 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
   editItem(itemlist) {
     console.log('Existing Data', itemlist);
-    // const dialog_Ref = this.dialog.open(EditItemCategoryComponent, {
-    //   height: '400px',
-    //   width: '900px',
-    //   disableClose: true,
-    //   data: {item: itemlist, providerServiceMapID: this.providerServiceMapID}
-    // });
-    // dialog_Ref.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    //   if (result === 'success') {
-    //     this.dialogService.alert('Category edited successfully', 'success');
-    //     this.getAllItemCategories();
-    //   }
-    // });
     this.itemCategoryID=itemlist.itemCategoryID;
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
@@ -255,21 +242,6 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
 
   checkCodeExistance(code) {
-    // console.log(code)
-    // let duplicate = 0;
-    // this.itemsList.forEach((cat, i) => {
-    //   if (cat.itemCategoryCode == code) {
-    //     this.codeExists = true;
-    //     duplicate++;
-    //   }
-    // })
-
-    // if (duplicate) {
-    //   this.codeExists = true;
-    // } else {
-    //   this.codeExists = false;
-    // }
-
     this.itemService.confirmItemCodeUnique(code, 'Itemcategory', this.providerServiceMapID)
     .subscribe((res) => {
       if (res && res.statusCode == 200 && res.data) {

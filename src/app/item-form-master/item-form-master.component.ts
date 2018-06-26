@@ -181,7 +181,7 @@ debugger;
     debugger;
     const editObj={
       "itemFormDesc": editformvalues.itemFormDesc,
-      "ModifiedBy": this.createdBy,
+      "modifiedBy": this.createdBy,
       "itemFormID":this.itemFormID
     }
     this.itemFormservice.updateItemForm(editObj).subscribe(response => {

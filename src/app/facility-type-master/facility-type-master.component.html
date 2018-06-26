@@ -124,7 +124,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
             <md-input-container [style.width]="'100%'">
               <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode" minlength="1"
-                maxlength="10" name="facilityCode" #facilityTypeCode="ngModel">
+                maxlength="15" name="facilityCode" #facilityTypeCode="ngModel">
               <md-hint>
                 <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Enter minimum 1 character</span>
                 <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Type Code already exists</span>
@@ -142,7 +142,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput  placeholder="Facility Description" VehicleNO [(ngModel)]="facilityDiscription" maxlength="50" name="facilityDescription">
+          <input mdInput  placeholder="Facility Description" VehicleNO [(ngModel)]="facilityDiscription" maxlength="100" name="facilityDescription">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 ">
@@ -235,7 +235,7 @@
       <div class="clearfix visible-md visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
           <md-input-container [style.width]="'100%'">
-            <input mdInput required placeholder="Facility Type Code"  PAN maxlength="10" [(ngModel)]="edit_facilityCode" name="facilityCode" [disabled]="true"
+            <input mdInput required placeholder="Facility Type Code"  PAN maxlength="15" [(ngModel)]="edit_facilityCode" name="facilityCode" [disabled]="true"
               #facilityTypeCode="ngModel">
             <md-hint>
               <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
