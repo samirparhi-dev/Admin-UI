@@ -57,7 +57,7 @@
           <tr *ngIf="filteredfacilityMasterList.length == 0">
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let facility of md2.data;let i=index ">
+          <tr *ngFor="let facility of md2.data;let i=index ">
             <td>{{filteredfacilityMasterList.indexOf(facility)+1}}</td>
             <td>{{facility.facilityTypeCode}}</td>
             <td>{{facility.facilityTypeName}}</td>

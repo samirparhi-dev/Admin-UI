@@ -56,7 +56,7 @@
           <tr *ngIf="filteredRouteList.length == 0">
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let route of md2.data;let i=index ">
+          <tr *ngFor="let route of md2.data;let i=index ">
               <td>{{filteredRouteList.indexOf(route)+1}}</td>
             <td>{{route.routeCode}}</td>
             <td>{{route.routeName}}</td>

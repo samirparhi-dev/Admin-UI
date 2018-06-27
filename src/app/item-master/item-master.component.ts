@@ -388,7 +388,7 @@ export class ItemMasterComponent implements OnInit {
         console.log(response, 'item created');
         this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
-        this.dialogService.alert('Item Created Successfully', 'success');
+        this.dialogService.alert('Saved Successfully', 'success');
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);

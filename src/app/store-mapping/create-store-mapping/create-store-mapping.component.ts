@@ -219,7 +219,7 @@ export class CreateStoreMappingComponent implements OnInit {
     this.storeMappingService.postStoreMapping(temp)
       .subscribe((response) => {
         if (response) {
-          this.notificationService.alert("Created successfully", 'success');
+          this.notificationService.alert("Saved successfully", 'success');
           this.switchToViewMode();
         }
       }, err => {

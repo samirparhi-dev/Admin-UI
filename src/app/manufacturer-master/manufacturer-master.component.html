@@ -57,7 +57,7 @@
           <tr *ngIf="filteredManufactureList.length == 0">
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let manufacture of md2.data;let i=index ">
+          <tr *ngFor="let manufacture of md2.data;let i=index ">
               <td>{{filteredManufactureList.indexOf(manufacture)+1}}</td>
             <td>{{manufacture.manufacturerCode}}</td>
             <td>{{manufacture.manufacturerName}}</td>
