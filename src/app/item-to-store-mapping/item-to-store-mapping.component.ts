@@ -335,6 +335,7 @@ export class ItemToStoreMappingComponent implements OnInit {
          this.showTableFlag = true;
          this.showFormFlag = false;
         // this.disableSelection = false;
+        this.create_filterTerm="";
         this.resetForm();
         this.getAllItemFacilityMapping(this.providerServiceMapID)
       }
@@ -356,6 +357,9 @@ export class ItemToStoreMappingComponent implements OnInit {
       this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.bufferarray = [];
       this.resetForm();
+      this.showTableFlag = true;
+      this.showFormFlag = false;
+     this.create_filterTerm="";
 
     }, err => {
       this.dialogService.alert(err, 'error');
