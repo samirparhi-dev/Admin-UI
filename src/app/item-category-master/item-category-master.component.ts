@@ -126,7 +126,7 @@ export class ItemCategoryMasterComponent implements OnInit {
     .subscribe(res => {
       if (res.statusCode == 200) {
         console.log(res);
-        this.dialogService.alert('Category Created Successfully', 'success');
+        this.dialogService.alert('Saved successfully', 'success');
         this.categoryCreationForm.reset();
         this.forCreationObjects = [];
         this.back();

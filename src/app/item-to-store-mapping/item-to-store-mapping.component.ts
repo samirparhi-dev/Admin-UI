@@ -146,6 +146,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
 
   showForm() {
+    this.create_filterTerm="";
     this.showFormFlag = true;
     this.showTableFlag = false;
   }
@@ -334,6 +335,7 @@ export class ItemToStoreMappingComponent implements OnInit {
          this.showTableFlag = true;
          this.showFormFlag = false;
         // this.disableSelection = false;
+        this.resetForm();
         this.getAllItemFacilityMapping(this.providerServiceMapID)
       }
     })
@@ -350,7 +352,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   submitMapping() {
     this.itemFacilityMappingService.setFacilityItemMapping(this.bufferarray).subscribe(response => {
       console.log(response, 'after successful mapping of provider to service and state');
-      this.dialogService.alert('Mapping saved successfully', 'success');
+      this.dialogService.alert('Saved successfully', 'success');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.bufferarray = [];
       this.resetForm();
@@ -376,8 +378,11 @@ export class ItemToStoreMappingComponent implements OnInit {
 
   deleteMapping(id,bool,Message){
     debugger;
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + Message +"?").subscribe(response => {
+      if (response) {
+        
     this.itemFacilityMappingService.deleteFacilityItemMapping(id,bool).subscribe(response => {
-      this.dialogService.alert(Message+' successfully', 'success');
+      this.dialogService.alert(Message+'d successfully', 'success');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.create_filterTerm='';
     }, err => {
@@ -385,10 +390,12 @@ export class ItemToStoreMappingComponent implements OnInit {
       console.log(err, 'ERROR');
     });
   }
+    });
+  }
   activate(id){
-  this.deleteMapping(id,false,'Activated');
+  this.deleteMapping(id,false,'Activate');
   }
   deactivate(id){
-    this.deleteMapping(id,true,'Deactivated');
+    this.deleteMapping(id,true,'Deactivate');
   }
 }

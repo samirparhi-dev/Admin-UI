@@ -50,7 +50,7 @@
       </thead>
       <tbody *ngIf="UOMMasterList.length > 0">
         <tr *ngFor="let uom of md2.data; let i = index">
-          <td>{{ i + 1}}</td>
+          <td>{{(md2.activePage-1) * 4 + i + 1}}</td>
           <td>{{ uom.uOMCode}}</td>
           <td>{{ uom.uOMName}}</td>
           <td>{{ uom.uOMDesc}}</td>
@@ -72,7 +72,7 @@
 
 
 <div class="row m-t-20">
-  <div class="col-xs-12 col-sm-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
       <button type="button" md-raised-button color="primary" class="pull-left" (click)="switchToViewMode()">Back</button>
     <button type="button" [disabled]="UOMMasterList.length == 0" md-raised-button color="accent" class="pull-right" (click)="submitUOMForm()">Save</button>
     <button type="button" md-raised-button color="primary" class="pull-right m-r-5" (click)="UOMMasterForm.controls['UOM'].reset();">Clear</button>

@@ -59,7 +59,7 @@
           <tr *ngIf="filteredsupplierList.length == 0">
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let supplier of md2.data;let i=index ">
+          <tr *ngFor="let supplier of md2.data;let i=index ">
               <td>{{filteredsupplierList.indexOf(supplier)+1}}</td>
             <td>{{supplier.supplierName}}</td>
             <td>{{supplier.supplierCode}}</td>

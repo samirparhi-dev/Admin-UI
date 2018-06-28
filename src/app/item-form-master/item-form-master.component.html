@@ -41,7 +41,7 @@
 
     <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
       <div class="table-responsive">
-        <table [md2Data]="filteredItemFormList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4" >
+        <table class="table table-striped table-hover" [md2Data]="filteredItemFormList" #md2="md2DataTable" [rowsPerPage]="4" >
           <thead>
             <tr>
                 <th width="5%">S.No.</th>
@@ -56,7 +56,7 @@
             <tr *ngIf="filteredItemFormList.length == 0">
               <td colspan="8" class="record-not-found">No records found</td>
             </tr>
-            <tr style="cursor: pointer" *ngFor="let itemForm of md2.data;let i=index ">
+            <tr *ngFor="let itemForm of md2.data;let i=index ">
                 <td>{{filteredItemFormList.indexOf(itemForm)+1}}</td>
               <td>{{itemForm.itemFormCode}}</td>
               <td>{{itemForm.itemForm}}</td>
@@ -198,7 +198,7 @@
           </h4>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-          <form id="Editform" #itemEditForm="ngForm">
+          <form id="Editform" #itemEditForm="ngForm" autocomplete="off">
               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                   <md-input-container class="hide_underline" [style.width]="'100%'">
                     <input mdInput style="display:none">
