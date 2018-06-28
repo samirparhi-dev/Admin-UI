@@ -183,9 +183,9 @@ export class ItemMasterComponent implements OnInit {
   setDiscontinue(itemID, discontinue) {
     debugger;
     if (discontinue) {
-      this.discontinueMessage = 'Item Discontinued';
+      this.discontinueMessage = 'Item discontinued';
     } else {
-      this.discontinueMessage = 'Item Continued';
+      this.discontinueMessage = 'Item continued';
     }
     this.itemService.setDiscontinue(itemID, discontinue).subscribe((discontinueResponse) => {
       this.discontinueSuccesshandler(discontinueResponse, this.discontinueMessage),

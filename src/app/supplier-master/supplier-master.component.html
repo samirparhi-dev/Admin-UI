@@ -173,10 +173,11 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
-          </md-hint>
+          <input mdInput required placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15"  [pattern]="gstNoPattern" name="cstNo" #cstNo="ngModel">
+          <!-- <md-hint>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit GST number</span>
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -245,18 +246,20 @@
       <div class="clearfix  visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
-          <input mdInput placeholder="Contact No." [(ngModel)]="contactNo" name="primaryMobileNo" minlength="10" maxlength="10" #mobileNo="ngModel">
-          <md-hint class="errorText" *ngIf="mobileNo.errors">Required 10 digit mobile number
-          </md-hint>
+          <input mdInput placeholder="Contact No." [(ngModel)]="contactNo" name="primaryMobileNo" [pattern]="mobileNoPattern" minlength="10" maxlength="10" #mobileNo="ngModel">
+          <!-- <md-hint class="errorText" *ngIf="mobileNo.errors">Required 10 digit mobile number
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!mobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
         </md-input-container>
       </div>
       
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
-          <input mdInput placeholder="Emergency Contact No." [(ngModel)]="emergency_contactNo" name="emergencyContactNo" minlength="10"
+          <input mdInput placeholder="Emergency Contact No." [(ngModel)]="emergency_contactNo" [pattern]="mobileNoPattern" name="emergencyContactNo" minlength="10"
             maxlength="10" #emergencyMobileNo="ngModel" >
-          <md-hint class="errorText" *ngIf="emergencyMobileNo.errors">Required 10 digit mobile number
-          </md-hint>
+          <!-- <md-hint class="errorText" *ngIf="emergencyMobileNo.errors">Required 10 digit mobile number
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!emergencyMobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -286,7 +289,7 @@
             
             <th>Supplier&nbsp;Description</th>
             <th>Drug License No. </th>
-            <th>CST/GST No. </th>
+            <th>GST No. </th>
             <th>TIN No.</th>
             <th>State</th>
             <th>Action</th>
@@ -407,11 +410,12 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo"  minlength="15" maxlength="15" name="cstNo"
+          <input mdInput required placeholder="GST No." PAN [(ngModel)]="edit_cstNo"  minlength="15" maxlength="15" name="cstNo" [pattern]="gstNoPattern"
             #cstNo="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
-          </md-hint>
+          <!-- <md-hint>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit GST number</span>
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -478,26 +482,29 @@
       <div class="clearfix visible-lg"></div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
-          <input mdInput placeholder="Contact No." [(ngModel)]="edit_contactNo"  name="primaryMobileNo" minlength="10"
+          <input mdInput placeholder="Contact No." [(ngModel)]="edit_contactNo"  name="primaryMobileNo" minlength="10" [pattern]="mobileNoPattern"
             maxlength="10" #mobileNo="ngModel" >
-          <md-hint class="errorText" *ngIf="mobileNo.errors">Required 10 digit mobile number
-          </md-hint>
+          <!-- <md-hint class="errorText" *ngIf="mobileNo.errors">Required 10 digit mobile number
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!mobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
         </md-input-container>
       </div>
       
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100" myMobileNumber>
-          <input mdInput placeholder="Emergency Contact No." [(ngModel)]="edit_emergencyContactNo"  name="emergencyContactNo"
-            minlength="10" maxlength="10" #emergencyMobileNo="ngModel">
-          <md-hint class="errorText" *ngIf="emergencyMobileNo.errors">Required 10 digit mobile number
-          </md-hint>
+          <input mdInput placeholder="Emergency Contact No." [(ngModel)]="edit_emergencyContactNo"  name="emergencyContactNo" [pattern]="mobileNoPattern"
+            minlength="10" maxlength="10" #emergencyMobileNo="ngModel"  [pattern]="mobileNoPattern">
+          <!-- <md-hint class="errorText" *ngIf="emergencyMobileNo.errors">Required 10 digit mobile number
+          </md-hint> -->
+
+          <md-hint class="errorText" [hidden]="!emergencyMobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <md-input-container class="width100">
           <input mdInput placeholder="Email" [(ngModel)]="edit_emailID" name="primaryEmail" #validEmail="ngModel" 
             [pattern]="emailPattern">
-          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter Valid EmailID </md-hint>
+          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Enter valid EmailID </md-hint>
         </md-input-container>
       </div>
 
