@@ -258,8 +258,7 @@
                 <form #demographicsDetailsForm="ngForm" autocomplete="off">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel"
-                                required>
+                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel" required>
                             <md-hint *ngIf="ftName.touched">
                                 <span class="errorText" [hidden]="!ftName.errors">Enter minimum 2 characters</span>
                             </md-hint>
@@ -267,8 +266,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel"
-                                required>
+                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel" required>
                             <md-hint *ngIf="mtName.touched">
                                 <span class="errorText" [hidden]="!mtName.errors">Enter minimum 2 characters</span>
                             </md-hint>
@@ -337,7 +335,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="hide_underline width100">
                                     <input mdInput style="display:none">
-                                    <md-select placeholder="District" class="width100" [(ngModel)]="currentDistrict" name="current_district" required>
+                                    <md-select placeholder="District" class="width100" [(ngModel)]="currentDistrict" name="current_district" (change)="resetcheckBox()" required>
                                         <md-option *ngFor="let item of currentDistricts" [value]="item.districtID">{{item.districtName}}</md-option>
                                     </md-select>
                                 </md-input-container>
