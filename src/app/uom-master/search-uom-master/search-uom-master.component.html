@@ -36,12 +36,12 @@
       <table class="table table-striped" [md2Data]="filteredUOMMasterList" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th style="width: 5%">S.No.</th>
-            <th>UOM Code</th>
-            <th>UOM Name</th>
-            <th>Description</th>
-            <th>Edit</th>
-            <th>Action</th>
+            <th width="5%">S.No.</th>
+            <th width="20%">UOM Code</th>
+            <th width="20%">UOM Name</th>
+            <th width="20%">Description</th>
+            <th width="5%">Edit</th>
+            <th width="10%">Action</th>
           </tr>
         </thead>
         <tbody *ngIf="UOMMasterList.length == 0 || filteredUOMMasterList.length == 0">
