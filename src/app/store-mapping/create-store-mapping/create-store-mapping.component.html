@@ -61,7 +61,7 @@
   </div>
 </form>
 
-<div class="row m-t-20" *ngIf="(storeMappingList?.length > 0)">
+<div class="row m-t-20" *ngIf="storeMappingList?.length > 0">
   <div class="col-xs-12">
     <table class="table table-striped" [md2Data]="storeMappingList" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
@@ -73,7 +73,7 @@
           <th style="width: 10%">Action</th>
         </tr>
       </thead>
-      <tbody *ngIf="storeList.length > 0">
+      <tbody>
         <tr *ngFor="let store of md2.data; let i = index">
           <td>{{(md2.activePage-1) * 4 + i + 1}}</td>
           <td>{{ store?.facilityName }}</td>
@@ -98,7 +98,7 @@
 
 <div class="row m-t-20">
   <div class="col-xs-12">
-    <button type="button" md-raised-button color="accent" class="pull-right" [disabled]="!storeMappingList.length > 0" (click)="submitStoreMapping()">Save</button>
+    <button type="button" md-raised-button color="accent" class="pull-right" [disabled]="!(storeMappingList.length > 0)" (click)="submitStoreMapping()">Save</button>
     <button type="button" md-raised-button color="primary" class="pull-left" (click)="switchToViewMode()">Back</button>
     <button type="button" md-raised-button color="primary" class="pull-right m-r-5" (click)="storeMappingForm.reset();">Clear</button>
   </div>
