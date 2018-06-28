@@ -61,7 +61,7 @@
   </div>
 </form>
 
-<div class="row m-t-20" *ngIf="(storeMappingList?.length > 0)">
+<div class="row m-t-20" *ngIf="(storeMappingList?.length != 0)">
   <div class="col-xs-12">
     <table class="table table-striped" [md2Data]="storeMappingList" #md2="md2DataTable" [rowsPerPage]="4">
       <thead>
