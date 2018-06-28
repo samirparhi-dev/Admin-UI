@@ -1,5 +1,5 @@
 <form [formGroup]="storeSearchForm" autocomplete="off">
-  <div class="row">
+  <div class="row" *ngIf="mode == 'view'">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4>
         <strong>Van/Parking Place to Store Mapping</strong>
