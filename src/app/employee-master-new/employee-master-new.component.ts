@@ -72,6 +72,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   isPresent: any;
   isPermanent: any;
   checkAddress: boolean = false;
+  dynamictype: any = 'password';
 
   //array
   searchResult: any = [];
@@ -131,10 +132,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     }, (err) => console.log('error', err));
   }
   showForm() {
-    this.states = [];
-    this.currentDistricts = [];
-    this.currentDistrict = [];
-    this.currentState = [];
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
@@ -195,19 +192,29 @@ export class EmployeeMasterNewComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
+        // this.currentState = null;
+        // this.designationID = null;
+        // this.states = [];
+        
         this.resetAllForms();
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
         this.objs = [];
-        // this.currentState = "";
-        // this.currentDistrict = "";
-        // this.states = [];
-        // this.currentDistricts = [];
-        // this.permanentDistricts = [];
+      
       }
     })
   }
+    // encryptionFlag: boolean = true;
+
+    showPWD() {
+      this.dynamictype = 'text';
+    }
+  
+    hidePWD() {
+      this.dynamictype = 'password';
+    }
+  
   /*
  * calculate the doj based on dob
  */
@@ -407,6 +414,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Get all States
     */
   getAllStatesSuccessHandler(response) {
+    console.log('this.states',this.states);
+    
     console.log("Display all States", response);
     this.states = response;
   }
