@@ -161,8 +161,9 @@ export class ItemToStoreMappingComponent implements OnInit {
     },
       (err) => { console.log("ERROR in fetching serviceline") });
   }
-  onCategorySelected(categoryId,mainID) {
+  onCategorySelected(categoryId,mainStore) {
     debugger;
+    var mainID=mainStore.facilityID;
     if(this.storeType)
     {
       if(this.mainStore.mainFacilityID==undefined){
@@ -171,7 +172,7 @@ export class ItemToStoreMappingComponent implements OnInit {
         (err) => { console.log("ERROR in fetching items") });
      }
      else {
-      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).
+      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, this.mainStore.mainFacilityID).
       subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.mainStore),
         (err) => { console.log("ERROR in fetching items") });
     }
@@ -376,7 +377,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   subStorelist(facID){
     this.itemCategoryselected={};
     this.substores=this.stores.filter(function (item) {
-      return item.mainFacilityID == facID && item.deleted==false; // This value has to go in constant
+      return item.mainFacilityID == facID && item.deleted==false && item.isMainFacility == 0; // This value has to go in constant
     });
   }
 

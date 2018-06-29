@@ -45,7 +45,7 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th>Facility&nbsp;Name</th>
+            <th md2SortBy="facilityName">Facility&nbsp;Name</th>
             <th>Facility&nbsp;Code</th>
             <th>Facility&nbsp;Description</th>
             <th>Location</th>
@@ -237,7 +237,7 @@
             <td>{{item.physicalLocation}}</td>
             <td>{{item.storeType}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>

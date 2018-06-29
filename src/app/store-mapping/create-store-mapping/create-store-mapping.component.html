@@ -36,7 +36,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
-        <md-select class="input-full-width" placeholder="Sub Store" formControlName="subFacilityName" name="subFacilityName" [required]="true">
+        <md-select class="input-full-width" placeholder="Sub Store" formControlName="subFacilityName" name="subFacilityName" [required]="!(storeMappingForm.controls['storeMapping']['controls']['isMainFacility'].value)">
           <md-option *ngFor="let store of subStoreList" [value]="store">
             {{store.facilityName}}
           </md-option>
@@ -44,15 +44,14 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
-        <md-select class="input-full-width" placeholder="Van" formControlName="vanName" name="vanName" [required]="true">
+        <md-select class="input-full-width" placeholder="Van" formControlName="vanName" name="vanName" [required]="!(storeMappingForm.controls['storeMapping']['controls']['isMainFacility'].value)">
           <md-option *ngFor="let van of vanList" [value]="van">
             {{van.vanName}}
           </md-option>
         </md-select>
       </div>
-
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
-        <button *ngIf="storeMappingForm.valid" type="button" md-mini-fab color="primary" (click)="addToStoreMappingList()">
+        <button *ngIf="checkValidity()" type="button" md-mini-fab color="primary" (click)="addToStoreMappingList()">
           <md-icon>add</md-icon>
         </button>
       </div>

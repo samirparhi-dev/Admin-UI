@@ -46,7 +46,7 @@ export class ManufacturerMasterComponent implements OnInit {
   serviceline: any;
   edit_Serviceline: any;
   create_filterTerm: string;
-  gstNoPattern=/^[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9a-zA-Z]{1}/;
+  gstNoPattern=/^[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9]{1}/;
 
   formMode: boolean = false;
   tableMode: boolean = true;

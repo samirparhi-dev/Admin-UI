@@ -46,8 +46,8 @@
           <tr>
               <th width="5%">S.No.</th>
             <th >Manufacturer&nbsp;Code</th>
-            <th >Manufacturer&nbsp;Name</th>
-            <th >Manufacturer&nbsp;Description</th>
+            <th md2SortBy="manufacturerName">Manufacturer&nbsp;Name</th>
+            <th  >Manufacturer&nbsp;Description</th>
             <th >Contact Person</th>
             <th >Edit</th>
             <th >Action</th>
@@ -252,7 +252,7 @@
             <td>{{item.cST_GST_No}}</td>
             <td>{{item.stateName}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>

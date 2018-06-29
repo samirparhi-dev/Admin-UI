@@ -38,7 +38,7 @@ export class SupplierMasterComponent implements OnInit {
   permnantstates_array: any = [];
   country_array: any = [];
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|in|co.in|ORG|COM|IN|CO.IN)\b$/;
-  gstNoPattern=/^[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9a-zA-Z]{1}/;
+  gstNoPattern=/^[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9]{1}/;
   mobileNoPattern=/^[1-9][0-9]{9}/;
   create_filterTerm: string;
 
