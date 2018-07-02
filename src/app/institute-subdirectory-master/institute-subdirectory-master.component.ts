@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 	styleUrls: ['./institute-subdirectory-master.component.css']
 })
 export class InstituteSubdirectoryMasterComponent implements OnInit {
+	filteredsearchResultArray: any = [];
 	/*ngModel*/
 	serviceProviderID: any;
 	providerServiceMapID: any;
@@ -129,6 +130,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	getInstituteDirectories() {
 		this.searchResultArray = [];
+		this.filteredsearchResultArray = [];
 		this.institute_directory = undefined;
 		this.instituteSubDirectoryMasterService.getInstituteDirectory(this.providerServiceMapID).subscribe(response => this.getInstituteDirectorySuccessHandeler(response),
 			(err) => {
@@ -169,6 +171,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 			console.log("INSTITUTE SUB DIRECTORY", response);
 			this.showTableFlag = true;
 			this.searchResultArray = response;
+			this.filteredsearchResultArray = response;
 			console.log("searcharray", this.searchResultArray);
 			for (let availableInstituteSubDirectory of this.searchResultArray) {
 				this.availableInstituteSubDirectory.push(availableInstituteSubDirectory.instituteSubDirectoryName);
@@ -216,6 +219,7 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 		this.showTableFlag = false;
 		/*resetting the search result array*/
 		this.searchResultArray = [];
+		this.filteredsearchResultArray = [];
 	}
 
 	add_obj(institute_subdirectory, description) {
@@ -335,6 +339,22 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 			}
 
 		});
+
+	}
+	filterComponentList(searchTerm?: string) {
+		if (!searchTerm) {
+			this.filteredsearchResultArray = this.searchResultArray;
+		} else {
+			this.filteredsearchResultArray = [];
+			this.searchResultArray.forEach((item) => {
+				for (let key in item) {
+					let value: string = '' + item[key];
+					if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+						this.filteredsearchResultArray.push(item); break;
+					}
+				}
+			});
+		}
 
 	}
 }

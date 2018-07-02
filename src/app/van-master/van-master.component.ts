@@ -11,12 +11,9 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class VanComponent implements OnInit {
 
-    searchParkingPlaceID_edit(arg0: any, arg1: any, arg2: any): any {
-        throw new Error("Method not implemented.");
-    }
-    searchDistrictID_edit(arg0: any, arg1: any, arg2: any): any {
-        throw new Error("Method not implemented.");
-    }
+    filteredavailableVans: any = [];
+    searchParkingPlaceID_edit: any;
+    searchDistrictID_edit: any;
     showVansTable: boolean = false;
     userID: any;
     serviceline: any;
@@ -110,6 +107,7 @@ export class VanComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
         this.availableVans = [];
+        this.filteredavailableVans = [];
         this.createButton = false;
         this.searchDistrictID_Update = this.searchDistrictID;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
@@ -136,6 +134,7 @@ export class VanComponent implements OnInit {
 
     getVanSuccessHandler(response) {
         this.availableVans = response;
+        this.filteredavailableVans = response;
         this.createButton = true;
         this.showVansTable = true;
         for (let availableVan of this.availableVans) {
@@ -240,6 +239,7 @@ export class VanComponent implements OnInit {
         console.log(response, "districts retrieved");
         this.districts = response;
         this.availableVans = [];
+        this.filteredavailableVans = [];
         this.createButton = false;
     }
     taluks: any = [];
@@ -393,6 +393,22 @@ export class VanComponent implements OnInit {
         this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.availableVanNames = [];
         //this.initializeObj();
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableVans = this.availableVans;
+        } else {
+            this.filteredavailableVans = [];
+            this.availableVans.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableVans.push(item); break;
+                    }
+                }
+            });
+        }
+
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

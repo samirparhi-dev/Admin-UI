@@ -4,10 +4,18 @@
       <strong>Provider Admin-Provider Mapping</strong>
     </h4>
   </div>
-  <!-- pre-populated table showing the number of providers available -->
+</div>
+<div class="pull-right m-t-10" *ngIf="providerAdminList.length!==0 && tableMode">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<!-- pre-populated table showing the number of providers available -->
+<div class="row" *ngIf="tableMode">
   <div class="col-xs-12 col-sm-12">
     <div class="table-responsive">
-      <table [md2Data]="providerAdminList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+      <table [md2Data]="filteredproviderAdminList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -20,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="providerAdminList.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="7" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let service of md2.data;let i=index ">

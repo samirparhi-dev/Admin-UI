@@ -10,6 +10,7 @@ import { WorkLocationMapping } from '../services/ProviderAdminServices/work-loca
   styleUrls: ['./work-location-mapping.component.css']
 })
 export class WorkLocationMappingComponent implements OnInit {
+  filteredmappedWorkLocationsList: any;
   userID: any;
   serviceProviderID: any;
   createdBy: any;
@@ -112,6 +113,7 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log('All Mapped Work Locations List Success Handeler', response);
           this.mappedWorkLocationsList = response;
+          this.filteredmappedWorkLocationsList = response;
         }
       }, err => {
         console.log('Error', err);
@@ -811,6 +813,23 @@ export class WorkLocationMappingComponent implements OnInit {
 
     }
     else { this.duplicatestatus_editPart = false; }
+  }
+  filterComponentList(searchTerm?: string) {
+    debugger;
+    if (!searchTerm) {
+      this.filteredmappedWorkLocationsList = this.mappedWorkLocationsList;
+    } else {
+      this.filteredmappedWorkLocationsList = [];
+      this.mappedWorkLocationsList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredmappedWorkLocationsList.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
   resetForm() {

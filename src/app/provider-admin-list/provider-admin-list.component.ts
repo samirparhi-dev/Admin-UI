@@ -15,6 +15,7 @@ import { debug } from 'util';
 export class ProviderAdminListComponent implements OnInit {
 
 
+  filteredsearchResult: any = [];
   //ngModel
 
   titleID: any;
@@ -104,6 +105,7 @@ export class ProviderAdminListComponent implements OnInit {
       if (response) {
         console.log("All details of provider admin", response);
         this.searchResult = response;
+        this.filteredsearchResult = response;
       }
     }, err => {
       console.log(err, 'error')
@@ -556,6 +558,22 @@ export class ProviderAdminListComponent implements OnInit {
         console.log(err);
       })
   }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResult = this.searchResult;
+    } else {
+      this.filteredsearchResult = [];
+      this.searchResult.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResult.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
 
 }
 
@@ -785,6 +803,7 @@ export class EditProviderAdminModal {
 
 
   }
+
 
 
 }

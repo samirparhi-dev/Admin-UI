@@ -66,17 +66,21 @@
         </form>
     </form>
 </div>
-
-<!-- </div>
-                        </md-card>
-                        <md-card>-->
+<div>
+    <div class="pull-right m-t-15" *ngIf="showServicePointVillageMaps && availableServicePointVillageMaps.length!==0 ">
+        <md-input-container id="filterbox">
+            <input mdInput placeholder="In-Table Village Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+            <md-icon mdSuffix>search</md-icon>
+        </md-input-container>
+    </div>
+</div>
 <div class="row" *ngIf="showServicePointVillageMaps">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4>Available Service Point Village Mappings</h4>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
         <div class="table-responsive">
-            <table class="table table-striped table-hover" [md2Data]="availableServicePointVillageMaps" #md2="md2DataTable" [rowsPerPage]="4">
+            <table class="table table-striped table-hover" [md2Data]="filteredavailableServicePointVillageMaps" #md2="md2DataTable" [rowsPerPage]="4">
                 <thead>
                     <tr>
                         <th width="5%">S.No.</th>
@@ -90,11 +94,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngIf="availableServicePointVillageMaps.length == 0">
+                    <tr *ngIf="md2.data.length == 0">
                         <td colspan="8" class="record-not-found">No records found</td>
                     </tr>
                     <tr style="cursor: pointer" *ngFor="let servicePointVillageMap of md2.data; let i= index">
-                        <td>{{availableServicePointVillageMaps.indexOf(servicePointVillageMap)+1}} </td>
+                        <td>{{filteredavailableServicePointVillageMaps.indexOf(servicePointVillageMap)+1}} </td>
                         <td>{{servicePointVillageMap.m_providerServiceMapping.state.stateName}}</td>
                         <td>{{servicePointVillageMap.m_providerServiceMapping.m_district.districtName}}</td>
                         <td>{{servicePointVillageMap.m_servicepoint.parkingPlaceName}}</td>

@@ -46,8 +46,8 @@
           <tr>
               <th width="5%">S.No.</th>
             <th >Manufacturer&nbsp;Code</th>
-            <th >Manufacturer&nbsp;Name</th>
-            <th >Manufacturer&nbsp;Description</th>
+            <th md2SortBy="manufacturerName">Manufacturer&nbsp;Name</th>
+            <th  >Manufacturer&nbsp;Description</th>
             <th >Contact Person</th>
             <th >Edit</th>
             <th >Action</th>
@@ -159,10 +159,11 @@
      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
-          </md-hint>
+          <input mdInput required placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel"  [pattern]="gstNoPattern">
+          <!-- <md-hint>
+            <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit GST number</span>
+          </md-hint> -->
+          <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -237,7 +238,7 @@
             <th>Manufacturer&nbsp;Name</th>
             <th>Manufacturer&nbsp;Code</th>
             <th>Manufacturer&nbsp;Description</th>
-            <th>CST/GST No.</th>
+            <th>GST No.</th>
             <th>State</th>
             <th>Action</th>
           </tr>
@@ -251,7 +252,7 @@
             <td>{{item.cST_GST_No}}</td>
             <td>{{item.stateName}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -338,11 +339,12 @@
           </div> 
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="CST/GST No." PAN [(ngModel)]="edit_cstNo"  maxlength="15" minlength="15" name="cstNo"
+                <input mdInput required placeholder="GST No." PAN [(ngModel)]="edit_cstNo"  maxlength="15" minlength="15" name="cstNo"  [pattern]="gstNoPattern"
                   #cstNo="ngModel">
-                <md-hint>
+                <!-- <md-hint>
                   <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>
-                </md-hint>
+                </md-hint> -->
+                <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
               </md-input-container>
             </div>  
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">

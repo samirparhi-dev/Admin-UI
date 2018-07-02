@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 })
 export class InstituteTypeMasterComponent implements OnInit {
 
+  filteredsearchResultArray: any = [];
   /*ngModels*/
   serviceProviderID: any;
   providerServiceMapID: any;
@@ -93,6 +94,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     }
     else {
       this.searchResultArray = [];
+      this.filteredsearchResultArray = [];
     }
   }
 
@@ -114,6 +116,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     if (response) {
       this.showTableFlag = true;
       this.searchResultArray = response;
+      this.filteredsearchResultArray = [];
       for (let availableIns of this.searchResultArray) {
         this.availableInstitute.push(availableIns.institutionType);
       }
@@ -131,6 +134,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     this.showTableFlag = false;
     /*resetting the search result array*/
     this.searchResultArray = [];
+    this.filteredsearchResultArray = [];
   }
 
   showForm() {
@@ -282,6 +286,22 @@ export class InstituteTypeMasterComponent implements OnInit {
     debugger;
     this.InstituteExist = this.availableInstitute.includes(facilityCode);
     console.log(this.InstituteExist);
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResultArray = this.searchResultArray;
+    } else {
+      this.filteredsearchResultArray = [];
+      this.searchResultArray.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResultArray.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
 }

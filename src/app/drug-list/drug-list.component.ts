@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class DrugListComponent implements OnInit {
 
+  fileteredavailableDrugs: any = [];
   showDrugs = true;
   duplicateDrugs = false;
   availableDrugs: any = [];
@@ -56,6 +57,7 @@ export class DrugListComponent implements OnInit {
 
   getDrugsSuccessHandeler(response) {
     this.availableDrugs = response;
+    this.fileteredavailableDrugs = response;
 
     for (let availableDrug of this.availableDrugs) {
       this.availableDrugNames.push(availableDrug.drugName);
@@ -98,17 +100,6 @@ export class DrugListComponent implements OnInit {
       }
     }
   }
-
-  // drugFilterList(formValues) {
-  //   for (let i = 0; i < this.availableDrugs.length; i++) {
-  //     if (this.availableDrugs[i].drugName === formValues.drugName
-  //       && this.availableDrugs[i].providerServiceMapID === formValues.providerServiceMapID) {
-  //       this.alertMessage.alert('This drug is already available');
-  //       this.duplicateDrugs = true;
-  //     }
-  //   }
-  //   return this.duplicateDrugs;
-  // }
 
 
   responseHandler(response) {
@@ -278,6 +269,22 @@ export class DrugListComponent implements OnInit {
     this.showDrugs = true;
     this.editable = false;
     this.drugNameExist = false;
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.fileteredavailableDrugs = this.availableDrugs;
+    } else {
+      this.fileteredavailableDrugs = [];
+      this.availableDrugs.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.fileteredavailableDrugs.push(item); break;
+          }
+        }
+      });
+    }
+
   }
   back() {
     this.alertMessage.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {

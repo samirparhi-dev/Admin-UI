@@ -29,19 +29,18 @@
       </md-input-container>
     </div>
   </form>
-  <!--         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-10">
-          <button md-mini-fab color="primary" (click)="get_calltype_subtype_history()">
-          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
-        </button>
-        </div> -->
-  <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-10">
-      <button *ngIf="showTable" class="pull-right" md-raised-button color="primary" (click)="clear();searchForm.reset()">Clear</button>
-    </div> -->
+
+</div>
+<div class="pull-right m-t-15" *ngIf="data.length!==0 && showTable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
 </div>
 <div class="row" *ngIf="showTable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" style="height: 280px">
     <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <!--<th>ID</th>-->
@@ -58,12 +57,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="data.length == 0 " class="record-not-found">
+          <tr *ngIf="md2.data.length == 0 " class="record-not-found">
             <td colspan="10" align="center">No records found</td>
           </tr>
           <tr *ngFor="let i of md2.data; let k= index">
             <!--<td>{{i.callTypeID}}</td>-->
-            <td>{{data.indexOf(i)+1}}</td>
+            <td>{{filtereddata.indexOf(i)+1}}</td>
             <td width=10%>{{i.callGroupType}}</td>
             <td width=15%>{{i.callType}}</td>
             <td width=10%>{{i.isInbound===false?"No":"Yes"}}</td>

@@ -15,6 +15,7 @@ import { NgForm } from '@angular/forms';
 })
 export class InstituteDirectoryMasterComponent implements OnInit {
 
+	filteredsearchResultArray: any = [];
 	/*ngModels*/
 	serviceProviderID: any;
 	providerServiceMapID: any;
@@ -137,6 +138,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		if (response) {
 			this.showTableFlag = true;
 			this.searchResultArray = response;
+			this.filteredsearchResultArray = response;
 			for (let availableInstituteDirectory of this.searchResultArray) {
 				this.availableInstituteDirectory.push(availableInstituteDirectory.instituteDirectoryName);
 			}
@@ -157,6 +159,7 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		this.showTableFlag = false;
 		/*resetting the search result array*/
 		this.searchResultArray = [];
+		this.filteredsearchResultArray = [];
 	}
 
 	showForm() {
@@ -301,7 +304,25 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 
 	}
 
+	filterComponentList(searchTerm?: string) {
+		if (!searchTerm) {
+			this.filteredsearchResultArray = this.searchResultArray;
+		} else {
+			this.filteredsearchResultArray = [];
+			this.searchResultArray.forEach((item) => {
+				for (let key in item) {
+					let value: string = '' + item[key];
+					if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+						this.filteredsearchResultArray.push(item); break;
+					}
+				}
+			});
+		}
+
+	}
+
 }
+
 
 
 @Component({

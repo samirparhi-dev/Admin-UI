@@ -1,8 +1,5 @@
-<!-- <md-card> -->
-<!-- <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12">
         <h4 *ngIf="showListOfParking">Parking Place Master</h4>
         <h4 *ngIf="!editable && !showListOfParking">Create Parking Place </h4>
         <h4 *ngIf="editable && !showListOfParking">Edit Parking Place </h4>
@@ -55,16 +52,17 @@
         </form>
     </div>
 </div>
+<div class="pull-right m-t-15" *ngIf="availableParkingPlaces.length!==0 && showListOfParking && showTableFlag && !editable">
+    <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+</div>
 
-
-<!--</md-card>
-<md-card>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
 <div class="row" *ngIf="showListOfParking && showTableFlag && !editable">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="table-responsive m-t-15">
-            <table class="table table-striped table-hover" [md2Data]="availableParkingPlaces" #md2="md2DataTable" [rowsPerPage]="4">
+            <table class="table table-striped table-hover" [md2Data]="filteredavailableParkingPlaces" #md2="md2DataTable" [rowsPerPage]="4">
                 <thead>
                     <tr>
                         <th width="5%">S.No.</th>
@@ -80,11 +78,11 @@
                 </thead>
                 <tbody>
                     <!-- <tr style="cursor: pointer" *ngFor="let parkingPlace of availableParkingPlaces | paginate: {id:'parkingPlaceListResult', itemsPerPage: 3, currentPage: b} "> -->
-                    <tr *ngIf="availableParkingPlaces.length == 0" class="record-not-found">
+                    <tr *ngIf="md2.data.length == 0" class="record-not-found">
                         <td colspan="9" align="center">No records found</td>
                     </tr>
                     <tr *ngFor="let parkingPlace of md2.data ;let i=index">
-                        <td>{{availableParkingPlaces.indexOf(parkingPlace)+1}} </td>
+                        <td>{{filteredavailableParkingPlaces.indexOf(parkingPlace)+1}} </td>
                         <td>{{parkingPlace.stateName}}</td>
                         <td>{{parkingPlace.districtName}}</td>
                         <td>{{parkingPlace.blockName}}</td>

@@ -344,7 +344,7 @@ export class VanServicePointMappingComponent implements OnInit {
     this.availableVanTypes = [];
     this.availableVans = [];
   }
-  resetFields() {   
+  resetFields() {
     this.searForm1.resetForm();
     this.availableVans = [];
     this.MappingForm = this.formBuilder.group({

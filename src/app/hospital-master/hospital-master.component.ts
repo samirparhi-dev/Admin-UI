@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./hospital-master.component.css']
 })
 export class HospitalMasterComponent implements OnInit {
+    filteredsearchResultArray: any = [];
     userID: any;
     /*ngModels*/
     serviceProviderID: any;
@@ -59,7 +60,7 @@ export class HospitalMasterComponent implements OnInit {
     email_expression = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
     name_expression: any = /^[a-zA-Z ]*$/;
 
-    @ViewChild ('institutionForm1') institutionForm1: NgForm;
+    @ViewChild('institutionForm1') institutionForm1: NgForm;
 
     constructor(public HospitalMasterService: HospitalMasterService,
         public commonDataService: dataService,
@@ -86,6 +87,7 @@ export class HospitalMasterComponent implements OnInit {
         this.taluk = "";
 
         this.searchResultArray = [];
+        this.filteredsearchResultArray = [];
 
         this.showTableFlag = false;
     }
@@ -126,6 +128,7 @@ export class HospitalMasterComponent implements OnInit {
         this.district = "";
         this.taluk = "";
         this.searchResultArray = [];
+        this.filteredsearchResultArray = [];
         if (response) {
             this.states = response;
         }
@@ -152,6 +155,7 @@ export class HospitalMasterComponent implements OnInit {
                 }
             });
             this.searchResultArray = [];
+            this.filteredsearchResultArray = [];
         }
     }
 
@@ -160,6 +164,7 @@ export class HospitalMasterComponent implements OnInit {
         this.district = "";
         this.taluk = "";
         this.searchResultArray = [];
+        this.filteredsearchResultArray = [];
 
         this.HospitalMasterService.getDistricts(stateID).subscribe(response => this.getDistrictSuccessHandeler(response),
             (err) => {
@@ -179,6 +184,7 @@ export class HospitalMasterComponent implements OnInit {
     getTaluk(districtID) {
         this.taluk = "";
         this.searchResultArray = [];
+        this.filteredsearchResultArray = [];
 
         this.HospitalMasterService.getTaluks(districtID).subscribe(response => this.getTalukSuccessHandeler(response),
             (err) => {
@@ -223,6 +229,7 @@ export class HospitalMasterComponent implements OnInit {
         if (response) {
             this.showTableFlag = true;
             this.searchResultArray = response;
+            this.filteredsearchResultArray = response;
         }
     }
 
@@ -356,6 +363,23 @@ export class HospitalMasterComponent implements OnInit {
 
         });
     }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredsearchResultArray = this.searchResultArray;
+        } else {
+            this.filteredsearchResultArray = [];
+            this.searchResultArray.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredsearchResultArray.push(item); break;
+                    }
+                }
+            });
+        }
+
+    }
+
 
 }
 

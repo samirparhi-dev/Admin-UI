@@ -116,12 +116,17 @@
       </div>
     </div>
   </form>
-  <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-25" *ngIf="showTableFlag">
-     <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
-    </div> -->
+</div>
+<div class="pull-right m-t-15" *ngIf="showTableFlag && searchResultArray.length!==0 ">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row">
   <div class="col-xs-12 col-sm-12  m-t-15 " *ngIf="showTableFlag">
     <div class="table-responsive ">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped " [rowsPerPage]="4">
+      <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped " [rowsPerPage]="4">
         <thead>
           <tr>
             <th>S.No.</th>
@@ -130,7 +135,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="searchResultArray.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="3" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data">

@@ -14,6 +14,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
 })
 
 export class EmployeeMasterNewComponent implements OnInit {
+  filteredsearchResult: any = [];
   userId: any;
   createdBy: any;
   serviceProviderID: any;
@@ -128,6 +129,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       if (response) {
         console.log("All details of the user", response);
         this.searchResult = response;
+        this.filteredsearchResult = response;
       }
     }, (err) => console.log('error', err));
   }
@@ -883,6 +885,22 @@ export class EmployeeMasterNewComponent implements OnInit {
       (err) => {
         console.log(err);
       })
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResult = this.searchResult;
+    } else {
+      this.filteredsearchResult = [];
+      this.searchResult.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResult.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 }
 

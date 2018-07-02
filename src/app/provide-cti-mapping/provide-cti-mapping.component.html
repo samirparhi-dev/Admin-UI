@@ -15,48 +15,54 @@
       </md-input-container>
     </div>
   </form>
-  <div class="m-t-10" *ngIf="showTableFlag">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive">
-        <table [md2Data]="campaignArrayList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
-          <thead>
-            <tr>
-              <th width="5%">S.No.</th>
-              <th width="20%">Provider Name</th>
-              <th width="15%">Serviceline </th>
-              <th width="20%">State </th>
-              <th width="20%">Campaign</th>
-              <th width="20%">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="campaignArrayList.length == 0" class="record-not-found">
-              <td colspan="6" align="center">No records found</td>
-            </tr>
-            <tr *ngFor="let item of md2.data; let i=index">
-              <td>{{(md2.activePage-1)*4+i+1}}</td>
-              <td>{{item.serviceProviderName}}</td>
-              <td>{{item.serviceName}}</td>
-              <td>{{item.stateID===0 ?'All states':item.stateName}}</td>
-              <td>{{item.cTI_CampaignName}}</td>
-              <td>
-                <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted && !item.serviceProviderDeleted"
-                  (click)="editForm(item)">edit</md-icon>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6">
-                <md2-pagination></md2-pagination>
-              </td>
-              <!-- <td colspan="3" class="p-r-0">
+</div>
+<div class="pull-right m-t-10" *ngIf="campaignArrayList.length!==0 && showTableFlag ">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row m-t-10" *ngIf="showTableFlag">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive">
+      <table [md2Data]="filteredcampaignArrayList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="20%">Provider Name</th>
+            <th width="15%">Serviceline </th>
+            <th width="20%">State </th>
+            <th width="20%">Campaign</th>
+            <th width="20%">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+            <td colspan="6" align="center">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i=index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{item.serviceProviderName}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.stateID===0 ?'All states':item.stateName}}</td>
+            <td>{{item.cTI_CampaignName}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.deleted && !item.serviceProviderDeleted"
+                (click)="editForm(item)">edit</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <md2-pagination></md2-pagination>
+            </td>
+            <!-- <td colspan="3" class="p-r-0">
                 <button md-raised-button color="primary" class="pull-right" >Add Campaign</button>
               </td> -->
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
 </div>

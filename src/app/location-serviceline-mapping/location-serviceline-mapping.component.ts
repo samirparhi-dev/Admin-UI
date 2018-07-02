@@ -16,6 +16,7 @@ declare var jQuery: any;
 })
 export class LocationServicelineMappingComponent implements OnInit {
 
+  filteredworkLocations: any = [];
   userID: any;
 
   // ngModels
@@ -63,6 +64,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.districts = [];
     this.servicelines = [];
     this.workLocations = [];
+    this.filteredworkLocations = [];
 
     console.log('USER ID IS', this.userID);
     this.showForm = false;
@@ -156,6 +158,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     this.search_state = "";
     this.states = response;
     this.workLocations = [];
+    this.filteredworkLocations = [];
     if (value.isNational) {
       this.nationalFlag = value.isNational;
       this.setPSMID(response[0].providerServiceMapID);
@@ -358,6 +361,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     console.log(response, "get locations success");
     ;
     this.workLocations = response;
+    this.filteredworkLocations = response;
     // this.showTable = true;
   }
 
@@ -402,6 +406,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     // this.search_state = "";
     this.showTable = false;
     this.workLocations = [];
+    this.filteredworkLocations = [];
     this.servicelines = [];
     this.PSMID_searchService = "";
 
@@ -464,6 +469,23 @@ export class LocationServicelineMappingComponent implements OnInit {
       this.officeNameExist = true;
     }
   }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredworkLocations = this.workLocations;
+    } else {
+      this.filteredworkLocations = [];
+      this.workLocations.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredworkLocations.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
+
 
 }
 

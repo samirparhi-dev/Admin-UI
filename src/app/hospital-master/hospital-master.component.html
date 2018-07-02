@@ -49,61 +49,69 @@
       </md-input-container>
     </div>
   </form>
-  <!-- <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 m-t-15">
-    <button *ngIf="showTableFlag" class="pull-right" md-raised-button color="primary" (click)="clear()">Clear</button>
-  </div> -->
 </div>
-<div *ngIf="showTableFlag">
-  <div class="table-responsive m-t-15">
-    <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
-      <thead>
-        <tr>
-          <th>S.No.</th>
-          <th>Institution Name</th>
-          <th>Address</th>
-          <th>Website</th>
-          <th>Contact Person</th>
-          <th>Contact Number</th>
-          <th>Email ID</th>
-          <th>Edit</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="searchResultArray.length == 0">
-          <td colspan="9" class="record-not-found">No records found</td>
-        </tr>
-        <tr *ngFor="let item of md2.data">
-          <td>{{searchResultArray.indexOf(item)+1}}</td>
-          <td>{{item.institutionName}}</td>
-          <td>{{item.address}}</td>
-          <td>{{item.website}}</td>
-          <td>{{item.contactPerson1}}</td>
-          <td>{{item.contactNo1}}</td>
-          <td>{{item.contactPerson1_Email}}</td>
-          <td>
-            <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-              (click)="openEditModal(item)">edit</md-icon>
-          </td>
-          <td>
-            <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item.institutionID,false)">Activate</button>
-            <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3">
-            <md2-pagination></md2-pagination>
-          </td>
-          <td colspan="6" class="p-r-0">
-            <button md-raised-button color="primary" class="pull-right" [disabled]="hospital.invalid" (click)="showForm()">Add Hospital</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+<div *ngIf="searchResultArray.length!==0 && showTableFlag">
+  <div class="pull-right m-t-15">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
   </div>
 </div>
+<div class="row" *ngIf="showTableFlag">
+  <div class="col-xs-12 col-sm-12  m-t-15">
+    <div class="table-responsive m-t-15">
+      <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Institution Name</th>
+            <th>Address</th>
+            <th>Website</th>
+            <th>Contact Person</th>
+            <th>Contact Number</th>
+            <th>Email ID</th>
+            <th>Edit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0">
+            <td colspan="9" class="record-not-found">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data">
+            <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
+            <td>{{item.institutionName}}</td>
+            <td>{{item.address}}</td>
+            <td>{{item.website}}</td>
+            <td>{{item.contactPerson1}}</td>
+            <td>{{item.contactNo1}}</td>
+            <td>{{item.contactPerson1_Email}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                (click)="openEditModal(item)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item.institutionID,false)">Activate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="6" class="p-r-0">
+              <button md-raised-button color="primary" class="pull-right" [disabled]="hospital.invalid" (click)="showForm()">Add Hospital</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
 <div class="row" *ngIf="showFormFlag">
   <form #institutionForm1="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " myName2>

@@ -11,6 +11,7 @@ import { MdCheckbox, MdSelect } from '@angular/material';
   styleUrls: ['./language-mapping.component.css']
 })
 export class LanguageMappingComponent implements OnInit {
+  filteredLanguageMappedList: any = [];
   languageID_edit: any;
   checkduplication_edit: boolean = false;
   checkduplication: boolean = false;
@@ -121,6 +122,7 @@ export class LanguageMappingComponent implements OnInit {
         if (response) {
           console.log('All Languages Success Handeler', response);
           this.LanguageMappedList = response;
+          this.filteredLanguageMappedList = response;
         }
       }, err => {
         console.log('Error', err);
@@ -668,6 +670,22 @@ export class LanguageMappingComponent implements OnInit {
     this.SpeakWeightageList = [];
     this.showCheckboxes = false;
     this.resetweightageDropdowns();
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredLanguageMappedList = this.LanguageMappedList;
+    } else {
+      this.filteredLanguageMappedList = [];
+      this.LanguageMappedList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredLanguageMappedList.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
   // checkExistance(langID) {

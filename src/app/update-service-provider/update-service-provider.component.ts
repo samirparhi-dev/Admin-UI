@@ -12,6 +12,7 @@ import { dataService } from '../services/dataService/data.service';
 })
 export class UpdateServiceProviderComponent implements OnInit {
 
+  filtereddata: any = [];
   allProviders: any = [];
   providerSelected: any;
   data: any = [];
@@ -127,6 +128,7 @@ export class UpdateServiceProviderComponent implements OnInit {
   providerInfo_handler(response) {
     console.log(response);
     this.data = response;
+    this.filtereddata = response;
   }
   addOrModify() {
     this.searchPage = false;
@@ -147,49 +149,7 @@ export class UpdateServiceProviderComponent implements OnInit {
       })
   }
 
-  // getAllServicelines(response) {
-  //   let tempService = {};
-  //   let temp: boolean;
-  //   for (var i = 0; i < response.length; i++) {
-  //     temp = true;
-  //     for (var a = 0; a < this.array.length; a++) {
-  //       if (response[i].serviceID == this.array[a].serviceID) {
-  //         temp = false;
-  //       }
-  //     }
-  //     if (temp) {
-  //       tempService = response[i];
-  //       this.servicelines.push(tempService);
-  //       tempService = {};
-  //     }
-  //   }
-  //   console.log(this.servicelines);
-  //   if (this.servicelines.length == 0) {
-  //     this.allServicesMapped = true;
-  //   }
-  //   else {
-  //     this.allServicesMapped = false;
-  //   }
 
-  // }
-  // array: any = [];
-  // getValidServicelines(value) {
-  //   this.servicelines = [];
-  //   this.array = [];
-  //   this.serviceline = "";
-  //   let tempState = {};
-
-  //   for (var i = 0; i < this.data.length; i++) {
-  //     if (this.data[i].stateID == value) {
-  //       tempState = this.data[i];
-  //       this.array.push(tempState);
-  //     }
-  //     tempState = {};
-  //   }
-  //   console.log(this.array);
-  //   this.super_admin_service.getAllServiceLines().subscribe(response => this.getAllServicelines(response));
-
-  // }
 
   modifyProvider(value) {
 
@@ -235,6 +195,22 @@ export class UpdateServiceProviderComponent implements OnInit {
 
 
     });
+
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
 
   }
 }

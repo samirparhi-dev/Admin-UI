@@ -38,6 +38,7 @@ export class UpdateStoreMappingComponent implements OnInit {
   ngOnInit() {
     this.storeMappingForm = this.createStoreMappingForm();
     if (this.storeDetails) {
+      debugger;
       console.log(this.storeDetails);
       this.createdBy = this.storeDetails.createdBy;
       this.providerServiceMapID = this.storeDetails.providerServiceMapID;
@@ -132,6 +133,7 @@ export class UpdateStoreMappingComponent implements OnInit {
   }
 
   updateStoreMapping() {
+    debugger;
     let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value));
     console.log(temp);
     if (temp && temp.parkingPlaceID) {
@@ -156,6 +158,7 @@ export class UpdateStoreMappingComponent implements OnInit {
     temp.modifiedBy = this.createdBy;
     temp.subFacilityID = undefined;
     temp.subFacilityName = undefined;
+    temp.isMainFacility=this.storeDetails.store.isMainFacility;
 
     if (this.previousParkingPlace) {
       temp.oldParkingPlaceID = this.previousParkingPlace;
@@ -177,6 +180,7 @@ export class UpdateStoreMappingComponent implements OnInit {
         }
       }, err => {
         this.notificationService.alert(err, 'error');
+        console.log(err,"Error");
       })
   }
 

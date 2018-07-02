@@ -128,7 +128,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Item Category" class="width100" [(ngModel)]="itemCategoryselected" name="itemCategory" [disabled]="(storeType&&!(mainStore?.facilityID>0))||(!storeType&&!(subStore?.facilityID>0))">
-          <md-option *ngFor="let category of itemCategory" [value]="category" (click)="onCategorySelected(category.itemCategoryID,mainStore.facilityID)">
+          <md-option *ngFor="let category of itemCategory" [value]="category" (click)="onCategorySelected(category.itemCategoryID,mainStore)">
             {{category.itemCategoryName}}
           </md-option>
         </md-select>
@@ -188,7 +188,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
             </td>
           </tr>
         </tbody>

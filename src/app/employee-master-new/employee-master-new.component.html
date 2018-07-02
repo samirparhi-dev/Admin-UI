@@ -1,14 +1,20 @@
 <div class="row" *ngIf="tableMode">
     <div class="col-xs-12 col-sm-12">
         <h4 class="">User's List
-            <!-- <span class="pull-right">
-                <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button>
-            </span> -->
         </h4>
     </div>
+</div>
+
+<div class="pull-right m-t-15" *ngIf="searchResult.length!==0 && tableMode">
+    <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+</div>
+<div class="row" *ngIf="tableMode">
     <div class="col-xs-12 col-sm-12 ">
         <div class="table-responsive">
-            <table class="table table-hover table-striped" [md2Data]="searchResult" #md2="md2DataTable" [rowsPerPage]="4">
+            <table class="table table-hover table-striped" [md2Data]="filteredsearchResult" #md2="md2DataTable" [rowsPerPage]="4">
                 <thead>
                     <tr>
                         <th width="5%">S.No.</th>
@@ -23,11 +29,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngIf="searchResult.length == 0">
+                    <tr *ngIf="md2.data.length == 0">
                         <td colspan="8" class="record-not-found">No records found</td>
                     </tr>
                     <tr *ngFor="let item of md2.data; let i= index">
-                        <td>{{searchResult.indexOf(item)+1}}</td>
+                        <td>{{filteredsearchResult.indexOf(item)+1}}</td>
                         <!-- <td>{{item.userID}}</td> -->
                         <td>{{item.titleName}}</td>
                         <td>{{item.userName}}</td>

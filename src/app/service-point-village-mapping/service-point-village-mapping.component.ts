@@ -12,6 +12,7 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class ServicePointVillageMapComponent implements OnInit {
 
+    filteredavailableServicePointVillageMaps: any = [];
     formMode: boolean = false;
     villageIdList_edit: any;
     servicePointVillageMapID: any;
@@ -81,6 +82,7 @@ export class ServicePointVillageMapComponent implements OnInit {
             console.log(response, 'Provider States');
             this.provider_states = response;
             this.availableServicePointVillageMaps = [];
+            this.filteredavailableServicePointVillageMaps = [];
             this.createButton = false;
         }
     }
@@ -99,6 +101,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
         this.availableServicePointVillageMaps = [];
+        this.filteredavailableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
@@ -126,6 +129,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getServicePointSuccessHandler(response) {
         this.availableServicePoints = response;
         this.availableServicePointVillageMaps = [];
+        this.filteredavailableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableServicePoint of this.availableServicePoints) {
             if (availableServicePoint.deleted) {
@@ -151,6 +155,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getServicePointVillageMapSuccessHandler(response) {
         debugger;
         this.availableServicePointVillageMaps = response;
+        this.filteredavailableServicePointVillageMaps = response;
         this.createButton = true;
         this.showServicePointVillageMaps = true;
         for (let availableServicePointVillageMap of this.availableServicePointVillageMaps) {
@@ -306,6 +311,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
         this.availableServicePointVillageMaps = [];
+        this.filteredavailableServicePointVillageMaps = [];
         this.createButton = false;
     }
     taluks: any = [];
@@ -416,6 +422,23 @@ export class ServicePointVillageMapComponent implements OnInit {
 
         // this.showServicePointVillageMaps = true;
         //this.createButton = false;
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableServicePointVillageMaps = this.availableServicePointVillageMaps;
+        } else {
+            this.filteredavailableServicePointVillageMaps = [];
+            this.availableServicePointVillageMaps.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableServicePointVillageMaps.push(item); break;
+                    }
+                }
+            });
+        }
+
+
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

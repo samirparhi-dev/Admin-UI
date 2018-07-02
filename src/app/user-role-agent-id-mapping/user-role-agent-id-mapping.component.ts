@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 })
 export class UserRoleAgentIDMappingComponent implements OnInit {
 
+  filteredsearchResultArray: any = [];
   /*ngModels*/
   userID: any;
   serviceProviderID: any;
@@ -64,6 +65,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
     this.roles = [];
 
     this.searchResultArray = [];
+    this.filteredsearchResultArray = [];
     this.showTableFlag = false;
   }
 
@@ -80,7 +82,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
     }
   }
 
-  getServices(userID) {   
+  getServices(userID) {
     this._UserRoleAgentID_MappingService.getServices(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response),
         (err) => console.log(err, 'error'));
@@ -93,6 +95,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
 
   getRoles(providerServiceMapID) {
     this.searchResultArray = [];
+    this.filteredsearchResultArray = [];
     this.searchCriteria.controls.role.reset();
     this._UserRoleAgentID_MappingService.getRoles(providerServiceMapID)
       .subscribe(response => this.rolesSuccesshandeler(response),
@@ -149,6 +152,9 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
       this.searchResultArray = response.filter(function (obj) {
         return obj.uSRMDeleted == false && obj.roleName != 'ProviderAdmin';
       });
+      this.filteredsearchResultArray = response.filter(function (obj) {
+        return obj.uSRMDeleted == false && obj.roleName != 'ProviderAdmin';
+      });
 
       this.showTableFlag = true;
     }
@@ -171,6 +177,22 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
     });
 
   }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResultArray = this.searchResultArray;
+    } else {
+      this.filteredsearchResultArray = [];
+      this.searchResultArray.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResultArray.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
 
 }
 
@@ -180,6 +202,7 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
 })
 export class AgentIDMappingModal {
 
+  filteredsearchResultArray: any;
   /*ngModels*/
   providerServiceMapID: any;
   agentPassword: any;

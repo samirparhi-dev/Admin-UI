@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class HospitalInstituteDirectorySubdirectoryMappingComponent implements OnInit {
 
+  filteredsearchResultArray: any = [];
   /*ngModels*/
   userID: any;
   serviceProviderID: any;
@@ -136,6 +137,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.showTableFlag = false;
     /*resetting the search result array*/
     this.searchResultArray = [];
+    this.filteredsearchResultArray = [];
   }
 
 
@@ -294,6 +296,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     console.log("HISTORY OF MAPPING", response);
     this.showTableFlag = true;
     this.searchResultArray = response;
+    this.filteredsearchResultArray = response;
   }
 
   add_obj(hospital) {
@@ -439,6 +442,22 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
           }
         });
       }
+    }
+
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResultArray = this.searchResultArray;
+    } else {
+      this.filteredsearchResultArray = [];
+      this.searchResultArray.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item.institute[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResultArray.push(item); break;
+          }
+        }
+      });
     }
 
   }

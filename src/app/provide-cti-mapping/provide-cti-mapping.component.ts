@@ -16,6 +16,7 @@ declare var jQuery: any;
 })
 export class ProvideCtiMappingComponent implements OnInit {
 
+  filteredcampaignArrayList: any = [];
   SP: any;
   filterServiceName: any;
   service_provider_array: any = [];
@@ -72,6 +73,7 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
   getMappedServicelinesAndStatesSuccessHandler(campaignListResponse) {
     this.campaignArrayList = campaignListResponse;
+    this.filteredcampaignArrayList = campaignListResponse;
     this.showTableFlag = true;
     console.log("campaignArrayList", JSON.stringify(this.campaignArrayList, null, 4));
     console.log("this.campaignArrayList.serviceName", this.campaignArrayList.serviceName);
@@ -223,6 +225,21 @@ export class ProvideCtiMappingComponent implements OnInit {
 
       }
     })
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredcampaignArrayList = this.campaignArrayList;
+    } else {
+      this.filteredcampaignArrayList = [];
+      this.campaignArrayList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredcampaignArrayList.push(item); break;
+          }
+        }
+      });
+    }
   }
 
 }
