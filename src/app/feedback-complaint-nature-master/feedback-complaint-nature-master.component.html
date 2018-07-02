@@ -40,10 +40,18 @@
       </div>
     </form>
   </div>
+</div>
+<div class="pull-right m-t-15" *ngIf="natureTypes.length!==0 && searchForm && showTable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row" *ngIf="searchForm">
   <!--table area-->
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="showTable">
     <div class="table-responsive">
-      <table [md2Data]="natureTypes" class="table table-hover table-striped" #md2="md2DataTable" [rowsPerPage]="4">
+      <table [md2Data]="filterednatureTypes" class="table table-hover table-striped" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th style="width: 5%">S.No.</th>
@@ -54,11 +62,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="natureTypes.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data">
-            <td>{{natureTypes.indexOf(item)+1}}</td>
+            <td>{{filterednatureTypes.indexOf(item)+1}}</td>
             <td>{{item.feedbackNature}}</td>
             <td>{{item.feedbackNatureDesc}}</td>
             <td>
@@ -77,7 +85,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" [disabled]="searchCNForm.invalid" (click)="changeTableFlag1(false);">Add Feedback Type</button>
+              <button class="pull-right" md-raised-button color="primary" [disabled]="!search_state || !search_feedbacktype" (click)="changeTableFlag1(false);">Add Feedback Type</button>
             </td>
           </tr>
         </tfoot>
@@ -138,7 +146,8 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="width100">
-            <input mdInput name="feedbackDesc" placeholder="Feedback Nature Description" [(ngModel)]="feedbackNatureDesc" #newFeedbackNatureDesc="ngModel" maxlength="100">
+            <input mdInput name="feedbackDesc" placeholder="Feedback Nature Description" [(ngModel)]="feedbackNatureDesc" #newFeedbackNatureDesc="ngModel"
+              maxlength="100">
           </md-input-container>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngIf="editForm.valid && !natureExists">

@@ -12,6 +12,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 })
 export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
+    filteredavailableEmployeeParkingPlaceMappings: any = [];
     searchParkingPlaceID_edit: any;
     designationID_edit: any;
     searchDistrictID_edit: any;
@@ -80,6 +81,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             console.log(response, 'Provider States');
             this.provider_states = response;
             this.availableEmployeeParkingPlaceMappings = [];
+            this.filteredavailableEmployeeParkingPlaceMappings = [];
             // this.createButton = false;
         }
     }
@@ -154,7 +156,9 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
         this.tableMode = true;
         this.availableEmployeeParkingPlaceMappings = [];
+        this.filteredavailableEmployeeParkingPlaceMappings = [];
         this.availableEmployeeParkingPlaceMappings = response;
+        this.filteredavailableEmployeeParkingPlaceMappings = response;
 
 
     }
@@ -326,6 +330,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         console.log(response, "districts retrieved");
         this.districts = response;
         this.availableEmployeeParkingPlaceMappings = [];
+        this.filteredavailableEmployeeParkingPlaceMappings = [];
     }
 
     parkingPlaceObj: any;
@@ -343,6 +348,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.resetform1.controls.designationID.reset();
         this.availableParkingPlaces = response;
         this.availableEmployeeParkingPlaceMappings = [];
+        this.filteredavailableEmployeeParkingPlaceMappings = [];
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
                 const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
@@ -450,6 +456,22 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         // this.editMode = false;;
 
 
+
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableEmployeeParkingPlaceMappings = this.availableEmployeeParkingPlaceMappings;
+        } else {
+            this.filteredavailableEmployeeParkingPlaceMappings = [];
+            this.availableEmployeeParkingPlaceMappings.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableEmployeeParkingPlaceMappings.push(item); break;
+                    }
+                }
+            });
+        }
 
     }
     resetDesignation() {

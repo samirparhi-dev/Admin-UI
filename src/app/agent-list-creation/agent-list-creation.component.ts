@@ -11,6 +11,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 })
 export class AgentListCreationComponent implements OnInit {
 
+  filteredagentLists: any = [];
   serviceProviderID: any;
   providerServiceMapID: any;
   radio_option: any;
@@ -48,7 +49,7 @@ export class AgentListCreationComponent implements OnInit {
     this.radio_option = '1';
     this.userID = this.commonDataService.uid;
     console.log("userID", this.
-    userID);
+      userID);
     this.getServices(this.userID);
   }
 
@@ -63,7 +64,7 @@ export class AgentListCreationComponent implements OnInit {
     this.state = '';
     this._AgentListCreationService.getStates(this.userID, serviceID, isNational)
       .subscribe(response => this.getStatesSuccessHandeler(response, isNational), (err) => console.log("Error", err));
-      //this.alertService.alert(err, 'error'));
+    //this.alertService.alert(err, 'error'));
 
   }
 
@@ -79,7 +80,7 @@ export class AgentListCreationComponent implements OnInit {
     // this.service = '';
     this._AgentListCreationService.getServices(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response), (err) => console.log("Error", err));//
-      //this.alertService.alert(err, 'error'));
+    //this.alertService.alert(err, 'error'));
   }
 
   getServicesSuccessHandeler(response) {
@@ -103,6 +104,7 @@ export class AgentListCreationComponent implements OnInit {
   agentsListSuccessHandler(agentsResponse) {
     console.log('Agents list', agentsResponse);
     this.agentLists = agentsResponse;
+    this.filteredagentLists = agentsResponse;
     this.showTableFlag = true;
     this.showFormFlag = false;
     this.editable = false;
@@ -111,7 +113,7 @@ export class AgentListCreationComponent implements OnInit {
   getCampaignNames(serviceName) {
     this._AgentListCreationService.getCampaignNames(serviceName)
       .subscribe(response => this.getCampaignNamesSuccessHandeler(response), (err) => console.log("Error", err));
-      // this.alertService.alert(err, 'error'));
+    // this.alertService.alert(err, 'error'));
 
   }
 
@@ -179,7 +181,7 @@ export class AgentListCreationComponent implements OnInit {
         if (this.resultArray[z].agentID.toString()[0] === "2" ||
           this.resultArray[z].agentID.toString()[0] === "3" ||
           this.resultArray[z].agentID.toString()[0] === "4") {
-          console.log("Validate One",this.resultArray[z].agentID.toString()[0]);
+          console.log("Validate One", this.resultArray[z].agentID.toString()[0]);
           tick = tick + 1;
         }
       }
@@ -327,7 +329,7 @@ export class AgentListCreationComponent implements OnInit {
       this._AgentListCreationService.saveAgentListMapping(this.resultArray)
         .subscribe(response => this.saveSuccessHandeler(response),
           (err) => console.log("Error", err));
-          // this.alertService.alert(err, 'error'));
+      // this.alertService.alert(err, 'error'));
     }
     else {
       this.alertService.alert('Invalid entry in agent ID', 'error');
@@ -416,6 +418,22 @@ export class AgentListCreationComponent implements OnInit {
 
 
 
+
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredagentLists = this.agentLists;
+    } else {
+      this.filteredagentLists = [];
+      this.agentLists.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredagentLists.push(item); break;
+          }
+        }
+      });
+    }
 
   }
 

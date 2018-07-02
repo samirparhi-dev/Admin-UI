@@ -25,9 +25,17 @@
       </md-input-container>
     </div>
   </form>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTableFlag && !editable">
+</div>
+<div class="pull-right m-t-15" *ngIf="showTableFlag && agentLists.length!==0 && !editable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12" *ngIf="showTableFlag && !editable">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="agentLists" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="filteredagentLists" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="10%">S.No.</th>
@@ -37,11 +45,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="agentLists.length == 0" class="record-not-found">
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
             <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
-            <td>{{agentLists.indexOf(item)+1}}</td>
+            <td>{{filteredagentLists.indexOf(item)+1}}</td>
             <td>{{item.agentID}}</td>
             <td>{{item.cti_CampaignName}}</td>
             <td>

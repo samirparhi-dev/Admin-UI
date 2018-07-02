@@ -12,6 +12,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-complaint-nature-master.component.css']
 })
 export class FeedbackComplaintNatureMasterComponent implements OnInit {
+  filterednatureTypes: any = [];
   previous_state_id: any;
   previous_service_id: any;
   previous_feedbacktype: any;
@@ -68,6 +69,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
         this.states = response;
         this.feedbackTypes = [];
         this.natureTypes = [];
+        this.filterednatureTypes = [];
 
         if (isNational) {
           this.findFeedbackTypes(this.states[0].providerServiceMapID);
@@ -100,6 +102,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
       this.natureTypes = [];
+      this.filterednatureTypes = [];
     }, err => {
       console.log("Error", err);
       // this.alertService.alert(err, 'error');
@@ -115,6 +118,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       .subscribe((response) => {
         console.log("Feedback Nature Types", response);
         this.natureTypes = response;
+        this.filterednatureTypes = response;
         this.showTable = true;
       }, err => {
         console.log("Error", err);
@@ -148,6 +152,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     console.log("state", this.search_state);
     console.log("serviceLine", this.search_serviceline);
     this.natureTypes = [];
+    this.filterednatureTypes = [];
     this.showTable = false;
   }
 
@@ -265,9 +270,9 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.changeTableFlag(true);
-       
+
         this.objs = [];
-        this.changeTableFlag(true);      
+        this.changeTableFlag(true);
       }
     });
   }
@@ -296,6 +301,22 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
 
   remove_obj(index) {
     this.objs.splice(index, 1);
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filterednatureTypes = this.natureTypes;
+    } else {
+      this.filterednatureTypes = [];
+      this.natureTypes.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filterednatureTypes.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
 }

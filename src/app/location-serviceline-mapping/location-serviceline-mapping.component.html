@@ -30,10 +30,19 @@
       </md-input-container>
     </div>
   </form>
+</div>
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showTable">
+<div class="pull-right m-t-15" *ngIf="workLocations.length!==0 && showTable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="showTable">
     <div class="table-responsive">
-      <table [md2Data]="workLocations" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+      <table [md2Data]="filteredworkLocations" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
           <tr>
             <!--<th>Provider-Service Map ID</th>-->
@@ -86,8 +95,8 @@
     </div>
 
   </div>
-
 </div>
+
 <!--new location form starts -->
 <div class="row" *ngIf="showForm">
   <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

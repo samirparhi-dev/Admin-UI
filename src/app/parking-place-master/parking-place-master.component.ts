@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class ParkingPlaceComponent implements OnInit {
 
+    filteredavailableParkingPlaces: any = [];
     status: string;
     userID: any;
     service: any;
@@ -108,6 +109,7 @@ export class ParkingPlaceComponent implements OnInit {
     setProviderServiceMapID(providerServiceMapID) {
         this.districtID = undefined;
         this.availableParkingPlaces = [];
+        this.filteredavailableParkingPlaces = [];
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
 
@@ -155,6 +157,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.showTableFlag = true;
         this.editable = false;
         this.availableParkingPlaces = response;
+        this.filteredavailableParkingPlaces = response;
         for (let availableParkingPlace of this.availableParkingPlaces) {
             this.availableParkingPlaceNames.push(availableParkingPlace.parkingPlaceName);
         }
@@ -326,6 +329,22 @@ export class ParkingPlaceComponent implements OnInit {
         this.initializeObj();
         this.editParkingplaceValue = null;
         this.availableParkingPlaceNames = [];
+
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableParkingPlaces = this.availableParkingPlaces;
+        } else {
+            this.filteredavailableParkingPlaces = [];
+            this.availableParkingPlaces.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableParkingPlaces.push(item); break;
+                    }
+                }
+            });
+        }
 
     }
     back() {

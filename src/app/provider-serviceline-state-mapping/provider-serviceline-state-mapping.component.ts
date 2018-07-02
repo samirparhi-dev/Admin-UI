@@ -13,6 +13,7 @@ import { SuperAdmin_ServiceProvider_Service } from '../services/adminServices/Ad
  */
 
 export class ProviderServicelineStateMappingComponent implements OnInit {
+  filteredsearchResult: any = [];
   // ngModels
   provider: any;
   serviceline: any;
@@ -111,6 +112,7 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         if (response) {
           console.log('All Providers Mapping Success Handeler', response);
           this.searchResult = response;
+          this.filteredsearchResult = response;
         }
       }, err => {
         console.log(err, 'error')
@@ -484,6 +486,22 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
         }
       })
     }
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResult = this.searchResult;
+    } else {
+      this.filteredsearchResult = [];
+      this.searchResult.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResult.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
   deactivate(providerServiceMapID) {

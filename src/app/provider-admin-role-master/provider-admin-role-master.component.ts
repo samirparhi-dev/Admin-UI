@@ -12,6 +12,7 @@ declare var jQuery: any;
   styleUrls: ['./provider-admin-role-master.component.css']
 })
 export class ProviderAdminRoleMasterComponent implements OnInit {
+  filteredsearchresultarray: any = [];
   role: any;
   description: any;
   feature: any;
@@ -77,6 +78,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.states = [];
     this.services = [];
     this.searchresultarray = [];
+    this.filteredsearchresultarray = [];
     this.filterScreens = [];
 
 
@@ -143,6 +145,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.state = '';
     this.states = response;
     this.searchresultarray = [];
+    this.filteredsearchresultarray = [];
     //this.showAddButtonFlag = false;
 
     if (value.isNational) {
@@ -198,6 +201,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     console.log(this.serviceProviderID, stateID, serviceID);
     this.ProviderAdminRoleService.getRole(obj).subscribe((response) => {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
+      this.filteredsearchresultarray = this.fetchRoleSuccessHandeler(response);
       console.log("searchresultarray", this.searchresultarray);
 
       this.filterScreens = [];
@@ -588,6 +592,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   clear() {
     this.services = [];
     this.searchresultarray = [];
+    this.filteredsearchresultarray = [];
     this.filterScreens = [];
     this.showAddButtonFlag = false;
   }
@@ -651,6 +656,22 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         console.log('ERROR while updating feature to role', err);
         console.log(err, 'error');
       });
+
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchresultarray = this.searchresultarray;
+    } else {
+      this.filteredsearchresultarray = [];
+      this.searchresultarray.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchresultarray.push(item); break;
+          }
+        }
+      });
+    }
 
   }
 

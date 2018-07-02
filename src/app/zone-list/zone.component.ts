@@ -11,6 +11,7 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class ZoneComponent implements OnInit {
 
+  filteredavailableZones: any = [];
   status: string;
   data: any;
   service: any;
@@ -112,6 +113,7 @@ export class ZoneComponent implements OnInit {
   getZonesSuccessHandler(response) {
     console.log("all zones", response);
     this.availableZones = response;
+    this.filteredavailableZones = response;
     this.showTableFlag = true;
     for (let availableZone of this.availableZones) {
       this.availableZoneNames.push(availableZone.zoneName);
@@ -378,6 +380,22 @@ export class ZoneComponent implements OnInit {
     this.editable = false;
     this.disableSelection = false;
     this.showListOfZones = true;
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredavailableZones = this.availableZones;
+    } else {
+      this.filteredavailableZones = [];
+      this.availableZones.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredavailableZones.push(item); break;
+          }
+        }
+      });
+    }
+
   }
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

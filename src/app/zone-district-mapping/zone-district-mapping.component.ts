@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class ZoneDistrictMappingComponent implements OnInit {
 
+  filteredavailableZoneDistrictMappings: any = [];
   status: string;
   userID: any;
   service: any;
@@ -115,6 +116,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
   getZoneDistrictMappingsSuccessHandler(response) {
     this.availableZoneDistrictMappings = response;
+    this.filteredavailableZoneDistrictMappings = response;
     this.showMappings = true;
     console.log("this.availableZoneDistrictMappings", this.availableZoneDistrictMappings);
 
@@ -383,6 +385,22 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.showList();
     this.editZoneMappingValue = null;
     this.alertMessage.alert("Updated successfully", 'success');
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredavailableZoneDistrictMappings = this.availableZoneDistrictMappings;
+    } else {
+      this.filteredavailableZoneDistrictMappings = [];
+      this.availableZoneDistrictMappings.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredavailableZoneDistrictMappings.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
 }

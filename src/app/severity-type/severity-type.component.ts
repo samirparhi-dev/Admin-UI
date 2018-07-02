@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class SeverityTypeComponent implements OnInit {
 
+  filtereddata: any = [];
   states: any = [];
   stateId: any;
   serviceProviderID: any;
@@ -103,6 +104,7 @@ export class SeverityTypeComponent implements OnInit {
   findSeverity(psmID) {
     console.log(psmID);
     this.data = [];
+    this.filtereddata = [];
     this.providerServiceMapID = psmID;
     this.search = true;
     this.severityTypeService.getSeverity(this.providerServiceMapID).subscribe(response => this.getSeveritysuccesshandler(response),
@@ -115,6 +117,7 @@ export class SeverityTypeComponent implements OnInit {
 
   getSeveritysuccesshandler(response) {
     this.data = response;
+    this.filtereddata = response;
   }
 
   showAddScreen() {
@@ -269,6 +272,23 @@ export class SeverityTypeComponent implements OnInit {
     this.data = [];
     this.services = [];
     this.search = false;
+    this.filtereddata = [];
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 }
 

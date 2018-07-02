@@ -13,6 +13,7 @@ declare let jQuery: any;
 })
 export class VillageMasterComponent implements OnInit {
 
+    filteredavailableVillages: any = [];
     showVillages: any = true;
     availableVillages: any = [];
     data: any;
@@ -66,6 +67,7 @@ export class VillageMasterComponent implements OnInit {
     }
     getDistrictsSuccessHandeler(response) {
         this.availableVillages = [];
+        this.filteredavailableVillages = [];
         this.taluks = [];
         this.searchDistrictID = undefined;
         this.districts = response;
@@ -80,6 +82,7 @@ export class VillageMasterComponent implements OnInit {
     SetTaluks(response: any) {
         this.taluks = response;
         this.availableVillages = [];
+        this.filteredavailableVillages = [];
         this.searchTalukID = undefined;
     }
 
@@ -90,6 +93,7 @@ export class VillageMasterComponent implements OnInit {
     }
     SetBranches(response: any) {
         this.availableVillages = response;
+        this.filteredavailableVillages = response;
         this.showTableFlag = true;
 
         for (let villages of this.availableVillages) {
@@ -298,6 +302,7 @@ export class VillageMasterComponent implements OnInit {
 
         this.showTableFlag = false;
         this.availableVillages = [];
+        this.filteredavailableVillages = [];
 
         this.districts = [];
         this.taluks = [];
@@ -323,6 +328,21 @@ export class VillageMasterComponent implements OnInit {
 
         });
 
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableVillages = this.availableVillages;
+        } else {
+            this.filteredavailableVillages = [];
+            this.availableVillages.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableVillages.push(item); break;
+                    }
+                }
+            });
+        }
     }
 }
 
@@ -407,4 +427,5 @@ export class EditVillageModal {
 
         }
     }
+
 }

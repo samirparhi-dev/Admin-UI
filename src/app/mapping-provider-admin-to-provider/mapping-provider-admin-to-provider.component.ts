@@ -11,6 +11,7 @@ import { SuperAdmin_ServiceProvider_Service } from '../services/adminServices/Ad
 })
 export class MappingProviderAdminToProviderComponent implements OnInit {
 
+  filteredproviderAdminList: any = [];
   service_provider_array: any = [];
   service_provider_admin_array: any = [];
   states_array: any = [];
@@ -73,6 +74,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         if (response) {
           console.log('All Provider Admins Mapping Success Handeler', response);
           this.providerAdminList = response;
+          this.filteredproviderAdminList = response;
         }
       }, err => {
         // this.dialogService.alert(err, 'error');
@@ -588,6 +590,22 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         // this.dialogService.alert(err, 'error');
         console.log('error', err);
       });
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredproviderAdminList = this.providerAdminList;
+    } else {
+      this.filteredproviderAdminList = [];
+      this.providerAdminList.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredproviderAdminList.push(item); break;
+          }
+        }
+      });
+    }
+
   }
   resetDropdowns() {
     debugger;

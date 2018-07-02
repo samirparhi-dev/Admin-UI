@@ -13,6 +13,8 @@ import { NgForm } from '@angular/forms';
 })
 export class CategorySubcategoryProvisioningComponent implements OnInit {
 
+  filteredsubCat: any = [];
+  filtereddata: any = [];
   serviceproviderID: any;
   well_being: boolean = false;
   showWellBeingFlag: boolean = false;
@@ -163,6 +165,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   servicesGetting(proServiceMapID) {
     debugger;
     this.data = [];
+    this.filtereddata = [];
+    this.filteredsubCat = [];
+    this.subCat = [];
     this.CategorySubcategoryService.getSubService(proServiceMapID)
       .subscribe((response) => {
         this.showWellBeingFlag = false;
@@ -208,6 +213,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             return item.deleted !== true;
           });
           this.data = response;
+          this.filtereddata = response;
         }
       }, (err) => {
         console.log("error", err);
@@ -222,6 +228,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         if (response) {
           //  console.log(response, "subcat response");
           this.subCat = response.filter((obj) => {
+            return obj !== null;
+          });
+          this.filteredsubCat = response.filter((obj) => {
             return obj !== null;
           });
         }
@@ -589,6 +598,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.data = response.filter(function (item) {
             return item.categoryID !== null && item.categoryName !== null;
           });
+          this.filtereddata = response.filter(function (item) {
+            return item.categoryID !== null && item.categoryName !== null;
+          });
           this.categories = response.filter(function (item) {
             return item.deleted !== true;
           });
@@ -603,6 +615,9 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         if (response) {
           console.log(response, "subCategory");
           this.subCat = response.filter(function (item) {
+            return item != null;
+          });
+          this.filteredsubCat = response.filter(function (item) {
             return item != null;
           });
           console.log(this.subCat);
@@ -815,6 +830,38 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           // this.messageBox.alert(err, 'error')
         });
     }
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
+  filterComponentListSub(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsubCat = this.subCat;
+    } else {
+      this.filteredsubCat = [];
+      this.subCat.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsubCat.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 }
 

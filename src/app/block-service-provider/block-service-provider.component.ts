@@ -12,6 +12,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 })
 export class BlockServiceProviderComponent implements OnInit {
 
+  filtereddata: any = [];
   data: any = [];
   showBlock: boolean = false;
   showUnblock: boolean = false;
@@ -203,6 +204,7 @@ export class BlockServiceProviderComponent implements OnInit {
       if (response) {
         jQuery('#myForm').trigger('reset');
         this.data = [];
+        this.filtereddata = [];
         this.states_array = [];
         this.services_array = [];
         this.showTable = false;
@@ -321,18 +323,22 @@ export class BlockServiceProviderComponent implements OnInit {
     console.log(response, 'RESPONSE');
     this.states_array = response;
     this.data = response;
+    this.filtereddata = response;
   }
 
   successhandeler2(response) {
     // this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
+    this.filtereddata = response;
+
   }
 
   successhandeler3(response) {
     //  this._statusSettingFields.reset();
     console.log(response, 'RESPONSE');
     this.data = response;
+    this.filtereddata = response;
   }
 
   successhandeler4(response) {
@@ -340,12 +346,13 @@ export class BlockServiceProviderComponent implements OnInit {
 
     console.log(response, 'RESPONSE');
     this.data = response;
+    this.filtereddata = response;
   }
 
   // blocking
 
   blockProvider() {
-    let serviceProviderID = this.data[0].serviceProviderID;
+    let serviceProviderID = this.filtereddata[0].serviceProviderID;
     let statusID = this.status;
     let reason = this.reason;// needs to be 3, but as of now being sent as 2 for checking as no val in table
     this.block_provider.block_unblock_provider(serviceProviderID, statusID, reason)
@@ -363,9 +370,9 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   blockState() {
-    let serviceProviderID = this.data[0].serviceProviderID;
+    let serviceProviderID = this.filtereddata[0].serviceProviderID;
     let statusID = this.status;
-    let stateID = this.data[0].stateID;
+    let stateID = this.filtereddata[0].stateID;
     let reason = this.reason;
     this.block_provider.block_unblock_state(serviceProviderID, stateID, statusID, reason)
       .subscribe(response => this.block_unblock_stateSuccessHandeler(response), err => {
@@ -381,9 +388,9 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   blockService() {
-    let serviceProviderID = this.data[0].serviceProviderID;
+    let serviceProviderID = this.filtereddata[0].serviceProviderID;
     let statusID = this.status;
-    let serviceID = this.data[0].serviceID;
+    let serviceID = this.filtereddata[0].serviceID;
     let reason = this.reason;
     this.block_provider.block_unblock_serviceline(serviceProviderID, serviceID, statusID, reason)
       .subscribe(response => this.block_unblock_serviceSuccessHandeler(response, serviceProviderID), err => {
@@ -401,9 +408,9 @@ export class BlockServiceProviderComponent implements OnInit {
   }
 
   blockServiceOfState() {
-    let serviceProviderID = this.data[0].serviceProviderID;
-    let serviceID = this.data[0].serviceID;
-    let stateID = this.data[0].stateID;
+    let serviceProviderID = this.filtereddata[0].serviceProviderID;
+    let serviceID = this.filtereddata[0].serviceID;
+    let stateID = this.filtereddata[0].stateID;
     let statusID = this.status;
     let reason = this.reason;
     this.block_provider.block_unblock_serviceOfState(serviceProviderID, stateID, serviceID, statusID, reason)
@@ -412,7 +419,22 @@ export class BlockServiceProviderComponent implements OnInit {
         //this.message.alert(err, 'error');
       });
   }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
 
+  }
   block_unblock_serviceOfStateSuccessHandeler(response) {
     console.log('b u service of state success handeler', response);
     this.message.alert('Updated successfully', 'success');

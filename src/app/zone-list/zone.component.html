@@ -37,10 +37,16 @@
     </form>
   </div>
 </div>
+<div class="pull-right m-t-15" *ngIf="availableZones.length!==0 && showListOfZones && !editable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
 <div class="row" *ngIf="showTableFlag && showListOfZones && !editable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="table-responsive m-t-15">
-      <table class="table table-striped table-hover" [md2Data]="availableZones" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="filteredavailableZones" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -55,11 +61,11 @@
         </thead>
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let zone of availableZones | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b} ;let i=index" >-->
-          <tr *ngIf="availableZones.length == 0" class="record-not-found">
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
             <td colspan="8" align="center">No records found</td>
           </tr>
           <tr *ngFor="let zone of md2.data ;let i=index">
-            <td>{{availableZones.indexOf(zone)+1}}</td>
+            <td>{{filteredavailableZones.indexOf(zone)+1}}</td>
             <td>{{zone.zoneName}}</td>
             <td>{{zone.zoneDesc}}</td>
             <td>{{zone.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>

@@ -42,10 +42,26 @@
     </form>
   </form>
   <!-- </div> -->
+</div>
+<div class="pull-right m-t-15" *ngIf="showCategoryTable && data.length!==0 && showTable && showDiv">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+
+<div class="pull-right m-t-15" *ngIf="!showCategoryTable && subCat.length!==0 && showTable && showDiv">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentListSub(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row">
+
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showTable && showDiv">
     <!--category table-->
     <div class="table-responsive">
-      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
+      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -57,7 +73,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="data.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="6" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let i of md2.data; let k=index">
@@ -92,7 +108,8 @@
     </div>
     <!--sub-category table-->
     <div class="table-responsive">
-      <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="subCat" #md2="md2DataTable" [rowsPerPage]="4">
+      <table *ngIf="!showCategoryTable" class="table table-hover table-striped" [md2Data]="filteredsubCat" #md2="md2DataTable"
+        [rowsPerPage]="4">
         <thead>
           <tr>
             <th>S.No.</th>
@@ -105,11 +122,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="subCat.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="7" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let i of md2.data; let k=index">
-            <td>{{subCat.indexOf(i)+1}}</td>
+            <td>{{filteredsubCat.indexOf(i)+1}}</td>
             <td width=25%>{{i?.subCategoryName}}</td>
             <td width=30%>{{i?.subCategoryDesc}}</td>
             <td width=25%>{{i?.categoryName}}</td>

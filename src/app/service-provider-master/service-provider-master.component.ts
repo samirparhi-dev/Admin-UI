@@ -17,6 +17,7 @@ import { SuperAdmin_ServiceProvider_Service } from '../services/adminServices/Ad
  */
 export class ServiceProviderMasterComponent implements OnInit {
 
+  filteredsearchResult: any = [];
   // ngModel
   validFrom: any;
   validTill: Date;
@@ -155,7 +156,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       'primaryContactAddress': form_value.address1 + (form_value.address2 === undefined ? "" : ',' + form_value.address2),
       'statusID': '2',
       'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)),
-      'validTill': new Date(valid_till.valueOf()  - 1 * (valid_till.getTimezoneOffset() * 60 * 1000)),
+      'validTill': new Date(valid_till.valueOf() - 1 * (valid_till.getTimezoneOffset() * 60 * 1000)),
       'deleted': false
     }
     console.log("object", object);
@@ -190,6 +191,7 @@ export class ServiceProviderMasterComponent implements OnInit {
         if (response) {
           console.log('All Providers Success Handeler', response);
           this.searchResult = response;
+          this.filteredsearchResult = response;
         }
       }, err => {
 
@@ -295,6 +297,22 @@ export class ServiceProviderMasterComponent implements OnInit {
 
     this.address1 = '';
     this.address2 = '';
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredsearchResult = this.searchResult;
+    } else {
+      this.filteredsearchResult = [];
+      this.searchResult.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredsearchResult.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
   resetDates() {

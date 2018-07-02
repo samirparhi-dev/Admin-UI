@@ -11,6 +11,7 @@ import { MdCheckbox, MdSelect } from '@angular/material';
 })
 export class ServicePointComponent implements OnInit {
 
+    filteredavailableServicePoints: any = [];
     formMode: boolean = false;
     searchDistrictID_edit: any;
     searchParkingPlaceID_edit: any;
@@ -79,6 +80,7 @@ export class ServicePointComponent implements OnInit {
             console.log(response, 'Provider States');
             this.provider_states = response;
             this.availableServicePoints = [];
+            this.filteredavailableServicePoints = [];
             this.createButton = false;
         }
     }
@@ -95,6 +97,7 @@ export class ServicePointComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
         this.availableServicePoints = [];
+        this.filteredavailableServicePoints = [];
         this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
             if (availableParkingPlaces.deleted) {
@@ -119,6 +122,7 @@ export class ServicePointComponent implements OnInit {
 
     getServicePointSuccessHandler(response) {
         this.availableServicePoints = response;
+        this.filteredavailableServicePoints = response;
         for (let availableServicePoint of this.availableServicePoints) {
             this.availableServicePointNames.push(availableServicePoint.servicePointName);
         }
@@ -131,6 +135,7 @@ export class ServicePointComponent implements OnInit {
         console.log(response, "districts retrieved");
         this.districts = response;
         this.availableServicePoints = [];
+        this.filteredavailableServicePoints = [];
         this.createButton = false;
     }
     taluks: any = [];
@@ -323,6 +328,22 @@ export class ServicePointComponent implements OnInit {
     checkExistance(servicePointName) {
         this.servicePointNameExist = this.availableServicePointNames.includes(servicePointName);
         console.log(this.servicePointNameExist);
+    }
+    filterComponentList(searchTerm?: string) {
+        if (!searchTerm) {
+            this.filteredavailableServicePoints = this.availableServicePoints;
+        } else {
+            this.filteredavailableServicePoints = [];
+            this.availableServicePoints.forEach((item) => {
+                for (let key in item) {
+                    let value: string = '' + item[key];
+                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                        this.filteredavailableServicePoints.push(item); break;
+                    }
+                }
+            });
+        }
+
     }
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

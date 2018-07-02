@@ -2,7 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">User-Role Agent ID Mapping</h4>
   </div>
-  <form #searchCriteria = "ngForm" autocomplete="off">
+  <form #searchCriteria="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
@@ -13,46 +13,52 @@
         </md-select>
         <md-hint [hidden]=bindService.valid>
           <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
-      </md-hint>
+        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
-        <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" name="state" #bindState="ngModel" required>
+        <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" name="state" #bindState="ngModel"
+          required>
           <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="getRoles(item.providerServiceMapID)">
             {{item.stateName}}
           </md-option>
         </md-select>
         <md-hint [hidden]=bindState.valid *ngIf="!isNational">
           <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
-      </md-hint>
+        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline" [style.width]="'100%'">
         <input mdInput style="display:none">
         <md-select placeholder="Role" [style.width]="'100%'" [(ngModel)]="role" name="role" (change)="searchEmployee(state,service,role,undefined,undefined)"
-         #bindRole="ngModel" required>
+          #bindRole="ngModel" required>
           <md-option *ngFor="let item of roles" value="{{item.roleID}}">
             {{item.roleName}}
           </md-option>
         </md-select>
         <md-hint [hidden]=bindRole.valid>
           <span class="error_text" *ngIf="!bindRole.required  && ( bindRole.dirty || bindRole.touched)">Please select role</span>
-      </md-hint>
+        </md-hint>
       </md-input-container>
     </div>
   </form>
-  <!-- <div class="col-xs-12 col-sm-12 col-md-3 m-t-15" *ngIf="showTableFlag">
-      <button class="pull-right" md-raised-button color="primary" (click)="clear()">Clear
-      </button>
-    </div> -->
+
+</div>
+<div>
+  <div class="pull-right m-t-15" *ngIf="showTableFlag && searchResultArray.length!==0 ">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
 </div>
 <div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12 m-t-20 ">
     <div class="table-responsive">
-      <table [md2Data]="searchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+      <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
             <th>S.No.</th>
@@ -66,7 +72,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="searchResultArray.length == 0">
+          <tr *ngIf="md2.data.length == 0">
             <td colspan="8" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i= index">

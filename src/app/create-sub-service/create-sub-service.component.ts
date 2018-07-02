@@ -10,6 +10,7 @@ declare let jQuery: any;
   styleUrls: ['./create-sub-service.component.css']
 })
 export class CreateSubServiceComponent implements OnInit {
+  filtereddata: any;
   providerServiceMapID: any;
   services: any = [];
   subServices: any = [];
@@ -89,6 +90,7 @@ export class CreateSubServiceComponent implements OnInit {
     };
     this.state = undefined;
     this.data = [];
+    this.filtereddata = [];
     this.sub_service.getStatesInServices(data).subscribe(response => {
       console.log(response, 'successful response');
       this.states = undefined;
@@ -106,6 +108,7 @@ export class CreateSubServiceComponent implements OnInit {
         this.serviceObj = undefined;
         this.state = undefined;
         this.data = [];
+        this.filtereddata = [];
         this.services = response.filter(function (obj) {
           return obj.serviceID == 3 || obj.serviceID == 1;
         });
@@ -152,6 +155,7 @@ export class CreateSubServiceComponent implements OnInit {
   populateTable(response, providerServiceMapID) {
     this.showTable = true;
     this.data = response;
+    this.filtereddata = response;
     this.getExistingSubService(providerServiceMapID);
   }
   getExistingSubService(providerServiceMapID) {
@@ -378,6 +382,21 @@ export class CreateSubServiceComponent implements OnInit {
       this.getExistingOnSearch(this.states[0].providerServiceMapID);
     }
 
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
   }
 
 }

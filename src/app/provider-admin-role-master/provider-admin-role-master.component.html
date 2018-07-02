@@ -26,11 +26,15 @@
       </md-input-container>
     </div>
   </form>
-  <!--         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showAddButtonFlag" >
-                <button md-mini-fab " color="primary" >
-                    <md-icon mdSuffix  class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">search</md-icon>
-                </button>
-            </div> -->
+</div>
+
+<div class="pull-right m-t-15" *ngIf="searchresultarray.length!==0 && showRoleCreationForm && showAddButtonFlag">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="showRoleCreationForm">
     <!-- <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button> -->
     <button *ngIf="showUpdateFeatureButtonFlag && service.serviceID == 3" class="pull-right" md-raised-button color="primary"
@@ -38,7 +42,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showAddButtonFlag">
     <div class="table-responsive">
-      <table [md2Data]="searchresultarray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
+      <table [md2Data]="filteredsearchresultarray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
           <tr>
             <!-- <th>S.No</th> -->
@@ -52,7 +56,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="correctInput && searchresultarray.length == 0" class="record-not-found">
+          <tr *ngIf=" md2.data.length == 0" class="record-not-found">
             <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let role of md2.data; let i= index">

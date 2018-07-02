@@ -2,9 +2,17 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4 class="pull-left">Available Drugs</h4>
   </div>
+</div>
+<div class="pull-right m-t-15" *ngIf="availableDrugs.length!==0 && showDrugs && !editable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row" *ngIf="showDrugs && !editable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="availableDrugs" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="fileteredavailableDrugs" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="10%">S.No.</th>
@@ -17,11 +25,11 @@
         </thead>
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let drug of availableDrugs | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}"> -->
-          <tr *ngIf="availableDrugs.length == 0" class="record-not-found">
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
             <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let drug of md2.data; let i= index">
-            <td>{{availableDrugs.indexOf(drug)+1}}</td>
+            <td>{{fileteredavailableDrugs.indexOf(drug)+1}}</td>
             <td>{{drug.drugName}}</td>
             <td>{{drug.drugDesc}}</td>
             <td>{{drug.remarks}}</td>

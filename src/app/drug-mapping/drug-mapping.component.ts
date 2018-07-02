@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 })
 export class DrugMappingComponent implements OnInit {
 
+  filteredavailableDrugMappings: any = [];
   showMappings: any = true;
   availableDrugMappings: any = [];
   availableDrugGroups: any = [];
@@ -57,6 +58,7 @@ export class DrugMappingComponent implements OnInit {
 
   getDrugMappingsSuccessHandeler(response) {
     this.availableDrugMappings = response;
+    this.filteredavailableDrugMappings = response;
   }
 
   getAvailableDrugGroups() {
@@ -181,7 +183,7 @@ export class DrugMappingComponent implements OnInit {
       } else {
         console.log("already mapped with these drugs");
         this.alertMessage.alert("Already mapped with these drugs");
-        this.mappedDrugIDs=[];
+        this.mappedDrugIDs = [];
       }
     }
 
@@ -263,6 +265,22 @@ export class DrugMappingComponent implements OnInit {
   clearEdit() {
     this.showMappings = true;
     this.editable = false;
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredavailableDrugMappings = this.availableDrugMappings;
+    } else {
+      this.filteredavailableDrugMappings = [];
+      this.availableDrugMappings.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredavailableDrugMappings.push(item); break;
+          }
+        }
+      });
+    }
+
   }
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

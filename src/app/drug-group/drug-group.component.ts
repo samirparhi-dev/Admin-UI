@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class DrugGroupComponent implements OnInit {
 
+  filteredavailableDrugGroups: any = [];
   showDrugGroups: any = true;
   availableDrugGroups: any = [];
   data: any;
@@ -58,6 +59,7 @@ export class DrugGroupComponent implements OnInit {
 
   getDrugGroupsSuccessHandeler(response) {
     this.availableDrugGroups = response;
+    this.filteredavailableDrugGroups = response;
     for (let availableDrugGroup of this.availableDrugGroups) {
       this.availableDrugGroupNames.push(availableDrugGroup.drugGroup);
     }
@@ -254,6 +256,22 @@ export class DrugGroupComponent implements OnInit {
     this.showDrugGroups = true;
     this.editable = false;
     this.groupNameExist = false;
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredavailableDrugGroups = this.availableDrugGroups;
+    } else {
+      this.filteredavailableDrugGroups = [];
+      this.availableDrugGroups.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredavailableDrugGroups.push(item); break;
+          }
+        }
+      });
+    }
+
   }
   back() {
     this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {

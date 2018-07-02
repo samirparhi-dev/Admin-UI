@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CallDispositionTypeMasterComponent implements OnInit {
 
+  filtereddata: any = [];
   note: string;
   service_provider_id: any;
   providerServiceMapID: any;
@@ -248,6 +249,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.dataWithoutWrapUp = [];
     console.log("call type subtype history", response);
     this.data = response;
+    this.filtereddata=response;
     console.log("this.data", this.data);
 
     this.data.forEach(element => {
@@ -259,6 +261,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
       }
     })
     this.data = this.dataWithoutWrapUp;
+    this.filtereddata=this.dataWithoutWrapUp;
     console.log("after this.data", this.data);
   }
 
@@ -432,7 +435,24 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   clear() {
     this.provider_services = [];
     this.data = [];
+    this.filtereddata=[];
     this.showTable = false;
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filtereddata = this.data;
+    } else {
+      this.filtereddata = [];
+      this.data.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filtereddata.push(item); break;
+          }
+        }
+      });
+    }
+
   }
 
 }
@@ -441,7 +461,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   templateUrl: './edit-call-type-model.html'
 })
 export class EditCallType {
-
 
   note: string;
   callType: any;
@@ -640,4 +659,5 @@ export class EditCallType {
       this.dialogReff.close();
     }
   }
+
 }

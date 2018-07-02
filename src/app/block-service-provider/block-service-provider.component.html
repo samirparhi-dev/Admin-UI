@@ -33,35 +33,18 @@
         </md-select>
       </md-input-container>
     </div>
-
-
-    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select name="Services" placeholder="ServiceLine" class="width100" [(ngModel)]="serviceline" (change)="getStatesBasedOn_Provider_Service(service_provider,serviceline)">
-          <md-option *ngFor="let item of services_array" [value]="item.serviceID">
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select name="state" placeholder="State" class="width100" [(ngModel)]="state" (change)="getStatus(service_provider,state,serviceline)">
-          <md-option *ngFor="let item of states_array" [value]="item.stateID">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </div> -->
   </form>
 </div>
-
+<div class="pull-right" *ngIf="data.length!==0 && showTable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
 <div class="row" *ngIf="showTable">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15 ">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-5">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <!-- <th>PSMID</th> -->
@@ -75,12 +58,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="data.length == 0" class="record-not-found">
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
             <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let i of md2.data; let k=index">
             <!-- <td>{{i.providerServiceMapID}}</td> -->
-            <td width="5%">{{data.indexOf(i)+1}}</td>
+            <td width="5%">{{filtereddata.indexOf(i)+1}}</td>
             <td width=20%>{{i.serviceProviderName}}</td>
 
             <td width=20%>{{i.serviceName}}</td>

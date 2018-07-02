@@ -12,6 +12,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./feedback-type-master.component.css']
 })
 export class FeedbackTypeMasterComponent implements OnInit {
+  filteredfeedbackTypes: any = [];
   feedbackNameExist: boolean = false;
   userID: any;
   previous_state_id: any;
@@ -61,6 +62,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
         this.search_state = "";
         this.states = response;
         this.feedbackTypes = [];
+        this.filteredfeedbackTypes = [];
 
         if (isNational) {
           this.findFeedbackTypes(this.states[0].providerServiceMapID);
@@ -90,6 +92,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     }).subscribe((response) => {
       console.log("FeedbackTypes", response);
       this.feedbackTypes = response;
+      this.filteredfeedbackTypes = response;
       this.showTable = true;
     }, (err) => {
       console.log("Error", err);
@@ -102,6 +105,7 @@ export class FeedbackTypeMasterComponent implements OnInit {
     console.log("state", this.search_state);
     console.log("serviceLine", this.search_serviceline);
     this.feedbackTypes = [];
+    this.filteredfeedbackTypes = [];
     this.showTable = false;
   }
 
@@ -303,6 +307,22 @@ export class FeedbackTypeMasterComponent implements OnInit {
   remove_obj(index) {
     this.objs.splice(index, 1);
   }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredfeedbackTypes = this.feedbackTypes;
+    } else {
+      this.filteredfeedbackTypes = [];
+      this.feedbackTypes.forEach((item) => {
+        for (let key in item) {
+          let value: string = '' + item[key];
+          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+            this.filteredfeedbackTypes.push(item); break;
+          }
+        }
+      });
+    }
+
+  }
 
 }
 
@@ -366,6 +386,7 @@ export class EditFeedbackModal {
       });
 
   }
+
 
   validateFeedback(feedback) {
     console.log("check", feedback);

@@ -37,9 +37,17 @@
       </md-input-container>
     </div>
   </form>
+</div>
+<div class="pull-right m-t-10" *ngIf="data.length!==0 && showTable  && searchForm">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row" *ngIf="searchForm">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" *ngIf="showTable" [md2Data]="data" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" *ngIf="showTable" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -53,7 +61,7 @@
             <td colspan="4" align="center">No records found</td>
           </tr>
           <tr *ngFor="let sub of md2.data; let i=index">
-            <td>{{data.indexOf(sub)+1}}</td>
+            <td>{{filtereddata.indexOf(sub)+1}}</td>
             <td>{{sub.subServiceName}}</td>
             <td>{{sub.subServiceDesc}}</td>
             <td>
@@ -68,7 +76,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="2" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" [disabled]="subservices.invalid" (click)="addSubService(false)">Create Sub Service</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="!serviceObj || !state " (click)="addSubService(false)">Create Sub Service</button>
             </td>
           </tr>
         </tfoot>
