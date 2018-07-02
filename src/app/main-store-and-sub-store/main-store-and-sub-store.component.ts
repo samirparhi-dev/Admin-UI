@@ -189,6 +189,7 @@ export class MainStoreAndSubStoreComponent implements OnInit {
 
           }, (err) => {
             console.log("error", err);
+            this.dialogService.alert(err.errorMessage, 'error');
           });
       }
     });

@@ -146,6 +146,7 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
 
   showForm() {
+    this.create_filterTerm="";
     this.showFormFlag = true;
     this.showTableFlag = false;
   }
@@ -160,8 +161,9 @@ export class ItemToStoreMappingComponent implements OnInit {
     },
       (err) => { console.log("ERROR in fetching serviceline") });
   }
-  onCategorySelected(categoryId,mainID) {
+  onCategorySelected(categoryId,mainStore) {
     debugger;
+    var mainID=mainStore.facilityID;
     if(this.storeType)
     {
       if(this.mainStore.mainFacilityID==undefined){
@@ -170,7 +172,7 @@ export class ItemToStoreMappingComponent implements OnInit {
         (err) => { console.log("ERROR in fetching items") });
      }
      else {
-      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, mainID).
+      this.itemFacilityMappingService.getItemsForSubStore(this.providerServiceMapID, this.mainStore.mainFacilityID).
       subscribe(response => this.onCategorySelectedSuccessHandeler(response, categoryId,this.mainStore),
         (err) => { console.log("ERROR in fetching items") });
     }
@@ -334,6 +336,8 @@ export class ItemToStoreMappingComponent implements OnInit {
          this.showTableFlag = true;
          this.showFormFlag = false;
         // this.disableSelection = false;
+        this.create_filterTerm="";
+        this.resetForm();
         this.getAllItemFacilityMapping(this.providerServiceMapID)
       }
     })
@@ -350,10 +354,13 @@ export class ItemToStoreMappingComponent implements OnInit {
   submitMapping() {
     this.itemFacilityMappingService.setFacilityItemMapping(this.bufferarray).subscribe(response => {
       console.log(response, 'after successful mapping of provider to service and state');
-      this.dialogService.alert('Mapping saved successfully', 'success');
+      this.dialogService.alert('Saved successfully', 'success');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.bufferarray = [];
       this.resetForm();
+      this.showTableFlag = true;
+      this.showFormFlag = false;
+     this.create_filterTerm="";
 
     }, err => {
       this.dialogService.alert(err, 'error');
@@ -370,14 +377,17 @@ export class ItemToStoreMappingComponent implements OnInit {
   subStorelist(facID){
     this.itemCategoryselected={};
     this.substores=this.stores.filter(function (item) {
-      return item.mainFacilityID == facID && item.deleted==false; // This value has to go in constant
+      return item.mainFacilityID == facID && item.deleted==false && item.isMainFacility == 0; // This value has to go in constant
     });
   }
 
   deleteMapping(id,bool,Message){
     debugger;
+    this.dialogService.confirm('Confirm', "Are you sure you want to " + Message +"?").subscribe(response => {
+      if (response) {
+        
     this.itemFacilityMappingService.deleteFacilityItemMapping(id,bool).subscribe(response => {
-      this.dialogService.alert(Message+' successfully', 'success');
+      this.dialogService.alert(Message+'d successfully', 'success');
       this.getAllItemFacilityMapping(this.providerServiceMapID);
       this.create_filterTerm='';
     }, err => {
@@ -385,10 +395,12 @@ export class ItemToStoreMappingComponent implements OnInit {
       console.log(err, 'ERROR');
     });
   }
+    });
+  }
   activate(id){
-  this.deleteMapping(id,false,'Activated');
+  this.deleteMapping(id,false,'Activate');
   }
   deactivate(id){
-    this.deleteMapping(id,true,'Deactivated');
+    this.deleteMapping(id,true,'Deactivate');
   }
 }

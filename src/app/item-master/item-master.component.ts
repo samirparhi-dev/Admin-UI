@@ -183,9 +183,9 @@ export class ItemMasterComponent implements OnInit {
   setDiscontinue(itemID, discontinue) {
     debugger;
     if (discontinue) {
-      this.discontinueMessage = 'Item Discontinued';
+      this.discontinueMessage = 'Item discontinued';
     } else {
-      this.discontinueMessage = 'Item Continued';
+      this.discontinueMessage = 'Item continued';
     }
     this.itemService.setDiscontinue(itemID, discontinue).subscribe((discontinueResponse) => {
       this.discontinueSuccesshandler(discontinueResponse, this.discontinueMessage),
@@ -388,7 +388,7 @@ export class ItemMasterComponent implements OnInit {
         console.log(response, 'item created');
         this.itemCreationForm.resetForm();
         this.itemArrayObj = [];
-        this.dialogService.alert('Item Created Successfully', 'success');
+        this.dialogService.alert('Saved Successfully', 'success');
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);

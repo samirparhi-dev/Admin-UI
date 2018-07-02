@@ -128,7 +128,7 @@
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Item Category" class="width100" [(ngModel)]="itemCategoryselected" name="itemCategory" [disabled]="(storeType&&!(mainStore?.facilityID>0))||(!storeType&&!(subStore?.facilityID>0))">
-          <md-option *ngFor="let category of itemCategory" [value]="category" (click)="onCategorySelected(category.itemCategoryID,mainStore.facilityID)">
+          <md-option *ngFor="let category of itemCategory" [value]="category" (click)="onCategorySelected(category.itemCategoryID,mainStore)">
             {{category.itemCategoryName}}
           </md-option>
         </md-select>
@@ -148,12 +148,10 @@
         </md-select>
       </md-input-container>
     </div>
-
-    <!-- </div> -->
-    <!-- <div class="row"> -->
-    <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 m-t-10 ">
-      <button *ngIf="mappingFieldsForm.valid" md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-right" color="primary"
-        (click)="addtoBufferArray(mappingFieldsForm.value);itemCategoryselected={};itemselected=[];subStore=[]">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-12 m-t-10">
+      <button  md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" 
+      *ngIf="((storeType&&(mainStore?.facilityID>0))||(!storeType&&(subStore?.facilityID>0))) && ((mapType&&(itemCategoryselected?.itemCategoryID>0))||(!mapType&&(itemselected?.length>0))) " color="primary"
+        (click)="addtoBufferArray(mappingFieldsForm.value);resetForm();itemCategoryselected={};itemselected=[];subStore=[]">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
     </div>
@@ -190,7 +188,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow((md2.activePage-1)*5+i)">delete</md-icon>
             </td>
           </tr>
         </tbody>
@@ -204,9 +202,9 @@
       </table>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 m-t-10">
+  <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back();itemCategoryselected={};itemselected=[];subStore=[]">Back</button>
-    <button md-raised-button color="primary" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Save</button>
+    <button md-raised-button color="accent" class="pull-right" (click)="submitMapping()" [disabled]="bufferarray?.length==0">Save</button>
     <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetForm();itemCategoryselected={};itemselected=[];subStore=[]">Clear</button>
   </div>
 </div>

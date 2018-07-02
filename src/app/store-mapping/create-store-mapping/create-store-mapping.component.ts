@@ -136,17 +136,30 @@ export class CreateStoreMappingComponent implements OnInit {
 
   resetForm(facility?: any, subFacility?: any, parkingPlace?: any, van?: any) {
     let temp = this.storeMappingForm.controls['storeMapping'] as FormGroup;
-    console.log('here', facility, subFacility);
-    temp.patchValue({
-      facilityID: facility && facility.facilityID || null,
-      facilityName: facility && facility.facilityName || null,
-      subFacilityID: subFacility && subFacility.facilityID || null,
-      subFacilityName: subFacility && subFacility.facilityName || null,
-      parkingPlaceID: parkingPlace && parkingPlace.parkingPlaceID || null,
-      parkingPlaceName: parkingPlace && parkingPlace.parkingPlaceName || null,
-      vanID: van && van.vanID || null,
-      vanName: van && van.vanName || null
-    });
+    temp.controls['facilityID'].reset();
+    temp.controls['facilityName'].reset();
+    temp.controls['subFacilityID'].reset();
+    temp.controls['subFacilityName'].reset();
+    temp.controls['parkingPlaceID'].reset();
+    temp.controls['parkingPlaceName'].reset();
+    temp.controls['vanID'].reset();
+    temp.controls['vanName'].reset();
+  }
+
+  checkValidity() {
+    let temp = this.storeMappingForm.controls['storeMapping'].value;
+
+    if (temp.isMainFacility) {
+      if (temp.facilityName && temp.parkingPlaceName)
+        return true;
+      else
+        return false;
+    } else {
+      if (temp.facilityName && temp.parkingPlaceName && temp.subFacilityName && temp.vanName)
+        return true;
+      else
+        return false;
+    }
   }
 
   createStoreMappingForm() {
@@ -219,7 +232,7 @@ export class CreateStoreMappingComponent implements OnInit {
     this.storeMappingService.postStoreMapping(temp)
       .subscribe((response) => {
         if (response) {
-          this.notificationService.alert("Created successfully", 'success');
+          this.notificationService.alert("Saved successfully", 'success');
           this.switchToViewMode();
         }
       }, err => {

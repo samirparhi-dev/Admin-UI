@@ -212,7 +212,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.facility.savefacilities(this.bufferArray).subscribe(response => {
       if (response) {
         console.log(response, 'after successful creation of facility type master');
-        this.dialogService.alert('Facility Type created successfully', 'success');
+        this.dialogService.alert('Saved successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllFacilities(this.providerServiceMapID);
@@ -244,7 +244,7 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.facility.updateFacility(editObj).subscribe(response => {
       if (response) {
         console.log(response, 'after successful updation of facility type master');
-        this.dialogService.alert('Facility Type updated successfully', 'success');
+        this.dialogService.alert('Updated successfully', 'success');
         this.resetDropdowns();
         this.showTable();
         this.getAllFacilities(this.providerServiceMapID);

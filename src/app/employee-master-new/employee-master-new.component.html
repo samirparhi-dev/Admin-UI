@@ -79,7 +79,7 @@
                     </h4>
                 </md-panel-title>
             </md-expansion-panel-header>
-            <div class="row m-l-0">
+            <div class="row m-l-0" (mouseup)='hidePWD()'>
                 <!-- <div class="row m-l-0"> -->
                 <form #userCreationForm="ngForm" autocomplete="off">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -228,8 +228,10 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="!editMode">
                         <md-input-container class="width100">
-                            <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
+                            <input type="{{dynamictype}}" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
                                 minlength="8" maxlength="12" #pwrd="ngModel" required>
+                            <md-icon id="eye" mdSuffix class="mat-icon material-icons cursorPointer" role="img" aria-hidden="true" mdTooltip="Show Password"
+                                (mousedown)='showPWD()' style="color:gray">visibility</md-icon>
                             <md-hint class="errorText">
                                 <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
                                 <span *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
@@ -237,7 +239,6 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-
                         <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [min]="minDate_doj" [max]="today"
                             required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
                         <md-hint class="errorText" *ngIf="userDoj.errors && userDoj.touched">DOJ is required</md-hint>
@@ -343,7 +344,8 @@
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <md-input-container class="hide_underline width100">
                                     <input mdInput style="display:none">
-                                    <md-select placeholder="District" class="width100" [(ngModel)]="currentDistrict" name="current_district" required>
+                                    <md-select placeholder="District" class="width100" [(ngModel)]="currentDistrict" name="current_district" (change)="resetcheckBox()"
+                                        required>
                                         <md-option *ngFor="let item of currentDistricts" [value]="item.districtID">{{item.districtName}}</md-option>
                                     </md-select>
                                 </md-input-container>

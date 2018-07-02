@@ -89,7 +89,7 @@ export class CreateUomMasterComponent implements OnInit {
     this.uomMasterService.postUOMMaster(temp)
       .subscribe(response => {
         if (response.length > 0) {
-          this.notificationService.alert("Created successfully", 'success');
+          this.notificationService.alert("Saved successfully", 'success');
           this.switchToViewMode();
         }
       }, (err) => {

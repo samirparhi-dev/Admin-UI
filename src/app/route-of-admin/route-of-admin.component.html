@@ -56,7 +56,7 @@
           <tr *ngIf="filteredRouteList.length == 0">
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let route of md2.data;let i=index ">
+          <tr *ngFor="let route of md2.data;let i=index ">
               <td>{{filteredRouteList.indexOf(route)+1}}</td>
             <td>{{route.routeCode}}</td>
             <td>{{route.routeName}}</td>
@@ -171,7 +171,7 @@
             <td>{{route.routeName}}</td>
             <td>{{route.routeDesc}}</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(route))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(bufferArray.indexOf(route))">delete</md-icon>
             </td>
           </tr>
         </tbody>

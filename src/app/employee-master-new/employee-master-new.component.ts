@@ -73,6 +73,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   isPresent: any;
   isPermanent: any;
   checkAddress: boolean = false;
+  dynamictype: any = 'password';
 
   //array
   searchResult: any = [];
@@ -193,14 +194,29 @@ export class EmployeeMasterNewComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
+        // this.currentState = null;
+        // this.designationID = null;
+        // this.states = [];
+        
         this.resetAllForms();
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
         this.objs = [];
+      
       }
     })
   }
+    // encryptionFlag: boolean = true;
+
+    showPWD() {
+      this.dynamictype = 'text';
+    }
+  
+    hidePWD() {
+      this.dynamictype = 'password';
+    }
+  
   /*
  * calculate the doj based on dob
  */
@@ -400,6 +416,8 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Get all States
     */
   getAllStatesSuccessHandler(response) {
+    console.log('this.states',this.states);
+    
     console.log("Display all States", response);
     this.states = response;
   }
@@ -407,7 +425,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Get all Districts for current address 
     */
   getCurrentDistricts(currentStateID) {
-
+    this.checkAddress = false;
     this.employeeMasterNewService.getAllDistricts(currentStateID).subscribe(response => {
       this.getCurrentDistrictsSuccessHandler(response)
     }, (err) => console.log('error', err));
@@ -415,6 +433,9 @@ export class EmployeeMasterNewComponent implements OnInit {
   getCurrentDistrictsSuccessHandler(response) {
     console.log("Display all Districts", response);
     this.currentDistricts = response;
+  }
+  resetcheckBox() {
+    this.checkAddress = false;
   }
   /*
       * Get all Districts for permanent address 
@@ -641,7 +662,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.objs = [];
       this.getAllUserDetails();
       this.showTable();
-
+      // this.states = [];
+      // this.currentDistricts = [];
+      // this.permanentDistricts = [];
 
 
     }), (err) => console.log('error', err);
