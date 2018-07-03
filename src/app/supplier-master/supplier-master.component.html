@@ -324,7 +324,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15 m-b-15">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable();supplierAddForm.reset();districts_array=[];permnantstates_array=[];">Back</button>
-    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveSupplier()">Save</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveSupplier();supplierAddForm.reset();districts_array=[];permnantstates_array=[];">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="supplierAddForm.reset();districts_array=[];permnantstates_array=[];">Clear</button>
 
   </div>

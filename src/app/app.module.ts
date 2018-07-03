@@ -235,6 +235,7 @@ import { UpdateStoreMappingComponent } from './store-mapping/update-store-mappin
 import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/view-store-mapping.component';
 import { ExpiryDateAlertConfigurationComponent} from '././expiry-date-alert-configuration/expiry-date-alert-configuration.component';
 import { StoreMappingService } from './services/inventory-services/store-mapping.service';
+import { ExpiryAlertConfigurationService } from './services/inventory-services/expiryalertconfiguration.service';
 
 
 @NgModule({
@@ -374,7 +375,7 @@ import { StoreMappingService } from './services/inventory-services/store-mapping
     CommonServices, FacilityMasterService,
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
     ItemFacilityMappingService, StoreSelfConsumptionServiceService,
-    UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService,
+    UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService,ExpiryAlertConfigurationService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

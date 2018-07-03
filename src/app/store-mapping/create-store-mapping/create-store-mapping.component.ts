@@ -4,6 +4,7 @@ import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { ConfirmationDialogsService } from '../../services/dialog/confirmation.service';
 import { StoreMappingService } from '../../services/inventory-services/store-mapping.service';
 import { Jsonp } from '@angular/http/src/http';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-create-store-mapping',
@@ -31,6 +32,7 @@ export class CreateStoreMappingComponent implements OnInit {
   storeMappingList = [];
   previousParkingPlace: any;
   previousVan: any;
+  tempParkingPlaceName :any;
 
   constructor(
     private fb: FormBuilder,
@@ -181,8 +183,10 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   addToStoreMappingList() {
-    let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value.storeMapping));
+    debugger;
 
+    let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value.storeMapping));
+    this.tempParkingPlaceName=undefined;
     if (temp && temp.facilityName && this.isMainFacility) {
       temp.facilityID = temp.facilityName.facilityID;
       temp.facilityName = temp.facilityName.facilityName;
@@ -195,14 +199,17 @@ export class CreateStoreMappingComponent implements OnInit {
       temp.subFacilityName = undefined;
     }
 
-    if (temp && temp.parkingPlaceName) {
+    if (temp && temp.parkingPlaceName && this.isMainFacility) {
       temp.parkingPlaceID = temp.parkingPlaceName.parkingPlaceID;
       temp.parkingPlaceName = temp.parkingPlaceName.parkingPlaceName;
     }
 
-    if (temp && temp.vanName) {
+    if (temp && temp.vanName && !this.isMainFacility) {
       temp.vanID = temp.vanName.vanID;
       temp.vanName = temp.vanName.vanName;
+      this.tempParkingPlaceName=temp.parkingPlaceName.parkingPlaceName;
+      temp.parkingPlaceID = undefined;
+      temp.parkingPlaceName = undefined;
     }
 
     if (temp) {
@@ -210,6 +217,10 @@ export class CreateStoreMappingComponent implements OnInit {
         (temp.parkingPlaceID != undefined && item.parkingPlaceID == temp.parkingPlaceID) ||
         (temp.vanID != undefined && item.vanID == temp.vanID));
       if (arr.length == 0) {
+        if(this.tempParkingPlaceName!=undefined)
+        {
+          temp.parkingPlaceName =this.tempParkingPlaceName;
+        }
         this.storeMappingList.push(temp);
       } else {
         this.notificationService.alert("Already added");

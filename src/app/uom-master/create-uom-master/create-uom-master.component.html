@@ -81,7 +81,7 @@
 <div class="row m-t-20">
   <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
       <button type="button" md-raised-button color="primary" class="pull-left" (click)="switchToViewMode()">Back</button>
-    <button type="button" [disabled]="UOMMasterList.length == 0" md-raised-button color="accent" class="pull-right" (click)="submitUOMForm()">Save</button>
+    <button type="button" [disabled]="UOMMasterList.length == 0" md-raised-button color="accent" class="pull-right" (click)="submitUOMForm();UOMMasterForm.controls['UOM'].reset();">Save</button>
     <button type="button" md-raised-button color="primary" class="pull-right m-r-5" (click)="UOMMasterForm.controls['UOM'].reset();">Clear</button>
   </div>
 
