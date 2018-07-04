@@ -138,7 +138,7 @@
               <td>{{item.instituteSubDirectoryName}}</td>
               <td>{{item.instituteSubDirectoryDesc}}</td>
               <td>
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
+                <md-icon class="cursorPointer" mdTooltip="delete" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
               </td>
             </tr>
           </tbody>

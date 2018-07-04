@@ -194,16 +194,11 @@ export class EmployeeMasterNewComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        // this.currentState = null;
-        // this.designationID = null;
-        // this.states = [];
-        
         this.resetAllForms();
+        this.objs = [];
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
-        this.objs = [];
-      
       }
     })
   }
@@ -416,8 +411,6 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Get all States
     */
   getAllStatesSuccessHandler(response) {
-    console.log('this.states',this.states);
-    
     console.log("Display all States", response);
     this.states = response;
   }
@@ -662,11 +655,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.objs = [];
       this.getAllUserDetails();
       this.showTable();
-      // this.states = [];
-      // this.currentDistricts = [];
-      // this.permanentDistricts = [];
-
-
     }), (err) => console.log('error', err);
 
   }
