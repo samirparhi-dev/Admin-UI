@@ -28,7 +28,7 @@
   </form>
 </div>
 
-<div class="pull-right m-t-15" *ngIf="searchresultarray.length!==0 && showRoleCreationForm && showAddButtonFlag">
+<div class="pull-right m-t-15" *ngIf="searchresultarray.length!==0  && showAddButtonFlag">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>

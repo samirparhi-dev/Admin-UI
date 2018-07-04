@@ -159,7 +159,7 @@
      
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
         <md-input-container [style.width]="'100%'">
-          <input mdInput required placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel"  [pattern]="gstNoPattern">
+          <input mdInput placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel"  [pattern]="gstNoPattern">
           <!-- <md-hint>
             <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit GST number</span>
           </md-hint> -->
@@ -268,7 +268,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable();manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Back</button>
-    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveManufacture()">Save</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveManufacture();manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Clear</button>
   </div>
 </div> 
@@ -339,7 +339,7 @@
           </div> 
            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
               <md-input-container [style.width]="'100%'">
-                <input mdInput required placeholder="GST No." PAN [(ngModel)]="edit_cstNo"  maxlength="15" minlength="15" name="cstNo"  [pattern]="gstNoPattern"
+                <input mdInput  placeholder="GST No." PAN [(ngModel)]="edit_cstNo"  maxlength="15" minlength="15" name="cstNo"  [pattern]="gstNoPattern"
                   #cstNo="ngModel">
                 <!-- <md-hint>
                   <span class="error_text" *ngIf="!cstNo.valid  && ( cstNo.dirty || cstNo.touched)">Required 15 digit CST/GST number</span>

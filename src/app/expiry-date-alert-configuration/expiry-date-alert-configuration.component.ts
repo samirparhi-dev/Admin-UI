@@ -31,6 +31,7 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
     public dialogService: ConfirmationDialogsService,private fb: FormBuilder,private expiryAlertService:ExpiryAlertConfigurationService) { }
 
   ngOnInit() {
+    debugger;
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
@@ -108,6 +109,11 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
     this.formMode = true;
     //this.editMode = false;
   }
+  showTable(){
+    this.tableMode=true;
+    this.formMode=false;
+    this.bufferArray=[];
+  }
   add2buffer() {
     debugger;
     if (this.expiryAlertAddForm.valid) {
@@ -123,4 +129,4 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
   removeRow(index) {
     this.bufferArray.splice(index, 1);
   }
-}
+ }

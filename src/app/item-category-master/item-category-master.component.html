@@ -158,9 +158,8 @@
           <thead>
             <tr>
               <th width="5%">S.No.</th>
-
-              <th width="20%">Category Name </th>
               <th width="20%">Category Code </th>
+              <th width="20%">Category Name </th>
               <th width="40%">Category Description</th>
               <th width="10%">Action</th>
             </tr>
@@ -168,9 +167,8 @@
           <tbody>
             <tr *ngFor="let item of md2.data;let i = index ">
               <td>{{forCreationObjects.indexOf(item)+1}}</td>
-
-              <td>{{item.itemCategoryName}}</td>
               <td>{{item.itemCategoryCode}}</td>
+              <td>{{item.itemCategoryName}}</td>
               <td>{{item.itemCategoryDesc}}</td>
               <td>
                 <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(forCreationObjects.indexOf(item))">delete</md-icon>
@@ -189,7 +187,7 @@
     </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back();categoryCreationForm.reset();">Back</button>
-    <button md-raised-button color="accent" class="pull-right" [disabled]="forCreationObjects.length < 1" (click)="saveCategory()">Save</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="forCreationObjects.length < 1" (click)="saveCategory();categoryCreationForm.reset()">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="categoryCreationForm.reset()">Clear</button>
   </div>
 </div>
