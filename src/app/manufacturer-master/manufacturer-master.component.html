@@ -127,7 +127,7 @@
             maxlength="15" name="manufactureCode" #manufactureCode="ngModel">
           <md-hint *ngIf="manufactureCode.invalid && (manufactureCode.dirty || manufactureCode.touched)">
             <span class="error_text" *ngIf="manufactureCode.hasError('required')">Manufacturer Code is required</span>
-            <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Manufacture Code</span>
+            <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Manufacture Code already added</span>
           </md-hint>
         </md-input-container>
       </div> 

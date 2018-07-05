@@ -51,8 +51,8 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
 
   createExpiryAlertAddForm() {
     return this.fb.group({
-      servicelineAdd: { value: null, disabled: true },
-      stateAdd: { value: null, disabled: true },
+      serviceline: { value: null, disabled: true },
+      state: { value: null, disabled: true },
       expiryDateAlert: this.fb.group({
       category:null,
       alertonDays:null
@@ -102,11 +102,16 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
      }
     })
   }
+  searchValue:any;
   showForm() {
     debugger;
     this.getCategories();
+    this.searchValue=this.expiryAlertSearchForm.value;
+  //  this.searchValue = Object.assign({ serviceline: this.expiryAlertSearchForm.controls['serviceline'].value, 
+   // state:this.expiryAlertSearchForm.controls['state'].value })
     this.tableMode = false;
     this.formMode = true;
+    this.expiryAlertAddForm.patchValue(this.searchValue);
     //this.editMode = false;
   }
   showTable(){
@@ -128,5 +133,25 @@ export class ExpiryDateAlertConfigurationComponent implements OnInit {
   }
   removeRow(index) {
     this.bufferArray.splice(index, 1);
+  }
+  CategoryExist: any = false;
+  checkExistance(CategoryName) {
+    debugger;
+    let temp1 = JSON.parse(JSON.stringify(this.expiryAlertAddForm.value));
+   // if (CategoryName) {
+      // this.manufactureService.checkForUniqueManufacturerCode(manufactureCode, this.providerServiceMapID)
+      //   .subscribe(response => {
+          let temp = this.bufferArray.filter(item => item.category.itemCategoryName == temp1.expiryDateAlert.category.itemCategoryName);
+          if ( temp.length > 0) {
+            this.CategoryExist = true;
+            (<FormGroup>this.expiryAlertAddForm.controls['expiryDateAlert']).controls['category'].setErrors({ unique: true });
+            
+          } else {
+            this.CategoryExist = false;
+            (<FormGroup>this.expiryAlertAddForm.controls['expiryDateAlert']).controls['category'].setErrors(null);
+          }
+          console.log( temp.length, this.CategoryExist);
+        //})
+    
   }
  }

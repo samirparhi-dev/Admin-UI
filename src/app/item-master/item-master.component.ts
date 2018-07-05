@@ -168,8 +168,15 @@ export class ItemMasterComponent implements OnInit {
       this.filteredItemList = [];
       this.itemsList.forEach((item) => {
         for (let key in item) {
-          if (key == 'itemCode' || key == 'itemName') {
+          if (key == 'itemCode' || key == 'itemName' ) {
             let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredItemList.push(item); break;
+            }
+          }
+          else if(key=="itemCategory")
+          {
+            let value: string = '' + item[key]["itemCategoryName"];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
               this.filteredItemList.push(item); break;
             }

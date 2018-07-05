@@ -132,10 +132,13 @@ export class MainStoreAndSubStoreComponent implements OnInit {
       this.filteredstoresList = [];
       this.storesList.forEach((item) => {
         for (let key in item) {
+          if(key=="facilityCode"||key=="facilityName"||key=="facilityDesc"||key=="location"||key=="physicalLocation")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredstoresList.push(item); break;
           }
+        }
         }
       });
     }

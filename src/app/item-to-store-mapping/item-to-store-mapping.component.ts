@@ -136,10 +136,13 @@ export class ItemToStoreMappingComponent implements OnInit {
       this.itemFacilityMapView = [];
       this.itemFacilityMapList.forEach((item) => {
         for (let key in item) {
+          if(key=="facilityTypeName" || key=="facilityName"|| key=="itemCode"|| key=="itemName"|| key=="itemCategoryName") 
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.itemFacilityMapView.push(item); break;
           }
+        }
         }
       });
     }
