@@ -129,7 +129,7 @@
             <td>{{obj.severityTypeName}}</td>
             <td>{{obj.severityDesc}}</td>
             <td>
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="removeObj(severityArray.indexOf(obj))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="delete" (click)="removeObj(severityArray.indexOf(obj))">delete</md-icon>
             </td>
           </tr>
         </tbody>

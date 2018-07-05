@@ -210,16 +210,16 @@ export class FeedbackTypeMasterComponent implements OnInit {
       }
 
       if (this.objs[i].feedbackTypeName == "Generic Complaint") {
-        tempObj['FeedbackTypeCode'] = 'GC';
+        tempObj['feedbackTypeCode'] = 'GC';
       }
       else if (this.objs[i].feedbackTypeName == "Asha Complaints") {
-        tempObj['FeedbackTypeCode'] = 'AC';
+        tempObj['feedbackTypeCode'] = 'AC';
       }
       else if (this.objs[i].feedbackTypeName == "Epidemic Complaints") {
-        tempObj['FeedbackTypeCode'] = 'EC';
+        tempObj['feedbackTypeCode'] = 'EC';
       }
       else if (this.objs[i].feedbackTypeName == "Foodsafety Complaints") {
-        tempObj['FeedbackTypeCode'] = 'FC';
+        tempObj['feedbackTypeCode'] = 'FC';
       }
       tempArr.push(tempObj);
     }
