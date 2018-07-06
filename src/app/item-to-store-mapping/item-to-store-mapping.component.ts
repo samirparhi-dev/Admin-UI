@@ -384,8 +384,19 @@ export class ItemToStoreMappingComponent implements OnInit {
     });
   }
 
-  deleteMapping(id,bool,Message){
+  deleteMapping(id,bool,Message,facilitydeleted,itemdeleted){
     debugger;
+    if(itemdeleted||facilitydeleted)
+    {
+      if(itemdeleted)
+      {
+        this.dialogService.alert("Item is inactive", 'error');
+      }
+      else{
+        this.dialogService.alert("Store is inactive", 'error');
+      }
+    }
+    else{
     this.dialogService.confirm('Confirm', "Are you sure you want to " + Message +"?").subscribe(response => {
       if (response) {
         
@@ -400,10 +411,11 @@ export class ItemToStoreMappingComponent implements OnInit {
   }
     });
   }
-  activate(id){
-  this.deleteMapping(id,false,'Activate');
   }
-  deactivate(id){
-    this.deleteMapping(id,true,'Deactivate');
+  activate(id,facilitydeleted,itemdeleted){
+  this.deleteMapping(id,false,'Activate',facilitydeleted,itemdeleted);
+  }
+  deactivate(id,facilitydeleted,itemdeleted){
+    this.deleteMapping(id,true,'Deactivate',facilitydeleted,itemdeleted);
   }
 }
