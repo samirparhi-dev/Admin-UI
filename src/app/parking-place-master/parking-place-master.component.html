@@ -52,12 +52,12 @@
         </form>
     </div>
 </div>
-<div class="pull-right m-t-15" *ngIf="availableParkingPlaces.length!==0 && showListOfParking && showTableFlag && !editable">
+<!-- <div class="pull-right m-t-15" *ngIf="availableParkingPlaces.length!==0 && showListOfParking && showTableFlag && !editable">
     <md-input-container id="filterbox">
         <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
     </md-input-container>
-</div>
+</div> -->
 
 <div class="row" *ngIf="showListOfParking && showTableFlag && !editable">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

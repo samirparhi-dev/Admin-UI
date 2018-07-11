@@ -17,7 +17,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <md-input-container class="hide_underline" [style.width]="'100%'">
             <input mdInput style="display:none">
-            <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="search_state" name="state" required>
+            <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="search_state" name="state" [required]='!isNational'>
               <md-option *ngFor="let state of states" value="{{state.stateID}}" (click)="findFeedbackTypes(state.providerServiceMapID)">
                 {{state.stateName}}
               </md-option>
@@ -41,12 +41,12 @@
     </form>
   </div>
 </div>
-<div class="pull-right m-t-15" *ngIf="natureTypes.length!==0 && searchForm && showTable">
+<!-- <div class="pull-right m-t-15" *ngIf="natureTypes.length!==0 && searchForm && showTable">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div>
+</div> -->
 <div class="row" *ngIf="searchForm">
   <!--table area-->
   <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="showTable">
@@ -85,7 +85,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="4" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" [disabled]="!search_state || !search_feedbacktype" (click)="changeTableFlag1(false);">Add Feedback Type</button>
+              <button class="pull-right" md-raised-button color="primary" [disabled]="!searchForm.valid" (click)="changeTableFlag1(false);">Add Feedback Type</button>
             </td>
           </tr>
         </tfoot>
