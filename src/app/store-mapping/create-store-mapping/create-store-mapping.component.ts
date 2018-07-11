@@ -55,7 +55,8 @@ export class CreateStoreMappingComponent implements OnInit {
   getAllStore(providerServiceMapID) {
     this.storeSubs = this.storeMappingService.getAllStore(providerServiceMapID).
       subscribe(response => {
-        this.storeList = response.filter(item => !item.deleted);
+        console.log(response,"storelist")
+        this.storeList = response.filter(item => !item.facilityDeleted);
         this.getParkingPlace(this.providerServiceMapID);
       }, (err) => {
         this.notificationService.alert(err, 'error')
@@ -67,8 +68,9 @@ export class CreateStoreMappingComponent implements OnInit {
   getParkingPlace(providerServiceMapID) {
     this.parkingSubs = this.storeMappingService.getAllParkingPlace(providerServiceMapID).
       subscribe(response => {
-        this.mainParkingPlaceList = response.slice();
-        this.parkingPlaceList = response.slice();
+        console.log(response,"Parkinglist")
+        this.mainParkingPlaceList = response.filter(item => !item.deleted);
+        this.parkingPlaceList = response.filter(item => !item.deleted);
       }, (err) => {
         this.notificationService.alert(err, 'error')
         console.error("error in fetching parking place")
@@ -79,7 +81,8 @@ export class CreateStoreMappingComponent implements OnInit {
   getVan(facilityID) {
     this.vanSubs = this.storeMappingService.getAllVan(facilityID).
       subscribe(response => {
-        this.vanList = response.filter(item => !item.facilityID);
+        console.log(response,"Vanlist")
+        this.vanList = response.filter(item => !item.facilityID && !item.deleted);
         if (this.vanList.length == 0)
           this.notificationService.alert("Van is not available in this parking place");
       }, (err) => {
@@ -129,7 +132,7 @@ export class CreateStoreMappingComponent implements OnInit {
           this.mainStoreList = this.storeList.filter(item => !item.parkingPlaceID && item.isMainFacility);
           this.parkingPlaceList = this.mainParkingPlaceList.filter(item => !item.facilityID);
         } else {
-          this.mainStoreList = this.storeList.filter(item => item.isMainFacility);
+          this.mainStoreList = this.storeList.filter(item => item.isMainFacility );
           this.parkingPlaceList = this.mainParkingPlaceList.slice();
         }
         this.resetForm();

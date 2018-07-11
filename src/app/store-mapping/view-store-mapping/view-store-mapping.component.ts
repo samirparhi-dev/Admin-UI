@@ -118,7 +118,7 @@ export class ViewStoreMappingComponent implements OnInit {
       this.filteredStoreList = [];
       this.storeList.forEach((item) => {
         for (let key in item) {
-          if (key == 'facilityName') {
+          if (key == 'facilityName'||key == 'storeType'||key == 'parkingPlaceName'||key == 'vanName') {
             let value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
               if (this.filteredStoreList.indexOf(item) == -1)

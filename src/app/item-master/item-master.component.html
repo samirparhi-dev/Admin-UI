@@ -45,6 +45,7 @@
             <th width="20%">Item Type</th>
             <th width="20%">Item Code</th>
             <th width="20%" md2SortBy="itemName">Item Name</th>
+            <th width="20%">Item Category Name</th>
             <th width="10%">Edit</th>
             <th width="15%">Discontinued</th>
             <th width="15%">Action</th>
@@ -60,6 +61,7 @@
             <td *ngIf="!item.isMedical">Non-Medical</td>
             <td>{{item.itemCode}}</td>
             <td>{{item.itemName}}</td>
+            <td>{{item.itemCategory.itemCategoryName}}</td>
             <td>
               <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                 (click)="editItem(item)">edit</md-icon>
