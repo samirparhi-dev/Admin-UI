@@ -9,7 +9,7 @@
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
 </div>
-<div class="row">
+<div class="row" *ngIf="showMappings && !editable">
   <div class="col-xs-12 col-sm-12  m-t-15">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="filteredavailableDrugMappings" #md2="md2DataTable" [rowsPerPage]="4">

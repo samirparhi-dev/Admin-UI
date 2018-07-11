@@ -76,7 +76,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="2" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" [disabled]="!serviceObj || !state " (click)="addSubService(false)">Create Sub Service</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="!serviceObj || (!state && !isNational) " (click)="addSubService(false)">Create Sub Service</button>
             </td>
           </tr>
         </tfoot>

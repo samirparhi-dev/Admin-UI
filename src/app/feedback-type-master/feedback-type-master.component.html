@@ -73,7 +73,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0">
-              <button class="pull-right" md-raised-button color="primary" [disabled]="!search_state" (click)="changeTableFlag(false)">Add Feedback Type</button>
+              <button class="pull-right" md-raised-button color="primary" [disabled]="!search_state && !isNational" (click)="changeTableFlag(false)">Add Feedback Type</button>
             </td>
           </tr>
         </tfoot>
