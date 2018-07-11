@@ -205,7 +205,15 @@
                                         </li>
                                     </ul>
                                 </li>
-                                
+                                <!-- <li class="dropdown-submenu">
+                                    <a tabindex="-2">Configurations</a>
+                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                        <li style="cursor: pointer" (click)='show("52")'>
+                                            <a>Expiry Date Alert Configuration</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li> -->
                             </ul>
                         </li>
                       
@@ -275,6 +283,7 @@
                             <app-store-self-consumption *ngSwitchCase="49"></app-store-self-consumption>
                             <app-search-uom-master *ngSwitchCase="50"></app-search-uom-master>
                             <app-view-store-mapping *ngSwitchCase="51"></app-view-store-mapping>
+                            <app-expiry-date-alert-configuration *ngSwitchCase="52"></app-expiry-date-alert-configuration>
                         </div>
                     </div>
                 </div>

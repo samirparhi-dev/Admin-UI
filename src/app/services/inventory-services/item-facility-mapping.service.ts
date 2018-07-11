@@ -20,7 +20,7 @@ export class ItemFacilityMappingService {
 };
 
 setFacilityItemMapping(obj) {
-  console.log("pharmacology list", obj);
+  console.log("mapItemtoStrore list", obj);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'mapItemtoStrore';
   debugger;
   return this.http

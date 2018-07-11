@@ -44,8 +44,8 @@
             <th width="20%">Facility Type</th>
             <th width="20%">Facility Name</th>
             <th width="20%">Item Code</th>
-            <th width="20%">itemName</th>
-            <th width="20%">itemCategoryName</th>
+            <th width="20%">Item Name</th>
+            <th width="20%">Item Category Name</th>
             <th width="10%">Action</th>
           </tr>
         </thead>
@@ -61,8 +61,8 @@
             <td>{{item.itemName}}</td>
             <td>{{item.itemCategoryName}}</td>
             <td>
-              <button md-raised-button color="accent" *ngIf="item.itemFacilityMappingDeleted" class="" (click)="activate(item.itemFacilityMapID)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!(item.itemFacilityMappingDeleted)" class="" (click)="deactivate(item.itemFacilityMapID)">Deactivate</button>
+              <button md-raised-button color="accent" *ngIf="item.itemFacilityMappingDeleted || item.facilityDeleted ||item.itemDeleted" class="" (click)="activate(item.itemFacilityMapID,item.facilityDeleted,item.itemDeleted)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!(item.itemFacilityMappingDeleted || item.facilityDeleted || item.itemDeleted)" class="" (click)="deactivate(item.itemFacilityMapID,item.facilityDeleted,item.itemDeleted)">Deactivate</button>
             </td>
           </tr>
         </tbody>

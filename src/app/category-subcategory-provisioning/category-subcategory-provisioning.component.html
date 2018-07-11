@@ -291,7 +291,7 @@
             <td *ngIf="service.well_being">Well Being</td>
             <td *ngIf="!service.well_being">Information</td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="Remove" (click)="deleteRow(serviceList.indexOf(service))">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="delete" (click)="deleteRow(serviceList.indexOf(service))">delete</md-icon>
             </td>
           </tr>
         </tbody>

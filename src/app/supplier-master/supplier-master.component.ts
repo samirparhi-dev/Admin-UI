@@ -171,10 +171,13 @@ export class SupplierMasterComponent implements OnInit {
       this.filteredsupplierList = [];
       this.supplierList.forEach((item) => {
         for (let key in item) {
+          if(key=="supplierName" ||key=="supplierCode" ||key=="supplierDesc" || key =="drugLicenseNo" || key=="contactPerson" ||key=="tIN_No")
+          {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredsupplierList.push(item); break;
           }
+        }
         }
       });
     }

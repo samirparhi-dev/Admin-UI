@@ -476,9 +476,12 @@ export class LocationServicelineMappingComponent implements OnInit {
       this.filteredworkLocations = [];
       this.workLocations.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredworkLocations.push(item); break;
+          if (key == 'locationName') {
+            let value: string = '' + item[key];
+
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredworkLocations.push(item); break;
+            }
           }
         }
       });

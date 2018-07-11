@@ -142,7 +142,7 @@ export class ManufacturerMasterComponent implements OnInit {
       this.filteredManufactureList = [];
       this.manufactureList.forEach((item) => {
         for (let key in item) {
-          if (key == "manufacturerCode" || key == "manufacturerName" || key == "manufacturerDesc") {
+          if (key == "manufacturerCode" || key == "manufacturerName" || key == "manufacturerDesc" ||key=="contactPerson") {
             let value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
               this.filteredManufactureList.push(item); break;

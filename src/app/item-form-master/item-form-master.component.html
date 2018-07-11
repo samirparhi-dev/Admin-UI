@@ -187,7 +187,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 m-t-15">
         <button md-raised-button color="primary" class="pull-left" (click)="showTable();itemAddForm.reset();">Back</button>
-        <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveItemForm()">Save</button>
+        <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveItemForm();itemAddForm.reset();">Save</button>
         <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="itemAddForm.reset()">Clear</button>
       </div>
     </div>

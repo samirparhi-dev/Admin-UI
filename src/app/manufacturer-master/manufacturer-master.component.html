@@ -127,7 +127,7 @@
             maxlength="15" name="manufactureCode" #manufactureCode="ngModel">
           <md-hint *ngIf="manufactureCode.invalid && (manufactureCode.dirty || manufactureCode.touched)">
             <span class="error_text" *ngIf="manufactureCode.hasError('required')">Manufacturer Code is required</span>
-            <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Manufacture Code</span>
+            <span class="error_text" *ngIf="manufactureCode.hasError('unique')">Manufacture Code already added</span>
           </md-hint>
         </md-input-container>
       </div> 
@@ -268,7 +268,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 m-t-15 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="showTable();manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Back</button>
-    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveManufacture()">Save</button>
+    <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveManufacture();manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Save</button>
     <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="manufactureAddForm.reset();permnantstates_array=[];districts_array=[];">Clear</button>
   </div>
 </div> 
