@@ -3,12 +3,12 @@
     <h4 class="pull-left">Available Drugs</h4>
   </div>
 </div>
-<div class="pull-right m-t-15" *ngIf="availableDrugs.length!==0 && showDrugs && !editable">
+<!-- <div class="pull-right m-t-15" *ngIf="availableDrugs.length!==0 && showDrugs && !editable">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div>
+</div> -->
 <div class="row" *ngIf="showDrugs && !editable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">

@@ -51,12 +51,12 @@
   </form>
 </div>
 <div *ngIf="searchResultArray.length!==0 && showTableFlag">
-  <div class="pull-right m-t-15">
+  <!-- <div class="pull-right m-t-15">
     <md-input-container id="filterbox">
       <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
       <md-icon mdSuffix>search</md-icon>
     </md-input-container>
-  </div>
+  </div> -->
 </div>
 <div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12  m-t-15">

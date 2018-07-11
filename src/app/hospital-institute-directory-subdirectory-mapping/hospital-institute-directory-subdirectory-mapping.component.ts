@@ -94,6 +94,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.taluks = [];
     this.institute_directories = [];
     this.institute_subdirectories = [];
+    this.searchResultArray = [];
     if (response) {
       this.states = response;
     }
@@ -147,6 +148,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.taluks = [];
     this.institute_directories = [];
     this.institute_subdirectories = [];
+    this.searchResultArray = [];
     this.hospitalInstituteMappingService.getDistricts(stateID)
       .subscribe(response => this.getDistrictSuccessHandeler(response), err => {
         console.log("error", err);
@@ -173,6 +175,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     this.hospitalForm2.controls.institute_subdirectory.reset();
     this.taluks = [];
     this.institute_subdirectories = [];
+    this.searchResultArray = [];
 
     this.hospitalInstituteMappingService.getTaluks(districtID)
       .subscribe(response => this.getTalukSuccessHandeler(response), err => {
@@ -193,6 +196,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   getInstitutions() {
 
     this.institute_subdirectories = [];
+    this.searchResultArray = [];
 
     let request_obj = {
       "providerServiceMapID": this.providerServiceMapID,
@@ -240,6 +244,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   }
 
   getInstituteSubdirectory(institute_directory) {
+    this.searchResultArray = [];
     let data = {
       "instituteDirectoryID": institute_directory,
       "providerServiceMapId": this.providerServiceMapID
@@ -268,7 +273,7 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
   }
 
   getMappingHistory() {
-
+    this.searchResultArray = [];
     let reqObj = {
       "instituteDirectoryID": this.institute_directory,
       "instituteSubDirectoryID": this.institute_subdirectory,
