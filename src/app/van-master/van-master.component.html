@@ -262,7 +262,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="cursor: pointer" *ngFor="let van of md2.data;let i = index">
+                    <tr *ngFor="let van of md2.data;let i = index">
                         <td>{{vanList.indexOf(van)+1}}</td>
                         <td>{{van.stateName}}</td>
                         <td>{{van.districtName}}</td>
