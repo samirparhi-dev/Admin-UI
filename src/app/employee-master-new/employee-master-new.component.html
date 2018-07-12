@@ -178,7 +178,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none">
-                            <md-select placeholder="Marital Status" class="width100" [(ngModel)]="maritalStatusID" name="marital_status" required>
+                            <md-select placeholder="Marital Status" class="width100" [(ngModel)]="maritalStatusID" name="marital_status">
                                 <md-option *ngFor="let item of maritalStatuses.m_maritalStatuses" [value]="item.maritalStatusID">{{item.status}}</md-option>
                             </md-select>
                         </md-input-container>
@@ -186,7 +186,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md-input-container class="width100" myMobileNumber>
                             <input mdInput placeholder="Aadhar No." ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
-                                (keyup)="checkAadhar()" #number="ngModel" required>
+                                (keyup)="checkAadhar()" #number="ngModel">
                             <md-hint *ngIf="number.touched">
                                 <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
                                 <span class="error_text" *ngIf="isExistAadhar && !number.errors">{{errorMessageForAadhar}}</span>
@@ -196,7 +196,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                         <md-input-container class="width100" PAN>
                             <input mdInput placeholder="PAN Card No." ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
-                                #panNo="ngModel" (keyup)="checkPan()" required>
+                                #panNo="ngModel" (keyup)="checkPan()">
                             <md-hint *ngIf="panNo.touched">
                                 <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
                                 <span class="error_text" *ngIf="isExistPan && !panNo.errors">{{errorMessageForPan}}</span>
@@ -265,8 +265,7 @@
                 <form #demographicsDetailsForm="ngForm" autocomplete="off">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel"
-                                required>
+                            <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel">
                             <md-hint *ngIf="ftName.touched">
                                 <span class="errorText" [hidden]="!ftName.errors">Enter minimum 2 characters</span>
                             </md-hint>
@@ -274,8 +273,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="width100" myProviderName>
-                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel"
-                                required>
+                            <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel">
                             <md-hint *ngIf="mtName.touched">
                                 <span class="errorText" [hidden]="!mtName.errors">Enter minimum 2 characters</span>
                             </md-hint>
@@ -284,7 +282,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none">
-                            <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community_id" required>
+                            <md-select placeholder="Community" [style.width]="'100%'" [(ngModel)]="community" name="community_id" >
                                 <md-option *ngFor="let item of communities" [value]="item.communityID">
                                     {{item.communityType}}
                                 </md-option>
@@ -294,7 +292,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none">
-                            <md-select placeholder="Religion" class="width100" [(ngModel)]="religion" name="religion_id" required>
+                            <md-select placeholder="Religion" class="width100" [(ngModel)]="religion" name="religion_id" >
                                 <md-option *ngFor="let item of religions" [value]="item.religionID">{{item.religionType}}</md-option>
                             </md-select>
                         </md-input-container>
@@ -476,7 +474,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-            <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && demographicsDetailsForm.valid && communicationDetailsForm.valid && !isExistAadhar && !isExistPan"
+            <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid"
                 class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
