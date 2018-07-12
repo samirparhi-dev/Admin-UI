@@ -142,8 +142,8 @@
           <input mdInput required placeholder="Facility Code" (blur)="checkExistance(create_facilityCode)" PAN [(ngModel)]="create_facilityCode"
             maxlength="15" name="facilityCode" #facilityTypeCode="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Please enter Facility Type Code</span>
-            <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility already exists</span>
+            <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Facility Code is required</span>
+            <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Code already exists</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -153,7 +153,7 @@
           <input mdInput required placeholder="Facility Name" VehicleNO [(ngModel)]="create_facilityName" maxlength="100" name="facilityName"
             #facilityTypeName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Please enter Facility Type Name</span>
+            <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Facility Name is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -175,9 +175,6 @@
         <md-input-container [style.width]="'100%'">
           <input mdInput placeholder="Physical Location" VehicleNO [(ngModel)]="create_physicalLocation" maxlength="100" name="physicalLocation"
             #physicalLocation="ngModel">
-          <md-hint>
-            <span class="error_text" *ngIf="!physicalLocation.valid  && ( physicalLocation.dirty || physicalLocation.touched)">Please enter Physical Location</span>
-          </md-hint>
         </md-input-container>
       </div>
       <div class="clearfix  visible-sm "></div>

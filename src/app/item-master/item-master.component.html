@@ -136,7 +136,7 @@
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="15" (change)="checkCodeExistance(code)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 character</span>
+          <span class="errorText" [hidden]="!itemCode.errors">Item code is required</span>
           <span class="errorText" *ngIf="itemCodeExist">Item code is already exists</span>
         </md-hint>
       </md-input-container>
@@ -145,7 +145,7 @@
       <md-input-container class="width100" >
         <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty">
-          <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
+          <span class="errorText" [hidden]="!itemName.errors">Item Name is required</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -154,7 +154,7 @@
         <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
           required>
         <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
-          <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
+          <span class="errorText" [hidden]="!itemStrength.errors">Strength is required</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -171,7 +171,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Category" class="width100" [(ngModel)]="category" name="category" required>
+        <md-select placeholder="Item Category" class="width100" [(ngModel)]="category" name="category" required>
           <md-option *ngFor="let item of categories" [value]="item">
             {{item.itemCategoryName}}
           </md-option>
@@ -223,7 +223,7 @@
         <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
           maxlength="300" required>
         <md-hint *ngIf="itemComposition.touched || itemComposition.dirty">
-          <span class="errorText" [hidden]="!itemComposition.errors">Enter minimum 2 characters</span>
+          <span class="errorText" [hidden]="!itemComposition.errors">Composition is required</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -332,27 +332,18 @@
       <md-input-container class="width100">
         <input mdInput placeholder="Item Code" [(ngModel)]="edit_Code" name="code" minlength="1" maxlength="15" #itemCode="ngModel"
           disabled="true" required>
-        <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
-          <span class="errorText" [hidden]="!itemCode.errors">Enter minimum 1 characters</span>
-        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="width100">
         <input mdInput placeholder="Item Name" [(ngModel)]="edit_Name" name="name" minlength="1" maxlength="100" #itemName="ngModel"
           disabled="true" required>
-        <md-hint *ngIf="itemName.touched || itemName.dirty">
-          <span class="errorText" [hidden]="!itemName.errors">Enter minimum 1 characters</span>
-        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="width100">
         <input mdInput placeholder="Strength" [(ngModel)]="edit_Strength" name="strength" disabled="true" #itemStrength="ngModel"
           minlength="1" maxlength="10" required>
-        <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
-          <span class="errorText" [hidden]="!itemStrength.errors">Enter minimum 1 characters</span>
-        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
@@ -368,7 +359,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Category" class="width100" [(ngModel)]="edit_Category" name="category" required>
+        <md-select placeholder="Item Category" class="width100" [(ngModel)]="edit_Category" name="category" required>
           <md-option *ngFor="let item of edit_categories" [value]="item.itemCategoryID">
             {{item.itemCategoryName}}
           </md-option>
