@@ -3,12 +3,12 @@
     <h4>Provider Admin's List</h4>
   </div>
 </div>
-<div class="pull-right m-t-10" *ngIf="searchResult.length!==0 && tableMode">
+<!-- <div class="pull-right m-t-10" *ngIf="searchResult.length!==0 && tableMode">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div>
+</div> -->
 <div class="row" *ngIf="tableMode">
   <div class="col-xs-12 col-sm-12 ">
     <div class="table-responsive">
@@ -224,7 +224,7 @@
     </h4>
   </div>
 
-  <form #adminCredentialsForm="ngForm" autocomplete="off">
+  <form #adminCredentialsForm="ngForm" autocomplete="off" (mouseup)='hidePWD()'>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="!editMode">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
@@ -237,8 +237,10 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="!editMode">
       <md-input-container class="width100">
-        <input type="password" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
+        <input type="{{dynamictype}}" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
           #pwrd="ngModel" required>
+        <md-icon id="eye" mdSuffix class="mat-icon material-icons cursorPointer" role="img" aria-hidden="true" mdTooltip="Show Password"
+          (mousedown)='showPWD()' style="color:gray">visibility</md-icon>
         <md-hint class="errorText">
           <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
           <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>

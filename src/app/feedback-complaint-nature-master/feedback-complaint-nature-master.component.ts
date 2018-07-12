@@ -59,6 +59,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
 
   setIsNational(value) {
     this.isNational = value;
+    
   }
 
   getStates(serviceID, isNational) {

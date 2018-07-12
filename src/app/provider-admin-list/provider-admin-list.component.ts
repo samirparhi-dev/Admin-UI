@@ -47,6 +47,7 @@ export class ProviderAdminListComponent implements OnInit {
   isExistPan: boolean = false;
   errorMessageForAadhar: string;
   errorMessageForPan: string;
+  dynamictype: any = 'password';
 
   resetAge: number = 0;
   userID: any;
@@ -256,6 +257,16 @@ export class ProviderAdminListComponent implements OnInit {
       return false;
     }
   }
+   // encryptionFlag: boolean = true;
+
+   showPWD() {
+    this.dynamictype = 'text';
+  }
+
+  hidePWD() {
+    this.dynamictype = 'password';
+  }
+
 
   /*
   * Display gender on condition

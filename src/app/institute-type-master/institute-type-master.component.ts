@@ -116,7 +116,7 @@ export class InstituteTypeMasterComponent implements OnInit {
     if (response) {
       this.showTableFlag = true;
       this.searchResultArray = response;
-      this.filteredsearchResultArray = [];
+      this.filteredsearchResultArray = response;
       for (let availableIns of this.searchResultArray) {
         this.availableInstitute.push(availableIns.institutionType);
       }

@@ -51,8 +51,12 @@ export class FeedbackTypeMasterComponent implements OnInit {
 
   }
 
+
   setIsNational(value) {
     this.isNational = value;
+    if (this.isNational == true) {
+      this.search_state = undefined;
+    }
   }
 
   getStates(serviceID, isNational) {
