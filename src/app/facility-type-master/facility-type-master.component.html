@@ -126,7 +126,7 @@
               <input mdInput required placeholder="Facility Type Code" (blur)="checkExistance(facilityCode)" PAN [(ngModel)]="facilityCode" minlength="1"
                 maxlength="15" name="facilityCode" #facilityTypeCode="ngModel">
               <md-hint>
-                <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Enter minimum 1 character</span>
+                <span class="error_text" *ngIf="!facilityTypeCode.valid  && ( facilityTypeCode.dirty || facilityTypeCode.touched)">Facility Type Code is required</span>
                 <span class="error_text" *ngIf="facilityTypeCode.valid && FacilityCodeExist">Facility Type Code already exists</span>
               </md-hint>
             </md-input-container>
@@ -136,7 +136,7 @@
           <input mdInput required placeholder="Facility Type Name" VehicleNO [(ngModel)]="facilityName" maxlength="100" name="facilityName"
             #facilityTypeName="ngModel">
           <md-hint>
-            <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Please enter Facility Type Name</span>
+            <span class="error_text" *ngIf="!facilityTypeName.valid  && ( facilityTypeName.dirty || facilityTypeName.touched)">Facility Type Name is required</span>
           </md-hint>
         </md-input-container>
       </div>
@@ -233,7 +233,7 @@
         </md-input-container>
       </div>
       <div class="clearfix visible-md visible-lg"></div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container [style.width]="'100%'">
             <input mdInput required placeholder="Facility Type Code"  PAN maxlength="15" [(ngModel)]="edit_facilityCode" name="facilityCode" [disabled]="true"
               #facilityTypeCode="ngModel">
