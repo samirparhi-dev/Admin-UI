@@ -52,7 +52,7 @@ export class BlockProvider {
     this.getAllServicesOfProvider_CTI_Url = this.admin_base_url + 'm/role/serviceNew';
 
     // get status of blocked/unblocked
-    this.getProviderLevelStatus_Url = this.admin_base_url + 'getProviderStatus';
+    this.getProviderLevelStatus_Url = this.admin_base_url + 'getProviderStatus1';
     this.getProvider_StateLevelStatus_Url = this.admin_base_url + 'getProviderStatusByState';
     this.getProvider_ServiceLineLevelStatus_Url = this.admin_base_url + 'getProviderStatusByProviderAndServiceId';
     this.getProvider_State_ServiceLineLevelStatus_Url = this.admin_base_url + 'getProviderStatusByService';
