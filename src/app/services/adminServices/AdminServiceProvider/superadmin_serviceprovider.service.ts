@@ -96,7 +96,7 @@ export class SuperAdmin_ServiceProvider_Service {
     this.getRegistrationDataUrl = this.commonbaseurl + 'beneficiary/getRegistrationData';
 
     this.getAllProviderUrl = this.providerAdminBaseUrl + 'getAllProvider';
-    this.getProviderInfoUrl = this.providerAdminBaseUrl + 'getProviderStatus';
+    this.getProviderInfoUrl = this.providerAdminBaseUrl + 'getProviderStatus1';
     this.addProviderStateAndServiceLinesUrl =
       this.providerAdminBaseUrl + 'addProviderStateAndServiceLines';
     this.getAllStatus_URL = this.providerAdminBaseUrl + 'getStatus';
