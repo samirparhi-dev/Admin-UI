@@ -42,6 +42,7 @@ export class ServiceProviderMasterComponent implements OnInit {
 
   // constants & variables
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
+  mobileNoPattern=/^[1-9][0-9]{9}/;
   createdBy: any;
   providerNameBeforeEdit: any;
   serviceProviderID: any;

@@ -236,6 +236,9 @@ import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/vi
 import { ExpiryDateAlertConfigurationComponent} from '././expiry-date-alert-configuration/expiry-date-alert-configuration.component';
 import { StoreMappingService } from './services/inventory-services/store-mapping.service';
 import { ExpiryAlertConfigurationService } from './services/inventory-services/expiryalertconfiguration.service';
+import { EmailConfigurationComponent } from './email-configuration/email-configuration.component';
+
+import { EmailConfigurationService } from './services/ProviderAdminServices/email-configuration-services.service';
 
 
 @NgModule({
@@ -294,6 +297,7 @@ import { ExpiryAlertConfigurationService } from './services/inventory-services/e
     CreateStoreMappingComponent,
     UpdateStoreMappingComponent,
     ViewStoreMappingComponent,
+    EmailConfigurationComponent,
   ],
 
   imports: [
@@ -376,6 +380,7 @@ import { ExpiryAlertConfigurationService } from './services/inventory-services/e
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
     ItemFacilityMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService,ExpiryAlertConfigurationService,
+    EmailConfigurationService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

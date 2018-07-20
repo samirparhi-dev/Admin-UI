@@ -112,6 +112,7 @@
                                         </li>
                                     </ul>
                                 </li>
+
                             </ul>
                         </li>
                         <li style="cursor: pointer" (click)='show("10")'>
@@ -130,6 +131,9 @@
                                 </li>
                                 <li style="cursor: pointer" (click)='show("23")'>
                                     <a>Hospital-Institute Directory Mapping</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("53")'>
+                                    <a>Email Configuration</a>
                                 </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Configrations</a>
@@ -199,7 +203,7 @@
                                         <!-- <li style="cursor:pointer" (click)='show("47")'>
                                             <a>Store Self Consumption</a>
                                         </li> -->
-                                        
+
                                         <li style="cursor:pointer" (click)='show("51")'>
                                             <a>Van/Parking Place to Store Mapping</a>
                                         </li>
@@ -216,7 +220,7 @@
                                 </li> -->
                             </ul>
                         </li>
-                      
+
                     </ul>
                 </div>
             </div>
@@ -284,6 +288,8 @@
                             <app-search-uom-master *ngSwitchCase="50"></app-search-uom-master>
                             <app-view-store-mapping *ngSwitchCase="51"></app-view-store-mapping>
                             <app-expiry-date-alert-configuration *ngSwitchCase="52"></app-expiry-date-alert-configuration>
+                            <app-email-configuration *ngSwitchCase="53"></app-email-configuration>
+
                         </div>
                     </div>
                 </div>

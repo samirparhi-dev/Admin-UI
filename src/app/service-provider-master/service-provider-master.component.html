@@ -100,11 +100,10 @@
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100" myMobileNumber>
+        <md-input-container class="width100">
           <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryNumber" minlength="10" maxlength="10"
-            required #number="ngModel">
-          <md-hint class="errorText" *ngIf="number.errors && number.touched">Enter 10 digit mobile number
-          </md-hint>
+            [pattern]="mobileNoPattern" required #number="ngModel">
+          <md-hint class="errorText" [hidden]="!number.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">

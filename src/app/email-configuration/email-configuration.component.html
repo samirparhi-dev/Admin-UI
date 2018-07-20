@@ -1,0 +1,213 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 *ngIf="showListOfEmails">Authority Email Id Configuration</h4>
+    <h4 *ngIf="!editable && !showListOfEmails">Create Email Id Configuration </h4>
+    <h4 *ngIf="editable && !showListOfEmails">Edit Email Id Configuration </h4>
+  </div>
+  <form #searchForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Serviceline" disabled={{disableSelection}} [(ngModel)]="serviceline" name="serviceline" class="width100"
+          (change)="getStates(serviceline)" #bindService="ngModel" required>
+          <md-option *ngFor="let item of services" [value]="item">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+        <md-hint [hidden]=bindService.valid *ngIf="showListOfEmails">
+          <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="State" [disabled]="disableSelection" [(ngModel)]="state" name="state" class="width100" (change)="setProviderServiceMapID(state)"
+          #bindState="ngModel" required>
+          <md-option *ngFor="let item of states" [value]="item">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+        <md-hint [hidden]=bindState.valid *ngIf="showListOfEmails">
+          <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="District" [disabled]="disableSelection" class="width100" [(ngModel)]="districtID" name="districtID"
+          #bindDistrict="ngModel" (change)="getTaluk(districtID)"  required>
+          <md-option *ngFor="let district of districts" [value]="district">
+            {{district.districtName}}
+          </md-option>
+        </md-select>
+        <md-hint [hidden]=bindDistrict.valid *ngIf="showListOfEmails">
+          <span class="error_text" *ngIf="!bindDistrict.required  && ( bindDistrict.dirty || bindDistrict.touched)">Please select district</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Taluk" class="width100" [disabled]="disableSelection" [(ngModel)]="taluk" name="taluk"
+          (change)="getAllMailConfig()" #bindTaluk="ngModel" required>
+          <md-option *ngFor="let item of taluks" [value]="item">
+            {{item.blockName}}
+          </md-option>
+        </md-select>
+        <md-hint [hidden]=bindTaluk.valid *ngIf="showListOfEmails">
+          <span class="error_text" *ngIf="!bindTaluk.required  && ( bindTaluk.dirty || bindTaluk.touched)">Please select taluk</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+  </form>
+</div>
+<div class="row" *ngIf="showListOfEmails && showTableFlag && !editable">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive m-t-15">
+      <table class="table table-striped table-hover" [md2Data]="mailConfig" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="15%">State</th>
+            <th width="12%">District</th>
+            <th width="12%">Taluk</th>
+            <th width="12%">Authority Designation</th>
+            <th width="12%">Authority Name</th>
+            <th width="15%">Email Id</th>
+            <th width="15%">Mobile No</th>
+            <th width="10%">Edit</th>
+            <th width="12%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+            <td colspan="10" align="center">No records found</td>
+          </tr>
+          <tr *ngFor="let mconfig of md2.data ;let i=index">
+            <td>{{mailConfig.indexOf(mconfig)+1}} </td>
+            <td>{{mconfig?.state?.stateName}}</td>
+            <td>{{mconfig?.district?.districtName}}</td>
+            <td>{{mconfig?.districtBlock?.blockName}}</td>
+            <td>{{mconfig?.designation?.designationName}}</td>
+            <td>{{mconfig?.authorityName}}</td>
+            <td>{{mconfig?.emailID}}</td>
+            <td>{{mconfig?.contactNo}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!mconfig.deleted"
+                (click)="editMailConfig(mconfig)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="mconfig.deleted" md-raised-button color="accent" (click)="toggleMailConfigActivationAndDeactivation(mconfig,false)">Activate</button>
+              <button *ngIf="!mconfig.deleted" md-raised-button color="primary" (click)="toggleMailConfigActivationAndDeactivation(mconfig,true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="5" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" [disabled]="!searchForm.valid" (click)="showForm()">Create New Email Id Configuration</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="!showListOfEmails && (!showListOfEmailconfig || editable)">
+  <div class="row">
+    <form #mailConfigForm="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="hide_underline width100">
+          <input mdInput style="display:none">
+          <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" #bindDesignation="ngModel"
+            required>
+            <md-option *ngFor="let item of designations" [value]="item">
+              {{item.designationName}}
+            </md-option>
+          </md-select>
+          <md-hint [hidden]=bindDesignation.valid *ngIf="showListOfEmails">
+            <span class="error_text" *ngIf="!bindDesignation.required  && ( bindDesignation.dirty || bindDesignation.touched)">Please select designation</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100" PAN>
+          <input mdInput placeholder="Authority Name" ngModel [(ngModel)]="authorityName" name="authorityName" minlength="2" maxlength="20"
+            #authName="ngModel" required>
+          <md-hint *ngIf="authName.touched">
+            <span class="error_text" [hidden]="!authName.errors">Min 2 characters required</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="clearfix visible-sm"></div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100">
+          <input mdInput placeholder="Email" [(ngModel)]="emailID" name="emailID" #validEmail="ngModel" ngModel [pattern]="emailPattern"
+            required>
+          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required</md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <md-input-container class="width100">
+          <input mdInput placeholder="Contact Number" [(ngModel)]="contactNo" name="contactNo" minlength="10" maxlength="10" #mobileNo="ngModel"
+          [pattern]="mobileNoPattern" required>
+          <md-hint class="errorText" [hidden]="!mobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
+
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="mailConfigForm.valid && !editable">
+        <button md-mini-fab color="primary" (click)="add_obj(mailConfigForm.value)" class="pull-right">
+          <md-icon mdSuffix class="mat-icon material-icons " role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="emailConfigList.length>0">
+      <div class="table-responsive">
+        <table [md2Data]="emailConfigList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th width="5%">S.No.</th>
+              <th width="12%">Authority Name</th>
+              <th width="15%">Email Id</th>
+              <th width="15%">Mobile No</th>
+              <th width="15%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mConfig of md2.data ; let i=index">
+              <td>{{emailConfigList.indexOf(mConfig)+1}}</td>
+              <td>{{mConfig.authorityName}}</td>
+              <td>{{mConfig.emailID}}</td>
+              <td>{{mConfig.contactNo}}</td>
+              <td>
+                <md-icon class="cursorPointer" mdTooltip="delete" (click)="remove_obj(emailConfigList.indexOf(mConfig))">delete</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-sm-12 col-md-12 m-t-10">
+      <button md-raised-button color="accent" class="pull-right" *ngIf="!editable" [disabled]="emailConfigList.length == 0" (click)="save()">Save</button>
+      <button md-raised-button color="accent" class="pull-right" *ngIf="editable" [disabled]="mailConfigForm.invalid" (click)="update()">Update</button>
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    </div>
+  </div>
+</div>
