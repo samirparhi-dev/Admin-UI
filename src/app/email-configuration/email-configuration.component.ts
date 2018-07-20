@@ -31,7 +31,7 @@ export class EmailConfigurationComponent implements OnInit {
 	updateMailConfigObject: any;
 	confirmMessage: any;
 	bufferCount: any = 0;
-
+	serviceline:any;
 	mailConfig: any = [];
 	services: any = [];
 	states: any = [];
