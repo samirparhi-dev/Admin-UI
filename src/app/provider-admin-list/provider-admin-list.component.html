@@ -125,11 +125,10 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100">
         <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryMobileNumber" minlength="10"
-          maxlength="10" #contactNo="ngModel" required>
-        <md-hint class="errorText" *ngIf="contactNo.errors && contactNo.touched">Required 10 digit mobile number
-        </md-hint>
+          maxlength="10" #contactNo="ngModel" [pattern]="mobileNoPattern" required>
+          <md-hint class="errorText" [hidden]="!contactNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
       </md-input-container>
     </div>
     <div class="clearfix visible-sm visible-md"></div>
@@ -208,11 +207,10 @@
     </div>
     <div class="clearfix visible-sm"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100">
         <input mdInput placeholder="Emergency Contact Number" ngModel name="em_contact_number" [(ngModel)]="emergencyMobileNumber"
-          minlength="10" maxlength="10" #emContactNo="ngModel" required>
-        <md-hint class="errorText" *ngIf="emContactNo.errors && emContactNo.touched">Required 10 digit mobile number
-        </md-hint>
+          minlength="10" maxlength="10" #emContactNo="ngModel" [pattern]="mobileNoPattern" required>
+          <md-hint class="errorText" [hidden]="!emContactNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
       </md-input-container>
     </div>
   </form>

@@ -98,6 +98,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   // userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
+  mobileNoPattern=/^[1-9][0-9]{9}/;
 
   @ViewChild('userCreationForm') userCreationForm: NgForm;
   @ViewChild('demographicsDetailsForm') demographicsDetailsForm: NgForm;

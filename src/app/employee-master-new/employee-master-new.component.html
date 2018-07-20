@@ -130,11 +130,10 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100">
                             <input mdInput placeholder="Contact No." [(ngModel)]="contactNo" name="primaryMobileNo" minlength="10" maxlength="10" #mobileNo="ngModel"
-                                required>
-                            <md-hint class="errorText" *ngIf="mobileNo.touched && mobileNo.errors">Required 10 digit mobile number
-                            </md-hint>
+                            [pattern]="mobileNoPattern"  required>
+                            <md-hint class="errorText" [hidden]="!mobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
                         </md-input-container>
                     </div>
                     <div class="clearfix visible-md visible-sm"></div>
@@ -147,11 +146,10 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100">
                             <input mdInput placeholder="Emergency Contact No." [(ngModel)]="emergency_contactNo" name="emergencyContactNo" minlength="10"
-                                maxlength="10" #emergencyMobileNo="ngModel" required>
-                            <md-hint class="errorText" *ngIf="emergencyMobileNo.touched && emergencyMobileNo.errors">Required 10 digit mobile number
-                            </md-hint>
+                                maxlength="10" #emergencyMobileNo="ngModel" [pattern]="mobileNoPattern" required>
+                                <md-hint class="errorText" [hidden]="!emergencyMobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
                         </md-input-container>
                     </div>
                     <div class="clearfix visible-lg visible-sm"></div>
