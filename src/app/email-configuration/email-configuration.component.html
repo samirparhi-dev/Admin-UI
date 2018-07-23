@@ -120,7 +120,7 @@
 <div *ngIf="!showListOfEmails && (!showListOfEmailconfig || editable)">
   <div class="row">
     <form #mailConfigForm="ngForm" autocomplete="off">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
           <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" #bindDesignation="ngModel"
@@ -134,7 +134,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <md-input-container class="width100" PAN>
           <input mdInput placeholder="Authority Name" ngModel [(ngModel)]="authorityName" name="authorityName" minlength="2" maxlength="20"
             #authName="ngModel" required>
@@ -144,7 +144,7 @@
         </md-input-container>
       </div>
       <div class="clearfix visible-sm"></div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <md-input-container class="width100">
           <input mdInput placeholder="Email" [(ngModel)]="emailID" name="emailID" #validEmail="ngModel" ngModel [pattern]="emailPattern"
             required>
