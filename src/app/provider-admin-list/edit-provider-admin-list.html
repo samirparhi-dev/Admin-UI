@@ -91,8 +91,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <md-input-container [style.width]="'100%'" class="hide_underline">
                     <input mdInput style="display:none">
-                    <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="admin_maritalStatusId"
-                        required>
+                    <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="admin_maritalStatusId">
                         <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
                             {{item.status}}
                         </md-option>
@@ -102,7 +101,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <md-input-container class="width100" myMobileNumber>
                     <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
-                        (keyup)="checkAadhar()" #number="ngModel" required>
+                        (keyup)="checkAadhar()" #number="ngModel">
                     <md-hint *ngIf="number.touched">
                         <span class="error_text" [hidden]="!number.errors">Required 12 digit aadhar number</span>
                         <span class="error_text" *ngIf="isExistAadhar && ! number.errors">{{errorMessageForAadhar}}</span>
@@ -112,7 +111,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
                 <md-input-container class="width100">
                     <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
-                        #panNo="ngModel" (keyup)="checkPan()" required>
+                        #panNo="ngModel" (keyup)="checkPan()">
                     <md-hint *ngIf="panNo.touched">
                         <span class="error_text" [hidden]="!panNo.errors">Required 10 digit Pan number EX: alphanumeric</span>
                         <span class="error_text" *ngIf="isExistPan && ! panNo.errors">{{errorMessageForPan}}</span>
@@ -158,6 +157,6 @@
         </form>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-        <button md-raised-button color="accent" class="pull-right" (click)="update()" [disabled]="editAdminCreationForm.invalid || adminNameExists || isExistAadhar || isExistPan">Update</button>
+        <button md-raised-button color="accent" class="pull-right" (click)="update()" [disabled]="editAdminCreationForm.invalid || adminNameExists">Update</button>
     </div>
 </div>
