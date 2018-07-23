@@ -162,6 +162,8 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
 
 
   openMappingModal(obj) {
+    console.log("modal object", obj);
+
     let dialog_Ref = this.dialog.open(AgentIDMappingModal, {
       height: '500px',
       width: '500px',
@@ -228,7 +230,11 @@ export class AgentIDMappingModal {
 
   ngOnInit() {
     console.log("dialog data", this.data);
-    this.employeeName = this.data.firstName + " " + this.data.middleName + " " + this.data.lastName;
+    if (this.data.middleName === undefined || this.data.middleName === null) {
+      this.employeeName = this.data.firstName + " " + this.data.lastName;
+    } else {
+      this.employeeName = this.data.firstName + " " + this.data.middleName + " " + this.data.lastName;
+    }
     this.service = this.data.serviceName;
     this.role = this.data.roleName;
 

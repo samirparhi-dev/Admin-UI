@@ -47,7 +47,7 @@ export class EmailConfigurationService {
 
     getServiceLines(userID) {
         return this.httpIntercept.post(this.getServiceLinesUrl, { 'userID': userID })
-            .map(this.handleSuccess)
+            .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
     getStates(obj) {
@@ -98,7 +98,17 @@ export class EmailConfigurationService {
             return Observable.throw(res.json());
         }
     }
+	handleState_n_ServiceSuccess(response: Response) {
 
+		console.log(response.json().data, 'Email configuration success response');
+		let result = [];
+		result = response.json().data.filter(function (item) {
+			if (item.serviceID === 3 || item.serviceID === 1) {
+				return item;
+			}
+		});
+		return result;
+	}
     handleError(error: Response | any) {
         return Observable.throw(error.json());
     }
