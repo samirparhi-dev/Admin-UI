@@ -47,7 +47,7 @@ export class EmailConfigurationComponent implements OnInit {
 	showTableFlag: boolean = false;
 
 	emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
-	mobileNoPattern=/^[1-9][0-9]{9}/;
+	// mobileNoPattern=/^[1-9][0-9]{9}/;
 
 	@ViewChild('searchForm') searchForm: NgForm;
 	@ViewChild('mailConfigForm') mailConfigForm: NgForm;
@@ -209,7 +209,7 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": values.designation.designationID,
 			"authorityName": values.authorityName,
 			"emailID": values.emailID,
-			"contactNo": values.contactNo,
+			// "contactNo": values.contactNo,
 			"createdBy": this.commonDataService.uname
 		}
 		// this.emailConfigList.push(this.mailConfigObject);
@@ -301,7 +301,7 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": this.designation.designationID,
 			"authorityName": this.authorityName,
 			"emailID": this.emailID,
-			"contactNo": this.contactNo,
+			// "contactNo": this.contactNo,
 			"authorityEmailID": this.editAuthorityMailConfig.authorityEmailID,
 			"modifiedBy": this.commonDataService.uname
 		}
@@ -327,7 +327,7 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": mailconfigObject.designationID,
 			"authorityName": mailconfigObject.authorityName,
 			"emailID": mailconfigObject.emailID,
-			"contactNo": mailconfigObject.contactNo,
+			// "contactNo": mailconfigObject.contactNo,
 			"modifiedBy": this.commonDataService.uname,
 			"authorityEmailID": mailconfigObject.authorityEmailID,
 			"deleted": flag

@@ -76,7 +76,6 @@
             <th width="12%">Authority Designation</th>
             <th width="12%">Authority Name</th>
             <th width="15%">Email Id</th>
-            <th width="15%">Mobile No</th>
             <th width="10%">Edit</th>
             <th width="12%">Action</th>
           </tr>
@@ -93,7 +92,6 @@
             <td>{{mconfig?.designation?.designationName}}</td>
             <td>{{mconfig?.authorityName}}</td>
             <td>{{mconfig?.emailID}}</td>
-            <td>{{mconfig?.contactNo}}</td>
             <td>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!mconfig.deleted"
                 (click)="editMailConfig(mconfig)">edit</md-icon>
@@ -109,7 +107,7 @@
             <td colspan="5">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="5" class="p-r-0 m-t-10">
+            <td colspan="4" class="p-r-0 m-t-10">
               <button md-raised-button color="primary" class="pull-right" [disabled]="!searchForm.valid" (click)="showForm()">Create New Email Id Configuration</button>
             </td>
           </tr>
@@ -153,14 +151,6 @@
           <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required</md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="width100">
-          <input mdInput placeholder="Contact Number" [(ngModel)]="contactNo" name="contactNo" minlength="10" maxlength="10" #mobileNo="ngModel"
-          [pattern]="mobileNoPattern" required>
-          <md-hint class="errorText" [hidden]="!mobileNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
-
-        </md-input-container>
-      </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="mailConfigForm.valid && !editable">
         <button md-mini-fab color="primary" (click)="add_obj(mailConfigForm.value)" class="pull-right">
           <md-icon mdSuffix class="mat-icon material-icons " role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
@@ -177,7 +167,6 @@
               <th width="5%">S.No.</th>
               <th width="12%">Authority Name</th>
               <th width="15%">Email Id</th>
-              <th width="15%">Mobile No</th>
               <th width="15%">Action</th>
             </tr>
           </thead>
@@ -186,7 +175,6 @@
               <td>{{emailConfigList.indexOf(mConfig)+1}}</td>
               <td>{{mConfig.authorityName}}</td>
               <td>{{mConfig.emailID}}</td>
-              <td>{{mConfig.contactNo}}</td>
               <td>
                 <md-icon class="cursorPointer" mdTooltip="delete" (click)="remove_obj(emailConfigList.indexOf(mConfig))">delete</md-icon>
               </td>
@@ -194,7 +182,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5">
+              <td colspan="4">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
