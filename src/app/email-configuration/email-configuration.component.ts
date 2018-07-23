@@ -31,7 +31,7 @@ export class EmailConfigurationComponent implements OnInit {
 	updateMailConfigObject: any;
 	confirmMessage: any;
 	bufferCount: any = 0;
-	serviceline:any;
+	serviceline: any;
 	mailConfig: any = [];
 	services: any = [];
 	states: any = [];
@@ -130,7 +130,7 @@ export class EmailConfigurationComponent implements OnInit {
 	getTalukSuccessHandeler(response) {
 		console.log(response, "Taluk")
 		if (response) {
-			console.log('this.searchForm',this.searchForm.valid,this.searchForm.value);
+			console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
 			this.taluks = response;
 		}
 		this.getAllMailConfig();
@@ -145,9 +145,9 @@ export class EmailConfigurationComponent implements OnInit {
 			checkDistrictValue = this.districtID.districtID
 		}
 		if (this.taluk != undefined || this.taluk != null) {
-			console.log('search',this.searchForm.value)
+			console.log('search', this.searchForm.value)
 			checkTalukValue = this.taluk.blockID
-			console.log('search',this.searchForm.value,this.searchForm.value);
+			console.log('search', this.searchForm.value, this.searchForm.value);
 		}
 		let object = {
 			"providerServiceMapID": this.providerServiceMapID,
@@ -219,31 +219,31 @@ export class EmailConfigurationComponent implements OnInit {
 	}
 
 	checkDuplicates(parkingPlaceObj) {
-			if (this.emailConfigList.length == 0) {
-					this.emailConfigList.push(this.mailConfigObject);
-					this.mailConfigForm.resetForm();
+		if (this.emailConfigList.length == 0) {
+			this.emailConfigList.push(this.mailConfigObject);
+			this.mailConfigForm.resetForm();
+		}
+		else if (this.emailConfigList.length > 0) {
+			for (let a = 0; a < this.emailConfigList.length; a++) {
+				if (this.emailConfigList[a].authorityName === this.mailConfigObject.authorityName
+					&& this.emailConfigList[a].stateID === this.mailConfigObject.stateID
+					&& this.emailConfigList[a].districtID === this.mailConfigObject.districtID
+					&& this.emailConfigList[a].designationID === this.mailConfigObject.designationID
+					&& this.emailConfigList[a].emailID === this.mailConfigObject.emailID) {
+					this.bufferCount = this.bufferCount + 1;
+					console.log('Duplicate Combo Exists', this.bufferCount);
+				}
 			}
-			else if (this.emailConfigList.length > 0) {
-					for (let a = 0; a < this.emailConfigList.length; a++) {
-							if (this.emailConfigList[a].authorityName === this.mailConfigObject.authorityName
-									&& this.emailConfigList[a].stateID === this.mailConfigObject.stateID
-									&& this.emailConfigList[a].districtID === this.mailConfigObject.districtID
-									&& this.emailConfigList[a].designationID === this.mailConfigObject.designationID
-									&& this.emailConfigList[a].emailID === this.mailConfigObject.emailID) {
-									this.bufferCount = this.bufferCount + 1;
-									console.log('Duplicate Combo Exists', this.bufferCount);
-							}
-					}
-					if (this.bufferCount > 0) {
-							this.alertService.alert("Already exists");
-							this.bufferCount = 0;
-							this.mailConfigForm.resetForm();
-					}
-					else {
-							this.emailConfigList.push(this.mailConfigObject);
-							this.mailConfigForm.resetForm();
-					}
+			if (this.bufferCount > 0) {
+				this.alertService.alert("Already exists");
+				this.bufferCount = 0;
+				this.mailConfigForm.resetForm();
 			}
+			else {
+				this.emailConfigList.push(this.mailConfigObject);
+				this.mailConfigForm.resetForm();
+			}
+		}
 
 	}
 	remove_obj(index) {
@@ -268,6 +268,7 @@ export class EmailConfigurationComponent implements OnInit {
 		this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
 			if (res) {
 				this.mailConfigForm.resetForm();
+				this.emailConfigList = [];
 				this.showList();
 			}
 		})

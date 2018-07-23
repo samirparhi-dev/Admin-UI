@@ -86,12 +86,12 @@
           </tr>
           <tr *ngFor="let mconfig of md2.data ;let i=index">
             <td>{{mailConfig.indexOf(mconfig)+1}} </td>
-            <td>{{mconfig?.state?.stateName}}</td>
-            <td>{{mconfig?.district?.districtName}}</td>
-            <td>{{mconfig?.districtBlock?.blockName}}</td>
-            <td>{{mconfig?.designation?.designationName}}</td>
-            <td>{{mconfig?.authorityName}}</td>
-            <td>{{mconfig?.emailID}}</td>
+            <td>{{mconfig.state.stateName}}</td>
+            <td>{{mconfig.district.districtName}}</td>
+            <td>{{mconfig.districtBlock.blockName}}</td>
+            <td>{{mconfig.designation.designationName}}</td>
+            <td>{{mconfig.authorityName}}</td>
+            <td>{{mconfig.emailID}}</td>
             <td>
               <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!mconfig.deleted"
                 (click)="editMailConfig(mconfig)">edit</md-icon>
@@ -143,7 +143,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="clearfix visible-sm"></div>
+      <div class="clearfix visible-sm visible-md"></div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <md-input-container class="width100">
           <input mdInput placeholder="Email" [(ngModel)]="emailID" name="emailID" #validEmail="ngModel" ngModel [pattern]="emailPattern"
