@@ -1,32 +1,35 @@
 <!-- <md-card> -->
 <div class="row">
-  <div class="col-xs-12 col-sm-12">
-    <h4 class="pull-left">Institute Type</h4>
+  <div class="col-xs-12 col-sm-12" *ngIf="!showFormFlag">
+    <h4 class="pull-left">Institute Type Master</h4>
   </div>
+  <div class="col-xs-12 col-sm-12" *ngIf="showFormFlag">
+      <h4 class="pull-left">Create Institute Type</h4>
+    </div>
   <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
   <form #searchFields="ngForm" autocomplete="off">
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="service" name="service"
-          required (change)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
-          <md-option *ngFor="let item of services" [value]="item">
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Serviceline" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="service" name="service"
+        required (change)="getStates(service.serviceID,service.isNational);setIsNational(service.isNational)">
+        <md-option *ngFor="let item of services" [value]="item">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" [disabled]='disableSelection || isNational' [style.width]="'100%'" [(ngModel)]="state" name="state"
-          required (change)="setProviderServiceMapID(state.providerServiceMapID)">
-          <md-option *ngFor="let item of states" [value]="item">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="State" [disabled]='disableSelection || isNational' [style.width]="'100%'" [(ngModel)]="state" name="state"
+        required (change)="setProviderServiceMapID(state.providerServiceMapID)">
+        <md-option *ngFor="let item of states" [value]="item">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
   </form>
 </div>
@@ -39,7 +42,7 @@
 </div> -->
 
 <div class="row">
-  <div class="col-xs-12 col-sm-12  m-t-10" *ngIf="showTableFlag">
+  <div class="col-xs-12 col-sm-12  m-t-20" *ngIf="showTableFlag">
     <div class=" table responsive">
       <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
@@ -86,7 +89,7 @@
 </div>
 <div class="row" *ngIf="showFormFlag">
   <form #entryField="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container style="width: 100%" VehicleNONew>
         <input mdInput placeholder="Institute Type" [(ngModel)]="instituteType" (keyup)="checkExistance(instituteType)" name="instituteType"
           minlength="3" maxlength="150" #institute="ngModel" required>
@@ -96,12 +99,12 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="300">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-20">
       <button md-mini-fab color="primary" *ngIf="entryField.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
         (click)="add_obj(instituteType,description)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
@@ -141,8 +144,8 @@
     </div>
 
   </div>
-  <div class="col-xs-12 col-sm-12  m-t-15 ">
-    <button md-raised-button *ngIf="bufferArray.length>0" class="pull-right" color="accent" (click)="save()">Save</button>
+  <div class="col-xs-12 col-sm-12  m-t-10 ">
+    <button md-raised-button [disabled]="bufferArray.length == 0" class="pull-right" color="accent" (click)="save()">Save</button>
     <!-- <button md-mini-fab color="primary" *ngIf="searchFields.valid" class="pull-right" (click)="add_obj(instituteType,description)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button> -->

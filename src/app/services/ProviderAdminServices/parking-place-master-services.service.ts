@@ -23,6 +23,7 @@ export class ParkingPlaceMasterService {
     _getStateListBYServiceIDURL: any;
     _getStateListURL: any;
     _getServiceLineURL: any;
+    _getZonesURL: any;
     _getDistrictListURL: any;
     _getTalukListURL: any;
     _getBlockListURL: any;
@@ -45,6 +46,7 @@ export class ParkingPlaceMasterService {
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
         this._getStateListURL = this.common_Base_Url + 'location/states/';
         this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
+        this._getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
         this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
@@ -65,6 +67,11 @@ export class ParkingPlaceMasterService {
     getStatesNew(obj) {
         return this.httpIntercept
             .post(this.getStates_new_url, obj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getZones(data) {
+        return this.http.post(this._getZonesURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }

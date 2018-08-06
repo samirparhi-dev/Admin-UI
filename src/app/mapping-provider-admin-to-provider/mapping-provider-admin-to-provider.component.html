@@ -77,46 +77,46 @@
 
     <form id="myForm" #form="ngForm" autocomplete="off">
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15 ">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="ProviderAdmin" placeholder="Provider Admin" [style.width]="'100%'" [(ngModel)]="service_provider_admin">
             <md-option *ngFor="let item of service_provider_admin_array" [value]="item">
               {{item.userName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="serviceProvider" placeholder="Provider Name" [style.width]="'100%'" [(ngModel)]="service_provider"
             (change)="getProviderServices(service_provider)">
             <md-option *ngFor="let item of service_provider_array" [value]="item">
               {{item.serviceProviderName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getProviderStatesInService(service_provider_admin,service_provider,serviceline,serviceline.isNational);setIsNational(serviceline.isNational)">
             <md-option *ngFor="let item of services_array" [value]="item">
               {{item.serviceName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="state" placeholder="State" [style.width]="'100%'" [disabled]="isNational" multiple [(ngModel)]="state">
             <md-option *ngFor="let item of filteredStates" [value]="item">
               {{item.stateName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
 
 
@@ -185,55 +185,55 @@
       <strong>Edit Provider Admin-Provider Mapping</strong>
     </h4>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0 m-t-10">
 
     <form autocomplete="off" id="editForm" #eform="ngForm">
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="ProviderAdmin" [disabled]="true" placeholder="Provider Admin" [style.width]="'100%'" [(ngModel)]="edit_Details.userID">
             <md-option *ngFor="let item of service_provider_admin_array | OrderBy : 'userName'" [value]="item.userID">
               {{item.userName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="serviceProvider" [disabled]="true" placeholder="Provider Name" [style.width]="'100%'" (change)="getProviderServices_Edit(edit_Details.serviceProviderID)"
             [(ngModel)]="edit_Details.serviceProviderID">
             <md-option *ngFor="let item of service_provider_array | OrderBy : 'serviceProviderName'" [value]="item.serviceProviderId">
               {{item.serviceProviderName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="Serviceline" placeholder="Serviceline" [disabled]="true" (change)="getProviderStatesInService_edit(edit_Details.userID,edit_Details,edit_Details.serviceID,edit_Details.serviceID);"
             [style.width]="'100%'" [(ngModel)]="edit_Details.serviceID">
             <md-option *ngFor="let item of services_array" [value]="item.serviceID">
               {{item.serviceName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
           <md-select required name="states" placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="edit_state">
             <md-option *ngFor="let item of filteredStates" (click)=getPrividerMapID(item.providerServiceMapID) [value]="item.stateID">
               {{item.stateName}}
             </md-option>
           </md-select>
-        </md-input-container>
+        <!-- </md-input-container> -->
       </div>
 
     </form>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="eform.invalid" (click)="update(eform.value)">Update</button>
 

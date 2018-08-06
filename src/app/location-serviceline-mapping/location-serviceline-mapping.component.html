@@ -1,25 +1,28 @@
 <!-- first page starts -->
 <!-- search panel -->
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">Job Location Serviceline Mapping Master</h4>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showForm">
+    <h4 class="pull-left">Work Location-Serviceline Master</h4>
   </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showForm">
+      <h4 class="pull-left">Create Work Location</h4>
+    </div>
   <form #searchForm="ngForm" id="searchForm" autocomplete="off">
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select [disabled]="disableSelection" placeholder="Serviceline" class="width100" required [(ngModel)]="search_serviceline"
           name="serviceline" (change)="getStates(search_serviceline)">
           <md-option *ngFor="let service of servicelines" [value]="service">
             {{service.serviceName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select [disabled]="disableSelection || nationalFlag" placeholder="State" class="width100" [(ngModel)]="search_state"
           name="state" (change)="findLocations(search_state.stateID,search_serviceline.serviceID);setPSMID(search_state.providerServiceMapID);setPSMID_onStateSeletion(search_state.providerServiceMapID)"
           required>
@@ -27,7 +30,7 @@
             {{item.stateName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
   </form>
 </div>
@@ -36,11 +39,11 @@
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
-  </md-input-container>
+   </md-input-container> 
 </div> -->
 
 <div class="row">
-  <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="showTable">
+  <div class="col-xs-12 col-sm-12  m-t-20" *ngIf="showTable">
     <div class="table-responsive">
       <table [md2Data]="filteredworkLocations" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
@@ -105,18 +108,18 @@
   <form #f="ngForm" id="locationForm" autocomplete="off">
 
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!nationalFlag">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="!nationalFlag">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="District" class="width100" [disabled]="isNational" [(ngModel)]="district" name="district" #District="ngModel"
           required>
           <md-option *ngFor="let item of districts" value="{{item.districtID}}">
             {{item.districtName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Office Name" [(ngModel)]="OfficeID" name="OfficeID" #officeId="ngModel" required maxlength="45">
         <md-hint>
@@ -126,7 +129,7 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-sm"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container myAddress class="width100">
         <input mdInput placeholder="Office Address Line 1" maxlength="140" [(ngModel)]="office_address1" name="office_address1" #officeAddress1="ngModel"
           required>
@@ -136,7 +139,7 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-md"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container myAddress class="width100">
         <input mdInput placeholder="Office Address Line 2" maxlength="140" [(ngModel)]="office_address2 " name="office_address2"
           #officeAddress2="ngModel" required>

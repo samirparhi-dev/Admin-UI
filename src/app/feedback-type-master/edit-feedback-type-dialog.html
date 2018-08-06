@@ -23,8 +23,8 @@
       </md-input-container>
     </div>
     <div *ngIf="service==='3'">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="Feedback Name" [style.width]="'100%'" [(ngModel)]="feedbackName" name="feedbackName" required (change)="validateFeedback(feedbackName)"
           #fbName="ngModel">
           <md-option value="Generic Complaint">Generic Complaint</md-option>
@@ -32,13 +32,13 @@
           <md-option value="Epidemic Complaints">Epidemic Complaints</md-option>
           <md-option value="Foodsafety Complaints">Food Safety Complaints</md-option>
         </md-select>
-        <md-hint>
+        <!-- <md-hint>
             <span class="error_text" *ngIf="fbName.errors && fbName.touched">Feedback name is required</span>
             <span class="error_text" *ngIf="!fbName.errors && feedbackExists">Feedback Name already exist</span>
-          </md-hint>
-      </md-input-container>
+          </md-hint> -->
+      <!-- </md-input-container> -->
     </div>
-    <div class="m-t-10">
+    <div class="m-t-20">
       <md-input-container style="width: 100%">
         <input mdInput placeholder="Feedback Desc" name="feedbackDesc" [(ngModel)]="feedbackDesc" #fbDesc="ngModel" maxlength="100">
         <!-- <md-hint *ngIf="fbDesc.errors && fbDesc.touched">

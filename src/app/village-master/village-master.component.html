@@ -1,40 +1,43 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12">
+  <div class="col-xs-12 col-sm-12" *ngIf="!showFormFlag">
     <h4 class="pull-left">Village Master</h4>
   </div>
+  <div class="col-xs-12 col-sm-12" *ngIf="showFormFlag">
+      <h4 class="pull-left">Create Village</h4>
+    </div>
   <form id="searchFields" #searchFields="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" class="width100" [disabled]="disable_flag" [(ngModel)]="searchStateID" name="searchStateID"
-          (change)="getDistricts(searchStateID);" #stateVal="ngModel" required>
-          <md-option *ngFor="let state of provider_states" [value]="state.stateID">
-            {{state.stateName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="State" class="width100" [disabled]="disable_flag" [(ngModel)]="searchStateID" name="searchStateID"
+        (change)="getDistricts(searchStateID);" #stateVal="ngModel" required>
+        <md-option *ngFor="let state of provider_states" [value]="state.stateID">
+          {{state.stateName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="District" class="width100" [disabled]="disable_flag" [(ngModel)]="searchDistrictID" name="searchDistrictID"
-          (change)="GetTaluks(searchDistrictID)" required>
-          <md-option *ngFor="let district of districts" [value]="district.districtID">
-            {{district.districtName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="District" class="width100" [disabled]="disable_flag" [(ngModel)]="searchDistrictID" name="searchDistrictID"
+        (change)="GetTaluks(searchDistrictID)" required>
+        <md-option *ngFor="let district of districts" [value]="district.districtID">
+          {{district.districtName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Taluk" class="width100" [disabled]="disable_flag" [(ngModel)]="searchTalukID" name="searchTalukID"
-          (change)="GetBranches(searchTalukID);" required>
-          <md-option *ngFor="let taluk of taluks" [value]="taluk.blockID">
-            {{taluk.blockName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Taluk" class="width100" [disabled]="disable_flag" [(ngModel)]="searchTalukID" name="searchTalukID"
+        (change)="GetBranches(searchTalukID);" required>
+        <md-option *ngFor="let taluk of taluks" [value]="taluk.blockID">
+          {{taluk.blockName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
   </form>
 
@@ -46,7 +49,7 @@
   </md-input-container>
 </div> -->
 <div class="row" *ngIf="showTableFlag">
-  <div class="col-xs-12 col-sm-12  ">
+  <div class="col-xs-12 col-sm-12 m-t-15 ">
     <div class="table-responsive">
       <table [md2Data]="filteredavailableVillages" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
@@ -98,9 +101,9 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="showFormFlag">
+<div class="row m-t-10" *ngIf="showFormFlag">
   <form id="villageForm" #villageForm="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderName>
       <md-input-container class="width100">
         <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" minlength="2"
           maxlength="30" (keyup)="checkExistance(searchTalukID,villageName)">
@@ -110,19 +113,19 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderName>
       <md-input-container class="width100">
         <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" name="panchayatName" #panchayat="ngModel" minlength="2"
           maxlength="30">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" myProviderName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderName>
       <md-input-container class="width100">
         <input mdInput placeholder="Habitat" [(ngModel)]="habitat" name="habitat" minlength="2" maxlength="30">
       </md-input-container>
     </div>
     <!-- <div class="clearfix"></div> -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Pincode" [(ngModel)]="pinCode" name="pinCode" maxlength="6" minlength="6" #PINC="ngModel" required>
         <md-hint [hidden]=PINC.valid>
@@ -130,7 +133,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Government Village ID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel">
         <md-hint>
@@ -139,7 +142,7 @@
       </md-input-container>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Government Sub District ID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
           #districtID="ngModel">

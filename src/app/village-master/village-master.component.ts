@@ -4,7 +4,9 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 import { VillageMasterService } from './../services/adminServices/AdminVillage/village-master-service.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { TitleCasePipe } from '@angular/common'
 import { NgForm } from '@angular/forms';
+
 declare let jQuery: any;
 
 @Component({

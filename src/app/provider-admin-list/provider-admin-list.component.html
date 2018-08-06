@@ -1,6 +1,6 @@
 <div class="row" *ngIf="tableMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4>Provider Admin's List</h4>
+    <h4>Provider Admin List</h4>
   </div>
 </div>
 <!-- <div class="pull-right m-t-10" *ngIf="searchResult.length!==0 && tableMode">
@@ -78,17 +78,17 @@
   </div>
 
   <form #providerAdminCreationForm="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Title" class="width100" [(ngModel)]="titleID" name="title_Id" (change)="setGenderOnCondition()" required>
-          <md-option *ngFor="let item of titles" [value]="item.titleID">
-            {{item.titleName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-b-10">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Title" class="width100" [(ngModel)]="titleID" name="title_Id" (change)="setGenderOnCondition()" required>
+        <md-option *ngFor="let item of titles" [value]="item.titleID">
+          {{item.titleName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myName>
         <input mdInput placeholder="First Name" ngModel name="firstName" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
           #fname="ngModel" required>
@@ -98,46 +98,49 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-sm"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myName>
         <input mdInput placeholder="Middle Name" ngModel name="middleName" [(ngModel)]="admin_middleName" minlength="1" maxlength="50"
           #name="ngModel">
       </md-input-container>
     </div>
     <div class="clearfix visible-md"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myName>
         <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="1" maxlength="50"
           #lname="ngModel" required>
-        <md-hint class="errorText" *ngIf="lname.errors && lname.touched">Enter minimum 1 character
+        <md-hint *ngIf="lname.errors && lname.touched">
+          <span class="errorText">Enter minimum 1 character</span>
         </md-hint>
       </md-input-container>
     </div>
     <div class="clearfix visible-lg"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Gender" class="width100" [(ngModel)]="gender" name="adminGender" required>
-          <md-option *ngFor="let item of genders" [value]="item.genderID">
-            {{item.genderName}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-b-10">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Gender" class="width100" [(ngModel)]="gender" name="adminGender" required>
+        <md-option *ngFor="let item of genders" [value]="item.genderID">
+          {{item.genderName}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryMobileNumber" minlength="10"
           maxlength="10" #contactNo="ngModel" [pattern]="mobileNoPattern" required>
-          <md-hint class="errorText" [hidden]="!contactNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
+        <md-hint>
+          <span class="errorText" [hidden]="!contactNo.hasError('pattern')">Required 10 digit valid mobile number</span>
+        </md-hint>
       </md-input-container>
     </div>
     <div class="clearfix visible-sm visible-md"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-b-10">
       <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="admin_dob" [min]="mindate" [max]="maxdate"
         #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" required></md2-datepicker>
       <md-hint class="errorText" *ngIf="dOB.errors && dOB.touched">DOB is required</md-hint>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Age" ngModel name="person_age" [(ngModel)]="age" minlength="1" maxlength="2" #personAge="ngModel"
           disabled>
@@ -146,25 +149,27 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-lg"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myEmail>
         <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
           #validEmail="ngModel" required>
-        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
+        <md-hint>
+          <span class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required</span>
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Marital Status" class="width100" [(ngModel)]="marital_status" name="admin_maritalStatusId">
-          <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
-            {{item.status}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-b-10 ">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Marital Status" class="width100" [(ngModel)]="marital_status" name="admin_maritalStatusId">
+        <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
+          {{item.status}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="clearfix visible-sm"></div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
           (keyup)="checkAadhar()" #number="ngModel">
@@ -174,7 +179,7 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
           #panNo="ngModel" (keyup)="checkPan()">
@@ -186,17 +191,17 @@
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
-        <md-select placeholder="Educational Qualification" class="width100" [(ngModel)]="edu_qualification" name="admin_edu_qualification"
-          required>
-          <md-option *ngFor="let item of eduQualification" [value]="item.qualificationID">
-            {{item.name}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Educational Qualification" class="width100" [(ngModel)]="edu_qualification" name="admin_edu_qualification"
+        required>
+        <md-option *ngFor="let item of eduQualification" [value]="item.qualificationID">
+          {{item.name}}
+        </md-option>
+      </md-select>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Emergency Contact Person" ngModel name="em_contact_person" [(ngModel)]="emergency_cnt_person"
           minlength="2" maxlength="50" #emergencyname="ngModel" required>
@@ -206,24 +211,26 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-sm"></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-      <md-input-container class="width100">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3">
+      <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Emergency Contact Number" ngModel name="em_contact_number" [(ngModel)]="emergencyMobileNumber"
           minlength="10" maxlength="10" #emContactNo="ngModel" [pattern]="mobileNoPattern" required>
-          <md-hint class="errorText" [hidden]="!emContactNo.hasError('pattern')">Required 10 digit valid mobile number </md-hint>
+        <md-hint>
+          <span class="errorText" [hidden]="!emContactNo.hasError('pattern')">Required 10 digit valid mobile number</span>
+        </md-hint>
       </md-input-container>
     </div>
   </form>
 
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-t-5">
     <h4>
       <strong>Create User Name & Password</strong>
     </h4>
   </div>
 
   <form #adminCredentialsForm="ngForm" autocomplete="off" (mouseup)='hidePWD()'>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="!editMode">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10" *ngIf="!editMode">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
           (keyup)="checkUserNameAvailability(username)" required>
@@ -233,19 +240,19 @@
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 " *ngIf="!editMode">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10 " *ngIf="!editMode">
       <md-input-container class="width100">
         <input type="{{dynamictype}}" mdInput placeholder="Password" ngModel [(ngModel)]="user_password" name="password" [pattern]="passwordPattern"
           #pwrd="ngModel" required>
         <md-icon id="eye" mdSuffix class="mat-icon material-icons cursorPointer" role="img" aria-hidden="true" mdTooltip="Show Password"
           (mousedown)='showPWD()' style="color:gray">visibility</md-icon>
-        <md-hint class="errorText">
-          <span *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
-          <span *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
+        <md-hint>
+          <span class="errorText" *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
+          <span class="errorText" *ngIf="pwrd.hasError('pattern')">Password should be min:8,max:12,alphanumeric,1 special character,1 upper case</span>
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100">
         <input mdInput placeholder="Remarks" ngModel maxlength="100" name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
       </md-input-container>

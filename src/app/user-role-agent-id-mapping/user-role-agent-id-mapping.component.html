@@ -3,58 +3,58 @@
     <h4 class="pull-left">User-Role Agent ID Mapping</h4>
   </div>
   <form #searchCriteria="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" required #bindService="ngModel">
-          <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational);setIsNational(item.isNational)">
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
-        <md-hint [hidden]=bindService.valid>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" required #bindService="ngModel">
+        <md-option *ngFor="let item of services" value="{{item.serviceID}}" (click)="getStates(item.serviceID,item.isNational);setIsNational(item.isNational)">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindService.valid>
           <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
-        </md-hint>
-      </md-input-container>
+        </md-hint> -->
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" name="state" #bindState="ngModel"
-          required>
-          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="getRoles(item.providerServiceMapID)">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-        <md-hint [hidden]=bindState.valid *ngIf="!isNational">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="State" [style.width]="'100%'" [disabled]="isNational" [(ngModel)]="state" name="state" #bindState="ngModel"
+        required>
+        <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="getRoles(item.providerServiceMapID)">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindState.valid *ngIf="!isNational">
           <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
-        </md-hint>
-      </md-input-container>
+        </md-hint> -->
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
-        <md-select placeholder="Role" [style.width]="'100%'" [(ngModel)]="role" name="role" (change)="searchEmployee(state,service,role,undefined,undefined)"
-          #bindRole="ngModel" required>
-          <md-option *ngFor="let item of roles" value="{{item.roleID}}">
-            {{item.roleName}}
-          </md-option>
-        </md-select>
-        <md-hint [hidden]=bindRole.valid>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
+      <md-select placeholder="Role" [style.width]="'100%'" [(ngModel)]="role" name="role" (change)="searchEmployee(state,service,role,undefined,undefined)"
+        #bindRole="ngModel" required>
+        <md-option *ngFor="let item of roles" value="{{item.roleID}}">
+          {{item.roleName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindRole.valid>
           <span class="error_text" *ngIf="!bindRole.required  && ( bindRole.dirty || bindRole.touched)">Please select role</span>
-        </md-hint>
-      </md-input-container>
+        </md-hint> -->
+      <!-- </md-input-container> -->
     </div>
   </form>
 
 </div>
-<div>
+<!-- <div>
   <div class="pull-right m-t-15" *ngIf="showTableFlag && searchResultArray.length!==0 ">
     <md-input-container id="filterbox">
       <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
       <md-icon mdSuffix>search</md-icon>
     </md-input-container>
   </div>
-</div>
+</div> -->
 <div class="row" *ngIf="showTableFlag">
   <div class="col-xs-12 col-sm-12 m-t-20 ">
     <div class="table-responsive">

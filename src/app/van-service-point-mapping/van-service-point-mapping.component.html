@@ -4,91 +4,91 @@
     </div>
 
     <form #searForm="ngForm" autocomplete="off">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
-                <input mdInput style="display:none">
-                <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
-                    required #bindService="ngModel">
-                    <md-option *ngFor="let item of services" [value]="item">
-                        {{item.serviceName}}
-                    </md-option>
-                </md-select>
-                <md-hint [hidden]=bindService.valid>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+            <!-- <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none"> -->
+            <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
+                required #bindService="ngModel">
+                <md-option *ngFor="let item of services" [value]="item">
+                    {{item.serviceName}}
+                </md-option>
+            </md-select>
+            <!-- <md-hint [hidden]=bindService.valid>
                     <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
-                </md-hint>
-            </md-input-container>
+                </md-hint> -->
+            <!-- </md-input-container> -->
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <md-input-container class="hide_underline width100">
-                <input mdInput style="display:none">
-                <md-select placeholder="State" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
-                    name="state" #bindState="ngModel" required>
-                    <md-option *ngFor="let item of states" [value]="item">
-                        {{item.stateName}}
-                    </md-option>
-                </md-select>
-                <md-hint [hidden]=bindState.valid>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+            <!-- <md-input-container class="hide_underline width100">
+                <input mdInput style="display:none"> -->
+            <md-select placeholder="State" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+                name="state" #bindState="ngModel" required>
+                <md-option *ngFor="let item of states" [value]="item">
+                    {{item.stateName}}
+                </md-option>
+            </md-select>
+            <!-- <md-hint [hidden]=bindState.valid>
                     <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
-                </md-hint>
-            </md-input-container>
+                </md-hint> -->
+            <!-- </md-input-container> -->
         </div>
         <form #searchDistrictsForm="ngForm" autocomplete="off">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <md-input-container class="hide_underline width100">
-                    <input mdInput style="display:none">
-                    <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="getParkingPlaces(state.stateID,districtID.districtID);"
-                        required>
-                        <md-option *ngFor="let district of districts" [value]="district">
-                            {{district.districtName}}
-                        </md-option>
-                    </md-select>
-                    <md-hint [hidden]=districtV.valid>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <!-- <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none"> -->
+                <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="getParkingPlaces(state.stateID,districtID.districtID);"
+                    required>
+                    <md-option *ngFor="let district of districts" [value]="district">
+                        {{district.districtName}}
+                    </md-option>
+                </md-select>
+                <!-- <md-hint [hidden]=districtV.valid>
                         <span class="error_text" *ngIf="!districtV.required  && ( districtV.dirty || districtV.touched)">Please select district</span>
-                    </md-hint>
-                </md-input-container>
+                    </md-hint> -->
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <md-input-container class="hide_underline width100">
-                    <input mdInput style="display:none">
-                    <md-select required placeholder="Parking Place" [style.width]="'100%'" (change)="resetFields()" [(ngModel)]="searchParkingPlaceID"
-                        name="searchParkingPlaceID" #parkingPlace="ngModel">
-                        <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
-                            {{parkingPlace.parkingPlaceName}}
-                        </md-option>
-                    </md-select>
-                    <md-hint [hidden]=parkingPlace.valid>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <!-- <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none"> -->
+                <md-select required placeholder="Parking Place" [style.width]="'100%'" (change)="resetFields()" [(ngModel)]="searchParkingPlaceID"
+                    name="searchParkingPlaceID" #parkingPlace="ngModel">
+                    <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
+                        {{parkingPlace.parkingPlaceName}}
+                    </md-option>
+                </md-select>
+                <!-- <md-hint [hidden]=parkingPlace.valid>
                         <span class="error_text" *ngIf="!parkingPlace.required  && ( parkingPlace.dirty || parkingPlace.touched)">Please select parking place</span>
-                    </md-hint>
-                </md-input-container>
+                    </md-hint> -->
+                <!-- </md-input-container> -->
             </div>
         </form>
         <form #searForm1="ngForm" autocomplete="off">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <md-input-container class="hide_underline width100">
-                    <input mdInput style="display:none">
-                    <md-select required placeholder="Van Type" [style.width]="'100%'" [(ngModel)]="vanTypeID" name="vanTypeID" #vanTypes="ngModel"
-                        (change)="getVans(state.stateID,districtID.districtID,searchParkingPlaceID,vanTypeID);">
-                        <md-option *ngFor="let vanType of availableVanTypes" [value]="vanType.vanTypeID">
-                            {{vanType.vanType}}
-                        </md-option>
-                    </md-select>
-                    <md-hint [hidden]=vanTypes.valid>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <!-- <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none"> -->
+                <md-select required placeholder="Van Type" [style.width]="'100%'" [(ngModel)]="vanTypeID" name="vanTypeID" #vanTypes="ngModel"
+                    (change)="getVans(state.stateID,districtID.districtID,searchParkingPlaceID,vanTypeID);">
+                    <md-option *ngFor="let vanType of availableVanTypes" [value]="vanType.vanTypeID">
+                        {{vanType.vanType}}
+                    </md-option>
+                </md-select>
+                <!-- <md-hint [hidden]=vanTypes.valid>
                         <span class="error_text" *ngIf="!vanTypes.required  && ( vanTypes.dirty || vanTypes.touched)">Please select van type</span>
-                    </md-hint>
-                </md-input-container>
+                    </md-hint> -->
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <md-input-container class="hide_underline width100">
-                    <input mdInput style="display:none">
-                    <md-select required placeholder="Van" [style.width]="'100%'" [(ngModel)]="vanID" name="vanID" #vanVal="ngModel" (change)="getVanServicePointMappings(districtID.districtID,searchParkingPlaceID,vanID);">
-                        <md-option *ngFor="let van of availableVans" [value]="van.vanID" (change)="selectedVan(van)">
-                            {{van.vanName}}
-                        </md-option>
-                    </md-select>
-                    <md-hint [hidden]=vanVal.valid>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <!-- <md-input-container class="hide_underline width100">
+                    <input mdInput style="display:none"> -->
+                <md-select required placeholder="Van" [style.width]="'100%'" [(ngModel)]="vanID" name="vanID" #vanVal="ngModel" (change)="getVanServicePointMappings(districtID.districtID,searchParkingPlaceID,vanID);">
+                    <md-option *ngFor="let van of availableVans" [value]="van.vanID" (change)="selectedVan(van)">
+                        {{van.vanName}}
+                    </md-option>
+                </md-select>
+                <!-- <md-hint [hidden]=vanVal.valid>
                         <span class="error_text" *ngIf="!vanVal.required  && ( vanVal.dirty || vanVal.touched )">Please select Van </span>
-                    </md-hint>
-                </md-input-container>
+                    </md-hint> -->
+                <!-- </md-input-container> -->
             </div>
         </form>
     </form>

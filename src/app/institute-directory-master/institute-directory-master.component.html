@@ -1,30 +1,33 @@
 <!-- <md-card> -->
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h4 class="pull-left">Institute Directory</h4>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showFormFlag">
+    <h4 class="pull-left">Institute Directory Master</h4>
   </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showFormFlag">
+      <h4 class="pull-left">Create Institute Directory</h4>
+    </div>
   <form #searchFields="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="Serviceline" disabled={{disableSelection}} (change)="getStates(service)" class="width100" [(ngModel)]="service"
           name="service" required>
           <md-option *ngFor="let item of services" [value]="item">
             {{item.serviceName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
           name="state" required>
           <md-option *ngFor="let item of states" [value]="item">
             {{item.stateName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
   </form>
 </div>
@@ -36,7 +39,7 @@
     </md-input-container>
   </div> -->
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
       <div class="table-responsive">
         <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
           <thead>
@@ -87,7 +90,7 @@
   <!-- <form #instituteFields="ngForm"> -->
   <div class="row">
     <form #instituteDir="ngForm" autocomplete="off">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Institute Directory" [(ngModel)]="instituteDirectory" name="instituteDirectory" minlength="2"
             (keyup)="checkexistance(instituteDirectory)" maxlength="50" required #instituteDirName="ngModel">
@@ -97,12 +100,12 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container class="width100" myProviderName>
           <input mdInput placeholder="Description" [(ngModel)]="description" name="description" maxlength="100">
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 " *ngIf="instituteDir.valid && !instituteDirectoryExist">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-20" *ngIf="instituteDir.valid && !instituteDirectoryExist">
         <button md-mini-fab color="primary" (click)="add_obj(instituteDirectory,description)" class="xs-pull-right sm-pull-right md-pull-left">
           <md-icon mdSuffix class="mat-icon material-icons " role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>

@@ -9,51 +9,49 @@
     </button>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+<div class="row m-t-10">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Employee Name" [(ngModel)]="employeeName" name="employeeName" [disabled]="true">
     </md-input-container>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Serviceline" [(ngModel)]="service" name="service" [disabled]="true">
     </md-input-container>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <md-input-container style="width: 100%">
       <input mdInput placeholder="Role" [(ngModel)]="role" name="role" [disabled]="true">
     </md-input-container>
   </div>
   <form #mappingForm="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="Campaign Name" [style.width]="'100%'" [(ngModel)]="campaign" name="campaign" (change)="getAgentIDs(campaign)"
           required>
           <md-option *ngFor="let item of campaigns" value="{{item}}">
             {{item}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+        <input mdInput style="display:none"> -->
         <md-select placeholder="Available AgentIDs" [style.width]="'100%'" [(ngModel)]="agentID" name="agentID" required>
           <md-option *ngFor="let item of agentIDs" value="{{item.agentID}}" (click)="setAgentPassword_usrAgentMappingID(item.agentPassword,item.usrAgentMappingID)">
             {{item.agentID}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="m-t-20" align="center">
+    <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-25" align="center">
       <button md-raised-button color="accent" class="m-r-10" [disabled]="!mappingForm.valid" (click)="mapAgentID(agentID)">
         Update
       </button>
       <button md-raised-button color="primary" [md-dialog-close]="true">Cancel</button>
     </div>
   </form>
-
-
 </div>

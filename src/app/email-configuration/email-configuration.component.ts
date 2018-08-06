@@ -145,9 +145,7 @@ export class EmailConfigurationComponent implements OnInit {
 			checkDistrictValue = this.districtID.districtID
 		}
 		if (this.taluk != undefined || this.taluk != null) {
-			console.log('search', this.searchForm.value)
 			checkTalukValue = this.taluk.blockID
-			console.log('search', this.searchForm.value, this.searchForm.value);
 		}
 		let object = {
 			"providerServiceMapID": this.providerServiceMapID,

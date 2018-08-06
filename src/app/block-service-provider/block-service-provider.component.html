@@ -3,35 +3,35 @@
     <h4 class="pull-left">View Provider</h4>
   </div>
   <form id="myForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" (keydown)="selectKeyPress($event)">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" (keydown)="selectKeyPress($event)">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select name="serviceProvider" placeholder="Service Provider" class="width100" [(ngModel)]="service_provider" (change)="getStates(service_provider)">
           <md-option *ngFor="let item of stateProviderArray" [value]="item.serviceProviderId">
             {{item.serviceProviderName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select name="Services" placeholder="Serviceline" class="width100" [(ngModel)]="serviceline">
           <md-option *ngFor="let item of services_array" [value]="item.serviceID" (click)="setIsNationalFlag(item.isNational)">
             {{item.serviceName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <!-- <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none"> -->
         <md-select name="state" placeholder="State" [disabled]="isNational" class="width100" [(ngModel)]="state" (change)="getServicesInState(service_provider,state)">
           <md-option *ngFor="let item of states_array" [value]="item.stateID">
             {{item.stateName}}
           </md-option>
         </md-select>
-      </md-input-container>
+      <!-- </md-input-container> -->
     </div>
   </form>
 </div>
@@ -42,7 +42,7 @@
   </md-input-container>
 </div> -->
 <div class="row" *ngIf="showTable">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-5">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
@@ -86,14 +86,14 @@
           <h4>Provider Level Provision</h4>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
+          <!-- <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none"> -->
             <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
               <md-option *ngFor="let item of status_array" [value]="item.statusID">
                 {{item.status}}
               </md-option>
             </md-select>
-          </md-input-container>
+          <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>
@@ -116,14 +116,14 @@
           <h4>State Level Provision</h4>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
+          <!-- <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none"> -->
             <md-select required #statusRef="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status">
               <md-option *ngFor="let item of status_array" [value]="item.statusID">
                 {{item.status}}
               </md-option>
             </md-select>
-          </md-input-container>
+          <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>
@@ -146,14 +146,14 @@
           <h4>Serviceline Level Provision</h4>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
+          <!-- <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none"> -->
             <md-select name="status" #statusRef="ngModel" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
               <md-option *ngFor="let item of status_array" [value]="item.statusID">
                 {{item.status}}
               </md-option>
             </md-select>
-          </md-input-container>
+          <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>
@@ -176,14 +176,14 @@
           <h4>Provider State Serviceline Level Provision</h4>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none">
+          <!-- <md-input-container class="hide_underline width100">
+            <input mdInput style="display:none"> -->
             <md-select #statusR="ngModel" name="status" placeholder="Select Status" class="width100" [(ngModel)]="status" required>
               <md-option *ngFor="let item of status_array" [value]="item.statusID">
                 {{item.status}}
               </md-option>
             </md-select>
-          </md-input-container>
+          <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <md-input-container class="width100" myProviderName>

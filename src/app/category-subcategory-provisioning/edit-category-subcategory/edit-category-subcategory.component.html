@@ -26,32 +26,32 @@
         <input mdInput [disabled]='true' placeholder="Sub Service Name" [(ngModel)]="subService " name="subService">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="categoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="categoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Category Name" [(ngModel)]="category_name " name="category_name" required (keyup)="checkCategory(category_name)">
       </md-input-container>
       <!-- is me karna hai keyup  -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="categoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="categoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Category Description" [(ngModel)]="categorydesc" name="categorydesc" minlength="2" maxlength="100">
       </md-input-container>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="subCategoryType">
       <md-input-container class="width100">
         <input mdInput [disabled]='true' placeholder="Category Name" [(ngModel)]="category_name " name="category_name" minlength="2"
           maxlength="50" required>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="subCategoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Sub Category" [(ngModel)]="subCategory" name="subCategory" minlength="2" maxlength="50" (keyup)="checkSubCategory(subCategory)"
           required>
       </md-input-container>
       <!-- isme karna hai keyup -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="subCategoryType">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="subCategoryType">
       <md-input-container class="width100" myProviderName>
         <input mdInput placeholder="Sub Category Desc" [(ngModel)]="subCategoryDesc" name="subCategoryDesc" minlength="2" maxlength="100">
       </md-input-container>

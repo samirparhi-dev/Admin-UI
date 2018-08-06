@@ -12,18 +12,18 @@
 <div class="row" *ngIf="formMode">
     <div>
         <form #editAdminCreationForm="ngForm" autocomplete="off">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                <md-input-container class="hide_underline" [style.width]="'100%'">
-                    <input mdInput style="display:none">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+                <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+                    <input mdInput style="display:none"> -->
                     <md-select placeholder="Title" [style.width]="'100%'" [(ngModel)]="titleID" name="title_Id" (change)="setGenderOnCondition()"
                         required>
                         <md-option *ngFor="let item of titles" [value]="item.titleID">
                             {{item.titleName}}
                         </md-option>
                     </md-select>
-                </md-input-container>
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myName>
                     <input mdInput placeholder="First Name" ngModel name="providerAdmin" [(ngModel)]="admin_firstName" minlength="2" maxlength="50"
                         #fname="ngModel" required>
@@ -33,14 +33,14 @@
                 </md-input-container>
             </div>
             <div class="clearfix visible-sm"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myName>
                     <input mdInput placeholder="Middle Name" ngModel name="middleName" [(ngModel)]="admin_middleName" minlength="1" maxlength="50"
                         #name="ngModel">
                 </md-input-container>
             </div>
             <div class="clearfix visible-md"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myName>
                     <input mdInput placeholder="Last Name" ngModel name="lastName" [(ngModel)]="admin_lastName" minlength="1" maxlength="50"
                         #lname="ngModel" required>
@@ -49,17 +49,17 @@
                 </md-input-container>
             </div>
             <div class="clearfix visible-lg"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                <md-input-container [style.width]="'100%'" class="hide_underline">
-                    <input mdInput style="display:none">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+                <!-- <md-input-container [style.width]="'100%'" class="hide_underline">
+                    <input mdInput style="display:none"> -->
                     <md-select placeholder="Gender" [style.width]="'100%'" [(ngModel)]="gender" name="adminGender" required>
                         <md-option *ngFor="let item of genders" [value]='item.genderID'>
                             {{item.genderName}}
                         </md-option>
                     </md-select>
-                </md-input-container>
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myMobileNumber>
                     <input mdInput placeholder="Contact Number" ngModel name="contact_number" [(ngModel)]="primaryMobileNumber" minlength="10"
                         maxlength="10" #contactNo="ngModel" required>
@@ -68,19 +68,19 @@
                 </md-input-container>
             </div>
             <div class="clearfix visible-sm visible-md"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
                 <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="admin_dob" [min]="mindate" [max]="maxdate"
                     #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" required></md2-datepicker>
                 <md-hint class="errorText" *ngIf="dOB.errors && dOB.touched">DOB is required</md-hint>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myMobileNumber>
                     <input mdInput placeholder="Age" ngModel name="person_age" [(ngModel)]="age" minlength="1" maxlength="2" #personAge="ngModel"
                         disabled>
                 </md-input-container>
             </div>
             <div class="clearfix visible-lg"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myEmail>
                     <input mdInput placeholder="Email ID" ngModel [pattern]="emailPattern" name="email" [(ngModel)]="primaryEmail" maxlength="30"
                         #validEmail="ngModel" required>
@@ -88,17 +88,17 @@
                     </md-hint>
                 </md-input-container>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                <md-input-container [style.width]="'100%'" class="hide_underline">
-                    <input mdInput style="display:none">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+                <!-- <md-input-container [style.width]="'100%'" class="hide_underline">
+                    <input mdInput style="display:none"> -->
                     <md-select placeholder="Marital Status" [style.width]="'100%'" [(ngModel)]="marital_status" name="admin_maritalStatusId">
                         <md-option *ngFor="let item of maritalStatus.m_maritalStatuses" [value]="item.maritalStatusID">
                             {{item.status}}
                         </md-option>
                     </md-select>
-                </md-input-container>
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myMobileNumber>
                     <input mdInput placeholder="Aadhar Number" ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                         (keyup)="checkAadhar()" #number="ngModel">
@@ -108,7 +108,7 @@
                     </md-hint>
                 </md-input-container>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100">
                     <input mdInput placeholder="PAN Card Number" ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
                         #panNo="ngModel" (keyup)="checkPan()">
@@ -119,18 +119,18 @@
                 </md-input-container>
             </div>
             <div class="clearfix"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
-                <md-input-container [style.width]="'100%'" class="hide_underline">
-                    <input mdInput style="display:none">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+                <!-- <md-input-container [style.width]="'100%'" class="hide_underline">
+                    <input mdInput style="display:none"> -->
                     <md-select placeholder="Educational Qualification" [style.width]="'100%'" [(ngModel)]="edu_qualification" name="admin_edu_qualification"
                         required>
                         <md-option *ngFor="let item of eduQualification" [value]="item.qualificationID">
                             {{item.name}}
                         </md-option>
                     </md-select>
-                </md-input-container>
+                <!-- </md-input-container> -->
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100" myName>
                     <input mdInput placeholder="Emergency Contact Person" ngModel name="em_cont_person" [(ngModel)]="emergency_cnt_person" minlength="2"
                         maxlength="50" #emergencyname="ngModel" required>
@@ -140,7 +140,7 @@
                 </md-input-container>
             </div>
             <div class="clearfix visible-sm"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 ">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15 ">
                 <md-input-container class="width100" myMobileNumber>
                     <input mdInput placeholder="Emergency Contact Number" ngModel name="em_contact_number" [(ngModel)]="emergencyMobileNumber"
                         minlength="10" maxlength="10" #emContactNo="ngModel" required>
@@ -149,7 +149,7 @@
                 </md-input-container>
             </div>
             <div class="clearfix visible-md"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <md-input-container class="width100">
                     <input mdInput placeholder="Remarks" maxlength="100" ngModel name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
                 </md-input-container>

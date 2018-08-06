@@ -8,9 +8,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import {
   MdDatepickerModule, MdInputModule, MdNativeDateModule, MdTooltipModule,
-  MdRadioModule, MdSelectModule, MdButtonModule, MaterialModule, MdMenuModule,
+  MdRadioModule, MdSelectModule, MdButtonModule, MdMenuModule,
   MdGridListModule, MdCardModule, MdDialogModule, MdCheckboxModule, MdSliderModule, MdAutocompleteModule
 } from '@angular/material';
+import { MaterialModule } from './material.module';
 import { Md2Module } from 'md2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

@@ -60,10 +60,8 @@ export class BlockServiceProviderComponent implements OnInit {
       console.log("Error", err);
       // this.message.alert(err, 'error');
     });
-    this.block_provider.getAllStatus().subscribe(response => this.getSuccess(response), err => {
-      console.log("Error", err);
-      //this.message.alert(err, 'error');
-    });
+    this.getAllStatusList();
+
   }
 
   setIsNationalFlag(value) {
@@ -88,7 +86,12 @@ export class BlockServiceProviderComponent implements OnInit {
     });
 
   }
-
+getAllStatusList() {
+  this.block_provider.getAllStatus().subscribe(response => this.getSuccess(response), err => {
+    console.log("Error", err);
+    //this.message.alert(err, 'error');
+  });
+}
   getSuccess(response: any) {
     console.log("status", response);
     this.status_array = response;
@@ -97,7 +100,7 @@ export class BlockServiceProviderComponent implements OnInit {
       if (this.status_array[i].status === "New") {
         index = i;
         break;
-      }
+      } 
     }
 
     this.status_array.splice(index, 1);
