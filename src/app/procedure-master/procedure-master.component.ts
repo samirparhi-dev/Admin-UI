@@ -102,6 +102,7 @@ export class ProcedureMasterComponent implements OnInit {
       name: [null, Validators.required],
       type: null,
       description: null,
+      gender: null,
       male: null,
       female: null,
       disable: null
@@ -184,17 +185,21 @@ export class ProcedureMasterComponent implements OnInit {
     let apiObject = this.objectManipulate();
     let obj = Object.assign({}, this.procedureForm.value);
     let count = 0;
-    debugger;
+    console.log('here to check available',apiObject);
     for (let a = 0; a < this.filteredprocedureList.length; a++) {
       if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"] && !this.filteredprocedureList[a].deleted) {
         count = count + 1;
+        console.log('here to check available',count);
       }
     }
     if (count == 0) {
+      console.log('here to check available',apiObject);
+        
       if (apiObject) {
         delete apiObject['modifiedBy'];
         delete apiObject['procedureID'];
-
+        console.log('here to check available',apiObject);
+        
         this.procedureMasterServiceService.postProcedureData(apiObject)
           .subscribe((res) => {
             this.procedureList.unshift(res);
@@ -241,53 +246,63 @@ export class ProcedureMasterComponent implements OnInit {
    * Manipulate Form Object to as per API Need
   */
   objectManipulate() {
-    debugger;
     const obj = Object.assign({}, this.procedureForm.value);
 
-    if (!obj.name || !obj.type || !obj.description || (!obj.male && !obj.female)) {
+    console.log('this.procedureForm.value',this.procedureForm.value,obj);
+    
+    if (!obj.name || !obj.type || !obj.description || (!obj.gender)) {
       this.unfilled = true;
       return false
     } else {
       this.unfilled = false;
 
       let apiObject = {};
+      apiObject = {
+            procedureID: '',
+            modifiedBy: this.commonDataService.uname,
+            procedureName: obj.name,
+            procedureType: obj.type,
+            procedureDesc: obj.description,
+            createdBy: this.commonDataService.uname,
+            providerServiceMapID: this.searchStateID.providerServiceMapID,
+            gender: obj.gender
+          };
 
-
-      console.log(obj.male, 'obj');
-      if (obj.male && obj.female) {
-        apiObject = {
-          procedureID: '',
-          modifiedBy: this.commonDataService.uname,
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.searchStateID.providerServiceMapID,
-          gender: 'Unisex'
-        };
-      } else if (obj.male && !obj.female) {
-        apiObject = {
-          procedureID: '',
-          modifiedBy: this.commonDataService.uname,
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.searchStateID.providerServiceMapID,
-          gender: 'Male'
-        };
-      } else if (!obj.male && obj.female) {
-        apiObject = {
-          procedureID: '',
-          modifiedBy: this.commonDataService.uname,
-          procedureName: obj.name,
-          procedureType: obj.type,
-          procedureDesc: obj.description,
-          createdBy: this.commonDataService.uname,
-          providerServiceMapID: this.searchStateID.providerServiceMapID,
-          gender: 'Female'
-        };
-      }
+      // console.log(obj.male, 'obj');
+      // if (obj.gender) {
+      //   apiObject = {
+      //     procedureID: '',
+      //     modifiedBy: this.commonDataService.uname,
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
+      //     gender: 'Unisex'
+      //   };
+      // } else if (obj.male && !obj.female) {
+      //   apiObject = {
+      //     procedureID: '',
+      //     modifiedBy: this.commonDataService.uname,
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
+      //     gender: 'Male'
+      //   };
+      // } else if (!obj.male && obj.female) {
+      //   apiObject = {
+      //     procedureID: '',
+      //     modifiedBy: this.commonDataService.uname,
+      //     procedureName: obj.name,
+      //     procedureType: obj.type,
+      //     procedureDesc: obj.description,
+      //     createdBy: this.commonDataService.uname,
+      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
+      //     gender: 'Female'
+      //   };
+      // }
       console.log(JSON.stringify(apiObject, null, 3), 'apiObject');
       return apiObject;
     }
