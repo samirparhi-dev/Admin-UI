@@ -14,6 +14,7 @@ export class ServicePointComponent implements OnInit {
     filteredavailableServicePoints: any = [];
     formMode: boolean = false;
     searchDistrictID_edit: any;
+    talukID_edit: any;
     searchParkingPlaceID_edit: any;
     editMode: boolean = false;
     areaHQAddress: any;
@@ -42,6 +43,8 @@ export class ServicePointComponent implements OnInit {
     serviceID: any;
     createdBy: any;
     status: any;
+    zoneID: any;
+    zones: any = [];
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,
@@ -82,6 +85,29 @@ export class ServicePointComponent implements OnInit {
             this.availableServicePoints = [];
             this.filteredavailableServicePoints = [];
             this.createButton = false;
+        }
+    }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.zones = [];
+        this.districts = [];
+        this.availableParkingPlaces = [];
+        this.filteredavailableServicePoints = [];
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+        this.getAvailableZones(this.providerServiceMapID);
+
+    }
+    getAvailableZones(providerServiceMapID) {
+        this.availableParkingPlaces = [];
+        this.servicePointMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+    }
+    getZonesSuccessHandler(response) {
+        if (response != undefined) {
+            for (let zone of response) {
+                if (!zone.deleted) {
+                    this.zones.push(zone);
+                }
+            }
         }
     }
     parkingPlaceObj: any;
@@ -128,19 +154,20 @@ export class ServicePointComponent implements OnInit {
         }
     }
     districts: any = [];
-    getDistricts(stateID) {
-        this.servicePointMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    getDistricts(zoneID) {
+        this.servicePointMasterService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
         this.availableServicePoints = [];
+        this.availableParkingPlaces = [];
         this.filteredavailableServicePoints = [];
         this.createButton = false;
     }
     taluks: any = [];
-    GetTaluks(districtID: number) {
-        this.servicePointMasterService.getTaluks(districtID)
+    GetTaluks(parkingPlaceID: number) {
+        this.servicePointMasterService.getTaluks(parkingPlaceID)
             .subscribe(response => this.SetTaluks(response));
     }
     SetTaluks(response: any) {
@@ -160,8 +187,6 @@ export class ServicePointComponent implements OnInit {
     servicePointObj: any;
     servicePointList: any = [];
     addServicePointToList(values) {
-        debugger;
-
         this.servicePointObj = {};
         this.servicePointObj.servicePointName = values.servicePointName;
         this.servicePointObj.servicePointDesc = values.servicePointDesc;
@@ -177,7 +202,7 @@ export class ServicePointComponent implements OnInit {
             this.servicePointObj.districtName = this.searchDistrictID.districtName;
         }
         if (values.talukID != undefined) {
-            this.servicePointObj.districtBlockID = values.talukID.blockID;
+            this.servicePointObj.districtBlockID = values.talukID.districtBlockID;
             this.servicePointObj.blockName = values.talukID.blockName;
         }
         this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
@@ -194,7 +219,6 @@ export class ServicePointComponent implements OnInit {
     }
     //* checking duplicates in buffer */
     checkDuplicates(servicePointObj) {
-        debugger;
         let count = 0
         if (this.servicePointList.length === 0) {
             this.servicePointList.push(this.servicePointObj);
@@ -213,6 +237,7 @@ export class ServicePointComponent implements OnInit {
                 this.alertMessage.alert("Already exists");
             }
         }
+        console.log("servicePointList", this.servicePointList);
 
     }
     //* deleting rows from buffer */
@@ -222,7 +247,6 @@ export class ServicePointComponent implements OnInit {
 
     //* save method */
     storeServicePoints() {
-        debugger;
         let obj = { "servicePoints": this.servicePointList };
         console.log(obj);
         this.servicePointMasterService.saveServicePoint(obj).subscribe(response => this.servicePointSuccessHandler(response));
@@ -286,7 +310,7 @@ export class ServicePointComponent implements OnInit {
         this.servicePointList = [];
     }
     editservicePoint(spoint) {
-        debugger;
+        console.log("talukID", spoint);
         this.editMode = true;
         this.formMode = false;
         this.showServicePoints = false;
@@ -295,13 +319,12 @@ export class ServicePointComponent implements OnInit {
         this.servicePointName = spoint.servicePointName;
         this.servicePointDesc = spoint.servicePointDesc;
         this.searchDistrictID_edit = spoint.districtID;
-        this.talukID = spoint.districtBlockID;
+        this.talukID_edit = spoint.districtBlockID;
         this.searchParkingPlaceID_edit = spoint.parkingPlaceID
         this.areaHQAddress = spoint.servicePointHQAddress
-
+        console.log("talukID", this.talukID);
     }
     updateServicePoints(formValues) {
-        debugger;
         let obj = {
             "servicePointID": this.servicePointID,
             "servicePointName": this.servicePointName,
@@ -309,7 +332,7 @@ export class ServicePointComponent implements OnInit {
             "providerServiceMapID": this.searchStateID.providerServiceMapID,
             "districtID": this.searchDistrictID_edit,
             "servicePointHQAddress": this.areaHQAddress,
-            "districtBlockID": this.talukID,
+            "districtBlockID": this.talukID_edit,
             "modifiedBy": this.createdBy
         }
 
