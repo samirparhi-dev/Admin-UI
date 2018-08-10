@@ -188,7 +188,7 @@
                     </md-select>
                     <!-- </md-input-container> -->
                 </div>
-                <div class="clearfix"></div>
+                <div class="clearfix visible-sm visible-lg"></div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="editable">
                     <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
                         <input mdInput style="display:none"> -->
@@ -246,7 +246,7 @@
                             </md-hint>
                         </md-input-container>
                     </div>
-                    <div class="clearfix visible-md visible-sm"></div>
+                    <div class="clearfix visible-sm"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" VehicleNONew>
                         <md-input-container [style.width]="'100%'">
                             <input mdInput required placeholder="Vehicle No." [(ngModel)]="vehicalNo" name="vehicalNo" minlength="10" maxlength="13"
@@ -257,8 +257,8 @@
                             </md-hint>
                         </md-input-container>
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 m-t-15">
-                        <button md-mini-fab color="primary" *ngIf="!editable && vanMasterForm1.valid" class="xs-pull-right sm-pull-left md-pull-left lg-pull-left"
+                    <div class="col-xs-12 col-sm-4 col-md-12 col-lg-3 m-t-15">
+                        <button md-mini-fab color="primary" *ngIf="!editable && vanMasterForm1.valid" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left"
                             (click)="addVanToList(vanMasterForm1.value);vanMasterForm1.reset();">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>
