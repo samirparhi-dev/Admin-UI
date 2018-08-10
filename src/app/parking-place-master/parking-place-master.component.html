@@ -80,6 +80,7 @@
                     <tr>
                         <th width="5%">S.No.</th>
                         <th width="15%">State</th>
+                        <!-- <th width="12%">Zone</th> -->
                         <th width="12%">District</th>
                         <th width="12%">Sub District</th>
                         <th width="12%">Parking Place</th>
@@ -97,6 +98,7 @@
                     <tr *ngFor="let parkingPlace of md2.data ;let i=index">
                         <td>{{filteredavailableParkingPlaces.indexOf(parkingPlace)+1}} </td>
                         <td>{{parkingPlace.stateName}}</td>
+                        <!-- <td>{{parkingPlace.zoneName}}</td> -->
                         <td>{{parkingPlace.districtName}}</td>
                         <td>{{parkingPlace.blockName}}</td>
                         <td>{{parkingPlace.parkingPlaceName}}</td>
@@ -186,6 +188,7 @@
                         <tr>
                             <th width="5%">S.No.</th>
                             <th width="15%">State</th>
+                            <!-- <th width="12%">Zone</th> -->
                             <th width="15%">District</th>
                             <th width="15%">Sub District</th>
                             <th width="15%">Parking Place</th>
@@ -198,6 +201,7 @@
                         <tr *ngFor="let parkingPlace of md2.data ; let i=index">
                             <td>{{parkingPlaceList.indexOf(parkingPlace)+1}}</td>
                             <td>{{parkingPlace.stateName}}</td>
+                            <!-- <td>{{parkingPlace.zoneName}}</td> -->
                             <td>{{parkingPlace.districtName}}</td>
                             <td>{{parkingPlace.blockName}}</td>
                             <td>{{parkingPlace.parkingPlaceName}}</td>

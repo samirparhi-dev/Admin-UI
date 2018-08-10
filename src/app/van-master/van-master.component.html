@@ -73,15 +73,16 @@
             <table [md2Data]="filteredavailableVans" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
-                        <th>State</th>
-                        <th>District</th>
-                        <th>Parking Place</th>
-                        <th>Van</th>
-                        <th>Vehicle No.</th>
-                        <th>Van Type</th>
-                        <th>Edit</th>
-                        <th>Action</th>
+                        <th width="5%">S.No.</th>
+                        <th width="15%">State</th>
+                        <!-- <th>Zone</th> -->
+                        <th width="12%">District</th>
+                        <th width="12%">Parking Place</th>
+                        <th width="12%">Van</th>
+                        <th width="10%">Vehicle No.</th>
+                        <th width="10%">Van Type</th>
+                        <th width="5%">Edit</th>
+                        <th width="10%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,7 @@
                     <tr *ngFor="let van of md2.data; let i = index ">
                         <td>{{filteredavailableVans.indexOf(van)+1}} </td>
                         <td>{{van.stateName}}</td>
+                        <!-- <td>{{van.zoneName}}</td> -->
                         <td>{{van.districtName}}</td>
                         <td>{{van.parkingPlaceName}}</td>
                         <td>{{van.vanName}}</td>
@@ -280,20 +282,22 @@
             <table [md2Data]="vanList" #md2=md2DataTable class="table table-hover table-striped" [rowsPerPage]="3">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
-                        <th>State</th>
-                        <th>District</th>
-                        <th>Parking Place</th>
-                        <th>Van</th>
-                        <th>Vehicle No.</th>
-                        <th>Van Type</th>
-                        <th>Action</th>
+                        <th width="5%">S.No.</th>
+                        <th width="15%">State</th>
+                        <!-- <th>Zone</th> -->
+                        <th width="12%">District</th>
+                        <th width="12%">Parking Place</th>
+                        <th width="10%">Van</th>
+                        <th width="10%">Vehicle No.</th>
+                        <th width="10%">Van Type</th>
+                        <th width="10%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let van of md2.data;let i = index">
                         <td>{{vanList.indexOf(van)+1}}</td>
                         <td>{{van.stateName}}</td>
+                        <!-- <td>{{van.zoneName}}</td> -->
                         <td>{{van.districtName}}</td>
                         <td>{{van.parkingPlaceName}}</td>
                         <td>{{van.vanName}}</td>
@@ -306,7 +310,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="7">
                             <md2-pagination></md2-pagination>
                         </td>
                     </tr>
