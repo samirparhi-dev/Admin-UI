@@ -28,6 +28,7 @@ export class VanComponent implements OnInit {
     availableVanNames: any = [];
     availableVehicleNos: any = [];
     services_array: any = [];
+    zones: any = [];
     countryID: any;
     searchStateID: any;
     searchDistrictID: any;
@@ -37,6 +38,7 @@ export class VanComponent implements OnInit {
     serviceID: any;
     createdBy: any;
     status: any;
+    zoneID: any;
     createButton: boolean = false;
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -83,7 +85,28 @@ export class VanComponent implements OnInit {
             this.createButton = false;
         }
     }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.zones = [];
+        this.districts = [];
+        this.availableParkingPlaces = [];
+        this.filteredavailableVans = [];
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+        this.getAvailableZones(this.providerServiceMapID);
 
+    }
+    getAvailableZones(providerServiceMapID) {
+        this.servicePointMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+    }
+    getZonesSuccessHandler(response) {
+        if (response != undefined) {
+            for (let zone of response) {
+                if (!zone.deleted) {
+                    this.zones.push(zone);
+                }
+            }
+        }
+    }
     obj: any;
     getVanTypes() {
         this.vanMasterService.getVanTypes().subscribe(response => this.getVanTypesSuccessHandler(response));
@@ -121,7 +144,6 @@ export class VanComponent implements OnInit {
     }
 
     getVans(stateID, districtID, parkingPlaceID) {
-        debugger;
         this.vanObj = {};
         //  this.vanObj.stateID = stateID;
         this.vanObj.districtID = districtID;
@@ -148,7 +170,6 @@ export class VanComponent implements OnInit {
     vanObj: any;
     vanList: any = [];
     addVanToList(values) {
-        debugger;
         this.vanObj = {};
         this.vanObj.vanName = values.vanName;
         this.vanObj.vehicalNo = values.vehicalNo;
@@ -171,7 +192,6 @@ export class VanComponent implements OnInit {
         }
     }
     checkDuplicates(vanObj) {
-        debugger;
         let count = 0
         if (this.vanList.length === 0) {
             this.vanList.push(vanObj);
@@ -232,19 +252,20 @@ export class VanComponent implements OnInit {
 
 
     districts: any = [];
-    getDistricts(stateID) {
-        this.vanMasterService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    getDistricts(zoneID) {
+        this.vanMasterService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
         this.districts = response;
         this.availableVans = [];
+        this.availableParkingPlaces = [];
         this.filteredavailableVans = [];
         this.createButton = false;
     }
     taluks: any = [];
-    GetTaluks(districtID: number) {
-        this.vanMasterService.getTaluks(districtID)
+    GetTaluks(parkingPlaceID: number) {
+        this.vanMasterService.getTaluks(parkingPlaceID)
             .subscribe(response => this.SetTaluks(response));
     }
     SetTaluks(response: any) {
@@ -351,7 +372,6 @@ export class VanComponent implements OnInit {
         this.parkingPlaceID = "";
     }
     editVanData(van) {
-        debugger;
         this.showVansTable = false;
         this.vanID = van.vanID;
         this.vanName = van.vanName
@@ -369,7 +389,6 @@ export class VanComponent implements OnInit {
     }
 
     updateVanData(van) {
-        debugger;
         this.dataObj = {};
         this.dataObj.vanID = this.vanID;
         this.dataObj.vanName = van.vanName;
