@@ -47,7 +47,7 @@ export class ParkingPlaceMasterService {
         this._getStateListURL = this.common_Base_Url + 'location/states/';
         this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
         this._getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
-        this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
+        this._getDistrictListURL = this.providerAdmin_Base_Url + '/zonemaster/getdistrictMappedtoZone';
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
         this._getBranchListURL = this.common_Base_Url + 'location/village/';
@@ -119,8 +119,9 @@ export class ParkingPlaceMasterService {
             .catch(this.handleError);
     }
 
-    getDistricts(stateId: number) {
-        return this.http.get(this._getDistrictListURL + stateId)
+    getDistricts(zoneID) {
+        console.log(" serveice zoneID", zoneID)
+        return this.http.post(this._getDistrictListURL , { 'zoneID': zoneID } )
             .map(this.handleSuccess)
             .catch(this.handleError);
 

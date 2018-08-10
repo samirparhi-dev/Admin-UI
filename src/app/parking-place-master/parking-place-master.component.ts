@@ -109,8 +109,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.states = response;
     }
     setProviderServiceMapID(providerServiceMapID) {
-        this.districtID = undefined;
-        this.availableParkingPlaces = [];
+        this.districts = [];
         this.zones = [];
         this.filteredavailableParkingPlaces = [];
         console.log("providerServiceMapID", providerServiceMapID);
@@ -119,7 +118,8 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
     getAvailableZones(providerServiceMapID) {
-        console.log("zoneID", this.zoneID);
+        this.districts = [];
+        this.filteredavailableParkingPlaces = [];
         this.parkingPlaceMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
     }
     getZonesSuccessHandler(response) {
@@ -131,8 +131,10 @@ export class ParkingPlaceComponent implements OnInit {
             }
         }
     }
-    getDistricts(state) {
-        this.parkingPlaceMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    getDistricts(zoneID) {
+        console.log("zoneID", zoneID);
+        this.filteredavailableParkingPlaces = [];
+        this.parkingPlaceMasterService.getDistricts(zoneID.zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
     }
     getDistrictsSuccessHandeler(response) {
