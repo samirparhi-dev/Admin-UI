@@ -46,8 +46,8 @@ export class ServicePointVillageMapService {
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
         this._getStateListURL = this.common_Base_Url + 'location/states/';
         this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
-        this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
-        this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
+        this._getDistrictListURL = this.providerAdmin_Base_Url + "/zonemaster/getdistrictMappedtoZone";
+        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceMaster/getSubDistrictByParkingPlaceID";
         this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
         this._getBranchListURL = this.common_Base_Url + 'location/village/';
         this.updateServicePointVillageMapsURL = this.providerAdmin_Base_Url + '/servicePointMaster/edit/servicePointVillageMap';
@@ -110,14 +110,14 @@ export class ServicePointVillageMapService {
             .catch(this.handleError);
     }
 
-    getDistricts(stateId: number) {
-        return this.http.get(this._getDistrictListURL + stateId)
+    getDistricts(zoneID) {
+        return this.http.post(this._getDistrictListURL, { 'zoneID': zoneID })
             .map(this.handleSuccess)
             .catch(this.handleError);
 
     }
-    getTaluks(districtId: number) {
-        return this.http.get(this._getTalukListURL + districtId)
+    getTaluks(parkingPlaceID: number) {
+        return this.http.post(this._getTalukListURL, { 'parkingPlaceID': parkingPlaceID })
             .map(this.handleSuccess)
             .catch(this.handleError);
 

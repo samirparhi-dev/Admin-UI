@@ -38,6 +38,8 @@ export class ServicePointVillageMapComponent implements OnInit {
     searchDistrictID: any;
     serviceID: any;
     createdBy: any;
+    zoneID: any;
+    zones: any = [];
 
     @ViewChild('servicePointVillageMapForm') servicePointVillageMapForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -86,7 +88,30 @@ export class ServicePointVillageMapComponent implements OnInit {
             this.createButton = false;
         }
     }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.zones = [];
+        this.districts = [];
+        this.availableParkingPlaces = [];
+        this.taluks = [];
+        this.availableServicePoints = [];
+        this.filteredavailableServicePointVillageMaps = [];
+        console.log("providerServiceMapID", providerServiceMapID);
+        this.providerServiceMapID = providerServiceMapID;
+        this.getAvailableZones(this.providerServiceMapID);
 
+    }
+    getAvailableZones(providerServiceMapID) {
+        this.servicePointMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+    }
+    getZonesSuccessHandler(response) {
+        if (response != undefined) {
+            for (let zone of response) {
+                if (!zone.deleted) {
+                    this.zones.push(zone);
+                }
+            }
+        }
+    }
     parkingPlaceObj: any;
     getParkingPlaces(stateID, districtID) {
         this.availableServicePoints = [];
@@ -101,6 +126,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.availableParkingPlaces = response;
         this.availableServicePointVillageMaps = [];
+        this.taluks = [];
         this.filteredavailableServicePointVillageMaps = [];
         this.createButton = false;
         for (let availableParkingPlaces of this.availableParkingPlaces) {
@@ -123,7 +149,6 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.servicePointVillageMapService.getServicePoints(this.servicePointVillageMapObj).subscribe(response => this.getServicePointSuccessHandler(response));
 
     }
-
 
     availableServicePoints: any;
     getServicePointSuccessHandler(response) {
@@ -299,14 +324,12 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.showList();
     }
 
-
-
-
     districts: any = [];
-    getDistricts(stateID) {
+    getDistricts(zoneID) {
         this.availableParkingPlaces = [];
         this.availableServicePoints = [];
-        this.servicePointVillageMapService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+        this.taluks = [];
+        this.servicePointVillageMapService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
