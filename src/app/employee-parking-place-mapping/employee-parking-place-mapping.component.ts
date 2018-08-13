@@ -40,6 +40,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     serviceID: any;
     formBuilder: FormBuilder = new FormBuilder();
     MappingForm: FormGroup;
+    zoneID: any;
+    talukID: any;
+    zones: any = [];
+    taluks: any = [];
 
     @ViewChild('resetform1') resetform1: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -85,7 +89,37 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             // this.createButton = false;
         }
     }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.zones = [];
+        this.districts = [];
+        this.availableParkingPlaces = [];
+        this.taluks = [];
+        this.filteredavailableEmployeeParkingPlaceMappings = [];
+        this.providerServiceMapID = providerServiceMapID;
+        this.getAvailableZones(this.providerServiceMapID);
 
+    }
+    getAvailableZones(providerServiceMapID) {
+        this.employeeParkingPlaceMappingService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+    }
+    getZonesSuccessHandler(response) {
+        if (response != undefined) {
+            for (let zone of response) {
+                if (!zone.deleted) {
+                    this.zones.push(zone);
+                }
+            }
+        }
+    }
+    GetTaluks(parkingPlaceID: number) {
+        this.resetDesignation();
+        this.filteredavailableEmployeeParkingPlaceMappings = [];
+        this.employeeParkingPlaceMappingService.getTaluks(parkingPlaceID)
+            .subscribe(response => this.SetTaluks(response));
+    }
+    SetTaluks(response: any) {
+        this.taluks = response;
+    }
     getDesignations() {
         this.employeeParkingPlaceMappingService.getDesignations().subscribe(response => this.getDesignationsSuccessHandeler(response));
     }
@@ -321,10 +355,11 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     designationID: any;
     districts: any = [];
-    getDistricts(stateID) {
+    getDistricts(zoneID) {
         this.availableParkingPlaces = [];
-        //  this.designationID = "";
-        this.employeeParkingPlaceMappingService.getDistricts(stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+        this.taluks = [];
+        this.resetDesignation();
+        this.employeeParkingPlaceMappingService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
     }
     getDistrictsSuccessHandeler(response) {
         console.log(response, "districts retrieved");
@@ -335,6 +370,8 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     parkingPlaceObj: any;
     getParkingPlaces(stateID, districtID) {
+        this.taluks = [];
+        this.resetDesignation();
         this.parkingPlaceObj = {};
         this.parkingPlaceObj.stateID = stateID;
         this.parkingPlaceObj.districtID = districtID;
