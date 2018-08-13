@@ -33,6 +33,8 @@ export class VanServicePointMappingComponent implements OnInit {
   searchStateID: any;
   searchDistrictID: any;
   searchParkingPlaceID: any;
+  zoneID: any;
+  talukID: any;
 
   serviceID: any;
   formBuilder: FormBuilder = new FormBuilder();
@@ -45,6 +47,8 @@ export class VanServicePointMappingComponent implements OnInit {
   availableParkingPlaces: any = [];
   availableVanTypes: any = [];
   availableVans: any = [];
+  zones: any = [];
+  taluks: any = [];
 
   @ViewChild('searForm1') searForm1: NgForm;
   @ViewChild('searchDistrictsForm') searchDistrictsForm: NgForm;
@@ -106,12 +110,31 @@ export class VanServicePointMappingComponent implements OnInit {
     this.availableVanServicePointMappings = [];
     this.resetFieldsOnStateChange();
     this.providerServiceMapID = providerServiceMapID;
-    this.getDistricts(this.state);
-
+    this.getAvailableZones(this.providerServiceMapID);
 
   }
-  getDistricts(state) {
-    this.vanServicePointMappingService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+  getAvailableZones(providerServiceMapID) {
+    this.vanServicePointMappingList = [];
+    this.vanServicePointMappingService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
+  }
+  getZonesSuccessHandler(response) {
+    if (response != undefined) {
+      for (let zone of response) {
+        if (!zone.deleted) {
+          this.zones.push(zone);
+        }
+      }
+    }
+  }
+  getDistricts(zoneID) {
+    this.searForm1.resetForm();
+    this.availableParkingPlaces = [];
+    this.taluks = [];
+    this.availableVans = [];
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
+    });
+    this.vanServicePointMappingService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
 
   }
   getDistrictsSuccessHandeler(response) {
@@ -121,10 +144,12 @@ export class VanServicePointMappingComponent implements OnInit {
   }
 
   getParkingPlaces(stateID, districtID) {
-    this.searchDistrictsForm.controls.searchParkingPlaceID.reset();
     this.searForm1.resetForm();
+    this.taluks = [];
     this.availableVans = [];
-
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
+    });
     this.parkingPlaceObj = {};
     this.parkingPlaceObj.stateID = stateID;
     this.parkingPlaceObj.districtID = districtID;
@@ -146,7 +171,13 @@ export class VanServicePointMappingComponent implements OnInit {
     }
     this.getVanTypes();
   }
-
+  GetTaluks(parkingPlaceID: number) {
+    this.vanServicePointMappingService.getTaluks(parkingPlaceID)
+      .subscribe(response => this.SetTaluks(response));
+  }
+  SetTaluks(response: any) {
+    this.taluks = response;
+  }
   getVanTypes() {
     this.obj = {};
     this.obj.providerServiceMapID = this.providerServiceMapID;
@@ -160,6 +191,9 @@ export class VanServicePointMappingComponent implements OnInit {
   }
 
   getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
+    });
     this.vanObj = {};
     //this.vanObj.stateID = stateID;
     this.vanObj.districtID = districtID;
@@ -339,10 +373,14 @@ export class VanServicePointMappingComponent implements OnInit {
   resetFieldsOnStateChange() {
     this.searchDistrictsForm.resetForm();
     this.searForm1.resetForm();
+    this.zones = [];
     this.districts = [];
     this.availableParkingPlaces = [];
-    this.availableVanTypes = [];
+    this.taluks = [];
     this.availableVans = [];
+    this.MappingForm = this.formBuilder.group({
+      mappings: this.formBuilder.array([])
+    });
   }
   resetFields() {
     this.searForm1.resetForm();

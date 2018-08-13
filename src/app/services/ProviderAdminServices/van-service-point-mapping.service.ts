@@ -26,7 +26,8 @@ export class VanServicePointMappingService {
     _getStateListBYServiceIDURL:any;
     _getServiceLineURL:any;
     _getDistrictListURL:any;
-
+    _getZonesURL: any;
+    _getTalukListURL: any;
     
     getServiceLines_new_url: any;
     getStates_new_url: any;
@@ -44,7 +45,9 @@ export class VanServicePointMappingService {
 
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + "m/location/getStatesByServiceID";
         this._getServiceLineURL = this.providerAdmin_Base_Url + "m/role/service";
-        this._getDistrictListURL = this.common_Base_Url + "location/districts/";
+        this._getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
+        this._getDistrictListURL = this.providerAdmin_Base_Url + '/zonemaster/getdistrictMappedtoZone';
+        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceMaster/getSubDistrictByParkingPlaceID";
         this.getVansURL = this.providerAdmin_Base_Url + "vanMaster/get/vanDetails";
         /* serviceline and state */
 
@@ -64,6 +67,17 @@ export class VanServicePointMappingService {
             .post(this.getStates_new_url, obj)
             .map(this.handleSuccess)
             .catch(this.handleError);
+    }
+    getZones(data) {
+        return this.http.post(this._getZonesURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getTaluks(parkingPlaceID: number) {
+        return this.http.post(this._getTalukListURL, { 'parkingPlaceID': parkingPlaceID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
     }
     saveVanServicePointMappings(data){
         return this.http.post(this.saveVanServicePointMappingsURL, data)
@@ -96,11 +110,10 @@ export class VanServicePointMappingService {
 													.catch(this.handleError);
 	}
 
-    getDistricts ( stateId: number )
-    {
-        return this.http.get( this._getDistrictListURL + stateId )
-            .map( this.handleSuccess )
-            .catch( this.handleError );
+    getDistricts(zoneID) {
+        return this.http.post(this._getDistrictListURL , { 'zoneID': zoneID} )
+            .map(this.handleSuccess)
+            .catch(this.handleError);
 
     }
 
