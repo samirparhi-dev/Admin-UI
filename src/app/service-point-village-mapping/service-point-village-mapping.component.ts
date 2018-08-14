@@ -338,8 +338,8 @@ export class ServicePointVillageMapComponent implements OnInit {
         this.createButton = false;
     }
     taluks: any = [];
-    GetTaluks(districtID: number) {
-        this.servicePointVillageMapService.getTaluks(districtID)
+    GetTaluks(parkingPlaceID: number) {
+        this.servicePointVillageMapService.getTaluks(parkingPlaceID)
             .subscribe(response => this.SetTaluks(response));
     }
     SetTaluks(response: any) {

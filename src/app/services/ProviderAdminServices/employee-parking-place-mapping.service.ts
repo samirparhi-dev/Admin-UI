@@ -23,9 +23,11 @@ export class EmployeeParkingPlaceMappingService {
     _getStateListBYServiceIDURL: any;
     _getServiceLineURL: any;
     _getDistrictListURL: any;
+    _getTalukListURL: any;
     getParkingPlacesURL: any;
     getDesignationsURL: any;
     getEmployeesURL: any;
+    _getZonesURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -39,8 +41,10 @@ export class EmployeeParkingPlaceMappingService {
         this.userNameURL = "";
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/role/stateNew';
         this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/serviceNew';
-        this._getDistrictListURL = this.common_Base_Url + 'location/districts/';
+        this._getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
+        this._getDistrictListURL = this.providerAdmin_Base_Url + "/zonemaster/getdistrictMappedtoZone";
         this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlaces';
+        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceMaster/getSubDistrictByParkingPlaceID";
         this.getDesignationsURL = this.providerAdmin_Base_Url + 'm/getDesignation';
         // this.getEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/userParkingPlaces';
         this.getEmployeesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/userParkingPlaces1';
@@ -55,6 +59,17 @@ export class EmployeeParkingPlaceMappingService {
                 'isNational': isNationalFlag
             }).map(this.handleSuccess)
             .catch(this.handleError);
+    }
+    getZones(data) {
+        return this.http.post(this._getZonesURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getTaluks(parkingPlaceID: number) {
+        return this.http.post(this._getTalukListURL, { 'parkingPlaceID': parkingPlaceID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
     }
     DeleteEmpParkingMapping(requestObject) {
         return this.http.post(this.deleteEmployeesURL, requestObject)
@@ -118,8 +133,8 @@ export class EmployeeParkingPlaceMappingService {
     //         .catch(this.handleError);
     // }
 
-    getDistricts(stateId: number) {
-        return this.http.get(this._getDistrictListURL + stateId)
+    getDistricts(zoneID) {
+        return this.http.post(this._getDistrictListURL, { 'zoneID': zoneID })
             .map(this.handleSuccess)
             .catch(this.handleError);
 

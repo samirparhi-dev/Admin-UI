@@ -34,6 +34,14 @@
         </div>
         <form #searchDistrictsForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
+                    #zoneG="ngModel" (change)="getDistricts(zoneID.zoneID)">
+                    <md-option *ngFor="let zone of zones" [value]="zone">
+                        {{zone.zoneName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <!-- <md-input-container class="hide_underline width100">
                     <input mdInput style="display:none"> -->
                 <md-select placeholder="District" class="width100" [(ngModel)]="districtID" name="districtID" #districtV="ngModel" (change)="getParkingPlaces(state.stateID,districtID.districtID);"
@@ -51,7 +59,7 @@
                 <!-- <md-input-container class="hide_underline width100">
                     <input mdInput style="display:none"> -->
                 <md-select required placeholder="Parking Place" [style.width]="'100%'" (change)="resetFields()" [(ngModel)]="searchParkingPlaceID"
-                    name="searchParkingPlaceID" #parkingPlace="ngModel">
+                    name="searchParkingPlaceID" #parkingPlace="ngModel" (change)="GetTaluks(searchParkingPlaceID)">
                     <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
                         {{parkingPlace.parkingPlaceName}}
                     </md-option>
@@ -59,6 +67,16 @@
                 <!-- <md-hint [hidden]=parkingPlace.valid>
                         <span class="error_text" *ngIf="!parkingPlace.required  && ( parkingPlace.dirty || parkingPlace.touched)">Please select parking place</span>
                     </md-hint> -->
+                <!-- </md-input-container> -->
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                <!-- <md-input-container class="hide_underline width100">
+                      <input mdInput style="display:none"> -->
+                <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID" (change)="resetFields()">
+                    <md-option *ngFor="let taluk of taluks" [value]="taluk">
+                        {{taluk.blockName}}
+                    </md-option>
+                </md-select>
                 <!-- </md-input-container> -->
             </div>
         </form>

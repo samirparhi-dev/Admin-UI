@@ -52,7 +52,7 @@
                 <!-- <md-input-container class="hide_underline width100 ">
                     <input mdInput style="display:none "> -->
                 <md-select required placeholder="Parking Place " class="width100 " [(ngModel)]="searchParkingPlaceID " name="searchParkingPlaceID "
-                    (change)="GetTaluks(searchParkingPlaceID.parkingPlaceID);" #stateVal="ngModel">
+                    (change)="GetTaluks(searchParkingPlaceID.parkingPlaceID);" #parkingPlaceValue="ngModel">
                     <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
                         {{parkingPlace.parkingPlaceName}}
                     </md-option>
@@ -200,7 +200,7 @@
                 <input mdInput style="display:none "> -->
             <md-select required placeholder="Parking Place " [disabled]="true" class="width100 " [(ngModel)]="searchParkingPlaceID "
                 name="searchParkingPlaceID " (change)="getServicePoints(searchStateID,searchDistrictID,searchParkingPlaceID);"
-                #stateVal="ngModel">
+                #parkingPlaceValue="ngModel">
                 <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
                     {{parkingPlace.parkingPlaceName}}
                 </md-option>
@@ -348,7 +348,7 @@
                 <input mdInput style="display:none "> -->
             <md-select required placeholder="Parking Place " [disabled]="true" class="width100 " [(ngModel)]="searchParkingPlaceID_edit "
                 name="searchParkingPlaceID " (change)="getServicePoints(searchStateID,searchDistrictID,searchParkingPlaceID);"
-                #stateVal="ngModel">
+                #parkingPlaceValue="ngModel">
                 <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
                     {{parkingPlace.parkingPlaceName}}
                 </md-option>
