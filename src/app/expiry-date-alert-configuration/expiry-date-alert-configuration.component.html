@@ -1,74 +1,63 @@
-<div class="row" *ngIf="tableMode">
-  <div class="col-xs-12 col-sm-12">
+<div class="row">
+  <div class="col-xs-12">
     <h4>
-      <strong>Expiry Date Alert Confirguration</strong>
+      <strong>Expiry Date Alert Configuration</strong>
     </h4>
   </div>
-  <div class="col-xs-12 col-sm-12 p-a-0">
+</div>
 
-    <form id="form" [formGroup]="expiryAlertSearchForm" autocomplete="off">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none"> -->
-          <md-select required name="Services" placeholder="Serviceline" [style.width]="'100%'" formControlName="serviceline" >
-            <md-option *ngFor="let item of services_array" [value]="item">
-              {{item.serviceName}}
-            </md-option>
-          </md-select>
-        <!-- </md-input-container> -->
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-          <input mdInput style="display:none"> -->
-          <md-select required name="state" placeholder="State" [style.width]="'100%'" formControlName="state">
-            <md-option *ngFor="let item of states_array" [value]="item" >
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-        <!-- </md-input-container> -->
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="tableMode && providerServiceMapID ">
-          <div class="row" class="pull-right">
-        <md-input-container id="filterbox">
-            <input mdInput placeholder="In-Table Search" name="filterTerm" >
-            <md-icon mdSuffix>search</md-icon>
-          </md-input-container>
-        </div>
-      </div>
-    </form>
-    <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create ItemForm</button>
+<div class="row m-t-20">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+    <md-select [style.width]="'100%'" required [disabled]="mode && mode != 'view'" name="Services" placeholder="Serviceline"
+      [style.width]="'100%'" [(ngModel)]="serviceline" (change)="getstates(serviceline)">
+      <md-option *ngFor="let item of services_array" [value]="item">
+        {{item.serviceName}}
+      </md-option>
+    </md-select>
   </div>
 
-  <!-- <div class="col-xs-12 col-sm-12" *ngIf="displayTable">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+    <md-select [style.width]="'100%'" required [disabled]="mode && mode != 'view'" name="state" placeholder="State" [style.width]="'100%'"
+      [(ngModel)]="state">
+      <md-option *ngFor="let item of states_array" [value]="item" (click)="getItemCategory(item.providerServiceMapID)">
+        {{item.stateName}}
+      </md-option>
+    </md-select>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6 box" *ngIf="mode == 'view' && itemCategory_array?.length > 0">
+    <md-input-container class="pull-right">
+      <input mdInput placeholder="In-Table Search" name="filterTerm" [(ngModel)]="filterTerm" (keyup)="filterItemCategory(filterTerm)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
+</div>
+
+<div class="row m-t-20" *ngIf="mode == 'view'">
+  <div class="col-xs-12 col-sm-12">
     <div class="table-responsive">
-      <table [md2Data]="filteredItemFormList" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4" >
+      <table [md2Data]="filteredItemCategory_array" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
-              <th width="5%">S.No.</th>
-            <th>ItemForm Code</th>
-            <th>ItemForm Name</th>
-            <th>ItemForm Description</th>
-            <th>Edit</th>
-            <th>Action</th>
+            <th width="5%">S.No.</th>
+            <th width="25%">Item Category Code</th>
+            <th width="25%">Item Category Name</th>
+            <th width="25%">Days before Expiry Alert</th>
+            <th width="20%">Edit</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="filteredItemFormList.length == 0">
-            <td colspan="8" class="record-not-found">No records found</td>
+          <tr *ngIf="filteredItemCategory_array.length == 0">
+            <td colspan="5" class="record-not-found">No records found</td>
           </tr>
-          <tr style="cursor: pointer" *ngFor="let itemForm of md2.data;let i=index ">
-              <td>{{filteredItemFormList.indexOf(itemForm)+1}}</td>
-            <td>{{itemForm.itemFormCode}}</td>
-            <td>{{itemForm.itemForm}}</td>
-            <td>{{itemForm.itemFormDesc}}</td>
+          <tr *ngFor="let itemCategory of md2.data;let i=index ">
+            <td>{{filteredItemCategory_array.indexOf(itemCategory)+1}}</td>
+            <td>{{itemCategory.itemCategoryCode}}</td>
+            <td>{{itemCategory.itemCategoryName}}</td>
+            <td>{{itemCategory.alertBeforeDays}}</td>
             <td>
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!itemForm.deleted"
-              (click)="editItemForm(itemForm)">edit</md-icon>
-            </td>
-            <td>
-              <button md-raised-button color="accent" *ngIf="itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,false)">Unblock</button>
-              <button md-raised-button color="primary" *ngIf="!itemForm.deleted" class=" m-r-10" (click)="activateDeactivate(itemForm.itemFormID,true)">Block</button>
-
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!itemCategory.deleted"
+                (click)="editExpiryAlertConfig(itemCategory)">edit</md-icon>
             </td>
           </tr>
         </tbody>
@@ -77,111 +66,103 @@
             <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0">
-              <button md-raised-button color="primary" *ngIf="createButton" class="pull-right" (click)="showForm()">Create ItemForm</button>
+            <td colspan="2" class="p-r-0">
+              <button md-raised-button color="primary" *ngIf="mode == 'view'" class="pull-right" (click)="createExpiryAlertConfig()">Create Expiry Date Alert Config</button>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
-  </div> -->
+  </div>
 </div>
-<div class="row" *ngIf="formMode">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h4>
-        <strong>Expiry Date Alert Confirguration</strong>
-      </h4>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-a-0">
-        <form id="addform" [formGroup]="expiryAlertAddForm">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-              <md-input-container class="hide_underline" [style.width]="'100%'">
-                <input mdInput style="display:none">
-                <md-select required name="Services" placeholder="Serviceline"  [style.width]="'100%'" formControlName="serviceline">
-                  
-                  <md-option *ngFor="let item of services_array" [value]="item">
-                    {{item.serviceName}}
-                  </md-option>
-                </md-select>
-              </md-input-container>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-              <md-input-container class="hide_underline" [style.width]="'100%'">
-                <input mdInput style="display:none">
-                <md-select required name="state" placeholder="State" [style.width]="'100%'"  formControlName="state">
-                  <md-option *ngFor="let item of states_array" [value]="item">
-                    {{item.stateName}}
-                  </md-option>
-                </md-select>
-              </md-input-container>
-            </div>
-        <!-- </form> -->
-        <div class="clearfix visible-md visible-lg"></div>
-        <!-- <form id="addform" #itemAddForm="ngForm" autocomplete="off"> -->
-            <ng-container formGroupName="expiryDateAlert">
-              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <md-input-container class="hide_underline width100">
-                  <input mdInput style="display:none">
-                  <md-select placeholder="Category" class="width100" formControlName="category" name="category" (blur)="checkExistance()" required>
-                    <md-option *ngFor="let item of categories" [value]="item">
-                      {{item.itemCategoryName}}
-                    </md-option>
-                  </md-select>
-                  <md-hint *ngIf="expiryAlertAddForm.controls['expiryDateAlert']['controls']['category'].invalid && (expiryAlertAddForm.controls['expiryDateAlert']['controls']['category'].dirty || expiryAlertAddForm.controls['expiryDateAlert']['controls']['category'].touched)">
-                    <span class="error_text" *ngIf="expiryAlertAddForm.controls['expiryDateAlert']['controls']['category'].hasError('required')">category is required</span>
-                    <span class="error_text" *ngIf="expiryAlertAddForm.controls['expiryDateAlert']['controls']['category'].hasError('unique')">Category already exists</span>
-                  </md-hint>
-                </md-input-container>
-              </div>
 
-              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <md-input-container [style.width]="'100%'" myMobileNumber>
-            <input mdInput  placeholder="Alert on Days"  formControlName="alertonDays" maxlength="100" required>
-          </md-input-container>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3 m-t-10 ">
-            <button md-mini-fab class="xs-pull-right sm-pull-left md-pull-right lg-pull-left" *ngIf="expiryAlertAddForm.valid"
-              color="primary" (click)="add2buffer()">
-              <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-            </button>
-          </div>
-        </ng-container>
-      </form>
+<div class="row m-t-20" *ngIf="mode == 'create'">
+  <form id="form" #expiryAlertConfigCreateForm="ngForm" autocomplete="off">
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+      <md-select [style.width]="'100%'" required name="itemCategory" placeholder="Item Category Name" [style.width]="'100%'" [(ngModel)]="itemCategory">
+        <md-option *ngFor="let item of unmappedItemCategory" [value]="item">
+          {{item.itemCategoryName}}
+        </md-option>
+      </md-select>
     </div>
-    <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="bufferArray.length>0">
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput required placeholder="Days before Expiry Alert" name="alertBeforeDays" [(ngModel)]="alertBeforeDays">
+      </md-input-container>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 box">
+      <button *ngIf="expiryAlertConfigCreateForm.valid" md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left"
+        color="primary" (click)="addToExpiryAlertConfigList(expiryAlertConfigCreateForm)">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
+
+    <div class="col-xs-12 col-sm-12  m-t-15" *ngIf="expiryAlertConfigList.length > 0">
       <div class="table-responsive">
-        <table class="table table-hover table-striped" [md2Data]="bufferArray" #md2="md2DataTable" [rowsPerPage]="4">
+        <table class="table table-hover table-striped" [md2Data]="expiryAlertConfigList" #md2="md2DataTable" [rowsPerPage]="4">
           <thead>
             <tr>
-                <th width="5%">S.No.</th>
-              <th>Item Category Name</th>
-              <th>Number of Days on Alert</th>
-              <th>Action</th>
+              <th width="5%">S.No.</th>
+              <th width="30%">Item Category Name</th>
+              <th width="30%">Days before Expiry Alert</th>
+              <th width="30%">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of md2.data;let i = index ">
-              <td>{{bufferArray.indexOf(item)+1}}</td>
-              <td>{{item.category.itemCategoryName}}</td>
-              <td>{{item.alertonDays}}</td>
+              <td>{{expiryAlertConfigList.indexOf(item)+1}}</td>
+              <td>{{item.itemCategory.itemCategoryName}}</td>
+              <td>{{item.alertBeforeDays}}</td>
               <td>
-                <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRow(bufferArray.indexOf(item))">delete</md-icon>
+                <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeFromExpiryAlertConfigList(expiryAlertConfigList.indexOf(item))">delete</md-icon>
               </td>
             </tr>
           </tbody>
           <tfoot>
-              <tr>
-                <td colspan="7">
-                  <md2-pagination></md2-pagination>
-                </td>
-              </tr>
-            </tfoot>
+            <tr>
+              <td colspan="10">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
+
     <div class="col-xs-12 col-sm-12 m-t-15">
-      <button md-raised-button color="primary" class="pull-left" (click)="showTable();expiryAlertAddForm.controls['expiryDateAlert'].reset();">Back</button>
-      <button md-raised-button color="accent" [disabled]="!(bufferArray.length>0)" class="pull-right" (click)="saveItemForm()">Save</button>
-      <button  md-raised-button color="primary" class="pull-right m-r-5" (click)="expiryAlertAddForm.controls['expiryDateAlert'].reset();">Clear</button>
+      <button type="button" md-raised-button color="primary" class="pull-left" (click)="viewExpiryAlertConfig(expiryAlertConfigCreateForm)">Back</button>
+      <button type="button" md-raised-button color="accent" (click)="submitExpiryAlertConfig(expiryAlertConfigCreateForm)" [disabled]="!(expiryAlertConfigList.length > 0)"
+        class="pull-right">Save</button>
+      <button type="reset" md-raised-button color="primary" class="pull-right m-r-5">Clear</button>
     </div>
-  </div>
+  </form>
+
+</div>
+
+<div class="row m-t-20" *ngIf="mode == 'edit'">
+  <form id="form" #expiryAlertConfigEditForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+      <md-select [style.width]="'100%'" required name="edit_itemCategory" placeholder="Item Category Name" [style.width]="'100%'"
+        [disabled]="true" [(ngModel)]="edit_itemCategory">
+        <md-option *ngFor="let item of itemCategory_array" [value]="item.itemCategoryID">
+          {{item.itemCategoryName}}
+        </md-option>
+      </md-select>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput required placeholder="Days before Expiry Alert" name="edit_alertBeforeDays" [(ngModel)]="edit_alertBeforeDays">
+      </md-input-container>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+      <button type="button" md-raised-button color="primary" class="pull-left" (click)="viewExpiryAlertConfig()">Back</button>
+      <button type="button" md-raised-button color="accent" class="pull-right" [disabled]="expiryAlertConfigEditForm.invalid" (click)="updateExpiryAlertConfig(expiryAlertConfigEditForm)">Update</button>
+    </div>
+  </form>
+
+</div>

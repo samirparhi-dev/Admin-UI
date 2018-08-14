@@ -22,6 +22,8 @@ export class Mainstroreandsubstore {
     get_facilities_Url: any;
     get_itemCategory_Url: any;
     save_itemCategory_Url: any;
+    save_expiryAlertConfig_Url: any;
+
     constructor(private http: SecurityInterceptedHttp, public basepaths: ConfigService, private httpIntercept: InterceptedHttp) {
         this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
@@ -35,75 +37,80 @@ export class Mainstroreandsubstore {
         this.get_facilities_Url = this.admin_Base_Url + '/getFacility';
         this.get_itemCategory_Url = this.admin_Base_Url + '/getItemCategory';
         this.save_itemCategory_Url = this.admin_Base_Url + '/configItemIssue';
-
+        this.save_expiryAlertConfig_Url = this.admin_Base_Url + '/configexpiryalert';
     };
-    getAllStores(providerServiceMapID) {
-        return this.http.post(this.get_stores_Url + '/' + providerServiceMapID, ''
-        ).map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-    getAllActiveFacilities(providerServiceMapID) {
-        return this.http.post(this.get_facilities_Url,
-            {
-                'providerServiceMapID': providerServiceMapID
 
-            }).map(this.handleState_n_FilteredSuccess)
+    getAllStores(providerServiceMapID) {
+        return this.http.post(this.get_stores_Url + '/' + providerServiceMapID, '')
+            .map(this.handleSuccess)
             .catch(this.handleError);
     }
+
+    getAllActiveFacilities(providerServiceMapID) {
+        return this.http.post(this.get_facilities_Url, {
+            'providerServiceMapID': providerServiceMapID
+        }).map(this.handleState_n_FilteredSuccess)
+            .catch(this.handleError);
+    }
+
     getStoreType(providerServiceMapID) {
         return this.http.post(this.get_stores_Url + '/' + providerServiceMapID, null
         ).map(this.handleState_n_FilteredstoreTypeSuccess)
             .catch(this.handleError);
     }
+
     deleteStore(deleteObj) {
         debugger;
         return this.http.post(this.delete_stores_Url, deleteObj
         ).map(this.handleSuccess)
-        .catch(this.handleError)
+            .catch(this.handleError)
     }
+
     saveStore(obj) {
         return this.http.post(this.save_stores_Url, obj
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
+
     updateStore(editobj) {
         return this.http.post(this.update_stores_Url, editobj
         ).map(this.handleSuccess)
             .catch(this.handleError);
     }
 
-
     getServices(userID) {
-        return this.http.post(this.get_Service_Url,
-            {
-                'userID': userID
-
-            }).map(this.handleState_n_ServiceSuccess)
+        return this.http.post(this.get_Service_Url, {
+            'userID': userID
+        }).map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
+
     getStates(userID, serviceID, isNational) {
-        return this.http.post(this.get_State_Url,
-            {
-                'userID': userID,
-                'serviceID': serviceID,
-                'isNational': isNational
-            })
-            .map(this.handleSuccess)
+        return this.http.post(this.get_State_Url, {
+            'userID': userID,
+            'serviceID': serviceID,
+            'isNational': isNational
+        }).map(this.handleSuccess)
             .catch(this.handleError);
     }
+
     getItemCategory(providerServiceMapID) {
-        return this.http.get(this.get_itemCategory_Url + '/' + providerServiceMapID + '/' + 0, {}
-        )
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-    saveItemIssueConfig(obj) {
-        return this.http.post(this.save_itemCategory_Url, obj
-        )
+        return this.http.get(this.get_itemCategory_Url + '/' + providerServiceMapID + '/' + 0, {})
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
 
+    saveItemIssueConfig(obj) {
+        return this.http.post(this.save_itemCategory_Url, obj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    saveExpiryAlertConfig(obj) {
+        return this.http.post(this.save_expiryAlertConfig_Url, obj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
 
     handleSuccess(res: Response) {
         debugger;
@@ -116,7 +123,6 @@ export class Mainstroreandsubstore {
     }
 
     handleState_n_ServiceSuccess(response: Response) {
-
         console.log(response.json().data, 'Main Stores service file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
@@ -153,7 +159,7 @@ export class Mainstroreandsubstore {
     handleError(error: Response | any) {
         debugger;
         return Observable.throw(error.json());
-    } 
-   
+    }
+
 
 };

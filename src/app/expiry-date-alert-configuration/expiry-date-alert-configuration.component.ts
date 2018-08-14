@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonServices } from '../services/inventory-services/commonServices';
-import { dataService } from '../services/dataService/data.service';
-import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
-import { FormBuilder, FormArray, FormGroup,NgForm } from '@angular/forms';
-import {ExpiryAlertConfigurationService} from '../services/inventory-services/expiryalertconfiguration.service';
+import { CommonServices } from 'app/services/inventory-services/commonServices';
+import { StoreMappingService } from 'app/services/inventory-services/store-mapping.service';
+import { Mainstroreandsubstore } from 'app/services/inventory-services/mainstoreandsubstore.service';
+import { ConfirmationDialogsService } from 'app/services/dialog/confirmation.service';
+import { dataService } from 'app/services/dataService/data.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-expiry-date-alert-configuration',
@@ -11,147 +12,176 @@ import {ExpiryAlertConfigurationService} from '../services/inventory-services/ex
   styleUrls: ['./expiry-date-alert-configuration.component.css']
 })
 export class ExpiryDateAlertConfigurationComponent implements OnInit {
-  expiryAlertSearchForm: FormGroup;
-  expiryAlertAddForm:FormGroup;
-  createButton: boolean = false;
-  createdBy: any;
-  uid: any;
-  serviceProviderID: any;
-  providerServiceMapID: any;
-  services_array: any = [];
-  states_array: any = [];
-  categories:any=[];
-  bufferArray: any = [];
-  formMode: boolean = false;
-  tableMode: boolean = true;
-  editMode: boolean = false;
-  displayTable: boolean = false;
 
-  constructor(public commonservice:CommonServices,public commonDataService: dataService,
-    public dialogService: ConfirmationDialogsService,private fb: FormBuilder,private expiryAlertService:ExpiryAlertConfigurationService) { }
+  createdBy: string;
+  serviceProviderID: string;
+  providerServiceMapID: any;
+  uid: string;
+
+  mode: String;
+  filterTerm: any;
+  serviceline: any;
+  state: any;
+
+  services_array: any;
+  states_array: any;
+  itemCategory_array: any;
+  filteredItemCategory_array: any;
+  unmappedItemCategory: any;
+
+  expiryAlertConfigList = [];
+
+  constructor(
+    public commonservice: CommonServices,
+    private storeService: Mainstroreandsubstore,
+    public commonDataService: dataService,
+    public dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
-    debugger;
     this.createdBy = this.commonDataService.uname;
     this.serviceProviderID = this.commonDataService.service_providerID;
     this.uid = this.commonDataService.uid;
-    this.expiryAlertSearchForm=this.createExpiryAlertSearchForm();
-    this.expiryAlertAddForm=this.createExpiryAlertAddForm();
-    this.onServiceLineChange();
-    this.onStateChange();
-    this.getServices();
-    this.createButton = true;
-  }
-  createExpiryAlertSearchForm() {
-    return this.fb.group({
-      serviceline: null,
-      state: null
-    })
-  }
 
-  createExpiryAlertAddForm() {
-    return this.fb.group({
-      serviceline: { value: null, disabled: true },
-      state: { value: null, disabled: true },
-      expiryDateAlert: this.fb.group({
-      category:null,
-      alertonDays:null
-    })
-  })
+    this.getServices();
   }
 
   getServices() {
     this.commonservice.getServiceLines(this.uid).subscribe(response => {
       if (response) {
-        console.log('All services success', response);
         this.services_array = response;
       }
     })
   }
-  onServiceLineChange() {
-    this.expiryAlertSearchForm.controls['serviceline'].valueChanges
-      .subscribe(value => {
-        if (value) {
-          this.getstates(value);
-        }
-      })
-  }
+
   getstates(service) {
-    debugger;
-    this.commonservice.getStatesOnServices(this.uid, service.serviceID, false).subscribe(response => {
+    this.storeService.getStates(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
-        console.log('All states success based on service', response);
         this.states_array = response;
       }
     })
   }
-  onStateChange() {
-    this.expiryAlertSearchForm.controls['state'].valueChanges
-      .subscribe(value => {
-        if (value) {
-          this.providerServiceMapID=value.providerServiceMapID;
-        }
-      })
-  }
-  getCategories()
-  {
-    this.expiryAlertService.getAllItemsCategory(this.providerServiceMapID,0).subscribe(response => {
-    if (response) {
-    console.log('All item category success ', response);
-    this.categories = response;
-     }
+
+  getItemCategory(providerServiceMapID) {
+    this.providerServiceMapID = providerServiceMapID;
+
+    this.storeService.getItemCategory(providerServiceMapID).subscribe(response => {
+      if (response) {
+
+        this.unmappedItemCategory = response.filter(
+          category => category.deleted != true && category.alertBeforeDays == undefined
+        );
+
+        this.itemCategory_array = response.filter(
+          category => category.deleted != true && category.alertBeforeDays != undefined
+        );
+
+        this.filteredItemCategory_array = this.itemCategory_array.slice();
+        this.mode = new String('view');
+      }
     })
   }
-  searchValue:any;
-  showForm() {
-    debugger;
-    this.getCategories();
-    this.searchValue=this.expiryAlertSearchForm.value;
-  //  this.searchValue = Object.assign({ serviceline: this.expiryAlertSearchForm.controls['serviceline'].value, 
-   // state:this.expiryAlertSearchForm.controls['state'].value })
-    this.tableMode = false;
-    this.formMode = true;
-    this.expiryAlertAddForm.patchValue(this.searchValue);
-    //this.editMode = false;
-  }
-  showTable(){
-    this.tableMode=true;
-    this.formMode=false;
-    this.bufferArray=[];
-  }
-  add2buffer() {
-    debugger;
-    if (this.expiryAlertAddForm.valid) {
-      let temp = JSON.parse(JSON.stringify(this.expiryAlertAddForm.value));
-      if (temp && temp.expiryDateAlert) {
-        this.bufferArray.push(temp.expiryDateAlert);
-        this.expiryAlertAddForm.controls['expiryDateAlert'].reset();
-      }
-    } else {
-      //this.notificationService.alert("Enter the required field or valid value");
+
+  filterItemCategory(filterTerm) {
+    if (!filterTerm) {
+      this.filteredItemCategory_array = this.itemCategory_array.slice();
+    }
+    else {
+      this.filteredItemCategory_array = this.itemCategory_array.filter((item) => {
+        let flag = false;
+        for (let key in item) {
+          if (key == "itemCategoryCode" || key == "itemCategoryName" || key == "alertBeforeDays") {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(filterTerm.toLowerCase()) >= 0) {
+              flag = true; break;
+            }
+          }
+        }
+        return flag;
+      });
     }
   }
-  removeRow(index) {
-    this.bufferArray.splice(index, 1);
+
+  itemCategory: any;
+  alertBeforeDays: any;
+  createExpiryAlertConfig() {
+    if(this.unmappedItemCategory.length > 0) {
+      this.mode = new String('create');
+    } else {
+      this.dialogService.alert("All item category mapped")
+    }
   }
-  CategoryExist: any = false;
-  checkExistance(CategoryName) {
-    debugger;
-    let temp1 = JSON.parse(JSON.stringify(this.expiryAlertAddForm.value));
-   // if (CategoryName) {
-      // this.manufactureService.checkForUniqueManufacturerCode(manufactureCode, this.providerServiceMapID)
-      //   .subscribe(response => {
-          let temp = this.bufferArray.filter(item => item.category.itemCategoryName == temp1.expiryDateAlert.category.itemCategoryName);
-          if ( temp.length > 0) {
-            this.CategoryExist = true;
-            (<FormGroup>this.expiryAlertAddForm.controls['expiryDateAlert']).controls['category'].setErrors({ unique: true });
-            
-          } else {
-            this.CategoryExist = false;
-            (<FormGroup>this.expiryAlertAddForm.controls['expiryDateAlert']).controls['category'].setErrors(null);
-          }
-          console.log( temp.length, this.CategoryExist);
-        //})
-    
+
+  viewExpiryAlertConfig(expiryAlertConfigForm?: FormGroup) {
+    this.mode = new String('view');
+    this.getItemCategory(this.providerServiceMapID);
+    if (expiryAlertConfigForm) {
+      expiryAlertConfigForm.reset();
+    }
+    this.resetExpiryAlertConfigList();
   }
- }
+
+  edit_itemCategory: any;
+  edit_alertBeforeDays: any;
+  editExpiryAlertConfig(expiryAlertConfig) {
+    this.mode = new String('edit');
+
+    this.edit_itemCategory = expiryAlertConfig.itemCategoryID;
+    this.edit_alertBeforeDays = expiryAlertConfig.alertBeforeDays;
+  }
+
+  addToExpiryAlertConfigList(expiryAlertConfigForm: FormGroup) {
+    let expiryAlertConfig = Object.assign({}, expiryAlertConfigForm.value);
+
+    if (!(this.checkDuplicateExpiryAlertConfig(expiryAlertConfig))) {
+      this.expiryAlertConfigList.push(expiryAlertConfig);
+      expiryAlertConfigForm.reset();
+    } else {
+      this.dialogService.alert("Item expiry alert config is already added in list");
+    }
+  }
+
+  checkDuplicateExpiryAlertConfig(expiryAlertConfig) {
+    let temp = this.expiryAlertConfigList.filter(item => {
+      return item.itemCategory.itemCategoryID == expiryAlertConfig.itemCategory.itemCategoryID;
+    })
+
+    return temp.length > 0 ? true : false;
+  }
+
+  removeFromExpiryAlertConfigList(index) {
+    this.expiryAlertConfigList.splice(index, 1);
+  }
+
+  submitExpiryAlertConfig(expiryAlertConfigForm: FormGroup) {
+    let temp = JSON.parse(JSON.stringify(this.expiryAlertConfigList));
+    temp.map(item => {
+      item.alertBeforeDays = item.alertBeforeDays ? +item.alertBeforeDays : undefined;
+      item.itemCategoryID = item.itemCategory.itemCategoryID;
+      item.itemCategory = undefined;
+    });
+
+    this.storeService.saveExpiryAlertConfig(temp).subscribe(response => {
+      console.log(response);
+      expiryAlertConfigForm.reset();
+      this.viewExpiryAlertConfig();
+    });
+  }
+
+  updateExpiryAlertConfig(expiryAlertConfigForm: FormGroup) {
+    let temp = JSON.parse(JSON.stringify(expiryAlertConfigForm.value));
+    temp.alertBeforeDays = temp.edit_alertBeforeDays ? +(temp.edit_alertBeforeDays) : undefined;
+    temp.itemCategoryID = this.edit_itemCategory;
+    temp.edit_alertBeforeDays = undefined;
+
+    this.storeService.saveExpiryAlertConfig([temp]).subscribe(response => {
+      console.log(response);
+      expiryAlertConfigForm.reset();
+      this.viewExpiryAlertConfig();
+    });
+  }
+
+  resetExpiryAlertConfigList() {
+    this.expiryAlertConfigList.length = 0;
+  }
+
+}
