@@ -36,16 +36,17 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                     <!-- <md-input-container class="hide_underline width100">
                       <input mdInput style="display:none"> -->
-                      <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection" #zoneG="ngModel" (change)="getDistricts(zoneID)">
+                    <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
+                        #zoneG="ngModel" (change)="getDistricts(zoneID)">
                         <md-option *ngFor="let zone of zones" [value]="zone">
-                          {{zone.zoneName}}
+                            {{zone.zoneName}}
                         </md-option>
-                      </md-select>
-                      <!-- <md-hint [hidden]=zoneG.valid>
+                    </md-select>
+                    <!-- <md-hint [hidden]=zoneG.valid>
                         <span class="error_text" *ngIf="!zoneG.required  && ( zoneG.dirty || zoneG.touched)">Please select Zone</span>
                       </md-hint>
                     </md-input-container> -->
-                  </div>
+                </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                     <!-- <md-input-container class="hide_underline width100">
                         <input mdInput style="display:none"> -->
@@ -79,9 +80,9 @@
                 <thead>
                     <tr>
                         <th width="5%">S.No.</th>
-                        <th width="15%">State</th>
-                        <!-- <th width="12%">Zone</th> -->
-                        <th width="12%">District</th>
+                        <!-- <th width="15%">State</th>
+                        <th width="12%">Zone</th>
+                        <th width="12%">District</th> -->
                         <th width="12%">Sub District</th>
                         <th width="12%">Parking Place</th>
                         <th width="12%">Description</th>
@@ -93,13 +94,13 @@
                 <tbody>
                     <!-- <tr style="cursor: pointer" *ngFor="let parkingPlace of availableParkingPlaces | paginate: {id:'parkingPlaceListResult', itemsPerPage: 3, currentPage: b} "> -->
                     <tr *ngIf="md2.data.length == 0" class="record-not-found">
-                        <td colspan="9" align="center">No records found</td>
+                        <td colspan="7" align="center">No records found</td>
                     </tr>
                     <tr *ngFor="let parkingPlace of md2.data ;let i=index">
                         <td>{{filteredavailableParkingPlaces.indexOf(parkingPlace)+1}} </td>
-                        <td>{{parkingPlace.stateName}}</td>
-                        <!-- <td>{{parkingPlace.zoneName}}</td> -->
-                        <td>{{parkingPlace.districtName}}</td>
+                        <!-- <td>{{parkingPlace.stateName}}</td>
+                        <td>{{parkingPlace.zoneName}}</td>
+                        <td>{{parkingPlace.districtName}}</td> -->
                         <td>{{parkingPlace.blockName}}</td>
                         <td>{{parkingPlace.parkingPlaceName}}</td>
                         <td>{{parkingPlace.parkingPlaceDesc}}</td>
@@ -116,11 +117,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="4">
                             <md2-pagination></md2-pagination>
                         </td>
-                        <td colspan="4" class="p-r-0 m-t-10">
-                            <button md-raised-button color="primary" class="pull-right" [disabled]="searchForm.invalid" (click)="showForm()">Add Parking Place</button>
+                        <td colspan="3" class="p-r-0 m-t-10">
+                            <button md-raised-button color="primary" class="pull-right" [disabled]="!createButton" (click)="showForm()">Add Parking Place</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -188,7 +189,7 @@
                         <tr>
                             <th width="5%">S.No.</th>
                             <th width="15%">State</th>
-                            <!-- <th width="12%">Zone</th> -->
+                            <th width="12%">Zone</th>
                             <th width="15%">District</th>
                             <th width="15%">Sub District</th>
                             <th width="15%">Parking Place</th>
@@ -201,7 +202,7 @@
                         <tr *ngFor="let parkingPlace of md2.data ; let i=index">
                             <td>{{parkingPlaceList.indexOf(parkingPlace)+1}}</td>
                             <td>{{parkingPlace.stateName}}</td>
-                            <!-- <td>{{parkingPlace.zoneName}}</td> -->
+                            <td>{{parkingPlace.zoneName}}</td>
                             <td>{{parkingPlace.districtName}}</td>
                             <td>{{parkingPlace.blockName}}</td>
                             <td>{{parkingPlace.parkingPlaceName}}</td>
@@ -214,7 +215,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="8">
+                            <td colspan="9">
                                 <md2-pagination></md2-pagination>
                             </td>
                         </tr>

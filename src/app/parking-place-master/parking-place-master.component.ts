@@ -37,6 +37,7 @@ export class ParkingPlaceComponent implements OnInit {
     provider_services: any;
     service_provider_id: any;
     editable: any = false;
+    createButton: boolean = false;
 
     countryID: any;
     serviceID: any;
@@ -107,7 +108,8 @@ export class ParkingPlaceComponent implements OnInit {
 
     getStatesSuccessHandeler(response) {
         this.states = response;
-    }
+        this.createButton = false;
+   }
     setProviderServiceMapID(providerServiceMapID) {
         this.districts = [];
         this.zones = [];
@@ -123,6 +125,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
     }
     getZonesSuccessHandler(response) {
+        this.createButton = false;
         if (response != undefined) {
             for (let zone of response) {
                 if (!zone.deleted) {
@@ -139,6 +142,7 @@ export class ParkingPlaceComponent implements OnInit {
     }
     getDistrictsSuccessHandeler(response) {
         this.districts = response;
+        this.createButton = false;
     }
 
     GetTaluks(districtID) {
@@ -164,10 +168,11 @@ export class ParkingPlaceComponent implements OnInit {
         }
     }
     getParkingPlaces(stateID, districtID) {
-        this.parkingPlaceObj = {};
-        this.parkingPlaceObj.stateID = stateID;
-        this.parkingPlaceObj.districtID = districtID;
-        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
+        this.parkingPlaceObj = {
+            "stateID": stateID,
+            "districtID": districtID,
+            "serviceProviderID": this.service_provider_id
+        };
         this.parkingPlaceMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
 
     }
@@ -175,12 +180,14 @@ export class ParkingPlaceComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.showTableFlag = true;
         this.editable = false;
+        this.createButton = true;
         this.availableParkingPlaces = response;
         this.filteredavailableParkingPlaces = response;
         for (let availableParkingPlace of this.availableParkingPlaces) {
             this.availableParkingPlaceNames.push(availableParkingPlace.parkingPlaceName);
         }
     }
+    
 
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
@@ -195,6 +202,9 @@ export class ParkingPlaceComponent implements OnInit {
 
         this.parkingPlaceObj.districtID = this.districtID.districtID;
         this.parkingPlaceObj.districtName = this.districtID.districtName;
+
+        this.parkingPlaceObj.zoneID = this.zoneID.zoneID;
+        this.parkingPlaceObj.zoneName = this.zoneID.zoneName;
 
         if (values.talukID != undefined) {
             this.parkingPlaceObj.districtBlockID = values.talukID.blockID;
@@ -218,6 +228,7 @@ export class ParkingPlaceComponent implements OnInit {
             for (let a = 0; a < this.parkingPlaceList.length; a++) {
                 if (this.parkingPlaceList[a].parkingPlaceName === this.parkingPlaceObj.parkingPlaceName
                     && this.parkingPlaceList[a].stateID === this.parkingPlaceObj.stateID
+                    && this.parkingPlaceList[a].zoneID === this.parkingPlaceObj.zoneID
                     && this.parkingPlaceList[a].districtID === this.parkingPlaceObj.districtID
                     && this.parkingPlaceList[a].areaHQAddress === this.parkingPlaceObj.areaHQAddress) {
                     // && this.parkingPlaceList[a].districtBlockID === this.parkingPlaceObj.districtBlockID) {
@@ -335,6 +346,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.dataObj.service = this.service.serviceID;
         this.dataObj.stateID = this.state.stateID;
         this.dataObj.districtID = this.districtID.districtID;
+        this.dataObj.zoneID = this.zoneID.zoneID;
         if (this.talukID != undefined) {
             this.dataObj.districtBlockID = this.talukID.blockID;
         }
