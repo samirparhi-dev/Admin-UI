@@ -45,6 +45,10 @@ export class ServicePointComponent implements OnInit {
     status: any;
     zoneID: any;
     zones: any = [];
+
+    @ViewChild('servicePointForm1') servicePointForm1: NgForm;
+    @ViewChild('servicePointForm2') servicePointForm2: NgForm;
+
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public servicePointMasterService: ServicePointMasterService,
@@ -297,10 +301,11 @@ export class ServicePointComponent implements OnInit {
     showList() {
         if (!this.editMode) {
             this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
-
+            this.servicePointForm1.resetForm();
         }
         else {
             this.getServicePoints(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit);
+            this.servicePointForm2.resetForm();
         }
         //this.servicePointForm.resetForm();
         this.showServicePoints = true;

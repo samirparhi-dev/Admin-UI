@@ -116,23 +116,21 @@
             <table class="table table-hover table-striped " [md2Data]="employeeParkingPlaceMappingList" #md2="md2DataTable" [rowsPerPage]="3">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
-                        <th>Serviceline</th>
-                        <th>State</th>
-                        <th>District</th>
-                        <th>Parking Place Name</th>
-                        <th>Designation</th>
-                        <th>Username</th>
-                        <th>Delete</th>
+                        <th width="10%">S.No.</th>
+                        <th width="15%">State</th>
+                        <th width="15%">District</th>
+                        <th width="15%">Parking Place Name</th>
+                        <th width="15%">Designation</th>
+                        <th width="15%">Username</th>
+                        <th width="10%">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngIf="employeeParkingPlaceMappingList.length == 0">
-                        <td colspan="8" class="record-not-found">No records found</td>
+                        <td colspan="7" class="record-not-found">No records found</td>
                     </tr>
                     <tr *ngFor="let item of md2.data;let i = index ">
                         <td>{{employeeParkingPlaceMappingList.indexOf(item)+1}}</td>
-                        <td>{{item.serviceName}}</td>
                         <td>{{item.stateName}}</td>
                         <td>{{item.districtName}}</td>
                         <td>{{item.parkingPlaceName}}</td>
@@ -145,7 +143,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="7">
                             <md2-pagination></md2-pagination>
                         </td>
                     </tr>
@@ -286,11 +284,11 @@
                     [rowsPerPage]="3">
                     <thead>
                         <tr>
-                            <th>S.No.</th>
-                            <th>Username</th>
-                            <th>Parking Place</th>
-                            <th>Edit</th>
-                            <th>Action</th>
+                            <th width="10%">S.No.</th>
+                            <th width="15%">Username</th>
+                            <th width="15%">Parking Place</th>
+                            <th width="15%">Edit</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
