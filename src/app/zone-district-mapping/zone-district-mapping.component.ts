@@ -134,8 +134,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
   * Fetch available zones based on providerServiceMapID
   */
   getAvailableZones(providerServiceMapID) {
-    console.log("zoneID", this.zoneID);
-
     this.zoneMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
   getZonesSuccessHandler(response) {
@@ -212,7 +210,8 @@ export class ZoneDistrictMappingComponent implements OnInit {
     this.existingDistricts = [];
 
     this.availableZoneDistrictMappings.forEach((zoneDistrictMappings) => {
-      if (zoneDistrictMappings.providerServiceMapID != undefined && zoneDistrictMappings.providerServiceMapID == stateID.providerServiceMapID && zoneDistrictMappings.zoneID != undefined && zoneDistrictMappings.zoneID == zoneID) {
+      // if (zoneDistrictMappings.providerServiceMapID != undefined && zoneDistrictMappings.providerServiceMapID == stateID.providerServiceMapID && zoneDistrictMappings.zoneID != undefined && zoneDistrictMappings.zoneID == zoneID) {
+      if (zoneDistrictMappings.providerServiceMapID != undefined && zoneDistrictMappings.providerServiceMapID == stateID.providerServiceMapID) {
         if (!zoneDistrictMappings.deleted) {
           this.existingDistricts.push(zoneDistrictMappings.districtID); // existing districts has already mapped district ID
         }
@@ -232,11 +231,11 @@ export class ZoneDistrictMappingComponent implements OnInit {
 
     if (this.zoneDistrictMappingList.length > 0) {
       this.zoneDistrictMappingList.forEach((zoneDistrictMappings) => {
-        if (zoneDistrictMappings.zoneID != undefined && zoneDistrictMappings.zoneID == zoneID) {
-          if (!zoneDistrictMappings.deleted) {
-            this.bufferDistrictsArray.push(zoneDistrictMappings.districtID) // bufferDistrictsArray has districts (except existing districts) before save
-          }
+        // if (zoneDistrictMappings.zoneID != undefined && zoneDistrictMappings.zoneID == zoneID) {
+        if (!zoneDistrictMappings.deleted) {
+          this.bufferDistrictsArray.push(zoneDistrictMappings.districtID) // bufferDistrictsArray has districts (except existing districts) before save
         }
+        // }
       });
       let temp = [];
       this.availableDistricts.forEach((district) => {
