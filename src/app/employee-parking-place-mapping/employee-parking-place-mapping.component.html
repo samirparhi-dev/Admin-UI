@@ -192,7 +192,7 @@
             <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-            <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
+            <md-select required placeholder="Zone" [disabled]="editMode" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
                 #zoneG="ngModel" (change)="getDistricts(zoneID.zoneID)">
                 <md-option *ngFor="let zone of zones" [value]="zone">
                     {{zone.zoneName}}
