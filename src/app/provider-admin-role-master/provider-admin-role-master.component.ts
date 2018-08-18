@@ -58,7 +58,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   showRoleCreationForm: boolean = false;
   setEditSubmitButton: boolean = false;
   showAddButtonFlag: boolean = false;
-
   updateFeaturesToRoleFlag = false;
   showUpdateFeatureButtonFlag = false;
   userID: any;
@@ -160,7 +159,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   getFeaturesSuccessHandeler(response) {
-    debugger;
     console.log("features", response);
     this.combinedFilterArray = [];
     console.log("filterScreens", this.filterScreens);
@@ -187,7 +185,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   showAddButton: boolean = false;
 
   findRoles(stateID, serviceID, flagValue) {
-    debugger;
     this.showAddButtonFlag = flagValue;
     this.STATE_ID = stateID;
     this.SERVICE_ID = serviceID;
@@ -266,7 +263,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   toBeEditedRoleObject: any;
+  editHeading: Boolean = false;
   editRole(roleObj) {
+    this.editHeading = true;
+    this.showRoleCreationForm = false;
+    this.updateFeaturesToRoleFlag = false;
     this.toBeEditedRoleObj = roleObj;
     this.editScreenName = roleObj.screenName;
 
@@ -315,6 +316,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         err => {
           console.log(err, 'error');
         });
+
   }
 
   edit_delete_RolesSuccessHandeler(response, choice) {
@@ -334,7 +336,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.tempFilterScreens = [];
     this.selectedRole = undefined;
     this.disableSelection = false;
-
+    this.editHeading = false;
     this.showUpdateFeatureButtonFlag = false;
   }
 
@@ -373,15 +375,12 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
 
   setRoleFormFlag(flag) {
-    debugger;
     console.log('service', this.service.serviceID);
     this.hideAdd = true;
     this.setEditSubmitButton = false;
     this.showRoleCreationForm = flag;
     this.showAddButtonFlag = !flag;
     this.disableSelection = flag;
-
-
 
     if (!flag) {
       this.role = '';
@@ -405,6 +404,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   back(flag) {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
+        this.editHeading = false;
         this.setRoleFormFlag(flag);
       }
     })
@@ -416,9 +416,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   add_obj(role, desc, feature) {
-    debugger;
     var result = this.validateRole(role);
-
     var selected_features = [];
     if (feature === null) {
       this.alertService.alert("No more features to add");
@@ -540,7 +538,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   remove_obj(index) {
-    debugger;
     for (var k = 0; k < this.objs[index].screen_name.length; k++) {
       var delIndex = this.tempFilterScreens.indexOf(this.objs[index].screen_name[k]);
       if (delIndex != -1) {
@@ -551,7 +548,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.objs.splice(index, 1);
   }
   removeFeature(rowIndex, FeatureIndex) {
-    debugger;
     this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
 
     if (rowIndex === 0) {
@@ -584,7 +580,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
 
       this.objs.splice(rowIndex, 1);
-      debugger;
       this.getFeatures(this.service.serviceID);
     }
   }
@@ -611,7 +606,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.updateFeaturesToRoleFlag = true;
     this.showUpdateFeatureButtonFlag = false;
     this.showRoleCreationForm = false;
-
     console.log('available features', this.features);
     console.log('Role object to be edited', toBeEditedRoleObject);
 
@@ -624,7 +618,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   saveUpdateFeatureChanges() {
     let requestArray = [];
-
 
     for (let i = 0; i < this.feature_update.length; i++) {
       let reqObj = {
@@ -648,7 +641,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
         if (response.length == 1) {
           this.alertService.alert('Updated successfully', 'success');
         }
-
+        this.editHeading = false;
         this.setRoleFormFlag(false);
         this.findRoles(this.STATE_ID, this.SERVICE_ID, true);
 
