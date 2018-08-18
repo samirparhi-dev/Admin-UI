@@ -12,7 +12,8 @@ export class ResetUserPasswordService {
     adminBaseUrl: any;
     commonbaseurl: any;
     getUserListUrl: any;
-
+    getUserDetailUrl: any;
+    resetUserPasswordUrl: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -20,9 +21,9 @@ export class ResetUserPasswordService {
         this.adminBaseUrl = this.basepaths.getAdminBaseUrl();
         this.commonbaseurl = this.basepaths.getCommonBaseURL();
         this.getUserListUrl = this.adminBaseUrl + 'm/SearchEmployee4';
-
+        this.getUserDetailUrl = this.adminBaseUrl + '/m/FindEmployeeDetailsByUserName';
+        this.resetUserPasswordUrl = this.adminBaseUrl + '/m/ResetUserPassword';
     }
-
 
     getUserList(serviceProviderID) {
         return this.http
@@ -30,7 +31,18 @@ export class ResetUserPasswordService {
             .map(this.handleState_n_username)
             .catch(this.handleError);
     }
-
+    getUserDetail(userName) {
+        return this.http
+            .post(this.getUserDetailUrl, { 'userName': userName })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    resetUserPassword(resetObject) {
+        return this.http
+            .post(this.resetUserPasswordUrl, resetObject)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     handleState_n_username(response: Response) {
 
         console.log(response.json().data, 'username success response');
@@ -42,7 +54,14 @@ export class ResetUserPasswordService {
         });
         return result;
     }
-
+    private extractData(res: Response) {
+        if (res.json().data && res.json().statusCode == 200) {
+            console.log('reset user password', res.json(), res.json().data);
+            return res.json().data;
+        } else {
+            return Observable.throw(res.json());
+        }
+    }
     handleError(error: Response | any) {
         return Observable.throw(error.json());
 

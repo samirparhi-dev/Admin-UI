@@ -241,6 +241,7 @@ import { EmailConfigurationComponent } from './email-configuration/email-configu
 
 import { EmailConfigurationService } from './services/ProviderAdminServices/email-configuration-services.service';
 import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
+import { ResetUserPasswordService } from './services/ProviderAdminServices/reset-user-password.service';
 
 
 @NgModule({
@@ -383,7 +384,7 @@ import { ResetUserPasswordComponent } from './reset-user-password/reset-user-pas
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
     ItemFacilityMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
-    EmailConfigurationService,
+    EmailConfigurationService, ResetUserPasswordService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

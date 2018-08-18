@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
@@ -11,33 +11,70 @@ import { ResetUserPasswordService } from '../services/ProviderAdminServices/rese
 })
 export class ResetUserPasswordComponent implements OnInit {
 
+  /*NgModel*/
   serviceProviderID: any;
-  userID: any;
-  createdBy: any;
+  user: any;
+  password: any;
 
+  /*Arrays*/
   userNamesList: any = [];
+  userDetails: any = [];
+
+  tableMode: Boolean = false;
+
+  /*Patter*/
+  passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
   constructor(private alertService: ConfirmationDialogsService,
     private data_service: dataService,
-   ) { }
+    private resetUserPasswordService: ResetUserPasswordService) { }
 
   ngOnInit() {
     this.serviceProviderID = this.data_service.service_providerID;
-    // this.userID = this.data_service.uid;
-    // this.createdBy = this.data_service.uname;
-    // this.getUserName(this.serviceProviderID);
+    this.getAllUserName(this.serviceProviderID);
   }
-  // getUserName(serviceProviderID) {
-  //   console.log("serviceProviderID", serviceProviderID);
 
-  //   this.resetUserPasswordService.getUserList(serviceProviderID)
-  //     .subscribe(response => {
-  //       if (response) {
-  //         console.log('All User names under this provider Success Handeler', response);
-  //         this.userNamesList = response;
-  //       }
-  //     }, err => {
-  //       console.log('Error', err);
-  //     });
-  // }
+  /*Fetch all user name*/
+  getAllUserName(serviceProviderID) {
+    this.resetUserPasswordService.getUserList(serviceProviderID)
+      .subscribe(response => {
+        console.log('All user name under this provider Success Handeler', response);
+        this.userNamesList = response;
+      }, err => {
+        console.log('Error', err);
+      });
+  }
+
+  /*Fetch particular user detail*/
+  getUserDetail(userName) {
+    console.log('getUserDetail', userName);
+    this.tableMode = true;
+    this.resetUserPasswordService.getUserDetail(userName)
+      .subscribe(response => {
+        this.userDetails = response;
+      }, err => {
+        console.log('Error', err);
+      });
+
+  }
+
+  /*Reset Password*/
+  resetPassword(userName, password) {
+    let resetObj = {
+      "userName": userName,
+      "password": password,
+      "statusID": 1
+    }
+    console.log("resetObj", resetObj);
+    this.resetUserPasswordService.resetUserPassword(resetObj)
+      .subscribe(response => {
+        this.alertService.alert(response.response);
+        this.tableMode = false;
+        this.user = null;
+        this.password = null;
+        this.userDetails = null;
+      }, err => {
+        console.log('Error', err);
+      });
+  }
 }
