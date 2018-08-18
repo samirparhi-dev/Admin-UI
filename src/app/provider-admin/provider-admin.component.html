@@ -135,6 +135,9 @@
                                 <li style="cursor: pointer" (click)='show("53")'>
                                     <a>Email Configuration</a>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("55")'>
+                                    <a>Reset User Password</a>
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Configrations</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -293,6 +296,7 @@
                             <app-expiry-date-alert-configuration *ngSwitchCase="52"></app-expiry-date-alert-configuration>
                             <app-email-configuration *ngSwitchCase="53"></app-email-configuration>
                             <app-expiry-date-alert-configuration *ngSwitchCase="54"></app-expiry-date-alert-configuration>
+                            <app-reset-user-password *ngSwitchCase="55"></app-reset-user-password>
                         </div>
                     </div>
                 </div>

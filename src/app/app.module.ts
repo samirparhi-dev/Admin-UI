@@ -205,8 +205,8 @@ import { CommonServices } from './services/inventory-services/commonServices';
 import { ItemService } from './services/inventory-services/item.service';
 import { ItemCategoryService } from './services/inventory-services/item-category.service'
 import { PharmacologicalMasterService } from './services/inventory-services/pharmacological-category-service';
-import {ItemFormService} from './services/inventory-services/item-form-service';
-import {RouteofAdminService} from './services/inventory-services/route-of-admin.service';
+import { ItemFormService } from './services/inventory-services/item-form-service';
+import { RouteofAdminService } from './services/inventory-services/route-of-admin.service';
 import { ManufacturemasterService } from './services/inventory-services/manufacturemaster.service';
 import { PhysicalstockService } from './services/inventory-services/physicalstock.service';
 
@@ -234,19 +234,20 @@ import { UpdateUomMasterComponent } from './uom-master/update-uom-master/update-
 import { CreateStoreMappingComponent } from './store-mapping/create-store-mapping/create-store-mapping.component';
 import { UpdateStoreMappingComponent } from './store-mapping/update-store-mapping/update-store-mapping.component';
 import { ViewStoreMappingComponent } from './store-mapping/view-store-mapping/view-store-mapping.component';
-import { ExpiryDateAlertConfigurationComponent} from '././expiry-date-alert-configuration/expiry-date-alert-configuration.component';
+import { ExpiryDateAlertConfigurationComponent } from '././expiry-date-alert-configuration/expiry-date-alert-configuration.component';
 import { StoreMappingService } from './services/inventory-services/store-mapping.service';
 import { ExpiryAlertConfigurationService } from './services/inventory-services/expiryalertconfiguration.service';
 import { EmailConfigurationComponent } from './email-configuration/email-configuration.component';
 
 import { EmailConfigurationService } from './services/ProviderAdminServices/email-configuration-services.service';
+import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
 
 
 @NgModule({
   declarations: [
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
     myName, myName2, agentID_one, agentID_two, myMobileNumber, myEmail, myAddress,
-    myProviderName, VehicleNO, VehicleNONew, PAN,DLNO, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
+    myProviderName, VehicleNO, VehicleNONew, PAN, DLNO, myUserName, ServiceRoleSelectionComponent, SuperAdminComponent,
     AdminLanguageMasterComponent, AdminRoleMasterComponent, AdminServiceMasterComponent,
     AdminScreenMasterComponent, SetSecurityQuestionsComponent, SetPasswordComponent,
     ProviderOnBoardComponent, BlockServiceProviderComponent, CreateGenderComponent,
@@ -299,6 +300,7 @@ import { EmailConfigurationService } from './services/ProviderAdminServices/emai
     UpdateStoreMappingComponent,
     ViewStoreMappingComponent,
     EmailConfigurationComponent,
+    ResetUserPasswordComponent,
   ],
 
   imports: [
@@ -380,7 +382,7 @@ import { EmailConfigurationService } from './services/ProviderAdminServices/emai
     CommonServices, FacilityMasterService,
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
     ItemFacilityMappingService, StoreSelfConsumptionServiceService,
-    UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService,ExpiryAlertConfigurationService,
+    UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService,
     {
       provide: InterceptedHttp,
