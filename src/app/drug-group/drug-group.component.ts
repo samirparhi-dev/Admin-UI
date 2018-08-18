@@ -119,7 +119,6 @@ export class DrugGroupComponent implements OnInit {
   drugGroupList: any = [];
 
   addDrugGroupToList(values) {
-    debugger;
     // for(let provider_service of this.provider_services){
     //   if("104"==provider_service.serviceName){
     this.drugGroupObj = {};

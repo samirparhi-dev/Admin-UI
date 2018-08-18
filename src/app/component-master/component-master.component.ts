@@ -320,7 +320,6 @@ export class ComponentMasterComponent implements OnInit {
 
 
   setProviderServiceMapID() {
-    debugger;
     this.commonDataService.provider_serviceMapID = this.searchStateID.providerServiceMapID;
     this.providerServiceMapID = this.searchStateID.providerServiceMapID;
 

@@ -55,7 +55,6 @@ export class CallServices {
 }
 
   getCampaign(serviceName: any) {
-    debugger;
     return this._httpInterceptor.post(this._getCampaign,
        {"serviceName":serviceName}
       ).map(this.extractData_campaign)

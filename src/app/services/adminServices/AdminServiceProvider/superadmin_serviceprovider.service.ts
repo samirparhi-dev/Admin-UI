@@ -167,7 +167,6 @@ export class SuperAdmin_ServiceProvider_Service {
   }
 
   getAllStates(countryID: any) {
-    debugger;
     return this._httpInterceptor
       .get(this.getAllStatesUrl + countryID)
       .map(this.extractData)
@@ -246,7 +245,6 @@ export class SuperAdmin_ServiceProvider_Service {
       .catch(this.handleError);
   }
   public deactivateProviderAdmin(req_obj) {
-    debugger;
     return this._httpInterceptor
       .post(this.providerAdminDeactivateUrl, req_obj)
       .map(this.extractData)

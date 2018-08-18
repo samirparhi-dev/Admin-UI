@@ -251,7 +251,6 @@ export class LocationServicelineMappingComponent implements OnInit {
     // {
     //   this.providerServiceMapID_request_array.push(this.serviceLine.)
     // }
-    debugger;
 
     let newreqobj = {
       "serviceProviderID": this.serviceProviderID,
@@ -529,7 +528,6 @@ export class EditLocationModal {
   }
 
   checkOfficeName(value) {
-    debugger;
     for (var i = 0; i < this.data.offices.length; i++) {
       let a = this.data.offices[i].locationName;
 

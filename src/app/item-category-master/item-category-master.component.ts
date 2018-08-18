@@ -112,7 +112,6 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
 
   back() {
-    debugger;
     this.tableMode=true;
     this.showTableFlag = true;
     this.editMode=false;
@@ -210,7 +209,6 @@ export class ItemCategoryMasterComponent implements OnInit {
   }
   updateItem(editformvalues)
   {
-    debugger;
     const editObj={
       "itemCategoryID": this.itemCategoryID,
       "itemCategoryDesc": this.edit_desc,
@@ -229,7 +227,6 @@ export class ItemCategoryMasterComponent implements OnInit {
     })
   }
   showEditForm() {
-    debugger;
     this.tableMode = false;
     this.showCreationForm = false;
     this.editMode = true;

@@ -61,7 +61,6 @@ export class ProvideCtiMappingComponent implements OnInit {
   }
 
   getAllMappedServicelinesAndStates(serviceprovider) {
-    debugger;
     //this.service_provider = serviceprovider;
     this.SP = this.service_provider;
     console.log("campaignObj", this.service_provider);
@@ -86,13 +85,10 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.showTableFlag = false;
     this.disableSelection = true;
     this.editableData = data;
-    debugger;
-
     this.getAllServicelines();
 
   }
   getAllStates() {
-    debugger;
     this.superadminService.getAllStates(this.countryID)
       .subscribe(response => {
         if (response) {
@@ -139,13 +135,11 @@ export class ProvideCtiMappingComponent implements OnInit {
 
 
   getCampaign() {
-    debugger;
     this._callServices.getCampaign(this.serviceline).subscribe((res) => {
       this.campaign_array = res.campaign;
       console.log('this.campaign_array', this.campaign_array);
 
       if (this.campaign_array.length > 0) {
-        debugger;
         this.campaign = this.editableData.cTI_CampaignName;
       }
     }, (err) => {
@@ -166,7 +160,6 @@ export class ProvideCtiMappingComponent implements OnInit {
     this.campaignList.splice(index, 1);
   }
   updateCampaign() {
-    debugger;
     let campaignObj = [{
 
       'providerServiceMapID': this.editableData.providerServiceMapID,

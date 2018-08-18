@@ -130,7 +130,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     }
     showForm() {
-        debugger;
         this.tableMode = false;
         this.formMode = true;
         this.editMode = false;
@@ -166,7 +165,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     employeeObj: any = {};
     getEmployeeParkingPlaceMappings(searchStateID, districtID, designationID) {
-        debugger;
         this.employeeObj = {};
         this.employeeObj.providerServiceMapID = searchStateID.providerServiceMapID;
         //  this.employeeObj.stateID = searchStateID.stateID;
@@ -320,7 +318,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     }
     checkDBDuplicates(parkingObj) {
-        debugger;
         let dbcount = 0;
 
         for (let a = 0; a < this.availableEmployeeParkingPlaceMappings.length; a++) {
@@ -404,7 +401,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     employeeParkingPlaceMappingObj: any;
     employeeParkingPlaceMappingList: any = [];
     saveParkingMpping() {
-        // debugger;
         // console.log(this.MappingForm.value);
         // let mappings = this.MappingForm.value.mappings;
         // let mappingArray = <FormArray>this.MappingForm.controls.mappings;
@@ -432,7 +428,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     }
 
     saveMappingSuccessHandler(response) {
-        debugger;
         if (response.length > 0) {
             this.alertMessage.alert(" Mapping saved successfully", 'success');
             this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID.districtID, this.designationID.designationID);
@@ -440,7 +435,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         }
     }
     editParkingPlace(parkingPlaceItem) {
-        debugger;
         this.showEdit();
         this.userParkingPlaceMapID = parkingPlaceItem.userParkingPlaceMapID
         this.providerServiceMapID = parkingPlaceItem.providerServiceMapID,
@@ -466,7 +460,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     }
 
     updateParkingPlace(objectToBeAdded) {
-        debugger;
         const parkingObj = {
             'userID': objectToBeAdded.userID,
             'parkingPlaceID': this.searchParkingPlaceID_edit,
@@ -485,8 +478,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         }
     }
     updateParkingPlaceSuccessHandler(response) {
-        debugger;
-
         this.alertMessage.alert(" Mapping updated successfully", 'success');
         this.showTable();
         this.getEmployeeParkingPlaceMappings(this.searchStateID, this.searchDistrictID_edit, this.designationID_edit);

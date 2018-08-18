@@ -320,7 +320,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     this.editMode = true;
   }
   add2bufferArray(form_values) {
-    debugger;
     this.resetDropdowns();
     console.log(form_values, 'form values after adding');
     const object = {
@@ -359,7 +358,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
       providerServiceMapIDs.push(obj);
       object['serviceProviderMapID1'] = providerServiceMapIDs;
-      debugger;
       this.filteredStates = [];
       this.services_array = [];
       this.checkDuplicates(object);
@@ -370,7 +368,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
     }
   }
   checkDuplicates(object) {
-    debugger;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {
@@ -608,7 +605,6 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
 
   }
   resetDropdowns() {
-    debugger;
     this.service_provider_admin = undefined;
     this.service_provider = undefined;
     this.provider = undefined

@@ -278,7 +278,6 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     });
   }
   checkDuplicates(tempObj) {
-    debugger;
     let duplicateValue = 0;
     if (this.objs.length === 0) {
       this.objs.push(tempObj);

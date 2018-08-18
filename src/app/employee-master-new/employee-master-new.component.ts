@@ -260,7 +260,6 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   checkUsernameSuccessHandeler(response) {
     console.log('username existance status', response);
-    debugger;
     if (response.response == 'userexist') {
       this.username_status = 'User ID exists';
       this.showHint = true;

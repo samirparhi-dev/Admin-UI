@@ -113,7 +113,6 @@ export class EditCategorySubcategoryComponent implements OnInit {
   checkSubCategory(subCategoryName: string) {
     let subCategoriesExist;
     if (subCategoryName.trim().length > 0) {
-      debugger;
       //  console.log(response, "subcat response");
       subCategoriesExist = this.subcategories.filter((obj) => {
 

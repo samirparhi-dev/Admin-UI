@@ -107,7 +107,6 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   getAllMappedWorkLocations() {
-    // debugger;
     this.worklocationmapping.getMappedWorkLocationList(this.serviceProviderID)
       .subscribe(response => {
         if (response) {
@@ -121,7 +120,6 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getUserName(serviceProviderID) {
-    // debugger;
     this.worklocationmapping.getUserName(serviceProviderID)
       .subscribe(response => {
         if (response) {
@@ -142,7 +140,6 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   getAllDistricts(state: any) {
-    // debugger;
     this.worklocationmapping.getAllDistricts(state.stateID || state)
       .subscribe(response => {
         if (response) {
@@ -158,7 +155,6 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   getAllWorkLocations(state: any, service: any, isNational) {
-    debugger;
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, state.stateID || state, service.serviceID || service, isNational, this.District.districtID)
       .subscribe(response => {
         if (response) {
@@ -175,7 +171,6 @@ export class WorkLocationMappingComponent implements OnInit {
   getAllRoles(providerServiceMapID) {
     // if value passed is undefined, means NGMODEL is not set, i.e undefined. So, getting the PSMID from the states array
     const psmID = providerServiceMapID ? providerServiceMapID : this.states_array[0].providerServiceMapID
-    // debugger;
     this.worklocationmapping.getAllRoles(psmID)
       .subscribe(response => {
         if (response) {
@@ -189,14 +184,12 @@ export class WorkLocationMappingComponent implements OnInit {
   }
   getAvailableMappings(formvalues, role, serviceProviderMapID, districtID) {
     const alreadyMappedWorklocations = [];
-    debugger;
     if (districtID != null) {
       for (let i = 0; i < this.mappedWorkLocationsList.length; i++) {
         if (this.mappedWorkLocationsList[i].userID === formvalues.user.userID
           && this.mappedWorkLocationsList[i].providerServiceMapID === serviceProviderMapID
           && parseInt(this.mappedWorkLocationsList[i].workingDistrictID) === districtID
           && this.mappedWorkLocationsList[i].locationName === formvalues.worklocation.locationName) {
-          debugger;
           for (let j = 0; j < role.length; j++) {
             if (this.mappedWorkLocationsList[i].roleID === role[j].roleID) {
               if (this.filteredRoles != '') {
@@ -301,7 +294,6 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   activate(uSRMappingID, userDeactivated) {
-    // debugger;
     if (userDeactivated) {
       this.alertService.alert('User is inactive');
     }
@@ -331,7 +323,6 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   deactivate(uSRMappingID) {
-    // debugger
     this.alertService.confirm('Confirm', "Are you sure you want to Deactivate?").subscribe(response => {
       if (response) {
         const object = { 'uSRMappingID': uSRMappingID, 'deleted': true };
@@ -353,7 +344,6 @@ export class WorkLocationMappingComponent implements OnInit {
 
   }
   addWorkLocation(objectToBeAdded: any, role) {
-    debugger;
     let statesIDEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID;
     let districtEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.district.districtID : null;
     if (!this.getAvailableMappings(objectToBeAdded, role, statesIDEdit, districtEdit)) {
@@ -426,7 +416,6 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   checkDuplicates(object) {
-    // debugger;
     // let LanguageMatched = false;
     // let Count = 0;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
@@ -488,7 +477,6 @@ export class WorkLocationMappingComponent implements OnInit {
     }
   }
   saveWorkLocations() {
-    debugger;
     console.log(this.bufferArray, 'Request Object');
     let requestArray = [];
     let workLocationObj = {
@@ -742,7 +730,6 @@ export class WorkLocationMappingComponent implements OnInit {
       });
   }
   getAllWorkLocations_duringEdit(stateID: any, serviceID: any, isNational_edit, districtID) {
-    // debugger;
     this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit, districtID)
       .subscribe(response => {
         if (response) {
@@ -760,7 +747,6 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   getAllRoles_duringEdit(psmID) {
-    // debugger;
     this.worklocationmapping.getAllRoles(psmID)
       .subscribe(response => {
         if (response) {
@@ -815,7 +801,6 @@ export class WorkLocationMappingComponent implements OnInit {
     else { this.duplicatestatus_editPart = false; }
   }
   filterComponentList(searchTerm?: string) {
-    debugger;
     if (!searchTerm) {
       this.filteredmappedWorkLocationsList = this.mappedWorkLocationsList;
     } else {

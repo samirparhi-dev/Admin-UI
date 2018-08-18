@@ -106,7 +106,6 @@ export class FacilityTypeMasterComponent implements OnInit {
     this.editMode = true;
   }
   filterfacilityMasterList(searchTerm?: string) {
-    debugger;
     if (!searchTerm) {
       this.filteredfacilityMasterList = this.facilityMasterList;
     }
@@ -233,7 +232,6 @@ export class FacilityTypeMasterComponent implements OnInit {
     console.log("edit form values", editFormValues)
   }
   updateFacilityType(editedFormValues) {
-    debugger;
     const editObj = {
       "facilityTypeID": this.facilityTypeID,
       //  "facilityTypeName": editedFormValues.facilityName,
@@ -266,7 +264,6 @@ export class FacilityTypeMasterComponent implements OnInit {
   }
   FacilityCodeExist: any = false;
   checkExistance(facilityCode) {
-    debugger;
     this.FacilityCodeExist = this.availableFacilityTypeCode.includes(facilityCode);
     console.log(this.FacilityCodeExist);
   }

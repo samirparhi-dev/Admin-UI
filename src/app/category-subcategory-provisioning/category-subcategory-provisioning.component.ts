@@ -145,8 +145,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   getSubServices(value) {
     this.sub_service = undefined;
-    debugger;
-
     if (value == 'get') {
 
       this.servicesGetting(this.state.providerServiceMapID);
@@ -163,7 +161,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
   }
   servicesGetting(proServiceMapID) {
-    debugger;
     this.data = [];
     this.filtereddata = [];
     this.filteredsubCat = [];
@@ -288,7 +285,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   addNew(rowNumber: any) {
-    debugger;
     if (this.searchChoice === '0') {
       this.addNewCategoryRow();
     } else {
@@ -333,7 +329,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
 
   checkSubService(service, sub_service_name) {
-    debugger;
     console.log(service, sub_service_name, 'service and subservice name');
     if ((sub_service_name.toUpperCase() === 'Counselling Service'.toUpperCase() && service === 3) ||
       (sub_service_name.toUpperCase() === 'Psychiatrist'.toUpperCase() && service === 3)) {
@@ -631,7 +626,6 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
 
 
   changeRequestObject(flag_value) {
-    debugger;
     if (flag_value === "0") {
       this.Add_Category_Subcategory_flag = true;
 

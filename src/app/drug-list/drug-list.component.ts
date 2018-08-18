@@ -120,7 +120,6 @@ export class DrugListComponent implements OnInit {
   // };
 
   addDrugToList(values) {
-    debugger;
     // if (!this.drugFilterList(values)) {
     this.drugObj = {};
     this.drugObj.drugName = values.drugName;

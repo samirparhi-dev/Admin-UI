@@ -283,7 +283,6 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
   InstituteExist: any = false;
   checkExistance(facilityCode) {
-    debugger;
     this.InstituteExist = this.availableInstitute.includes(facilityCode);
     console.log(this.InstituteExist);
   }

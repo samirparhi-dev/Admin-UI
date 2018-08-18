@@ -84,7 +84,6 @@ export class HospitalInstituteMappingService {
 
 
   getInstitutions(data) {
-    debugger;
     return this.httpIntercept.post(this.get_Institution_Url, data)
       .map(this.handleState_n_Hospital)
       .catch(this.handleError);

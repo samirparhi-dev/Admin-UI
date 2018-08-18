@@ -85,7 +85,6 @@ export class WorkLocationMapping {
     }
 
     getUserName(serviceProviderID) {
-        // debugger;
         return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
             .map(this.handleState_n_username).catch(this.handleError);
     }

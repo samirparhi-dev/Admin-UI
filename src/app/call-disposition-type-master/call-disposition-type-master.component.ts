@@ -165,7 +165,6 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   }
 
   pushCallSubType(callType, call_subtype, fitToBlock, fitForFollowup) {
-    debugger;
     if (this.isInbound === false && this.isOutbound === false && this.service.serviceID != 6) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
       this.fitToBlock = false;
@@ -493,7 +492,6 @@ export class EditCallType {
 
 
   ngOnInit() {
-    debugger;
     console.log("edit data", this.data);
     this.service = this.data.service;
     this.callType = this.data.callGroupType;
@@ -630,7 +628,6 @@ export class EditCallType {
 
 
   modify(value) {
-    debugger;
     console.log("values to be updated", value);
     if (this.isInbound === false && this.isOutbound === false) {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');

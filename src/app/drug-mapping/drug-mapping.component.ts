@@ -194,7 +194,6 @@ export class DrugMappingComponent implements OnInit {
       this.drugMapping.push(object);
     }
     else {
-      debugger;
       for (let i = 0; i < this.drugMapping.length; i++) {
         if (this.drugMapping[i].drugId === object.drugId
           && this.drugMapping[i].drugGroupID === object.drugGroupID
@@ -294,7 +293,6 @@ export class DrugMappingComponent implements OnInit {
 
   existingDrugs: any = [];
   checkExistance(stateID, drugGroupID) {
-    debugger;
     this.mappedDrugs = [];
     this.drugIdList = [];
     this.existingDrugs = [];

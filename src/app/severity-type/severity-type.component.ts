@@ -140,7 +140,6 @@ export class SeverityTypeComponent implements OnInit {
 
   }
   add(values) {
-    debugger;
     let obj = {
       'severityTypeName': values.severity,
       'severityDesc': values.description,

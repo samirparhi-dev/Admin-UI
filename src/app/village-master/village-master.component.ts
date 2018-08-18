@@ -132,7 +132,6 @@ export class VillageMasterComponent implements OnInit {
 
     }
     checkDuplicates(object) {
-        debugger;
         let duplicateStatus = 0
         if (this.villageList.length === 0) {
             this.villageList.push(object);
@@ -393,7 +392,6 @@ export class EditVillageModal {
     }
 
     checkExistance_edit(villageName) {
-        debugger;
         if (villageName != this.oldVillageName) {
             this.villageExist = this.village_names.includes(this.blockID + "-" + villageName.toUpperCase());
 

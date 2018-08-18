@@ -39,14 +39,12 @@ export class LanguageMapping {
     };
 
     getUserName(serviceProviderID) {
-        // debugger;
         return this.http.post(this.get_ProviderName_Url, { 'serviceProviderID': serviceProviderID })
             .map(this.handleState_n_username).catch(this.handleError);
     }
 
 
     getLanguageList() {
-        // debugger;
         return this.http.get(this.get_LanguageList_Url)
             .map(this.handleSuccess).catch(this.handleError);
     }

@@ -146,7 +146,6 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
 
   add2bufferArray(form_values) {
     this.resetDropDowns();
-    debugger;
     console.log(form_values, 'form values after adding');
     const object = {
       'serviceProviderID': form_values.provider.serviceProviderId,
@@ -218,7 +217,6 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
   }
   count: any = 0;
   checkDuplicates(object) {
-    debugger;
     console.log(object, 'BEFORE TESTING THE OBJECT SENT');
     /* case:1 If the buffer array is empty */
     if (this.bufferArray.length === 0) {

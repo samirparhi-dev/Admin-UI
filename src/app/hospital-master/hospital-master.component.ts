@@ -338,7 +338,6 @@ export class HospitalMasterComponent implements OnInit {
         }
     }
     enableSecNumberAndEmailFields() {
-        debugger;
         if (this.secondary_contact_person_name.length == 0) {
             this.disableSecFields = true;
             this.institutionForm1.controls.secondary_contact_number.reset();
@@ -350,7 +349,6 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     enableTertiaryNumberAndEmailFields() {
-        debugger;
         if (this.tertiary_contact_person_name.length == 0) {
             this.disableTertiaryFields = true;
             this.institutionForm1.controls.tertiary_contact_number.reset();

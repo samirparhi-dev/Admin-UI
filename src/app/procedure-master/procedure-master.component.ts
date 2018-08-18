@@ -113,7 +113,6 @@ export class ProcedureMasterComponent implements OnInit {
    * Get Details of Procedures available for this Service PRovider
   */
   getAvailableProcedures() {
-    debugger;
 
     this.procedureMasterServiceService.getCurrentProcedures(this.searchStateID.providerServiceMapID)
       .subscribe((res) => {
@@ -160,7 +159,6 @@ export class ProcedureMasterComponent implements OnInit {
     }
   }
   procedureUnique_actvate(name) {
-    debugger;
     console.log("name", name);
     this.alreadyExistcount = false;
     console.log("filteredprocedureList", this.filteredprocedureList);
@@ -345,7 +343,6 @@ export class ProcedureMasterComponent implements OnInit {
    *
    */
   toggleProcedure(procedureID, index, toggle, procedureName) {
-    debugger;
     let activateProcdure = false;
     this.procedureUnique_actvate(procedureName);
     if (this.alreadyExistcount) {

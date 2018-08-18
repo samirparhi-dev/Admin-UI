@@ -250,7 +250,6 @@ export class FeedbackTypeMasterComponent implements OnInit {
   }
 
   add_obj(name, desc) {
-    debugger;
     var tempObj = {
       "feedbackTypeName": name,
       "feedbackDesc": desc

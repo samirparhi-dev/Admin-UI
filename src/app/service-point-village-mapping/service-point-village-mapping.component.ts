@@ -178,7 +178,6 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
 
     getServicePointVillageMapSuccessHandler(response) {
-        debugger;
         this.availableServicePointVillageMaps = response;
         this.filteredavailableServicePointVillageMaps = response;
         this.createButton = true;
@@ -274,7 +273,6 @@ export class ServicePointVillageMapComponent implements OnInit {
         }
     }
     checkDb(servicePointVillageMapObj) {
-        debugger;
         let count = 0;
 
         for (let i = 0; i < this.availableServicePointVillageMaps.length; i++) {
@@ -348,7 +346,6 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     branches: any = [];
     GetBranches(talukID: number) {
-        debugger;
         this.servicePointVillageMapService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response));
     }
@@ -397,7 +394,6 @@ export class ServicePointVillageMapComponent implements OnInit {
         console.log("Service Point status changed");
     }
     editServiceVillageMapping(mapping) {
-        debugger;
         this.editMode = true;
         this.showServicePointVillageMaps = false;
         this.formMode = false;
@@ -410,7 +406,6 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     }
     updateStoreServicePointVillageMaps() {
-        debugger;
         let obj = {
             "servicePointVillageMapID": this.servicePointVillageMapID,
             "servicePointID": this.searchServicePointID_edit,
