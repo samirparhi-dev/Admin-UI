@@ -39,6 +39,7 @@ export class VanComponent implements OnInit {
     createdBy: any;
     status: any;
     zoneID: any;
+    talukID: any;
     createButton: boolean = false;
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -169,7 +170,7 @@ export class VanComponent implements OnInit {
     }
     vanObj: any;
     vanList: any = [];
-    addVanToList(values) {
+    addVanToList(taluk, values) {
         this.vanObj = {};
         this.vanObj.vanName = values.vanName;
         this.vanObj.vehicalNo = values.vehicalNo;
@@ -226,6 +227,7 @@ export class VanComponent implements OnInit {
 
     vanSuccessHandler(response) {
         this.vanList = [];
+        this.talukID = null;
         this.alertMessage.alert("Saved successfully", 'success');
         this.showList();
     }
@@ -270,6 +272,19 @@ export class VanComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
+        if (this.editVanValue != undefined) {
+            if (this.taluks) {
+                let taluk = this.taluks.filter((talukRes) => {
+                    if (this.editVanValue.districtBlockID == talukRes.districtBlockID) {
+                        return talukRes;
+                    }
+                });
+                if (taluk) {
+                    this.talukID = taluk;
+                }
+            }
+
+        }
     }
 
     branches: any = [];
@@ -361,18 +376,11 @@ export class VanComponent implements OnInit {
     stateID: any;
     districtID: any;
     parkingPlaceID: any;
+    editVanValue: any;
 
-    initializeObj() {
-        this.vanID = "";
-        this.vanName = "";
-        this.vehicalNo = "";
-        this.vanTypeID = "";
-        this.stateID = "";
-        this.districtID = "";
-        this.parkingPlaceID = "";
-    }
     editVanData(van) {
         this.showVansTable = false;
+        this.editVanValue = van;
         this.vanID = van.vanID;
         this.vanName = van.vanName
         this.vehicalNo = van.vehicalNo;
@@ -386,6 +394,7 @@ export class VanComponent implements OnInit {
         //  this.getParkingPlaces(van.stateID, van.districtID);
 
         this.editable = true;
+        this.GetTaluks(this.searchParkingPlaceID_edit);
     }
 
     updateVanData(van) {
@@ -411,7 +420,7 @@ export class VanComponent implements OnInit {
         this.alertMessage.alert("Updated successfully", 'success');
         this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.availableVanNames = [];
-        //this.initializeObj();
+        this.talukID = null;
     }
     filterComponentList(searchTerm?: string) {
         if (!searchTerm) {
@@ -432,6 +441,7 @@ export class VanComponent implements OnInit {
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
+                this.talukID = null;
                 this.showList();
             }
         })
