@@ -24,6 +24,8 @@ export class DrugMappingComponent implements OnInit {
   serviceID104: any;
   createdBy: any;
   mappedDrugs: any = [];
+  availableStrengths: any = [];
+  drug_strength: any;
 
 
   @ViewChild('drugMappingForm') drugMappingForm: NgForm;
@@ -43,6 +45,7 @@ export class DrugMappingComponent implements OnInit {
     this.getAvailableMappings();
     this.getAvailableDrugGroups();
     this.getAvailableDrugs();
+    this.getAvailableStrengths();
   }
 
   stateSelection(stateID) {
@@ -83,7 +86,11 @@ export class DrugMappingComponent implements OnInit {
   getDrugsSuccessHandeler(response) {
     this.availableDrugs = response;
   }
-
+  getAvailableStrengths() {
+    this.drugMasterService.getAllDrugStrengths().subscribe(strengthResponse => {
+      this.availableStrengths = strengthResponse;
+    })
+  }
   getServices(stateID) {
     this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response),
       (err) => console.log(err, 'error'));
@@ -169,6 +176,7 @@ export class DrugMappingComponent implements OnInit {
         this.drugObj.drugGroupName = values.drugGroupID.split("-")[1];
         this.drugObj.drugId = drugIds.split("-")[0];
         this.drugObj.drugName = drugIds.split("-")[1];
+        this.drugObj.drugStrength = values.drug_strength.drugStrength;
         this.drugObj.remarks = values.remarks;
         // for(let provider_service of this.provider_services){
         //   if("104"==provider_service.serviceName){

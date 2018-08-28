@@ -16,10 +16,11 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="25%">State</th>
+            <th width="20%">State</th>
             <th width="25%">Drug Group Name</th>
             <th width="25%">Drug Name</th>
-            <th width="25%">Remarks</th>
+            <!-- <th width="20%">Drug Strength</th> -->
+            <th width="15%">Remarks</th>
             <th width="20%">Action</th>
           </tr>
         </thead>
@@ -106,12 +107,20 @@
           <!-- </md-input-container> -->
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+          <md-select required placeholder="Drug Strength" class="width100" [(ngModel)]="drug_strength" name="drug_strength" 
+              #drugStrength="ngModel">
+              <md-option *ngFor="let strength of availableStrengths" [value]="strength">
+                  {{strength.drugStrength}}
+              </md-option>
+          </md-select>
+      </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
           <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks" maxlength="100">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12" *ngIf="stateVal.valid && drugG.valid && drug.valid">
-          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="stateVal.valid && drugG.valid && drug.valid && drugStrength.valid">
+          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-left lg-pull-left" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
           <!--<button *ngIf="editable"  class="btn pull-right " (click)="updateDrugMapping(drugMappingForm.value);drugMappingForm.reset()  ">
@@ -125,12 +134,13 @@
         <table [md2Data]="drugMapping" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
           <thead>
             <tr>
-              <th>S.No.</th>
-              <th>State</th>
-              <th>Drug Group Name</th>
-              <th>Drug Name</th>
-              <th>Remarks</th>
-              <th>Action</th>
+              <th width="5%">S.No.</th>
+              <th width="15%">State</th>
+              <th width="15%">Drug Group Name</th>
+              <th width="15%">Drug Name</th>
+              <th width="15%">Drug Strength</th>
+              <th width="15%">Remarks</th>
+              <th width="10%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -139,6 +149,7 @@
               <td>{{drug.stateName}}</td>
               <td>{{drug.drugGroupName}}</td>
               <td>{{drug.drugName}}</td>
+              <td>{{drug.drugStrength}}</td>
               <td>{{drug.remarks}}</td>
               <td>
                 <md-icon class="cursorPointer" mdTooltip="delete" (click)="remove_obj(drugMapping.indexOf(drug))">delete</md-icon>
@@ -147,7 +158,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="6">
+              <td colspan="7">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>
