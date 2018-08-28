@@ -16,10 +16,12 @@ export class DrugStrengthComponent implements OnInit {
   strength_desc: any;
   drugStrengthID: any;
   confirmMessage: any;
+  drugStrengthExist: any;
 
   /*Arrays*/
   drugStrength: any = [];
   drugStrengthList: any = [];
+  availableStrengths: any = [];
 
   tableMode = true;
   formMode = false;
@@ -40,14 +42,24 @@ export class DrugStrengthComponent implements OnInit {
       if (response) {
         console.log("drug strength", response);
         this.drugStrength = response;
+        for (let availableStrength of this.drugStrength) {
+          this.availableStrengths.push(availableStrength.drugStrength);
+        }
       }
     }, (err) => console.log('error', err));
   }
+
+  checkStrengthAvailability(strength) {
+    this.drugStrengthExist = this.availableStrengths.includes(strength);
+    console.log("drugStrengthExist", this.drugStrengthExist);
+  }
+
   showForm() {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
   }
+
   add_object(formValue) {
     console.log("form values", formValue);
     let tempDrugStrengthObj = {
@@ -58,6 +70,7 @@ export class DrugStrengthComponent implements OnInit {
     this.checkDuplicates(tempDrugStrengthObj);
     this.drugStrengthForm.resetForm();
   }
+
   checkDuplicates(object) {
     let duplicateStatus = 0
     if (this.drugStrengthList.length === 0) {
@@ -78,6 +91,7 @@ export class DrugStrengthComponent implements OnInit {
       }
     }
   }
+
   saveDrugStrength() {
     console.log('request object', this.drugStrengthList);
     this.drugStrengthService.saveDrugStrength(this.drugStrengthList).subscribe(response => this.successHandler(response), err => {
@@ -90,9 +104,11 @@ export class DrugStrengthComponent implements OnInit {
     this.alertService.alert('Saved successfully', 'success');
     this.redirectToMainPage();
   }
+
   remove_obj(index) {
     this.drugStrengthList.splice(index, 1);
   }
+
   back() {
     this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {
@@ -103,12 +119,14 @@ export class DrugStrengthComponent implements OnInit {
       }
     })
   }
+
   redirectToMainPage() {
     this.getAllDrugStrength();
     this.tableMode = true;
     this.formMode = false;
     this.drugStrengthForm.resetForm();
   }
+
   editDrugStrength(data) {
     console.log("edit values", data);
     this.editMode = true;
@@ -118,6 +136,7 @@ export class DrugStrengthComponent implements OnInit {
     this.strength_desc = data.drugStrengthDesc;
     this.drugStrengthID = data.drugStrengthID;
   }
+
   updateDrugStrength() {
     let updateDrugStrengthObj = {
       'drugStrengthID': this.drugStrengthID,
@@ -134,6 +153,7 @@ export class DrugStrengthComponent implements OnInit {
     this.alertService.alert('Updated successfully', 'success');
     this.redirectToMainPage();
   }
+
   activateDeactivate(drugStrengthID, flag) {
     let obj = {
       "drugStrengthID": drugStrengthID,

@@ -54,10 +54,11 @@
   <form #drugStrengthForm="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
       <md-input-container class="width100">
-        <input mdInput required placeholder="Drug Strength " [(ngModel)]="strength" name="strength" #drugStrength="ngModel" minlength="1"
-          maxlength="10">
+        <input mdInput placeholder="Drug Strength " [(ngModel)]="strength" name="strength" #drugStrength="ngModel" minlength="1"
+          maxlength="10" (keyup)="checkStrengthAvailability(strength)" required>
         <md-hint>
           <span class="error_text" *ngIf="!drugStrength.valid  && ( drugStrength.dirty || drugStrength.touched)">Drug strength is required</span>
+          <span class="error_text" *ngIf="!drugStrength.errors && drugStrengthExist">Drug strength already exists</span>
         </md-hint>
       </md-input-container>
     </div>
@@ -67,7 +68,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-      <button md-mini-fab color="primary" *ngIf="!editMode && drugStrengthForm.valid" class="pull-right-xs pull-right-sm pull-left-md pull-left-lg"
+      <button md-mini-fab color="primary" *ngIf="!editMode && drugStrengthForm.valid && !drugStrengthExist" class="pull-right-xs pull-right-sm pull-left-md pull-left-lg"
         (click)="add_object(drugStrengthForm.value)">
         <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
       </button>
@@ -106,7 +107,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" *ngIf="!editMode" class="pull-right" (click)="saveDrugStrength()">Save</button>
-    <button md-raised-button color="accent" *ngIf="editMode" class="pull-right" (click)="updateDrugStrength()">Update</button>
+    <button md-raised-button color="accent" *ngIf="!editMode" [disabled]="drugStrengthList.length == 0" class="pull-right" (click)="saveDrugStrength()">Save</button>
+    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="drugStrengthExist || drugStrengthForm.invalid" class="pull-right" (click)="updateDrugStrength()">Update</button>
   </div>
 </div>
