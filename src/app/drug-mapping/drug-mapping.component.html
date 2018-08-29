@@ -61,20 +61,20 @@
   </div> -->
 </div>
 <div *ngIf="!showMappings || editable">
-    <h4>Drug Group-Drug Mapping</h4>
+  <h4>Drug Group-Drug Mapping</h4>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-l-0">
       <form #drugMappingForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
           <!-- <md-input-container class="hide_underline width100">
             <input mdInput style="display:none"> -->
-            <md-select required placeholder="State" class="width100" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0])"
-              #stateVal="ngModel">
-              <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
-                {{item.stateName}}
-              </md-option>
-            </md-select>
-            <!-- <md-hint [hidden]=stateVal.valid>
+          <md-select required placeholder="State" class="width100" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0])"
+            #stateVal="ngModel">
+            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
+              {{item.stateName}}
+            </md-option>
+          </md-select>
+          <!-- <md-hint [hidden]=stateVal.valid>
               <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
             </md-hint> -->
           <!-- </md-input-container> -->
@@ -82,14 +82,14 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
           <!-- <md-input-container class="hide_underline width100">
             <input mdInput style="display:none"> -->
-            <md-select required placeholder="Drug Group" class="width100" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel"
-              (change)="checkExistance(stateID,drugGroupID)">
-              <md-option *ngFor="let drugGroups of availableDrugGroups" value="{{drugGroups.drugGroupID}}-{{drugGroups.drugGroup}}">
-                {{drugGroups.drugGroup}}
-              </md-option>
+          <md-select required placeholder="Drug Group" class="width100" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel"
+            (change)="checkExistance(stateID,drugGroupID)">
+            <md-option *ngFor="let drugGroups of availableDrugGroups" value="{{drugGroups.drugGroupID}}-{{drugGroups.drugGroup}}">
+              {{drugGroups.drugGroup}}
+            </md-option>
 
-            </md-select>
-            <!-- <md-hint [hidden]=drugG.valid>
+          </md-select>
+          <!-- <md-hint [hidden]=drugG.valid>
               <span class="error_text" *ngIf="!drugG.required  && ( drugG.dirty || drugG.touched)">Please select Drug Group</span>
             </md-hint> -->
           <!-- </md-input-container> -->
@@ -97,30 +97,29 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
           <!-- <md-input-container class="hide_underline width100">
             <input mdInput style="display:none"> -->
-            <md-select multiple class="width100" name="drugIdList" placeholder="Drug" [(ngModel)]="drugIdList" #drug="ngModel"
-              required>
-              <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
-            </md-select>
-            <!-- <md-hint [hidden]=drug.valid>
+          <md-select multiple class="width100" name="drugIdList" placeholder="Drug" [(ngModel)]="drugIdList" #drug="ngModel" required>
+            <md-option *ngFor="let drugs of availableDrugs" value="{{drugs.drugID}}-{{drugs.drugName}}">{{drugs.drugName}}</md-option>
+          </md-select>
+          <!-- <md-hint [hidden]=drug.valid>
               <span class="error_text" *ngIf="!drug.required  && ( drug.dirty || drug.touched)">Please choose Drugs</span>
             </md-hint> -->
           <!-- </md-input-container> -->
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
           <md-select required placeholder="Drug Strength" class="width100" [(ngModel)]="drug_strength" name="drug_strength" 
               #drugStrength="ngModel">
               <md-option *ngFor="let strength of availableStrengths" [value]="strength">
                   {{strength.drugStrength}}
               </md-option>
           </md-select>
-      </div>
+      </div> -->
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
           <md-input-container class="width100" myProviderName>
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks" maxlength="100">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="stateVal.valid && drugG.valid && drug.valid && drugStrength.valid">
-          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-left md-pull-left lg-pull-left" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="stateVal.valid && drugG.valid && drug.valid">
+          <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>
           <!--<button *ngIf="editable"  class="btn pull-right " (click)="updateDrugMapping(drugMappingForm.value);drugMappingForm.reset()  ">
@@ -138,7 +137,7 @@
               <th width="15%">State</th>
               <th width="15%">Drug Group Name</th>
               <th width="15%">Drug Name</th>
-              <th width="15%">Drug Strength</th>
+              <!-- <th width="15%">Drug Strength</th> -->
               <th width="15%">Remarks</th>
               <th width="10%">Action</th>
             </tr>
@@ -149,7 +148,7 @@
               <td>{{drug.stateName}}</td>
               <td>{{drug.drugGroupName}}</td>
               <td>{{drug.drugName}}</td>
-              <td>{{drug.drugStrength}}</td>
+              <!-- <td>{{drug.drugStrength}}</td> -->
               <td>{{drug.remarks}}</td>
               <td>
                 <md-icon class="cursorPointer" mdTooltip="delete" (click)="remove_obj(drugMapping.indexOf(drug))">delete</md-icon>
@@ -158,7 +157,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="7">
+              <td colspan="6">
                 <md2-pagination></md2-pagination>
               </td>
             </tr>

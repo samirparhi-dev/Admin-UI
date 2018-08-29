@@ -19,6 +19,7 @@ export class DrugMasterService {
     getDrugsListURL: any;
     getDrugGroupsURL: any;
     getDrugMappingsURL: any;
+    getAllDrugStrengthsUrl: any;
 
     updateDrugStatusURL: any;
 
@@ -42,6 +43,7 @@ export class DrugMasterService {
         this.updateDrugGroupURL = this.providerAdmin_Base_Url + 'm/updateDrugGroup';
         this.getDrugMappingsURL = this.providerAdmin_Base_Url + 'm/getDrugGroupMappings';
         this.updateDrugMappingsURL = this.providerAdmin_Base_Url + 'm/updateDrugMapping';
+        this.getAllDrugStrengthsUrl = this.providerAdmin_Base_Url + '/getDrugStrangth';
 
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
 
@@ -82,7 +84,11 @@ export class DrugMasterService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
+    // getAllDrugStrengths() {
+    //     return this.httpIntercept.post(this.getAllDrugStrengthsUrl, {})
+    //     .map(this.handleSuccess)
+    //     .catch(this.handleError);
+    // }
     updateDrugStatus(data) {
         return this.httpIntercept.post(this.updateDrugStatusURL, data)
             .map(this.handleSuccess)
