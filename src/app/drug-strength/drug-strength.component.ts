@@ -65,7 +65,8 @@ export class DrugStrengthComponent implements OnInit {
     let tempDrugStrengthObj = {
       'drugStrength': formValue.strength,
       'drugStrengthDesc': formValue.strength_desc,
-      'createdBy': this.createdBy
+      'createdBy': this.createdBy,
+      'serviceProviderID': this.data_service.service_providerID
     }
     this.checkDuplicates(tempDrugStrengthObj);
     this.drugStrengthForm.resetForm();
@@ -142,7 +143,8 @@ export class DrugStrengthComponent implements OnInit {
       'drugStrengthID': this.drugStrengthID,
       'drugStrength': this.strength,
       'drugStrengthDesc': this.strength_desc,
-      'modifiedBy': this.createdBy
+      'modifiedBy': this.createdBy,
+      'serviceProviderID': this.data_service.service_providerID
     }
     this.drugStrengthService.updateDrugStrength(updateDrugStrengthObj).subscribe(updateResponse => this.updateSuccessHandler(updateResponse), err => {
       console.log("error", err);
