@@ -32,6 +32,7 @@ export class EmployeeMasterNewServices {
     createNewUserUrl: any;
     editUserDetailsUrl: any;
     userActivationDeactivationUrl: any;
+    checkEmpIdAvailabilityUrl: any;
 
     constructor(private http: InterceptedHttp,
         public basePaths: ConfigService,
@@ -54,6 +55,7 @@ export class EmployeeMasterNewServices {
         this.createNewUserUrl = this.providerAdmin_base_url + 'createNewUser';
         this.editUserDetailsUrl = this.providerAdmin_base_url + 'editUserDetails';
         this.userActivationDeactivationUrl = this.providerAdmin_base_url + 'deletedUserDetails';
+        this.checkEmpIdAvailabilityUrl = this.providerAdmin_base_url + '/m/FindEmployeeDetails';
     }
     // User Details related methods for fetching all dropdown data
     getCommonRegistrationData() {
@@ -73,6 +75,12 @@ export class EmployeeMasterNewServices {
             .post(this.checkUserAvailabilityUrl, {
                 'userName': name
             })
+            .map(this.extractData)
+            .catch(this.handleError)
+    }
+    checkEmpIdAvailability(empID) {
+        return this.httpSecurity
+            .post(this.checkEmpIdAvailabilityUrl, { 'employeeID': empID })
             .map(this.extractData)
             .catch(this.handleError)
     }
@@ -115,7 +123,7 @@ export class EmployeeMasterNewServices {
     }
     getAllDistricts(stateID) {
         console.log("stateID", stateID);
-        
+
         return this.httpSecurity
             .get(this.getAllDistrictsUrl + stateID)
             .map(this.extractData)

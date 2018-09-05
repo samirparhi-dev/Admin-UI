@@ -40,13 +40,16 @@ export class EmployeeMasterNewComponent implements OnInit {
   panNumber: any;
   qualificationID: any;
   username: any;
+  employee_ID: any;
   user_password: any;
   doj: any;
   minDate_doj: any;
   community: any;
   religion: any;
   username_status: string;
+  empID_status: string;
   showHint: boolean;
+  empIdshowHint: boolean;
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
   isExistPan: boolean = false;
@@ -98,7 +101,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   // userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
-  mobileNoPattern=/^[1-9][0-9]{9}/;
+  mobileNoPattern = /^[1-9][0-9]{9}/;
 
   @ViewChild('userCreationForm') userCreationForm: NgForm;
   @ViewChild('demographicsDetailsForm') demographicsDetailsForm: NgForm;
@@ -203,16 +206,16 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
     })
   }
-    // encryptionFlag: boolean = true;
+  // encryptionFlag: boolean = true;
 
-    showPWD() {
-      this.dynamictype = 'text';
-    }
-  
-    hidePWD() {
-      this.dynamictype = 'password';
-    }
-  
+  showPWD() {
+    this.dynamictype = 'text';
+  }
+
+  hidePWD() {
+    this.dynamictype = 'password';
+  }
+
   /*
  * calculate the doj based on dob
  */
@@ -282,7 +285,27 @@ export class EmployeeMasterNewComponent implements OnInit {
       // }
     }
   }
+  checkEmployeeIdAvailability(empID) {
 
+    this.employeeMasterNewService
+      .checkEmpIdAvailability(empID)
+      .subscribe(response => this.checkempIdSuccessHandeler(response),
+        (err) => console.log('error', err));
+  }
+
+  checkempIdSuccessHandeler(response) {
+    console.log('employee ID existance status', response);
+    if (response.response == 'true') {
+      this.empID_status = 'Employee ID exists';
+      this.empIdshowHint = true;
+    }
+    if(response.response == 'false') {
+      if (this.employee_ID != '' && (this.employee_ID != undefined && this.employee_ID != null)) {
+        this.empIdshowHint = false;
+      }
+    }
+
+  }
   /*
   * dob
   */
@@ -503,6 +526,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'qualificationID': userFormValue.edu_qualification,
       'emergency_contactNo': userFormValue.emergencyContactNo,
       'username': userFormValue.user_name,
+      'employeeID': userFormValue.employee_ID,
       'password': userFormValue.password,
       'doj': userFormValue.doj,
       // 'fatherName': demographicsFormValue.father_name.trim(),
@@ -624,6 +648,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'qualificationID': this.objs[i].qualificationID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
         'userName': this.objs[i].username,
+        'employeeID': this.objs[i].employeeID,
         'password': this.objs[i].password,
         'dOJ': new Date(this.objs[i].doj.valueOf() - 1 * this.objs[i].doj.getTimezoneOffset() * 60 * 1000),
         'fathersName': this.objs[i].fatherName,
