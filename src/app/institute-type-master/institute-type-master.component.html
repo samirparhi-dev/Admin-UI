@@ -59,7 +59,7 @@
             <td colspan="5" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i=index">
-            <td>{{(md2.activePage-1)*5+i+1}}</td>
+            <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
             <td>{{item.institutionType}}</td>
             <td>{{item.institutionTypeDesc}}</td>
             <td>
@@ -117,10 +117,10 @@
       <table [md2Data]="bufferArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="3">
         <thead>
           <tr>
-            <th>S.No.</th>
-            <th>Institute Type</th>
-            <th>Description</th>
-            <th>Action</th>
+            <th width="5%">S.No.</th>
+            <th width="15%">Institute Type</th>
+            <th width="15%">Description</th>
+            <th width="15%">Action</th>
           </tr>
         </thead>
         <tbody>
