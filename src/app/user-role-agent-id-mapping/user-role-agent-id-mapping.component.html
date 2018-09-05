@@ -61,14 +61,14 @@
       <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
         <thead>
           <tr>
-            <th>S.No.</th>
-            <th>State</th>
-            <th>Service</th>
-            <th>Role</th>
-            <th>Employee Name</th>
-            <th>Employee ID</th>
-            <th>Agent ID</th>
-            <th>Actions</th>
+            <th width="5%">S.No.</th>
+            <th width="15%">State</th>
+            <th width="10%">Service</th>
+            <th width="12%">Role</th>
+            <th width="15%">Employee Name</th>
+            <th width="10%">Login ID</th>
+            <th width="10%">Agent ID</th>
+            <th width="10%">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -81,7 +81,7 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.roleName}}</td>
             <td>{{item.firstName}} {{item.middleName}} {{item.lastName}}</td>
-            <td>{{item.userID}}</td>
+            <td>{{item.userName}}</td>
             <td>{{item.agentID}}</td>
             <td>
               <!-- <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="editeUser(item)">edit</md-icon>
