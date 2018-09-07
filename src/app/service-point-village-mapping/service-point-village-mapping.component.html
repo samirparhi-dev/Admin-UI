@@ -73,7 +73,7 @@
                 <!-- <md-input-container class="hide_underline width100">
                     <input mdInput style="display:none"> -->
                 <md-select required placeholder="Service Point" class="width100" [(ngModel)]="searchServicePointID" name="searchServicePointID"
-                    #districtV="ngModel" (change)="getServicePointVillageMaps(searchStateID.stateID,searchDistrictID.districtID,searchParkingPlaceID.parkingPlaceID,searchServicePointID.servicePointID);GetBranches(searchParkingPlaceID.districtBlockID)">
+                    #districtV="ngModel" (change)="getServicePointVillageMaps(searchStateID.stateID,searchDistrictID.districtID,searchParkingPlaceID.parkingPlaceID,searchServicePointID.servicePointID)">
                     <md-option *ngFor="let servicePoint of availableServicePoints" [value]="servicePoint">
                         {{servicePoint.servicePointName}}
                     </md-option>
@@ -137,7 +137,7 @@
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="3" class="p-r-0 m-t-10">
-                            <button md-raised-button color="primary" class="pull-right" [disabled]="!createButton" (click)="showForm()">Add Service Point </button>
+                            <button md-raised-button color="primary" class="pull-right" [disabled]="!createButton" (click)="showForm(searchStateID, zoneID.zoneID, searchDistrictID.districtID, searchParkingPlaceID.parkingPlaceID,searchParkingPlaceID.districtBlockID)">Add Service Point </button>
                         </td>
                     </tr>
                 </tfoot>
@@ -233,7 +233,7 @@
                 <!-- <md-input-container class="hide_underline width100">
                     <input mdInput style="display:none"> -->
                 <md-select multiple required placeholder="Village" class="width100" [(ngModel)]="villageIdList" name="villageIdList" #villageN="ngModel">
-                    <md-option *ngFor="let branch of branches" value="{{branch.districtBranchID}}-{{branch.villageName}}">
+                    <md-option *ngFor="let branch of availableVillages" [value]="branch">
                         {{branch.villageName}}
                     </md-option>
                     <md-hint [hidden]=villageN.valid>
@@ -245,7 +245,7 @@
         </form>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-20">
             <button *ngIf="villageN.valid && !editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
-                (click)="addServicePointVillageMapToList(servicePointVillage.value);servicePointVillage.reset(); ">
+                (click)="addServicePointVillageMapToList(servicePointVillage.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
         </div>
@@ -382,7 +382,7 @@
                 <!-- <md-input-container class="hide_underline width100">
                     <input mdInput style="display:none"> -->
                 <md-select required placeholder="Village" class="width100" [(ngModel)]="villageIdList_edit" name="villageIdList" #villageN="ngModel">
-                    <md-option *ngFor="let branch of branches" [value]="branch.districtBranchID">
+                    <md-option *ngFor="let branch of availableVillages" [value]="branch">
                         {{branch.villageName}}
                     </md-option>
                     <md-hint [hidden]=villageN.valid>
