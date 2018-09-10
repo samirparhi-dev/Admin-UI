@@ -295,13 +295,8 @@ export class ServicePointVillageMapComponent implements OnInit {
     availableVillages: any = [];
     checkExistance(stateID, zoneID, districtID, parkingPlaceID, talukID) {
         this.availableServicePointVillageMaps.forEach((availableServicePointVillageMappings) => {
-            console.log("availableServicePointVillageMappings", availableServicePointVillageMappings,stateID, zoneID, districtID, parkingPlaceID, talukID);
             if (availableServicePointVillageMappings.providerServiceMapID != undefined && availableServicePointVillageMappings.providerServiceMapID == stateID.providerServiceMapID) {
-                console.log("dummy", availableServicePointVillageMappings);
-
                 if (!availableServicePointVillageMappings.deleted) {
-                    console.log("dummy1", availableServicePointVillageMappings);
-
                     this.existingVillages.push(availableServicePointVillageMappings.districtBranchID);
                 }
             }
@@ -310,12 +305,8 @@ export class ServicePointVillageMapComponent implements OnInit {
 
         let temp = [];
         this.availableVillages.forEach((villages) => {
-            console.log("villages", villages);
-
             let index = this.existingVillages.indexOf(villages.districtBranchID);
             if (index < 0) {
-                console.log("index", index);
-
                 temp.push(villages);
             }
         });
