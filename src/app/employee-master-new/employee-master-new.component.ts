@@ -561,7 +561,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   checkDuplicatesInBuffer(tempObj) {
     let duplicateAadhar = 0;
     let duplicatePan = 0;
-    let duplicateName = 0
+    let duplicateName = 0;
+    let duplicateEmployeeID = 0;
     if (this.objs.length === 0) {
       this.objs.push(tempObj);
     }
@@ -580,12 +581,28 @@ export class EmployeeMasterNewComponent implements OnInit {
           duplicateName = duplicateName + 1;
           console.log("this.duplicateName", duplicateName);
         }
+        if (this.objs[i].employeeID === tempObj.employeeID) {
+          duplicateEmployeeID = duplicateEmployeeID + 1;
+          console.log("this.duplicateemployeeID", duplicateName);
+        }
       }
-      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0) {
+      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0 && duplicateEmployeeID === 0) {
         this.objs.push(tempObj);
       }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("EmployeeID, Username, Aadhar and Pan number already exist");
+      }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
-        this.dialogService.alert("Aadhar, Pan number and Username already exist");
+        this.dialogService.alert("Username, Aadhar and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Employee ID, Aadhar and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Aadhar number, Employee ID and Username already exist");
+      }
+      else if (duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Pan number, Employee ID and Username already exist");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0) {
         this.dialogService.alert("Aadhar and Pan number already exist");
@@ -596,11 +613,23 @@ export class EmployeeMasterNewComponent implements OnInit {
       else if (duplicatePan > 0 && duplicateName > 0) {
         this.dialogService.alert("Pan number and Username already exist");
       }
+      else if (duplicateAadhar > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Aadhar number and Employee ID already exist");
+      }
+      else if (duplicatePan > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Pan number and Employee ID already exist");
+      }
+      else if (duplicateEmployeeID > 0 && duplicateName > 0) {
+        this.dialogService.alert("Employee ID and Username already exist");
+      }
       else if (duplicateAadhar > 0) {
         this.dialogService.alert("Aadhar number already exist");
       }
       else if (duplicatePan > 0) {
         this.dialogService.alert("Pan number already exist");
+      }
+      else if (duplicateEmployeeID > 0) {
+        this.dialogService.alert("Employee number already exist");
       }
       else {
         this.dialogService.alert("Already exist");
