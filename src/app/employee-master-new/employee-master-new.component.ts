@@ -299,7 +299,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.empID_status = 'Employee ID exists';
       this.empIdshowHint = true;
     }
-    if(response.response == 'false') {
+    if (response.response == 'false') {
       if (this.employee_ID != '' && (this.employee_ID != undefined && this.employee_ID != null)) {
         this.empIdshowHint = false;
       }
@@ -526,7 +526,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'qualificationID': userFormValue.edu_qualification,
       'emergency_contactNo': userFormValue.emergencyContactNo,
       'username': userFormValue.user_name,
-      'employeeID': userFormValue.employee_ID,
+      'employeeID': userFormValue.employeeID,
       'password': userFormValue.password,
       'doj': userFormValue.doj,
       // 'fatherName': demographicsFormValue.father_name.trim(),
@@ -569,19 +569,19 @@ export class EmployeeMasterNewComponent implements OnInit {
 
     else {
       for (let i = 0; i < this.objs.length; i++) {
-        if (this.objs[i].aadharNumber === tempObj.aadharNumber) {
+        if (this.objs[i].aadharNumber != undefined && this.objs[i].aadharNumber === tempObj.aadharNumber) {
           duplicateAadhar = duplicateAadhar + 1;
           console.log("duplicateAadhar", duplicateAadhar);
         }
-        if (this.objs[i].panNumber === tempObj.panNumber) {
+        if (this.objs[i].panNumber != undefined && this.objs[i].panNumber === tempObj.panNumber) {
           duplicatePan = duplicatePan + 1;
           console.log("duplicatePan", duplicatePan);
         }
-        if (this.objs[i].username === tempObj.username) {
+        if (this.objs[i].username != undefined && this.objs[i].username === tempObj.username) {
           duplicateName = duplicateName + 1;
           console.log("this.duplicateName", duplicateName);
         }
-        if (this.objs[i].employeeID === tempObj.employeeID) {
+        if (this.objs[i].employeeID != undefined && this.objs[i].employeeID === tempObj.employeeID) {
           duplicateEmployeeID = duplicateEmployeeID + 1;
           console.log("this.duplicateemployeeID", duplicateName);
         }
