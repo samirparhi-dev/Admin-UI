@@ -234,10 +234,17 @@
                             </md-hint>
                         </md-input-container>
                     </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                        <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [min]="minDate_doj" [max]="today"
+                            required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
+                        <md-hint *ngIf="userDoj.errors && userDoj.touched">
+                            <span class="error_text">DOJ is required</span>
+                        </md-hint>
+                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="!editMode">
                         <md-input-container class="width100" PAN>
-                            <input mdInput placeholder="Employee ID" ngModel [(ngModel)]="employee_ID" name="employeeID" minlength="2" maxlength="20" #empID="ngModel"
-                                (keyup)="checkEmployeeIdAvailability(employee_ID)" required>
+                            <input mdInput placeholder="Employee ID" ngModel [(ngModel)]="employee_ID" name="employeeID" minlength="2" maxlength="20"
+                                #empID="ngModel" (keyup)="checkEmployeeIdAvailability(employee_ID)" required>
                             <md-hint *ngIf="empID.touched">
                                 <span class="error_text" *ngIf="empIdshowHint && !empID.errors">{{empID_status}}</span>
                                 <span class="error_text" [hidden]="!empID.errors">Min 2 characters required</span>
@@ -256,14 +263,7 @@
                             </md-hint>
                         </md-input-container>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [min]="minDate_doj" [max]="today"
-                            required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
-                        <md-hint *ngIf="userDoj.errors && userDoj.touched">
-                            <span class="error_text">DOJ is required</span>
-                        </md-hint>
-                    </div>
-                   
+
                 </form>
             </div>
             <!-- </div> -->
@@ -493,8 +493,8 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-            <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint" class="pull-right"
-                (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
+            <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint"
+                class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
         </div>
