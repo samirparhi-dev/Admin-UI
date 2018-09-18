@@ -126,75 +126,6 @@ export class ZoneComponent implements OnInit {
     this.disableSelection = true;
     this.showTableFlag = false;
   }
-  //  Commented - for zone creation district, taluk and village fields are not required
-  // getDistricts(state) {
-  //   this.zoneMasterService.getDistricts(state.stateID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-
-  // }
-  // getDistrictsSuccessHandeler(response) {
-  //   this.districts = response;
-  //   if (this.editZoneValue != undefined) {
-  //     if (this.districts) {
-  //       let district = this.districts.filter((districtRes) => {
-  //         if (this.editZoneValue.districtID == districtRes.districtID) {
-  //           return districtRes;
-  //         }
-  //       })[0];
-  //       if (district) {
-  //         this.districtID = district;
-  //         this.GetTaluks(district);
-  //       }
-  //     }
-
-  //   }
-  // }
-  // GetTaluks(district) {
-  //   this.zoneMasterService.getTaluks(district.districtID)
-  //     .subscribe(response => {
-  //       this.SetTaluks(response);
-  //     }
-  //     );
-  // }
-  // SetTaluks(response) {
-  //   this.taluks = response;
-  //   if (this.editZoneValue != undefined) {
-  //     if (this.taluks) {
-  //       let taluk = this.taluks.filter((talukRes) => {
-  //         if (this.editZoneValue.districtBlockID == talukRes.blockID) {
-  //           return talukRes;
-  //         }
-  //       })[0];
-  //       if (taluk) {
-  //         this.talukID = taluk;
-  //         this.GetBranches(taluk);
-  //       }
-  //     }
-
-  //   }
-  // }
-
-  // GetBranches(taluk) {
-  //   this.zoneMasterService.getBranches(taluk.blockID)
-  //     .subscribe(response => this.SetBranches(response));
-  // }
-  // SetBranches(response: any) {
-  //   this.branches = response;
-  //   if (this.editZoneValue != undefined) {
-  //     if (this.branches) {
-  //       let branch = this.branches.filter((branchRes) => {
-  //         if (this.editZoneValue.districtBranchID == branchRes.districtBranchID) {
-  //           return branchRes;
-  //         }
-  //       })[0];
-
-  //       if (branch) {
-  //         this.branchID = branch;
-
-  //       }
-  //     }
-
-  //   }
-  // }
   checkExistance(zoneName) {
     this.zoneNameExist = this.availableZoneNames.includes(zoneName);
     console.log(this.zoneNameExist);
@@ -207,19 +138,6 @@ export class ZoneComponent implements OnInit {
     this.zoneObj.stateID = this.state.stateID;
     this.zoneObj.stateName = this.state.stateName;
 
-    // if (values.districtID != undefined) {
-    //   this.zoneObj.districtID = values.districtID.districtID;
-    //   this.zoneObj.districtName = values.districtID.districtName;
-    // }
-    // if (values.talukID != undefined && values.talukID != "") {
-    //   this.zoneObj.districtBlockID = values.talukID.blockID;
-    //   this.zoneObj.blockName = values.talukID.blockName;
-    // }
-    // if (values.branchID != undefined && values.branchID != "") {
-    //   this.zoneObj.districtBranchID = values.branchID.districtBranchID;
-    //   this.zoneObj.villageName = values.branchID.villageName;
-    // }
-
     this.zoneObj.zoneHQAddress = values.zoneHQAddress;
     this.zoneObj.providerServiceMapID = this.providerServiceMapID;
     this.zoneObj.createdBy = this.createdBy;
@@ -229,13 +147,11 @@ export class ZoneComponent implements OnInit {
   checkDuplicates(zoneObj) {
     if (this.zoneList.length == 0) {
       this.zoneList.push(this.zoneObj);
-      this.resetDropdowns();
     }
     else if (this.zoneList.length > 0) {
       for (let a = 0; a < this.zoneList.length; a++) {
         if (this.zoneList[a].zoneName === zoneObj.zoneName
-          && this.zoneList[a].stateName === zoneObj.stateName
-          && this.zoneList[a].zoneHQAddress === zoneObj.zoneHQAddress) {
+          && this.zoneList[a].stateName === zoneObj.stateName) {
           this.bufferCount = this.bufferCount + 1;
           console.log('Duplicate Combo Exists', this.bufferCount);
         }
@@ -243,18 +159,12 @@ export class ZoneComponent implements OnInit {
       if (this.bufferCount > 0) {
         this.alertMessage.alert("Already exists");
         this.bufferCount = 0;
-        this.resetDropdowns();
       }
       else {
         this.zoneList.push(this.zoneObj);
-        this.resetDropdowns();
       }
     }
 
-  }
-  resetDropdowns() {
-    this.taluks = [];
-    this.branches = [];
   }
 
   storezone() {
@@ -325,7 +235,6 @@ export class ZoneComponent implements OnInit {
     this.disableSelection = true;
     this.showListOfZones = false;
     this.editZoneValue = zone;
-    // this.getDistricts(zone);   // commented - district, taluk and village data are not saved. 
     this.zoneID = zone.zoneID;
     this.zoneName = zone.zoneName
     this.zoneDesc = zone.zoneDesc;
@@ -339,19 +248,8 @@ export class ZoneComponent implements OnInit {
     this.dataObj.zoneName = this.zoneName;
     this.dataObj.zoneDesc = this.zoneDesc;
     this.dataObj.zoneHQAddress = this.zoneHQAddress;
-    //this.dataObj.providerServiceMapID = zone.serviceID.split("-")[0];   
     this.dataObj.serviceID = this.service.serviceID;
     this.dataObj.stateID = this.state.stateID;
-
-    // if (this.districtID != undefined) {
-    //   this.dataObj.districtID = this.districtID.districtID;
-    // }
-    // if (this.talukID != undefined) {
-    //   this.dataObj.districtBlockID = this.talukID.blockID;
-    // }
-    // if (this.branchID != undefined) {
-    //   this.dataObj.districtBranchID = this.branchID.districtBranchID;
-    // }
     this.dataObj.modifiedBy = this.createdBy;
     this.zoneMasterService.updateZoneData(this.dataObj).subscribe((response) => {
       console.log("updated response", response);
@@ -361,7 +259,6 @@ export class ZoneComponent implements OnInit {
 
   updateHandler(response) {
     this.initializeObj();
-    this.resetDropdowns();
     this.showList();
     this.editZoneValue = null;
     this.availableZoneNames = [];
