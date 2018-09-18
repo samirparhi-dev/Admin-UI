@@ -103,28 +103,30 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     back() {
-        this.disabled_flag = false;
-        this.showTableFlag = true;
-        this.showFormFlag = false;
+        this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+            if (res) {
+                this.disabled_flag = false;
+                this.showTableFlag = true;
+                this.showFormFlag = false;
 
-        this.institutionName = "";
-        this.address = "";
-        this.website = "";
+                this.institutionName = "";
+                this.address = "";
+                this.website = "";
 
-        this.contact_person_name = "";
-        this.contact_number = "";
-        this.emailID = "";
+                this.contact_person_name = "";
+                this.contact_number = "";
+                this.emailID = "";
 
-        this.secondary_contact_person_name = "";
-        this.secondary_contact_number = "";
-        this.secondary_emailID = "";
+                this.secondary_contact_person_name = "";
+                this.secondary_contact_number = "";
+                this.secondary_emailID = "";
 
-        this.tertiary_contact_person_name = "";
-        this.tertiary_contact_number = "";
-        this.tertiary_emailID = "";
-
+                this.tertiary_contact_person_name = "";
+                this.tertiary_contact_number = "";
+                this.tertiary_emailID = "";
+            }
+        });
     }
-
     getStatesSuccessHandeler(response) {
         this.state = "";
         this.district = "";
@@ -214,24 +216,24 @@ export class HospitalMasterComponent implements OnInit {
     /*GET institution*/
     getInstitutions() {
         let checkTalukValue = 0;
-        let request_obj :any;
+        let request_obj: any;
         this.showTableFlag = true;
         if (this.taluk != "" && this.taluk != undefined && this.taluk != null) {
             checkTalukValue = this.taluk
-            request_obj  = {
+            request_obj = {
                 "providerServiceMapID": this.providerServiceMapID,
                 "stateID": this.state,
                 "districtID": this.district,
                 "blockID": checkTalukValue
             }
-		} else{
-            request_obj  = {
+        } else {
+            request_obj = {
                 "providerServiceMapID": this.providerServiceMapID,
                 "stateID": this.state,
                 "districtID": this.district
             }
         }
-        
+
         this.HospitalMasterService.getInstitutions(request_obj).subscribe(response => this.getInstitutionSuccessHandeler(response),
             (err) => {
                 console.log("Error", err);
