@@ -52,8 +52,16 @@
                                 <li style="cursor: pointer" (click)='show("18")'>
                                     <a>Feedback/Complaint Type Master</a>
                                 </li>
-                                <li style="cursor: pointer" (click)='show("19")'>
-                                    <a>Feedback/Complaint Nature Master</a>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-6">Feedback/Complaint Nature Master</a>
+                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                        <li style="cursor: pointer" (click)='show("19")'>
+                                            <a>Nature Of Complaints List</a>
+                                        </li>
+                                        <li style="cursor: pointer" (click)='show("58")'>
+                                            <a>Nature Of Complaint-Category Mapping</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li style="cursor: pointer" (click)='show("21")'>
                                     <a>Institute Master</a>
@@ -98,9 +106,18 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li style="cursor: pointer" (click)='show("8")'>
-                                            <a>Parking Place Master</a>
+                                        <li class="dropdown-submenu">
+                                            <a tabindex="-5">Parking Place Master</a>
+                                            <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                                <li style="cursor: pointer" (click)='show("8")'>
+                                                    <a>Parking Place List</a>
+                                                </li>
+                                                <li style="cursor: pointer" (click)='show("57")'>
+                                                    <a>Parking Place Sub-District Mapping</a>
+                                                </li>
+                                            </ul>
                                         </li>
+
                                         <li style="cursor: pointer" (click)='show("9")'>
                                             <a>Service Point Master</a>
                                         </li>
@@ -301,6 +318,8 @@
                             <app-expiry-date-alert-configuration *ngSwitchCase="54"></app-expiry-date-alert-configuration>
                             <app-reset-user-password *ngSwitchCase="55"></app-reset-user-password>
                             <app-drug-strength *ngSwitchCase="56"></app-drug-strength>
+                            <app-parking-place-sub-district-mapping *ngSwitchCase="57"></app-parking-place-sub-district-mapping>
+                            <app-nature-of-complaint-category-mapping *ngSwitchCase="58"></app-nature-of-complaint-category-mapping>
                         </div>
                     </div>
                 </div>

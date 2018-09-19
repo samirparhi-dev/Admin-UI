@@ -54,8 +54,7 @@ export class FeedbackTypeService {
   }
 
   getServiceLines(userID) {
-    return this.httpIntercept.post(this.getServiceLines_url,
-      { 'userID': userID })
+    return this.httpIntercept.post(this.getServiceLines_url, { 'userID': userID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
