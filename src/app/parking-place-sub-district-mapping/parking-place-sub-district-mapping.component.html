@@ -84,7 +84,7 @@
 <div class="row" *ngIf="(!showListOfMapping && !showTable)">
   <form #mappingForm="ngForm" autocomplete="off">
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
-      <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="getTaluks(district.districtID)"
+      <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="getTaluks(district.districtID, state.providerServiceMapID)"
         #mappingDistrict='ngModel' required>
         <md-option *ngFor="let item of districts" [value]="item">
           {{item.districtName}}
@@ -93,7 +93,7 @@
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
       <md-select multiple placeholder="Taluk" class="width100" [(ngModel)]="taluk" name="taluk" #mappingTaluk='ngModel' required>
-        <md-option *ngFor="let item of taluks" [value]="item">
+        <md-option *ngFor="let item of availableTaluks" [value]="item">
           {{item.blockName}}
         </md-option>
       </md-select>

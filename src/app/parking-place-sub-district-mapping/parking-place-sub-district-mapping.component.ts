@@ -36,6 +36,9 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   districts: any = [];
   taluks: any = [];
   mappingList: any = [];
+  existingTaluks: any = [];
+  availableTaluks: any = [];
+  bufferTalukArray: any = [];
 
   @ViewChild('mappingForm') mappingForm: NgForm;
   constructor(public commonDataService: dataService,
@@ -137,13 +140,53 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   getDistrictsSuccessHandeler(districtResponse) {
     this.districts = districtResponse;
   }
-  getTaluks(districtID) {
+  getTaluks(districtID, providerServiceMapID) {
     this.parkingPlaceMasterService.getTaluks(districtID)
-      .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse));
+      .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse, providerServiceMapID));
   }
-  getTaluksSuccessHandler(talukResponse) {
+  getTaluksSuccessHandler(talukResponse, providerServiceMapID) {
     this.taluks = talukResponse;
+    if(this.taluks) {
+      this.checkExistance(providerServiceMapID);
+    }
   }
+  checkExistance(providerServiceMapID) {
+    this.existingTaluks = [];
+    this.mappedParkingPlaceDistricts.forEach((mappedTaluks) => {
+      if(mappedTaluks.providerServiceMapID!= undefined && mappedTaluks.providerServiceMapID == providerServiceMapID) {
+        if(!mappedTaluks.deleted) {
+          this.existingTaluks.push(mappedTaluks.districtBlockID);
+        }
+      }
+    });
+    this.availableTaluks = this.taluks.slice();
+
+    let temp = [];
+    this.availableTaluks.forEach((taluk) => {
+      let index = this.existingTaluks.indexOf(taluk.blockID);
+      if(index < 0) {
+        temp.push(taluk);
+      }
+    });
+    this.availableTaluks = temp.slice();
+
+    if(this.mappingList.length>0) {
+      this.mappingList.forEach((talukList) => {
+        this.bufferTalukArray.push(talukList.districtBlockID);
+      });
+    }
+
+    let bufferTemp = [];
+    this.availableTaluks.forEach((bufferTaluk) => {
+      let index = this.bufferTalukArray.indexOf(bufferTaluk.blockID);
+      if(index < 0) {
+        bufferTemp.push(bufferTaluk);
+      }
+    });
+    this.availableTaluks = bufferTemp.slice();
+    this.bufferTalukArray = [];
+  }
+
   addMappingObject(formValue) {
     console.log("formValue", formValue);
     for (let taluks of formValue.taluk) {
@@ -164,9 +207,12 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     }
 
   }
+
   remove_obj(index) {
     this.mappingList.splice(index, 1);
+    this.getTaluks(this.district.districtID, this.state.providerServiceMapID);
   }
+  
   saveSubdistrictMapping() {
     this.parkingPlaceMasterService.saveParkingPlaceSubDistrictMapping(this.mappingList)
     .subscribe(response => this.saveSuccessHandler(response))
