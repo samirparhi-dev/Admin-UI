@@ -18,7 +18,7 @@ export class ParkingPlaceMasterService {
     getStates_new_url: any;
     _getZonesURL: any;
     getParkingPlacesURL: any;
-    
+
     // CRUD - parking place master
     saveParkingPlacesURL: any;
     updateParkingPlaceStatusURL: any;
@@ -29,6 +29,7 @@ export class ParkingPlaceMasterService {
     _getTalukListURL: any;
     getAllParkingPlaceSubDistrictMapping_url: any;
     saveParkingPlaceSubDistrictMapping_url: any;
+    mappingActivationDeactivation_url: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -55,7 +56,7 @@ export class ParkingPlaceMasterService {
         this._getDistrictListURL = this.providerAdmin_Base_Url + '/zonemaster/getdistrictMappedtoZone';
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this.saveParkingPlaceSubDistrictMapping_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/create/parkingPlacesTalukMapping';
-
+        this.mappingActivationDeactivation_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/activate/parkingPlacesTalukMapping';
 
 
     }
@@ -110,9 +111,9 @@ export class ParkingPlaceMasterService {
 
     getAllParkingPlaceSubDistrictMapping(mappedReqObj) {
         return this.http
-        .post(this.getAllParkingPlaceSubDistrictMapping_url, mappedReqObj)
-        .map(this.handleSuccess)
-        .catch(this.handleError);
+            .post(this.getAllParkingPlaceSubDistrictMapping_url, mappedReqObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
     }
     getDistricts(zoneID) {
         return this.http.post(this._getDistrictListURL, { 'zoneID': zoneID })
@@ -128,11 +129,16 @@ export class ParkingPlaceMasterService {
     }
     saveParkingPlaceSubDistrictMapping(reqObj) {
         return this.http
-        .post(this.saveParkingPlaceSubDistrictMapping_url, reqObj)
-        .map(this.handleSuccess)
-        .catch(this.handleError);
+            .post(this.saveParkingPlaceSubDistrictMapping_url, reqObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
     }
-
+    mappingActivationDeactivation(activateObj) {
+        return this.http
+            .post(this.mappingActivationDeactivation_url, activateObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
 
     handleSuccess(res: Response) {
         console.log(res.json().data, '--- in parking place SERVICE');

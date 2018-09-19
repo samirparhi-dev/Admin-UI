@@ -65,6 +65,10 @@
             <td>{{parkingPlace.parkingPlaceName}}</td>
             <td>{{parkingPlace.districtName}}</td>
             <td>{{parkingPlace.districtBlockName}}</td>
+            <td>
+              <button *ngIf="parkingPlace.deleted" md-raised-button color="accent" (click)="activateDeactivateMapping(parkingPlace, false)">Activate</button>
+              <button *ngIf="!parkingPlace.deleted" md-raised-button color="primary" (click)="activateDeactivateMapping(parkingPlace, true)">Deactivate</button>
+            </td>
           </tr>
         </tbody>
         <tfoot>

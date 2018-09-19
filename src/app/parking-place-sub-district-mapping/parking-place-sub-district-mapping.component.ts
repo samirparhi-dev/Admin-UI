@@ -21,6 +21,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   zoneID: any;
   parking_Place: any;
   district: any;
+  status: any;
 
   showTable: boolean = false;
   editable: boolean = false;
@@ -212,7 +213,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.mappingList.splice(index, 1);
     this.getTaluks(this.district.districtID, this.state.providerServiceMapID);
   }
-  
+
   saveSubdistrictMapping() {
     this.parkingPlaceMasterService.saveParkingPlaceSubDistrictMapping(this.mappingList)
     .subscribe(response => this.saveSuccessHandler(response))
@@ -238,6 +239,31 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.showListOfMapping = true;
     this.showTable = false;
     this.mappingForm.resetForm();
+  }
+  activateDeactivateMapping(parkingPlace, flag) {
+      let obj = {
+        "ppSubDistrictMapID": parkingPlace.ppSubDistrictMapID,
+        "deleted": flag
+      }
+      if (flag) {
+        this.status = 'Deactivate';
+      } else {
+        this.status = 'Activate';
+      }
+      this.alertService.confirm('Confirm', "Are you sure you want to " + this.status + "?").subscribe((res) => {
+        if (res) {
+          console.log("Deactivating or activating Obj", obj);
+          this.parkingPlaceMasterService.mappingActivationDeactivation(obj)
+            .subscribe((res) => {
+              console.log('Activation or deactivation response', res);
+              this.alertService.alert(this.status + "d successfully", 'success');
+              this.getParkingPlaceSubDistrictMappings(this.state.providerServiceMapID, this.zoneID.zoneID, this.parking_Place.parkingPlaceID);
+            }, (err) => console.log('error', err))
+        }
+      },
+        (err) => {
+          console.log(err);
+        })
   }
  
 }
