@@ -66,8 +66,12 @@
             <td>{{parkingPlace.districtName}}</td>
             <td>{{parkingPlace.districtBlockName}}</td>
             <td>
-              <button *ngIf="parkingPlace.deleted" md-raised-button color="accent" (click)="activateDeactivateMapping(parkingPlace, false)">Activate</button>
-              <button *ngIf="!parkingPlace.deleted" md-raised-button color="primary" (click)="activateDeactivateMapping(parkingPlace, true)">Deactivate</button>
+              <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!parkingPlace.deleted && !parkingPlace.parkingPlaceDeleted"
+              (click)="editSubDistrictMapping(parkingPlace)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="parkingPlace.deleted || parkingPlace.parkingPlaceDeleted" md-raised-button color="accent" (click)="activateDeactivateMapping(parkingPlace, parkingPlace.parkingPlaceDeleted)">Activate</button>
+              <button *ngIf="!parkingPlace.deleted && !parkingPlace.parkingPlaceDeleted" md-raised-button color="primary" (click)="activateDeactivateMapping(parkingPlace, false)">Deactivate</button>
             </td>
           </tr>
         </tbody>
@@ -95,8 +99,15 @@
         </md-option>
       </md-select>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15" *ngIf="!editable">
       <md-select multiple placeholder="Taluk" class="width100" [(ngModel)]="taluk" name="taluk" #mappingTaluk='ngModel' required>
+        <md-option *ngFor="let item of availableTaluks" [value]="item">
+          {{item.blockName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15" *ngIf="editable">
+      <md-select placeholder="Taluk" class="width100" [(ngModel)]="taluk" name="taluk" #mappingTaluk='ngModel' required>
         <md-option *ngFor="let item of availableTaluks" [value]="item">
           {{item.blockName}}
         </md-option>
@@ -146,5 +157,7 @@
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button *ngIf="!editable" [disabled]="mappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
       (click)="saveSubdistrictMapping()">Save</button>
+      <button *ngIf="editable" [disabled]="mappingForm.invalid" md-raised-button color="accent" class="pull-right" 
+      (click)="updateSubdistrictMapping(mappingForm.value)">Update</button>
   </div>
 </div>

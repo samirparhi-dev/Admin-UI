@@ -30,6 +30,7 @@ export class ParkingPlaceMasterService {
     getAllParkingPlaceSubDistrictMapping_url: any;
     saveParkingPlaceSubDistrictMapping_url: any;
     mappingActivationDeactivation_url: any;
+    updateTalukMapping_url: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -57,7 +58,7 @@ export class ParkingPlaceMasterService {
         this._getTalukListURL = this.common_Base_Url + 'location/taluks/';
         this.saveParkingPlaceSubDistrictMapping_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/create/parkingPlacesTalukMapping';
         this.mappingActivationDeactivation_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/activate/parkingPlacesTalukMapping';
-
+        this.updateTalukMapping_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/update/parkingPlacesTalukMapping';
 
     }
     /*common services*/
@@ -130,6 +131,12 @@ export class ParkingPlaceMasterService {
     saveParkingPlaceSubDistrictMapping(reqObj) {
         return this.http
             .post(this.saveParkingPlaceSubDistrictMapping_url, reqObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    updateTalukMapping(updateObj) {
+        return this.http
+            .post(this.updateTalukMapping_url, updateObj)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }

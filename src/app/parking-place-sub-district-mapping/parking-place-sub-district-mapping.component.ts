@@ -21,7 +21,9 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   zoneID: any;
   parking_Place: any;
   district: any;
+  taluk: any;
   status: any;
+  editMappedValue: any;
 
   showTable: boolean = false;
   editable: boolean = false;
@@ -140,6 +142,16 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getDistrictsSuccessHandeler(districtResponse) {
     this.districts = districtResponse;
+    if (this.editMappedValue != undefined) {
+      let editDistrict = this.districts.filter((editDistrictValue) => {
+        if (this.editMappedValue.districtID != undefined && this.editMappedValue.districtID == editDistrictValue.districtID) {
+          return editDistrictValue;
+        }
+      })[0]
+      if (editDistrict) {
+        this.district = editDistrict;
+      }
+    }
   }
   getTaluks(districtID, providerServiceMapID) {
     this.parkingPlaceMasterService.getTaluks(districtID)
@@ -147,15 +159,26 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getTaluksSuccessHandler(talukResponse, providerServiceMapID) {
     this.taluks = talukResponse;
-    if(this.taluks) {
+    if (this.taluks) {
       this.checkExistance(providerServiceMapID);
+    }
+    if (this.editMappedValue != undefined) {
+      let editTaluk = this.taluks.filter((editTalukValue) => {
+        if (this.editMappedValue.districtBlockID == editTalukValue.blockID && this.editMappedValue.districtID == this.district.districtID) {
+          return editTalukValue;
+        }
+      })[0]
+      if (editTaluk) {
+        this.taluk = editTaluk;
+        this.availableTaluks.push(editTaluk);
+      }
     }
   }
   checkExistance(providerServiceMapID) {
     this.existingTaluks = [];
     this.mappedParkingPlaceDistricts.forEach((mappedTaluks) => {
-      if(mappedTaluks.providerServiceMapID!= undefined && mappedTaluks.providerServiceMapID == providerServiceMapID) {
-        if(!mappedTaluks.deleted) {
+      if (mappedTaluks.providerServiceMapID != undefined && mappedTaluks.providerServiceMapID == providerServiceMapID) {
+        if (!mappedTaluks.deleted) {
           this.existingTaluks.push(mappedTaluks.districtBlockID);
         }
       }
@@ -165,13 +188,13 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     let temp = [];
     this.availableTaluks.forEach((taluk) => {
       let index = this.existingTaluks.indexOf(taluk.blockID);
-      if(index < 0) {
+      if (index < 0) {
         temp.push(taluk);
       }
     });
     this.availableTaluks = temp.slice();
 
-    if(this.mappingList.length>0) {
+    if (this.mappingList.length > 0) {
       this.mappingList.forEach((talukList) => {
         this.bufferTalukArray.push(talukList.districtBlockID);
       });
@@ -180,7 +203,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     let bufferTemp = [];
     this.availableTaluks.forEach((bufferTaluk) => {
       let index = this.bufferTalukArray.indexOf(bufferTaluk.blockID);
-      if(index < 0) {
+      if (index < 0) {
         bufferTemp.push(bufferTaluk);
       }
     });
@@ -216,8 +239,8 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
 
   saveSubdistrictMapping() {
     this.parkingPlaceMasterService.saveParkingPlaceSubDistrictMapping(this.mappingList)
-    .subscribe(response => this.saveSuccessHandler(response))
-    
+      .subscribe(response => this.saveSuccessHandler(response))
+
   }
   saveSuccessHandler(response) {
     this.alertService.alert("Mapping saved successfully", 'success');
@@ -240,11 +263,42 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.showTable = false;
     this.mappingForm.resetForm();
   }
-  activateDeactivateMapping(parkingPlace, flag) {
-      let obj = {
-        "ppSubDistrictMapID": parkingPlace.ppSubDistrictMapID,
-        "deleted": flag
-      }
+
+  editSubDistrictMapping(selectedValue) {
+    console.log("selectedValue", selectedValue);
+    this.editable = true;
+    this.disableSelection = true;
+    this.showListOfMapping = false;
+    this.showTable = false;
+    this.editMappedValue = selectedValue;
+    this.getDistricts(this.zoneID.zoneID);
+    this.getTaluks(selectedValue.districtID, selectedValue.providerServiceMapID);
+  }
+
+  updateSubdistrictMapping(formValue) {
+    let updateObj = {
+      "ppSubDistrictMapID": this.editMappedValue.ppSubDistrictMapID,
+      "providerServiceMapID": this.editMappedValue.providerServiceMapID,
+      "parkingPlaceID": this.editMappedValue.parkingPlaceID,
+      "districtID": formValue.district.districtID,
+      "districtBlockID": formValue.taluk.blockID,
+      "createdBy": this.createdBy
+    }
+    this.parkingPlaceMasterService.updateTalukMapping(updateObj)
+      .subscribe(response => this.updateSuccessHandler(response));
+
+  }
+  updateSuccessHandler(response) {
+    this.alertService.alert("Updated successfully", 'success');
+    this.showList();
+  }
+
+  activateDeactivateMapping(parkingPlace, parkingPlaceNotExist) {
+    if (parkingPlaceNotExist) {
+      this.alertService.alert("Parking place is inactive");
+    } else {
+      let flag = !parkingPlace.deleted
+
       if (flag) {
         this.status = 'Deactivate';
       } else {
@@ -252,6 +306,10 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
       }
       this.alertService.confirm('Confirm', "Are you sure you want to " + this.status + "?").subscribe((res) => {
         if (res) {
+          let obj = {
+            "ppSubDistrictMapID": parkingPlace.ppSubDistrictMapID,
+            "deleted": flag
+          }
           console.log("Deactivating or activating Obj", obj);
           this.parkingPlaceMasterService.mappingActivationDeactivation(obj)
             .subscribe((res) => {
@@ -264,8 +322,8 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
         (err) => {
           console.log(err);
         })
+    }
   }
- 
 }
 
 
