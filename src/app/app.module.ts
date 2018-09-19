@@ -244,6 +244,9 @@ import { ResetUserPasswordComponent } from './reset-user-password/reset-user-pas
 import { ResetUserPasswordService } from './services/ProviderAdminServices/reset-user-password.service';
 import { DrugStrengthComponent } from './drug-strength/drug-strength.component';
 import { DrugStrengthService } from './services/ProviderAdminServices/drug-strength.service';
+import { ParkingPlaceSubDistrictMappingComponent } from './parking-place-sub-district-mapping/parking-place-sub-district-mapping.component';
+import { NatureOfComplaintCategoryMappingComponent } from './nature-of-complaint-category-mapping/nature-of-complaint-category-mapping.component';
+import { NatureOfCompaintCategoryMappingService } from './services/ProviderAdminServices/nature-of-complaint-category-mapping.service';
 
 
 @NgModule({
@@ -305,6 +308,8 @@ import { DrugStrengthService } from './services/ProviderAdminServices/drug-stren
     EmailConfigurationComponent,
     ResetUserPasswordComponent,
     DrugStrengthComponent,
+    ParkingPlaceSubDistrictMappingComponent,
+    NatureOfComplaintCategoryMappingComponent,
   ],
 
   imports: [
@@ -387,7 +392,7 @@ import { DrugStrengthService } from './services/ProviderAdminServices/drug-stren
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
     ItemFacilityMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
-    EmailConfigurationService, ResetUserPasswordService, DrugStrengthService,
+    EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
