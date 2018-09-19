@@ -18,11 +18,13 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   providerServiceMapID: any;
   service: any;
   state: any;
-  parkingPlaceObj: any;
+  zoneID: any;
+  parking_Place: any;
+  district: any;
 
   showTable: boolean = false;
   editable: boolean = false;
-  disableSelection:  boolean = false;
+  disableSelection: boolean = false;
   showListOfMapping: boolean = true;
 
   /*Arrays*/
@@ -30,7 +32,12 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   states: any = [];
   zones: any = [];
   parkingPlaces: any = [];
+  mappedParkingPlaceDistricts: any = [];
+  districts: any = [];
+  taluks: any = [];
+  mappingList: any = [];
 
+  @ViewChild('mappingForm') mappingForm: NgForm;
   constructor(public commonDataService: dataService,
     public parkingPlaceMasterService: ParkingPlaceMasterService,
     public dialog: MdDialog,
@@ -80,7 +87,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
 
   }
   getAvailableZones(providerServiceMapID) {
-    this.parkingPlaceMasterService.getZones({"providerServiceMapID":providerServiceMapID}).subscribe(response => this.getZonesSuccessHandler(response));
+    this.parkingPlaceMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
   }
   getZonesSuccessHandler(response) {
     if (response != undefined) {
@@ -92,24 +99,89 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     }
   }
   getAllParkingPlaces(zoneID, providerServiceMapID) {
-    this.parkingPlaceObj = {
+    let parkingPlaceObj = {
       "zoneID": zoneID,
       "providerServiceMapID": providerServiceMapID
     };
-    this.parkingPlaceMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
+    this.parkingPlaceMasterService.getParkingPlaces(parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
 
   }
   getParkingPlaceSuccessHandler(response) {
     this.parkingPlaces = response;
   }
-  getParkingPlaceSubDistrictMappings() {
-    this.parkingPlaceMasterService.getAllParkingPlaceSubDistrictMapping().subscribe(response => this.getParkingPlaceSuccessHandler(response));
+  getParkingPlaceSubDistrictMappings(providerServiceMapID, zoneID, parkingPlaceID) {
+    let mappedReqObj = {
+      "providerServiceMapID": providerServiceMapID,
+      "zoneID": zoneID,
+      "parkingPlaceID": parkingPlaceID
+    }
+    this.parkingPlaceMasterService.getAllParkingPlaceSubDistrictMapping(mappedReqObj)
+      .subscribe(response => this.getMappingSuccessHandler(response));
 
+  }
+  getMappingSuccessHandler(response) {
+    this.mappedParkingPlaceDistricts = response;
+    this.showTable = true;
   }
   showForm() {
     this.disableSelection = true;
     this.showTable = false;
+    this.showListOfMapping = false;
+    this.getDistricts(this.zoneID.zoneID);
 
+  }
+  getDistricts(zoneID) {
+    this.parkingPlaceMasterService.getDistricts(zoneID)
+      .subscribe(districtResponse => this.getDistrictsSuccessHandeler(districtResponse));
+  }
+  getDistrictsSuccessHandeler(districtResponse) {
+    this.districts = districtResponse;
+  }
+  getTaluks(districtID) {
+    this.parkingPlaceMasterService.getTaluks(districtID)
+      .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse));
+  }
+  getTaluksSuccessHandler(talukResponse) {
+    this.taluks = talukResponse;
+  }
+  addMappingObject(formValue) {
+    console.log("formValue", formValue);
+    for (let taluks of formValue.taluk) {
+      let talukID = taluks.blockID;
+      let mappingObject = {
+        "providerServiceMapID": this.providerServiceMapID,
+        "zoneID": this.zoneID.zoneID,
+        "parkingPlaceID": this.parking_Place.parkingPlaceID,
+        "parkingPlaceName": this.parking_Place.parkingPlaceName,
+        "districtID": formValue.district.districtID,
+        "districtName": formValue.district.districtName,
+        "districtBlockID": talukID,
+        "districtBlockName": taluks.blockName,
+        "createdBy": this.createdBy
+      }
+      this.mappingList.push(mappingObject);
+      this.mappingForm.resetForm();
+      this.taluks = [];
+    }
+
+  }
+  remove_obj(index) {
+    this.mappingList.splice(index, 1);
+  }
+  back() {
+    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        this.mappingForm.resetForm();
+        this.showList();
+      }
+    })
+  }
+  showList() {
+    this.getParkingPlaceSubDistrictMappings(this.state.providerServiceMapID, this.zoneID.zoneID, this.parking_Place.parkingPlaceID);
+    this.editable = false;
+    this.disableSelection = false;
+    this.showListOfMapping = true;
+    this.showTable = false;
   }
 }
 

@@ -6,15 +6,15 @@
     <form #searchForm="ngForm" autocomplete="off">
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" (change)="getStates(service)" name="service" 
-          #bindService="ngModel" required >
+          <md-select placeholder="Serviceline" class="width100" [(ngModel)]="service" [disabled]="disableSelection" (change)="getStates(service)"
+            name="service" #bindService="ngModel" required>
             <md-option *ngFor="let item of servicelines" [value]="item">
               {{item.serviceName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <md-select placeholder="State" class="width100" [(ngModel)]="state" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+          <md-select placeholder="State" class="width100" [(ngModel)]="state" [disabled]="disableSelection" (change)="setProviderServiceMapID(state.providerServiceMapID)"
             name="state" #bindState="ngModel" required>
             <md-option *ngFor="let item of states" [value]="item">
               {{item.stateName}}
@@ -22,15 +22,16 @@
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <md-select placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID"
-            #zone="ngModel" (change)="getAllParkingPlaces(zoneID.zoneID, state.providerServiceMapID)" required >
+          <md-select placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection" #zone="ngModel"
+            (change)="getAllParkingPlaces(zoneID.zoneID, state.providerServiceMapID)" required>
             <md-option *ngFor="let zone of zones" [value]="zone">
               {{zone.zoneName}}
             </md-option>
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" (change)="getParkingPlaceSubDistrictMappings()"
+          <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" [disabled]="disableSelection"
+            (change)="getParkingPlaceSubDistrictMappings(state.providerServiceMapID, zoneID.zoneID, parking_Place.parkingPlaceID)"
             #parkingPlace="ngModel" required>
             <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
               {{parkingPlace.parkingPlaceName}}
@@ -43,49 +44,104 @@
 </div>
 <div class="row" *ngIf="showListOfMapping && showTable && !editable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
-      <div class="table-responsive">
-          <table class="table table-striped table-hover" [md2Data]="parkingPlaceDistrictsMapping" #md2="md2DataTable" [rowsPerPage]="4">
-              <thead>
-                  <tr>
-                      <th width="5%">S.No.</th>
-                      <th width="12%">Parking Place</th>
-                      <th width="12%">District</th>
-                      <th width="15%">Sub-District</th>
-                      <th width="10%">Edit</th>
-                      <th width="12%">Action</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngIf="md2.data.length == 0" class="record-not-found">
-                      <td colspan="6" align="center">No records found</td>
-                  </tr>
-                  <tr *ngFor="let parkingPlace of md2.data ;let i=index">
-                      <td>{{parkingPlaceDistrictsMapping.indexOf(parkingPlace)+1}} </td>
-                      <td>{{parkingPlace.zoneName}}</td>
-                      <td>{{parkingPlace.parkingPlaceName}}</td>
-                      <td>{{parkingPlace.parkingPlaceDesc}}</td>
-                      <td>{{parkingPlace.areaHQAddress}}</td>
-                      <!-- <td>
-                          <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!parkingPlace.deleted"
-                              (click)="editParkingPlaceData(parkingPlace)">edit</md-icon>
-                      </td>
-                      <td>
-                          <button *ngIf="parkingPlace.deleted=='1'" md-raised-button color="accent" (click)="updateParkingPlaceStatus(parkingPlace)">Activate</button>
-                          <button *ngIf="parkingPlace.deleted=='0'" md-raised-button color="primary" (click)="updateParkingPlaceStatus(parkingPlace)">Deactivate</button>
-                      </td> -->
-                  </tr>
-              </tbody>
-              <tfoot>
-                  <tr>
-                      <td colspan="3">
-                          <md2-pagination></md2-pagination>
-                      </td>
-                      <td colspan="3" class="p-r-0 m-t-10">
-                          <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
-                      </td>
-                  </tr>
-              </tfoot>
-          </table>
-      </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" [md2Data]="mappedParkingPlaceDistricts" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="12%">Parking Place</th>
+            <th width="12%">District</th>
+            <th width="15%">Sub-District</th>
+            <th width="10%">Edit</th>
+            <th width="12%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+            <td colspan="6" align="center">No records found</td>
+          </tr>
+          <tr *ngFor="let parkingPlace of md2.data ;let i=index">
+            <td>{{mappedParkingPlaceDistricts.indexOf(parkingPlace)+1}} </td>
+            <td>{{parkingPlace.zoneName}}</td>
+            <td>{{parkingPlace.parkingPlaceName}}</td>
+            <td>{{parkingPlace.parkingPlaceDesc}}</td>
+            <td>{{parkingPlace.areaHQAddress}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="3" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="(!showListOfMapping && !showTable)">
+  <form #mappingForm="ngForm" autocomplete="off">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+      <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="getTaluks(district.districtID)"
+        #mappingDistrict='ngModel' required>
+        <md-option *ngFor="let item of districts" [value]="item">
+          {{item.districtName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+      <md-select multiple placeholder="Taluk" class="width100" [(ngModel)]="taluk" name="taluk" #mappingTaluk='ngModel' required>
+        <md-option *ngFor="let item of taluks" [value]="item">
+          {{item.blockName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-20">
+      <button md-mini-fab color="primary" *ngIf="mappingForm.valid && !editable" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
+        (click)="addMappingObject(mappingForm.value)">
+        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+      </button>
+    </div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="mappingList.length>0">
+    <div class="table-responsive">
+      <table [md2Data]="mappingList" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="25%">Parking Place</th>
+            <th width="25%">District</th>
+            <th width="25%">Taluk</th>
+            <th width="20%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let talukMapping of md2.data ; let i=index">
+            <td>{{mappingList.indexOf(talukMapping)+1}}</td>
+            <td>{{talukMapping.parkingPlaceName}}</td>
+            <td>{{talukMapping.districtName}}</td>
+            <td>{{talukMapping.districtBlockName}}</td>
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="delete" (click)="remove_obj(mappingList.indexOf(talukMapping))">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20 m-b-10">
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <!-- <button *ngIf="!editable" [disabled]="complaintCategoryMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
+      (click)="saveCategoryMapping()">Save</button> -->
   </div>
 </div>
