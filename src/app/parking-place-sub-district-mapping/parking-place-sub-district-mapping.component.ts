@@ -150,7 +150,6 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
       let talukID = taluks.blockID;
       let mappingObject = {
         "providerServiceMapID": this.providerServiceMapID,
-        "zoneID": this.zoneID.zoneID,
         "parkingPlaceID": this.parking_Place.parkingPlaceID,
         "parkingPlaceName": this.parking_Place.parkingPlaceName,
         "districtID": formValue.district.districtID,
@@ -168,11 +167,21 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   remove_obj(index) {
     this.mappingList.splice(index, 1);
   }
+  saveSubdistrictMapping() {
+    this.parkingPlaceMasterService.saveParkingPlaceSubDistrictMapping(this.mappingList)
+    .subscribe(response => this.saveSuccessHandler(response))
+    
+  }
+  saveSuccessHandler(response) {
+    this.alertService.alert("Mapping saved successfully", 'success');
+    this.mappingList = [];
+    this.showList();
+  }
   back() {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.mappingForm.resetForm();
         this.showList();
+        this.mappingList = [];
       }
     })
   }
@@ -182,7 +191,9 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.disableSelection = false;
     this.showListOfMapping = true;
     this.showTable = false;
+    this.mappingForm.resetForm();
   }
+ 
 }
 
 

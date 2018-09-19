@@ -62,10 +62,9 @@
           </tr>
           <tr *ngFor="let parkingPlace of md2.data ;let i=index">
             <td>{{mappedParkingPlaceDistricts.indexOf(parkingPlace)+1}} </td>
-            <td>{{parkingPlace.zoneName}}</td>
             <td>{{parkingPlace.parkingPlaceName}}</td>
-            <td>{{parkingPlace.parkingPlaceDesc}}</td>
-            <td>{{parkingPlace.areaHQAddress}}</td>
+            <td>{{parkingPlace.districtName}}</td>
+            <td>{{parkingPlace.districtBlockName}}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -141,7 +140,7 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <!-- <button *ngIf="!editable" [disabled]="complaintCategoryMappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
-      (click)="saveCategoryMapping()">Save</button> -->
+    <button *ngIf="!editable" [disabled]="mappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
+      (click)="saveSubdistrictMapping()">Save</button>
   </div>
 </div>
