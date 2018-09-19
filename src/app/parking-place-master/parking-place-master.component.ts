@@ -47,8 +47,6 @@ export class ParkingPlaceComponent implements OnInit {
     services: any = [];
     states: any = [];
     zones: any = [];
-    districts: any = [];
-    taluks: any = [];
     availableParkingPlaces: any = [];
     availableParkingPlaceNames: any = [];
 
@@ -110,7 +108,6 @@ export class ParkingPlaceComponent implements OnInit {
         this.createButton = false;
     }
     setProviderServiceMapID(providerServiceMapID) {
-        this.districts = [];
         this.zones = [];
         this.filteredavailableParkingPlaces = [];
         console.log("providerServiceMapID", providerServiceMapID);
@@ -119,7 +116,6 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
     getAvailableZones(providerServiceMapID) {
-        this.districts = [];
         this.filteredavailableParkingPlaces = [];
         this.parkingPlaceMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
     }
