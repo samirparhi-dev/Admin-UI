@@ -81,7 +81,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0 m-t-10">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
+              <button md-raised-button color="primary" class="pull-right" [disabled]="!enableButton" (click)="showForm()">Add Mapping</button>
             </td>
           </tr>
         </tfoot>

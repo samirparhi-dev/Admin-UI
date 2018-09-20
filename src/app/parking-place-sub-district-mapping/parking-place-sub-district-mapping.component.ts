@@ -29,6 +29,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   editable: boolean = false;
   disableSelection: boolean = false;
   showListOfMapping: boolean = true;
+  enableButton: boolean = false;
 
   /*Arrays*/
   servicelines: any = [];
@@ -66,6 +67,8 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.servicelines = response;
   }
   getStates(value) {
+    this.mappedParkingPlaceDistricts = [];
+    this.enableButton = false;
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,
@@ -87,6 +90,9 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   setProviderServiceMapID(providerServiceMapID) {
     this.zones = [];
+    this.parkingPlaces = [];
+    this.mappedParkingPlaceDistricts = [];
+    this.enableButton = false;
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     this.getAvailableZones(this.providerServiceMapID);
@@ -105,6 +111,8 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     }
   }
   getAllParkingPlaces(zoneID, providerServiceMapID) {
+    this.mappedParkingPlaceDistricts = [];
+    this.enableButton = false;
     let parkingPlaceObj = {
       "zoneID": zoneID,
       "providerServiceMapID": providerServiceMapID
@@ -128,7 +136,9 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   getMappingSuccessHandler(response) {
     this.mappedParkingPlaceDistricts = response;
     this.showTable = true;
+    this.enableButton = true;
   }
+
   showForm() {
     this.disableSelection = true;
     this.showTable = false;
@@ -227,7 +237,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
       }
       this.mappingList.push(mappingObject);
       this.mappingForm.resetForm();
-      this.taluks = [];
+      this.availableTaluks = [];
     }
 
   }
@@ -252,6 +262,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
       if (res) {
         this.showList();
         this.mappingList = [];
+        this.editMappedValue = undefined;
       }
     })
   }
@@ -289,8 +300,10 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
 
   }
   updateSuccessHandler(response) {
-    this.alertService.alert("Updated successfully", 'success');
+    this.editMappedValue = null;
     this.showList();
+    this.alertService.alert("Updated successfully", 'success');
+  
   }
 
   activateDeactivateMapping(parkingPlace, parkingPlaceNotExist) {
