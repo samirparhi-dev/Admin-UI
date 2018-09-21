@@ -180,7 +180,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
           this.showWellBeingFlag = true;
           this.subServices = response.filter(function (item) {
             if (item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase() ||
-              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase()) {
+              item.subServiceName.toUpperCase() === "Psychiatrist".toUpperCase() || 
+              item.subServiceName.toUpperCase() === "Service Improvements".toUpperCase()) {
               return item;
             }
           });
