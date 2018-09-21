@@ -16,20 +16,17 @@ export class ServicePointMasterService {
     providerAdmin_Base_Url: any;
     common_Base_Url: any;
 
+    _getStateListURL: any;
+    _getServiceLineURL: any;
+    _getZonesURL: any;
+    getParkingPlacesURL: any;
+    _getDistrictListURL: any;
+    _getTalukListURL: any;
+
     // CRUD
     saveServicePointsURL: any;
     getServicePointsURL: any;
     updateServicePointStatusURL: any;
-    getParkingPlacesURL: any;
-
-    _getStateListBYServiceIDURL: any;
-    _getStateListURL: any;
-    _getServiceLineURL: any;
-    _getDistrictListURL: any;
-    _getTalukListURL: any;
-    _getBlockListURL: any;
-    _getBranchListURL: any;
-    _getZonesURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -37,20 +34,63 @@ export class ServicePointMasterService {
         this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
-        this.saveServicePointsURL = this.providerAdmin_Base_Url + 'servicePointMaster/create/servicePoints';
-        this.getServicePointsURL = this.providerAdmin_Base_Url + 'servicePointMaster/get/servicePoints';
-        this.updateServicePointStatusURL = this.providerAdmin_Base_Url + 'servicePointMaster/remove/servicePoint';
-        this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlaces';
-
-        this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
         this._getStateListURL = this.providerAdmin_Base_Url + 'm/role/stateNew';
         this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/serviceNew';
         this._getZonesURL = this.providerAdmin_Base_Url + "zonemaster/get/zones";
+        this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlacesbyzoneid';
         this._getDistrictListURL = this.providerAdmin_Base_Url + '/zonemaster/getdistrictMappedtoZone';
-        this._getTalukListURL = this.providerAdmin_Base_Url + '/parkingPlaceMaster/getSubDistrictByParkingPlaceID';
-        this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
-        this._getBranchListURL = this.common_Base_Url + 'location/village/';
+        this._getTalukListURL = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/getbyppidanddid/parkingPlacesTalukMapping';
+
+        this.saveServicePointsURL = this.providerAdmin_Base_Url + 'servicePointMaster/create/servicePoints';
+        this.getServicePointsURL = this.providerAdmin_Base_Url + 'servicePointMaster/get/servicePoints';
+        this.updateServicePointStatusURL = this.providerAdmin_Base_Url + 'servicePointMaster/remove/servicePoint';      
         this.updateServicePointsURL = this.providerAdmin_Base_Url + '/servicePointMaster/edit/servicePoint';
+    }
+    getServices(userID) {
+        return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+
+    getStates(userID, serviceID, isNationalFlag) {
+        return this.http.post(this._getStateListURL,
+            {
+                'userID': userID,
+                'serviceID': serviceID,
+                'isNational': isNationalFlag
+            }).map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    getZones(data) {
+        return this.http.post(this._getZonesURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    getParkingPlaces(data) {
+        return this.http.post(this.getParkingPlacesURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    getDistricts(zoneID) {
+        return this.http.post(this._getDistrictListURL, { 'zoneID': zoneID })
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
+    }
+    
+    getServicePoints(data) {
+        return this.http.post(this.getServicePointsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    
+    getTaluks(talukObj) {
+        return this.http.post(this._getTalukListURL, talukObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
     }
 
     saveServicePoint(data) {
@@ -64,89 +104,13 @@ export class ServicePointMasterService {
             .catch(this.handleError);
     }
 
-    getServicePoints(data) {
-        return this.http.post(this.getServicePointsURL, data)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
 
     updateServicePointStatus(data) {
         return this.http.post(this.updateServicePointStatusURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
-    getParkingPlaces(data) {
-        return this.http.post(this.getParkingPlacesURL, data)
-            .map(this.handleState_n_parkingplaces)
-            .catch(this.handleError);
-    }
-
-
-    getStatesByServiceID(serviceID, serviceProviderID) {
-        return this.http.post(this._getStateListBYServiceIDURL,
-            { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    // getStates(serviceProviderID) {
-    //     return this.http.post(this._getStateListURL,
-    //         { 'serviceProviderID': serviceProviderID })
-    //         .map(this.handleSuccess)
-    //         .catch(this.handleError);
-    // }
-    getStates(userID, serviceID, isNationalFlag) {
-        return this.http.post(this._getStateListURL,
-            {
-                'userID': userID,
-                'serviceID': serviceID,
-                'isNational': isNationalFlag
-            }).map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    // getServices(serviceProviderID, stateID) {
-    //     return this.http.post(this._getServiceLineURL, {
-    //         'serviceProviderID': serviceProviderID,
-    //         'stateID': stateID
-    //     }).map(this.handleSuccess)
-    //         .catch(this.handleError);
-    // }
-    getServices(userID) {
-        return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
-            .map(this.handleState_n_ServiceSuccess)
-            .catch(this.handleError);
-    }
-    getZones(data) {
-        return this.http.post(this._getZonesURL, data)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-    getDistricts(zoneID) {
-        return this.http.post(this._getDistrictListURL , { 'zoneID': zoneID} )
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
-    getTaluks(parkingPlaceID: number) {
-        return this.http.post(this._getTalukListURL , { 'parkingPlaceID': parkingPlaceID})
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
-    getSTBs(talukId: number) {
-        return this.http.get(this._getBlockListURL + talukId)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    getBranches(blockId: number) {
-        return this.http.get(this._getBranchListURL + blockId)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
+    
     handleState_n_ServiceSuccess(response: Response) {
 
         console.log(response.json().data, 'service point file success response');
