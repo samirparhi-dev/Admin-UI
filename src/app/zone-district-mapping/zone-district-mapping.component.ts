@@ -28,7 +28,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
   editable: any = false;
   showMappings: any = false;
 
-  bufferCount: any = 0;
   count: any = 0;
 
   /* array*/
@@ -348,7 +347,6 @@ export class ZoneDistrictMappingComponent implements OnInit {
         this.resetDropdowns();
         this.showList();
         this.zoneDistrictMappingList = [];
-        this.bufferCount = 0;
         this.editZoneMappingValue = undefined;
       }
     })
