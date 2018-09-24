@@ -12,8 +12,6 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 export class VanComponent implements OnInit {
 
     filteredavailableVans: any = [];
-    searchParkingPlaceID_edit: any;
-    searchDistrictID_edit: any;
     showVansTable: boolean = false;
     userID: any;
     serviceline: any;
@@ -31,16 +29,14 @@ export class VanComponent implements OnInit {
     zones: any = [];
     countryID: any;
     searchStateID: any;
-    searchDistrictID: any;
-    searchParkingPlaceID: any;
-    searchDistrictID_Update: any;
-    searchParkingPlaceID_Update: any;
+    district: any;
+    parking_place: any;
     serviceID: any;
     createdBy: any;
     status: any;
     zoneID: any;
-    talukID: any;
     createButton: boolean = false;
+    parkingPlaces: any = [];
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
@@ -61,9 +57,6 @@ export class VanComponent implements OnInit {
         //this.districts = [];
     }
     ngOnInit() {
-        //  this.getVans(null, null, null);
-        //this.getStates();
-        //   this.getStatesByServiceID();
         this.getProviderServices();
         this.getVanTypes();
     }
@@ -88,8 +81,7 @@ export class VanComponent implements OnInit {
     }
     setProviderServiceMapID(providerServiceMapID) {
         this.zones = [];
-        this.districts = [];
-        this.availableParkingPlaces = [];
+        this.parkingPlaces = [];
         this.filteredavailableVans = [];
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
@@ -108,6 +100,30 @@ export class VanComponent implements OnInit {
             }
         }
     }
+    getAllParkingPlaces(zoneID, providerServiceMapID) {
+        let parkingPlaceObj = {
+            "zoneID": zoneID,
+            "providerServiceMapID": providerServiceMapID
+        };
+        this.servicePointMasterService.getParkingPlaces(parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
+
+    }
+    getParkingPlaceSuccessHandler(response) {
+        this.parkingPlaces = response;
+        this.createButton = false;
+    }
+
+    // districts: any = [];
+    // getDistricts(zoneID) {
+    //     this.vanMasterService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+    // }
+    // getDistrictsSuccessHandeler(response) {
+    //     console.log(response, "districts retrieved");
+    //     this.districts = response;
+    //     this.availableVans = [];
+    //     this.filteredavailableVans = [];
+    //     this.createButton = false;
+    // }
     obj: any;
     getVanTypes() {
         this.vanMasterService.getVanTypes().subscribe(response => this.getVanTypesSuccessHandler(response));
@@ -118,39 +134,13 @@ export class VanComponent implements OnInit {
         this.availableVanTypes = response;
     }
 
-    parkingPlaceObj: any;
-    getParkingPlaces(stateID, districtID) {
-        this.parkingPlaceObj = {};
-        this.parkingPlaceObj.stateID = stateID;
-        this.parkingPlaceObj.districtID = districtID;
-        this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
-        this.vanMasterService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
-    }
 
-    availableParkingPlaces: any;
-    getParkingPlaceSuccessHandler(response) {
-        this.availableParkingPlaces = response;
-        this.availableVans = [];
-        this.filteredavailableVans = [];
-        this.createButton = false;
-        this.searchDistrictID_Update = this.searchDistrictID;
-        for (let availableParkingPlaces of this.availableParkingPlaces) {
-            if (availableParkingPlaces.deleted) {
-                const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
-                if (index !== -1) {
-                    this.availableParkingPlaces.splice(index, 1);
-                }
-            }
-        }
-    }
 
-    getVans(stateID, districtID, parkingPlaceID) {
+    getVans(providerServiceMapID, parkingPlaceID) {
         this.vanObj = {};
         //  this.vanObj.stateID = stateID;
-        this.vanObj.districtID = districtID;
         this.vanObj.parkingPlaceID = parkingPlaceID;
-        this.vanObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
-        this.searchParkingPlaceID_Update = this.searchParkingPlaceID;
+        this.vanObj.providerServiceMapID = providerServiceMapID;
         this.vanMasterService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
     }
@@ -165,25 +155,51 @@ export class VanComponent implements OnInit {
             this.availableVehicleNos.push(availableVan.vehicalNo);
         }
     }
+
+    // taluks: any = [];
+    // GetTaluks(parkingPlaceID, districtID) {
+    //     let talukObj = {
+    //         "parkingPlaceID": parkingPlaceID,
+    //         "districtID": districtID
+    //     }
+    //     this.vanMasterService.getTaluks(talukObj)
+    //         .subscribe(response => this.SetTaluks(response));
+    // }
+    // SetTaluks(response: any) {
+    //     this.taluks = response;
+    //     if (this.editVanValue != undefined) {
+    //         if (this.taluks) {
+    //             let taluk = this.taluks.filter((talukRes) => {
+    //                 if (this.editVanValue.districtBlockID == talukRes.districtBlockID) {
+    //                     return talukRes;
+    //                 }
+    //             })[0];
+    //             if (taluk) {
+    //                 this.talukID = taluk;
+    //             }
+    //         }
+
+    //     }
+    // }
     deleteRow(i) {
         this.vanList.splice(i, 1);
     }
     vanObj: any;
     vanList: any = [];
-    addVanToList(taluk, values) {
+    addVanToList(formValues) {
         this.vanObj = {};
-        this.vanObj.vanName = values.vanName;
-        this.vanObj.vehicalNo = values.vehicalNo;
+        this.vanObj.vanName = formValues.vanName;
+        this.vanObj.vehicalNo = formValues.vehicalNo;
         this.vanObj.countryID = this.countryID;
         this.vanObj.stateID = this.searchStateID.stateID;
         this.vanObj.stateName = this.searchStateID.stateName;
-        this.vanObj.districtID = this.searchDistrictID.districtID;
-        this.vanObj.districtName = this.searchDistrictID.districtName;
-        this.vanObj.parkingPlaceID = this.searchParkingPlaceID.parkingPlaceID;
-        this.vanObj.parkingPlaceName = this.searchParkingPlaceID.parkingPlaceName;
+        // this.vanObj.districtID = this.district.districtID;
+        // this.vanObj.districtName = this.district.districtName;
+        this.vanObj.parkingPlaceID = this.parking_place.parkingPlaceID;
+        this.vanObj.parkingPlaceName = this.parking_place.parkingPlaceName;
         this.vanObj.providerServiceMapID = this.searchStateID.providerServiceMapID;
-        this.vanObj.vanTypeID = values.vanTypeID.split("-")[0];
-        this.vanObj.vanType = values.vanTypeID.split("-")[1];
+        this.vanObj.vanTypeID = formValues.vanTypeID.split("-")[0];
+        this.vanObj.vanType = formValues.vanTypeID.split("-")[1];
         this.vanObj.createdBy = this.createdBy;
         this.checkDuplicates(this.vanObj);
         //this.vanList.push(this.vanObj);
@@ -201,7 +217,7 @@ export class VanComponent implements OnInit {
             for (let i = 0; i < this.vanList.length; i++) {
                 if (this.vanList[i].vanName === vanObj.vanName
                     && this.vanList[i].providerServiceMapID === vanObj.providerServiceMapID
-                    && this.vanList[i].districtName === vanObj.districtName
+                    // && this.vanList[i].districtName === vanObj.districtName
                     && this.vanList[i].parkingPlaceName === vanObj.parkingPlaceName
                     && this.vanList[i].vanType === vanObj.vanType
                     && this.vanList[i].vehicalNo === vanObj.vehicalNo) {
@@ -227,87 +243,9 @@ export class VanComponent implements OnInit {
 
     vanSuccessHandler(response) {
         this.vanList = [];
-        this.talukID = null;
         this.alertMessage.alert("Saved successfully", 'success');
         this.showList();
     }
-
-    // stateSelection(stateID) {
-    //     this.getServices(stateID);
-    // }
-
-    // getServices(stateID) {
-    //     this.vanMasterService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response));
-    // }
-
-    // getStates() {
-    //     this.vanMasterService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    // }
-
-    // getStatesSuccessHandeler(response) {
-    //     this.provider_states = response;
-    // }
-
-    // getStatesByServiceID() {
-    //     this.vanMasterService.getStatesByServiceID(this.serviceID, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response));
-    // }
-
-
-    districts: any = [];
-    getDistricts(zoneID) {
-        this.vanMasterService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-    }
-    getDistrictsSuccessHandeler(response) {
-        console.log(response, "districts retrieved");
-        this.districts = response;
-        this.availableVans = [];
-        this.availableParkingPlaces = [];
-        this.filteredavailableVans = [];
-        this.createButton = false;
-    }
-    taluks: any = [];
-    GetTaluks(parkingPlaceID: number) {
-        this.vanMasterService.getTaluks(parkingPlaceID)
-            .subscribe(response => this.SetTaluks(response));
-    }
-    SetTaluks(response: any) {
-        this.taluks = response;
-        if (this.editVanValue != undefined) {
-            if (this.taluks) {
-                let taluk = this.taluks.filter((talukRes) => {
-                    if (this.editVanValue.districtBlockID == talukRes.districtBlockID) {
-                        return talukRes;
-                    }
-                });
-                if (taluk) {
-                    this.talukID = taluk;
-                }
-            }
-
-        }
-    }
-
-    branches: any = [];
-    GetBranches(talukID: number) {
-        this.vanMasterService.getBranches(talukID)
-            .subscribe(response => this.SetBranches(response));
-    }
-    SetBranches(response: any) {
-        this.branches = response;
-    }
-
-
-    // getServicesSuccessHandeler(response) {
-    //     this.provider_services = response;
-    //     for (let provider_service of this.provider_services) {
-    //         if ("MMU" == provider_service.serviceName) {
-    //             this.providerServiceMapID = provider_service.providerServiceMapID;
-    //         }
-    //     }
-    //     if (this.providerServiceMapID == "" || this.providerServiceMapID == undefined) {
-    //         this.alertMessage.alert("No Service available with the state selected");
-    //     }
-    // }
 
     dataObj: any = {};
     updateVanStatus(van) {
@@ -345,15 +283,9 @@ export class VanComponent implements OnInit {
     }
 
     showList() {
-        if (this.editable) {
-            this.getVans(this.searchStateID.stateID, this.searchDistrictID_edit, this.searchParkingPlaceID_edit); this.showVans = true;
-        }
-        else {
-            this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID); this.showVans = true;
-        }
+        this.getVans(this.searchStateID.providerServiceMapID, this.parking_place.parkingPlaceID); this.showVans = true;
         this.showVansTable = true;
         this.editable = false;
-        this.vanObj = [];
         this.vanList = [];
     }
 
@@ -386,15 +318,12 @@ export class VanComponent implements OnInit {
         this.vehicalNo = van.vehicalNo;
         this.vanTypeID = van.vanTypeID + "-" + van.vanType;
         this.stateID = van.stateID;
-        this.searchDistrictID_edit = van.districtID;
+        // this.district = van.districtID;
         this.providerServiceMapID = van.providerServiceMapID;
-        this.searchParkingPlaceID_edit = van.parkingPlaceID;
-        // this.getStatesByServiceID();
-        // this.getDistricts(van.stateID);
-        //  this.getParkingPlaces(van.stateID, van.districtID);
-
+        this.parking_place.parkingPlaceID = van.parkingPlaceID;
+        this.parking_place.parkingPlaceName = van.parkingPlaceName;
         this.editable = true;
-        this.GetTaluks(this.searchParkingPlaceID_edit);
+        // this.GetTaluks(this.parking_place, this.district);
     }
 
     updateVanData(van) {
@@ -404,13 +333,10 @@ export class VanComponent implements OnInit {
         this.dataObj.vehicalNo = van.vehicalNo;
         this.dataObj.vanTypeID = van.vanTypeID.split("-")[0];
         this.dataObj.countryID = this.countryID;
-        this.dataObj.parkingPlaceID = this.searchParkingPlaceID_edit;
+        this.dataObj.parkingPlaceID = this.parking_place.parkingPlaceID;
         this.dataObj.stateID = this.stateID;
         this.dataObj.providerServiceMapID = this.providerServiceMapID;
-        this.dataObj.districtID = this.searchDistrictID_edit;
         this.dataObj.modifiedBy = this.createdBy;
-        this.searchDistrictID = this.searchDistrictID_Update;
-        this.searchParkingPlaceID = this.searchParkingPlaceID_Update;
         this.vanMasterService.updateVanData(this.dataObj).subscribe(response => this.updateHandler(response));
 
     }
@@ -418,9 +344,8 @@ export class VanComponent implements OnInit {
     updateHandler(response) {
         this.editable = false;
         this.alertMessage.alert("Updated successfully", 'success');
-        this.getVans(this.searchStateID.stateID, this.searchDistrictID.districtID, this.searchParkingPlaceID.parkingPlaceID);
         this.availableVanNames = [];
-        this.talukID = null;
+        this.getVans(this.searchStateID.providerServiceMapID, this.parking_place.parkingPlaceID);
     }
     filterComponentList(searchTerm?: string) {
         if (!searchTerm) {
@@ -441,10 +366,13 @@ export class VanComponent implements OnInit {
     back() {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
-                this.talukID = null;
                 this.showList();
             }
         })
     }
+
+
+
+
 
 }

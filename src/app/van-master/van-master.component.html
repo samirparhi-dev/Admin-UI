@@ -25,35 +25,29 @@
                 </div>
                 <form #resetform="ngForm">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
-                            #zoneG="ngModel" (change)="getDistricts(zoneID.zoneID)">
+                        <md-select placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" #zone="ngModel" (change)="getAllParkingPlaces(zoneID.zoneID, searchStateID.providerServiceMapID)"
+                            required>
                             <md-option *ngFor="let zone of zones" [value]="zone">
                                 {{zone.zoneName}}
                             </md-option>
                         </md-select>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15 ">
-                        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                            <input mdInput style="display:none"> -->
-                        <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" name="searchDistrictID"
-                            (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
-                            <md-option *ngFor="let district of districts" [value]="district">
-                                {{district.districtName}}
-                            </md-option>
-                        </md-select>
-                        <!-- </md-input-container> -->
-                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                            <input mdInput style="display:none"> -->
-                        <md-select required placeholder="Parking Place" [style.width]="'100%'" [(ngModel)]="searchParkingPlaceID" name="searchParkingPlaceID"
-                            (change)="getVans(searchStateID.stateID,searchDistrictID.districtID,searchParkingPlaceID.parkingPlaceID);GetTaluks(searchParkingPlaceID.parkingPlaceID)">
-                            <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
+                        <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_place" name="parking_place" (change)="getVans(searchStateID.providerServiceMapID, parking_place.parkingPlaceID)"
+                            #parkingPlace="ngModel" required>
+                            <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
                                 {{parkingPlace.parkingPlaceName}}
                             </md-option>
                         </md-select>
-                        <!-- </md-input-container> -->
                     </div>
+                    <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+                        <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="getVans(searchStateID.stateID,district.districtID,parking_place.parkingPlaceID);GetTaluks(parking_place.parkingPlaceID, district.districtID)"
+                            #mappingDistrict='ngModel' required>
+                            <md-option *ngFor="let item of districts" [value]="item">
+                                {{item.districtName}}
+                            </md-option>
+                        </md-select>
+                    </div> -->
 
                 </form>
             </div>
@@ -162,68 +156,38 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                     <md-select required placeholder="Zone" class="width100" [disabled]="true" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
-                        #zoneG="ngModel" (change)="getDistricts(zoneID.zoneID)">
+                        #zoneG="ngModel"  (change)="getAllParkingPlaces(zoneID.zoneID, searchStateID.providerServiceMapID)">
                         <md-option *ngFor="let zone of zones" [value]="zone">
                             {{zone.zoneName}}
                         </md-option>
                     </md-select>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 " *ngIf="editable">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
-                    <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID_edit" [disabled]="true" name="searchDistrictID"
-                        (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
-                        <md-option *ngFor="let district of districts" [value]="district.districtID">
-                            {{district.districtName}}
-                        </md-option>
-                    </md-select>
-                    <!-- </md-input-container> -->
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 " *ngIf="!editable">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
-                    <md-select required placeholder="District" [style.width]="'100%'" [(ngModel)]="searchDistrictID" [disabled]="true" name="searchDistrictID"
-                        (change)="getParkingPlaces(searchStateID.stateID,searchDistrictID.districtID);">
-                        <md-option *ngFor="let district of districts" [value]="district">
-                            {{district.districtName}}
-                        </md-option>
-                    </md-select>
-                    <!-- </md-input-container> -->
-                </div>
-                <div class="clearfix visible-sm visible-lg"></div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="editable">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
-                    <md-select required placeholder="Parking Place" [style.width]="'100%'" [disabled]="true" [(ngModel)]="searchParkingPlaceID_edit"
-                        name="searchParkingPlaceID">
-                        <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace.parkingPlaceID">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <md-select placeholder="Parking place" class="width100" [disabled]="true" [(ngModel)]="parking_place" name="parking_place"
+                        #parking="ngModel" required>
+                        <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
                             {{parkingPlace.parkingPlaceName}}
                         </md-option>
                     </md-select>
-                    <!-- </md-input-container> -->
                 </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="!editable">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
-                    <md-select required placeholder="Parking Place" [style.width]="'100%'" [disabled]="true" [(ngModel)]="searchParkingPlaceID"
-                        name="searchParkingPlaceID">
-                        <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
-                            {{parkingPlace.parkingPlaceName}}
+                <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+                    <md-select placeholder="District" class="width100" [disabled]="true" [(ngModel)]="district" name="district" (change)="getVans(searchStateID.stateID,district.districtID,parking_place.parkingPlaceID);GetTaluks(parking_place.parkingPlaceID, district.districtID)"
+                        #mappingDistrict='ngModel' required>
+                        <md-option *ngFor="let item of districts" [value]="item">
+                            {{item.districtName}}
                         </md-option>
                     </md-select>
-                    <!-- </md-input-container> -->
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
-                    <!-- <md-input-container class="hide_underline width100">
-                          <input mdInput style="display:none"> -->
+                </div> -->
+                <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
+                    <md-input-container class="hide_underline width100">
+                          <input mdInput style="display:none">
                     <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID">
                         <md-option *ngFor="let taluk of taluks" [value]="taluk">
-                            {{taluk.blockName}}
+                            {{taluk.districtBlockName}}
                         </md-option>
                     </md-select>
-                    <!-- </md-input-container> -->
-                </div>
+                    </md-input-container>
+                </div> -->
                 <form #vanMasterForm1="ngForm" autocomplete="off">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10 ">
                         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
@@ -261,7 +225,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-12 col-lg-3 m-t-15">
                         <button md-mini-fab color="primary" *ngIf="!editable && vanMasterForm1.valid" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left"
-                            (click)="addVanToList(talukID, vanMasterForm1.value);vanMasterForm1.reset();">
+                            (click)="addVanToList(vanMasterForm1.value);vanMasterForm1.reset();">
                             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
                         </button>
                     </div>
@@ -285,7 +249,7 @@
                         <th width="5%">S.No.</th>
                         <th width="15%">State</th>
                         <!-- <th>Zone</th> -->
-                        <th width="12%">District</th>
+                        <!-- <th width="12%">District</th> -->
                         <th width="12%">Parking Place</th>
                         <th width="10%">Van</th>
                         <th width="10%">Vehicle No.</th>
@@ -298,7 +262,7 @@
                         <td>{{vanList.indexOf(van)+1}}</td>
                         <td>{{van.stateName}}</td>
                         <!-- <td>{{van.zoneName}}</td> -->
-                        <td>{{van.districtName}}</td>
+                        <!-- <td>{{van.districtName}}</td> -->
                         <td>{{van.parkingPlaceName}}</td>
                         <td>{{van.vanName}}</td>
                         <td>{{van.vehicalNo}}</td>

@@ -46,7 +46,7 @@ export class VanMasterService {
         this._getStateListURL = this.common_Base_Url + "location/states/";
         this._getServiceLineURL = this.providerAdmin_Base_Url + "m/role/service";
         this._getDistrictListURL = this.providerAdmin_Base_Url + "/zonemaster/getdistrictMappedtoZone";
-        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceMaster/getSubDistrictByParkingPlaceID";
+        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceTalukMapping/getbyppidanddid/parkingPlacesTalukMapping";
         this._getBlockListURL = this.common_Base_Url + "location/districtblocks/";
         this._getBranchListURL = this.common_Base_Url + "location/village/";
     }
@@ -114,8 +114,8 @@ export class VanMasterService {
             .catch(this.handleError);
 
     }
-    getTaluks(parkingPlaceID: number) {
-        return this.http.post(this._getTalukListURL, { 'parkingPlaceID': parkingPlaceID })
+    getTaluks(talukObj) {
+        return this.http.post(this._getTalukListURL, talukObj)
             .map(this.handleSuccess)
             .catch(this.handleError);
 
