@@ -27,6 +27,7 @@ export class ParkingPlaceMasterService {
     /*Parking place - Sub-District Mapping*/
     _getDistrictListURL: any;
     _getTalukListURL: any;
+    filterMappedTaluks_url: any;
     getAllParkingPlaceSubDistrictMapping_url: any;
     saveParkingPlaceSubDistrictMapping_url: any;
     mappingActivationDeactivation_url: any;
@@ -59,7 +60,7 @@ export class ParkingPlaceMasterService {
         this.saveParkingPlaceSubDistrictMapping_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/create/parkingPlacesTalukMapping';
         this.mappingActivationDeactivation_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/activate/parkingPlacesTalukMapping';
         this.updateTalukMapping_url = this.providerAdmin_Base_Url + '/parkingPlaceTalukMapping/update/parkingPlacesTalukMapping';
-
+        this.filterMappedTaluks_url = this.providerAdmin_Base_Url + 'parkingPlaceTalukMapping/get/unmappedtaluk';
     }
     /*common services*/
     getServiceLinesNew(userID) {
@@ -127,6 +128,12 @@ export class ParkingPlaceMasterService {
             .map(this.handleSuccess)
             .catch(this.handleError);
 
+    }
+    filterMappedTaluks(unmappedObject) {
+        return this.httpIntercept
+            .post(this.filterMappedTaluks_url, unmappedObject)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
     }
     saveParkingPlaceSubDistrictMapping(reqObj) {
         return this.http

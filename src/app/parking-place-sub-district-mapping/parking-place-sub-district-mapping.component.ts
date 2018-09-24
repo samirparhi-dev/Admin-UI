@@ -165,60 +165,56 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getTaluks(districtID, providerServiceMapID) {
     this.parkingPlaceMasterService.getTaluks(districtID)
-      .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse, providerServiceMapID));
+      .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse, districtID, providerServiceMapID));
   }
-  getTaluksSuccessHandler(talukResponse, providerServiceMapID) {
+  getTaluksSuccessHandler(talukResponse, districtID, providerServiceMapID) {
     this.taluks = talukResponse;
     if (this.taluks) {
-      this.checkExistance(providerServiceMapID);
+      this.checkExistance(districtID, providerServiceMapID);
     }
-    if (this.editMappedValue != undefined) {
-      let editTaluk = this.taluks.filter((editTalukValue) => {
-        if (this.editMappedValue.districtBlockID == editTalukValue.blockID && this.editMappedValue.districtID == this.district.districtID) {
-          return editTalukValue;
-        }
-      })[0]
-      if (editTaluk) {
-        this.taluk = editTaluk;
-        this.availableTaluks.push(editTaluk);
-      }
-    }
+
   }
-  checkExistance(providerServiceMapID) {
-    this.existingTaluks = [];
-    this.mappedParkingPlaceDistricts.forEach((mappedTaluks) => {
-      if (mappedTaluks.providerServiceMapID != undefined && mappedTaluks.providerServiceMapID == providerServiceMapID) {
-        if (!mappedTaluks.deleted) {
-          this.existingTaluks.push(mappedTaluks.districtBlockID);
-        }
-      }
-    });
-    this.availableTaluks = this.taluks.slice();
-
-    let temp = [];
-    this.availableTaluks.forEach((taluk) => {
-      let index = this.existingTaluks.indexOf(taluk.blockID);
-      if (index < 0) {
-        temp.push(taluk);
-      }
-    });
-    this.availableTaluks = temp.slice();
-
-    if (this.mappingList.length > 0) {
-      this.mappingList.forEach((talukList) => {
-        this.bufferTalukArray.push(talukList.districtBlockID);
-      });
+  checkExistance(districtID, providerServiceMapID) {
+    let unmappedObj = {
+      "districtID": districtID,
+      "providerServiceMapID": providerServiceMapID
     }
+    this.parkingPlaceMasterService.filterMappedTaluks(unmappedObj).subscribe((response) => {
+      this.availableTaluks = response;
+      console.log("availableTaluks", this.availableTaluks);
+      if (!this.editable) {
+        if (this.mappingList.length > 0) {
+          this.mappingList.forEach((talukList) => {
+            this.bufferTalukArray.push(talukList.districtBlockID);
+          });
+        }
 
-    let bufferTemp = [];
-    this.availableTaluks.forEach((bufferTaluk) => {
-      let index = this.bufferTalukArray.indexOf(bufferTaluk.blockID);
-      if (index < 0) {
-        bufferTemp.push(bufferTaluk);
+        let bufferTemp = [];
+        this.availableTaluks.forEach((bufferTaluk) => {
+          let index = this.bufferTalukArray.indexOf(bufferTaluk.blockID);
+          if (index < 0) {
+            bufferTemp.push(bufferTaluk);
+          }
+        });
+        this.availableTaluks = bufferTemp.slice();
+        this.bufferTalukArray = [];
+      }
+      // on edit - populate the non mapped categories
+      else {
+        if (this.editMappedValue != undefined) {
+          let editTaluk = this.taluks.filter((editTalukValue) => {
+            if (this.editMappedValue.districtBlockID == editTalukValue.blockID && this.editMappedValue.districtID == this.district.districtID) {
+              return editTalukValue;
+            }
+          })[0]
+          if (editTaluk) {
+            this.taluk = editTaluk;
+            this.availableTaluks.push(editTaluk);
+          }
+        }
+
       }
     });
-    this.availableTaluks = bufferTemp.slice();
-    this.bufferTalukArray = [];
   }
 
   addMappingObject(formValue) {
@@ -303,7 +299,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.editMappedValue = null;
     this.showList();
     this.alertService.alert("Updated successfully", 'success');
-  
+
   }
 
   activateDeactivateMapping(parkingPlace, parkingPlaceNotExist) {
