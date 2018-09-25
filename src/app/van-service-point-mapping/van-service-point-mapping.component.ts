@@ -15,7 +15,6 @@ export class VanServicePointMappingComponent implements OnInit {
   userID: any;
   service: any;
   state: any;
-  districtID: any;
   vanTypeID: any;
   parkingPlaceObj: any;
   obj: any;
@@ -30,11 +29,11 @@ export class VanServicePointMappingComponent implements OnInit {
   editable: any = false;
   availableVanNames: any = [];
   countryID: any;
-  searchStateID: any;
-  searchDistrictID: any;
-  searchParkingPlaceID: any;
+  district: any;
+  parking_place: any;
   zoneID: any;
   talukID: any;
+  parkingPlaceID: any;
 
   serviceID: any;
   formBuilder: FormBuilder = new FormBuilder();
@@ -44,7 +43,7 @@ export class VanServicePointMappingComponent implements OnInit {
   services: any = [];
   states: any = [];
   districts: any = [];
-  availableParkingPlaces: any = [];
+  parkingPlaces: any = [];
   availableVanTypes: any = [];
   availableVans: any = [];
   zones: any = [];
@@ -126,58 +125,64 @@ export class VanServicePointMappingComponent implements OnInit {
       }
     }
   }
-  getDistricts(zoneID) {
-    this.searForm1.resetForm();
-    this.availableParkingPlaces = [];
-    this.taluks = [];
-    this.availableVans = [];
-    this.MappingForm = this.formBuilder.group({
-      mappings: this.formBuilder.array([])
-    });
-    this.vanServicePointMappingService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
-
-  }
-  getDistrictsSuccessHandeler(response) {
-    this.districts = response;
-    this.availableVanServicePointMappings = [];
-    this.reseArray();
-  }
-
-  getParkingPlaces(stateID, districtID) {
+  getParkingPlaces(zoneID, providerServiceMapID) {
     this.searForm1.resetForm();
     this.taluks = [];
     this.availableVans = [];
     this.MappingForm = this.formBuilder.group({
       mappings: this.formBuilder.array([])
     });
-    this.parkingPlaceObj = {};
-    this.parkingPlaceObj.stateID = stateID;
-    this.parkingPlaceObj.districtID = districtID;
-    this.parkingPlaceObj.serviceProviderID = this.service_provider_id;
-    this.vanServicePointMappingService.getParkingPlaces(this.parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
+    let parkingPlaceObj = {
+      "zoneID": zoneID,
+      "providerServiceMapID": providerServiceMapID
+    };
+    this.vanServicePointMappingService.getParkingPlaces(parkingPlaceObj).subscribe(response => this.getParkingPlaceSuccessHandler(response));
   }
-
 
   getParkingPlaceSuccessHandler(response) {
-    this.availableParkingPlaces = response;
+    this.parkingPlaces = response;
     this.reseArray();
-    for (let availableParkingPlaces of this.availableParkingPlaces) {
-      if (availableParkingPlaces.deleted) {
-        const index: number = this.availableParkingPlaces.indexOf(availableParkingPlaces);
+    for (let parkingPlaces of this.parkingPlaces) {
+      if (parkingPlaces.deleted) {
+        const index: number = this.parkingPlaces.indexOf(parkingPlaces);
         if (index !== -1) {
-          this.availableParkingPlaces.splice(index, 1);
+          this.parkingPlaces.splice(index, 1);
         }
       }
     }
-    this.getVanTypes();
   }
-  GetTaluks(parkingPlaceID: number) {
-    this.vanServicePointMappingService.getTaluks(parkingPlaceID)
-      .subscribe(response => this.SetTaluks(response));
-  }
-  SetTaluks(response: any) {
-    this.taluks = response;
-  }
+//   getDistricts(zoneID) {
+//     this.searForm1.resetForm();
+//     this.taluks = [];
+//     this.availableVans = [];
+//     this.MappingForm = this.formBuilder.group({
+//       mappings: this.formBuilder.array([])
+//     });
+//     this.vanServicePointMappingService.getDistricts(zoneID).subscribe(response => this.getDistrictsSuccessHandeler(response));
+
+//   }
+//   getDistrictsSuccessHandeler(response) {
+//     this.districts = response;
+//     this.availableVanServicePointMappings = [];
+//     this.reseArray();
+//   }
+//   GetTaluks(parkingPlaceID, districtID) {
+//     this.searForm1.resetForm();
+//     this.availableVans = [];
+//     let talukObj = {
+//         "parkingPlaceID": parkingPlaceID,
+//         "districtID": districtID
+//     }
+//     this.vanServicePointMappingService.getTaluks(talukObj)
+//         .subscribe(response => this.SetTaluks(response));
+// }
+// SetTaluks(response: any) {
+//     this.taluks = response;
+//     this.availableVanServicePointMappings = [];
+//     this.reseArray();
+//     this.getVanTypes();
+    
+// }
   getVanTypes() {
     this.obj = {};
     this.obj.providerServiceMapID = this.providerServiceMapID;
@@ -190,16 +195,16 @@ export class VanServicePointMappingComponent implements OnInit {
     this.reseArray();
   }
 
-  getVans(stateID, districtID, parkingPlaceID, vanTypeID) {
+  getVans(providerServiceMapID, parkingPlaceID, vanTypeID) {
     this.MappingForm = this.formBuilder.group({
       mappings: this.formBuilder.array([])
     });
     this.vanObj = {};
     //this.vanObj.stateID = stateID;
-    this.vanObj.districtID = districtID;
+    // this.vanObj.districtID = districtID;
     this.vanObj.parkingPlaceID = parkingPlaceID;
     this.vanObj.vanTypeID = vanTypeID;
-    this.vanObj.providerServiceMapID = this.state.providerServiceMapID;
+    this.vanObj.providerServiceMapID = providerServiceMapID;
     this.vanServicePointMappingService.getVans(this.vanObj).subscribe(response => this.getVanSuccessHandler(response));
 
   }
@@ -217,11 +222,11 @@ export class VanServicePointMappingComponent implements OnInit {
     this.alertMessage.alert("Mapping saved successfully", 'success');
   }
 
-  getVanServicePointMappings(districtID, parkingPlaceID, vanID) {
-    console.log("van service point mapping", districtID, parkingPlaceID, vanID);
+  getVanServicePointMappings(parkingPlaceID, vanID) {
+    console.log("van service point mapping", parkingPlaceID, vanID);
     this.vanObj = {};
     // this.vanObj.stateID = stateID;
-    this.vanObj.districtID = districtID;
+    // this.vanObj.districtID = districtID;
     this.vanObj.parkingPlaceID = parkingPlaceID;
     this.vanObj.vanID = vanID;
     this.vanObj.providerServiceMapID = this.providerServiceMapID;
@@ -293,6 +298,10 @@ export class VanServicePointMappingComponent implements OnInit {
       vanID: this.vanID,
       servicePointID: obj.servicePointID,
       servicePointName: obj.servicePointName,
+      districtID: obj.districtID,
+      districtName: obj.districtName,
+      blockID: obj.blockID,
+      blockName: obj.blockName,
       vanSession: vanSession,
       providerServiceMapID: obj.providerServiceMapID,
       deleted: obj.deleted,
@@ -323,8 +332,8 @@ export class VanServicePointMappingComponent implements OnInit {
   vanID: any;
   selectedVan(van) {
     this.vanID = van.vanID,
-      this.districtID = van.districtID,
-      this.searchParkingPlaceID = van.searchParkingPlaceID
+      // this.district = van.districtID,
+      this.parkingPlaceID = van.parkingPlaceID
 
   }
 
@@ -366,7 +375,7 @@ export class VanServicePointMappingComponent implements OnInit {
 
   saveMappingSuccessHandler(response) {
     if (response.length > 0) {
-      this.getVanServicePointMappings(this.districtID, this.searchParkingPlaceID, this.vanID);
+      this.getVanServicePointMappings(this.parking_place.parkingPlaceID, this.vanID);
       this.alertMessage.alert("Mapping saved successfully", 'success');
     }
   }
@@ -375,7 +384,7 @@ export class VanServicePointMappingComponent implements OnInit {
     this.searForm1.resetForm();
     this.zones = [];
     this.districts = [];
-    this.availableParkingPlaces = [];
+    this.parkingPlaces = [];
     this.taluks = [];
     this.availableVans = [];
     this.MappingForm = this.formBuilder.group({
