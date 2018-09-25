@@ -16,20 +16,15 @@ export class ServicePointVillageMapService {
     providerAdmin_Base_Url: any;
     common_Base_Url: any;
 
+    getServicePointsURL: any;
+    _getBranchListURL: any;
+
     // CRUD
     saveServicePointVillageMapsURL: any;
     getServicePointVillageMapsURL: any;
     updateServicePointVillageMapStatusURL: any;
-    getServicePointsURL: any;
-    getParkingPlacesURL: any;
+    filterMappedVillages_url: any;
 
-    _getStateListBYServiceIDURL: any;
-    _getStateListURL: any;
-    _getServiceLineURL: any;
-    _getDistrictListURL: any;
-    _getTalukListURL: any;
-    _getBlockListURL: any;
-    _getBranchListURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -37,22 +32,41 @@ export class ServicePointVillageMapService {
         this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
         this.common_Base_Url = this.basepaths.getCommonBaseURL();
 
-        this.saveServicePointVillageMapsURL = this.providerAdmin_Base_Url + 'servicePointMaster/create/servicePointVillageMaps';
-        this.getServicePointVillageMapsURL = this.providerAdmin_Base_Url + 'servicePointMaster/get/servicePointVillageMaps';
-        this.updateServicePointVillageMapStatusURL = this.providerAdmin_Base_Url + 'servicePointMaster/remove/servicePointVillageMap';
         this.getServicePointsURL = this.providerAdmin_Base_Url + 'servicePointMaster/get/servicePoints';
-        this.getParkingPlacesURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/parkingPlaces';
-
-        this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
-        this._getStateListURL = this.common_Base_Url + 'location/states/';
-        this._getServiceLineURL = this.providerAdmin_Base_Url + 'm/role/service';
-        this._getDistrictListURL = this.providerAdmin_Base_Url + "/zonemaster/getdistrictMappedtoZone";
-        this._getTalukListURL = this.providerAdmin_Base_Url + "/parkingPlaceMaster/getSubDistrictByParkingPlaceID";
-        this._getBlockListURL = this.common_Base_Url + 'location/districtblocks/';
+        this.getServicePointVillageMapsURL = this.providerAdmin_Base_Url + 'servicePointMaster/get/servicePointVillageMaps';
         this._getBranchListURL = this.common_Base_Url + 'location/village/';
+
+
+        this.saveServicePointVillageMapsURL = this.providerAdmin_Base_Url + 'servicePointMaster/create/servicePointVillageMaps';
         this.updateServicePointVillageMapsURL = this.providerAdmin_Base_Url + '/servicePointMaster/edit/servicePointVillageMap';
+        this.updateServicePointVillageMapStatusURL = this.providerAdmin_Base_Url + 'servicePointMaster/remove/servicePointVillageMap';
+        this.filterMappedVillages_url = this.providerAdmin_Base_Url + '/servicePointMaster/get/unmappedvillages';
     }
 
+    getServicePoints(data) {
+        return this.http.post(this.getServicePointsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    getServicePointVillageMaps(data) {
+        return this.http.post(this.getServicePointVillageMapsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+
+    getBranches(blockId: number) {
+        return this.http.get(this._getBranchListURL + blockId)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
+    }
+    filterMappedVillages(unmappedVillage) {
+        return this.httpIntercept
+            .post(this.filterMappedVillages_url, unmappedVillage)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
     saveServicePointVillageMaps(data) {
         return this.http.post(this.saveServicePointVillageMapsURL, data)
             .map(this.handleSuccess)
@@ -64,76 +78,12 @@ export class ServicePointVillageMapService {
             .catch(this.handleError);
     }
 
-    getServicePointVillageMaps(data) {
-        return this.http.post(this.getServicePointVillageMapsURL, data)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
     updateServicePointVillageMapStatus(data) {
         return this.http.post(this.updateServicePointVillageMapStatusURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
 
-    getServicePoints(data) {
-        return this.http.post(this.getServicePointsURL, data)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-    getParkingPlaces(data) {
-        return this.http.post(this.getParkingPlacesURL, data)
-            .map(this.handleState_n_parkingplaces)
-            .catch(this.handleError);
-    }
-
-
-    getStatesByServiceID(serviceID, serviceProviderID) {
-        return this.http.post(this._getStateListBYServiceIDURL,
-            { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    getStates(serviceProviderID) {
-        return this.http.post(this._getStateListURL,
-            { 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    getServices(serviceProviderID, stateID) {
-        return this.http.post(this._getServiceLineURL, {
-            'serviceProviderID': serviceProviderID,
-            'stateID': stateID
-        }).map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    getDistricts(zoneID) {
-        return this.http.post(this._getDistrictListURL, { 'zoneID': zoneID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
-    getTaluks(parkingPlaceID: number) {
-        return this.http.post(this._getTalukListURL, { 'parkingPlaceID': parkingPlaceID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
-    getSTBs(talukId: number) {
-        return this.http.get(this._getBlockListURL + talukId)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
-
-    getBranches(blockId: number) {
-        return this.http.get(this._getBranchListURL + blockId)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-
-    }
     handleState_n_parkingplaces(response: Response) {
 
         console.log(response.json().data, 'service point village file success response');
