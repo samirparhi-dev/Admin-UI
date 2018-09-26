@@ -128,6 +128,14 @@ export class ServicePointVillageMapComponent implements OnInit {
     }
     getParkingPlaceSuccessHandler(response) {
         this.parkingPlaces = response;
+        for (let parkingPlaces of this.parkingPlaces) {
+            if (parkingPlaces.deleted) {
+                const index: number = this.parkingPlaces.indexOf(parkingPlaces);
+                if (index !== -1) {
+                    this.parkingPlaces.splice(index, 1);
+                }
+            }
+        }
     }
     getServicePoints(stateID, parkingPlaceID) {
         this.servicePointVillageMapObj = {};
