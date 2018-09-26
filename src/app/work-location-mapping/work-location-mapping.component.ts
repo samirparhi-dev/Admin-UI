@@ -389,6 +389,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
     this.bufferArray.push(workLocationObj);
     this.resetAllArrays();
+    this.availableRoles = [];
   }
   resetAllArrays() {
     this.states_array = [];
