@@ -111,6 +111,14 @@ export class VanComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.parkingPlaces = response;
         this.createButton = false;
+        for (let parkingPlaces of this.parkingPlaces) {
+            if (parkingPlaces.deleted) {
+                const index: number = this.parkingPlaces.indexOf(parkingPlaces);
+                if (index !== -1) {
+                    this.parkingPlaces.splice(index, 1);
+                }
+            }
+        }
     }
 
     // districts: any = [];

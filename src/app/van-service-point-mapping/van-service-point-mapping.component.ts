@@ -255,15 +255,7 @@ export class VanServicePointMappingComponent implements OnInit {
         temp.removeAt(0);
       }
     }
-    //   if (temp.length > 0) {
-
-    //     this.MappingForm = this.formBuilder.group({
-    //       mappings: this.formBuilder.array([])
-    //     });
-    //   } else {
-
-
-    // }
+    
     let remainarray: any = [];
 
     for (var i = 0; i < this.availableVanServicePointMappings.length; i++) {
