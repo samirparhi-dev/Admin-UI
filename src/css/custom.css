@@ -2207,6 +2207,11 @@ center;
     color: #b3b3b3;
     font-size: 12px;
 }
+.addressNote
+{
+    color: red;
+    font-size: 12px;
+}
 @media (min-width: 317px) {
 
   .xs-pull-right{
