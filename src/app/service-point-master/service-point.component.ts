@@ -10,7 +10,7 @@ import { MdCheckbox, MdSelect } from '@angular/material';
     templateUrl: './service-point.component.html'
 })
 export class ServicePointComponent implements OnInit {
-   
+
     areaHQAddress: any;
     districtID: any;
     servicePointID: any;
@@ -33,7 +33,8 @@ export class ServicePointComponent implements OnInit {
     createdBy: any;
     status: any;
     zoneID: any;
-    editTalukServicePoint: any;
+    editServicePointValue: any;
+    note: string;
 
     formMode: boolean = false;
     editMode: boolean = false;
@@ -90,7 +91,7 @@ export class ServicePointComponent implements OnInit {
     }
     setProviderServiceMapID(providerServiceMapID) {
         this.zones = [];
-        this.districts = [];
+        // this.districts = [];
         this.parkingPlaces = [];
         this.filteredavailableServicePoints = [];
         console.log("providerServiceMapID", providerServiceMapID);
@@ -104,8 +105,8 @@ export class ServicePointComponent implements OnInit {
     getZonesSuccessHandler(response) {
         this.createButton = false;
         this.parkingPlaces = [];
-        this.districts = [];
-        this.resetform.controls.district.reset();
+        // this.districts = [];
+        // this.resetform.controls.district.reset();
         if (response != undefined) {
             for (let zone of response) {
                 if (!zone.deleted) {
@@ -125,6 +126,14 @@ export class ServicePointComponent implements OnInit {
     getParkingPlaceSuccessHandler(response) {
         this.parkingPlaces = response;
         this.createButton = false;
+        for (let parkingPlaces of this.parkingPlaces) {
+            if (parkingPlaces.deleted) {
+                const index: number = this.parkingPlaces.indexOf(parkingPlaces);
+                if (index !== -1) {
+                    this.parkingPlaces.splice(index, 1);
+                }
+            }
+        }
     }
 
     districts: any = [];
@@ -138,13 +147,24 @@ export class ServicePointComponent implements OnInit {
         this.availableServicePoints = [];
         this.filteredavailableServicePoints = [];
         this.createButton = false;
+        this.note = "* Note: District and Taluk are only for physical address purpose";
+        if (this.editServicePointValue != undefined) {
+            let editDistrict = this.districts.filter((districtResponse) => {
+                if (this.editServicePointValue.districtID!=undefined && this.editServicePointValue.districtID == districtResponse.districtID) {
+                    return districtResponse;
+                }
+            })[0]
+            if (editDistrict) {
+                this.district = editDistrict;
+            }
+        }
     }
 
-    getServicePoints(stateID, districtID, parkingPlaceID) {
+    getServicePoints(stateID, parkingPlaceID) {
         this.createButton = true;
         this.servicePointObj = {};
         this.servicePointObj.stateID = stateID;
-        this.servicePointObj.districtID = districtID;
+        // this.servicePointObj.districtID = districtID;
         this.servicePointObj.parkingPlaceID = parkingPlaceID;
         this.servicePointObj.serviceProviderID = this.service_provider_id;
         this.servicePointMasterService.getServicePoints(this.servicePointObj).subscribe(response => this.getServicePointSuccessHandler(response));
@@ -165,7 +185,7 @@ export class ServicePointComponent implements OnInit {
         this.showServicePoints = false;
         this.formMode = true;
         this.editMode = false;
-        this.GetTaluks(this.parking_Place.parkingPlaceID, this.district.districtID)
+        this.getDistricts(this.zoneID.zoneID);
     }
     taluks: any = [];
     GetTaluks(parkingPlaceID, districtID) {
@@ -178,13 +198,13 @@ export class ServicePointComponent implements OnInit {
     }
     SetTaluks(response: any) {
         this.taluks = response;
-        if(this.editTalukServicePoint != undefined) {
+        if (this.editServicePointValue != undefined) {
             let editTaluk = this.taluks.filter((talukResponse) => {
-                if(this.editTalukServicePoint.districtBlockID == talukResponse.districtBlockID) {
+                if (this.editServicePointValue.districtBlockID == talukResponse.districtBlockID) {
                     return talukResponse;
                 }
             })[0]
-            if(editTaluk) {
+            if (editTaluk) {
                 this.talukID = editTaluk;
             }
         }
@@ -303,11 +323,11 @@ export class ServicePointComponent implements OnInit {
 
     showList() {
         if (!this.editMode) {
-            this.getServicePoints(this.searchStateID.stateID, this.district.districtID, this.parking_Place.parkingPlaceID);
+            this.getServicePoints(this.searchStateID.stateID, this.parking_Place.parkingPlaceID);
             this.servicePointForm1.resetForm();
         }
         else {
-            this.getServicePoints(this.searchStateID.stateID, this.district.districtID, this.parking_Place.parkingPlaceID);
+            this.getServicePoints(this.searchStateID.stateID, this.parking_Place.parkingPlaceID);
             this.servicePointForm2.resetForm();
         }
         //this.servicePointForm.resetForm();
@@ -322,15 +342,15 @@ export class ServicePointComponent implements OnInit {
         this.editMode = true;
         this.formMode = false;
         this.showServicePoints = false;
-        this.editTalukServicePoint = spoint;
+        this.editServicePointValue = spoint;
         this.providerServiceMapID = this.searchStateID.providerServiceMapID;
         this.servicePointID = spoint.servicePointID;
         this.servicePointName = spoint.servicePointName;
         this.servicePointDesc = spoint.servicePointDesc;
-        this.district.districtName = spoint.districtName;
         this.parking_Place.parkingPlaceName = spoint.parkingPlaceName;
         this.areaHQAddress = spoint.servicePointHQAddress;
         console.log("talukID", this.talukID);
+        this.getDistricts(this.zoneID.zoneID);
         this.GetTaluks(spoint.parkingPlaceID, spoint.districtID);
     }
     updateServicePoints(formValues) {
@@ -352,7 +372,7 @@ export class ServicePointComponent implements OnInit {
         this.servicePointList = [];
         this.alertMessage.alert("Updated successfully", 'success');
         this.availableServicePointNames = [];
-        this.editTalukServicePoint = null;
+        this.editServicePointValue = null;
         this.showList();
     }
 

@@ -33,21 +33,21 @@
                         </md-select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" (change)="getDistricts(zoneID.zoneID)"
+                        <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" (change)="getServicePoints(searchStateID.stateID, parking_Place.parkingPlaceID)"
                             #parkingPlace="ngModel" required>
                             <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
                                 {{parkingPlace.parkingPlaceName}}
                             </md-option>
                         </md-select>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+                    <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
                         <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="getServicePoints(searchStateID.stateID, district.districtID, parking_Place.parkingPlaceID)"
                             #mappingDistrict='ngModel' required>
                             <md-option *ngFor="let item of districts" [value]="item">
                                 {{item.districtName}}
                             </md-option>
                         </md-select>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </form>
@@ -158,26 +158,29 @@
                         </md-option>
                     </md-select>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
-                    <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" [disabled]="true" #mappingDistrict='ngModel'
-                        required>
-                        <md-option *ngFor="let item of districts" [value]="item">
-                            {{item.districtName}}
-                        </md-option>
-                    </md-select>
-                </div>
+
 
                 <form #servicePointForm1="ngForm" autocomplete="off">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+                        <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="GetTaluks(parking_Place.parkingPlaceID, district.districtID)"
+                            #mappingDistrict='ngModel'>
+                            <md-option *ngFor="let item of districts" [value]="item">
+                                {{item.districtName}}
+                            </md-option>
+                        </md-select>
+                        <label class="addressNote">{{note}}</label>
+                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline" class="width100">
                             <input mdInput style="display:none"> -->
-                        <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID" required>
+                        <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID">
                             <md-option *ngFor="let taluk of taluks" [value]="taluk">
                                 {{taluk.districtBlockName}}
                             </md-option>
                         </md-select>
                         <!-- </md-input-container> -->
                     </div>
+                    <div class="clearfix visible-md visible-sm"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 " VehicleNO>
                         <md-input-container class="width100">
                             <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
@@ -194,7 +197,7 @@
                             <input mdInput placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc" maxlength="100">
                         </md-input-container>
                     </div>
-
+                    <div class="clearfix visible-lg"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100">
                             <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel"
@@ -221,11 +224,8 @@
                 <thead>
                     <tr>
                         <th width="5%">S.No.</th>
-                        <th width="15%">State</th>
-                        <th width="12%">District</th>
-                        <th width="10%">Parking Place</th>
-                        <th width="12%">Sub District</th>
-                        <th width="10%">Service Point</th>
+                        <th width="20%">Parking Place</th>
+                        <th width="20%">Service Point</th>
                         <th width="15%">Description</th>
                         <th width="15%">Address</th>
                         <th width="10%">Action</th>
@@ -234,10 +234,7 @@
                 <tbody>
                     <tr *ngFor="let servicePoint of md2.data;let i=index ">
                         <td>{{servicePointList.indexOf(servicePoint)+1}}</td>
-                        <td>{{servicePoint.stateName}}</td>
-                        <td>{{servicePoint.districtName}}</td>
                         <td>{{servicePoint.parkingPlaceName}}</td>
-                        <td>{{servicePoint.districtBlockName}}</td>
                         <td>{{servicePoint.servicePointName}}</td>
                         <td>{{servicePoint.servicePointDesc}}</td>
                         <td>{{servicePoint.servicePointHQAddress}}</td>
@@ -248,7 +245,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="9">
+                        <td colspan="6">
                             <md2-pagination></md2-pagination>
                         </td>
 
@@ -309,20 +306,22 @@
                         </md-option>
                     </md-select>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
-                    <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" [disabled]="true" #mappingDistrict='ngModel'
-                        required>
-                        <md-option *ngFor="let item of districts" [value]="item">
-                            {{item.districtName}}
-                        </md-option>
-                    </md-select>
-                </div>
+
 
                 <form #servicePointForm2="ngForm" autocomplete="off">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
+                        <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" (change)="GetTaluks(parking_Place.parkingPlaceID, district.districtID)"
+                            #mappingDistrict='ngModel'>
+                            <md-option *ngFor="let item of districts" [value]="item">
+                                {{item.districtName}}
+                            </md-option>
+                        </md-select>
+                        <label class="addressNote">{{note}}</label>
+                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline" class="width100">
                             <input mdInput style="display:none"> -->
-                        <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID" required>
+                        <md-select placeholder="Taluk/Sub District" class="width100" [(ngModel)]="talukID" name="talukID">
                             <md-option *ngFor="let taluk of taluks" [value]="taluk">
                                 {{taluk.districtBlockName}}
                             </md-option>
@@ -344,7 +343,7 @@
                             <input mdInput placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
                         </md-input-container>
                     </div>
-
+                    <div class="clearfix visible-lg"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100">
                             <input required mdInput placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
