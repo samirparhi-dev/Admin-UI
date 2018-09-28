@@ -67,6 +67,7 @@
                     <tr>
                         <th width="5%">S.No.</th>
                         <th width="12%">Parking Place</th>
+                        <th width="20%">District</th>
                         <th width="10%">Sub District</th>
                         <th width="12%">Service Point</th>
                         <th width="10%">Description</th>
@@ -77,11 +78,12 @@
                 </thead>
                 <tbody>
                     <tr *ngIf="md2.data.length == 0">
-                        <td colspan="8" class="record-not-found">No records found</td>
+                        <td colspan="9" class="record-not-found">No records found</td>
                     </tr>
                     <tr *ngFor="let servicePoint of md2.data;let i=index ">
                         <td>{{filteredavailableServicePoints.indexOf(servicePoint)+1}} </td>
                         <td>{{servicePoint.parkingPlaceName}}</td>
+                        <td>{{servicePoint.districtName}}</td>
                         <td>{{servicePoint.blockName}}</td>
                         <td>{{servicePoint.servicePointName}}</td>
                         <td>{{servicePoint.servicePointDesc}}</td>
@@ -100,7 +102,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <md2-pagination></md2-pagination>
                         </td>
                         <td colspan="4" class="p-r-0">
@@ -168,7 +170,7 @@
                                 {{item.districtName}}
                             </md-option>
                         </md-select>
-                        <label class="addressNote">{{note}}</label>
+                        <label class="maxRedialNote">{{note}}</label>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline" class="width100">
@@ -225,6 +227,7 @@
                     <tr>
                         <th width="5%">S.No.</th>
                         <th width="20%">Parking Place</th>
+                        <th width="20%">District</th>
                         <th width="20%">Service Point</th>
                         <th width="15%">Description</th>
                         <th width="15%">Address</th>
@@ -235,6 +238,7 @@
                     <tr *ngFor="let servicePoint of md2.data;let i=index ">
                         <td>{{servicePointList.indexOf(servicePoint)+1}}</td>
                         <td>{{servicePoint.parkingPlaceName}}</td>
+                        <td>{{servicePoint.districtName}}</td>
                         <td>{{servicePoint.servicePointName}}</td>
                         <td>{{servicePoint.servicePointDesc}}</td>
                         <td>{{servicePoint.servicePointHQAddress}}</td>
@@ -245,7 +249,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <md2-pagination></md2-pagination>
                         </td>
 
@@ -316,7 +320,7 @@
                                 {{item.districtName}}
                             </md-option>
                         </md-select>
-                        <label class="addressNote">{{note}}</label>
+                        <label class="maxRedialNote">{{note}}</label>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline" class="width100">

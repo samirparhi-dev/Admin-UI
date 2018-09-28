@@ -150,7 +150,7 @@ export class ServicePointComponent implements OnInit {
         this.note = "* Note: District and Taluk are only for physical address purpose";
         if (this.editServicePointValue != undefined) {
             let editDistrict = this.districts.filter((districtResponse) => {
-                if (this.editServicePointValue.districtID!=undefined && this.editServicePointValue.districtID == districtResponse.districtID) {
+                if (this.editServicePointValue.districtID != undefined && this.editServicePointValue.districtID == districtResponse.districtID) {
                     return districtResponse;
                 }
             })[0]
@@ -189,6 +189,8 @@ export class ServicePointComponent implements OnInit {
     }
     taluks: any = [];
     GetTaluks(parkingPlaceID, districtID) {
+        this.taluks = [];
+        this.talukID = null;
         let talukObj = {
             "parkingPlaceID": parkingPlaceID,
             "districtID": districtID
@@ -197,7 +199,12 @@ export class ServicePointComponent implements OnInit {
             .subscribe(response => this.SetTaluks(response));
     }
     SetTaluks(response: any) {
-        this.taluks = response;
+        response.filter((talukResponse) => {
+            if (!talukResponse.deleted) {
+                this.taluks.push(talukResponse);
+            }
+        });
+
         if (this.editServicePointValue != undefined) {
             let editTaluk = this.taluks.filter((talukResponse) => {
                 if (this.editServicePointValue.districtBlockID == talukResponse.districtBlockID) {
@@ -359,9 +366,9 @@ export class ServicePointComponent implements OnInit {
             "servicePointName": formValues.servicePointName,
             "servicePointDesc": formValues.servicePointDesc,
             "providerServiceMapID": this.searchStateID.providerServiceMapID,
-            "districtID": this.district.districtID,
+            "districtID": formValues.district ? formValues.district.districtID : formValues.district,
             "servicePointHQAddress": formValues.areaHQAddress,
-            "districtBlockID": formValues.talukID.districtBlockID,
+            "districtBlockID": formValues.talukID ? formValues.talukID.districtBlockID : formValues.talukID,
             "modifiedBy": this.createdBy
         }
 
@@ -370,10 +377,11 @@ export class ServicePointComponent implements OnInit {
     }
     updateservicePointSuccessHandler(response) {
         this.servicePointList = [];
-        this.alertMessage.alert("Updated successfully", 'success');
         this.availableServicePointNames = [];
         this.editServicePointValue = null;
         this.showList();
+        this.alertMessage.alert("Updated successfully", 'success');
+
     }
 
     /* db check of service name */
@@ -402,6 +410,7 @@ export class ServicePointComponent implements OnInit {
         this.alertMessage.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
                 this.showList();
+                this.editServicePointValue = null;
             }
         })
     }
