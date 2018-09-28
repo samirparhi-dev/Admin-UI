@@ -284,7 +284,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
         <button md-raised-button color="primary" class="pull-left" *ngIf="!showServicePointVillageMaps || editMode" (click)="back();">Back</button>
-        <button [disabled]="servicePointVillageMapList.length == 0 && editMode" *ngIf="!showServicePointVillageMaps" md-raised-button
+        <button [disabled]="servicePointVillageMapList.length == 0 || editMode" md-raised-button
             color="accent" class="pull-right" (click)="storeServicePointVillageMaps()">Save</button>
     </div>
 </div>

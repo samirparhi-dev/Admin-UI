@@ -276,6 +276,8 @@ export class ServicePointVillageMapComponent implements OnInit {
                 this.servicePointVillageMapObj.createdBy = this.createdBy;
                 this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
                 this.servicePointVillage.resetForm();
+                this.servicePointVillageMapForm.controls.district.reset();
+                this.servicePointVillageMapForm.controls.talukID.reset();
 
             }
         }
