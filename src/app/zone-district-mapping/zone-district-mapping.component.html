@@ -53,7 +53,7 @@
           <tr>
             <th width="5%">S.No.</th>
             <th width="25%" md2SortBy="zoneName">Zone</th>
-            <th width="20%">Service</th>
+            <!-- <th width="20%">Service</th> -->
             <th width="25%">State</th>
             <th width="30%">District</th>
             <th width="20%">Edit</th>
@@ -63,12 +63,12 @@
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let zoneDistrictMapping of availableZoneDistrictMappings | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b}" > -->
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
-            <td colspan="7" align="center">No records found</td>
+            <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let zoneDistrictMapping of md2.data ;let i=index">
             <td>{{filteredavailableZoneDistrictMappings.indexOf(zoneDistrictMapping)+1}}</td>
             <td>{{zoneDistrictMapping.zoneName}}</td>
-            <td>{{zoneDistrictMapping.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
+            <!-- <td>{{zoneDistrictMapping.m_providerServiceMapping.m_serviceMaster.serviceName}}</td> -->
             <td>{{zoneDistrictMapping.m_providerServiceMapping.state.stateName}}</td>
             <td>{{zoneDistrictMapping.districtName}}</td>
             <td>
@@ -84,7 +84,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="3">
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="3" class="p-r-0 m-t-10">
