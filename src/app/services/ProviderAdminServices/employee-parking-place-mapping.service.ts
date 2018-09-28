@@ -68,18 +68,18 @@ export class EmployeeParkingPlaceMappingService {
 
     getParkingPlaces(data) {
         return this.http.post(this.getParkingPlacesURL, data)
-            .map(this.handleState_n_parkingplaces)
+            .map(this.CommonSuccessHandler)
             .catch(this.handleError);
     }
 
     DeleteEmpParkingMapping(requestObject) {
         return this.http.post(this.deleteEmployeesURL, requestObject)
-            .map(this.handleSuccess)
+            .map(this.handleSuccessForActivationUser)
             .catch(this.handleError);
     }
     getUsernames(userObj) {
         return this.http.post(this.getUsernamesURL, userObj)
-            .map(this.handleState_n_Usernames)
+            .map(this.CommonSuccessHandler)
             .catch(this.handleError);
     }
 
@@ -106,20 +106,10 @@ export class EmployeeParkingPlaceMappingService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-    getUserNames(designationID, sp) {
-        return this.http.post(this.userNameURL, {
-            'designationID': designationID,
-            'serviceProviderID': sp
-        })
-            .map(this.handleState_n_Usernames)
-            .catch(this.handleError);
-    }
 
+    CommonSuccessHandler(response: Response) {
 
-
-    handleState_n_parkingplaces(response: Response) {
-
-        console.log(response.json().data, 'service point village file success response');
+        console.log(response.json().data, 'employee parking place master SERVICE');
         let result = [];
         result = response.json().data.filter(function (item) {
             if (!item.deleted) {
@@ -136,9 +126,13 @@ export class EmployeeParkingPlaceMappingService {
             return Observable.throw(res.json());
         }
     }
+    handleSuccessForActivationUser(res: Response) {
+        console.log(res.json(), '--- in employee parking place master SERVICE check');
+        return res.json()
+    }
     handleState_n_ServiceSuccess(response: Response) {
 
-        console.log(response.json().data, 'service point file success response');
+        console.log(response.json().data, 'employee parking place master SERVICE');
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.serviceName == "MMU") {
@@ -147,18 +141,6 @@ export class EmployeeParkingPlaceMappingService {
         });
         return result;
     }
-    handleState_n_Usernames(response: Response) {
-
-        console.log(response.json().data, 'service point file success response');
-        let result = [];
-        result = response.json().data.filter(function (item) {
-            if (!item.deleted) {
-                return item;
-            }
-        });
-        return result;
-    }
-
     handleError(error: Response | any) {
         return Observable.throw(error.json());
     }

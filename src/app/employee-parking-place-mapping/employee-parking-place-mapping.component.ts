@@ -415,15 +415,15 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
                     this.employeeParkingPlaceMappingService.DeleteEmpParkingMapping(object)
                         .subscribe(response => {
-                            if (response) {
+                            if (response.statusCode == 200) {
                                 this.alertMessage.alert('Activated successfully', 'success');
                                 /* refresh table */
                                 this.getEmployeeParkingPlaceMappings(this.searchStateID, this.designationID.designationID);
                             }
                         },
                             err => {
-                                console.log('error', err);
-                                // this.alertService.alert(err, 'error');
+                                console.log('error', err.errorMessage);
+                                this.alertMessage.alert(err.errorMessage, 'error');
                             });
                 }
             });
