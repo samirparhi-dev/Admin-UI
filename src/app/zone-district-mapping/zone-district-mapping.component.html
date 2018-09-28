@@ -52,9 +52,8 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="25%" md2SortBy="zoneName">Zone</th>
-            <!-- <th width="20%">Service</th> -->
             <th width="25%">State</th>
+            <th width="25%" md2SortBy="zoneName">Zone</th>
             <th width="30%">District</th>
             <th width="20%">Edit</th>
             <th width="20%">Action</th>
@@ -67,9 +66,8 @@
           </tr>
           <tr *ngFor="let zoneDistrictMapping of md2.data ;let i=index">
             <td>{{filteredavailableZoneDistrictMappings.indexOf(zoneDistrictMapping)+1}}</td>
-            <td>{{zoneDistrictMapping.zoneName}}</td>
-            <!-- <td>{{zoneDistrictMapping.m_providerServiceMapping.m_serviceMaster.serviceName}}</td> -->
             <td>{{zoneDistrictMapping.m_providerServiceMapping.state.stateName}}</td>
+            <td>{{zoneDistrictMapping.zoneName}}</td>
             <td>{{zoneDistrictMapping.districtName}}</td>
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!zoneDistrictMapping.deleted && !zoneDistrictMapping.zoneDeleted"

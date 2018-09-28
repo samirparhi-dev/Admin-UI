@@ -52,8 +52,6 @@
             <th width="5%">S.No.</th>
             <th width="15%" md2SortBy="zoneName">Zone</th>
             <th width="15%">Zone Description</th>
-            <th width="15%">Service</th>
-            <th width="15%">State</th>
             <th width="20%">Address</th>
             <th width="10%">Edit</th>
             <th width="15%">Action</th>
@@ -62,14 +60,12 @@
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let zone of availableZones | paginate: {id:'zoneListResult', itemsPerPage: 3, currentPage: b} ;let i=index" >-->
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
-            <td colspan="8" align="center">No records found</td>
+            <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let zone of md2.data ;let i=index">
             <td>{{filteredavailableZones.indexOf(zone)+1}}</td>
             <td>{{zone.zoneName}}</td>
             <td>{{zone.zoneDesc}}</td>
-            <td>{{zone.m_providerServiceMapping.m_serviceMaster.serviceName}}</td>
-            <td>{{zone.stateName}}</td>
             <td>{{zone.zoneHQAddress}}
               <!-- <span *ngIf="zone.villageName">, {{zone.villageName}}</span>
               <span *ngIf="zone.blockName">, {{zone.blockName}}</span>
@@ -89,10 +85,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="3">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0 m-t-10">
+            <td colspan="3" class="p-r-0 m-t-10">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Zone </button>
             </td>
           </tr>
