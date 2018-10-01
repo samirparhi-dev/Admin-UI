@@ -199,6 +199,8 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     taluks: any = [];
     GetTaluks(parkingPlaceID, districtID) {
+        this.taluks = [];
+        this.talukID = null;
         let talukObj = {
             "parkingPlaceID": parkingPlaceID,
             "districtID": districtID
@@ -207,7 +209,11 @@ export class ServicePointVillageMapComponent implements OnInit {
             .subscribe(response => this.SetTaluks(response));
     }
     SetTaluks(response: any) {
-        this.taluks = response;
+        response.filter((talukResponse) => {
+            if (!talukResponse.deleted) {
+                this.taluks.push(talukResponse);
+            }
+        })
     }
 
     branches: any = [];
@@ -276,11 +282,12 @@ export class ServicePointVillageMapComponent implements OnInit {
                 this.servicePointVillageMapObj.createdBy = this.createdBy;
                 this.servicePointVillageMapList.push(this.servicePointVillageMapObj);
                 this.servicePointVillage.resetForm();
-                this.servicePointVillageMapForm.controls.district.reset();
-                this.servicePointVillageMapForm.controls.talukID.reset();
-
             }
         }
+        this.servicePointVillageMapForm.controls.district.reset();
+        this.servicePointVillageMapForm.controls.talukID.reset();
+        this.taluks = [];
+        this.availableVillages = [];
         this.GetBranches(this.searchStateID.providerServiceMapID, this.talukID.districtBlockID)
 
     }
