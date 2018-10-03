@@ -179,6 +179,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     employeeObj: any = {};
     getEmployeeParkingPlaceMappings(searchStateID, designationID) {
+        this.userNames = [];
         this.employeeObj = {};
         this.employeeObj.providerServiceMapID = searchStateID.providerServiceMapID;
         this.employeeObj.parkingPlaceID = this.parking_Place.parkingPlaceID == undefined ? this.parking_Place : this.parking_Place.parkingPlaceID;
@@ -214,9 +215,27 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.employeeParkingPlaceMappingService.getUsernames(userObj).subscribe(response => this.getuserNamesSuccessHandeler(response));
     }
     userNames: any = [];
+    bufferEmployeeArray: any = [];
     getuserNamesSuccessHandeler(response) {
         this.userNames = response;
         console.log('userNames', response);
+        if (!this.editable) {
+            if (this.employeeParkingPlaceMappingList.length > 0) {
+                this.employeeParkingPlaceMappingList.forEach((employeeParkingMap) => {
+                    this.bufferEmployeeArray.push(employeeParkingMap.userID)
+                });
+            }
+            let bufferTemp = [];
+            this.userNames.forEach((username) => {
+                let index = this.bufferEmployeeArray.indexOf(username.userID);
+                if (index < 0) {
+                    bufferTemp.push(username);
+                }
+            });
+            this.userNames = bufferTemp.slice();
+            this.bufferEmployeeArray = [];
+        }
+
         if (this.editParkingPlaceValue != undefined) {
             let userNameUpdate = this.userNames.filter((userResponse) => {
                 if (this.editParkingPlaceValue.userID == userResponse.userID && this.editParkingPlaceValue.designationID == this.designationID.designationID) {
@@ -232,6 +251,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     deleteRow(i) {
         this.employeeParkingPlaceMappingList.splice(i, 1);
+        this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
     }
 
     addParkingPlaceMapping(objectToBeAdded: any, role) {
@@ -250,48 +270,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             'createdBy': this.createdBy
         };
         console.log(parkingObj);
-        // this.checkDuplicates(parkingObj);
         this.employeeParkingPlaceMappingList.push(parkingObj);
-
+        this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
     }
-    checkDuplicates(parkingObj) {
-        let count = 0;
 
-        if (this.employeeParkingPlaceMappingList.length == 0) {
-            if (this.checkDBDuplicates(parkingObj)) {
-                this.employeeParkingPlaceMappingList.push(parkingObj);
-            }
-            else {
-                this.alertMessage.alert("Already Mapped");
-            }
-
-        }
-        else {
-            for (let a = 0; a < this.employeeParkingPlaceMappingList.length; a++) {
-                if (this.employeeParkingPlaceMappingList[a].providerServiceMapID === parseInt(this.searchStateID.providerServiceMapID)
-                    && this.employeeParkingPlaceMappingList[a].parkingPlaceID === parseInt(this.parking_Place.parkingPlaceID)
-                    && this.employeeParkingPlaceMappingList[a].designationID === parseInt(this.designationID.designationID)
-                    && this.employeeParkingPlaceMappingList[a].userID === parseInt(this.userID.userID)) {
-                    count = 1;
-                }
-            }
-            if (count === 1) {
-                this.alertMessage.alert("Already Exists");
-            }
-            else {
-
-                if (this.checkDBDuplicates(parkingObj)) {
-                    this.employeeParkingPlaceMappingList.push(parkingObj);
-                    count = 0;
-                }
-                else {
-                    this.alertMessage.alert("Already Mapped");
-                }
-            }
-
-        }
-
-    }
     checkDBDuplicates(parkingObj) {
         let dbcount = 0;
 

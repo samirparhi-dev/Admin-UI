@@ -232,13 +232,14 @@
                 </md-select>
                 <!-- </md-input-container> -->
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-20">
+                <button *ngIf="servicePointVillage.valid && !editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
+                    (click)="addServicePointVillageMapToList(servicePointVillage.value)">
+                    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+                </button>
+            </div>
         </form>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-20">
-            <button *ngIf="villageN.valid && !editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
-                (click)="addServicePointVillageMapToList(servicePointVillage.value)">
-                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-            </button>
-        </div>
+
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="servicePointVillageMapList.length>0 && !editMode">
         <div class="table-responsive">
@@ -284,8 +285,8 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
         <button md-raised-button color="primary" class="pull-left" *ngIf="!showServicePointVillageMaps || editMode" (click)="back();">Back</button>
-        <button [disabled]="servicePointVillageMapList.length == 0 || editMode" md-raised-button
-            color="accent" class="pull-right" (click)="storeServicePointVillageMaps()">Save</button>
+        <button [disabled]="servicePointVillageMapList.length == 0 || editMode" md-raised-button color="accent" class="pull-right"
+            (click)="storeServicePointVillageMaps()">Save</button>
     </div>
 </div>
 
@@ -344,7 +345,8 @@
             <!-- </md-input-container> -->
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 m-t-15">
-            <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" [disabled]="true" #mappingDistrict='ngModel' required>
+            <md-select placeholder="District" class="width100" [(ngModel)]="district" name="district" [disabled]="true" #mappingDistrict='ngModel'
+                required>
                 <md-option *ngFor="let item of districts" [value]="item">
                     {{item.districtName}}
                 </md-option>
@@ -360,7 +362,7 @@
             </md-select>
             <!-- </md-input-container> -->
         </div>
-       
+
         <form #servicePointVillage1="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                 <!-- <md-input-container class="hide_underline width100">
