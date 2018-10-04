@@ -218,6 +218,7 @@ export class ServicePointVillageMapComponent implements OnInit {
 
     branches: any = [];
     GetBranches(providerServiceMapID, talukID) {
+        this.servicePointVillage.controls.villageIdList.reset();
         this.servicePointVillageMapService.getBranches(talukID)
             .subscribe(response => this.SetBranches(response, providerServiceMapID, talukID));
     }
