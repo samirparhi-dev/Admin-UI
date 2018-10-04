@@ -38,11 +38,10 @@
                     </md-option>
                 </md-select>
             </div>
-
         </form>
         <form #resetform1="ngForm">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(parking_Place.parkingPlaceID)"
+                <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(parking_Place.parkingPlaceID, searchStateID.providerServiceMapID, designationID.designationID)"
                     [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
                     <md-option *ngFor="let designation of designations" [value]="designation">
                         {{designation.designationName}}
@@ -59,8 +58,10 @@
                 </md-select>
             </div>
         </form>
+        {{userID}}
+        {{formMode}}{{ searchForm.valid}}
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-t-20">
-            <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="formMode && !searchForm.invalid"
+            <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="formMode && searchForm.valid"
                 (click)="addParkingPlaceMapping(searchForm.value);this.searchForm.reset();">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
             </button>
@@ -221,7 +222,7 @@
                             </td>
                             <td colspan="3" class="p-r-0">
 
-                                <button md-raised-button color="primary" [disabled]="!parking_Place || !designationID " class="pull-right" (click)="showForm(searchStateID.providerServiceMapID, designationID.designationID);">Add Mapping</button>
+                                <button md-raised-button color="primary" [disabled]="!parking_Place || !designationID " class="pull-right" (click)="showForm()">Add Mapping</button>
 
                             </td>
                         </tr>

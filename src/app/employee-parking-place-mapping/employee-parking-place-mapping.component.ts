@@ -44,6 +44,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     availableParkingPlaces: any = [];
 
     @ViewChild('resetform1') resetform1: NgForm;
+    @ViewChild('searchForm')searchForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public employeeParkingPlaceMappingService: EmployeeParkingPlaceMappingService,
@@ -152,13 +153,11 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.editMode = false;
 
     }
-    showForm(providerServiceMapID, designationID) {
+    showForm() {
         this.tableMode = false;
         this.formMode = true;
         this.editMode = false;
-        this.userID = undefined;
         this.employeeParkingPlaceMappingList = [];
-        this.getUsernames(providerServiceMapID, designationID);
     }
     showEdit() {
         this.tableMode = false;
@@ -179,13 +178,12 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     employeeObj: any = {};
     getEmployeeParkingPlaceMappings(searchStateID, designationID) {
-        this.userNames = [];
+        this.userID = null;
         this.employeeObj = {};
         this.employeeObj.providerServiceMapID = searchStateID.providerServiceMapID;
         this.employeeObj.parkingPlaceID = this.parking_Place.parkingPlaceID == undefined ? this.parking_Place : this.parking_Place.parkingPlaceID;
         this.employeeObj.designationID = designationID;
         this.employeeParkingPlaceMappingService.getEmployees(this.employeeObj).subscribe(response => this.getEmployeeParkingPlaceMappingsSuccessHandler(response));
-
     }
     availableEmployeeParkingPlaceMappings: any = [];
     remainingMaps: any = [];
@@ -200,14 +198,15 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     }
     parkingPlaceID: any;
-    selectedParkingPlace(parkingPlace) {
+    selectedParkingPlace(parkingPlace, providerServiceMapID, designationID) {
         this.parkingPlaceID = parkingPlace;
+        this.getUsernames(providerServiceMapID, designationID);
     }
 
     parkingPlaceIDList: any = [];
 
     getUsernames(providerServiceMapID, designationID) {
-        console.log("providerServiceMapID", providerServiceMapID, designationID);
+        console.log('this.userID',this.userID);
         let userObj = {
             "providerServiceMapID": providerServiceMapID,
             "designationID": designationID
