@@ -58,8 +58,6 @@
                 </md-select>
             </div>
         </form>
-        {{userID}}
-        {{formMode}}{{ searchForm.valid}}
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-t-20">
             <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="formMode && searchForm.valid"
                 (click)="addParkingPlaceMapping(searchForm.value);this.searchForm.reset();">
