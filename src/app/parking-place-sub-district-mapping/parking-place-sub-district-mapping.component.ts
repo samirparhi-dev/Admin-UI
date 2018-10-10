@@ -164,6 +164,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     }
   }
   getTaluks(districtID, providerServiceMapID) {
+    this.taluk = null;
     this.parkingPlaceMasterService.getTaluks(districtID)
       .subscribe(talukResponse => this.getTaluksSuccessHandler(talukResponse, districtID, providerServiceMapID));
   }
