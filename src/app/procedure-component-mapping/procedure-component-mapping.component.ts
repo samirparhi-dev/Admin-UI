@@ -147,7 +147,6 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
 
   configProcedureMapping(item, index) {
-    debugger;
     this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
@@ -179,7 +178,6 @@ export class ProcedureComponentMappingComponent implements OnInit {
   }
 
   loadForConfig(res, item) {
-    debugger;
     console.log(this.masterComponentList, 'masterComponentList');
     let temp = this.procedureList.filter(procedure => {
       return procedure.procedureID == res[0].procedureID
@@ -187,7 +185,10 @@ export class ProcedureComponentMappingComponent implements OnInit {
     console.log(temp, 'temp')
     if (temp.length > 0) {
       this.selectedProcedure = temp[0];
-      this.selectedComponentList = res[0].compListDetails;
+      res.forEach((mappedComponent) => {
+        this.selectedComponentList.push(mappedComponent.compListDetails[0]);
+      })
+      // this.selectedComponentList = res[0].compListDetails;
       this.selectedProcedureDescription = res[0].procedureDesc;
       // this.selectedProcedureType = res[0].procedureType;
     } else {
