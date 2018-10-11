@@ -8,9 +8,9 @@
         <div class="row">
             <form #stateService="ngForm" autocomplete="off">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+                    <!-- <md-input-container class="hide_underline" class="width100">
                         <input mdInput style="display:none"> -->
-                    <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
+                    <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" class="width100" [(ngModel)]="serviceline"
                         (change)="getStates(serviceline.serviceID)">
                         <md-option *ngFor="let item of services_array" [value]="item">
                             {{item.serviceName}}
@@ -19,10 +19,10 @@
                     <!-- </md-input-container> -->
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+                    <!-- <md-input-container class="hide_underline" class="width100">
                         <input mdInput style="display:none"> -->
-                    <md-select required disabled={{disableSelection}} placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID"
-                        name="searchStateID" (change)="setProviderServiceMapID();">
+                    <md-select required disabled={{disableSelection}} placeholder="State" class="width100" [(ngModel)]="searchStateID" name="searchStateID"
+                        (change)="setProviderServiceMapID();">
                         <md-option *ngFor="let state of provider_states" [value]="state">
                             {{state.stateName}}
                         </md-option>
@@ -37,14 +37,17 @@
             <div class="row">
                 <!-- <form #proccompForm="ngForm" autocomplete="off"> -->
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="saveMode">
-
-                    <md2-autocomplete required name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName"
+                    <md-select required placeholder="Procedure Name" [(ngModel)]="selectedProcedure" name="procedures" (change)="procedureSelected()"
+                        [style.width]=" '100%' ">
+                        <md-option *ngFor="let item of procedureList " [value]="item ">{{item.procedureName}}</md-option>
+                    </md-select>
+                    <!-- <md2-autocomplete required name="procedures" (change)="procedureSelected()" [items]="procedureList" item-text="procedureName"
                         placeholder="Procedure Name" [(ngModel)]="selectedProcedure" [min-length]="1" #autocompleteControl="ngModel">
-                    </md2-autocomplete>
+                    </md2-autocomplete> -->
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="saveMode">
                     <md-input-container style="width: 100% ">
-                        <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription"
+                        <input id="procedure-description" mdInput placeholder="Description" class="width100" [(ngModel)]="selectedProcedureDescription"
                             readonly>
                     </md-input-container>
 
@@ -58,28 +61,25 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="editMode">
                     <md-input-container style="width: 100% ">
-                        <input id="procedure-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedProcedureDescription"
+                        <input id="procedure-description" mdInput placeholder="Description" class="width100" [(ngModel)]="selectedProcedureDescription"
                             readonly disabled>
                     </md-input-container>
 
                 </div>
                 <div class="clearfix visible-md visible-sm"></div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15 ">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none">
-                        <md-select required [(ngModel)]="selectedComponent" name="components" (change)="componentSelected()" placeholder="Component Name"
-                            [style.width]=" '100%' ">
-                            <md-option *ngFor="let item of componentList " [value]="item ">{{item.testComponentName}}</md-option>
-                        </md-select>
-                    </md-input-container> -->
-                    <md2-autocomplete required name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList"
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <md-select required placeholder="Component Name" [(ngModel)]="selectedComponent" name="components" (change)="componentSelected()"
+                        [style.width]=" '100%' ">
+                        <md-option *ngFor="let item of componentList " [value]="item ">{{item.testComponentName}}</md-option>
+                    </md-select>
+                    <!-- <md2-autocomplete required name="components" [disabled]="!selectedProcedure" (change)="componentSelected()" [items]="componentList"
                         item-text="testComponentName" placeholder="Component Name" [(ngModel)]="selectedComponent" [min-length]="1"
                         #autocompleteControl="ngModel">
-                    </md2-autocomplete>
+                    </md2-autocomplete> -->
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                     <md-input-container style="width: 100% ">
-                        <input id="component-description" mdInput placeholder="Description" [style.width]="'100%'" [(ngModel)]="selectedComponentDescription"
+                        <input id="component-description" mdInput placeholder="Description" class="width100" [(ngModel)]="selectedComponentDescription"
                             readonly>
                     </md-input-container>
                 </div>
