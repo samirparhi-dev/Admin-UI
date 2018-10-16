@@ -337,9 +337,11 @@ export class VillageMasterComponent implements OnInit {
             this.filteredavailableVillages = [];
             this.availableVillages.forEach((item) => {
                 for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableVillages.push(item); break;
+                    if (key == 'villageName' || key == 'panchayatName' || key == 'govVillageID' || key == 'pinCode' || key == 'govSubDistrictID') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableVillages.push(item); break;
+                        }
                     }
                 }
             });

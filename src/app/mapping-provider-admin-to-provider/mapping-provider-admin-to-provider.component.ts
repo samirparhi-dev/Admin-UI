@@ -595,7 +595,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
       this.filteredproviderAdminList = [];
       this.providerAdminList.forEach((item) => {
         for (let key in item) {
-          if (key == 'userName' || key == 'serviceProviderName' || key == 'serviceName' || key == 'stateName') {
+          if (key == 'serviceProviderName' || key == 'firstName' || key == 'serviceName' || key == 'stateName') {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredproviderAdminList.push(item); break;

@@ -226,9 +226,11 @@ export class ProvideCtiMappingComponent implements OnInit {
       this.filteredcampaignArrayList = [];
       this.campaignArrayList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredcampaignArrayList.push(item); break;
+          if (key == 'serviceName' || key == 'stateName' || key == 'cTI_CampaignName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredcampaignArrayList.push(item); break;
+            }
           }
         }
       });
