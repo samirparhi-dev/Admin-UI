@@ -492,9 +492,11 @@ export class ProviderServicelineStateMappingComponent implements OnInit {
       this.filteredsearchResult = [];
       this.searchResult.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResult.push(item); break;
+          if (key == 'serviceProviderName' || key == 'serviceName' || key == 'stateName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResult.push(item); break;
+            }
           }
         }
       });
