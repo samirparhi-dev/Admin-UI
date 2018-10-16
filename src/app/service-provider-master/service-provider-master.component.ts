@@ -42,7 +42,7 @@ export class ServiceProviderMasterComponent implements OnInit {
 
   // constants & variables
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
-  mobileNoPattern=/^[1-9][0-9]{9}/;
+  mobileNoPattern = /^[1-9][0-9]{9}/;
   createdBy: any;
   providerNameBeforeEdit: any;
   serviceProviderID: any;
@@ -300,15 +300,18 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.address2 = '';
   }
   filterComponentList(searchTerm?: string) {
+    console.log("searchTerm", searchTerm);
     if (!searchTerm) {
       this.filteredsearchResult = this.searchResult;
     } else {
       this.filteredsearchResult = [];
       this.searchResult.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResult.push(item); break;
+          if (key == 'serviceProviderName' || key == 'primaryContactName' || key == 'primaryContactNo') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResult.push(item); break;
+            }
           }
         }
       });
