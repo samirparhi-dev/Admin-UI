@@ -578,11 +578,13 @@ export class ProviderAdminListComponent implements OnInit {
       this.filteredsearchResult = [];
       this.searchResult.forEach((item) => {
         for (let key in item) {
+          if (key == 'userName' || key == 'contactNo' || key == 'emergencyContactNo' || key == 'emailID') {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filteredsearchResult.push(item); break;
           }
         }
+      }
       });
     }
 
