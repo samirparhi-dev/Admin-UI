@@ -317,9 +317,11 @@ export class FeedbackTypeMasterComponent implements OnInit {
       this.filteredfeedbackTypes = [];
       this.feedbackTypes.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredfeedbackTypes.push(item); break;
+          if (key == 'feedbackTypeName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredfeedbackTypes.push(item); break;
+            }
           }
         }
       });

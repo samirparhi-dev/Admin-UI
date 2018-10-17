@@ -280,9 +280,11 @@ export class ZoneComponent implements OnInit {
       this.filteredavailableZones = [];
       this.availableZones.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredavailableZones.push(item); break;
+          if (key == 'zoneName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredavailableZones.push(item); break;
+            }
           }
         }
       });

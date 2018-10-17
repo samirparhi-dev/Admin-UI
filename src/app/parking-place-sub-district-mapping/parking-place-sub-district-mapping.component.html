@@ -42,10 +42,16 @@
     </form>
   </div>
 </div>
+<div class="pull-right m-t-15" *ngIf="mappedParkingPlaceDistricts.length!==0 && showListOfMapping">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
 <div class="row" *ngIf="showListOfMapping && showTable && !editable">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="mappedParkingPlaceDistricts" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="filteredMappedParkingPlaceDistricts" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -67,7 +73,7 @@
             <td>{{parkingPlace.districtBlockName}}</td>
             <td>
               <md-icon mdTooltip="edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!parkingPlace.deleted && !parkingPlace.parkingPlaceDeleted"
-              (click)="editSubDistrictMapping(parkingPlace)">edit</md-icon>
+                (click)="editSubDistrictMapping(parkingPlace)">edit</md-icon>
             </td>
             <td>
               <button *ngIf="parkingPlace.deleted || parkingPlace.parkingPlaceDeleted" md-raised-button color="accent" (click)="activateDeactivateMapping(parkingPlace, parkingPlace.parkingPlaceDeleted)">Activate</button>
@@ -157,7 +163,6 @@
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button *ngIf="!editable" [disabled]="mappingList.length == 0" md-raised-button color="accent" class="pull-right m-t-10"
       (click)="saveSubdistrictMapping()">Save</button>
-      <button *ngIf="editable" [disabled]="mappingForm.invalid" md-raised-button color="accent" class="pull-right" 
-      (click)="updateSubdistrictMapping(mappingForm.value)">Update</button>
+    <button *ngIf="editable" [disabled]="mappingForm.invalid" md-raised-button color="accent" class="pull-right" (click)="updateSubdistrictMapping(mappingForm.value)">Update</button>
   </div>
 </div>

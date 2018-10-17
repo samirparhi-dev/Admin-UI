@@ -154,21 +154,21 @@ export class ParkingPlaceComponent implements OnInit {
     parkingPlaceObj: any;
     parkingPlaceList: any = [];
     addParkingPlaceToList(values) {
-            this.parkingPlaceObj = {};
-            this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
-            this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
-            this.parkingPlaceObj.countryID = this.countryID;
+        this.parkingPlaceObj = {};
+        this.parkingPlaceObj.parkingPlaceName = values.parkingPlaceName;
+        this.parkingPlaceObj.parkingPlaceDesc = values.parkingPlaceDesc;
+        this.parkingPlaceObj.countryID = this.countryID;
 
-            this.parkingPlaceObj.stateID = this.state.stateID;
-            this.parkingPlaceObj.stateName = this.state.stateName;
+        this.parkingPlaceObj.stateID = this.state.stateID;
+        this.parkingPlaceObj.stateName = this.state.stateName;
 
-            this.parkingPlaceObj.zoneID = this.zoneID.zoneID;
-            this.parkingPlaceObj.zoneName = this.zoneID.zoneName;
+        this.parkingPlaceObj.zoneID = this.zoneID.zoneID;
+        this.parkingPlaceObj.zoneName = this.zoneID.zoneName;
 
-            this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
-            this.parkingPlaceObj.providerServiceMapID = this.providerServiceMapID;
-            this.parkingPlaceObj.createdBy = this.createdBy;
-            this.checkDuplicates(this.parkingPlaceObj);
+        this.parkingPlaceObj.areaHQAddress = values.areaHQAddress;
+        this.parkingPlaceObj.providerServiceMapID = this.providerServiceMapID;
+        this.parkingPlaceObj.createdBy = this.createdBy;
+        this.checkDuplicates(this.parkingPlaceObj);
     }
     checkDuplicates(parkingPlaceObj) {
         if (this.parkingPlaceList.length == 0) {
@@ -305,9 +305,11 @@ export class ParkingPlaceComponent implements OnInit {
             this.filteredavailableParkingPlaces = [];
             this.availableParkingPlaces.forEach((item) => {
                 for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableParkingPlaces.push(item); break;
+                    if (key == 'parkingPlaceName') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableParkingPlaces.push(item); break;
+                        }
                     }
                 }
             });

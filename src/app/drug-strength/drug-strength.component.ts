@@ -22,6 +22,7 @@ export class DrugStrengthComponent implements OnInit {
   drugStrength: any = [];
   drugStrengthList: any = [];
   availableStrengths: any = [];
+  filteredDrugStrength: any = [];
 
   tableMode = true;
   formMode = false;
@@ -42,6 +43,7 @@ export class DrugStrengthComponent implements OnInit {
       if (response) {
         console.log("drug strength", response);
         this.drugStrength = response;
+        this.filteredDrugStrength = response;
         for (let availableStrength of this.drugStrength) {
           this.availableStrengths.push(availableStrength.drugStrength);
         }
@@ -180,5 +182,22 @@ export class DrugStrengthComponent implements OnInit {
       (err) => {
         console.log(err);
       })
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredDrugStrength = this.drugStrength;
+    } else {
+      this.filteredDrugStrength = [];
+      this.drugStrength.forEach((item) => {
+        for (let key in item) {
+          if (key == 'drugStrength') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredDrugStrength.push(item); break;
+            }
+          }
+        }
+      });
+    }
   }
 }

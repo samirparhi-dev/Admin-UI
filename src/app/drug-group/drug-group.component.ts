@@ -263,9 +263,11 @@ export class DrugGroupComponent implements OnInit {
       this.filteredavailableDrugGroups = [];
       this.availableDrugGroups.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredavailableDrugGroups.push(item); break;
+          if (key == 'drugGroup') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredavailableDrugGroups.push(item); break;
+            }
           }
         }
       });

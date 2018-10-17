@@ -3,12 +3,12 @@
     <h4 class="pull-left">Drug Group-Drug Mapping</h4>
   </div>
 </div>
-<!-- <div class="pull-right m-t-15" *ngIf="availableDrugMappings.length!==0 && showMappings && !editable">
+<div class="pull-right m-t-15" *ngIf="availableDrugMappings.length!==0 && showMappings && !editable">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div> -->
+</div>
 <div class="row" *ngIf="showMappings && !editable">
   <div class="col-xs-12 col-sm-12  m-t-15">
     <div class="table-responsive">
@@ -16,7 +16,6 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="20%">State</th>
             <th width="25%">Drug Group Name</th>
             <th width="25%">Drug Name</th>
             <!-- <th width="20%">Drug Strength</th> -->
@@ -27,11 +26,10 @@
         <tbody>
           <!-- <tr style="cursor: pointer" *ngFor="let drugMapping of availableDrugMappings | paginate: {id:'drugListResult', itemsPerPage: 3, currentPage: b}" > -->
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
-            <td colspan="6" align="center">No records found</td>
+            <td colspan="5" align="center">No records found</td>
           </tr>
           <tr *ngFor="let drugMapping of md2.data; let i= index">
             <td>{{filteredavailableDrugMappings.indexOf(drugMapping)+1}}</td>
-            <td>{{drugMapping.m_providerServiceMapping.state.stateName}}</td>
             <td>{{drugMapping.drugGroupName}}</td>
             <td>{{drugMapping.drugName}}</td>
             <td>{{drugMapping.remarks}}</td>
@@ -47,7 +45,7 @@
             <td colspan="3">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="3" class="p-r-0 m-t-10">
+            <td colspan="2" class="p-r-0 m-t-10">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create Drug Mapping</button>
             </td>
           </tr>

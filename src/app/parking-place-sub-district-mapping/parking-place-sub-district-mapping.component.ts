@@ -43,6 +43,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   existingTaluks: any = [];
   availableTaluks: any = [];
   bufferTalukArray: any = [];
+  filteredMappedParkingPlaceDistricts: any = [];
 
   @ViewChild('mappingForm') mappingForm: NgForm;
   constructor(public commonDataService: dataService,
@@ -68,6 +69,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getStates(value) {
     this.mappedParkingPlaceDistricts = [];
+    this.filteredMappedParkingPlaceDistricts = [];
     this.enableButton = false;
     let obj = {
       'userID': this.userID,
@@ -92,6 +94,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.zones = [];
     this.parkingPlaces = [];
     this.mappedParkingPlaceDistricts = [];
+    this.filteredMappedParkingPlaceDistricts = [];
     this.enableButton = false;
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
@@ -112,6 +115,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getAllParkingPlaces(zoneID, providerServiceMapID) {
     this.mappedParkingPlaceDistricts = [];
+    this.filteredMappedParkingPlaceDistricts = [];
     this.enableButton = false;
     let parkingPlaceObj = {
       "zoneID": zoneID,
@@ -135,6 +139,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   }
   getMappingSuccessHandler(response) {
     this.mappedParkingPlaceDistricts = response;
+    this.filteredMappedParkingPlaceDistricts = response;
     this.showTable = true;
     this.enableButton = true;
   }
@@ -333,6 +338,24 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
           console.log(err);
         })
     }
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredMappedParkingPlaceDistricts = this.mappedParkingPlaceDistricts;
+    } else {
+      this.filteredMappedParkingPlaceDistricts = [];
+      this.mappedParkingPlaceDistricts.forEach((item) => {
+        for (let key in item) {
+          if (key == 'districtName' || key == 'districtBlockName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredMappedParkingPlaceDistricts.push(item); break;
+            }
+          }
+        }
+      });
+    }
+
   }
 }
 

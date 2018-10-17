@@ -280,9 +280,11 @@ export class SeverityTypeComponent implements OnInit {
       this.filtereddata = [];
       this.data.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filtereddata.push(item); break;
+          if (key == 'severityTypeName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filtereddata.push(item); break;
+            }
           }
         }
       });

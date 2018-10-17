@@ -59,7 +59,7 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
 
   setIsNational(value) {
     this.isNational = value;
-    
+
   }
 
   getStates(serviceID, isNational) {
@@ -309,9 +309,11 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
       this.filterednatureTypes = [];
       this.natureTypes.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filterednatureTypes.push(item); break;
+          if (key == 'feedbackNature') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filterednatureTypes.push(item); break;
+            }
           }
         }
       });

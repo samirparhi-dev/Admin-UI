@@ -397,9 +397,11 @@ export class ServicePointComponent implements OnInit {
             this.filteredavailableServicePoints = [];
             this.availableServicePoints.forEach((item) => {
                 for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableServicePoints.push(item); break;
+                    if (key == 'districtName' || key == 'blockName' || key == 'servicePointName') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableServicePoints.push(item); break;
+                        }
                     }
                 }
             });

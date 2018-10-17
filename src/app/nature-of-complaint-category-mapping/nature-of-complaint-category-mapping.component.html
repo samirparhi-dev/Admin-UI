@@ -39,10 +39,16 @@
     </div>
   </form>
 </div>
+<div class="pull-right m-t-10" *ngIf="mappings.length!==0 && showListOfCategorymapping">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
 <div class="row" *ngIf="showListOfCategorymapping && showTable && !editable">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
     <div class="table-responsive">
-      <table class="table table-striped table-hover" [md2Data]="mappings" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-striped table-hover" [md2Data]="filteredMappings" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>

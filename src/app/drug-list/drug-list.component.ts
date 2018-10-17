@@ -276,9 +276,11 @@ export class DrugListComponent implements OnInit {
       this.fileteredavailableDrugs = [];
       this.availableDrugs.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.fileteredavailableDrugs.push(item); break;
+          if (key == 'drugName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.fileteredavailableDrugs.push(item); break;
+            }
           }
         }
       });

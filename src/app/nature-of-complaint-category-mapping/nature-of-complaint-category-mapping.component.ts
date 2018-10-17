@@ -39,6 +39,7 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
   existingCategory: any = [];
   availableCategory: any = [];
   bufferArrayList: any = [];
+  filteredMappings: any = [];
 
   @ViewChild('categoryForm') categoryForm: NgForm;
   @ViewChild('searchForm') searchForm: NgForm;
@@ -87,6 +88,7 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
 
   getFeedbackTypes(providerServiceMapID) {
     this.mappings = [];
+    this.filteredMappings = [];
     this.searchForm.controls.complaintType.reset();
     this.complaintMappingService.getFeedbackTypes(providerServiceMapID).subscribe((response) => {
       this.feedbackTypes = response;
@@ -98,6 +100,7 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
 
   getFeedbackNature(feedbackTypeID) {
     this.mappings = [];
+    this.filteredMappings = [];
     var tempObj = {
       "feedbackTypeID": feedbackTypeID
     }
@@ -120,6 +123,7 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
       .subscribe((response) => {
         console.log("Mappings", response);
         this.mappings = response;
+        this.filteredMappings = response;
         this.showTable = true;
         this.createButton = true;
       }, err => {
@@ -239,7 +243,7 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
     this.oldCategoryID = complaintMappingValue.categoryID;
     this.getCategories(complaintMappingValue.providerServiceMapID);
   }
-  
+
   updateCategoryMapping(formValue) {
     let updateReqObj = {
       "oldCategoryID": this.oldCategoryID,
@@ -272,5 +276,23 @@ export class NatureOfComplaintCategoryMappingComponent implements OnInit {
         })
       }
     });
+  }
+  filterComponentList(searchTerm?: string) {
+    if (!searchTerm) {
+      this.filteredMappings = this.mappings;
+    } else {
+      this.filteredMappings = [];
+      this.mappings.forEach((item) => {
+        for (let key in item) {
+          if (key == 'categoryName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredMappings.push(item); break;
+            }
+          }
+        }
+      });
+    }
+
   }
 }

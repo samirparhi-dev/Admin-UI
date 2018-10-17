@@ -1,10 +1,16 @@
 <div class="row" *ngIf="tableMode">
   <div class="col-xs-12 col-sm-12">
     <h4>Drug Strength Master</h4>
+    <div class="pull-right m-t-10" *ngIf="drugStrength.length!==0 && tableMode">
+      <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+      </md-input-container>
+    </div>
   </div>
   <div class="col-xs-12 col-sm-12 m-t-20">
     <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="drugStrength" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="filteredDrugStrength" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="10%">S.No.</th>
@@ -108,6 +114,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button md-raised-button color="accent" *ngIf="!editMode" [disabled]="drugStrengthList.length == 0" class="pull-right" (click)="saveDrugStrength()">Save</button>
-    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="drugStrengthExist || drugStrengthForm.invalid" class="pull-right" (click)="updateDrugStrength()">Update</button>
+    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="drugStrengthExist || drugStrengthForm.invalid" class="pull-right"
+      (click)="updateDrugStrength()">Update</button>
   </div>
 </div>

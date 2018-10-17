@@ -298,13 +298,17 @@ export class HospitalMasterComponent implements OnInit {
 
     /*create institution*/
     createInstitution() {
+        let checkTalukValue: any;
         let request_Array = [];
+        if (this.taluk != undefined || this.taluk != null) {
+            checkTalukValue = this.taluk.blockID
+        }
         let request_obj = {
 
             "institutionName": this.institutionName,
             "stateID": this.state,
             "districtID": this.district,
-            "blockID": this.taluk,
+            "blockID": checkTalukValue,
             "address": this.address,
             "contactPerson1": this.contact_person_name,
             "contactPerson1_Email": this.emailID,
@@ -335,7 +339,10 @@ export class HospitalMasterComponent implements OnInit {
         console.log(response, "SAVE INSTITUTION SUCCESS HANDELER");
         if (response) {
             this.alertService.alert("Saved successfully", 'success');
-            this.back();
+            this.disabled_flag = false;
+            this.showTableFlag = true;
+            this.showFormFlag = false;
+            this.institutionForm1.resetForm();
             this.getInstitutions();
         }
     }
@@ -385,9 +392,11 @@ export class HospitalMasterComponent implements OnInit {
             this.filteredsearchResultArray = [];
             this.searchResultArray.forEach((item) => {
                 for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredsearchResultArray.push(item); break;
+                    if (key == 'institutionName' || key == 'website' || key == 'contactPerson1' || key == 'contactNo1' || key == 'contactPerson1_Email') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredsearchResultArray.push(item); break;
+                        }
                     }
                 }
             });

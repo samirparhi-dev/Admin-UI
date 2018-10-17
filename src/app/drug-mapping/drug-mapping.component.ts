@@ -280,9 +280,11 @@ export class DrugMappingComponent implements OnInit {
       this.filteredavailableDrugMappings = [];
       this.availableDrugMappings.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredavailableDrugMappings.push(item); break;
+          if (key == 'drugGroupName' || key == 'drugName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredavailableDrugMappings.push(item); break;
+            }
           }
         }
       });

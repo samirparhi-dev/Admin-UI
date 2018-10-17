@@ -390,9 +390,11 @@ export class ZoneDistrictMappingComponent implements OnInit {
       this.filteredavailableZoneDistrictMappings = [];
       this.availableZoneDistrictMappings.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredavailableZoneDistrictMappings.push(item); break;
+          if (key == 'zoneName' || key == 'districtName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredavailableZoneDistrictMappings.push(item); break;
+            }
           }
         }
       });
