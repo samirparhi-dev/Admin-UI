@@ -248,7 +248,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     this.dataWithoutWrapUp = [];
     console.log("call type subtype history", response);
     this.data = response;
-    this.filtereddata=response;
+    this.filtereddata = response;
     console.log("this.data", this.data);
 
     this.data.forEach(element => {
@@ -260,7 +260,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
       }
     })
     this.data = this.dataWithoutWrapUp;
-    this.filtereddata=this.dataWithoutWrapUp;
+    this.filtereddata = this.dataWithoutWrapUp;
     console.log("after this.data", this.data);
   }
 
@@ -434,7 +434,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   clear() {
     this.provider_services = [];
     this.data = [];
-    this.filtereddata=[];
+    this.filtereddata = [];
     this.showTable = false;
   }
   filterComponentList(searchTerm?: string) {
@@ -444,9 +444,11 @@ export class CallDispositionTypeMasterComponent implements OnInit {
       this.filtereddata = [];
       this.data.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filtereddata.push(item); break;
+          if (key == 'callGroupType' || key == 'callType') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filtereddata.push(item); break;
+            }
           }
         }
       });

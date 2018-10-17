@@ -678,9 +678,11 @@ export class LanguageMappingComponent implements OnInit {
       this.filteredLanguageMappedList = [];
       this.LanguageMappedList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredLanguageMappedList.push(item); break;
+          if (key == 'userName' || key == 'languageName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredLanguageMappedList.push(item); break;
+            }
           }
         }
       });

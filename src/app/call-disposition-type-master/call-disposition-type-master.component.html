@@ -34,12 +34,12 @@
   </form>
 
 </div>
-<!-- <div class="pull-right m-t-15" *ngIf="data.length!==0 && showTable">
+<div class="pull-right" *ngIf="data.length!==0 && showTable">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div> -->
+</div>
 <div class="row" *ngIf="showTable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" style="height: 280px">
     <div class="table-responsive">

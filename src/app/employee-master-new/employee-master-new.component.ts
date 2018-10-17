@@ -949,9 +949,11 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.filteredsearchResult = [];
       this.searchResult.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResult.push(item); break;
+          if (key == 'userName' || key == 'emergencyContactNo' || key == 'emailID' || key == 'designationName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResult.push(item); break;
+            }
           }
         }
       });

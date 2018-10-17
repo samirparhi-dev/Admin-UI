@@ -658,9 +658,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.filteredsearchresultarray = [];
       this.searchresultarray.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchresultarray.push(item); break;
+          if (key == 'roleName' || key == 'screenName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchresultarray.push(item); break;
+            }
           }
         }
       });

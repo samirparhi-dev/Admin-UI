@@ -43,25 +43,25 @@
   </form>
   <!-- </div> -->
 </div>
-<!-- <div class="pull-right m-t-15" *ngIf="showCategoryTable && data.length!==0 && showTable && showDiv">
+<div class="pull-right" *ngIf="showCategoryTable && data.length!==0 && showTable && showDiv">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
 </div>
 
-<div class="pull-right m-t-15" *ngIf="!showCategoryTable && subCat.length!==0 && showTable && showDiv">
+<div class="pull-right" *ngIf="!showCategoryTable && subCat.length!==0 && showTable && showDiv">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentListSub(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
-</div> -->
+</div>
 <div class="row">
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="showTable && showDiv">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="showTable && showDiv">
     <!--category table-->
     <div class="table-responsive">
-      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="4">
+      <table *ngIf="showCategoryTable" class="table table-hover table-striped" [md2Data]="filtereddata" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>

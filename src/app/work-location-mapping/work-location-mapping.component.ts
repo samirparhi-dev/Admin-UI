@@ -208,7 +208,7 @@ export class WorkLocationMappingComponent implements OnInit {
         temp.push(roles);
       }
     });
-    this.availableRoles = temp.slice(); 
+    this.availableRoles = temp.slice();
 
     if (this.bufferArray.length > 0) {
       this.bufferArray.forEach((bufferArrayList) => {
@@ -228,7 +228,7 @@ export class WorkLocationMappingComponent implements OnInit {
       }
     });
     // available roles has roles except mapped roles with the user(both temp mapping and already mapped);
-    this.availableRoles = bufferTemp.slice(); 
+    this.availableRoles = bufferTemp.slice();
     this.bufferArrayTemp = [];
   }
 
@@ -701,7 +701,7 @@ export class WorkLocationMappingComponent implements OnInit {
 
       });
   }
- 
+
   updateWorkLocation(workLocations: any) {
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
@@ -732,9 +732,11 @@ export class WorkLocationMappingComponent implements OnInit {
       this.filteredmappedWorkLocationsList = [];
       this.mappedWorkLocationsList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredmappedWorkLocationsList.push(item); break;
+          if (key == 'userName' || key == 'serviceName' || key == 'stateName' || key == 'workingDistrictName' || key == 'locationName' || key == 'roleName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredmappedWorkLocationsList.push(item); break;
+            }
           }
         }
       });

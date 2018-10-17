@@ -311,9 +311,11 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 			this.filteredsearchResultArray = [];
 			this.searchResultArray.forEach((item) => {
 				for (let key in item) {
-					let value: string = '' + item[key];
-					if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-						this.filteredsearchResultArray.push(item); break;
+					if (key == 'instituteDirectoryName') {
+						let value: string = '' + item[key];
+						if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+							this.filteredsearchResultArray.push(item); break;
+						}
 					}
 				}
 			});

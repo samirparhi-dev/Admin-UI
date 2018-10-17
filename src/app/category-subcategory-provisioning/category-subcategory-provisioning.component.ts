@@ -833,11 +833,13 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
       this.filtereddata = [];
       this.data.forEach((item) => {
         for (let key in item) {
+          if (key == 'callGroupType' || key == 'callType') {
           let value: string = '' + item[key];
           if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
             this.filtereddata.push(item); break;
           }
         }
+      }
       });
     }
 
