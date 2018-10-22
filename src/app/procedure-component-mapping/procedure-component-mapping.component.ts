@@ -307,9 +307,11 @@ export class ProcedureComponentMappingComponent implements OnInit {
       this.filteredMappedList = [];
       this.mappedList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredMappedList.push(item); break;
+          if (key == 'procedureName' || key == 'compList') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredMappedList.push(item); break;
+            }
           }
         }
       });
