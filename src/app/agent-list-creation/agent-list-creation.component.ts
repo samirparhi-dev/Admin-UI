@@ -427,9 +427,11 @@ export class AgentListCreationComponent implements OnInit {
       this.filteredagentLists = [];
       this.agentLists.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredagentLists.push(item); break;
+          if (key == 'agentID' || key == 'cti_CampaignName') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredagentLists.push(item); break;
+            }
           }
         }
       });

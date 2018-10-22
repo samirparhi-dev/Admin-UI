@@ -186,9 +186,11 @@ export class UserRoleAgentIDMappingComponent implements OnInit {
       this.filteredsearchResultArray = [];
       this.searchResultArray.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResultArray.push(item); break;
+          if (key == 'firstName' || key == 'middleName' || key == 'lastName' || key == 'userName' || key == 'agentID') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResultArray.push(item); break;
+            }
           }
         }
       });

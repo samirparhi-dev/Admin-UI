@@ -104,14 +104,14 @@
 </div>
 
 <div *ngIf="tableMode ">
-    <!-- <div *ngIf="procedureList?.length > 0" class="pull-right">
+    <div *ngIf="procedureList?.length > 0" class="pull-right">
         <md-input-container id="filterbox">
             <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterprocedureList(filterTerm.value)">
             <md-icon mdSuffix>search</md-icon>
         </md-input-container>
-    </div> -->
+    </div>
     <div class="row">
-        <div #tabledData class="col-xs-12 col-sm-12 m-t-15">
+        <div #tabledData class="col-xs-12 col-sm-12">
             <div class="table-responsive">
                 <table class="table table-hover table-striped" [md2Data]="filteredprocedureList" #md2="md2DataTable" [rowsPerPage]="4">
                     <thead>
@@ -121,14 +121,13 @@
                             <th width="20%">Procedure Type</th>
                             <th width="15%">Gender</th>
                             <th width="25%">Description</th>
-                            <th width="10%">Created By</th>
                             <th width="5%">Edit</th>
                             <th width="5%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredprocedureList.length == 0">
-                            <td colspan="8" class="record-not-found">No records found</td>
+                            <td colspan="7" class="record-not-found">No records found</td>
                         </tr>
                         <tr *ngFor="let item of md2.data;let i = index ">
                             <td>{{filteredprocedureList.indexOf(item)+1}}</td>
@@ -136,7 +135,6 @@
                             <td>{{item.procedureType}}</td>
                             <td>{{item.gender}}</td>
                             <td>{{item.procedureDesc}}</td>
-                            <td>{{item.createdBy}}</td>
                             <td>
                                 <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer"
                                     (click)="showForm();configProcedure(item, filteredprocedureList.indexOf(item))">edit</md-icon>
@@ -153,7 +151,7 @@
                             <td colspan="6">
                                 <md2-pagination></md2-pagination>
                             </td>
-                            <td colspan="7" class="p-r-0">
+                            <td colspan="6" class="p-r-0">
                                 <button *ngIf="!editMode" class="pull-right" color="primary" id="resetButton" md-raised-button (click)="showForm();resetProcedure()">Create New Procedure</button>
                             </td>
                         </tr>

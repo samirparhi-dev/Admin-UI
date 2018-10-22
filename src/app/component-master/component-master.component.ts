@@ -308,8 +308,8 @@ export class ComponentMasterComponent implements OnInit {
           }
         }
 
-      } else if(obj.inputType == 'FileUpload') {
-        obj.compOpt = [{'name': ""}];
+      } else if (obj.inputType == 'FileUpload') {
+        obj.compOpt = [{ 'name': "" }];
       }
       obj.providerServiceMapID = this.providerServiceMapID;
       return obj;
@@ -355,9 +355,11 @@ export class ComponentMasterComponent implements OnInit {
       this.filteredComponentList = [];
       this.componentList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredComponentList.push(item); break;
+          if (key == 'testComponentName' || key == 'inputType') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredComponentList.push(item); break;
+            }
           }
         }
       });
@@ -454,9 +456,9 @@ export class ComponentMasterComponent implements OnInit {
   get range_normal_max() {
     return this.componentForm.controls['range_normal_max'].value;
   }
-   /*
-   * Minimum and maximum range validations
-   */
+  /*
+  * Minimum and maximum range validations
+  */
   setMinRange() {
     if (this.range_max != undefined) {
       this.setMaxRange();

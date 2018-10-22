@@ -183,21 +183,21 @@ export class ProcedureMasterComponent implements OnInit {
     let apiObject = this.objectManipulate();
     let obj = Object.assign({}, this.procedureForm.value);
     let count = 0;
-    console.log('here to check available',apiObject);
+    console.log('here to check available', apiObject);
     for (let a = 0; a < this.filteredprocedureList.length; a++) {
       if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"] && !this.filteredprocedureList[a].deleted) {
         count = count + 1;
-        console.log('here to check available',count);
+        console.log('here to check available', count);
       }
     }
     if (count == 0) {
-      console.log('here to check available',apiObject);
-        
+      console.log('here to check available', apiObject);
+
       if (apiObject) {
         delete apiObject['modifiedBy'];
         delete apiObject['procedureID'];
-        console.log('here to check available',apiObject);
-        
+        console.log('here to check available', apiObject);
+
         this.procedureMasterServiceService.postProcedureData(apiObject)
           .subscribe((res) => {
             this.procedureList.unshift(res);
@@ -246,8 +246,8 @@ export class ProcedureMasterComponent implements OnInit {
   objectManipulate() {
     const obj = Object.assign({}, this.procedureForm.value);
 
-    console.log('this.procedureForm.value',this.procedureForm.value,obj);
-    
+    console.log('this.procedureForm.value', this.procedureForm.value, obj);
+
     if (!obj.name || !obj.type || !obj.description || (!obj.gender)) {
       this.unfilled = true;
       return false
@@ -256,15 +256,15 @@ export class ProcedureMasterComponent implements OnInit {
 
       let apiObject = {};
       apiObject = {
-            procedureID: '',
-            modifiedBy: this.commonDataService.uname,
-            procedureName: obj.name,
-            procedureType: obj.type,
-            procedureDesc: obj.description,
-            createdBy: this.commonDataService.uname,
-            providerServiceMapID: this.searchStateID.providerServiceMapID,
-            gender: obj.gender
-          };
+        procedureID: '',
+        modifiedBy: this.commonDataService.uname,
+        procedureName: obj.name,
+        procedureType: obj.type,
+        procedureDesc: obj.description,
+        createdBy: this.commonDataService.uname,
+        providerServiceMapID: this.searchStateID.providerServiceMapID,
+        gender: obj.gender
+      };
 
       // console.log(obj.male, 'obj');
       // if (obj.gender) {
@@ -434,9 +434,11 @@ export class ProcedureMasterComponent implements OnInit {
       this.filteredprocedureList = [];
       this.procedureList.forEach((item) => {
         for (let key in item) {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredprocedureList.push(item); break;
+          if (key == 'procedureName' || key == 'procedureType') {
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredprocedureList.push(item); break;
+            }
           }
         }
       });
