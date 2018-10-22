@@ -8,13 +8,13 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 m-t-15">
       <!-- <md-input-container class="hide_underline width100">
         <input mdInput style="display:none"> -->
-        <md-select placeholder="Serviceline" disabled={{disableSelection}} [(ngModel)]="serviceline" name="serviceline" class="width100"
-          (change)="getStates(serviceline)" #bindService="ngModel" required>
-          <md-option *ngFor="let item of services" [value]="item">
-            {{item.serviceName}}
-          </md-option>
-        </md-select>
-        <!-- <md-hint [hidden]=bindService.valid *ngIf="showListOfEmails">
+      <md-select placeholder="Serviceline" disabled={{disableSelection}} [(ngModel)]="serviceline" name="serviceline" class="width100"
+        (change)="getStates(serviceline)" #bindService="ngModel" required>
+        <md-option *ngFor="let item of services" [value]="item">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindService.valid *ngIf="showListOfEmails">
           <span class="error_text" *ngIf="!bindService.required  && ( bindService.dirty || bindService.touched)">Please select serviceline</span>
         </md-hint>
       </md-input-container> -->
@@ -22,13 +22,13 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 m-t-15">
       <!-- <md-input-container class="hide_underline width100">
         <input mdInput style="display:none"> -->
-        <md-select placeholder="State" [disabled]="disableSelection" [(ngModel)]="state" name="state" class="width100" (change)="setProviderServiceMapID(state)"
-          #bindState="ngModel" required>
-          <md-option *ngFor="let item of states" [value]="item">
-            {{item.stateName}}
-          </md-option>
-        </md-select>
-        <!-- <md-hint [hidden]=bindState.valid *ngIf="showListOfEmails">
+      <md-select placeholder="State" [disabled]="disableSelection" [(ngModel)]="state" name="state" class="width100" (change)="setProviderServiceMapID(state)"
+        #bindState="ngModel" required>
+        <md-option *ngFor="let item of states" [value]="item">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindState.valid *ngIf="showListOfEmails">
           <span class="error_text" *ngIf="!bindState.required  && ( bindState.dirty || bindState.touched)">Please select state</span>
         </md-hint>
       </md-input-container> -->
@@ -36,13 +36,13 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 m-t-15">
       <!-- <md-input-container class="hide_underline width100">
         <input mdInput style="display:none"> -->
-        <md-select placeholder="District" [disabled]="disableSelection" class="width100" [(ngModel)]="districtID" name="districtID"
-          #bindDistrict="ngModel" (change)="getTaluk(districtID)"  required>
-          <md-option *ngFor="let district of districts" [value]="district">
-            {{district.districtName}}
-          </md-option>
-        </md-select>
-        <!-- <md-hint [hidden]=bindDistrict.valid *ngIf="showListOfEmails">
+      <md-select placeholder="District" [disabled]="disableSelection" class="width100" [(ngModel)]="districtID" name="districtID"
+        #bindDistrict="ngModel" (change)="getTaluk(districtID)" required>
+        <md-option *ngFor="let district of districts" [value]="district">
+          {{district.districtName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindDistrict.valid *ngIf="showListOfEmails">
           <span class="error_text" *ngIf="!bindDistrict.required  && ( bindDistrict.dirty || bindDistrict.touched)">Please select district</span>
         </md-hint>
       </md-input-container> -->
@@ -50,23 +50,29 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 m-t-15">
       <!-- <md-input-container class="hide_underline width100">
         <input mdInput style="display:none"> -->
-        <md-select placeholder="Taluk" class="width100" [disabled]="disableSelection" [(ngModel)]="taluk" name="taluk"
-          (change)="getAllMailConfig()" #bindTaluk="ngModel" required>
-          <md-option *ngFor="let item of taluks" [value]="item">
-            {{item.blockName}}
-          </md-option>
-        </md-select>
-        <!-- <md-hint [hidden]=bindTaluk.valid *ngIf="showListOfEmails">
+      <md-select placeholder="Taluk" class="width100" [disabled]="disableSelection" [(ngModel)]="taluk" name="taluk" (change)="getAllMailConfig()"
+        #bindTaluk="ngModel" required>
+        <md-option *ngFor="let item of taluks" [value]="item">
+          {{item.blockName}}
+        </md-option>
+      </md-select>
+      <!-- <md-hint [hidden]=bindTaluk.valid *ngIf="showListOfEmails">
           <span class="error_text" *ngIf="!bindTaluk.required  && ( bindTaluk.dirty || bindTaluk.touched)">Please select taluk</span>
         </md-hint>
       </md-input-container> -->
     </div>
   </form>
 </div>
+<div class="pull-right m-t-10" *ngIf="showListOfEmails && showTableFlag && !editable && mailConfig.length!==0 ">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
 <div class="row" *ngIf="showListOfEmails && showTableFlag && !editable">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="table-responsive m-t-15">
-      <table class="table table-striped table-hover" [md2Data]="mailConfig" #md2="md2DataTable" [rowsPerPage]="4">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" [md2Data]="filteredMailConfig" #md2="md2DataTable" [rowsPerPage]="3">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
@@ -123,13 +129,13 @@
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline width100">
           <input mdInput style="display:none"> -->
-          <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" #bindDesignation="ngModel"
-            required>
-            <md-option *ngFor="let item of designations" [value]="item">
-              {{item.designationName}}
-            </md-option>
-          </md-select>
-          <!-- <md-hint [hidden]=bindDesignation.valid *ngIf="showListOfEmails">
+        <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" #bindDesignation="ngModel"
+          required>
+          <md-option *ngFor="let item of designations" [value]="item">
+            {{item.designationName}}
+          </md-option>
+        </md-select>
+        <!-- <md-hint [hidden]=bindDesignation.valid *ngIf="showListOfEmails">
             <span class="error_text" *ngIf="!bindDesignation.required  && ( bindDesignation.dirty || bindDesignation.touched)">Please select designation</span>
           </md-hint>
         </md-input-container> -->

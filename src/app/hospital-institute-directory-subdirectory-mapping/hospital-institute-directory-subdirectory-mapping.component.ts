@@ -456,10 +456,14 @@ export class HospitalInstituteDirectorySubdirectoryMappingComponent implements O
     } else {
       this.filteredsearchResultArray = [];
       this.searchResultArray.forEach((item) => {
-        for (let key in item) {
-          let value: string = '' + item.institute[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResultArray.push(item); break;
+        for (let key in item.institute) {
+          if (key == 'institutionName') {
+            let value: string = '' + item.institute[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResultArray.push(item); break;
+            }
+          } else {
+
           }
         }
       });

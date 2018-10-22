@@ -428,11 +428,21 @@ export class ServicePointVillageMapComponent implements OnInit {
             this.filteredavailableServicePointVillageMaps = [];
             this.availableServicePointVillageMaps.forEach((item) => {
                 for (let key in item) {
+					if (key == 'blockName' || key == 'villageName') {
                     let value: string = '' + item[key];
                     if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
                         this.filteredavailableServicePointVillageMaps.push(item); break;
+                    } 
+                } else {
+                    if (key == 'm_providerServiceMapping'){
+                        let value: string = '' + item[key].m_district.districtName;
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableServicePointVillageMaps.push(item); break;
+                        } 
                     }
+                        
                 }
+            }
             });
         }
 

@@ -44,7 +44,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     availableParkingPlaces: any = [];
 
     @ViewChild('resetform1') resetform1: NgForm;
-    @ViewChild('searchForm')searchForm: NgForm;
+    @ViewChild('searchForm') searchForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
         public employeeParkingPlaceMappingService: EmployeeParkingPlaceMappingService,
@@ -206,7 +206,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     parkingPlaceIDList: any = [];
 
     getUsernames(providerServiceMapID, designationID) {
-        console.log('this.userID',this.userID);
+        console.log('this.userID', this.userID);
         let userObj = {
             "providerServiceMapID": providerServiceMapID,
             "designationID": designationID
@@ -370,9 +370,11 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             this.filteredavailableEmployeeParkingPlaceMappings = [];
             this.availableEmployeeParkingPlaceMappings.forEach((item) => {
                 for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableEmployeeParkingPlaceMappings.push(item); break;
+                    if (key == 'userName') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableEmployeeParkingPlaceMappings.push(item); break;
+                        }
                     }
                 }
             });

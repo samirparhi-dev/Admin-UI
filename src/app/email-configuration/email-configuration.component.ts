@@ -39,6 +39,7 @@ export class EmailConfigurationComponent implements OnInit {
 	designations: any = [];
 	taluks: any = [];
 	emailConfigList: any = [];
+	filteredMailConfig: any = [];
 
 	disableSelection: boolean = false;
 	showListOfEmailconfig: any = true;
@@ -85,6 +86,7 @@ export class EmailConfigurationComponent implements OnInit {
 		// this.checkDistrictValue = "";
 		// this.checkTalukValue = "";
 		this.mailConfig = [];
+		this.filteredMailConfig = [];
 		let obj = {
 			'userID': this.userID,
 			'serviceID': serviceline.serviceID,
@@ -111,6 +113,7 @@ export class EmailConfigurationComponent implements OnInit {
 	}
 	getDistricts(state) {
 		this.mailConfig = [];
+		this.filteredMailConfig = [];
 		this.EmailConfigurationService.getDistricts(state.stateID).subscribe(response => {
 			this.getDistrictsSuccessHandeler(response);
 		});
@@ -163,6 +166,7 @@ export class EmailConfigurationComponent implements OnInit {
 	}
 	mailConfigSuccessHandler(mailConfigResponse) {
 		this.mailConfig = mailConfigResponse;
+		this.filteredMailConfig = mailConfigResponse;
 		console.log("mailConfigResponse", mailConfigResponse);
 	}
 	showForm() {
@@ -352,6 +356,25 @@ export class EmailConfigurationComponent implements OnInit {
 			})
 
 	}
+	filterComponentList(searchTerm?: string) {
+		if (!searchTerm) {
+			this.filteredMailConfig = this.mailConfig;
+		} else {
+			this.filteredMailConfig = [];
+			this.mailConfig.forEach((item) => {
+				for (let key in item) {
+					if (key == 'authorityName' || key == 'emailID') {
+						let value: string = '' + item.institute[key];
+						if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+							this.filteredMailConfig.push(item); break;
+						}
+					} 
+				}
+			});
+		}
+
+	}
+
 
 }
 
