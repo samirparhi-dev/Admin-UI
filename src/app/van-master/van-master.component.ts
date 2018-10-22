@@ -361,12 +361,13 @@ export class VanComponent implements OnInit {
         } else {
             this.filteredavailableVans = [];
             this.availableVans.forEach((item) => {
-                for (let key in item) {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableVans.push(item); break;
+                for (let key in item)
+                    if (key == 'vanName' || key == 'vehicalNo' || key == 'vanType') {
+                        let value: string = '' + item[key];
+                        if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            this.filteredavailableVans.push(item); break;
+                        }
                     }
-                }
             });
         }
 
