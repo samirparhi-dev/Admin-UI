@@ -30,7 +30,7 @@
           </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" [disabled]="disableSelection"
+          <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [(ngModel)]="parking_Place" name="parking_Place" [disabled]="disableSelection"
             (change)="getParkingPlaceSubDistrictMappings(state.providerServiceMapID, zoneID.zoneID, parking_Place.parkingPlaceID)"
             #parkingPlace="ngModel" required>
             <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
@@ -55,7 +55,7 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="12%">Parking Place</th>
+            <th width="12%">{{parkAndHub}}</th>
             <th width="12%">District</th>
             <th width="15%">Sub-District</th>
             <th width="10%">Edit</th>

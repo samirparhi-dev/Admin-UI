@@ -37,6 +37,7 @@ export class ServicePointVillageMapComponent implements OnInit {
     createdBy: any;
     zoneID: any;
     servicePointVillageMapObj: any;
+    parkAndHub: any;
 
     /*Arrays*/
     zones: any = [];
@@ -81,6 +82,12 @@ export class ServicePointVillageMapComponent implements OnInit {
             });
     }
     getStates(serviceID) {
+        this.resetArrays();
+        if (serviceID == 4) {
+            this.parkAndHub = "Hub";
+        } else {
+            this.parkAndHub = "Parking Place";
+        }
         this.servicePointMasterService.getStates(this.userID, serviceID, false).
             subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
             });
@@ -94,13 +101,15 @@ export class ServicePointVillageMapComponent implements OnInit {
             this.createButton = false;
         }
     }
-    setProviderServiceMapID(providerServiceMapID) {
+    resetArrays() {
         this.zones = [];
-        // this.districts = [];
         this.parkingPlaces = [];
-        // this.taluks = [];
         this.availableServicePoints = [];
         this.filteredavailableServicePointVillageMaps = [];
+
+    }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.resetArrays();
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
         this.getAvailableZones(this.providerServiceMapID);
@@ -428,21 +437,21 @@ export class ServicePointVillageMapComponent implements OnInit {
             this.filteredavailableServicePointVillageMaps = [];
             this.availableServicePointVillageMaps.forEach((item) => {
                 for (let key in item) {
-					if (key == 'blockName' || key == 'villageName') {
-                    let value: string = '' + item[key];
-                    if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                        this.filteredavailableServicePointVillageMaps.push(item); break;
-                    } 
-                } else {
-                    if (key == 'm_providerServiceMapping'){
-                        let value: string = '' + item[key].m_district.districtName;
+                    if (key == 'blockName' || key == 'villageName') {
+                        let value: string = '' + item[key];
                         if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
                             this.filteredavailableServicePointVillageMaps.push(item); break;
-                        } 
+                        }
+                    } else {
+                        if (key == 'm_providerServiceMapping') {
+                            let value: string = '' + item[key].m_district.districtName;
+                            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                                this.filteredavailableServicePointVillageMaps.push(item); break;
+                            }
+                        }
+
                     }
-                        
                 }
-            }
             });
         }
 

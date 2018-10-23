@@ -37,6 +37,7 @@ export class ParkingPlaceComponent implements OnInit {
     service_provider_id: any;
     editable: any = false;
     createButton: boolean = false;
+    enableHubFlag: boolean = false;
 
     countryID: any;
     serviceID: any;
@@ -86,7 +87,15 @@ export class ParkingPlaceComponent implements OnInit {
     getServicesSuccessHandeler(response) {
         this.services = response;
     }
+    parkAndHub:String;
     getStates(value) {
+        this.zones = [];
+        this.filteredavailableParkingPlaces = [];
+        if (value.serviceID == 4) {
+            this.parkAndHub = "Hub";
+        } else {
+            this.parkAndHub = "Parking Place";
+        }
         let obj = {
             'userID': this.userID,
             'serviceID': value.serviceID,
@@ -116,7 +125,6 @@ export class ParkingPlaceComponent implements OnInit {
 
     }
     getAvailableZones(providerServiceMapID) {
-        this.filteredavailableParkingPlaces = [];
         this.parkingPlaceMasterService.getZones({ "providerServiceMapID": providerServiceMapID }).subscribe(response => this.getZonesSuccessHandler(response));
     }
     getZonesSuccessHandler(response) {
