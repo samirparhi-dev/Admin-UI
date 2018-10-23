@@ -364,17 +364,22 @@ export class EmailConfigurationComponent implements OnInit {
 			this.mailConfig.forEach((item) => {
 				for (let key in item) {
 					if (key == 'authorityName' || key == 'emailID') {
-						let value: string = '' + item.institute[key];
+						let value: string = '' + item[key];
 						if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
 							this.filteredMailConfig.push(item); break;
 						}
-					} 
+					} else {
+						if (key == 'designation') {
+							let value: string = '' + item[key].designationName;
+							if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+								this.filteredMailConfig.push(item); break;
+							}
+						}
+					}
 				}
 			});
 		}
 
 	}
-
-
 }
 
