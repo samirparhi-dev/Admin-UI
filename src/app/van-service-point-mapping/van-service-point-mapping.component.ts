@@ -276,6 +276,9 @@ export class VanServicePointMappingComponent implements OnInit {
     }
 
   }
+
+
+  
   servicePointIDList: any = [];
   createItem(obj): FormGroup {
 

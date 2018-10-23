@@ -135,7 +135,7 @@ export class EmployeeParkingPlaceMappingService {
         console.log(response.json().data, 'employee parking place master SERVICE');
         let result = [];
         result = response.json().data.filter(function (item) {
-            if (item.serviceName == "MMU") {
+            if (item.serviceID == 2 || item.serviceID == 4) {
                 return item;
             }
         });
