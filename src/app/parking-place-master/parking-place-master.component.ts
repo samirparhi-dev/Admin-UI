@@ -280,7 +280,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.disableSelection = true;
         this.showListOfParking = false;
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
-        this.parkingPlaceName = parkingPlace.parkingPlaceName
+        this.parkingPlaceName = parkingPlace.parkingPlaceName;
         this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
         this.areaHQAddress = parkingPlace.areaHQAddress;
     }
