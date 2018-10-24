@@ -28,11 +28,14 @@ export class CreateStoreMappingComponent implements OnInit {
   vanList = [];
   createdBy: any;
   providerServiceMapID: any;
+  serviceID: any;
+  parkAndHub: any;
+  vanAndSpoke: any;
 
   storeMappingList = [];
   previousParkingPlace: any;
   previousVan: any;
-  tempParkingPlaceName :any;
+  tempParkingPlaceName: any;
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +47,7 @@ export class CreateStoreMappingComponent implements OnInit {
     if (this.otherDetails) {
       this.createdBy = this.otherDetails.createdBy;
       this.providerServiceMapID = this.otherDetails.providerServiceMapID;
+      this.serviceID = this.otherDetails.service.serviceID;
     }
     this.getAllStore(this.providerServiceMapID);
     this.subscribeToStoreSelectionChange();
@@ -55,7 +59,7 @@ export class CreateStoreMappingComponent implements OnInit {
   getAllStore(providerServiceMapID) {
     this.storeSubs = this.storeMappingService.getAllStore(providerServiceMapID).
       subscribe(response => {
-        console.log(response,"storelist")
+        console.log(response, "storelist")
         this.storeList = response.filter(item => !item.facilityDeleted);
         this.getParkingPlace(this.providerServiceMapID);
       }, (err) => {
@@ -68,7 +72,7 @@ export class CreateStoreMappingComponent implements OnInit {
   getParkingPlace(providerServiceMapID) {
     this.parkingSubs = this.storeMappingService.getAllParkingPlace(providerServiceMapID).
       subscribe(response => {
-        console.log(response,"Parkinglist")
+        console.log(response, "Parkinglist")
         this.mainParkingPlaceList = response.filter(item => !item.deleted);
         this.parkingPlaceList = response.filter(item => !item.deleted);
       }, (err) => {
@@ -81,7 +85,7 @@ export class CreateStoreMappingComponent implements OnInit {
   getVan(facilityID) {
     this.vanSubs = this.storeMappingService.getAllVan(facilityID).
       subscribe(response => {
-        console.log(response,"Vanlist")
+        console.log(response, "Vanlist")
         this.vanList = response.filter(item => !item.facilityID && !item.deleted);
         if (this.vanList.length == 0)
           this.notificationService.alert("Van is not available in this parking place");
@@ -96,9 +100,17 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   subscribeToMainStoreChange() {
+    debugger;
     let temp = this.storeMappingForm.controls['storeMapping'] as FormGroup;
     temp.controls['facilityName'].valueChanges
       .subscribe(value => {
+        if (this.serviceID == 4) {
+          this.parkAndHub = "Hub";
+          this.vanAndSpoke = "Spoke";
+        } else {
+          this.parkAndHub = "Parking Place";
+          this.vanAndSpoke = "Van";
+        }
         if (value && value.parkingPlaceID) {
           let temp = this.mainParkingPlaceList.filter(item => item.parkingPlaceID == value.parkingPlaceID);
           if (temp.length > 0)
@@ -125,6 +137,7 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   subscribeToStoreSelectionChange() {
+    debugger;
     let temp = this.storeMappingForm.controls['storeMapping'] as FormGroup;
     temp.controls['isMainFacility'].valueChanges
       .subscribe(value => {
@@ -132,7 +145,7 @@ export class CreateStoreMappingComponent implements OnInit {
           this.mainStoreList = this.storeList.filter(item => !item.parkingPlaceID && item.isMainFacility);
           this.parkingPlaceList = this.mainParkingPlaceList.filter(item => !item.facilityID);
         } else {
-          this.mainStoreList = this.storeList.filter(item => item.isMainFacility );
+          this.mainStoreList = this.storeList.filter(item => item.isMainFacility);
           this.parkingPlaceList = this.mainParkingPlaceList.slice();
         }
         this.resetForm();
@@ -189,7 +202,7 @@ export class CreateStoreMappingComponent implements OnInit {
     debugger;
 
     let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value.storeMapping));
-    this.tempParkingPlaceName=undefined;
+    this.tempParkingPlaceName = undefined;
     if (temp && temp.facilityName && this.isMainFacility) {
       temp.facilityID = temp.facilityName.facilityID;
       temp.facilityName = temp.facilityName.facilityName;
@@ -210,7 +223,7 @@ export class CreateStoreMappingComponent implements OnInit {
     if (temp && temp.vanName && !this.isMainFacility) {
       temp.vanID = temp.vanName.vanID;
       temp.vanName = temp.vanName.vanName;
-      this.tempParkingPlaceName=temp.parkingPlaceName.parkingPlaceName;
+      this.tempParkingPlaceName = temp.parkingPlaceName.parkingPlaceName;
       temp.parkingPlaceID = undefined;
       temp.parkingPlaceName = undefined;
     }
@@ -220,9 +233,8 @@ export class CreateStoreMappingComponent implements OnInit {
         (temp.parkingPlaceID != undefined && item.parkingPlaceID == temp.parkingPlaceID) ||
         (temp.vanID != undefined && item.vanID == temp.vanID));
       if (arr.length == 0) {
-        if(this.tempParkingPlaceName!=undefined)
-        {
-          temp.parkingPlaceName =this.tempParkingPlaceName;
+        if (this.tempParkingPlaceName != undefined) {
+          temp.parkingPlaceName = this.tempParkingPlaceName;
         }
         this.storeMappingList.push(temp);
       } else {

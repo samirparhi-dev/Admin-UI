@@ -65,7 +65,7 @@ export class CommonServices {
         console.log(response.json().data, 'service line success response');
         let result = [];
         result = response.json().data.filter(function (item) {
-            if (item.serviceID == 2) {
+            if (item.serviceID == 2 || item.serviceID == 4) {
                 return item;
             }
         });
