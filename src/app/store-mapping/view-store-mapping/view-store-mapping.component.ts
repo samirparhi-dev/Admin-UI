@@ -166,7 +166,6 @@ export class ViewStoreMappingComponent implements OnInit {
 
   otherDetails: any;
   switchToCreateMode() {
-    debugger;
     this.otherDetails = Object.assign({}, this.storeSearchForm.value, { providerServiceMapID: this.providerServiceMapID, createdBy: this.createdBy })
     this.mode = 'create';
   }

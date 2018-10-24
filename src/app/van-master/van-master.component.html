@@ -193,7 +193,7 @@
                         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
                             <input mdInput style="display:none"> -->
                         <md-select required placeholder="{{codeType}}" [style.width]="'100%'" [(ngModel)]="vanTypeID" name="vanTypeID" #vanTID="ngModel">
-                            <md-option *ngFor="let vanType of availableVanTypes" value="{{vanType.vanTypeID}}-{{vanType.vanType}}">
+                            <md-option *ngFor="let vanType of filteredVanTypes" value="{{vanType.vanTypeID}}-{{vanType.vanType}}">
                                 {{vanType.vanType}}
                             </md-option>
                         </md-select>

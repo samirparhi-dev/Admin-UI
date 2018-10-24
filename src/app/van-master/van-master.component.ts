@@ -61,10 +61,10 @@ export class VanComponent implements OnInit {
         this.showVans = false;
         this.showVansTable = false;
         //this.districts = [];
+        this.getVanTypes();
     }
     ngOnInit() {
         this.getProviderServices();
-        this.getVanTypes();
     }
     getProviderServices() {
         this.servicePointMasterService.getServices(this.userID)
@@ -160,11 +160,19 @@ export class VanComponent implements OnInit {
     }
 
     availableVanTypes: any;
+    filteredVanTypes: any = [];
     getVanTypesSuccessHandler(response) {
         this.availableVanTypes = response;
+        this.filteredVanTypes = [];
+        this.availableVanTypes.filter((vanTypes) => {
+            if (this.serviceline.serviceName == "TM" && vanTypes.vanTypeID == 3) {
+                this.filteredVanTypes.push(vanTypes);
+            } else {
+                if (this.serviceline.serviceName == "MMU" && vanTypes.vanTypeID != 3)
+                    this.filteredVanTypes.push(vanTypes);
+            }
+        })
     }
-
-
 
     getVans(providerServiceMapID, parkingPlaceID) {
         this.vanObj = {};
