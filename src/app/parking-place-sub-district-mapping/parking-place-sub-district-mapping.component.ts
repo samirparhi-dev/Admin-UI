@@ -24,6 +24,7 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   taluk: any;
   status: any;
   editMappedValue: any;
+  parkAndHub: any;
 
   showTable: boolean = false;
   editable: boolean = false;
@@ -68,9 +69,12 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
     this.servicelines = response;
   }
   getStates(value) {
-    this.mappedParkingPlaceDistricts = [];
-    this.filteredMappedParkingPlaceDistricts = [];
-    this.enableButton = false;
+    this.resetArrays();
+    if (value.serviceID == 4) {
+      this.parkAndHub = "Hub";
+    } else {
+      this.parkAndHub = "Parking Place";
+    }
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,
@@ -90,12 +94,15 @@ export class ParkingPlaceSubDistrictMappingComponent implements OnInit {
   getStatesSuccessHandeler(response) {
     this.states = response;
   }
-  setProviderServiceMapID(providerServiceMapID) {
-    this.zones = [];
-    this.parkingPlaces = [];
+  resetArrays() {
     this.mappedParkingPlaceDistricts = [];
     this.filteredMappedParkingPlaceDistricts = [];
     this.enableButton = false;
+    this.zones = [];
+    this.parkingPlaces = [];
+  }
+  setProviderServiceMapID(providerServiceMapID) {
+    this.resetArrays();
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
     this.getAvailableZones(this.providerServiceMapID);

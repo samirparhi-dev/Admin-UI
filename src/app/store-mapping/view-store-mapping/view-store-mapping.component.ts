@@ -19,6 +19,8 @@ export class ViewStoreMappingComponent implements OnInit {
   createdBy: string;
   userID: string;
   providerServiceMapID: string;
+  parkAndHub: any;
+  vanAndSpoke: any;
 
   serviceLineList: [any];
   stateList: [any];
@@ -72,6 +74,8 @@ export class ViewStoreMappingComponent implements OnInit {
     this.storeSearchForm.controls['service'].valueChanges
       .subscribe(value => {
         if (value) {
+          this.filteredStoreList = [];
+          this.storeList = [];
           this.getState(this.userID, value);
         }
       })
@@ -79,6 +83,14 @@ export class ViewStoreMappingComponent implements OnInit {
 
   stateSubs: any;
   getState(userID: string, service: any) {
+    if (service.serviceID == 4) {
+      this.parkAndHub = "Hub";
+      this.vanAndSpoke = "Spoke";
+    } else {
+      this.parkAndHub = "Parking Place";
+      this.vanAndSpoke = "Van";
+
+    }
     this.stateSubs = this.commonServices.getStatesOnServices(userID, service.serviceID, false).
       subscribe(response => {
         this.stateList = response;
@@ -118,7 +130,7 @@ export class ViewStoreMappingComponent implements OnInit {
       this.filteredStoreList = [];
       this.storeList.forEach((item) => {
         for (let key in item) {
-          if (key == 'facilityName'||key == 'storeType'||key == 'parkingPlaceName'||key == 'vanName') {
+          if (key == 'facilityName' || key == 'storeType' || key == 'parkingPlaceName' || key == 'vanName') {
             let value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
               if (this.filteredStoreList.indexOf(item) == -1)
@@ -154,6 +166,7 @@ export class ViewStoreMappingComponent implements OnInit {
 
   otherDetails: any;
   switchToCreateMode() {
+    debugger;
     this.otherDetails = Object.assign({}, this.storeSearchForm.value, { providerServiceMapID: this.providerServiceMapID, createdBy: this.createdBy })
     this.mode = 'create';
   }

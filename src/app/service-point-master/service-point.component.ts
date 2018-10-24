@@ -35,7 +35,8 @@ export class ServicePointComponent implements OnInit {
     zoneID: any;
     editServicePointValue: any;
     note: string;
-
+    parkAndHub: any;
+    
     formMode: boolean = false;
     editMode: boolean = false;
     editable: any = false;
@@ -76,6 +77,11 @@ export class ServicePointComponent implements OnInit {
             });
     }
     getStates(serviceID) {
+        if (serviceID == 4) {
+            this.parkAndHub = "Hub";
+          } else {
+            this.parkAndHub = "Parking Place";
+          }
         this.servicePointMasterService.getStates(this.userID, serviceID, false).
             subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
             });

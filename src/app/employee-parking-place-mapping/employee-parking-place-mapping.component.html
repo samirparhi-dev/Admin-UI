@@ -31,8 +31,8 @@
                 </md-select>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" [disabled]="formMode"
-                    (change)="getDesignations()" #parkingPlace="ngModel" required>
+                <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [(ngModel)]="parking_Place" name="parking_Place"
+                    [disabled]="formMode" (change)="getDesignations()" #parkingPlace="ngModel" required>
                     <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
                         {{parkingPlace.parkingPlaceName}}
                     </md-option>
@@ -41,7 +41,7 @@
         </form>
         <form #resetform1="ngForm">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                <md-select required placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(parking_Place.parkingPlaceID, searchStateID.providerServiceMapID, designationID.designationID)"
+                <md-select required *ngIf="parkAndHub" placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(parking_Place.parkingPlaceID, searchStateID.providerServiceMapID, designationID.designationID)"
                     [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
                     <md-option *ngFor="let designation of designations" [value]="designation">
                         {{designation.designationName}}
@@ -71,7 +71,7 @@
                 <thead>
                     <tr>
                         <th width="10%">S.No.</th>
-                        <th width="25%">Parking Place Name</th>
+                        <th width="25%">{{parkAndHub}}</th>
                         <th width="25%">Designation</th>
                         <th width="25%">Username</th>
                         <th width="10%">Delete</th>
@@ -141,8 +141,8 @@
             </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-            <md-select placeholder="Parking place" class="width100" [(ngModel)]="parking_Place" name="parking_Place" #parkingPlace="ngModel"
-                required>
+            <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [(ngModel)]="parking_Place" name="parking_Place"
+                #parkingPlace="ngModel" required>
                 <md-option *ngFor="let parkingPlace of availableParkingPlaces" [value]="parkingPlace">
                     {{parkingPlace.parkingPlaceName}}
                 </md-option>
@@ -157,11 +157,11 @@
             </md-select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                <md-select required placeholder="Username" [disabled]="editMode" class="width100" [(ngModel)]="userID" name="userID" #userVal="ngModel">
-                    <md-option *ngFor="let userName of userNames" [value]="userName">
-                        {{userName.userName}}
-                    </md-option>
-                </md-select>
+            <md-select required placeholder="Username" [disabled]="editMode" class="width100" [(ngModel)]="userID" name="userID" #userVal="ngModel">
+                <md-option *ngFor="let userName of userNames" [value]="userName">
+                    {{userName.userName}}
+                </md-option>
+            </md-select>
         </div>
 
     </form>
@@ -187,7 +187,7 @@
                     <thead>
                         <tr>
                             <th width="10%">S.No.</th>
-                            <th width="25%">Parking Place</th>
+                            <th width="25%">{{parkAndHub}}</th>
                             <th width="25%">Designation</th>
                             <th width="25%">Username</th>
                             <th width="15%">Edit</th>

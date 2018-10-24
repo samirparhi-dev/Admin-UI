@@ -35,6 +35,9 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     district: any;
     parking_Place: any;
     serviceID: any;
+    parkAndHub: any;
+    login_userID: any;
+
     formBuilder: FormBuilder = new FormBuilder();
     MappingForm: FormGroup;
     zoneID: any;
@@ -54,7 +57,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.countryID = 1; // hardcoded as country is INDIA
         this.serviceID = this.commonDataService.serviceIDMMU;
         this.createdBy = this.commonDataService.uname;
-        this.userID = this.commonDataService.uid;
+        this.login_userID = this.commonDataService.uid;
 
     }
 
@@ -65,14 +68,19 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.getProviderServices();
     }
     getProviderServices() {
-        this.employeeParkingPlaceMappingService.getServices(this.userID)
+        this.employeeParkingPlaceMappingService.getServices(this.login_userID)
             .subscribe(response => {
                 this.services_array = response;
             }, err => {
             });
     }
     getStates(serviceID) {
-        this.employeeParkingPlaceMappingService.getStates(this.userID, serviceID, false).
+        if (serviceID == 4) {
+            this.parkAndHub = "Hub";
+        } else {
+            this.parkAndHub = "Parking Place";
+        }
+        this.employeeParkingPlaceMappingService.getStates(this.login_userID, serviceID, false).
             subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
             });
     }

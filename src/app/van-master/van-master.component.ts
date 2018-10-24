@@ -11,22 +11,13 @@ import { ServicePointMasterService } from '../services/ProviderAdminServices/ser
 })
 export class VanComponent implements OnInit {
 
-    filteredavailableVans: any = [];
-    showVansTable: boolean = false;
     userID: any;
     serviceline: any;
-    showVans: any = true;
-    availableVans: any = [];
     data: any;
     providerServiceMapID: any;
     provider_states: any;
     provider_services: any;
     service_provider_id: any;
-    editable: any = false;
-    availableVanNames: any = [];
-    availableVehicleNos: any = [];
-    services_array: any = [];
-    zones: any = [];
     countryID: any;
     searchStateID: any;
     district: any;
@@ -35,8 +26,23 @@ export class VanComponent implements OnInit {
     createdBy: any;
     status: any;
     zoneID: any;
+    parkAndHub: any;
+    vanAndSpoke: any;
+    code: any;
+    codeType: any;
+
+    editable: any = false;
+    showVans: any = true;
+    showVansTable: boolean = false;
     createButton: boolean = false;
+
     parkingPlaces: any = [];
+    availableVanNames: any = [];
+    availableVehicleNos: any = [];
+    services_array: any = [];
+    zones: any = [];
+    filteredavailableVans: any = [];
+    availableVans: any = [];
 
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
@@ -68,6 +74,19 @@ export class VanComponent implements OnInit {
             });
     }
     getStates(serviceID) {
+        this.resetArrays();
+        if (serviceID == 4) {
+            this.parkAndHub = "Hub";
+            this.vanAndSpoke = "Spoke";
+            this.code = "Spoke Code";
+            this.codeType = "Spoke Type";
+
+        } else {
+            this.parkAndHub = "Parking Place";
+            this.vanAndSpoke = "Van";
+            this.code = "Vehicle No.";
+            this.codeType = "Van Type";
+        }
         this.servicePointMasterService.getStates(this.userID, serviceID, false).
             subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
             });
@@ -79,10 +98,13 @@ export class VanComponent implements OnInit {
             this.createButton = false;
         }
     }
-    setProviderServiceMapID(providerServiceMapID) {
+    resetArrays() {
         this.zones = [];
         this.parkingPlaces = [];
         this.filteredavailableVans = [];
+    }
+    setProviderServiceMapID(providerServiceMapID) {
+        this.resetArrays();
         console.log("providerServiceMapID", providerServiceMapID);
         this.providerServiceMapID = providerServiceMapID;
         this.getAvailableZones(this.providerServiceMapID);

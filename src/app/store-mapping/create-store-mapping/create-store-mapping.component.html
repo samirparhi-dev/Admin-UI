@@ -27,7 +27,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box">
-        <md-select class="input-full-width" placeholder="Parking Place" formControlName="parkingPlaceName" name="parkingPlaceName"
+        <md-select class="input-full-width" placeholder="{{parkAndHub}}" formControlName="parkingPlaceName" name="parkingPlaceName"
           [disabled]="isMainFacility == false" [required]="true">
           <md-option *ngFor="let parkingPlace of parkingPlaceList" [value]="parkingPlace">
             {{parkingPlace.parkingPlaceName}}
@@ -44,7 +44,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 box" *ngIf="isMainFacility == false">
-        <md-select class="input-full-width" placeholder="Van" formControlName="vanName" name="vanName" [required]="!(storeMappingForm.controls['storeMapping']['controls']['isMainFacility'].value)">
+        <md-select class="input-full-width" placeholder="{{vanAndSpoke}}" formControlName="vanName" name="vanName" [required]="!(storeMappingForm.controls['storeMapping']['controls']['isMainFacility'].value)">
           <md-option *ngFor="let van of vanList" [value]="van">
             {{van.vanName}}
           </md-option>
@@ -68,8 +68,8 @@
           <th style="width: 5%">S.No.</th>
           <th style="width: 20%">Store Type</th>
           <th style="width: 20%">Store</th>
-          <th style="width: 20%">Parking Place</th>
-          <th style="width: 15%">Van</th>
+          <th style="width: 20%">{{parkAndHub}}</th>
+          <th style="width: 15%">{{vanAndSpoke}}</th>
           <th style="width: 10%">Action</th>
         </tr>
       </thead>

@@ -165,7 +165,7 @@ export class ZoneMasterService {
         console.log(response.json().data, 'role service file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
-            if (item.serviceName === "MMU") {
+            if (item.serviceID == 2 || item.serviceID == 4) {
                 return item;
             }
         });
