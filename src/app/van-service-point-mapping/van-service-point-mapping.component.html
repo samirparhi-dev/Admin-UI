@@ -110,8 +110,9 @@
                     <th width="20%">Service Point</th>
                     <th width="20%">District</th>
                     <th width="20%">Taluk/Sub-District</th>
-                    <th width="30%">Morning</th>
-                    <th width="30%">Evening</th>
+                    <th width="30%" *ngIf="service.serviceID != 4">Morning</th>
+                    <th width="30%" *ngIf="service.serviceID != 4">Evening</th>
+                    <th width="30%" *ngIf="service.serviceID == 4">Full Day</th>
                 </tr>
             </thead>
             <tbody formArrayName="mappings">
@@ -131,11 +132,14 @@
                     <td>
                         <input mdInput formControlName="blockID" value="mapping.controls.blockID.value" [hidden]="true">{{mapping.controls.blockName.value}}
                     </td>
-                    <td>
+                    <td *ngIf="service.serviceID != 4">
                         <md-checkbox color="primary" formControlName="vanSession1" [checked]="mapping.controls.vanSession1.value"></md-checkbox>
                     </td>
-                    <td>
+                    <td *ngIf="service.serviceID != 4">
                         <md-checkbox color="primary" formControlName="vanSession2" [checked]="mapping.controls.vanSession2.value"></md-checkbox>
+                    </td>
+                    <td *ngIf="service.serviceID == 4">
+                        <md-checkbox color="primary" formControlName="vanSession3" (click)="setvansession(MappingForm.get('mappings').controls.indexOf(mapping),mapping.controls.vanSession3.value)" [checked]="mapping.controls.vanSession3.value"></md-checkbox>
                     </td>
                 </tr>
             </tbody>

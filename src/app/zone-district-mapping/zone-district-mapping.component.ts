@@ -81,6 +81,7 @@ export class ZoneDistrictMappingComponent implements OnInit {
   * State
   */
   getStates(value) {
+    this.filteredavailableZoneDistrictMappings = [];
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,

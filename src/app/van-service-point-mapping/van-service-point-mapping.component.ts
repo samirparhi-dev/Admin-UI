@@ -336,6 +336,7 @@ export class VanServicePointMappingComponent implements OnInit {
       isChanged: "",
       vanSession1: (vanSession == '1' || vanSession == '3'),
       vanSession2: (vanSession == '2' || vanSession == '3'),
+      vanSession3: (vanSession == '3')
 
     })
 
@@ -376,7 +377,7 @@ export class VanServicePointMappingComponent implements OnInit {
       let mappingGroup = <FormGroup>(mappingArray).controls[i];
 
       console.log(mappingGroup.controls.vanSession1.touched);
-      if ((mappingGroup.controls.vanSession1.touched || mappingGroup.controls.vanSession2.touched)) {
+      if ((mappingGroup.controls.vanSession1.touched || mappingGroup.controls.vanSession2.touched )) {
         this.vanServicePointMappingObj = {};
         this.vanServicePointMappingObj.vanServicePointMapID = mappings[i].vanServicePointMapID
         this.vanServicePointMappingObj.vanID = this.vanID;
@@ -387,7 +388,7 @@ export class VanServicePointMappingComponent implements OnInit {
         if (mappings[i].vanSession2) {
           this.vanServicePointMappingObj.vanSession = 2;
         }
-        if (mappings[i].vanSession1 && mappings[i].vanSession2) {
+        if ((mappings[i].vanSession1 && mappings[i].vanSession2) ){
           this.vanServicePointMappingObj.vanSession = 3;
         }
         this.vanServicePointMappingObj.providerServiceMapID = this.providerServiceMapID;
@@ -425,5 +426,16 @@ export class VanServicePointMappingComponent implements OnInit {
     this.MappingForm = this.formBuilder.group({
       mappings: this.formBuilder.array([])
     });
+  }
+
+  setvansession(i,value){
+    let mappingArray = <FormArray>this.MappingForm.controls.mappings;
+    let mappingGroup = <FormGroup>(mappingArray).controls[i];
+    mappingGroup.controls.vanSession1.markAsTouched();
+    mappingGroup.controls.vanSession2.markAsTouched();
+    
+      mappingGroup.controls.vanSession1.patchValue(!value)
+      mappingGroup.controls.vanSession2.patchValue(!value)
+    
   }
 }
