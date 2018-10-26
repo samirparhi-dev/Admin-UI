@@ -82,6 +82,7 @@ export class ZoneComponent implements OnInit {
     this.services = response;
   }
   getStates(value) {
+    this.filteredavailableZones = [];
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,

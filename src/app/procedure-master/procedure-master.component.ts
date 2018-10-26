@@ -84,6 +84,7 @@ export class ProcedureMasterComponent implements OnInit {
       });
   }
   getStates(serviceID) {
+    this.filteredprocedureList = [];
     this.stateandservices.getStates(this.userID, serviceID, false).
       subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
       });
@@ -127,6 +128,7 @@ export class ProcedureMasterComponent implements OnInit {
       if (res) {
         this.showTable();
         this.alreadyExist = false;
+        this.resetProcedure();
       }
     })
   }
@@ -142,7 +144,6 @@ export class ProcedureMasterComponent implements OnInit {
     this.disableSelection = true;
   }
   procedureUnique() {
-    console.log("name", this.name);
     this.alreadyExist = false;
     console.log("filteredprocedureList", this.filteredprocedureList);
     let count = 0;
@@ -448,15 +449,15 @@ export class ProcedureMasterComponent implements OnInit {
 
   configProcedure(item, index) {
     this.editMode = true;
-    let male = false;
-    let female = false;
-    if (item.gender === 'Unisex') {
-      male = true;
-      female = true;
-    } else if (item.gender === 'Male') {
-      male = true;
-    } else if (item.gender === 'Female') {
-      female = true;
+    let male: any;
+    let female: any;
+    let unisex: any;
+    if (item.gender == 'unisex') {
+      unisex = "unisex";
+    } else if (item.gender == 'male') {
+      male = "male";
+    } else if (item.gender == 'female') {
+      female = "female";
     }
     this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
     console.log(JSON.stringify(item, null, 4));
@@ -465,8 +466,7 @@ export class ProcedureMasterComponent implements OnInit {
       name: item.procedureName,
       type: item.procedureType,
       description: item.procedureDesc,
-      male: male,
-      female: female,
+      gender: item.gender,
       disable: item.deleted
     })
 

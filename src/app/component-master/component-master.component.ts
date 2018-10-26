@@ -197,6 +197,7 @@ export class ComponentMasterComponent implements OnInit {
       if (res) {
         this.showTable();
         this.alreadyExist = false;
+        this.resetForm();
       }
     })
   }
