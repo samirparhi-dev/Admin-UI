@@ -301,7 +301,7 @@ export class HospitalMasterComponent implements OnInit {
         let checkTalukValue: any;
         let request_Array = [];
         if (this.taluk != undefined || this.taluk != null) {
-            checkTalukValue = this.taluk.blockID
+            checkTalukValue = this.taluk
         }
         let request_obj = {
 
