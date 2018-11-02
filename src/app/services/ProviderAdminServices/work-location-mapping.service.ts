@@ -25,7 +25,9 @@ export class WorkLocationMapping {
     get_SaveWorkLocationMappedDetails_Url: any;
     get_UpdateWorkLocationMappedDetails_Url: any;
     get_DeleteWorkLocationMappedDetails_Url;
-
+    getAllRolesForTMUrl: any;
+    getAllMappedRolesForTmUrl: any;
+    get_DeleteWorkLocationMappedDetailsForTM_Url: any;
 
     getAllServiceLinesByProviderUrl: any;
     getAllStatesByProviderUrl: any;
@@ -50,10 +52,13 @@ export class WorkLocationMapping {
         this.get_ProviderName_Url = this.admin_Base_Url + 'm/SearchEmployee4';
         this.get_WorkLocationMappedDetails_Url = this.admin_Base_Url + 'getUserRoleMapped';
         this.getAllRolesUrl = this.admin_Base_Url + 'm/role/searchV1';
+        this.getAllRolesForTMUrl = this.admin_Base_Url + '/searchRoleTM';
+        this.getAllMappedRolesForTmUrl = this.admin_Base_Url + '/getUserRoleTM';
 
         this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
         this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
         this.get_DeleteWorkLocationMappedDetails_Url = this.admin_Base_Url + 'deleteUserRoleMapping';
+        this.get_DeleteWorkLocationMappedDetailsForTM_Url = this.admin_Base_Url + '/deleteUserRoleMappingTM';
 
         this.getProviderStates_url = this.admin_Base_Url + 'm/role/state';
         this.getProviderServicesInState_url = this.admin_Base_Url + 'm/role/service';
@@ -89,7 +94,12 @@ export class WorkLocationMapping {
             .map(this.handleState_n_username).catch(this.handleError);
     }
 
-
+    getAllMappedRolesForTm(rolesObj) {
+        return this.http
+        .post(this.getAllMappedRolesForTmUrl , rolesObj)
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+    }
     getAllDistricts(stateID: any) {
         return this.http
             .get(this.getAllDistrictsByProviderUrl + stateID)
@@ -119,8 +129,15 @@ export class WorkLocationMapping {
             .map(this.handleState_n_worklocations)
             .catch(this.handleError);
     }
-
-
+    getAllRolesForTM(providerServiceMapID) {
+        return this.http
+            .post(this.getAllRolesForTMUrl, {
+                'providerServiceMapID': providerServiceMapID
+            })
+            .map(this.handleState_n_worklocations)
+            .catch(this.handleError);
+    }
+   
     SaveWorkLocationMapping(data) {
         return this.httpIntercept.post(this.get_SaveWorkLocationMappedDetails_Url, data).map(this.handleSuccess).catch(this.handleError);
 
@@ -134,6 +151,10 @@ export class WorkLocationMapping {
     DeleteWorkLocationMapping(data) {
         return this.httpIntercept.post(this.get_DeleteWorkLocationMappedDetails_Url, data).map(this.handleSuccess).catch(this.handleError);
 
+    }
+    DeleteWorkLocationMappingForTM(data) {
+        return this.httpIntercept.post(this.get_DeleteWorkLocationMappedDetailsForTM_Url, data).map(this.handleSuccess).catch(this.handleError);
+        
     }
 
     handleState_n_ServiceSuccess(response: Response) {

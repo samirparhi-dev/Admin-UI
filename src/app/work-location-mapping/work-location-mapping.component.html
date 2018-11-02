@@ -48,9 +48,9 @@
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted " class=" m-r-10" (click)="activate(service.uSRMappingID,service.userDeleted)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted " class=" m-r-10" (click)="activate(service.serviceID, service.uSRMappingID,service.userDeleted)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted" class=" m-r-10"
-                (click)="deactivate(service.uSRMappingID)">Deactivate</button>
+                (click)="deactivate(service.serviceID, service.uSRMappingID)">Deactivate</button>
 
             </td>
           </tr>
@@ -86,7 +86,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
-        <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" required>
+        <md-select placeholder="Select User" [style.width]="'100%'" [(ngModel)]="User" name="user" (change)="resetAllFields()" required>
           <md-option *ngFor="let user of userNamesList" [value]="user">
             {{user.userName}}
           </md-option>
@@ -110,7 +110,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
-        <md-select placeholder="Select State" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(State)"
+        <md-select placeholder="Select State" [disabled]="isNational" [style.width]="'100%'" [(ngModel)]="State" name="state" (change)="getAllDistricts(Serviceline.serviceID, User, State)"
           required>
           <md-option *ngFor="let item of states_array" [value]="item">
             {{item.stateName}}
@@ -133,7 +133,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
-        <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(State.providerServiceMapID, User.userID)"
+        <md-select placeholder="Select Work Location" [style.width]="'100%'" [(ngModel)]="WorkLocation" (change)="getAllRoles(Serviceline.serviceID, State.providerServiceMapID, User.userID)"
           name="worklocation" required>
           <md-option *ngFor="let item of workLocationsList| OrderBy:'locationName'" [value]="item">
             {{item.locationName}}
@@ -153,7 +153,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 m-t-15">
         <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && !workplaceform.invalid"
-          (click)="addWorkLocation(workplaceform.value,Role);this.workplaceform.reset();">
+          (click)="addWorkLocation(workplaceform.value,Role)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
       </div>
@@ -192,7 +192,7 @@
               </ul>
             </td>
             <td>
-              <md-icon class="cursorPointer" mdTooltip="delete" (click)="deleteRow(bufferArray.indexOf(item), item.providerServiceMapID, item.userID)">delete</md-icon>
+              <md-icon class="cursorPointer" mdTooltip="delete" (click)="deleteRow(bufferArray.indexOf(item), item.serviceID, item.providerServiceMapID, item.userID)">delete</md-icon>
             </td>
           </tr>
         </tbody>
