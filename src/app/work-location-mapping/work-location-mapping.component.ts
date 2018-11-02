@@ -52,6 +52,7 @@ export class WorkLocationMappingComponent implements OnInit {
   isNational = false;
 
   @ViewChild('workplaceform') eForm: NgForm;
+  @ViewChild('workplaceeform') editWorkplaceForm : NgForm;
   constructor(private alertService: ConfirmationDialogsService,
     private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
@@ -117,7 +118,6 @@ export class WorkLocationMappingComponent implements OnInit {
         }
       }, err => {
         console.log('Error', err);
-        console.log(err, 'error');
       });
   }
   getUserName(serviceProviderID) {
@@ -334,7 +334,7 @@ export class WorkLocationMappingComponent implements OnInit {
       this.formMode = false;
       this.editMode = false;
       this.bufferArray = [];
-      this.eForm.resetForm();
+      this.editWorkplaceForm.resetForm();
     }
     else {
 
@@ -680,12 +680,12 @@ export class WorkLocationMappingComponent implements OnInit {
       this.stateID_duringEdit = '';
       this.district_duringEdit = null;
       this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-      this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
     }
     else {
       this.getAllDistricts_duringEdit(this.edit_Details.stateID);
       this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-      this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
     }
 
 
@@ -725,12 +725,12 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getProviderStates_duringEdit(serviceID, isNational) {
     this.worklocationmapping.getStates(this.userID, serviceID, isNational).
-      subscribe(response => this.getStatesSuccessHandeler_duringEdit(response, isNational), err => {
+      subscribe(response => this.getStatesSuccessHandeler_duringEdit(serviceID, response, isNational), err => {
         console.log(err, 'error');
       });
   }
 
-  getStatesSuccessHandeler_duringEdit(response, isNational) {
+  getStatesSuccessHandeler_duringEdit(serviceID, response, isNational) {
     // this.stateID_duringEdit = '';
     if (response) {
       console.log(response, 'Provider States');
@@ -744,7 +744,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.stateID_duringEdit = '';
         this.district_duringEdit = null;
         this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-        this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+        this.getAllRoles_duringEdit(serviceID, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
       }
       // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
       this.getAllDistricts_duringEdit(this.stateID_duringEdit);
@@ -813,13 +813,13 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
 
-  getAllRoles_duringEdit(psmID, userID) {
+  getAllRoles_duringEdit(serviceID, psmID, userID) {
     this.worklocationmapping.getAllRoles(psmID)
       .subscribe(response => {
         if (response) {
           console.log(response, 'get all roles success handeler');
           this.RolesList = response;
-          // this.checkExistance(psmID, userID);
+          this.checkExistance(serviceID, psmID, userID);
         }
         //on edit - populate roles
         if (this.edit_Details != undefined) {
@@ -857,11 +857,9 @@ export class WorkLocationMappingComponent implements OnInit {
         this.alertService.alert('Mapping updated successfully', 'success');
         this.showTable();
         this.getAllMappedWorkLocations();
-        this.eForm.resetForm();
         this.bufferArray = [];
       }, err => {
         console.log(err, 'ERROR');
-        console.log(err, 'error');
       });
   }
   filterComponentList(searchTerm?: string) {
