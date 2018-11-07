@@ -157,19 +157,28 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
   }
-
   getFeaturesSuccessHandeler(response) {
+    let tempFeaturesArray: any = [];
+
     console.log("features", response);
     this.combinedFilterArray = [];
     console.log("filterScreens", this.filterScreens);
     console.log("tempFilterScreens", this.tempFilterScreens);
     this.combinedFilterArray = this.filterScreens.concat(this.tempFilterScreens);
     console.log("combinedFilterArray", this.combinedFilterArray);
-    this.features = response.filter((obj) => {
-      console.log("obj", obj);
+    // this.features = response.filter((obj) => {
+    //   console.log("obj", obj);
 
-      return this.combinedFilterArray.indexOf(obj.screenName) == -1;
-    }, this);
+    //   return this.combinedFilterArray.indexOf(obj.screenName) == -1;
+    // }, this);
+    response.forEach((screenNames) => {
+      let index = this.combinedFilterArray.indexOf(screenNames.screenName);
+      if (index < 0) {
+        tempFeaturesArray.push(screenNames);
+      }
+
+    })
+    this.features = tempFeaturesArray.slice();
     this.editFeatures = response.filter((obj) => {
       if (obj.screenName == this.editScreenName) {
         this.editedFeatureID = obj.screenID;
@@ -552,7 +561,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
     if (rowIndex === 0) {
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
-        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
+        if (this.tempFilterScreens != undefined && this.objs[0].screen_name[h] != undefined && this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
           this.tempFilterScreens.splice(FeatureIndex, 1);
           this.getFeatures(this.service.serviceID);
 
@@ -564,7 +573,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
     else {
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
-        if (this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
+        if (this.tempFilterScreens != undefined && this.objs[0].screen_name[h] != undefined && this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
           this.tempFilterScreens.splice(rowIndex, 1);
           this.getFeatures(this.service.serviceID);
 
