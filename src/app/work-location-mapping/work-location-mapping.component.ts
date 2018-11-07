@@ -52,7 +52,7 @@ export class WorkLocationMappingComponent implements OnInit {
   isNational = false;
 
   @ViewChild('workplaceform') eForm: NgForm;
-  @ViewChild('workplaceeform') editWorkplaceForm : NgForm;
+  @ViewChild('workplaceeform') editWorkplaceForm: NgForm;
   constructor(private alertService: ConfirmationDialogsService,
     private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
@@ -309,6 +309,8 @@ export class WorkLocationMappingComponent implements OnInit {
         bufferTemp.push(bufferRoles);
       }
     });
+    // available roles has roles except mapped roles with the user(both temp mapping and already mapped);
+    this.availableRoles = bufferTemp.slice();
 
     // filter the supervisor/specialist from the available roles in buffer
     let bufferTempsupAndSpecScreenNames = [];
@@ -321,8 +323,7 @@ export class WorkLocationMappingComponent implements OnInit {
     })
     this.availableRoles = bufferTempsupAndSpecScreenNames.slice();
 
-    // available roles has roles except mapped roles with the user(both temp mapping and already mapped);
-    this.availableRoles = bufferTemp.slice();
+    // reset all buffer values
     this.bufferArrayTemp = [];
     this.bufferSupAndSpecScreenNames = [];
     this.supAndSpecScreenNames = [];
@@ -535,7 +536,7 @@ export class WorkLocationMappingComponent implements OnInit {
             if (objectToBeAdded.role[i].screenName == 'TC Specialist' || objectToBeAdded.role[i].screenName == 'Supervisor') {
               this.Role = null;
               roleArray = [];
-              this.alertService.alert('This user is already mapped to Supervisor/TC Specialist');
+              this.alertService.alert('Invaild role mapping');
               break;
             } else {
               let obj = {
