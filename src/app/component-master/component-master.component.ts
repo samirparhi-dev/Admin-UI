@@ -21,8 +21,10 @@ export class ComponentMasterComponent implements OnInit {
   checkradioButton: boolean;
   checktextbox: boolean;
   state: any;
-  service: any; z
+  service: any;
 
+  allowDecimal: any = 'number';
+  isDecimal: any = '0';
   states: any;
   services: any;
   disableSelection: boolean = false;
@@ -106,6 +108,7 @@ export class ComponentMasterComponent implements OnInit {
       testComponentID: null,
       testComponentName: [null, Validators.required],
       testComponentDesc: null,
+      isDecimal: null,
       inputType: null,
       range_max: null,
       range_min: null,
@@ -179,6 +182,23 @@ export class ComponentMasterComponent implements OnInit {
 
   }
 
+  allowDecimalChange() {
+    const value = this.componentForm.value.isDecimal;
+    console.log(value)
+    if (value) {
+      this.allowDecimal = 'decimal';
+    } else {
+      this.allowDecimal = 'number';
+    }
+    this.componentForm.patchValue({
+      range_max: null,
+      range_min: null,
+      range_normal_max: null,
+      range_normal_min: null,
+      measurementUnit: null,
+    })
+  }
+
   selected() {
     console.log(this.componentForm.value)
     this.componentForm.patchValue({
@@ -187,7 +207,9 @@ export class ComponentMasterComponent implements OnInit {
       range_normal_max: null,
       range_normal_min: null,
       measurementUnit: null,
+      isDecimal: false,
     })
+    console.log(this.componentForm.value, 'eval')
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
   }
 
@@ -269,7 +291,7 @@ export class ComponentMasterComponent implements OnInit {
 
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
-
+console.log(obj)
     if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType) {
       this.alertService.alert('Please fill all mandatory details');
       return false
@@ -277,12 +299,14 @@ export class ComponentMasterComponent implements OnInit {
       if (obj.inputType == 'TextBox') {
         if (!obj.range_max ||
           !obj.range_min ||
+
           !obj.range_normal_max ||
           !obj.range_normal_min ||
           !obj.measurementUnit) {
           this.alertService.alert('Please add all input limits');
           return false
         } else {
+          // obj.isDecimal = parseInt(obj.isDecimal, 10);
           obj.compOpt = null;
           this.unfilled = false;
         }
@@ -430,6 +454,8 @@ export class ComponentMasterComponent implements OnInit {
     if (res) {
       this.editMode = res.testComponentID;
       this.componentForm.patchValue(res);
+      // const val = res.isDecimal === true ? 1 : 0;
+      // this.componentForm.patchValue({isDecimal: val});
       if (res.inputType != 'TextBox') {
         console.log('11111');
         const options = res.compOpt;
