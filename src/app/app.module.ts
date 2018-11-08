@@ -30,6 +30,7 @@ import { agentID_one } from './directives/name/myName.directive';
 import { agentID_two } from './directives/name/myName.directive';
 import { myMobileNumber } from './directives/MobileNumber/myMobileNumber.directive';
 import { myEmail } from './directives/email/myEmail.directive';
+import { StringValidator } from './directives/stringValidator/stringValidator.directive';
 import { myUserName } from './directives/address/myAddress.directive';
 import { myAddress } from './directives/address/myAddress.directive';
 import { myProviderName } from './directives/name/myName.directive';
@@ -308,6 +309,7 @@ import { NatureOfCompaintCategoryMappingService } from './services/ProviderAdmin
     EmailConfigurationComponent,
     ResetUserPasswordComponent,
     DrugStrengthComponent,
+StringValidator,
     ParkingPlaceSubDistrictMappingComponent,
     NatureOfComplaintCategoryMappingComponent,
   ],
