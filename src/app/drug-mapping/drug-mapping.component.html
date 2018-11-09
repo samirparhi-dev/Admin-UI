@@ -1,16 +1,35 @@
-<div class="row" *ngIf="showMappings && !editable">
+<div class="row">
   <div class="col-xs-12 col-sm-12 ">
-    <h4 class="pull-left">Drug Group-Drug Mapping</h4>
+    <h4 *ngIf="showMappings">Drug Group-Drug Mapping</h4>
+    <h4 *ngIf="!editable && !showMappings">Drug Group-Drug Mapping</h4>
   </div>
+  <form #searchForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Serviceline" (change)="getStates(service)" class="width100" [(ngModel)]="service" name="service"
+        required #bindService="ngModel" disabled={{disableSelection}}>
+        <md-option *ngFor="let item of services" [value]="item">
+          {{item.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="State" class="width100" [(ngModel)]="state" [disabled]="disableSelection" (change)="setProviderServiceMapID(state.providerServiceMapID)"
+        name="state" #bindState="ngModel" required>
+        <md-option *ngFor="let item of states" [value]="item">
+          {{item.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
 </div>
-<div class="pull-right m-t-15" *ngIf="availableDrugMappings.length!==0 && showMappings && !editable">
+<div class="pull-right" *ngIf="availableDrugMappings.length!==0 && showMappings && !editable">
   <md-input-container id="filterbox">
     <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
 </div>
-<div class="row" *ngIf="showMappings && !editable">
-  <div class="col-xs-12 col-sm-12  m-t-15">
+<div class="row" *ngIf="showMappings && showDrudGroupMappedList && !editable">
+  <div class="col-xs-12 col-sm-12  m-t-10">
     <div class="table-responsive">
       <table class="table table-striped table-hover" [md2Data]="filteredavailableDrugMappings" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
@@ -53,35 +72,16 @@
       </table>
     </div>
   </div>
-  <!-- <pagination-controls (pageChange)="b = $event" id="drugListResult"></pagination-controls>
-  <div>
-    <button class="btn pull-right " (click)="showForm()">Create Drug Mapping </button>
-  </div> -->
 </div>
 <div *ngIf="!showMappings || editable">
-  <h4>Drug Group-Drug Mapping</h4>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-l-0">
       <form #drugMappingForm="ngForm" autocomplete="off">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
           <!-- <md-input-container class="hide_underline width100">
             <input mdInput style="display:none"> -->
-          <md-select required placeholder="State" class="width100" [(ngModel)]="stateID" name="stateID" (change)="getServices(stateID.split('-')[0])"
-            #stateVal="ngModel">
-            <md-option *ngFor="let item of provider_states" value="{{item.stateID}}-{{item.stateName}}">
-              {{item.stateName}}
-            </md-option>
-          </md-select>
-          <!-- <md-hint [hidden]=stateVal.valid>
-              <span class="error_text" *ngIf="!stateVal.required  && ( stateVal.dirty || stateVal.touched)">Please select State</span>
-            </md-hint> -->
-          <!-- </md-input-container> -->
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-          <!-- <md-input-container class="hide_underline width100">
-            <input mdInput style="display:none"> -->
           <md-select required placeholder="Drug Group" class="width100" [(ngModel)]="drugGroupID" name="drugGroupID" #drugG="ngModel"
-            (change)="checkExistance(stateID,drugGroupID)">
+            (change)="checkExistance(state,drugGroupID)">
             <md-option *ngFor="let drugGroups of availableDrugGroups" value="{{drugGroups.drugGroupID}}-{{drugGroups.drugGroup}}">
               {{drugGroups.drugGroup}}
             </md-option>
@@ -116,7 +116,7 @@
             <input mdInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks" maxlength="100">
           </md-input-container>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="stateVal.valid && drugG.valid && drug.valid">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="drugMappingForm.valid">
           <button *ngIf="!editable" md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right" (click)="addDrugToList(drugMappingForm.value);drugMappingForm.reset()  ">
             <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
           </button>

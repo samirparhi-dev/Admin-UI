@@ -12,6 +12,11 @@ export class DrugMasterService {
     providerAdmin_Base_Url: any;
 
     // CRUD
+
+    /*Drug Group - Drug Mapping*/
+    getServiceLines_new_url: any;
+    getStates_new_url: any;
+
     saveDrugGroupsURL: any;
     saveDrugsURL: any;
     mapDrugGroupURL: any;
@@ -27,6 +32,7 @@ export class DrugMasterService {
     updateDrugGroupURL: any;
     updateDrugMappingsURL: any;
 
+    /*Drug Group Master*/
     _getStateListBYServiceIDURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
@@ -45,24 +51,34 @@ export class DrugMasterService {
         this.updateDrugMappingsURL = this.providerAdmin_Base_Url + 'm/updateDrugMapping';
         this.getAllDrugStrengthsUrl = this.providerAdmin_Base_Url + '/getDrugStrangth';
 
+        /*Drug Group - Drug Mapping*/
+
+        this.getServiceLines_new_url = this.providerAdmin_Base_Url + 'm/role/serviceNew';
+        this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
+
+        /*Drug Group Master*/
         this._getStateListBYServiceIDURL = this.providerAdmin_Base_Url + 'm/location/getStatesByServiceID';
 
     };
-
-    saveDrugGroups(data) {
-        return this.httpIntercept.post(this.saveDrugGroupsURL, data)
+    getServiceLinesNew(userID) {
+        return this.httpIntercept
+            .post(this.getServiceLines_new_url, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccess)
+            .catch(this.handleError);
+    }
+    getStatesNew(obj) {
+        return this.httpIntercept
+            .post(this.getStates_new_url, obj)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
-    saveDrugs(data) {
-        return this.httpIntercept.post(this.saveDrugsURL, data)
+    getDrugMappings(data) {
+        return this.httpIntercept.post(this.getDrugMappingsURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
-    mapDrugGroups(data) {
-        return this.httpIntercept.post(this.mapDrugGroupURL, data)
+    getDrugGroups(data) {
+        return this.httpIntercept.post(this.getDrugGroupsURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
@@ -73,39 +89,57 @@ export class DrugMasterService {
             .catch(this.handleError);
     }
 
-    getDrugGroups(data) {
-        return this.httpIntercept.post(this.getDrugGroupsURL, data)
+    mapDrugGroups(data) {
+        return this.httpIntercept.post(this.mapDrugGroupURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
 
-    getDrugMappings(data) {
-        return this.httpIntercept.post(this.getDrugMappingsURL, data)
-            .map(this.handleSuccess)
-            .catch(this.handleError);
-    }
+    /* End Mapping */
+
     // getAllDrugStrengths() {
     //     return this.httpIntercept.post(this.getAllDrugStrengthsUrl, {})
     //     .map(this.handleSuccess)
     //     .catch(this.handleError);
     // }
-    updateDrugStatus(data) {
-        return this.httpIntercept.post(this.updateDrugStatusURL, data)
+
+    /*Drug Group Master*/
+    getStatesByServiceID(serviceID, serviceProviderID) {
+        return this.httpIntercept.post(this._getStateListBYServiceIDURL,
+            { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
-
+    saveDrugGroups(data) {
+        return this.httpIntercept.post(this.saveDrugGroupsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
     updateDrugGroup(data) {
         return this.httpIntercept.post(this.updateDrugGroupURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
+    updateDrugStatus(data) {
+        return this.httpIntercept.post(this.updateDrugStatusURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    /**End Group Matser**/
 
+    /*Drug List*/
+    
+    saveDrugs(data) {
+        return this.httpIntercept.post(this.saveDrugsURL, data)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
     updateDrugData(data) {
         return this.httpIntercept.post(this.updateDrugDataURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
+    /**End drug list**/
 
     updateDrugMappings(data) {
         return this.httpIntercept.post(this.updateDrugMappingsURL, data)
@@ -113,11 +147,17 @@ export class DrugMasterService {
             .catch(this.handleError);
     }
 
-    getStatesByServiceID(serviceID, serviceProviderID) {
-        return this.httpIntercept.post(this._getStateListBYServiceIDURL,
-            { 'serviceID': serviceID, 'serviceProviderID': serviceProviderID })
-            .map(this.handleSuccess)
-            .catch(this.handleError);
+
+    handleState_n_ServiceSuccess(response: Response) {
+
+        console.log(response.json().data, 'role service file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceID == 3) {
+                return item;
+            }
+        });
+        return result;
     }
 
     handleSuccess(res: Response) {
