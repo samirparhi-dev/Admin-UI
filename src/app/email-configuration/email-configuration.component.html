@@ -51,7 +51,7 @@
       <!-- <md-input-container class="hide_underline width100">
         <input mdInput style="display:none"> -->
       <md-select placeholder="Taluk" class="width100" [disabled]="disableSelection" [(ngModel)]="taluk" name="taluk" (change)="getAllMailConfig()"
-        #bindTaluk="ngModel" required>
+        #bindTaluk="ngModel">
         <md-option *ngFor="let item of taluks" [value]="item">
           {{item.blockName}}
         </md-option>
@@ -76,9 +76,9 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="15%">State</th>
+            <!-- <th width="15%">State</th>
             <th width="12%">District</th>
-            <th width="12%">Taluk</th>
+            <th width="12%">Taluk</th> -->
             <th width="12%">Authority Designation</th>
             <th width="12%">Authority Name</th>
             <th width="15%">Email Id</th>
@@ -88,13 +88,13 @@
         </thead>
         <tbody>
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
-            <td colspan="10" align="center">No records found</td>
+            <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let mconfig of md2.data ;let i=index">
             <td>{{mailConfig.indexOf(mconfig)+1}} </td>
-            <td>{{mconfig.state.stateName}}</td>
+            <!-- <td>{{mconfig.state.stateName}}</td>
             <td>{{mconfig.district.districtName}}</td>
-            <td>{{mconfig.districtBlock.blockName}}</td>
+            <td>{{mconfig.districtBlock.blockName}}</td> -->
             <td>{{mconfig.designation.designationName}}</td>
             <td>{{mconfig.authorityName}}</td>
             <td>{{mconfig.emailID}}</td>
@@ -110,10 +110,10 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5">
+            <td colspan="3">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0 m-t-10">
+            <td colspan="3" class="p-r-0 m-t-10">
               <button md-raised-button color="primary" class="pull-right" [disabled]="!searchForm.valid" (click)="showForm()">Create New Email Id Configuration</button>
             </td>
           </tr>

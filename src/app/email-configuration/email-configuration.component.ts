@@ -201,13 +201,16 @@ export class EmailConfigurationComponent implements OnInit {
 
 	add_obj(values) {
 		console.log("add object", values);
-
+		let checkTalukValue: any;
+		if (this.taluk != undefined || this.taluk != null) {
+			checkTalukValue = this.taluk.blockID
+		}
 		this.mailConfigObject = {
 
 			"providerServiceMapID": this.providerServiceMapID,
 			"stateID": this.state.stateID,
 			"districtID": this.districtID.districtID,
-			"blockID": this.taluk.blockID,
+			"blockID": checkTalukValue,
 			"designationID": values.designation.designationID,
 			"authorityName": values.authorityName,
 			"emailID": values.emailID,
