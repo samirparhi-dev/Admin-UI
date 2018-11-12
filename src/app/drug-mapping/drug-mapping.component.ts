@@ -10,23 +10,32 @@ import { NgForm } from '@angular/forms';
 })
 export class DrugMappingComponent implements OnInit {
 
-  filteredavailableDrugMappings: any = [];
-  showMappings: any = true;
-  availableDrugMappings: any = [];
-  availableDrugGroups: any = [];
-  availableDrugs: any = [];
   data: any;
   providerServiceMapID: any;
   provider_states: any;
   provider_services: any;
   service_provider_id: any;
-  editable: any = false;
   serviceID104: any;
   createdBy: any;
+  drug_strength: any;
+  userID: any;
+  state: any;
+  service: any;
+
+  editable: any = false;
+  showMappings: any = true;
+  disableSelection: boolean = false;
+  showDrudGroupMappedList: boolean = false;
+
+  /*Arrays*/
+  services: any = [];
+  states: any = [];
+  availableDrugMappings: any = [];
+  availableDrugGroups: any = [];
+  availableDrugs: any = [];
+  filteredavailableDrugMappings: any = [];
   mappedDrugs: any = [];
   availableStrengths: any = [];
-  drug_strength: any;
-
 
   @ViewChild('drugMappingForm') drugMappingForm: NgForm;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
@@ -41,17 +50,58 @@ export class DrugMappingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getStatesByServiceID();
-    this.getAvailableMappings();
-    this.getAvailableDrugGroups();
-    this.getAvailableDrugs();
+    this.userID = this.commonDataService.uid;
+    this.getServiceLines();
+
     // /this.getAvailableStrengths();
   }
-
-  stateSelection(stateID) {
-    this.getServices(stateID);
+  /*
+ * Service line
+ */
+  getServiceLines() {
+    this.drugMasterService.getServiceLinesNew(this.userID).subscribe((response) => {
+      this.getServicesSuccessHandeler(response),
+        (err) => {
+          console.log("ERROR in fetching serviceline", err);
+          // this.alertMessage.alert(err, 'error');
+        }
+    });
   }
+  getServicesSuccessHandeler(response) {
+    this.services = response;
+  }
+  /*
+  * State
+  */
+  getStates(value) {
+    this.filteredavailableDrugMappings = [];
+    let obj = {
+      'userID': this.userID,
+      'serviceID': value.serviceID,
+      'isNational': value.isNational
+    }
+    this.drugMasterService.getStatesNew(obj).
+      subscribe((response) => {
+        this.getStatesSuccessHandeler(response),
+          (err) => {
+            console.log("error in fetching states", err);
+          }
+      });
+
+  }
+
+  getStatesSuccessHandeler(response) {
+    this.states = response;
+  }
+
+  setProviderServiceMapID(providerServiceMapID) {
+    this.providerServiceMapID = providerServiceMapID
+    this.getAvailableMappings();
+
+  }
+
   getAvailableMappings() {
+    this.filteredavailableDrugMappings = [];
     this.drugObj = {};
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.serviceID = this.serviceID104;
@@ -61,7 +111,20 @@ export class DrugMappingComponent implements OnInit {
 
   getDrugMappingsSuccessHandeler(response) {
     this.availableDrugMappings = response;
-    this.filteredavailableDrugMappings = response;
+    this.availableDrugMappings.forEach((availableMappings) => {
+      if (availableMappings.providerServiceMapID == this.providerServiceMapID) {
+        this.filteredavailableDrugMappings.push(availableMappings);
+      }
+    })
+    // this.filteredavailableDrugMappings = response;
+    this.showDrudGroupMappedList = true;
+  }
+
+  showForm() {
+    this.showMappings = false;
+    this.disableSelection = true;
+    this.getAvailableDrugGroups();
+    this.getAvailableDrugs();
   }
 
   getAvailableDrugGroups() {
@@ -91,42 +154,10 @@ export class DrugMappingComponent implements OnInit {
   //     this.availableStrengths = strengthResponse;
   //   })
   // }
-  getServices(stateID) {
-    this.providerAdminRoleService.getServices(this.service_provider_id, stateID).subscribe(response => this.getServicesSuccessHandeler(response),
-      (err) => console.log(err, 'error'));
-  }
-
-  getStates() {
-    this.providerAdminRoleService.getStates(this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
-      (err) => console.log(err, 'error'));
-  }
 
   getStatesByServiceID() {
     this.drugMasterService.getStatesByServiceID(this.serviceID104, this.service_provider_id).subscribe(response => this.getStatesSuccessHandeler(response),
       (err) => console.log(err, 'error'));
-  }
-
-
-  getStatesSuccessHandeler(response) {
-    this.provider_states = response;
-  }
-
-  getServicesSuccessHandeler(response) {
-    this.provider_services = response;
-    for (let provider_service of this.provider_services) {
-      if ("104" == provider_service.serviceName) {
-        this.providerServiceMapID = provider_service.providerServiceMapID;
-      }
-    }
-  }
-
-  responseHandler(response) {
-    this.data = response;
-  }
-
-
-  showForm() {
-    this.showMappings = false;
   }
 
   drugObj: any;
@@ -139,6 +170,7 @@ export class DrugMappingComponent implements OnInit {
   drugMapping: any = [];
   drugIdList: any = [];
   mappedDrugIDs: any = [];
+  mappedDrugDuplicateStatus: any = 0;
   addDrugToList(values) {
 
     let drugIdList = [];
@@ -165,8 +197,8 @@ export class DrugMappingComponent implements OnInit {
           (err) => console.log(err, 'error'));
       }
     }
-
-    for (let drugIds of values.drugIdList) {
+    this.mappedDrugDuplicateStatus = 0;
+    values.drugIdList.forEach((drugIds) => {
       let drugId = drugIds.split("-")[0];
       //make a map of drug group with Drug, If the drugId not in the mappedDrugIDs( already mapped drugID's)
       if (this.mappedDrugIDs.indexOf(parseInt(drugId)) == -1) {
@@ -181,7 +213,8 @@ export class DrugMappingComponent implements OnInit {
         // for(let provider_service of this.provider_services){
         //   if("104"==provider_service.serviceName){
         this.drugObj.providerServiceMapID = this.providerServiceMapID;
-        this.drugObj.stateName = values.stateID.split("-")[1];
+        // this.drugObj.stateName = values.stateID.split("-")[1];
+        this.drugObj.stateName = this.state.stateName;
         //   }
         // } 
 
@@ -190,32 +223,38 @@ export class DrugMappingComponent implements OnInit {
         // this.drugMapping.push(this.drugObj);
       } else {
         console.log("already mapped with these drugs");
-        this.alertMessage.alert("Already mapped with these drugs");
-        this.mappedDrugIDs = [];
+        this.mappedDrugDuplicateStatus = this.mappedDrugDuplicateStatus + 1;
+      }
+    })
+    if (this.mappedDrugDuplicateStatus > 0) {
+      this.alertMessage.alert("Already mapped with these drugs");
+      this.mappedDrugIDs = [];
+    } else {
+      if (this.duplicateStatus > 0) {
+        this.alertMessage.alert("Already exists");
+
       }
     }
-
   }
+  duplicateStatus: any = 0;
+
   checkDuplicates(object) {
-    let duplicateStatus = 0
+    this.duplicateStatus = 0;
     if (this.drugMapping.length === 0) {
       this.drugMapping.push(object);
     }
     else {
       for (let i = 0; i < this.drugMapping.length; i++) {
         if (this.drugMapping[i].drugId === object.drugId
-          && this.drugMapping[i].drugGroupID === object.drugGroupID
-          && this.drugMapping[i].stateName === this.drugObj.stateName) {
-          duplicateStatus = duplicateStatus + 1;
+          && this.drugMapping[i].drugGroupID === object.drugGroupID) {
+          this.duplicateStatus = this.duplicateStatus + 1;
         }
       }
-      if (duplicateStatus === 0) {
+      if (this.duplicateStatus === 0) {
         this.drugMapping.push(object);
       }
-      else {
-        this.alertMessage.alert("Already exists");
-      }
     }
+
   }
 
   storedrugMappings() {
@@ -272,6 +311,7 @@ export class DrugMappingComponent implements OnInit {
   clearEdit() {
     this.showMappings = true;
     this.editable = false;
+    this.disableSelection = false;
   }
   filterComponentList(searchTerm?: string) {
     if (!searchTerm) {
@@ -310,7 +350,7 @@ export class DrugMappingComponent implements OnInit {
       drugGroupID = drugGroupID.split("-")[0];
     }
 
-    for (let availableDrugMapping of this.availableDrugMappings) {
+    this.availableDrugMappings.forEach((availableDrugMapping) => {
       if (availableDrugMapping.providerServiceMapID == this.providerServiceMapID && availableDrugMapping.drugGroupID == drugGroupID) {
         // finding exsting drug group mappings with drugs
         this.mappedDrugs.push(availableDrugMapping);
@@ -318,8 +358,7 @@ export class DrugMappingComponent implements OnInit {
           this.existingDrugs.push(availableDrugMapping.drugId + "-" + availableDrugMapping.drugName);
         }
       }
-    }
-
+    })
     console.log(this.mappedDrugs);
     this.drugIdList = this.existingDrugs;
     console.log(this.drugIdList);

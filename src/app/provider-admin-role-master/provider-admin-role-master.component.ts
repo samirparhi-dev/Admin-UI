@@ -157,9 +157,11 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
 
   }
+  tempfeatureMaster: any = [];
+
   getFeaturesSuccessHandeler(response) {
     let tempFeaturesArray: any = [];
-
+    this.tempfeatureMaster = response;
     console.log("features", response);
     this.combinedFilterArray = [];
     console.log("filterScreens", this.filterScreens);
@@ -558,7 +560,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
   removeFeature(rowIndex, FeatureIndex) {
     this.findRoles(this.STATE_ID, this.SERVICE_ID, false);
-
     if (rowIndex === 0) {
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
         if (this.tempFilterScreens != undefined && this.objs[0].screen_name[h] != undefined && this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
@@ -572,9 +573,14 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       }
     }
     else {
+      let indexDel = 0;
+      for (let i = 0; i < rowIndex; i++) {
+        indexDel += this.objs[i].screen_name.length;
+
+      }
       for (let h = 0; h < this.tempFilterScreens.length; h++) {
         if (this.tempFilterScreens != undefined && this.objs[0].screen_name[h] != undefined && this.tempFilterScreens[h].toUpperCase() === this.objs[0].screen_name[h].toUpperCase()) {
-          this.tempFilterScreens.splice(rowIndex, 1);
+          this.tempFilterScreens.splice(indexDel + FeatureIndex, 1);
           this.getFeatures(this.service.serviceID);
 
         }
@@ -589,7 +595,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     if (this.objs[rowIndex].screen_name.length === 0 && this.objs[rowIndex].screenID.length === 0) {
 
       this.objs.splice(rowIndex, 1);
-      this.getFeatures(this.service.serviceID);
     }
   }
 
