@@ -16,7 +16,8 @@ export class StringValidator {
   alphanumerichyphen = /^[a-zA-Z0-9-/ ]+$/;
   numerichyphen = /^[0-9- ]+$/;
   number = /^[0-9]+$/;
-  decimal = /^[0-9.]+$/;
+  // decimal = /^[0-9.]+$/;
+  decimal = /^\d+(\.\d{0,2})?$/;
   numberslash = /^[0-9/]+$/;
   address = /^[a-zA-Z0-9-./,# ]+$/;
 
@@ -73,24 +74,33 @@ export class StringValidator {
     let lastVal = this.lastValue;
     let maxlength = event.target.maxLength;
 
-    var inserted = this.findDelta(val, lastVal);
-    // get removed chars
-    var removed = this.findDelta(lastVal, val);
-    // determine if user pasted content
-    var pasted = inserted.length >= 1 || (!inserted && !removed);
-
-    if (maxlength > 0 && val.length > maxlength) {
-      event.target.value = lastVal;
+    if (this.allowText.trim() == 'decimal') {
+      if (val == ''){
+        event.target.value = '';
+      } else if (!(this.validate(val))) {
+        event.target.value = lastVal;
+      }
     } else {
-      if (pasted) {
-        if (!(this.isValidString(val))) event.target.value = lastVal;
-      }
-      else if (!removed) {
-        if (!(this.isValidChar(inserted))) event.target.value = lastVal;
-      }
 
-      this.lastValue = event.target.value;
+      var inserted = this.findDelta(val, lastVal);
+      // get removed chars
+      var removed = this.findDelta(lastVal, val);
+      // determine if user pasted content
+      var pasted = inserted.length >= 1 || (!inserted && !removed);
+
+      if (maxlength > 0 && val.length > maxlength) {
+        event.target.value = lastVal;
+      } else {
+        if (pasted) {
+          if (!(this.isValidString(val))) event.target.value = lastVal;
+        }
+        else if (!removed) {
+          if (!(this.isValidChar(inserted))) event.target.value = lastVal;
+        }
+
+      }
     }
+    this.lastValue = event.target.value;
   }
 
   @HostListener('focus', ['$event'])
