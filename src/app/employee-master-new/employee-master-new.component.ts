@@ -174,15 +174,17 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.dob.setMinutes(0);
     this.dob.setSeconds(0);
     this.dob.setMilliseconds(0);
-
-    this.dob.setFullYear(this.today.getFullYear() - 20);
+    // setting dob as min 14 years to restrict child labour
+    this.dob.setFullYear(this.today.getFullYear() - 14);
     this.maxdate = new Date();
-    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate.setFullYear(this.today.getFullYear() - 14);
     this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
   }
   resetDoj() {
+    this.doj = null;
+    this.userCreationForm.controls['doj'].markAsUntouched();
     this.calculateDoj(this.dob);
   }
   /*
@@ -220,9 +222,9 @@ export class EmployeeMasterNewComponent implements OnInit {
  * calculate the doj based on dob
  */
   calculateDoj(dob) {
-
+    //calculate doj as dob + 14 years & this is rest if dob is changed
     this.today = new Date();
-    this.minDate_doj.setFullYear(dob.getFullYear() + 20, dob.getMonth(), dob.getDate());
+    this.minDate_doj.setFullYear(dob.getFullYear() + 14, dob.getMonth(), dob.getDate());
     console.log("set minDate_doj", this.minDate_doj);
     this.minDate_doj = new Date(this.minDate_doj);
     console.log(" b4 minDate_doj", this.minDate_doj);
