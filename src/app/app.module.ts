@@ -315,8 +315,7 @@ import {SpecialistMappingService } from './services/ProviderAdminServices/specia
 StringValidator,
     ParkingPlaceSubDistrictMappingComponent,
     NatureOfComplaintCategoryMappingComponent,
-    SpecialistMappingComponent,
-    SpecialistMappingService
+    SpecialistMappingComponent
   ],
 
   imports: [
