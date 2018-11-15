@@ -222,7 +222,7 @@ export class EmployeeMasterNewComponent implements OnInit {
  * calculate the doj based on dob
  */
   calculateDoj(dob) {
-
+    //calculate doj as dob + 14 years & this is rest if dob is changed
     this.today = new Date();
     this.minDate_doj.setFullYear(dob.getFullYear() + 14, dob.getMonth(), dob.getDate());
     console.log("set minDate_doj", this.minDate_doj);
