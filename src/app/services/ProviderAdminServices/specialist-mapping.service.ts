@@ -9,15 +9,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SpecialistMappingService {
 
-  providerAdmin_Base_Url: any;
-  common_Base_Url: any;
+  private providerAdmin_Base_Url: any;
+  private common_Base_Url: any;
 
 
-  _saveUserSpecializationURL: any;
-  _getSpecializationURL: any;
-  _getUserTMURL: any;
-  _getUserSpecializationURL: any;
-  _activateUserSpecializationURL: any;
+  private _saveUserSpecializationURL: any;
+  private _getSpecializationURL: any;
+  private _getUserTMURL: any;
+  private _getUserSpecializationURL: any;
+  private _activateUserSpecializationURL: any;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -33,11 +33,50 @@ export class SpecialistMappingService {
    }
 
 
+   toggleMapping(userSpecializationMapID, deleted, modifiedBy) {
+     return this.http.post(this._activateUserSpecializationURL, {userSpecializationMapID, deleted, modifiedBy})
+     .map(this.handleSuccess)
+     .catch(this.handleError);
+    }
 
-   getCurrentSpecializationMapping() {
-    //  this.
+    getDoctorList(serviceproviderID, screenName) {
+      return this.http.post(this._getUserTMURL, {serviceproviderID, screenName})
+      .map(this.handleSuccess)
+      .catch(this.handleError);
 
+    }
+
+    getSpecializationList() {
+      return this.http.post(this._getSpecializationURL, {})
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+    }
+
+   getCurrentMappings(serviceproviderID) {
+     return this.http.post(this._getUserSpecializationURL, {serviceproviderID})
+     .map(this.handleSuccess)
+     .catch(this.handleError);
 
    }
+
+   saveMappings(apiObj) {
+     return this.http.post(this._saveUserSpecializationURL, apiObj)
+     .map(this.handleSuccess)
+     .catch(this.handleError);
+   }
+
+   handleSuccess(res: Response) {
+    console.log(res.json(), 'calltype-subtype service file success response');
+    if (res.json().data) {
+      return res.json().data;
+    } else {
+      return Observable.throw(res.json());
+    }
+  }
+
+  handleError(error: Response | any) {
+    return Observable.throw(error.json());
+  }
+
 
 }

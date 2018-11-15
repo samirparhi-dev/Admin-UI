@@ -5,7 +5,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
-import {  SpecialistMappingService } from './../services/ProviderAdminServices/specialist-mapping.service';
+import { SpecialistMappingService } from './../services/ProviderAdminServices/specialist-mapping.service';
 @Component({
   selector: 'app-specialist-mapping',
   templateUrl: './specialist-mapping.component.html',
@@ -13,33 +13,25 @@ import {  SpecialistMappingService } from './../services/ProviderAdminServices/s
 })
 export class SpecialistMappingComponent implements OnInit {
 
-  alreadyExistcount: boolean;
-  state: any;
-  service: any;
-  serviceline: any;
-  states: any;
-  services: any;
-  disableSelection: boolean = false;
-
-  editMode: boolean = false;
+  alreadyExistcount: Boolean;
   serviceProviderID: any;
+  uname: any;
+  screenName = 'TC Specialist';
 
-  STATE_ID: any;
-  SERVICE_ID: any;
-  providerServiceMapID: any;
-  unfilled: Boolean = false;
-  editProcedure: any;
+  tableMode: Boolean = false;
+  creationMode: Boolean = false;
+
   mappingForm: FormGroup;
-  procedureList: any;
-  filteredprocedureList: any;
-  tableMode: boolean = false;
-  saveEditMode: boolean = false;
-  alreadyExist: boolean = false;
+
+  specializationList: any;
+  filteredspecializationList: any;
+
+  alreadyExist: Boolean = false;
   bufferArray: any = [];
   services_array: any = [];
-  userID: any;
-  provider_states: any = [];
-  searchStateID: any;
+
+  specializations: any;
+  users: any;
 
   constructor(private commonDataService: dataService,
     public alertService: ConfirmationDialogsService,
@@ -48,305 +40,268 @@ export class SpecialistMappingComponent implements OnInit {
     private procedureMasterServiceService: ProcedureMasterServiceService,
     public stateandservices: ServicePointMasterService,
     private specialistMappingService: SpecialistMappingService) {
-    this.states = [];
-    this.services = [];
 
   }
 
   ngOnInit() {
 
-    this.initiateForm();
+    this.initiateTable();
+    this.getSpecializationsList();
+    this.getUsersList();
+    console.log(this.specializations, this.users, 'called');
     console.log(this.mappingForm)
   }
   /**
    * Initiate Form
   */
-  initiateForm() {
-    this.mappingForm = this.initmappingForm();
-    // By Default, it'll be set as enabled
-    this.mappingForm.patchValue({
-      disable: false
-    })
-    this.procedureList = [];
-    this.filteredprocedureList = [];
+  initiateTable() {
 
     // provide service provider ID, (As of now hardcoded, but to be fetched from login response)
     this.serviceProviderID = (this.commonDataService.service_providerID).toString();
-    this.userID = this.commonDataService.uid;
+    this.uname = this.commonDataService.uname;
 
-    // this.providerAdminRoleService.getStates(this.serviceProviderID)
-    //   .subscribe(response => this.states = this.successhandeler(response));
-    this.getProviderServices();
-  }
-  getProviderServices() {
-    this.stateandservices.getServices(this.userID)
-      .subscribe(response => {
-        this.services_array = response;
-      }, err => {
-      });
-  }
-  getStates(serviceID) {
-    this.filteredprocedureList = [];
-    this.stateandservices.getStates(this.userID, serviceID, false).
-      subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
-      });
-  }
-  getStatesSuccessHandeler(response, isNational) {
-    if (response) {
-      console.log(response, 'Provider States');
-      this.provider_states = response;
-      // this.createButton = false;
-    }
+    // this.mappingForm = this.initmappingForm();
+    // // By Default, it'll be set as enabled
+    // this.mappingForm.patchValue({
+    //   disable: false
+    // })
+    this.specializationList = [];
+    this.filteredspecializationList = [];
+    this.getAvailableMapping();
+
+
+
   }
 
-  initmappingForm(): FormGroup {
-    return this.fb.group({
-      id: null,
-      name: [null, Validators.required],
-      type: null,
-      description: null,
-      gender: null,
-      male: null,
-      female: null,
-      disable: null
-    })
+
+  getSpecializationsList() {
+     this.specialistMappingService.getSpecializationList()
+    .subscribe(res => this.specializations = res);
+
   }
+
+  getUsersList() {
+     this.specialistMappingService.getDoctorList(this.serviceProviderID, this.screenName)
+    .subscribe(res => this.users = res);
+
+  }
+
+
+
+
+  // initmappingForm(): FormGroup {
+  //   return this.fb.group({
+  //     id: null,
+  //     name: [null, Validators.required],
+  //     type: null,
+  //     description: null,
+  //     gender: null,
+  //     male: null,
+  //     female: null,
+  //     disable: null
+  //   })
+  // }
 
   /**
-   * Get Details of Procedures available for this Service PRovider
+   * Get Details of Mapping available for this Service PRovider
   */
-  getAvailableProcedures() {
 
-    this.procedureMasterServiceService.getCurrentProcedures(this.searchStateID.providerServiceMapID)
+  getAvailableMapping() {
+    this.specialistMappingService.getCurrentMappings(this.serviceProviderID)
       .subscribe((res) => {
-        this.procedureList = this.successhandeler(res);
-        this.filteredprocedureList = this.successhandeler(res);
+        console.log(res, 'current mappings');
+        this.specializationList = this.successhandeler(res);
+        this.filteredspecializationList = this.successhandeler(res);
         this.tableMode = true;
       });
 
   }
+
+
+  toggleMapping(id, obj, val) {
+    console.log(id, obj, val, 'brr')
+    this.specialistMappingService.toggleMapping(id, val, this.uname)
+      .subscribe((res) => {
+        if (res) {
+          this.filteredspecializationList[obj].deleted = val;
+          this.setChangeMainList(id, val);
+          // this.spe
+        }
+      })
+  }
+  setChangeMainList(id, val){
+    this.specializationList.map(element => {
+      if (element.userSpecializationMapID === id) {
+        element.deleted = val
+      }
+    });
+    console.log(this.specializationList)
+  }
+
+
   back() {
-    this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+    this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {
         this.showTable();
-        this.alreadyExist = false;
+        // this.alreadyExist = false;
         this.resetProcedure();
       }
     })
   }
   showTable() {
     this.tableMode = true;
-    this.saveEditMode = false;
-    this.disableSelection = false;
+    this.creationMode = false;
   }
   showForm() {
-    this.editMode = false;
     this.tableMode = false;
-    this.saveEditMode = true;
-    this.disableSelection = true;
+    this.creationMode = true;
   }
-  procedureUnique() {
-    this.alreadyExist = false;
-    console.log("filteredprocedureList", this.filteredprocedureList);
-    let count = 0;
-    for (let a = 0; a < this.filteredprocedureList.length; a++) {
 
-      if (this.filteredprocedureList[a].procedureName === this.name && !this.filteredprocedureList[a].deleted) {
-        count = count + 1;
-        console.log("count", count);
+  // procedureUnique() {
+  //   this.alreadyExist = false;
+  //   console.log("filteredprocedureList", this.filteredprocedureList);
+  //   let count = 0;
+  //   for (let a = 0; a < this.filteredprocedureList.length; a++) {
 
-        if (count > 0) {
-          this.alreadyExist = true;
-        }
-      }
-    }
-  }
-  procedureUnique_actvate(name) {
-    console.log("name", name);
-    this.alreadyExistcount = false;
-    console.log("filteredprocedureList", this.filteredprocedureList);
-    let count = 0;
-    for (let a = 0; a < this.filteredprocedureList.length; a++) {
+  //     if (this.filteredprocedureList[a].procedureName === this.name && !this.filteredprocedureList[a].deleted) {
+  //       count = count + 1;
+  //       console.log("count", count);
 
-      if (this.filteredprocedureList[a].procedureName === name && !this.filteredprocedureList[a].deleted) {
-        count = count + 1;
-        console.log("count", count);
+  //       if (count > 0) {
+  //         this.alreadyExist = true;
+  //       }
+  //     }
+  //   }
+  // }
 
-        if (count >= 1) {
-          this.alreadyExistcount = true;
-        }
-      }
-    }
-  }
+  // procedureUnique_actvate(name) {
+  //   console.log("name", name);
+  //   this.alreadyExistcount = false;
+  //   console.log("filteredprocedureList", this.filteredprocedureList);
+  //   let count = 0;
+  //   for (let a = 0; a < this.filteredprocedureList.length; a++) {
+
+  //     if (this.filteredprocedureList[a].procedureName === name && !this.filteredprocedureList[a].deleted) {
+  //       count = count + 1;
+  //       console.log("count", count);
+
+  //       if (count >= 1) {
+  //         this.alreadyExistcount = true;
+  //       }
+  //     }
+  //   }
+  // }
 
   get name() {
     return this.mappingForm.controls['name'].value;
   }
-  saveProcedure() {
-    let apiObject = this.objectManipulate();
-    let obj = Object.assign({}, this.mappingForm.value);
-    let count = 0;
-    console.log('here to check available', apiObject);
-    for (let a = 0; a < this.filteredprocedureList.length; a++) {
-      if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"] && !this.filteredprocedureList[a].deleted) {
-        count = count + 1;
-        console.log('here to check available', count);
-      }
-    }
-    if (count == 0) {
-      console.log('here to check available', apiObject);
 
-      if (apiObject) {
-        delete apiObject['modifiedBy'];
-        delete apiObject['procedureID'];
-        console.log('here to check available', apiObject);
+  // saveProcedure() {
+  //   let apiObject = this.objectManipulate();
+  //   let obj = Object.assign({}, this.mappingForm.value);
+  //   let count = 0;
+  //   console.log('here to check available', apiObject);
+  //   for (let a = 0; a < this.filteredprocedureList.length; a++) {
+  //     if (this.filteredprocedureList[a].procedureName === apiObject["procedureName"] && !this.filteredprocedureList[a].deleted) {
+  //       count = count + 1;
+  //       console.log('here to check available', count);
+  //     }
+  //   }
+  //   if (count == 0) {
+  //     console.log('here to check available', apiObject);
 
-        this.procedureMasterServiceService.postProcedureData(apiObject)
-          .subscribe((res) => {
-            this.procedureList.unshift(res);
-            this.mappingForm.reset();
-            this.alertService.alert('Saved successfully', 'success')
-            this.showTable();
-          })
+  //     if (apiObject) {
+  //       delete apiObject['modifiedBy'];
+  //       delete apiObject['procedureID'];
+  //       console.log('here to check available', apiObject);
 
-      }
-    }
-    else {
-      this.alertService.alert('Already exists')
-    }
-  }
+  //       this.procedureMasterServiceService.postProcedureData(apiObject)
+  //         .subscribe((res) => {
+  //           this.procedureList.unshift(res);
+  //           this.mappingForm.reset();
+  //           this.alertService.alert('Saved successfully', 'success')
+  //           this.showTable();
+  //         })
+
+  //     }
+  //   }
+  //   else {
+  //     this.alertService.alert('Already exists')
+  //   }
+  // }
 
   /**
    * Update Changes for The Procedure
-  */
-  updateProcedure() {
-    const apiObject = this.objectManipulate();
-    if (apiObject) {
-      delete apiObject['createdBy'];
-      apiObject['procedureID'] = this.editMode;
+  // */
+  // updateProcedure() {
+  //   const apiObject = this.objectManipulate();
+  //   if (apiObject) {
+  //     delete apiObject['createdBy'];
+  //     apiObject['procedureID'] = this.editMode;
 
-      this.procedureMasterServiceService.updateProcedureData(apiObject)
-        .subscribe((res) => {
-          this.updateList(res);
-          this.mappingForm.reset();
-          this.editMode = false;
-          this.alertService.alert('Updated successfully', 'success')
-          this.showTable();
-        })
+  //     this.procedureMasterServiceService.updateProcedureData(apiObject)
+  //       .subscribe((res) => {
+  //         // this.updateList(res);
+  //         this.mappingForm.reset();
+  //         this.editMode = false;
+  //         this.alertService.alert('Updated successfully', 'success')
+  //         this.showTable();
+  //       })
 
-    }
-  }
+  //   }
+  // }
 
   resetProcedure() {
     this.mappingForm.reset();
-    this.editMode = false;
   }
 
 
   /**
    * Manipulate Form Object to as per API Need
   */
-  objectManipulate() {
-    const obj = Object.assign({}, this.mappingForm.value);
+  // objectManipulate() {
+  //   const obj = Object.assign({}, this.mappingForm.value);
 
-    console.log('this.mappingForm.value', this.mappingForm.value, obj);
+  //   console.log('this.mappingForm.value', this.mappingForm.value, obj);
 
-    if (!obj.name || !obj.type || !obj.description || (!obj.gender)) {
-      this.unfilled = true;
-      return false
-    } else {
-      this.unfilled = false;
+  //   if (!obj.name || !obj.type || !obj.description || (!obj.gender)) {
+  //     this.unfilled = true;
+  //     return false
+  //   } else {
+  //     this.unfilled = false;
 
-      let apiObject = {};
-      apiObject = {
-        procedureID: '',
-        modifiedBy: this.commonDataService.uname,
-        procedureName: obj.name,
-        procedureType: obj.type,
-        procedureDesc: obj.description,
-        createdBy: this.commonDataService.uname,
-        providerServiceMapID: this.searchStateID.providerServiceMapID,
-        gender: obj.gender
-      };
+  //     let apiObject = {};
+  //     apiObject = {
+  //       procedureID: '',
+  //       modifiedBy: this.commonDataService.uname,
+  //       procedureName: obj.name,
+  //       procedureType: obj.type,
+  //       procedureDesc: obj.description,
+  //       createdBy: this.commonDataService.uname,
+  //       providerServiceMapID: this.searchStateID.providerServiceMapID,
+  //       gender: obj.gender
+  //     };
+  //     console.log(JSON.stringify(apiObject, null, 3), 'apiObject');
+  //     return apiObject;
+  //   }
 
-      // console.log(obj.male, 'obj');
-      // if (obj.gender) {
-      //   apiObject = {
-      //     procedureID: '',
-      //     modifiedBy: this.commonDataService.uname,
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
-      //     gender: 'Unisex'
-      //   };
-      // } else if (obj.male && !obj.female) {
-      //   apiObject = {
-      //     procedureID: '',
-      //     modifiedBy: this.commonDataService.uname,
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
-      //     gender: 'Male'
-      //   };
-      // } else if (!obj.male && obj.female) {
-      //   apiObject = {
-      //     procedureID: '',
-      //     modifiedBy: this.commonDataService.uname,
-      //     procedureName: obj.name,
-      //     procedureType: obj.type,
-      //     procedureDesc: obj.description,
-      //     createdBy: this.commonDataService.uname,
-      //     providerServiceMapID: this.searchStateID.providerServiceMapID,
-      //     gender: 'Female'
-      //   };
-      // }
-      console.log(JSON.stringify(apiObject, null, 3), 'apiObject');
-      return apiObject;
-    }
-
-  }
+  // }
 
 
 
-  setProviderServiceMapID() {
-    this.commonDataService.provider_serviceMapID = this.searchStateID.ProviderServiceMapID;
-    this.providerServiceMapID = this.searchStateID.ProviderServiceMapID;
+  // setProviderServiceMapID() {
+  //   this.commonDataService.provider_serviceMapID = this.searchStateID.ProviderServiceMapID;
+  //   this.providerServiceMapID = this.searchStateID.ProviderServiceMapID;
 
-    console.log('psmid', this.searchStateID.ProviderServiceMapID);
-    console.log(this.service);
-    this.getAvailableMapping();
-    this.getAvailableProcedures();
-  }
-
-  getAvailableMapping() {
-    console.log(this.commonDataService.service_providerID,'id')
-    // this.procedureMasterServiceService.getCurrentProcedures(this.searchStateID.providerServiceMapID)
-    // .subscribe((res) => {
-    //   this.procedureList = this.successhandeler(res);
-    //   this.filteredprocedureList = this.successhandeler(res);
-    //   this.tableMode = true;
-    // });
-
-  }
-
-  // getServices(stateID) {
-  //   console.log(this.serviceProviderID, stateID);
-  //   this.providerAdminRoleService.getServices_filtered(this.serviceProviderID, stateID)
-  //     .subscribe(response => this.servicesSuccesshandeler(response));
+  //   console.log('psmid', this.searchStateID.ProviderServiceMapID);
+  //   console.log(this.service);
+  //   this.getAvailableMapping();
+  //   this.getAvailableProcedures();
   // }
 
 
-  // // For Service List
-  // servicesSuccesshandeler(response) {
-  //   this.service = '';
-  //   this.services = response;
-  //   this.providerServiceMapID = null;
 
-  // }
+
   // For State List
   successhandeler(response) {
     return response;
@@ -354,24 +309,24 @@ export class SpecialistMappingComponent implements OnInit {
 
 
   /**
-   *Enable/ Disable Procedure
+   *Enable/ Disable Mapping
    *
    */
-  toggleProcedure(procedureID, index, toggle, procedureName) {
-    let activateProcdure = false;
-    this.procedureUnique_actvate(procedureName);
-    if (this.alreadyExistcount) {
-      this.alertService.confirm('Confirm', "Duplicate procedure already exists do you want to enable it?").subscribe(response => {
-        if (response) {
-          this.activate(procedureID, index, toggle);
-        }
-      })
-    }
-    else {
-      this.activate(procedureID, index, toggle);
-    }
+  // toggleProcedure(procedureID, index, toggle, procedureName) {
+  //   let activateProcdure = false;
+  //   this.procedureUnique_actvate(procedureName);
+  //   if (this.alreadyExistcount) {
+  //     this.alertService.confirm('Confirm', "Duplicate procedure already exists do you want to enable it?").subscribe(response => {
+  //       if (response) {
+  //         this.activate(procedureID, index, toggle);
+  //       }
+  //     })
+  //   }
+  //   else {
+  //     this.activate(procedureID, index, toggle);
+  //   }
 
-  }
+  // }
   activate(procedureID, index, toggle) {
     let text;
     if (!toggle)
@@ -390,7 +345,7 @@ export class SpecialistMappingComponent implements OnInit {
                 this.alertService.alert("Activated successfully", 'success');
               else
                 this.alertService.alert("Deactivated successfully", 'success');
-              this.updateList(res);
+              // this.updateList(res);
               // this.procedureList[index] = res;
             }
           })
@@ -415,7 +370,7 @@ export class SpecialistMappingComponent implements OnInit {
                 this.alertService.alert("Activated successfully", 'success');
               else
                 this.alertService.alert("Deactivated successfully", 'success');
-              this.updateList(res);
+              // this.updateList(res);
               // this.procedureList[index] = res;
             }
           })
@@ -423,36 +378,36 @@ export class SpecialistMappingComponent implements OnInit {
     })
   }
 
-  updateList(res) {
-    this.procedureList.forEach((element, i) => {
-      console.log(element, 'elem', res, 'res')
-      if (element.procedureID == res.procedureID) {
-        this.procedureList[i] = res;
-      }
+  // updateList(res) {
+  //   this.procedureList.forEach((element, i) => {
+  //     console.log(element, 'elem', res, 'res')
+  //     if (element.procedureID == res.procedureID) {
+  //       this.procedureList[i] = res;
+  //     }
 
-    });
+  //   });
 
-    this.filteredprocedureList.forEach((element, i) => {
-      console.log(element, 'elem', res, 'res')
-      if (element.procedureID == res.procedureID) {
-        this.filteredprocedureList[i] = res;
-      }
+  //   this.filteredprocedureList.forEach((element, i) => {
+  //     console.log(element, 'elem', res, 'res')
+  //     if (element.procedureID == res.procedureID) {
+  //       this.filteredprocedureList[i] = res;
+  //     }
 
-    });
+  //   });
 
-  }
+  // }
 
-  filterprocedureList(searchTerm?: string) {
+  filterSpecializationList(searchTerm?: string) {
     if (!searchTerm) {
-      this.filteredprocedureList = this.procedureList;
+      this.filteredspecializationList = this.specializationList;
     } else {
-      this.filteredprocedureList = [];
-      this.procedureList.forEach((item) => {
+      this.filteredspecializationList = [];
+      this.specializationList.forEach((item) => {
         for (let key in item) {
-          if (key == 'procedureName' || key == 'procedureType') {
+          if (key == 'userName' || key == 'specializationName') {
             let value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-              this.filteredprocedureList.push(item); break;
+              this.filteredspecializationList.push(item); break;
             }
           }
         }
@@ -461,32 +416,32 @@ export class SpecialistMappingComponent implements OnInit {
 
   }
 
-  configProcedure(item, index) {
-    this.editMode = true;
-    let male: any;
-    let female: any;
-    let unisex: any;
-    if (item.gender == 'unisex') {
-      unisex = "unisex";
-    } else if (item.gender == 'male') {
-      male = "male";
-    } else if (item.gender == 'female') {
-      female = "female";
-    }
-    this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
-    console.log(JSON.stringify(item, null, 4));
-    this.mappingForm.patchValue({
-      id: item.procedureID,
-      name: item.procedureName,
-      type: item.procedureType,
-      description: item.procedureDesc,
-      gender: item.gender,
-      disable: item.deleted
-    })
+  // configProcedure(item, index) {
+  //   this.editMode = true;
+  //   let male: any;
+  //   let female: any;
+  //   let unisex: any;
+  //   if (item.gender == 'unisex') {
+  //     unisex = "unisex";
+  //   } else if (item.gender == 'male') {
+  //     male = "male";
+  //   } else if (item.gender == 'female') {
+  //     female = "female";
+  //   }
+  //   this.editMode = index >= 0 ? item.procedureID : false; // setting edit mode on
+  //   console.log(JSON.stringify(item, null, 4));
+  //   this.mappingForm.patchValue({
+  //     id: item.procedureID,
+  //     name: item.procedureName,
+  //     type: item.procedureType,
+  //     description: item.procedureDesc,
+  //     gender: item.gender,
+  //     disable: item.deleted
+  //   })
 
 
 
-  }
+  // }
 
 
 
