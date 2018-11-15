@@ -162,7 +162,7 @@
                     <div class="clearfix visible-lg visible-sm"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="user_dob" [min]="mindate" [max]="maxdate"
-                            #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" (change)='calculateDoj(dob)'
+                            #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" (change)='calculateDoj(dob); resetDoj()'
                             required></md2-datepicker>
                         <md-hint class="errorText" *ngIf="dOB.errors && dOB.touched">DOB is required</md-hint>
                     </div>
@@ -235,7 +235,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [max]="today"
+                        <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [min]='minDate_doj' [max]="today"
                             required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
                         <md-hint *ngIf="userDoj.errors && userDoj.touched">
                             <span class="error_text">DOJ is required</span>
