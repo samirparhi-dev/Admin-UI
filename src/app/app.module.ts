@@ -246,9 +246,12 @@ import { ResetUserPasswordService } from './services/ProviderAdminServices/reset
 import { DrugStrengthComponent } from './drug-strength/drug-strength.component';
 import { DrugStrengthService } from './services/ProviderAdminServices/drug-strength.service';
 import { ParkingPlaceSubDistrictMappingComponent } from './parking-place-sub-district-mapping/parking-place-sub-district-mapping.component';
-import { NatureOfComplaintCategoryMappingComponent } from './nature-of-complaint-category-mapping/nature-of-complaint-category-mapping.component';
+import {
+  NatureOfComplaintCategoryMappingComponent
+} from './nature-of-complaint-category-mapping/nature-of-complaint-category-mapping.component';
 import { NatureOfCompaintCategoryMappingService } from './services/ProviderAdminServices/nature-of-complaint-category-mapping.service';
-
+import { SpecialistMappingComponent } from './specialist-mapping/specialist-mapping.component';
+import {SpecialistMappingService } from './services/ProviderAdminServices/specialist-mapping.service';
 
 @NgModule({
   declarations: [
@@ -312,6 +315,8 @@ import { NatureOfCompaintCategoryMappingService } from './services/ProviderAdmin
 StringValidator,
     ParkingPlaceSubDistrictMappingComponent,
     NatureOfComplaintCategoryMappingComponent,
+    SpecialistMappingComponent,
+    SpecialistMappingService
   ],
 
   imports: [
@@ -392,7 +397,7 @@ StringValidator,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService,
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, StoreSelfConsumptionServiceService,
+    ItemFacilityMappingService, SpecialistMappingService,  StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     {

@@ -772,7 +772,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.roleID_duringEdit = undefined;
   }
   refresh5() {
-    // refreshing ngModels of worklocation, roles   
+    // refreshing ngModels of worklocation, roles
     this.workLocationID_duringEdit = undefined;
     this.roleID_duringEdit = undefined;
   }
