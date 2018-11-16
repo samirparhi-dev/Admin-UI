@@ -65,8 +65,8 @@
                   <td>{{item.userName }}</td>
                   <td>{{item.specializationName}}</td>
                   <td>
-                    <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), false)">Activate</button>
-                    <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), true)">Deactivate</button>
+                    <button *ngIf="(item.deleted || item.specializationDeleted || item.userDeleted)" color="accent" md-raised-button (click)="activateMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), false)">Activate</button>
+                    <button *ngIf="!(item.deleted || item.userDeleted || item.specializationDeleted)" color="primary" md-raised-button (click)="deActivateMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), true)">Deactivate</button>
 
                   </td>
                 </tr>

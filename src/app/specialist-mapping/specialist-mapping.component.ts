@@ -13,7 +13,6 @@ import { SpecialistMappingService } from './../services/ProviderAdminServices/sp
 })
 export class SpecialistMappingComponent implements OnInit {
 
-  alreadyExistcount: Boolean;
   serviceProviderID: any;
   uname: any;
   screenName = 'TC Specialist';
@@ -30,6 +29,7 @@ export class SpecialistMappingComponent implements OnInit {
 
   specializations: any;
   users: any;
+  filterUsers: any;
 
 
   userSelected: any;
@@ -76,7 +76,7 @@ export class SpecialistMappingComponent implements OnInit {
 
   getUsersList() {
     this.specialistMappingService.getDoctorList(this.serviceProviderID, this.screenName)
-      .subscribe(res => this.users = res);
+      .subscribe(res => { console.log(res); this.users = res });
 
   }
 
@@ -93,16 +93,34 @@ export class SpecialistMappingComponent implements OnInit {
 
   }
 
+  activateMapping(id, obj, val) {
+    if (!obj.specializationDeleted && !obj.userDeleted) {
 
-  toggleMapping(id, obj, val) {
-    console.log(id, obj, val, 'brr')
-    let msg = null;
-    if (!val) {
-      msg = 'Are you sure you want to Activate?';
+      this.alertService.confirm('Confirm', 'Are you sure you want to Activate?').subscribe(response => {
+        if (response) {
+
+          this.specialistMappingService.toggleMapping(id, val, this.uname)
+            .subscribe((res) => {
+              if (res) {
+                this.filteredspecializationList[obj].deleted = val;
+                this.setChangeMainList(id, val);
+                if (!val) {
+                  this.alertService.alert('Activated successfully', 'success');
+                }
+              }
+            })
+        }
+      });
     } else {
-      msg = 'Are you sure you want to Deactivate?';
+      if (obj.specializationDeleted) {
+        this.alertService.alert('Specialization is not Active');
+      } else {
+        this.alertService.alert('User is not Active.')
+      }
     }
-    this.alertService.confirm('Confirm', msg).subscribe(response => {
+  }
+  deActivateMapping(id, obj, val) {
+    this.alertService.confirm('Confirm', 'Are you sure you want to Deactivate?').subscribe(response => {
       if (response) {
 
         this.specialistMappingService.toggleMapping(id, val, this.uname)
@@ -110,17 +128,15 @@ export class SpecialistMappingComponent implements OnInit {
             if (res) {
               this.filteredspecializationList[obj].deleted = val;
               this.setChangeMainList(id, val);
-              if (!val) {
-                this.alertService.alert('Activated successfully', 'success');
-              } else {
+              if (val) {
                 this.alertService.alert('Deactivated successfully', 'success');
-
               }
             }
           })
       }
     });
   }
+
   setChangeMainList(id, val) {
     this.specializationList.map(element => {
       if (element.userSpecializationMapID === id) {
@@ -150,8 +166,18 @@ export class SpecialistMappingComponent implements OnInit {
   }
   showForm() {
     this.clearForm();
+    this.filterList();
     this.tableMode = false;
     this.creationMode = true;
+  }
+
+  filterList() {
+    // this.filterUsers = this.users.filter(elem => {
+    //   this.specializationList.filter(element => {
+    //       element.userID === elem.userID)
+    //   });
+    // })
+    console.log(this.filterUsers)
   }
 
   proceed() {
