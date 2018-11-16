@@ -1,141 +1,89 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 ">
-      <h4 *ngIf="tableMode && !creationMode">Specialist Mapping</h4>
-      <h4 *ngIf="creationMode && !tableMode">Create Mapping</h4>
-
-      <!-- <form #stateService="ngForm" autocomplete="off">
-          <div class="row m-t-15">
-             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                  <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
-                      (change)="getStates(serviceline.serviceID)">
-                      <md-option *ngFor="let item of services_array" [value]="item">
-                          {{item.serviceName}}
-                      </md-option>
-                  </md-select>
-              </div>
-
-
-
-          </div>
-          <div style="display:block;" class="m-t-10" [formGroup]='mappingForm'>
-              <div class="row" *ngIf="saveEditMode">
-                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                       <md-form-field [style.width]=" '100%' ">
-                          <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
-                      </md-form-field>
-                      <md-input-container style="width: 100% ">
-                          <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
-                              (change)="procedureUnique()">
-
-                          <!-- <md-hint *ngIf="mappingForm.get('name').hasError('required') && mappingForm.get('name').touched">
-                              <span class="error_text">Procedure Name is required</span>
-                                  </md-hint>
-                                                            <md-hint >
-                              <span class="error_text" *ngIf="mappingForm.get('name').hasError('required') && mappingForm.get('name').touched">Procedure Name is required</span>
-                                  <span class="error_text" *ngIf="alreadyExist">Procedure name already exist</span>
-                                  </md-hint>
+    <h4 *ngIf="tableMode && !creationMode">Specialist Mapping</h4>
+    <h4 *ngIf="creationMode && !tableMode">Create Mapping</h4>
+    <form #specialistMapping="ngForm" *ngIf="creationMode">
+      <div class="container-fluid">
+        <div class="row m-t-40">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+              <md-select required name="users-select" placeholder="User" [style.width]="'100%'" [(ngModel)]="userSelected">
+                <md-option *ngFor="let item of users" [value]="item.userID">
+                  {{item.UserName}}
+                </md-option>
+              </md-select>
+            </div>
 
 
 
-                      </md-input-container>
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                          <input mdInput style="display:none">
-                      <md-select id="procedure-type" required placeholder="Procedure Type" [style.width]="'100%'" [disabled]="editMode" formControlName="type">
-                          <md-option value="Laboratory">
-                              Laboratory
-                          </md-option>
-                          <md-option value="Radiology">
-                              Radiology
-                          </md-option>
-                      </md-select>
-                      <!-- </md-input-container>
-                  </div>
-                  <div class="clearfix visible-sm"></div>
-                  {{male}}
-                  {{female}}
-                  {{unisex}}
-                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-40">
-                      <label>Gender:*</label>
-                      <md-radio-group formControlName="gender" [required]="true">
-                          <md-radio-button class="p-r-10" value="male">Male</md-radio-button>
-                          <md-radio-button class="p-r-10" value="female">Female</md-radio-button>
-                          <md-radio-button class="p-r-10" value="unisex">Unisex</md-radio-button>
-                      </md-radio-group>
-                  </div>
-                  <div class="clearfix visible-md "></div>
-                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                      <md-input-container [style.width]="'100%'" myProviderName>
-                          <textarea mdInput required mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description"
-                              maxlength="99"></textarea>
-                      </md-input-container>
-                  </div>
-              </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+              <md-select required name="specialization-select" placeholder="Specialization" [style.width]="'100%'"
+                [(ngModel)]="specializationSelected">
+                <md-option *ngFor="let item of specializations" [value]="item.specializationID">
+                  {{item.specialization}}
+                </md-option>
+              </md-select>
+            </div>
 
 
-          </div>
-      </form>
-      <div class="row m-t-10" *ngIf="saveEditMode">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <button color="primary" class="pull-left" id="backButton" md-raised-button (click)="back()">Back</button>
-              <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" [disabled]="mappingForm.invalid || alreadyExist"
-                  (click)="saveProcedure()">Save</button>
-              <button *ngIf="editMode" class="pull-right" id="updateButton" md-raised-button color="accent" [disabled]="mappingForm.invalid || alreadyExist"
-                  (click)="updateProcedure()">Update</button>
-          </div>
+
+        </div>
       </div>
-
-
-  </div>
-</div> -->
-
-<div *ngIf="tableMode">
-  <div *ngIf="specializationList?.length > 0" class="pull-right">
-      <md-input-container id="filterbox">
+      <div class="container-fluid m-t-40">
+      <div class="row">
+        <button color="primary" type="button" class="pull-left" id="backButton" md-raised-button (click)="back()">Back</button>
+        <button *ngIf="!editMode" class="pull-right" id="saveButton" md-raised-button color="accent" [disabled]="specialistMapping.invalid"
+         (click)="proceed()" >Save</button>
+      </div>
+    </div>
+    </form>
+    <div *ngIf="tableMode">
+      <div *ngIf="specializationList?.length > 0" class="pull-right">
+        <md-input-container id="filterbox">
           <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterSpecializationList(filterTerm.value)">
           <md-icon mdSuffix>search</md-icon>
-      </md-input-container>
-  </div>
-  <div class="row">
-      <div #tabledData class="col-xs-12 col-sm-12">
-          <div class="table-responsive">
-              <table class="table table-hover table-striped" [md2Data]="filteredspecializationList" #md2="md2DataTable" [rowsPerPage]="4">
-                  <thead>
-                      <tr>
-                          <th width="5%">S.No.</th>
-                          <th width="20%">User Name</th>
-                          <th width="70%">Specialization</th>
-                          <th width="5%">Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngIf="filteredspecializationList.length == 0">
-                          <td colspan="7" class="record-not-found">No records found</td>
-                      </tr>
-                      <tr *ngFor="let item of md2.data;let i = index ">
-                          <td>{{filteredspecializationList.indexOf(item)+1}}</td>
-                          <td>{{item.userName }}</td>
-                          <td>{{item.specializationName}}</td>
-                          <td>
-                              <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), false)">Activate</button>
-                              <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), true)">Deactivate</button>
-
-                          </td>
-                      </tr>
-                  </tbody>
-                  <tfoot>
-                      <tr>
-                          <td colspan="2">
-                              <md2-pagination></md2-pagination>
-                          </td>
-                          <td colspan="2" class="p-r-0">
-                              <button *ngIf="!editMode" class="pull-right" color="primary" id="resetButton" md-raised-button (click)="showForm();resetProcedure()">Create New Mapping</button>
-                          </td>
-                      </tr>
-                  </tfoot>
-              </table>
-          </div>
+        </md-input-container>
       </div>
-  </div>
-</div>
+      <div class="row">
+        <div #tabledData class="col-xs-12 col-sm-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped" [md2Data]="filteredspecializationList" #md2="md2DataTable"
+              [rowsPerPage]="4">
+              <thead>
+                <tr>
+                  <th width="5%">S.No.</th>
+                  <th width="20%">User Name</th>
+                  <th width="70%">Specialization</th>
+                  <th width="5%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="filteredspecializationList.length == 0">
+                  <td colspan="7" class="record-not-found">No records found</td>
+                </tr>
+                <tr *ngFor="let item of md2.data;let i = index ">
+                  <td>{{filteredspecializationList.indexOf(item)+1}}</td>
+                  <td>{{item.userName }}</td>
+                  <td>{{item.specializationName}}</td>
+                  <td>
+                    <button *ngIf="item.deleted" color="accent" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), false)">Activate</button>
+                    <button *ngIf="!item.deleted" color="primary" md-raised-button (click)="toggleMapping(item.userSpecializationMapID, filteredspecializationList.indexOf(item), true)">Deactivate</button>
+
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">
+                    <md2-pagination></md2-pagination>
+                  </td>
+                  <td colspan="2" class="p-r-0">
+                    <button *ngIf="!editMode" class="pull-right" color="primary" id="resetButton" md-raised-button
+                      (click)="showForm();">Create New Mapping</button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
