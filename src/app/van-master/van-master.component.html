@@ -33,8 +33,9 @@
                         </md-select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [(ngModel)]="parking_place" name="parking_place" (change)="getVans(searchStateID.providerServiceMapID, parking_place.parkingPlaceID)"
-                            #parkingPlace="ngModel" required>
+                        <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [(ngModel)]="parking_place" name="parking_place"
+                            (change)="getVans(searchStateID.providerServiceMapID, parking_place.parkingPlaceID)" #parkingPlace="ngModel"
+                            required>
                             <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
                                 {{parkingPlace.parkingPlaceName}}
                             </md-option>
@@ -61,7 +62,7 @@
     </md-input-container>
 </div>
 <div class="row">
-    <div *ngIf="showVansTable" class="col-xs-12 col-sm-12 m-t-20">
+    <div *ngIf="showVansTable" class="col-xs-12 col-sm-12">
         <!-- <h4>Available Vans</h4> -->
         <div class="table-responsive">
             <table [md2Data]="filteredavailableVans" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
@@ -163,8 +164,8 @@
                     </md-select>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                    <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [disabled]="true" [(ngModel)]="parking_place" name="parking_place"
-                        #parking="ngModel" required>
+                    <md-select *ngIf="parkAndHub" placeholder="{{parkAndHub}}" class="width100" [disabled]="true" [(ngModel)]="parking_place"
+                        name="parking_place" #parking="ngModel" required>
                         <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
                             {{parkingPlace.parkingPlaceName}}
                         </md-option>
@@ -224,6 +225,22 @@
                             </md-hint>
                         </md-input-container>
                     </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" VehicleNONew>
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Swymed Domain" [(ngModel)]="domain" name="domain" #sDomain="ngModel">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" PAN>
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Swymed ID" [(ngModel)]="sID" name="sID" #swymedId="ngModel">
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                        <md-input-container [style.width]="'100%'">
+                            <input mdInput placeholder="Swymed Email" [(ngModel)]="sEmail" name="sEmail" #swymedemail="ngModel">
+                        </md-input-container>
+                        <label class="maxRedialNote">{{note}}</label>
+                    </div>
                     <div class="col-xs-12 col-sm-4 col-md-12 col-lg-3 m-t-15">
                         <button md-mini-fab color="primary" *ngIf="!editable && vanMasterForm1.valid && !vehicleExist && !vanNameExist" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left"
                             (click)="addVanToList(vanMasterForm1.value);vanMasterForm1.reset();">
@@ -232,15 +249,6 @@
                     </div>
                 </form>
 
-                <!-- <div class="col-xs-12 col-sm-12  pull-right">
-                    <button md-raised-button color="primary" class="pull-left" (click)="vanForm.reset();showList()">Back</button>
-                    <button md-mini-fab color="primary" *ngIf="!editable" [disabled]=" !vanN.valid || !vehicleN.valid || vehicleExist || vanNameExist || !vanTID.valid || !stateVal.valid || !districtV.valid || !parkingPID.valid"
-                        class="pull-right " (click)="addVanToList(vanForm.value);vanForm.reset()  ">
-                        <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
-                    </button>
-                    <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanForm.value);vanForm.reset()  ">
-                        Update</button>
-                </div> -->
             </div>
         </form>
         <div *ngIf="vanList.length>0" class="m-t-15 table-responsive">
