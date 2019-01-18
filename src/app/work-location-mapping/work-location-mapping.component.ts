@@ -389,9 +389,12 @@ export class WorkLocationMappingComponent implements OnInit {
     // this.getUserName(this.serviceProviderID);
   }
 
-  activate(serviceID, uSRMappingID, userDeactivated) {
+  activate(serviceID, uSRMappingID, userDeactivated, providerServiceMappingDeleted) {
     if (userDeactivated) {
       this.alertService.alert('User is inactive');
+    }
+    else if (providerServiceMappingDeleted) {
+      this.alertService.alert('State is inactive');
     }
     else {
       if (serviceID == 4) {

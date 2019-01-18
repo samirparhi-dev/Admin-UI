@@ -48,7 +48,7 @@
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted || service.providerServiceMappingDeleted" class=" m-r-10" (click)="activate(service.serviceID, service.uSRMappingID,service.userDeleted)">Activate</button>
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted || service.providerServiceMappingDeleted" class=" m-r-10" (click)="activate(service.serviceID, service.uSRMappingID,service.userDeleted, service.providerServiceMappingDeleted)">Activate</button>
               <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted && !service.providerServiceMappingDeleted" class=" m-r-10"
                 (click)="deactivate(service.serviceID, service.uSRMappingID)">Deactivate</button>
 
