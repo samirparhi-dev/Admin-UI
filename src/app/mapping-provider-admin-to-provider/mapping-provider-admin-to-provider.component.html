@@ -38,13 +38,13 @@
             <td>{{service.serviceName}}</td>
             <td>{{service.stateName===undefined || null ?"All states":service.stateName}}</td>
             <td>
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted  && !service.userDeleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted  && !service.userDeleted && !service.providerServiceMapDeleted"
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.uSRMDeleted || service.serviceProviderDeleted || service.userDeleted"
+              <button md-raised-button color="accent" *ngIf="service.uSRMDeleted || service.serviceProviderDeleted || service.userDeleted || service.providerServiceMapDeleted"
                 class=" m-r-10" (click)="activate(service.uSRMappingID,service.serviceProviderDeleted,service.userDeleted)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted && !service.userDeleted"
+              <button md-raised-button color="primary" *ngIf="!service.uSRMDeleted && !service.serviceProviderDeleted && !service.userDeleted && !service.providerServiceMapDeleted"
                 class=" m-r-10" (click)="deactivate(service.uSRMappingID)">Deactivate</button>
 
             </td>

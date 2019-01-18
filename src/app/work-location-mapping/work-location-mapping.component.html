@@ -44,12 +44,12 @@
             <td>{{service.roleName}}</td>
             <td>
 
-              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted"
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted && !service.providerServiceMappingDeleted"
                 (click)="editRow(service)">edit</md-icon>
             </td>
             <td>
-              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted " class=" m-r-10" (click)="activate(service.serviceID, service.uSRMappingID,service.userDeleted)">Activate</button>
-              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted" class=" m-r-10"
+              <button md-raised-button color="accent" *ngIf="service.userServciceRoleDeleted || service.userDeleted || service.providerServiceMappingDeleted" class=" m-r-10" (click)="activate(service.serviceID, service.uSRMappingID,service.userDeleted)">Activate</button>
+              <button md-raised-button color="primary" *ngIf="!service.userServciceRoleDeleted && !service.userDeleted && !service.providerServiceMappingDeleted" class=" m-r-10"
                 (click)="deactivate(service.serviceID, service.uSRMappingID)">Deactivate</button>
 
             </td>
