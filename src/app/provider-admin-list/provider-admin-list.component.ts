@@ -415,15 +415,15 @@ export class ProviderAdminListComponent implements OnInit {
 
     else {
       for (let i = 0; i < this.objs.length; i++) {
-        if (this.objs[i].aadhaarNo === tempObj.aadhaarNo) {
+        if (this.objs[i].aadhaarNo != undefined && this.objs[i].aadhaarNo === tempObj.aadhaarNo) {
           duplicateAadhar = duplicateAadhar + 1;
           console.log("duplicateAadhar", duplicateAadhar);
         }
-        if (this.objs[i].pAN === tempObj.pAN) {
+        if (this.objs[i].pAN != undefined && this.objs[i].pAN === tempObj.pAN) {
           duplicatePan = duplicatePan + 1;
           console.log("duplicatePan", duplicatePan);
         }
-        if (this.objs[i].username === tempObj.username) {
+        if (this.objs[i].username != undefined && this.objs[i].username === tempObj.username) {
           duplicateName = duplicateName + 1;
           console.log("this.duplicateName", duplicateName);
         }
