@@ -174,9 +174,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="availableVillages.length == 0">
-            <td colspan="7">NO RECORD FOUND!!</td>
-          </tr>
           <tr *ngFor="let item of md2.data; let i=index">
             <td>{{villageList.indexOf(item)+1}}</td>
             <td>{{item.villageName}}</td>
