@@ -251,7 +251,7 @@
 
             </div>
         </form>
-        <div *ngIf="vanList.length>0" class="m-t-15 table-responsive">
+        <div *ngIf="vanList.length>0" class="m-t-10 table-responsive">
             <table [md2Data]="vanList" #md2=md2DataTable class="table table-hover table-striped" [rowsPerPage]="3">
                 <thead>
                     <tr>
@@ -290,12 +290,14 @@
                 </tfoot>
             </table>
         </div>
-        <div class="m-t-15">
-            <button md-raised-button color="primary" class="pull-left" (click)="back();vanMasterForm1.reset();">Back</button>
+        <div class="row m-t-10 m-b-20">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button md-raised-button color="primary" class="pull-left" (click)="back();vanMasterForm1.reset();">Back</button>
 
-            <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanMasterForm1.value); vanMasterForm1.reset();">
-                Update</button>
-            <button md-raised-button color="accent" [disabled]="!(vanList.length>0)" *ngIf="!editable" class="pull-right " (click)="storeVans()">Save</button>
+                <button md-raised-button color="accent" *ngIf="editable" class=" pull-right " (click)="updateVanData(vanMasterForm1.value); vanMasterForm1.reset();">
+                    Update</button>
+                <button md-raised-button color="accent" [disabled]="!(vanList.length>0)" *ngIf="!editable" class="pull-right " (click)="storeVans()">Save</button>
+            </div>
         </div>
     </div>
 </div>
