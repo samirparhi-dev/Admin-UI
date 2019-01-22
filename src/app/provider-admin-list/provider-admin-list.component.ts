@@ -163,9 +163,14 @@ export class ProviderAdminListComponent implements OnInit {
 */
   resetDob() {
     this.dob = new Date();
-    this.dob.setFullYear(this.today.getFullYear() - 20);
+    this.dob.setHours(0);
+    this.dob.setMinutes(0);
+    this.dob.setSeconds(0);
+    this.dob.setMilliseconds(0);
+    // setting dob as min 14 years to restrict child labour
+    this.dob.setFullYear(this.today.getFullYear() - 14);
     this.maxdate = new Date();
-    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate.setFullYear(this.today.getFullYear() - 14);
     this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
     this.calculateAge(this.dob);
@@ -310,6 +315,7 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Aadhar
     */
   checkAadhar() {
+    this.errorMessageForAadhar = '';
     if (this.aadharNumber != undefined && this.aadharNumber != null) {
       if (this.aadharNumber.length == 12) {
         this.superadminService.validateAadhar(this.aadharNumber).subscribe(
@@ -323,7 +329,7 @@ export class ProviderAdminListComponent implements OnInit {
           }
         );
       }
-    }
+    } 
   }
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
@@ -338,6 +344,7 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
+    this.errorMessageForPan = '';
     if (this.panNumber != undefined && this.panNumber != null) {
       if (this.panNumber.length == 10) {
         this.superadminService.validatePan(this.panNumber).subscribe(
@@ -681,11 +688,23 @@ export class EditProviderAdminModal {
 * Reset the dob on adding multiple objects
 */
   resetDob() {
+    // this.maxdate = new Date();
+    // this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    // this.mindate = new Date();
+    // this.mindate.setFullYear(this.today.getFullYear() - 70);
+    // this.calculateAge();
+    this.dob = new Date();
+    this.dob.setHours(0);
+    this.dob.setMinutes(0);
+    this.dob.setSeconds(0);
+    this.dob.setMilliseconds(0);
+    // setting dob as min 14 years to restrict child labour
+    this.dob.setFullYear(this.today.getFullYear() - 14);
     this.maxdate = new Date();
-    this.maxdate.setFullYear(this.today.getFullYear() - 20);
+    this.maxdate.setFullYear(this.today.getFullYear() - 14);
     this.mindate = new Date();
     this.mindate.setFullYear(this.today.getFullYear() - 70);
-    this.calculateAge();
+    this.calculateAge(this.dob);
   }
   /*
  * Display gender on condition
@@ -710,9 +729,9 @@ export class EditProviderAdminModal {
   /*
     * Calculate age
     */
-  calculateAge() {
-    if (this.dob != undefined) {
-      let existDobAge = new Date(this.dob)
+  calculateAge(dob) {
+    if (dob != undefined) {
+      let existDobAge = new Date(dob)
       this.age = this.today.getFullYear() - existDobAge.getFullYear();
       const month = this.today.getMonth() - existDobAge.getMonth();
       if (month < 0 || (month === 0 && this.today.getDate() < existDobAge.getDate())) {
