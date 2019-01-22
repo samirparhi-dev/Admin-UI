@@ -80,7 +80,7 @@ export class ProviderAdminListComponent implements OnInit {
   //userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;;
   emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
-  mobileNoPattern=/^[1-9][0-9]{9}/;
+  mobileNoPattern = /^[1-9][0-9]{9}/;
 
 
   @ViewChild('providerAdminCreationForm') providerAdminCreationForm: NgForm;
@@ -264,9 +264,9 @@ export class ProviderAdminListComponent implements OnInit {
       return false;
     }
   }
-   // encryptionFlag: boolean = true;
+  // encryptionFlag: boolean = true;
 
-   showPWD() {
+  showPWD() {
     this.dynamictype = 'text';
   }
 
@@ -315,6 +315,7 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Aadhar
     */
   checkAadhar() {
+    this.isExistAadhar = false;
     this.errorMessageForAadhar = '';
     if (this.aadharNumber != undefined && this.aadharNumber != null) {
       if (this.aadharNumber.length == 12) {
@@ -329,7 +330,7 @@ export class ProviderAdminListComponent implements OnInit {
           }
         );
       }
-    } 
+    }
   }
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
@@ -344,6 +345,7 @@ export class ProviderAdminListComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
+    this.isExistPan = false;
     this.errorMessageForPan = '';
     if (this.panNumber != undefined && this.panNumber != null) {
       if (this.panNumber.length == 10) {
@@ -373,7 +375,7 @@ export class ProviderAdminListComponent implements OnInit {
   */
   resetAllForms() {
     this.providerAdminCreationForm.resetForm();
-    //this.adminCredentialsForm.resetForm();
+    this.adminCredentialsForm.resetForm();
     this.resetDob();
   }
   /*
@@ -492,8 +494,8 @@ export class ProviderAdminListComponent implements OnInit {
         'contactNo': this.objs[i].primaryMobileNumber,
         'emailID': this.objs[i].primaryEmail,
         'maritalStatusID': this.objs[i].maritalStatusID,
-        'aadhaarNo': this.objs[i].aadhaarNo,
-        'pAN': this.objs[i].pAN,
+        'aadhaarNo': this.objs[i].aadhaarNo === "" ? null : this.objs[i].aadhaarNo,
+        'pAN': this.objs[i].pAN == "" ? null : this.objs[i].pAN,
         'qualificationID': this.objs[i].edu_qualification,
         'emergencyContactPerson': this.objs[i].emergency_cnt_person,
         'emergencyContactNo': this.objs[i].emergencyMobileNumber,
@@ -586,12 +588,12 @@ export class ProviderAdminListComponent implements OnInit {
       this.searchResult.forEach((item) => {
         for (let key in item) {
           if (key == 'userName' || key == 'contactNo' || key == 'emergencyContactNo' || key == 'emailID') {
-          let value: string = '' + item[key];
-          if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-            this.filteredsearchResult.push(item); break;
+            let value: string = '' + item[key];
+            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+              this.filteredsearchResult.push(item); break;
+            }
           }
         }
-      }
       });
     }
 
@@ -758,13 +760,17 @@ export class EditProviderAdminModal {
   * Check Uniqueness in Aadhar
   */
   checkAadhar() {
-    if (this.aadharNumber.length == 12) {
-      this.superadminService.validateAadhar(this.aadharNumber).subscribe(
-        (response: any) => {
-          this.checkAadharSuccessHandler(response);
-        },
-        err => { console.log("Error", err); }
-      );
+    this.isExistAadhar = false;
+    this.errorMessageForAadhar = '';
+    if (this.aadharNumber != undefined && this.aadharNumber != null) {
+      if (this.aadharNumber.length == 12) {
+        this.superadminService.validateAadhar(this.aadharNumber).subscribe(
+          (response: any) => {
+            this.checkAadharSuccessHandler(response);
+          },
+          err => { console.log("Error", err); }
+        );
+      }
     }
   }
   checkAadharSuccessHandler(response) {
@@ -780,14 +786,18 @@ export class EditProviderAdminModal {
     * Check Uniqueness in Pan
     */
   checkPan() {
-    if (this.panNumber.length == 10) {
-      this.superadminService.validatePan(this.panNumber).subscribe(
-        response => {
-          console.log("pan response", response);
-          this.checkPanSuccessHandler(response);
-        },
-        err => { }
-      );
+    this.isExistPan = false;
+    this.errorMessageForPan = '';
+    if (this.panNumber != undefined && this.panNumber != null) {
+      if (this.panNumber.length == 10) {
+        this.superadminService.validatePan(this.panNumber).subscribe(
+          response => {
+            console.log("pan response", response);
+            this.checkPanSuccessHandler(response);
+          },
+          err => { }
+        );
+      }
     }
   }
   checkPanSuccessHandler(response) {
@@ -820,7 +830,7 @@ export class EditProviderAdminModal {
       'emailID': this.primaryEmail,
       'maritalStatusID': this.marital_status,
       'aadhaarNo': this.aadharNumber === "" ? null : this.aadharNumber,
-      'pAN': this.panNumber === "" ? null : this.panNumber ,
+      'pAN': this.panNumber === "" ? null : this.panNumber,
       'qualificationID': this.edu_qualification,
       'emergencyContactPerson': this.emergency_cnt_person,
       'emergencyContactNo': this.emergencyMobileNumber,
