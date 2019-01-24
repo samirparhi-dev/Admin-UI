@@ -20,8 +20,6 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 export class InstituteDirectoryMasterService {
 	admin_Base_Url: any;
 
-	get_State_Url: any;
-	get_Service_Url: any;
 	get_InstituteDirectory_Url: any;
 	save_InstituteDirectory_Url: any;
 	edit_InstituteDirectory_Url: any;
@@ -34,8 +32,6 @@ export class InstituteDirectoryMasterService {
 		private httpIntercept: InterceptedHttp) {
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 
-		this.get_State_Url = this.admin_Base_Url + 'm/role/state';
-		this.get_Service_Url = this.admin_Base_Url + 'm/role/service';
 		this.get_InstituteDirectory_Url = this.admin_Base_Url + 'm/getInstituteDirectory';
 		this.save_InstituteDirectory_Url = this.admin_Base_Url + 'm/createInstituteDirectory';
 		this.edit_InstituteDirectory_Url = this.admin_Base_Url + 'm/editInstituteDirectory';
@@ -45,22 +41,11 @@ export class InstituteDirectoryMasterService {
 		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
 	};
 
-	getStates(serviceProviderID) {
-		return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
-			.map(this.handleSuccess)
-			.catch(this.handleError);
-	}
 	getStatesNew(obj) {
 		return this.httpIntercept.post(this.getStates_new_url, obj).map(this.handleSuccess)
 			.catch(this.handleError);
 	}
-	getServices(serviceProviderID, stateID) {
-		return this.http.post(this.get_Service_Url, {
-			'serviceProviderID': serviceProviderID,
-			'stateID': stateID
-		}).map(this.handleState_n_ServiceSuccess)
-			.catch(this.handleError);
-	}
+
 	getServiceLinesNew(userID) {
 		return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
 			.map(this.handleState_n_ServiceSuccess)

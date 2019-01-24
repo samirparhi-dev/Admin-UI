@@ -36,7 +36,6 @@ export class InstituteSubDirectoryMasterService {
 		private httpIntercept: InterceptedHttp) {
 		this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
 
-		this.get_State_Url = this.admin_Base_Url + 'm/role/state';
 		this.get_Service_Url = this.admin_Base_Url + 'm/role/service';
 		this.get_InstituteDirectory_Url = this.admin_Base_Url + 'm/getInstituteDirectory';
 
@@ -48,11 +47,6 @@ export class InstituteSubDirectoryMasterService {
 		this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
 	};
 
-	getStates(serviceProviderID) {
-		return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
-			.map(this.handleSuccess)
-			.catch(this.handleError);
-	}
 	getStatesNew(obj) {
 		return this.httpIntercept.post(this.getStates_new_url, obj).map(this.handleSuccess)
 			.catch(this.handleError);

@@ -18,8 +18,6 @@ import { ConfigService } from '../config/config.service';
 export class CallTypeSubtypeService {
 
   admin_Base_Url: any;
-  get_State_Url: any;
-  get_Service_Url: any;
 
   get_CallTypeSubType_Url: any;
   save_CallTypeSubType_Url: any;
@@ -33,8 +31,7 @@ export class CallTypeSubtypeService {
     public basepaths: ConfigService,
     private httpIntercept: InterceptedHttp) {
     this.admin_Base_Url = this.basepaths.getAdminBaseUrl();
-    this.get_State_Url = this.admin_Base_Url + 'm/role/state';
-    this.get_Service_Url = this.admin_Base_Url + 'm/role/service';
+   
     this.get_CallTypeSubType_Url = this.admin_Base_Url + 'm/getCalltypedata';
     this.save_CallTypeSubType_Url = this.admin_Base_Url + 'm/createCalltypedata';
     this.delete_SubCallType_Url = this.admin_Base_Url + 'm/deleteCalltype';
@@ -44,23 +41,13 @@ export class CallTypeSubtypeService {
     this.getStates_new_url = this.admin_Base_Url + 'm/role/stateNew';
   };
 
-  getStates(serviceProviderID) {
-    return this.http.post(this.get_State_Url, { 'serviceProviderID': serviceProviderID })
-      .map(this.handleSuccess)
-      .catch(this.handleError);
-  }
+
   getServiceLinesNew(userID) {
     return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
-  getServices(serviceProviderID, stateID) {
-    return this.http.post(this.get_Service_Url, {
-      'serviceProviderID': serviceProviderID,
-      'stateID': stateID
-    }).map(this.handleState_n_ServiceSuccess)
-      .catch(this.handleError);
-  }
+
   getStatesNew(obj) {
     return this.httpIntercept.post(this.getStates_new_url, obj).map(this.handleSuccess)
       .catch(this.handleError);

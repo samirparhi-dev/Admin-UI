@@ -20,8 +20,7 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 export class CategorySubcategoryService {
 
   providerAdmin_Base_Url: any;
-  getStates_url: any;
-  getServiceLines_url: any;
+  
   get_sub_serviceID_url: any;
   get_category_subcategory_url: any;
   getSubService_url: any;
@@ -41,8 +40,7 @@ export class CategorySubcategoryService {
     public basepaths: ConfigService,
     private _httpInterceptor: InterceptedHttp) {
     this.providerAdmin_Base_Url = this.basepaths.getAdminBaseUrl();
-    this.getStates_url = this.providerAdmin_Base_Url + 'm/role/state';
-    this.getServiceLines_url = this.providerAdmin_Base_Url + 'm/role/service';
+   
     this.getSubService_url = this.providerAdmin_Base_Url + 'm/getSubSerive';
     this.getCategoryBySubService_url = this.providerAdmin_Base_Url + 'm/getCategoryBySubServiceID';
     this.saveCategory_url = this.providerAdmin_Base_Url + 'm/createCategory';
@@ -56,11 +54,6 @@ export class CategorySubcategoryService {
     this.getStates_new_url = this.providerAdmin_Base_Url + 'm/role/stateNew';
   };
 
-  getStates(serviceProviderID) {
-    return this.http.post(this.getStates_url, { 'serviceProviderID': serviceProviderID })
-      .map(this.handleSuccess)
-      .catch(this.handleError);
-  }
 
   getStatesNew(obj) {
     return this._httpInterceptor.post(this.getStates_new_url, obj).map(this.handleSuccess)
@@ -69,12 +62,6 @@ export class CategorySubcategoryService {
 
   getServiceLinesNew(userID) {
     return this._httpInterceptor.post(this.getServiceLines_new_url, { 'userID': userID })
-      .map(this.handleState_n_ServiceSuccess)
-      .catch(this.handleError);
-  }
-
-  getServiceLines(serviceProviderID, stateID) {
-    return this.http.post(this.getServiceLines_url, { 'serviceProviderID': serviceProviderID, 'stateID': stateID })
       .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
