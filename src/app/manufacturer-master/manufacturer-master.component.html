@@ -157,7 +157,7 @@
         </md-input-container>
       </div>
      
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container [style.width]="'100%'">
           <input mdInput placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15" name="cstNo" #cstNo="ngModel"  [pattern]="gstNoPattern">
           <!-- <md-hint>
@@ -166,7 +166,7 @@
           <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container class="width100">
           <input mdInput placeholder="Address Line 1" [(ngModel)]="AddressLine1" name="addressLine1" minlength="2" maxlength="100"
             #Address1="ngModel" required>
@@ -175,7 +175,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container class="width100">
           <input mdInput placeholder="Address Line 2" [(ngModel)]="AddressLine2" name="addressLine2" minlength="2" maxlength="100"
             #Address2="ngModel">
@@ -184,7 +184,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t--15">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="country" placeholder="Country" [style.width]="'100%'" (change)="getAllStates(create_country.countryID)" [(ngModel)]="create_country">
@@ -194,7 +194,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t--15">
         <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none">
           <md-select required name="state" placeholder="State" [style.width]="'100%'" (change)="getDistricts(create_permanentstate.stateID)" 
@@ -205,7 +205,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t--15">
         <md-input-container class="hide_underline width100">
           <input mdInput style="display:none">
           <md-select placeholder="District" class="width100" [(ngModel)]="District" name="district" required [disabled]="countryCheck">
@@ -213,7 +213,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Pincode" [(ngModel)]="Pincode" name="pincode" minlength="6" maxlength="6" #Pin="ngModel" >
           <md-hint *ngIf="Pin.touched">

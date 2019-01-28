@@ -153,7 +153,7 @@
         </md-input-container>
       </div>
       <div class="clearfix  visible-lg"></div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="Contact Person" myProviderName [(ngModel)]="create_contactPerson" maxlength="50" name="contactPerson"
             #contactPerson="ngModel">
@@ -162,7 +162,7 @@
           </md-hint> -->
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="DL.No.(Drug License No.)" DLNO [(ngModel)]="create_drugLicense" minlength="1" maxlength="15" name="drugLicense"
             #drugLicense="ngModel">
@@ -171,7 +171,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container [style.width]="'100%'">
           <input mdInput required placeholder="GST No." PAN [(ngModel)]="create_cstNo" minlength="15" maxlength="15"  [pattern]="gstNoPattern" name="cstNo" #cstNo="ngModel">
           <!-- <md-hint>
@@ -180,7 +180,7 @@
           <md-hint class="errorText" [hidden]="!cstNo.hasError('pattern')">Required 15 digit valid GST number </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10">
         <md-input-container [style.width]="'100%'">
           <input mdInput  placeholder="TIN No." myMobileNumber [(ngModel)]="create_tinNo" minlength="12" maxlength="12" name="tinNo" #tinNo="ngModel">
           <md-hint>
@@ -188,7 +188,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
         <md-input-container class="width100">
           <input mdInput placeholder="Address Line 1" [(ngModel)]="AddressLine1" name="addressLine1" minlength="2" maxlength="100"
             #Address1="ngModel" required>
@@ -197,7 +197,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
         <md-input-container class="width100">
           <input mdInput placeholder="Address Line 2" [(ngModel)]="AddressLine2" name="addressLine2" minlength="2" maxlength="100"
             #Address2="ngModel">
@@ -235,7 +235,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Pincode" [(ngModel)]="Pincode" name="pincode" minlength="6" maxlength="6" #Pin="ngModel" >
           <md-hint *ngIf="Pin.touched">
@@ -470,7 +470,7 @@
           </md-select>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
         <md-input-container class="width100" myMobileNumber>
           <input mdInput placeholder="Pincode" [(ngModel)]="edit_Pincode" name="pincode"  minlength="6" maxlength="6"
             #Pin="ngModel" >
