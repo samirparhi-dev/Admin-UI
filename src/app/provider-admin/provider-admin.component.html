@@ -160,6 +160,9 @@
                                 <li style="cursor: pointer" (click)='show("55")'>
                                     <a>Reset User Password</a>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("60")'>
+                                    <a>User Swymed Mapping</a>
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Configurations</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -200,15 +203,9 @@
                                         <li style="cursor:pointer" (click)='show("46")'>
                                             <a>Item Category Master</a>
                                         </li>
-                                        <!-- <li style="cursor:pointer" (click)='show("47")'>
-                                            <a>Item Form Master</a>
-                                        </li> -->
                                         <li style="cursor:pointer" (click)='show("50")'>
                                             <a>Unit of Measure Master</a>
                                         </li>
-                                        <!-- <li style="cursor:pointer" (click)='show("48")'>
-                                            <a>Route of Admin</a>
-                                        </li> -->
                                         <li style="cursor:pointer" (click)='show("41")'>
                                             <a>Item Issue Method Config</a>
                                         </li>
@@ -229,27 +226,13 @@
                                             <a>Item To Store Mapping</a>
                                         </li>
 
-                                        <!-- <li style="cursor:pointer" (click)='show("47")'>
-                                            <a>Store Self Consumption</a>
-                                        </li> -->
-
                                         <li style="cursor:pointer" (click)='show("51")'>
                                             <a>Van/Parking Place to Store Mapping</a>
                                         </li>
                                     </ul>
                                 </li>
-                                <!-- <li class="dropdown-submenu">
-                                    <a tabindex="-2">Configurations</a>
-                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
-                                        <li style="cursor: pointer" (click)='show("52")'>
-                                            <a>Expiry Date Alert Configuration</a>
-                                        </li>
-
-                                    </ul>
-                                </li> -->
                             </ul>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -324,6 +307,7 @@
                             <app-parking-place-sub-district-mapping *ngSwitchCase="57"></app-parking-place-sub-district-mapping>
                             <app-nature-of-complaint-category-mapping *ngSwitchCase="58"></app-nature-of-complaint-category-mapping>
                             <app-specialist-mapping *ngSwitchCase="59"></app-specialist-mapping>
+                            <app-swymed-user-mapping *ngSwitchCase="60"></app-swymed-user-mapping>
                         </div>
                     </div>
                 </div>

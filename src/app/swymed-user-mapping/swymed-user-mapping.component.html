@@ -1,0 +1,53 @@
+<div class="row" *ngIf="showTable">
+  <div class="col-xs-12 col-sm-12">
+    <h4>User Swymed Mapping</h4>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 m-t-10">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" [md2Data]="filteredsearchResult" #md2="md2DataTable" [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="5%">S.No.</th>
+            <th width="20%" md2SortBy="userName">Username</th>
+            <th width="20%">Designation</th>
+            <th width="20%">Email ID</th>
+            <th width="15%">Password</th>
+            <th width="15%">Swymed Domain</th>
+            <th width="5%">Edit</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0">
+            <td colspan="8" class="record-not-found">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i= index">
+            <td>{{filteredsearchResult.indexOf(item)+1}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.designationName}}</td>
+            <td>{{item.emailID}}</td>
+            <td>{{item.password}}</td>
+            <td>{{item.swymedDomain}}</td>
+            <!-- <td>
+            
+            </td> -->
+            <!-- <td>
+            
+            </td> -->
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="4" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

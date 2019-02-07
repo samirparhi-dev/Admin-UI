@@ -251,7 +251,9 @@ import {
 } from './nature-of-complaint-category-mapping/nature-of-complaint-category-mapping.component';
 import { NatureOfCompaintCategoryMappingService } from './services/ProviderAdminServices/nature-of-complaint-category-mapping.service';
 import { SpecialistMappingComponent } from './specialist-mapping/specialist-mapping.component';
-import {SpecialistMappingService } from './services/ProviderAdminServices/specialist-mapping.service';
+import { SpecialistMappingService } from './services/ProviderAdminServices/specialist-mapping.service';
+import { SwymedUserMappingComponent } from './swymed-user-mapping/swymed-user-mapping.component';
+import { SwymedUserConfigurationService } from './services/ProviderAdminServices/swymed-user-service';
 
 @NgModule({
   declarations: [
@@ -312,10 +314,11 @@ import {SpecialistMappingService } from './services/ProviderAdminServices/specia
     EmailConfigurationComponent,
     ResetUserPasswordComponent,
     DrugStrengthComponent,
-StringValidator,
+    StringValidator,
     ParkingPlaceSubDistrictMappingComponent,
     NatureOfComplaintCategoryMappingComponent,
-    SpecialistMappingComponent
+    SpecialistMappingComponent,
+    SwymedUserMappingComponent
   ],
 
   imports: [
@@ -396,9 +399,10 @@ StringValidator,
     ComponentMasterServiceService, LanguageMapping, EmployeeMasterNewServices, WorkLocationMapping, ItemService,
     CommonServices, FacilityMasterService,
     Mainstroreandsubstore, SuppliermasterService, PharmacologicalMasterService, ManufacturemasterService, PhysicalstockService,
-    ItemFacilityMappingService, SpecialistMappingService,  StoreSelfConsumptionServiceService,
+    ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
+    SwymedUserConfigurationService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
