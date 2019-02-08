@@ -1,18 +1,24 @@
-<div class="row" *ngIf="showTable">
+<div class="row">
   <div class="col-xs-12 col-sm-12">
-    <h4>User Swymed Mapping</h4>
+    <h4 *ngIf="!editMode">User Swymed Mapping</h4>
+    <h4 *ngIf="editMode"> Edit User Swymed Mapping</h4>
+  </div>
+  <div class="pull-right m-t-15" *ngIf="swymedUserDetails.length != 0 && !editMode && showTable">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
   </div>
 
-  <div class="col-xs-12 col-sm-12 m-t-10">
+  <div class="col-xs-12 col-sm-12 m-t-10" *ngIf="showTable">
     <div class="table-responsive">
-      <table class="table table-hover table-striped" [md2Data]="filteredsearchResult" #md2="md2DataTable" [rowsPerPage]="4">
+      <table class="table table-hover table-striped" [md2Data]="filteredswymedUserDetails" #md2="md2DataTable" [rowsPerPage]="4">
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="20%" md2SortBy="userName">Username</th>
-            <th width="20%">Designation</th>
+            <th width="15%" md2SortBy="userName">Username</th>
+            <th width="15%">Designation</th>
             <th width="20%">Email ID</th>
-            <th width="15%">Password</th>
             <th width="15%">Swymed Domain</th>
             <th width="5%">Edit</th>
             <th width="10%">Action</th>
@@ -20,21 +26,22 @@
         </thead>
         <tbody>
           <tr *ngIf="md2.data.length == 0">
-            <td colspan="8" class="record-not-found">No records found</td>
+            <td colspan="7" class="record-not-found">No records found</td>
           </tr>
           <tr *ngFor="let item of md2.data; let i= index">
-            <td>{{filteredsearchResult.indexOf(item)+1}}</td>
+            <td>{{filteredswymedUserDetails.indexOf(item)+1}}</td>
             <td>{{item.userName}}</td>
             <td>{{item.designationName}}</td>
-            <td>{{item.emailID}}</td>
-            <td>{{item.password}}</td>
+            <td>{{item.swymedEmailID}}</td>
             <td>{{item.swymedDomain}}</td>
-            <!-- <td>
-            
-            </td> -->
-            <!-- <td>
-            
-            </td> -->
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor:pointer" *ngIf="!item.Deleted && !item.userDeleted"
+                (click)="editUserDetails(item)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="item.Deleted || item.userDeleted" md-raised-button color="accent" (click)="activateDeactivateMapping(item, item.userDeleted)">Activate</button>
+              <button *ngIf="!item.Deleted && !item.userDeleted" md-raised-button color="primary" (click)="activateDeactivateMapping(item, false)">Deactivate</button>
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -42,7 +49,7 @@
             <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0 m-t-10">
+            <td colspan="3" class="p-r-0 m-t-10">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
             </td>
           </tr>
@@ -50,4 +57,61 @@
       </table>
     </div>
   </div>
+</div>
+<div class="row" *ngIf="!showTable" (mouseup)='hidePWD()'>
+  <form #mappingForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" [disabled]="disableSelection"
+        #userDesignation="ngModel" (change)="getUserNameBasedOnDesig(designation)" required>
+        <md-option *ngFor="let item of designations" [value]="item">
+          {{item.designationName}}
+        </md-option>
+      </md-select>
+    </div>
+    {{username}}
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="User" class="width100" ngModel [(ngModel)]="username" name="username" [disabled]="disableSelection"
+        #userName="ngModel" required>
+        <md-option *ngFor="let user of userNamesList" [value]="user">
+          {{user.UserName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+      <md-input-container class="width100">
+        <input mdInput placeholder="Email" ngModel [(ngModel)]="emailID" name="emailID" #validEmail="ngModel" [pattern]="emailPattern"
+          required>
+        <md-hint>
+          <span class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+      <md-input-container class="width100">
+        <input type="{{dynamictype}}" mdInput placeholder="Password" ngModel [(ngModel)]="password" name="password" [pattern]="passwordPattern"
+          minlength="8" maxlength="12" #pwrd="ngModel" required>
+        <md-icon id="eye" mdSuffix class="mat-icon material-icons cursorPointer" role="img" aria-hidden="true" mdTooltip="Show Password"
+          (mousedown)='showPWD()' style="color:gray">visibility</md-icon>
+        <md-hint>
+          <span class="error_text" *ngIf="pwrd.errors && !(pwrd.hasError('pattern')) && pwrd.touched">Password is required</span>
+          <span class="error_text" *ngIf="pwrd.hasError('pattern')">Password is required(min:8,max:12,alphanumeric,1 special character,1 upper case)</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Swymed Domain" class="width100" [(ngModel)]="domain" name="domain" [disabled]="disableSelection" #swymedDomain="ngModel"
+        required>
+        <md-option *ngFor="let item of domainList" [value]="item">
+          {{item.swymedDoamin}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <button md-raised-button color="accent" *ngIf="!editMode" class="pull-right" [disabled]="mappingForm.invalid" (click)="saveUserMapping(mappingForm.value)">Save</button>
+    <button md-raised-button color="accent" *ngIf="editMode" class="pull-right" [disabled]="mappingForm.invalid" (click)="updateUsermapping(mappingForm.value)">Update</button>
+  </div>
+
 </div>
