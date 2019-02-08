@@ -62,16 +62,15 @@
   <form #mappingForm="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-select placeholder="Designation" class="width100" [(ngModel)]="designation" name="designation" [disabled]="disableSelection"
-        #userDesignation="ngModel" (change)="getUserNameBasedOnDesig(designation)" required>
+        #userDesignation="ngModel" (change)="getUserNameBasedOnDesig(designation.designationID)" required>
         <md-option *ngFor="let item of designations" [value]="item">
           {{item.designationName}}
         </md-option>
       </md-select>
     </div>
-    {{username}}
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-select placeholder="User" class="width100" ngModel [(ngModel)]="username" name="username" [disabled]="disableSelection"
-        #userName="ngModel" required>
+        #swymedUser="ngModel" required>
         <md-option *ngFor="let user of userNamesList" [value]="user">
           {{user.UserName}}
         </md-option>
