@@ -56,7 +56,8 @@ export class SwymedUserMappingComponent implements OnInit {
         this.swymedUserDetails = userResponse;
         this.filteredswymedUserDetails = userResponse;
       } else {
-        console.log("error");
+        console.log("error", userResponse.errorMeaasage);
+        this.dialogService.alert(userResponse.errorMeaasage);
       }
     })
   }
@@ -74,7 +75,11 @@ export class SwymedUserMappingComponent implements OnInit {
   */
   getAllDesignations() {
     this.swymedUserConfigService.getAllDesignations().subscribe((desigRes) => {
-      this.designations = desigRes;
+      if (desigRes != undefined) {
+        this.designations = desigRes;
+      } else {
+        this.dialogService.alert(desigRes.errorMeaasage);
+      }
       if (this.dataToBeEdit != undefined) {
         let editDesig = this.designations.filter((editDesigValue) => {
           if (this.dataToBeEdit.designationName != undefined && this.dataToBeEdit.designationName == editDesigValue.designationName) {
@@ -94,7 +99,11 @@ export class SwymedUserMappingComponent implements OnInit {
   getUserNameBasedOnDesig(designationID) {
     this.swymedUserConfigService.getUserName(designationID, this.serviceProviderID)
       .subscribe(response => {
-        this.userNamesList = response;
+        if (response != undefined) {
+          this.userNamesList = response;
+        } else {
+          this.dialogService.alert(response.errorMeaasage);
+        }
         if (this.dataToBeEdit != undefined) {
           let editUser = this.userNamesList.filter((editUserValue) => {
             if (this.dataToBeEdit.userName != undefined && this.dataToBeEdit.userName == editUserValue.userName) {
@@ -121,7 +130,11 @@ export class SwymedUserMappingComponent implements OnInit {
   */
   getSwymedDomain() {
     this.swymedUserConfigService.getSwymedDomain(this.serviceProviderID).subscribe((domainResponse) => {
-      this.domainList = domainResponse;
+      if (domainResponse != undefined) {
+        this.domainList = domainResponse;
+      } else {
+        this.dialogService.alert(domainResponse.errorMeaasage);
+      }
       if (this.dataToBeEdit != undefined) {
         let editDomain = this.domainList.filter((editDomainValue) => {
           if (this.dataToBeEdit.swymedDomain != undefined && this.dataToBeEdit.swymedDomain == editDomainValue.swymedDoamin) {
@@ -181,7 +194,7 @@ export class SwymedUserMappingComponent implements OnInit {
     this.getSwymedDomain();
     this.emailID = editValue.swymedEmailID;
     this.password = editValue.swymedPassword;
-    
+
   }
   /*
   * Update API Call
