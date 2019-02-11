@@ -3,13 +3,14 @@
     <h4 *ngIf="!editMode">User Swymed Mapping</h4>
     <h4 *ngIf="editMode"> Edit User Swymed Mapping</h4>
   </div>
-  <div class="pull-right m-t-15" *ngIf="swymedUserDetails.length != 0 && !editMode && showTable">
-    <md-input-container id="filterbox">
-      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
-      <md-icon mdSuffix>search</md-icon>
-    </md-input-container>
-  </div>
-
+</div>
+<div class="m-t-15 pull-right" *ngIf="swymedUserDetails.length != 0 && !editMode && showTable">
+  <md-input-container id="filterbox">
+    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <md-icon mdSuffix>search</md-icon>
+  </md-input-container>
+</div>
+<div class="row">
   <div class="col-xs-12 col-sm-12 m-t-10" *ngIf="showTable">
     <div class="table-responsive">
       <table class="table table-hover table-striped" [md2Data]="filteredswymedUserDetails" #md2="md2DataTable" [rowsPerPage]="4">
@@ -98,8 +99,8 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <md-select placeholder="Swymed Domain" class="width100" [(ngModel)]="domain" name="domain" [disabled]="disableSelection" #swymedDomain="ngModel"
-        required>
+      <md-select placeholder="Swymed Domain" class="width100" [(ngModel)]="domain" name="domain" [disabled]="disableSelection"
+        #swymedDomain="ngModel" required>
         <md-option *ngFor="let item of domainList" [value]="item">
           {{item.swymedDoamin}}
         </md-option>
