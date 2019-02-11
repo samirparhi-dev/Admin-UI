@@ -100,7 +100,7 @@ export class SwymedUserMappingComponent implements OnInit {
             if (this.dataToBeEdit.userName != undefined && this.dataToBeEdit.userName == editUserValue.userName) {
               return editUserValue;
             }
-          })[0]
+          })
           if (editUser) {
             this.username = editUser;
           }

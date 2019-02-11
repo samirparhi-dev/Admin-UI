@@ -43,7 +43,7 @@ export class SwymedUserConfigurationService {
     getAllDesignations() {
         return this.httpSecurity
             .post(this.getAllDesignationsUrl, {})
-            .map(this.handleSuccess_designation)
+            .map(this.handleSuccess)
             .catch(this.handleError)
     }
     getUserName(designationID, serviceProviderID) {
@@ -84,16 +84,6 @@ export class SwymedUserConfigurationService {
         } else {
             return Observable.throw(res.json());
         }
-    }
-    handleSuccess_designation(res: Response) {
-        console.log(res.json().data, '--- in swymed user config service ');
-        let result = [];
-        result = res.json().data.filter(function (item) {
-            if (item.designationID == 19 || item.designationID == 25 || item.designationID == 26) {
-                return item;
-            }
-        });
-        return result;
     }
 
     handleError(error: Response | any) {
