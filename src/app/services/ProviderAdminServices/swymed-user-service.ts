@@ -30,7 +30,7 @@ export class SwymedUserConfigurationService {
         this.getUserNameUrl = this.providerAdmin_base_url + '/swymed/getunmappedUser/';
         this.getSwymedDomainUrl = this.providerAdmin_base_url + 'swymed/getdomain/';
         this.saveSwymedUserDetailsUrl = this.providerAdmin_base_url + '/swymed/createUser';
-        this.updateUserDetailsUrl = this.providerAdmin_base_url + '/swymed/editUser';
+        this.updateUserDetailsUrl = this.providerAdmin_base_url + 'swymed/editUser';
         this.mappingActivationDeactivationUrl = this.providerAdmin_base_url + '/swymed/deleteUser/';
     }
 

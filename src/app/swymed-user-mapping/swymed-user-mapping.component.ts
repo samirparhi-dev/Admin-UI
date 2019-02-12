@@ -106,7 +106,7 @@ export class SwymedUserMappingComponent implements OnInit {
         }
         if (this.dataToBeEdit != undefined) {
           let editUser = this.userNamesList.filter((editUserValue) => {
-            if (this.dataToBeEdit.userName != undefined && this.dataToBeEdit.userName == editUserValue.userName) {
+            if (this.dataToBeEdit.userName != undefined && this.dataToBeEdit.userName == editUserValue.UserName) {
               return editUserValue;
             }
           })
@@ -162,7 +162,13 @@ export class SwymedUserMappingComponent implements OnInit {
 
     }
     this.swymedUserConfigService.saveSwymedUserDetails(saveReqObj).subscribe((saveResponse) => {
-      this.dialogService.alert("Saved successfully", "success");
+      if (saveResponse.statusCode == 5010) {
+        this.dialogService.alert(saveResponse.errorMessage);
+      } else if (saveResponse.statusCode == 5000) {
+        this.dialogService.alert("Invalid input");
+      } else {
+        this.dialogService.alert("Saved successfully", "success");
+      }
       this.getAllSwymedUserDetails();
       this.resetForm();
     })
@@ -203,14 +209,18 @@ export class SwymedUserMappingComponent implements OnInit {
   updateUsermapping(formValue) {
     let updateObj = {
       "swymedEmailID": formValue.emailID,
-      "swymedPassword": formValue.swymedPassword,
-      "swymedDomain": this.dataToBeEdit.swymedDoamin,
+      "swymedPassword": formValue.password,
+      "swymedDomain": this.dataToBeEdit.swymedDomain,
       "userID": this.dataToBeEdit.userID,
       "userSwymedMapID": this.dataToBeEdit.userSwymedMapID,
       "modifiedBy": this.createdBy
     }
     this.swymedUserConfigService.updateUserDetails(updateObj).subscribe((updateResponse) => {
-      this.dialogService.alert("Updated successfully", "success");
+      if (updateResponse.statusCode == 5010) {
+        this.dialogService.alert(updateResponse.errorMessage);
+      } else {
+        this.dialogService.alert("Updated successfully", "success");
+      }
       this.dataToBeEdit = undefined;
       this.resetForm();
     })
