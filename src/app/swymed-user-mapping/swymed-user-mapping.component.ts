@@ -218,6 +218,8 @@ export class SwymedUserMappingComponent implements OnInit {
     this.swymedUserConfigService.updateUserDetails(updateObj).subscribe((updateResponse) => {
       if (updateResponse.statusCode == 5010) {
         this.dialogService.alert(updateResponse.errorMessage);
+      } else if (updateResponse.statusCode == 5000) {
+        this.dialogService.alert("Invalid input");
       } else {
         this.dialogService.alert("Updated successfully", "success");
       }
