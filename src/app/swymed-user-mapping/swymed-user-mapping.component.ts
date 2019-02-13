@@ -3,6 +3,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { SwymedUserConfigurationService } from '../services/ProviderAdminServices/swymed-user-service';
 import { NgForm } from '@angular/forms';
+import { isDefined } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-swymed-user-mapping',
   templateUrl: './swymed-user-mapping.component.html',
@@ -168,12 +169,17 @@ export class SwymedUserMappingComponent implements OnInit {
         this.resetForm();
       }
     }, (err) => {
+      if (err._body != undefined) {
+        err = (err['_body']).replace(/(\d+)([\[:.])?(\d+)([,\}\]])/g, "\"$1$2$3\"$4");
+        err = JSON.parse(err);
+      }
       if (err.statusCode == 5010) {
         this.dialogService.alert(err.errorMessage, "error");
-      } else if (err._body.statusCode == 5000) {
+      } else if (err.statusCode == 5000) {
         this.dialogService.alert("Invalid input", "error");
+      } else {
+        console.log("error");
       }
-      console.log("error");
     })
   }
 
@@ -225,10 +231,16 @@ export class SwymedUserMappingComponent implements OnInit {
         this.resetForm();
       }
     }, (err) => {
+      if (err._body != undefined) {
+        err = (err['_body']).replace(/(\d+)([\[:.])?(\d+)([,\}\]])/g, "\"$1$2$3\"$4");
+        err = JSON.parse(err);
+      }
       if (err.statusCode == 5010) {
         this.dialogService.alert(err.errorMessage, "error");
       } else if (err.statusCode == 5000) {
         this.dialogService.alert("Invalid input", "error");
+      } else {
+        console.log("error", err);
       }
 
     })
