@@ -55,10 +55,10 @@ export class SwymedUserMappingComponent implements OnInit {
       if (userResponse != undefined) {
         this.swymedUserDetails = userResponse;
         this.filteredswymedUserDetails = userResponse;
-      } else {
-        console.log("error", userResponse.errorMeaasage);
-        this.dialogService.alert(userResponse.errorMeaasage);
       }
+    }, (err) => {
+      console.log("error", err.errorMessage);
+      this.dialogService.alert(err.errorMessage, "error");
     })
   }
   showForm() {
@@ -77,8 +77,6 @@ export class SwymedUserMappingComponent implements OnInit {
     this.swymedUserConfigService.getAllDesignations().subscribe((desigRes) => {
       if (desigRes != undefined) {
         this.designations = desigRes;
-      } else {
-        this.dialogService.alert(desigRes.errorMeaasage);
       }
       if (this.dataToBeEdit != undefined) {
         let editDesig = this.designations.filter((editDesigValue) => {
@@ -90,6 +88,8 @@ export class SwymedUserMappingComponent implements OnInit {
           this.designation = editDesig;
         }
       }
+    }, (err) => {
+      this.dialogService.alert(err.errorMessage, "error");
     })
   }
 
@@ -101,8 +101,6 @@ export class SwymedUserMappingComponent implements OnInit {
       .subscribe(response => {
         if (response != undefined) {
           this.userNamesList = response;
-        } else {
-          this.dialogService.alert(response.errorMeaasage);
         }
         if (this.dataToBeEdit != undefined) {
           let editUser = this.userNamesList.filter((editUserValue) => {
@@ -114,6 +112,8 @@ export class SwymedUserMappingComponent implements OnInit {
             this.username = editUser;
           }
         }
+      }, (err) => {
+        this.dialogService.alert(err.errorMessage, "error");
       })
   }
 
@@ -132,8 +132,6 @@ export class SwymedUserMappingComponent implements OnInit {
     this.swymedUserConfigService.getSwymedDomain(this.serviceProviderID).subscribe((domainResponse) => {
       if (domainResponse != undefined) {
         this.domainList = domainResponse;
-      } else {
-        this.dialogService.alert(domainResponse.errorMeaasage);
       }
       if (this.dataToBeEdit != undefined) {
         let editDomain = this.domainList.filter((editDomainValue) => {
@@ -145,6 +143,8 @@ export class SwymedUserMappingComponent implements OnInit {
           this.domain = editDomain;
         }
       }
+    }, (err) => {
+      this.dialogService.alert(err.errorMessage, "error");
     })
   }
 
@@ -162,15 +162,18 @@ export class SwymedUserMappingComponent implements OnInit {
 
     }
     this.swymedUserConfigService.saveSwymedUserDetails(saveReqObj).subscribe((saveResponse) => {
-      if (saveResponse.statusCode == 5010) {
-        this.dialogService.alert(saveResponse.errorMessage);
-      } else if (saveResponse.statusCode == 5000) {
-        this.dialogService.alert("Invalid input");
-      } else {
+      if (saveResponse.statusCode == 200) {
         this.dialogService.alert("Saved successfully", "success");
+        this.getAllSwymedUserDetails();
+        this.resetForm();
       }
-      this.getAllSwymedUserDetails();
-      this.resetForm();
+    }, (err) => {
+      if (err.statusCode == 5010) {
+        this.dialogService.alert(err.errorMessage, "error");
+      } else if (err._body.statusCode == 5000) {
+        this.dialogService.alert("Invalid input", "error");
+      }
+      console.log("error");
     })
   }
 
@@ -216,15 +219,18 @@ export class SwymedUserMappingComponent implements OnInit {
       "modifiedBy": this.createdBy
     }
     this.swymedUserConfigService.updateUserDetails(updateObj).subscribe((updateResponse) => {
-      if (updateResponse.statusCode == 5010) {
-        this.dialogService.alert(updateResponse.errorMessage);
-      } else if (updateResponse.statusCode == 5000) {
-        this.dialogService.alert("Invalid input");
-      } else {
+      if (updateResponse.statusCode == 200) {
         this.dialogService.alert("Updated successfully", "success");
+        this.dataToBeEdit = undefined;
+        this.resetForm();
       }
-      this.dataToBeEdit = undefined;
-      this.resetForm();
+    }, (err) => {
+      if (err.statusCode == 5010) {
+        this.dialogService.alert(err.errorMessage, "error");
+      } else if (err.statusCode == 5000) {
+        this.dialogService.alert("Invalid input", "error");
+      }
+
     })
   }
   /*
