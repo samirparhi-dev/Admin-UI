@@ -61,13 +61,13 @@ export class SwymedUserConfigurationService {
     saveSwymedUserDetails(reqObj) {
         return this.httpSecurity
             .post(this.saveSwymedUserDetailsUrl, reqObj)
-            .map(this.handleSuccess)
+            .map(this.successHandler)
             .catch(this.handleError)
     }
     updateUserDetails(updateObj) {
         return this.httpSecurity
         .post(this.updateUserDetailsUrl, updateObj)
-        .map(this.handleSuccess)
+        .map(this.successHandler)
         .catch(this.handleError)
     }
     mappingActivationDeactivation(userSwymedMapID, flag, modifiedBy) {
@@ -85,7 +85,14 @@ export class SwymedUserConfigurationService {
             return Observable.throw(res.json());
         }
     }
-
+    successHandler(res: Response) {
+        console.log(res.json().data, '--- in swymed user config service ');
+        if (res.json().data) {
+            return res.json();
+        } else {
+            return Observable.throw(res.json());
+        }
+    }
     handleError(error: Response | any) {
         return Observable.throw(error);
 

@@ -227,6 +227,7 @@ export class SwymedUserMappingComponent implements OnInit {
     this.swymedUserConfigService.updateUserDetails(updateObj).subscribe((updateResponse) => {
       if (updateResponse.statusCode == 200) {
         this.dialogService.alert("Updated successfully", "success");
+        this.getAllSwymedUserDetails();
         this.dataToBeEdit = undefined;
         this.resetForm();
       }
@@ -265,7 +266,20 @@ export class SwymedUserMappingComponent implements OnInit {
               console.log('Activation or deactivation response', res);
               this.dialogService.alert(this.status + "d successfully", 'success');
               this.getAllSwymedUserDetails();
-            }, (err) => console.log('error', err))
+            }, (err) => {
+              if (err._body != undefined) {
+                err = (err['_body']).replace(/(\d+)([\[:.])?(\d+)([,\}\]])/g, "\"$1$2$3\"$4");
+                err = JSON.parse(err);
+              }
+              if (err.statusCode == 5010) {
+                this.dialogService.alert(err.errorMessage, "error");
+              } else if (err.statusCode == 5000) {
+                this.dialogService.alert("Invalid input", "error");
+              } else {
+                console.log("error", err);
+              }
+
+            })
         }
       },
         (err) => {
