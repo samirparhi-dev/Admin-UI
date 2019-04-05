@@ -300,6 +300,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.employeeParkingPlaceMappingList[rowIndex].uservanmapping.splice(vanIndex, 1);
         if (this.employeeParkingPlaceMappingList[rowIndex].uservanmapping.length === 0) {
             this.employeeParkingPlaceMappingList.splice(rowIndex, 1);
+            this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
         }
     }
     vanlist: any = [];
