@@ -233,6 +233,7 @@
                                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!mapping.deleted && !mapping.userDeleted" role="img" aria-hidden="true"
                                     style="cursor: pointer" (click)="editParkingPlace(mapping)">edit</md-icon>
                             </td>
+                            <td *ngIf="mapping.deleted"></td>
                             <td>
                                 <button md-raised-button color="accent" *ngIf="mapping.deleted || mapping.userDeleted" class=" m-r-10" (click)="activate(mapping.userParkingPlaceMapID,mapping.userDeleted)">Activate</button>
                                 <button md-raised-button color="primary" *ngIf="!mapping.deleted && !mapping.userDeleted" class=" m-r-10" (click)="deactivate(mapping.userParkingPlaceMapID)">Deactivate</button>
