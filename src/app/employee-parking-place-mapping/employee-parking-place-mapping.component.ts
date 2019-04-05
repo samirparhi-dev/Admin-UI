@@ -272,7 +272,6 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     viewVanListDetails(mappedVans) {
         this.dialog.open(MappedVansComponent, {
             width: "60%",
-            panelClass: 'fit-screen',
             data: {
                 vanListDetails: mappedVans
             }
