@@ -26,6 +26,9 @@ export class EmployeeParkingPlaceMappingService {
     getDesignationsURL: any;
     getEmployeesURL: any;
     _getZonesURL: any;
+    getVansURL: any;
+    getMappedVansListURL: any;
+    removeMappedVanURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -44,6 +47,9 @@ export class EmployeeParkingPlaceMappingService {
         this.saveEmployeeParkingPlaceMappingURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/save/userParkingPlaces';
         this.updateEmployeeParkingPlaceMappingURL = this.providerAdmin_Base_Url + '/parkingPlaceMaster/edit/userParkingPlaces1';
         this.userNameURL = "";
+        this.getVansURL = this.providerAdmin_Base_Url + 'vanMaster/get/vanDetails';
+        this.getMappedVansListURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/mappedvan/';
+        this.removeMappedVanURL = this.providerAdmin_Base_Url + '/parkingPlaceMaster/delete/mappedvan';
     }
     getServices(userID) {
         return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
@@ -74,8 +80,8 @@ export class EmployeeParkingPlaceMappingService {
 
     DeleteEmpParkingMapping(requestObject) {
         return this.http.post(this.deleteEmployeesURL, requestObject)
-            .map(this.handleSuccessForActivationUser)
-            .catch(this.handleError);
+        .map(this.handleSuccessForActivationUser)
+        .catch(this.handleError);
     }
     getUsernames(userObj) {
         return this.http.post(this.getUsernamesURL, userObj)
@@ -95,11 +101,24 @@ export class EmployeeParkingPlaceMappingService {
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
+    getVans(reqObj) {
+        return this.http.post(this.getVansURL, reqObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
 
     saveEmployeeParkingPlaceMappings(data) {
         return this.http.post(this.saveEmployeeParkingPlaceMappingURL, data)
             .map(this.handleSuccess)
             .catch(this.handleError);
+    }
+    getMappedVansList(userParkingPlaceMapID) {
+        return this.http.post(this.getMappedVansListURL + userParkingPlaceMapID, {})
+            .map((res: Response) => res.json());
+    }
+    removeMappedVan(removeVanObj) {
+        return this.http.post(this.removeMappedVanURL, removeVanObj)
+            .map((res: Response) => res.json());
     }
     updateEmployeeParkingPlaceMappings(data) {
         return this.http.post(this.updateEmployeeParkingPlaceMappingURL, data)

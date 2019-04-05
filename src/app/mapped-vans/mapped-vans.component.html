@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title">
+    <h4>Mapped Van List</h4>
+    <button md-icon-button mdDialogClose tooltip="Close" class="pull-right exit width-20px">
+      <md-icon>close</md-icon>
+    </button>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive">
+      <table class="table table-striped" [md2Data]="mappedVans" #md2="md2DataTable" [rowsPerPage]="5"
+        [activePage]="1">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Mapped Vans</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf = "mappedVans.length == 0" class="text-center">
+            <td colspan = "3">No mapped vans</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i = index" class="table-hover">
+            <td>{{ mappedVans.indexOf(item)+1 }}</td>
+            <td data-title="Van Name">{{ item?.van.vanName }} </td>
+            <td>
+              <md-icon class="icon-remove cursorPointer" mdTooltip="Delete" (click)="removeVan(i, item)">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-right">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

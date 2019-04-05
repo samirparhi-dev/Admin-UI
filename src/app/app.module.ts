@@ -254,6 +254,7 @@ import { SpecialistMappingComponent } from './specialist-mapping/specialist-mapp
 import { SpecialistMappingService } from './services/ProviderAdminServices/specialist-mapping.service';
 import { SwymedUserMappingComponent } from './swymed-user-mapping/swymed-user-mapping.component';
 import { SwymedUserConfigurationService } from './services/ProviderAdminServices/swymed-user-service';
+import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
 
 @NgModule({
   declarations: [
@@ -318,7 +319,8 @@ import { SwymedUserConfigurationService } from './services/ProviderAdminServices
     ParkingPlaceSubDistrictMappingComponent,
     NatureOfComplaintCategoryMappingComponent,
     SpecialistMappingComponent,
-    SwymedUserMappingComponent
+    SwymedUserMappingComponent,
+    MappedVansComponent
   ],
 
   imports: [
@@ -434,7 +436,8 @@ import { SwymedUserConfigurationService } from './services/ProviderAdminServices
     EditVillageModal,
     EditProviderAdminModal,
     EditItemMasterModal,
-    EditItemCategoryComponent
+    EditItemCategoryComponent,
+    MappedVansComponent
   ],
 
   bootstrap: [AppComponent]

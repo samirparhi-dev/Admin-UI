@@ -5,6 +5,8 @@ import { EmployeeParkingPlaceMappingService } from '../services/ProviderAdminSer
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { MdDialog } from '@angular/material';
+import { MappedVansComponent } from '../mapped-vans/mapped-vans.component';
 
 @Component({
     selector: 'app-employee-parking-place-mapping',
@@ -37,6 +39,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     serviceID: any;
     parkAndHub: any;
     login_userID: any;
+    vanUnderPP: any;
 
     formBuilder: FormBuilder = new FormBuilder();
     MappingForm: FormGroup;
@@ -45,11 +48,15 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     zones: any = [];
     taluks: any = [];
     availableParkingPlaces: any = [];
+    availableVans: any = [];
+    mappedVans: any = [];
+    enableVanField: Boolean = true;
 
     @ViewChild('resetform1') resetform1: NgForm;
     @ViewChild('searchForm') searchForm: NgForm;
     constructor(public providerAdminRoleService: ProviderAdminRoleService,
         public commonDataService: dataService,
+        private dialog: MdDialog,
         public employeeParkingPlaceMappingService: EmployeeParkingPlaceMappingService,
         private alertMessage: ConfirmationDialogsService) {
         this.data = [];
@@ -159,13 +166,13 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         this.tableMode = true;
         this.formMode = false;
         this.editMode = false;
-
     }
-    showForm() {
+    showForm(searchStateID, parkingPlaceID, designationID) {
         this.tableMode = false;
         this.formMode = true;
         this.editMode = false;
         this.employeeParkingPlaceMappingList = [];
+        this.getUsernames(searchStateID.providerServiceMapID, designationID.designationID);
     }
     showEdit() {
         this.tableMode = false;
@@ -206,9 +213,16 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
 
     }
     parkingPlaceID: any;
-    selectedParkingPlace(parkingPlace, providerServiceMapID, designationID) {
+    selectedParkingPlace(serviceID, parkingPlace, providerServiceMapID, designationID) {
         this.parkingPlaceID = parkingPlace;
-        this.getUsernames(providerServiceMapID, designationID);
+        if ((serviceID == 4 || serviceID == 2) && ((designationID.designationName == 'TC Specialist') || (designationID.designationName == 'Supervisor'))) {
+            this.enableVanField = false;
+        } else {
+            this.enableVanField = true;
+        }
+        this.getUsernames(providerServiceMapID, designationID.designationID);
+        this.getVans(providerServiceMapID, parkingPlace);
+
     }
 
     parkingPlaceIDList: any = [];
@@ -255,14 +269,50 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             }
         }
     }
+    viewVanListDetails(mappedVans) {
+        this.dialog.open(MappedVansComponent, {
+            width: "60%",
+            panelClass: 'fit-screen',
+            data: {
+                vanListDetails: mappedVans
+            }
+        })
+    }
+    getVans(providerServiceMapID, parkingPlaceID) {
+        let vanObj = {
+            "providerServiceMapID": providerServiceMapID,
+            "parkingPlaceID": parkingPlaceID
+        };
+        this.employeeParkingPlaceMappingService.getVans(vanObj).subscribe(response => {
+            this.availableVans = response;
+            if (this.editMode) {
+                this.getMappedVans(this.userParkingPlaceMapID);
+            }
+        });
+
+    }
 
     deleteRow(i) {
         this.employeeParkingPlaceMappingList.splice(i, 1);
         this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
     }
-
+    removeRole(rowIndex, vanIndex) {
+        this.employeeParkingPlaceMappingList[rowIndex].uservanmapping.splice(vanIndex, 1);
+        if (this.employeeParkingPlaceMappingList[rowIndex].uservanmapping.length === 0) {
+            this.employeeParkingPlaceMappingList.splice(rowIndex, 1);
+        }
+    }
+    vanlist: any = [];
     addParkingPlaceMapping(objectToBeAdded: any, role) {
         console.log(objectToBeAdded, "FORM VALUES");
+        this.vanlist = [];
+        objectToBeAdded.vanUnderPP.forEach((vanID) => {
+            let vanObj = {
+                "vanID": vanID.vanID,
+                "vanName": vanID.vanName
+            }
+            this.vanlist.push(vanObj);
+        })
         const parkingObj = {
             'stateID': this.searchStateID.stateID,
             'stateName': this.searchStateID.stateName,
@@ -274,9 +324,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             'designationID': this.designationID.designationID,
             'designationName': this.designationID.designationName,
             'providerServiceMapID': this.searchStateID.providerServiceMapID,
-            'createdBy': this.createdBy
+            'createdBy': this.createdBy,
+            "uservanmapping": this.vanlist
         };
-        console.log(parkingObj);
+        console.log("parkingObj", parkingObj);
         this.employeeParkingPlaceMappingList.push(parkingObj);
         this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
     }
@@ -334,7 +385,10 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         }
     }
     editParkingPlaceValue: any;
+    editUserDetails: any;
+    mappedUserVans: any = [];
     editParkingPlace(parkingPlaceItem) {
+        console.log("edit", parkingPlaceItem);
         this.showEdit();
         this.editParkingPlaceValue = parkingPlaceItem;
         this.userParkingPlaceMapID = parkingPlaceItem.userParkingPlaceMapID
@@ -342,17 +396,53 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             this.parking_Place.parkingPlaceName = parkingPlaceItem.parkingPlaceName,
             this.designationID.designationName = parkingPlaceItem.designationName,
             this.getAllParkingPlaces(this.zoneID.zoneID, parkingPlaceItem.providerServiceMapID);
+        this.getVans(parkingPlaceItem.providerServiceMapID, parkingPlaceItem.parkingPlaceID);
+
         let emp = { userID: parkingPlaceItem.userID, userName: parkingPlaceItem.userName };
         this.userNames = [emp];
         this.userID = emp
 
     }
+
+    getMappedVans(userParkingPlaceMapID) {
+        this.employeeParkingPlaceMappingService.getMappedVansList(userParkingPlaceMapID).subscribe((mappedVanResponse) => {
+
+            console.log("mapped Uesrs", mappedVanResponse)
+            if (mappedVanResponse.statusCode == 200) {
+                this.mappedUserVans = mappedVanResponse.data;
+                if (this.mappedUserVans.length > 0) {
+                    this.patchMappedVans();
+                }
+            }
+        })
+    }
+    patchMappedVans() {
+        this.vanUnderPP = [];
+        this.mappedUserVans.map((mappedVans) => {
+            let tempData = this.availableVans.filter((filterVan) => {
+                return mappedVans.vanID == filterVan.vanID
+            });
+            if (tempData.length > 0) {
+                this.vanUnderPP.push(tempData[0])
+            }
+        })
+
+    }
     updateParkingPlace() {
+        this.vanlist = [];
+        this.vanUnderPP.forEach((vanID) => {
+            let vanObj = {
+                "vanID": vanID.vanID,
+                "vanName": vanID.vanName
+            }
+            this.vanlist.push(vanObj);
+        })
         const parkingObj = {
             'userID': this.userID.userID,
             'parkingPlaceID': this.parking_Place.parkingPlaceID,
             'providerServiceMapID': this.searchStateID.providerServiceMapID,
             'userParkingPlaceMapID': this.userParkingPlaceMapID,
+            'uservanmapping': this.vanlist,
             'modifiedBy': this.createdBy
         };
 
@@ -413,7 +503,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
                             }
                         },
                             err => {
-                                console.log('error', err.errorMessage);
+                                console.log('error', err);
                                 this.alertMessage.alert(err.errorMessage, 'error');
                             });
                 }
@@ -442,4 +532,5 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
         });
 
     }
+
 }

@@ -41,7 +41,7 @@
         </form>
         <form #resetform1="ngForm">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                <md-select required *ngIf="parkAndHub" placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(parking_Place.parkingPlaceID, searchStateID.providerServiceMapID, designationID.designationID)"
+                <md-select required *ngIf="parkAndHub" placeholder="Designation" class="width100" (change)="getEmployeeParkingPlaceMappings(searchStateID, designationID.designationID);selectedParkingPlace(serviceline.serviceID, parking_Place.parkingPlaceID, searchStateID.providerServiceMapID, designationID)"
                     [(ngModel)]="designationID" name="designationID" #designationVal="ngModel">
                     <md-option *ngFor="let designation of designations" [value]="designation">
                         {{designation.designationName}}
@@ -57,6 +57,13 @@
                     </md-option>
                 </md-select>
             </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="formMode && enableVanField">
+                <md-select multiple required placeholder="Van" class="width100" [(ngModel)]="vanUnderPP" name="vanUnderPP" #ppVan="ngModel">
+                    <md-option *ngFor="let van of availableVans" [value]="van">
+                        {{van.vanName}}
+                    </md-option>
+                </md-select>
+            </div>
         </form>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-t-20">
             <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="formMode && searchForm.valid"
@@ -65,15 +72,16 @@
             </button>
         </div>
     </form>
-    <div class="col-xs-12 col-sm-12" *ngIf="employeeParkingPlaceMappingList.length>0 && (formMode) ">
+    <div class="col-xs-12 col-sm-12 m-t-10" *ngIf="employeeParkingPlaceMappingList.length>0 && (formMode) ">
         <div class="table-responsive">
             <table class="table table-hover table-striped " [md2Data]="employeeParkingPlaceMappingList" #md2="md2DataTable" [rowsPerPage]="3">
                 <thead>
                     <tr>
                         <th width="10%">S.No.</th>
                         <th width="25%">{{parkAndHub}}</th>
-                        <th width="25%">Designation</th>
-                        <th width="25%">Username</th>
+                        <th width="20%">Designation</th>
+                        <th width="20%">Username</th>
+                        <th width="20%">Van</th>
                         <th width="10%">Delete</th>
                     </tr>
                 </thead>
@@ -83,9 +91,17 @@
                     </tr>
                     <tr *ngFor="let item of md2.data;let i = index ">
                         <td>{{employeeParkingPlaceMappingList.indexOf(item)+1}}</td>
-                        <td>{{item.parkingPlaceName}}</td>
-                        <td>{{item.designationName}}</td>
-                        <td>{{item.userName}}</td>
+                        <td>{{item?.parkingPlaceName}}</td>
+                        <td>{{item?.designationName}}</td>
+                        <td>{{item?.userName}}</td>
+                        <td>
+                            <ul class="m-l--25">
+                                <li *ngFor="let obj of item?.uservanmapping; let j=index ">
+                                    {{obj.vanName}}
+                                    <md-icon class="cursorPointer" mdTooltip="Remove" (click)="removeRole(employeeParkingPlaceMappingList.indexOf(item),j)">cancel</md-icon>
+                                </li>
+                            </ul>
+                        </td>
                         <td>
                             <md-icon class="cursorPointer" mdTooltip="delete" (click)="deleteRow(employeeParkingPlaceMappingList.indexOf(item))">delete</md-icon>
                         </td>
@@ -163,7 +179,13 @@
                 </md-option>
             </md-select>
         </div>
-
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+            <md-select multiple required placeholder="Van" class="width100" [(ngModel)]="vanUnderPP" name="vanUnderPP" #ppVan="ngModel">
+                <md-option *ngFor="let van of availableVans" [value]="van">
+                    {{van.vanName}}
+                </md-option>
+            </md-select>
+        </div>
     </form>
     <div class="col-xs-12 col-sm-12 m-t-15">
         <button md-raised-button color="accent" *ngIf="editMode" class="pull-right" [disabled]="updateForm.invalid" (click)="updateParkingPlace()">Update</button>
@@ -179,35 +201,39 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <form class="c-b" autocomplete="off">
             <div class="table-responsive" *ngIf="tableMode && (!formMode && !editMode)">
-                <table [md2Data]="filteredavailableEmployeeParkingPlaceMappings" #md2="md2DataTable" class="table table-striped table-hover"
+                <table class="table table-striped table-hover" [md2Data]="filteredavailableEmployeeParkingPlaceMappings" #md2="md2DataTable"
                     [rowsPerPage]="3">
                     <thead>
                         <tr>
                             <th width="10%">S.No.</th>
                             <th width="25%">{{parkAndHub}}</th>
-                            <th width="25%">Designation</th>
+                            <th width="20%">Designation</th>
                             <th width="25%">Username</th>
-                            <th width="15%">Edit</th>
-                            <th width="20%">Action</th>
+                            <th width="10%">View</th>
+                            <th>Edit</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngIf="md2.data.length == 0">
-                            <td colspan="6" class="record-not-found">No records found</td>
+                            <td colspan="7" class="record-not-found">No records found</td>
                         </tr>
                         <tr *ngFor="let mapping of md2.data;let i=index ">
                             <td>{{filteredavailableEmployeeParkingPlaceMappings.indexOf(mapping)+1}}</td>
-                            <td>{{mapping.parkingPlaceName}}</td>
-                            <td>{{mapping.designationName}}</td>
-                            <td>{{mapping.userName}}</td>
-                            <td>
+                            <td>{{mapping?.parkingPlaceName}}</td>
+                            <td>{{mapping?.designationName}}</td>
+                            <td>{{mapping?.userName}}</td>
+                            <td data-title="View" *ngIf="!mapping.deleted">
+                                <md-icon (click)="viewVanListDetails(mapping)" class="cursorPointer">remove_red_eye</md-icon>
+                            </td>
+                            <td width="15%">
                                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!mapping.deleted && !mapping.userDeleted" role="img" aria-hidden="true"
                                     style="cursor: pointer" (click)="editParkingPlace(mapping)">edit</md-icon>
                             </td>
-                            <td>
+                            <td width="20%">
                                 <button md-raised-button color="accent" *ngIf="mapping.deleted || mapping.userDeleted" class=" m-r-10" (click)="activate(mapping.userParkingPlaceMapID,mapping.userDeleted)">Activate</button>
                                 <button md-raised-button color="primary" *ngIf="!mapping.deleted && !mapping.userDeleted" class=" m-r-10" (click)="deactivate(mapping.userParkingPlaceMapID)">Deactivate</button>
                             </td>
@@ -215,12 +241,13 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
                                 <md2-pagination></md2-pagination>
                             </td>
                             <td colspan="3" class="p-r-0">
 
-                                <button md-raised-button color="primary" [disabled]="!parking_Place || !designationID " class="pull-right" (click)="showForm()">Add Mapping</button>
+                                <button md-raised-button color="primary" id="addButton" [disabled]="!parking_Place || !designationID " class="pull-right"
+                                    (click)="showForm(searchStateID, parking_Place.parkingPlaceID, designationID)">Add Mapping</button>
 
                             </td>
                         </tr>
