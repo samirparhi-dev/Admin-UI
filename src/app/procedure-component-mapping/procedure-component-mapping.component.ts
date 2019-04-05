@@ -93,6 +93,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
       });
   }
   getStates(serviceID) {
+    this.filteredMappedList = [];
     this.stateandservices.getStates(this.userID, serviceID, false).
       subscribe(response => this.getStatesSuccessHandeler(response, false), err => {
       });
