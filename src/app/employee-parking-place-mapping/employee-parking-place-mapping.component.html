@@ -213,8 +213,8 @@
                             <th width="20%">Designation</th>
                             <th width="25%">Username</th>
                             <th width="10%">View</th>
-                            <th>Edit</th>
-                            <th>Action</th>
+                            <th width="15%">Edit</th>
+                            <th width="20%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -229,11 +229,11 @@
                             <td data-title="View" *ngIf="!mapping.deleted">
                                 <md-icon (click)="viewVanListDetails(mapping)" class="cursorPointer">remove_red_eye</md-icon>
                             </td>
-                            <td width="15%">
+                            <td>
                                 <md-icon mdTooltip="Edit" class="mat-icon material-icons" *ngIf="!mapping.deleted && !mapping.userDeleted" role="img" aria-hidden="true"
                                     style="cursor: pointer" (click)="editParkingPlace(mapping)">edit</md-icon>
                             </td>
-                            <td width="20%">
+                            <td>
                                 <button md-raised-button color="accent" *ngIf="mapping.deleted || mapping.userDeleted" class=" m-r-10" (click)="activate(mapping.userParkingPlaceMapID,mapping.userDeleted)">Activate</button>
                                 <button md-raised-button color="primary" *ngIf="!mapping.deleted && !mapping.userDeleted" class=" m-r-10" (click)="deactivate(mapping.userParkingPlaceMapID)">Deactivate</button>
                             </td>
@@ -246,8 +246,7 @@
                             </td>
                             <td colspan="3" class="p-r-0">
 
-                                <button md-raised-button color="primary" id="addButton" [disabled]="!parking_Place || !designationID " class="pull-right"
-                                    (click)="showForm(searchStateID, parking_Place.parkingPlaceID, designationID)">Add Mapping</button>
+                                <button md-raised-button color="primary" id="addButton" [disabled]="!parking_Place || !designationID " class="pull-right" (click)="showForm(searchStateID, parking_Place.parkingPlaceID, designationID)">Add Mapping</button>
 
                             </td>
                         </tr>
