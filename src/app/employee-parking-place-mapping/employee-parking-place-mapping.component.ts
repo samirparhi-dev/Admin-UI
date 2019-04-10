@@ -215,7 +215,7 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     parkingPlaceID: any;
     selectedParkingPlace(serviceID, parkingPlace, providerServiceMapID, designationID) {
         this.parkingPlaceID = parkingPlace;
-        if ((serviceID == 4 || serviceID == 2) && ((designationID.designationName == 'TC Specialist') || (designationID.designationName == 'Supervisor'))) {
+        if ((designationID.designationName == 'TC Specialist') || (designationID.designationName == 'Supervisor')) {
             this.enableVanField = false;
         } else {
             this.enableVanField = true;
@@ -306,13 +306,15 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     addParkingPlaceMapping(objectToBeAdded: any, role) {
         console.log(objectToBeAdded, "FORM VALUES");
         this.vanlist = [];
-        objectToBeAdded.vanUnderPP.forEach((vanID) => {
-            let vanObj = {
-                "vanID": vanID.vanID,
-                "vanName": vanID.vanName
-            }
-            this.vanlist.push(vanObj);
-        })
+        if (objectToBeAdded.vanUnderPP != undefined) {
+            objectToBeAdded.vanUnderPP.forEach((vanID) => {
+                let vanObj = {
+                    "vanID": vanID.vanID,
+                    "vanName": vanID.vanName
+                }
+                this.vanlist.push(vanObj);
+            })
+        }
         const parkingObj = {
             'stateID': this.searchStateID.stateID,
             'stateName': this.searchStateID.stateName,
@@ -325,13 +327,12 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
             'designationName': this.designationID.designationName,
             'providerServiceMapID': this.searchStateID.providerServiceMapID,
             'createdBy': this.createdBy,
-            "uservanmapping": this.vanlist
+            "uservanmapping": objectToBeAdded.vanUnderPP ? this.vanlist : []
         };
         console.log("parkingObj", parkingObj);
         this.employeeParkingPlaceMappingList.push(parkingObj);
         this.getUsernames(this.searchStateID.providerServiceMapID, this.designationID.designationID);
     }
-
     checkDBDuplicates(parkingObj) {
         let dbcount = 0;
 
@@ -389,6 +390,11 @@ export class EmployeeParkingPlaceMappingComponent implements OnInit {
     mappedUserVans: any = [];
     editParkingPlace(parkingPlaceItem) {
         console.log("edit", parkingPlaceItem);
+        if ((parkingPlaceItem.designationName == 'TC Specialist') || (parkingPlaceItem.designationName == 'Supervisor')) {
+            this.enableVanField = false;
+        } else {
+            this.enableVanField = true;
+        }
         this.showEdit();
         this.editParkingPlaceValue = parkingPlaceItem;
         this.userParkingPlaceMapID = parkingPlaceItem.userParkingPlaceMapID

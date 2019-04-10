@@ -81,7 +81,8 @@
                         <th width="25%">{{parkAndHub}}</th>
                         <th width="20%">Designation</th>
                         <th width="20%">Username</th>
-                        <th width="20%">Van</th>
+                        <th width="20%" *ngIf="enableVanField">Van</th>
+                        <th *ngIf="!enableVanField"></th>
                         <th width="10%">Delete</th>
                     </tr>
                 </thead>
@@ -179,7 +180,7 @@
                 </md-option>
             </md-select>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="enableVanField">
             <md-select multiple required placeholder="Van" class="width100" [(ngModel)]="vanUnderPP" name="vanUnderPP" #ppVan="ngModel">
                 <md-option *ngFor="let van of availableVans" [value]="van">
                     {{van.vanName}}
@@ -247,7 +248,8 @@
                             </td>
                             <td colspan="3" class="p-r-0">
 
-                                <button md-raised-button color="primary" id="addButton" [disabled]="!parking_Place || !designationID " class="pull-right" (click)="showForm(searchStateID, parking_Place.parkingPlaceID, designationID)">Add Mapping</button>
+                                <button md-raised-button color="primary" id="addButton" [disabled]="!parking_Place || !designationID " class="pull-right"
+                                    (click)="showForm(searchStateID, parking_Place.parkingPlaceID, designationID)">Add Mapping</button>
 
                             </td>
                         </tr>
