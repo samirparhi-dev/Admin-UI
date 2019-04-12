@@ -20,8 +20,9 @@ declare var jQuery: any;
 export class MultiRoleScreenComponent implements OnInit {
   id: any;
   role: any;
-  version_api: any;
   api_versionDetails: any;
+  version: any;
+  uiVersionDetails: any;
 
   constructor(
     public getCommonData: dataService,
@@ -71,8 +72,7 @@ export class MultiRoleScreenComponent implements OnInit {
       .subscribe(response => this.successhandeler(response, language), err => this.successhandeler(err, language));
 
   }
-  version: any;
-  uiVersionDetails: any;
+
   successhandeler1(response) {
     console.log(response, "language response");
     this.commitDetails = response;

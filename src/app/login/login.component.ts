@@ -3,8 +3,7 @@ import { loginService } from '../services/loginService/login.service';
 import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
-
-
+import { HttpServices } from "../services/http-services/http_services.service";
 
 @Component({
   selector: 'login-component',
@@ -20,17 +19,22 @@ export class loginContentClass implements OnInit {
   status: any;
   dynamictype: any = 'password';
   public loginResult: string;
+  commitDetailsPath: any = "assets/git-version.json";
+  version: any;
+  commitDetails: any;
 
   constructor(public loginservice: loginService,
     public router: Router,
     private alertMessage: ConfirmationDialogsService,
-    public dataSettingService: dataService) { };
+    public dataSettingService: dataService,
+    public HttpServices: HttpServices) { };
 
   ngOnInit() {
     if (localStorage.getItem('authToken')) {
       this.loginservice.checkAuthorisedUser().subscribe((response) => this.gotLoginRes(response),
         (err) => console.log('Getting login response through auth token failed' + err));
     }
+    this.getCommitDetails();
   }
   gotLoginRes(res: any) {
     if (res.userName == 'Super  Admin') {
@@ -151,5 +155,12 @@ export class loginContentClass implements OnInit {
     }
   }
 
-
+  getCommitDetails() {
+    let Data = this.commitDetailsPath;
+    this.HttpServices.getCommitDetails(this.commitDetailsPath).subscribe((res) => this.successhandeler1(res), err => this.successhandeler1(err));
+  }
+  successhandeler1(response) {
+    this.commitDetails = response;
+    this.version = this.commitDetails['version']
+  }
 }
