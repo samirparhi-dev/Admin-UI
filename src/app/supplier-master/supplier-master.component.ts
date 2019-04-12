@@ -81,7 +81,6 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   getstates(service) {
-    debugger;
     this.supplierService.getStates(this.uid, service.serviceID, false).subscribe(response => {
       if (response) {
         console.log('All states success based on service', response);
@@ -90,7 +89,6 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   getDistricts(stateID) {
-    debugger;
     this.addressStateID = stateID;
     this.supplierService.getAllDistricts(this.addressStateID).subscribe(response => {
       this.getPermanentDistrictsSuccessHandler(response)
@@ -101,7 +99,6 @@ export class SupplierMasterComponent implements OnInit {
     this.districts_array = response;
   }
   getAllStates(countryID) {
-    debugger;
     if (countryID != 1) {
       this.countryCheck = true;
     }
@@ -126,7 +123,6 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   getAllSuppliers(providerServiceMapID) {
-    debugger;
     this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.supplierService.getAllSuppliers(providerServiceMapID).subscribe(response => {
@@ -231,7 +227,6 @@ export class SupplierMasterComponent implements OnInit {
 
   }
   add2buffer(formvalues) {
-    debugger;
     //this.resetDropdowns();
     this.districts_array = [];
     console.log("form values", formvalues);
@@ -282,7 +277,6 @@ export class SupplierMasterComponent implements OnInit {
     this.bufferArray.splice(index, 1);
   }
   saveSupplier() {
-    debugger;
     console.log("object before saving the supplier", this.bufferArray);
     this.supplierService.saveSupplier(this.bufferArray).subscribe(response => {
       if (response) {
@@ -297,7 +291,6 @@ export class SupplierMasterComponent implements OnInit {
     })
   }
   editsupplier(editFormValues) {
-    debugger;
     this.edit_serviceline = this.serviceline.serviceID;
     this.edit_state = this.state.stateID;
     this.getAllStates(editFormValues.countryID);
@@ -323,7 +316,6 @@ export class SupplierMasterComponent implements OnInit {
     console.log("edit form values", editFormValues)
   }
   updatesupplier(editedFormValues) {
-    debugger;
     const editObj = {
       "supplierID": this.supplierID,
       "supplierDesc": editedFormValues.supplierDesc,

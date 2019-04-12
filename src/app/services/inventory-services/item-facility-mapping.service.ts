@@ -22,7 +22,6 @@ export class ItemFacilityMappingService {
 setFacilityItemMapping(obj) {
   console.log("mapItemtoStrore list", obj);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'mapItemtoStrore';
-  debugger;
   return this.http
       .post(this.getAllFacilityItemMappingUrl, obj)
       .map(this.extractData)
@@ -33,7 +32,6 @@ setFacilityItemMapping(obj) {
 getAllFacilityItemMapping(serviceMapId) {
   console.log("pharmacology list", serviceMapId);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'getAllFacilityMappedData';
-  debugger;
   return this.http
       .post(this.getAllFacilityItemMappingUrl, { "providerServiceMapID": serviceMapId })
       .map(this.extractData)
@@ -55,7 +53,6 @@ getItemsOnCategory(serviceMapId,category) {
 getItemsForSubStore(serviceMapId,mainID) {
   console.log("pharmacology list", serviceMapId);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'getSubStoreitem';
-  debugger;
   return this.http
       .post(this.getAllFacilityItemMappingUrl, { "providerServiceMapID": serviceMapId ,
       "facilityID":mainID})
@@ -67,7 +64,6 @@ getItemsForSubStore(serviceMapId,mainID) {
 deleteFacilityItemMapping(mapID,bool) {
   console.log("mapid", mapID);
   this.getAllFacilityItemMappingUrl = this.adminBaseUrl + 'deleteItemtoStrore';
-  debugger;
   return this.http
       .post(this.getAllFacilityItemMappingUrl, { "itemFacilityMapID":mapID,"deleted":bool})
       .map(this.extractData)

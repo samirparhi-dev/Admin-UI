@@ -115,8 +115,6 @@ export class MultiRoleScreenComponent implements OnInit {
     this._loginService.getApiVersionDetails().subscribe((apiResponse) => {
       console.log("apiResponse", apiResponse);
       if (apiResponse.statusCode == 200) {
-        console.log('apiResponse.data', apiResponse.data['git.build.version']);
-
         let api_versionDetails = {
           'Version': apiResponse.data['git.build.version'],
           'Commit': apiResponse.data['git.commit.id']

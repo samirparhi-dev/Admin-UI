@@ -60,7 +60,6 @@ export class Mainstroreandsubstore {
     }
 
     deleteStore(deleteObj) {
-        debugger;
         return this.http.post(this.delete_stores_Url, deleteObj
         ).map(this.handleSuccess)
             .catch(this.handleError)
@@ -113,7 +112,6 @@ export class Mainstroreandsubstore {
     }
 
     handleSuccess(res: Response) {
-        debugger;
         console.log(res.json().data, 'Main Stores file success response');
         if (res.json().data) {
             return res.json().data;
@@ -133,7 +131,6 @@ export class Mainstroreandsubstore {
         return result;
     }
     handleState_n_FilteredSuccess(response: Response) {
-        debugger;
         console.log(response.json().data, 'filtered facility service file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
@@ -145,7 +142,6 @@ export class Mainstroreandsubstore {
     }
 
     handleState_n_FilteredstoreTypeSuccess(response: Response) {
-        debugger;
         console.log(response.json().data, 'filtered store Types service file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
@@ -157,7 +153,6 @@ export class Mainstroreandsubstore {
     }
 
     handleError(error: Response | any) {
-        debugger;
         return Observable.throw(error.json());
     }
 

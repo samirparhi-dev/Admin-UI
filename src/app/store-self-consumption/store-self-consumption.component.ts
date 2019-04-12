@@ -39,18 +39,15 @@ export class StoreSelfConsumptionComponent implements OnInit {
   }
 
   addStock() {
-    debugger;
     var stock = {}
     this.itemStockExit.push(stock);
   }
 
   removeStock(index) {
-    debugger;
     this.itemStockExit.splice(index, 1)
   }
 
   filterItem(val: string) {
-    debugger;
     if (val) {
       const filterValue = val.toLowerCase();
       return this.itemsList.filter(item => item.itemName.toLowerCase().startsWith(filterValue));
@@ -62,12 +59,10 @@ export class StoreSelfConsumptionComponent implements OnInit {
   }
 
   getBatch(item, i) {
-    debugger;
     // var i=this.itemsList.indexOf(item);
     this.consumptionService.getItemBatchForStoreIDCall(item.itemID, this.facilityID).subscribe(response => {
       console.log('success while getting items batch', response);
       this.itemStockExit[i].batchSelection = response;
-      debugger;
     }, err => {
       this.alertService.alert(err, 'error');
       console.log('err while getting services', err);

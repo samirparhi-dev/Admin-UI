@@ -100,7 +100,6 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   subscribeToMainStoreChange() {
-    debugger;
     let temp = this.storeMappingForm.controls['storeMapping'] as FormGroup;
     temp.controls['facilityName'].valueChanges
       .subscribe(value => {
@@ -137,7 +136,6 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   subscribeToStoreSelectionChange() {
-    debugger;
     let temp = this.storeMappingForm.controls['storeMapping'] as FormGroup;
     temp.controls['isMainFacility'].valueChanges
       .subscribe(value => {
@@ -199,8 +197,6 @@ export class CreateStoreMappingComponent implements OnInit {
   }
 
   addToStoreMappingList() {
-    debugger;
-
     let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value.storeMapping));
     this.tempParkingPlaceName = undefined;
     if (temp && temp.facilityName && this.isMainFacility) {

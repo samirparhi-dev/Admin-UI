@@ -38,7 +38,6 @@ export class UpdateStoreMappingComponent implements OnInit {
   ngOnInit() {
     this.storeMappingForm = this.createStoreMappingForm();
     if (this.storeDetails) {
-      debugger;
       console.log(this.storeDetails);
       this.createdBy = this.storeDetails.createdBy;
       this.providerServiceMapID = this.storeDetails.providerServiceMapID;
@@ -133,7 +132,6 @@ export class UpdateStoreMappingComponent implements OnInit {
   }
 
   updateStoreMapping() {
-    debugger;
     let temp = JSON.parse(JSON.stringify(this.storeMappingForm.value));
     console.log(temp);
     if (temp && temp.parkingPlaceID) {
