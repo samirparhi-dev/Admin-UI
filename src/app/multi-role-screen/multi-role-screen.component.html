@@ -92,14 +92,14 @@
                                 </md-list-item>
                             </md-list>
                         </md-menu>
-                        <li class="help" title="Help" [mdMenuTriggerFor]="knowAboutUs">
+                        <li class="help cursorPointer" title="Help" [mdMenuTriggerFor]="knowAboutUs">
                             <a class="">&nbsp;</a>
                         </li>
-                        <md-menu #knowAboutUs x-position="before"  class="m-t-40">
+                        <md-menu #knowAboutUs yPosition='below' xPosition="before" class="m-t-40">
                             <md-list class="p-t-0">
-                                <!-- <md-list-item>{{Version: version}}</md-list-item> -->
+                                <md-list-item class="cursorPointer" (click)="viewVersionDetails()">Version</md-list-item>
                                 <md-list-item>
-                                    <a href="http://10.208.122.38:8080/commonapi-v1.0/license.html" class="link" target="_blank">License</a>
+                                    <a href={{license}} class="link" target="_blank">License</a>
                                 </md-list-item>
                             </md-list>
                             </md-menu>

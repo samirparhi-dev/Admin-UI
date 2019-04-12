@@ -255,6 +255,7 @@ import { SpecialistMappingService } from './services/ProviderAdminServices/speci
 import { SwymedUserMappingComponent } from './swymed-user-mapping/swymed-user-mapping.component';
 import { SwymedUserConfigurationService } from './services/ProviderAdminServices/swymed-user-service';
 import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
+import { ViewVersionDetailsComponent } from './view-version-details/view-version-details.component';
 
 @NgModule({
   declarations: [
@@ -320,7 +321,8 @@ import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
     NatureOfComplaintCategoryMappingComponent,
     SpecialistMappingComponent,
     SwymedUserMappingComponent,
-    MappedVansComponent
+    MappedVansComponent,
+    ViewVersionDetailsComponent
   ],
 
   imports: [
@@ -437,7 +439,8 @@ import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
     EditProviderAdminModal,
     EditItemMasterModal,
     EditItemCategoryComponent,
-    MappedVansComponent
+    MappedVansComponent,
+    ViewVersionDetailsComponent
   ],
 
   bootstrap: [AppComponent]

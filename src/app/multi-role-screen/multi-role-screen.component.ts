@@ -4,6 +4,11 @@ import { loginService } from '../services/loginService/login.service';
 import { Router } from "@angular/router";
 import { HttpServices } from "../services/http-services/http_services.service";
 import { PlatformLocation } from '@angular/common';
+import { ConfigService } from "../services/config/config.service";
+import { JsonpModule } from "@angular/http";
+import { MdDialog } from '@angular/material';
+import { ViewVersionDetailsComponent } from '../view-version-details/view-version-details.component';
+
 
 declare var jQuery: any;
 
@@ -15,12 +20,16 @@ declare var jQuery: any;
 export class MultiRoleScreenComponent implements OnInit {
   id: any;
   role: any;
+  version_api: any;
+  api_versionDetails: any;
+
   constructor(
     public getCommonData: dataService,
     public router: Router, location: PlatformLocation,
     public HttpServices: HttpServices,
-    public _loginService: loginService
-  ) {
+    public _loginService: loginService,
+    public configService: ConfigService,
+    private dialog: MdDialog) {
     location.onPopState((e: any) => {
       window.history.forward();
 
@@ -35,14 +44,23 @@ export class MultiRoleScreenComponent implements OnInit {
   selectedlanguage: any = "";
   currentlanguageSet: any = {};
   language_change: any;
+  license: any;
+  commitDetailsPath: any = "assets/git-version.json";
 
   ngOnInit() {
     this.language_change = "english";
     this.data = this.getCommonData.Userdata;
     // this.router.navigate(['/MultiRoleScreenComponent']);
     this.getLanguageObject(this.language_change);
+    this.getLicense();
+    this.getCommitDetails();
   }
+  commitDetails: any;
+  getCommitDetails() {
 
+    let Data = this.commitDetailsPath;
+    this.HttpServices.getCommitDetails(this.commitDetailsPath).subscribe((res) => this.successhandeler1(res), err => this.successhandeler1(err));
+  }
   // langauge POC stuff
 
   getLanguageObject(language) {
@@ -51,6 +69,18 @@ export class MultiRoleScreenComponent implements OnInit {
     this.HttpServices
       .getData(this.languageFilePath)
       .subscribe(response => this.successhandeler(response, language), err => this.successhandeler(err, language));
+
+  }
+  version: any;
+  uiVersionDetails: any;
+  successhandeler1(response) {
+    console.log(response, "language response");
+    this.commitDetails = response;
+    this.uiVersionDetails = {
+      'Version': this.commitDetails['version'],
+      'Commit': this.commitDetails['commit']
+    }
+    console.log('uiVersionDetails', this.uiVersionDetails);
   }
 
   successhandeler(response, language) {
@@ -76,4 +106,37 @@ export class MultiRoleScreenComponent implements OnInit {
 
       });
   }
+  getLicense() {
+    let getPath = this.configService.getCommonBaseURL();
+    this.license = getPath + "license.html";
+  }
+ 
+  viewVersionDetails() {
+    this._loginService.getApiVersionDetails().subscribe((apiResponse) => {
+      console.log("apiResponse", apiResponse);
+      if (apiResponse.statusCode == 200) {
+        console.log('apiResponse.data', apiResponse.data['git.build.version']);
+
+        let api_versionDetails = {
+          'Version': apiResponse.data['git.build.version'],
+          'Commit': apiResponse.data['git.commit.id']
+        }
+        if (api_versionDetails) {
+          this.openVersionDialogComponent(api_versionDetails);
+        }
+      }
+    }), (err) => {
+      console.log(err, "error");
+    }
+  }
+  openVersionDialogComponent(api_versionDetails) {
+    this.dialog.open(ViewVersionDetailsComponent, {
+      width: "80%",
+      data: {
+        uiversionDetails: this.uiVersionDetails,
+        api_versionDetails: api_versionDetails
+      }
+    })
+  }
+
 }

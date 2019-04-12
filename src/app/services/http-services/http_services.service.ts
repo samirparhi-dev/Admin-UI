@@ -12,39 +12,44 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
  * Author: Diamond Khanna ( 352929 )
  * Date: 29-05-2017
  * Objective: A common service for all HTTP services, just pass the URL and required DATA
- */ 
+ */
 
 @Injectable()
 export class HttpServices {
 
 	constructor(private http: SecurityInterceptedHttp) { };
 
-	getData(url:string)
-	{
+	getData(url: string) {
 		return this.http.get(url)
-				.map(this.handleGetSuccess)
-				.catch(this.handleGetError);
+			.map(this.handleGetSuccess)
+			.catch(this.handleGetError);
 	}
 
-	handleGetSuccess(response:Response)
-	{
+	getCommitDetails(url: string) {
+		return this.http.get(url)
+			.map(this.handleGetSuccess1)
+			.catch(this.handleGetError);
+	}
+	handleGetSuccess1(response: Response) {
+		return response.json();
+	}
+	handleGetSuccess(response: Response) {
+
 		return response.json();
 	}
 
-	handleGetError(error: Response | any)
-	{		
+	handleGetError(error: Response | any) {
 		return Observable.throw(error.json());
-		
+
 	}
 
-	postData(url:string,data:any)
-	{
-		return this.http.post(url,data)
-				.map(this.handleGetSuccess)
-				.catch(this.handleGetError);
+	postData(url: string, data: any) {
+		return this.http.post(url, data)
+			.map(this.handleGetSuccess)
+			.catch(this.handleGetError);
 	}
-	
-	
+
+
 };
 
 

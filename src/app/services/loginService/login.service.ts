@@ -12,6 +12,7 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 @Injectable()
 export class loginService {
 	_baseURL = this._config.getCommonBaseURL();
+	adminUrl = this._config.getAdminBaseUrl();
 	_userAuthURL = this._baseURL + "user/userAuthenticate/";
 	redis_session_removal_url = this._baseURL + 'user/userLogout';
 
@@ -21,6 +22,7 @@ export class loginService {
 	admin_base_path: any;
 	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
 	newlogin = this._baseURL + "user/userAuthenticate";
+	apiVersionUrl = this.adminUrl + "version";
 	getServiceProviderID_url: any;
 	constructor(
 		private _http: SecurityInterceptedHttp,
@@ -65,12 +67,16 @@ export class loginService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+	getApiVersionDetails() {
+		return this._httpInterceptor.get(this.apiVersionUrl)
+			.map(res => res.json());
+	}
 
 	private extractData(res: Response) {
 		// console.log("inside extractData:"+JSON.stringify(res.json()));
 		// let body = res.json();
 		//return body.data || {};
-		console.log("response in service", res.json());			
+		console.log("response in service", res.json());
 		if (res.json().data) {
 			return res.json().data;
 		} else {
