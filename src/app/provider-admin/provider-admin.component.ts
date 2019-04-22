@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
+import { HttpServices } from "../services/http-services/http_services.service";
 
 @Component({
   selector: 'app-provider-admin',
@@ -8,9 +9,15 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 })
 export class ProviderAdminComponent implements OnInit {
 
-  constructor(public alertService:ConfirmationDialogsService) { }
+  commitDetailsPath: any = "assets/git-version.json";
+  version: any;
+  commitDetails: any;
+
+  constructor(public alertService:ConfirmationDialogsService,
+    public HttpServices: HttpServices) { }
 
   ngOnInit() {
+    this.getCommitDetails();
   }
 
   Activity_Number:any="0";
@@ -31,5 +38,12 @@ export class ProviderAdminComponent implements OnInit {
       this.Activity_Number=value;
     }
   }
-
+  getCommitDetails() {
+    let Data = this.commitDetailsPath;
+    this.HttpServices.getCommitDetails(this.commitDetailsPath).subscribe((res) => this.successhandeler1(res), err => this.successhandeler1(err));
+  }
+  successhandeler1(response) {
+    this.commitDetails = response;
+    this.version = this.commitDetails['version']
+  }
 }
