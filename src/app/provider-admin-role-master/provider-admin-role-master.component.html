@@ -11,26 +11,20 @@
 
   <form #stateService="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none"> -->
       <md-select placeholder="Serviceline" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service" name="service"
         #servicess="ngModel" required (change)="getStates(service)">
         <md-option *ngFor="let ser of services" [value]="ser">
           {{ser.serviceName}}
         </md-option>
       </md-select>
-      <!-- </md-input-container> -->
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none"> -->
       <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" [style.width]="'100%'" [(ngModel)]="state" name="state"
         #statess required (change)="findRoles(state.stateID,service.serviceID,true);setProviderServiceMapID(state.providerServiceMapID)">
         <md-option *ngFor="let stat of states" [value]="stat">
           {{stat.stateName}}
         </md-option>
       </md-select>
-      <!-- </md-input-container> -->
     </div>
   </form>
 </div>
@@ -43,7 +37,6 @@
 </div>
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10" *ngIf="showRoleCreationForm">
-    <!-- <button *ngIf="showAddButtonFlag" class="pull-right" md-raised-button color="primary" (click)="clear();stateService.reset()">Clear</button> -->
     <button *ngIf="showUpdateFeatureButtonFlag && service.serviceID == 3" class="pull-right" md-raised-button color="primary"
       (click)="addMoreFeatures(toBeEditedRoleObj)">Add More Features</button>
   </div>
@@ -52,8 +45,6 @@
       <table [md2Data]="filteredsearchresultarray" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4">
         <thead>
           <tr>
-            <!-- <th>S.No</th> -->
-            <!-- <th>RoleID</th> -->
             <th>S.No.</th>
             <th>Role</th>
             <th>Description</th>
@@ -67,8 +58,6 @@
             <td colspan="6" align="center">No records found</td>
           </tr>
           <tr *ngFor="let role of md2.data; let i= index">
-            <!-- <td>{{i+1}}</td> -->
-            <!-- <td width=25%>{{role.roleID}}</td> -->
             <td width=5%>{{(md2.activePage-1)*4+i+1}}</td>
             <td width=25%>{{role.roleName}}</td>
             <td width=30%>{{role.roleDesc}}</td>
@@ -78,7 +67,6 @@
                 (click)="editRole(role)">edit</md-icon>
             </td>
             <td width=15%>
-              <!-- <md-icon mdTooltip="delete" *ngIf="!role.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" (click)="deleteRole(role.roleID)">delete</md-icon> -->
               <button *ngIf="role.deleted" md-raised-button color="accent" (click)="deleteRole(role.roleID, false)">Activate</button>
               <button *ngIf="!role.deleted" md-raised-button color="primary" (click)="deleteRole(role.roleID, true)">Deactivate</button>
             </td>
@@ -96,13 +84,9 @@
         </tfoot>
       </table>
     </div>
-    <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-30">
-        <button md-raised-button color="primary" class="pull-right" (click)="setRoleFormFlag(true)">Add Roles</button>
-      </div> -->
   </div>
 </div>
 <div class="row" *ngIf="showRoleCreationForm">
-  <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10"> -->
   <form #addingForm="ngForm" id="roleAddForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myProviderName>
       <md-input-container style="width: 100%">
@@ -120,40 +104,30 @@
       </md-input-container>
     </div>
 
-    <!-- in case of 104, multiselect needed in feature-->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="hideAdd && service.serviceID == 3">
-      <!-- <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none"> -->
+    <!-- in case of 104 and dashboard, multiselect needed in feature-->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="hideAdd && multipleFeaturesServiceList.includes(service.serviceID)">
       <md-select placeholder="Feature" class="width100" multiple="true" name="feature" [(ngModel)]="feature" required>
         <md-option *ngFor="let item of features|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item">
           {{item.screenName}}
         </md-option>
       </md-select>
-      <!-- </md-input-container> -->
     </div>
 
     <!-- incase of others, single select is needed in feature -->
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="hideAdd && service.serviceID != 3">
-      <!-- <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none"> -->
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="hideAdd && !multipleFeaturesServiceList.includes(service.serviceID)">
       <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="feature" required>
         <md-option *ngFor="let item of features|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item">
           {{item.screenName}}
         </md-option>
       </md-select>
-      <!-- </md-input-container> -->
     </div>
 
-
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="!hideAdd">
-      <!-- <md-input-container class="hide_underline width100">
-        <input mdInput style="display:none"> -->
       <md-select placeholder="Feature" class="width100" name="feature" [(ngModel)]="editedFeatureID" required>
         <md-option *ngFor="let item of editFeatures|OrderBy : 'screenName'" mdTooltip="{{item.screenDesc}}" [value]="item.screenID">
           {{item.screenName}}
         </md-option>
       </md-select>
-      <!-- </md-input-container> -->
     </div>
   </form>
   <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3 m-t-15" *ngIf="hideAdd && (addingForm.valid && !othersExist)">
@@ -161,8 +135,6 @@
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
   </div>
-  <!-- </div> -->
-
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="(objs.length!=0)">
     <div class="table-responsive">
       <table [md2Data]="objs" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3">
@@ -213,7 +185,6 @@
     <button md-raised-button color="accent" class="pull-right" [disabled]="roles.errors || othersExist" *ngIf="setEditSubmitButton"
       (click)="saveEditChanges()">Update</button>
   </div>
-  <!-- </div> -->
 </div>
 
 <div class="row" *ngIf="updateFeaturesToRoleFlag">
@@ -228,16 +199,13 @@
     </md-input-container>
   </div>
 
-  <!-- in case of 104, multiselect needed in feature-->
+  <!-- in case of 104 and dashboard, multiselect needed in feature-->
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-    <!-- <md-input-container class="hide_underline width100">
-      <input mdInput style="display:none"> -->
     <md-select placeholder="Feature" class="width100" multiple="true" name="feature" [(ngModel)]="feature_update" required>
       <md-option *ngFor="let item of features" mdTooltip="{{item.screenDesc}}" [value]="item">
         {{item.screenName}}
       </md-option>
     </md-select>
-    <!-- </md-input-container> -->
   </div>
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15">
