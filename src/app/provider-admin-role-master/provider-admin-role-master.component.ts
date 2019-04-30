@@ -124,6 +124,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   setProviderServiceMapID(ProviderServiceMapID) {
     this.commonDataService.provider_serviceMapID = ProviderServiceMapID;
   }
+  filterRoleIDs: any = [];
   findRoles(stateID, serviceID, flagValue) {
     this.showAddButtonFlag = flagValue;
     this.STATE_ID = stateID;
@@ -140,9 +141,18 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.searchresultarray = this.fetchRoleSuccessHandeler(response);
       this.filteredsearchresultarray = this.fetchRoleSuccessHandeler(response);
       this.filterScreens = [];
-      for (var i = 0; i < this.searchresultarray.length; i++) {
-        this.filterScreens.push(this.searchresultarray[i].screenName);
+      if (this.service.serviceID != 7) {
+        for (var i = 0; i < this.searchresultarray.length; i++) {
+          this.filterScreens.push(this.searchresultarray[i].screenName);
+        }
+      } else {
+        this.filterScreens = [];
+        // for (var i = 0; i < this.searchresultarray.length; i++) {
+        //   this.filterScreens.push(this.searchresultarray[i].screenName);
+        //   this.filterRoleIDs.push(this.searchresultarray[i].roleID);
+        // }
       }
+
     }, err => {
       console.log(err, 'error');
     });
@@ -170,6 +180,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.showRoleCreationForm = flag;
     this.showAddButtonFlag = !flag;
     this.disableSelection = flag;
+    this.editFeatures = undefined;
 
     if (!flag) {
       this.role = '';
@@ -181,6 +192,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       this.editScreenName = undefined;
       this.showUpdateFeatureButtonFlag = false;
       this.updateFeaturesToRoleFlag = false;
+
     }
     else {
       this.getFeatures(this.service.serviceID);
@@ -188,35 +200,38 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
 
   }
   getFeatures(serviceID) {
+    this.filterScreens = [];
+    if (serviceID == 7 && this.editScreenName != undefined) {
+      for (var i = 0; i < this.searchresultarray.length; i++) {
+        if (this.searchresultarray[i].roleID == this.toBeEditedRoleObj.roleID) {
+          this.filterScreens.push(this.searchresultarray[i].screenName);
+        }
+      }
+    }
     this.ProviderAdminRoleService.getFeature(serviceID)
       .subscribe(response => this.getFeaturesSuccessHandeler(response), err => {
         console.log(err, 'error');
       });
   }
   getFeaturesSuccessHandeler(response) {
-    if (this.service.serviceID != 7) {
-      let tempFeaturesArray: any = [];
-      this.tempfeatureMaster = response;
-      this.combinedFilterArray = [];
-      this.combinedFilterArray = this.filterScreens.concat(this.tempFilterScreens);
-      response.forEach((screenNames) => {
-        let index = this.combinedFilterArray.indexOf(screenNames.screenName);
-        if (index < 0) {
-          tempFeaturesArray.push(screenNames);
-        }
+    let tempFeaturesArray: any = [];
+    this.tempfeatureMaster = response;
+    this.combinedFilterArray = [];
+    this.combinedFilterArray = this.filterScreens.concat(this.tempFilterScreens);
+    response.forEach((screenNames) => {
+      let index = this.combinedFilterArray.indexOf(screenNames.screenName);
+      if (index < 0) {
+        tempFeaturesArray.push(screenNames);
+      }
 
-      })
-      this.features = tempFeaturesArray.slice();
-      this.editFeatures = response.filter((obj) => {
-        if (obj.screenName == this.editScreenName) {
-          this.editedFeatureID = obj.screenID;
-        }
-        return this.combinedFilterArray.indexOf(obj.screenName) == -1 || obj.screenName == this.editScreenName;
-      }, this);
-      console.log("editFeatures", this.editFeatures);
-    } else {
-      this.features = response;
-    }
+    })
+    this.features = tempFeaturesArray.slice();
+    this.editFeatures = response.filter((obj) => {
+      if (obj.screenName == this.editScreenName) {
+        this.editedFeatureID = obj.screenID;
+      }
+      return this.combinedFilterArray.indexOf(obj.screenName) == -1 || obj.screenName == this.editScreenName;
+    }, this);
   }
 
   add_obj(role, desc, feature) {
@@ -354,11 +369,13 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   toBeEditedRoleObject: any;
   editHeading: Boolean = false;
   editRole(roleObj) {
+    this.existingFeatureID = null;
     this.editHeading = true;
     this.showRoleCreationForm = false;
     this.updateFeaturesToRoleFlag = false;
     this.toBeEditedRoleObj = roleObj;
     this.editScreenName = roleObj.screenName;
+
 
     this.setRoleFormFlag(true);
 
@@ -371,8 +388,6 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.selectedRole = roleObj.roleName;
     this.description = roleObj.roleDesc;
     this.setEditSubmitButton = true;
-
-    this.toBeEditedRoleObj = roleObj;
     this.hideAdd = false;
     this.showAddButtonFlag = false;
 
@@ -420,11 +435,14 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     this.disableSelection = false;
     this.editHeading = false;
     this.showUpdateFeatureButtonFlag = false;
+    this.toBeEditedRoleObj = undefined;
+    this.editScreenName = null;
   }
   back(flag) {
     this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.editHeading = false;
+        this.toBeEditedRoleObj = undefined;
         this.setRoleFormFlag(flag);
       }
     })
