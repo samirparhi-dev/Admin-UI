@@ -58,6 +58,11 @@ export class EmployeeMasterNewComponent implements OnInit {
   id: any;
   confirmMessage: any;
   panelOpenState: boolean = true;
+  userType: boolean = false;
+  manipulateEMpIDAndDOJ: boolean = false;
+  setDoj: any;
+  patchDojOnEdit: any;
+  isExternal: any;
 
   //Demographics ngModel
   fatherName: any;
@@ -141,6 +146,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.tableMode = false;
     this.formMode = true;
     this.editMode = false;
+    this.userType = false;
     this.resetDob();
 
     this.employeeMasterNewService.getCommonRegistrationData().subscribe(res => this.showGenderOnCondition(res),
@@ -184,7 +190,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   resetDoj() {
     this.doj = null;
-    this.userCreationForm.controls['doj'].markAsUntouched();
     this.calculateDoj(this.dob);
   }
   /*
@@ -200,11 +205,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
-        this.resetAllForms();
         this.objs = [];
-        this.tableMode = true;
-        this.formMode = false;
-        this.editMode = false;
+        this.showTable();
       }
     })
   }
@@ -260,7 +262,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkUserAvailability(username)
       .subscribe(response => this.checkUsernameSuccessHandeler(response),
-        (err) => console.log('error', err));
+      (err) => console.log('error', err));
   }
 
   checkUsernameSuccessHandeler(response) {
@@ -292,7 +294,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.employeeMasterNewService
       .checkEmpIdAvailability(empID)
       .subscribe(response => this.checkempIdSuccessHandeler(response),
-        (err) => console.log('error', err));
+      (err) => console.log('error', err));
   }
 
   checkempIdSuccessHandeler(response) {
@@ -504,6 +506,15 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.communicationDetailsForm.resetForm();
     this.resetDob();
     this.resetDoj();
+    this.manipulateEMpIDAndDOJ = false;
+    this.userCreationForm.form.patchValue({
+      userType: false
+    })
+  }
+  changeUserType(flag) {
+    this.manipulateEMpIDAndDOJ = flag;
+    this.employee_ID = null;
+    this.doj = null;
   }
   /*
   * Method for addition of objects
@@ -548,16 +559,14 @@ export class EmployeeMasterNewComponent implements OnInit {
       'permanenttDistrict': communicationFormValue.permanent_district,
       'permanentPincode': communicationFormValue.permanent_pincode,
       'isPresent': this.isPresent,
-      'isPermanent': this.isPermanent
-
+      'isPermanent': this.isPermanent,
+      'isExternal': userFormValue.userType
     }
     console.log("add objects", tempObj);
     // this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.checkDuplicatesInBuffer(tempObj);
     this.resetAllForms();
-
-
   }
 
   checkDuplicatesInBuffer(tempObj) {
@@ -658,10 +667,16 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.objs[i].dob.setSeconds(0);
       this.objs[i].dob.setMilliseconds(0);
       /*doj*/
-      this.objs[i].doj.setHours(0);
-      this.objs[i].doj.setMinutes(0);
-      this.objs[i].doj.setSeconds(0);
-      this.objs[i].doj.setMilliseconds(0);
+      if (this.objs[i].isExternal == false) {
+        this.objs[i].doj.setHours(0);
+        this.objs[i].doj.setMinutes(0);
+        this.objs[i].doj.setSeconds(0);
+        this.objs[i].doj.setMilliseconds(0);
+        this.setDoj = new Date(this.objs[i].doj.valueOf() - 1 * this.objs[i].doj.getTimezoneOffset() * 60 * 1000);
+      } else {
+        this.objs[i].doj = null;
+        this.setDoj = null;
+      }
       var tempObj = {
         'titleID': this.objs[i].titleID,
         'firstName': this.objs[i].firstname,
@@ -679,9 +694,9 @@ export class EmployeeMasterNewComponent implements OnInit {
         'qualificationID': this.objs[i].qualificationID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
         'userName': this.objs[i].username,
-        'employeeID': this.objs[i].employeeID,
+        'employeeID': this.objs[i].employeeID ? this.objs[i].employeeID : null,
         'password': this.objs[i].password,
-        'dOJ': new Date(this.objs[i].doj.valueOf() - 1 * this.objs[i].doj.getTimezoneOffset() * 60 * 1000),
+        'dOJ': this.setDoj,
         'fathersName': this.objs[i].fatherName,
         'mothersName': this.objs[i].motherName,
         'communityID': this.objs[i].communityID,
@@ -701,7 +716,8 @@ export class EmployeeMasterNewComponent implements OnInit {
         'isPresent': this.isPresent,
         'createdBy': this.createdBy,
         'cityID': '1',
-        'serviceProviderID': this.serviceProviderID
+        'serviceProviderID': this.serviceProviderID,
+        'isExternal': this.objs[i].isExternal == false ? this.objs[i].isExternal : null
       }
       reqObject.push(tempObj);
     }
@@ -764,7 +780,7 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   edit(data) {
     console.log("data", data);
-
+    this.isExternal = data.isExternal;
     if (data.stateID != null && data.stateID) {
       this.currentState = data.stateID;
       this.getCurrentDistricts(this.currentState);
@@ -790,7 +806,12 @@ export class EmployeeMasterNewComponent implements OnInit {
       data.stateID == data.permStateID && data.districtID == data.permDistrictID && data.pinCode == data.permPinCode) {
       this.checkAddress = true;
     }
-
+    if (this.isExternal == false) {
+      this.patchDojOnEdit = data.dOJ;
+      this.manipulateEMpIDAndDOJ = false;
+    } else {
+      this.manipulateEMpIDAndDOJ = true;
+    }
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -806,7 +827,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       aadhar_number: data.aadhaarNo,
       pan_number: data.pAN,
       edu_qualification: data.qualificationID,
-      doj: data.dOJ
+      doj: this.patchDojOnEdit
     })
     this.demographicsDetailsForm.form.patchValue({
       father_name: data.fathersName,
@@ -847,13 +868,20 @@ export class EmployeeMasterNewComponent implements OnInit {
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
     let doj: any = "";
     let dob: any = "";
-    if (typeof userCreationFormValue.doj === "string") {
-      doj = new Date(userCreationFormValue.doj);
+    let editDoj: any;
+    if (this.isExternal == false) {
+      if (typeof userCreationFormValue.doj === "string") {
+        doj = new Date(userCreationFormValue.doj);
+      }
+      else {
+        doj = userCreationFormValue.doj;
+        console.log("doj", doj);
+      }
+      editDoj = new Date(doj.valueOf() - 1 * doj.getTimezoneOffset() * 60 * 1000);
+    } else {
+      editDoj = null;
     }
-    else {
-      doj = userCreationFormValue.doj;
-      console.log("doj", doj);
-    }
+
     if (typeof userCreationFormValue.user_dob === "string") {
       dob = new Date(userCreationFormValue.user_dob);
     }
@@ -878,7 +906,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
-      'dOJ': new Date(doj.valueOf() - 1 * doj.getTimezoneOffset() * 60 * 1000),
+      'dOJ': editDoj,
       'fathersName': demographicsValue.father_name,
       'mothersName': demographicsValue.mother_name,
       'communityID': demographicsValue.community_id,
@@ -895,7 +923,8 @@ export class EmployeeMasterNewComponent implements OnInit {
       'permPinCode': communicationFormValue.permanent_pincode,
       'userID': this.userId,
       'modifiedBy': this.createdBy,
-      'cityID': 1
+      'cityID': 1,
+      'isExternal': this.isExternal
 
     }
 

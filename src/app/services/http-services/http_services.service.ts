@@ -27,12 +27,10 @@ export class HttpServices {
 
 	getCommitDetails(url: string) {
 		return this.http.get(url)
-			.map(this.handleGetSuccess1)
+			.map(this.handleGetSuccess)
 			.catch(this.handleGetError);
 	}
-	handleGetSuccess1(response: Response) {
-		return response.json();
-	}
+
 	handleGetSuccess(response: Response) {
 
 		return response.json();

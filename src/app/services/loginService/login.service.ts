@@ -24,6 +24,7 @@ export class loginService {
 	newlogin = this._baseURL + "user/userAuthenticate";
 	apiVersionUrl = this.adminUrl + "version";
 	getServiceProviderID_url: any;
+	
 	constructor(
 		private _http: SecurityInterceptedHttp,
 		private _httpInterceptor: InterceptedHttp,

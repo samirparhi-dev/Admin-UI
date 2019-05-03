@@ -47,6 +47,7 @@ export class MultiRoleScreenComponent implements OnInit {
   language_change: any;
   license: any;
   commitDetailsPath: any = "assets/git-version.json";
+  commitDetails: any;
 
   ngOnInit() {
     this.language_change = "english";
@@ -56,7 +57,6 @@ export class MultiRoleScreenComponent implements OnInit {
     this.getLicense();
     this.getCommitDetails();
   }
-  commitDetails: any;
   getCommitDetails() {
 
     let Data = this.commitDetailsPath;
@@ -74,13 +74,11 @@ export class MultiRoleScreenComponent implements OnInit {
   }
 
   successhandeler1(response) {
-    console.log(response, "language response");
     this.commitDetails = response;
     this.uiVersionDetails = {
       'Version': this.commitDetails['version'],
       'Commit': this.commitDetails['commit']
     }
-    console.log('uiVersionDetails', this.uiVersionDetails);
   }
 
   successhandeler(response, language) {

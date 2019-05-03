@@ -1,3 +1,9 @@
 .mat-expansion-panel-body {
     padding:  10px 10px !important;
 }
+.marker-ext {
+    color: blue
+}
+.int {
+    color: rgb(11, 57, 117)
+}
