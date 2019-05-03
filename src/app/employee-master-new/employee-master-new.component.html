@@ -33,7 +33,8 @@
                         <td colspan="9" class="record-not-found">No records found</td>
                     </tr>
                     <tr *ngFor="let item of md2.data; let i= index">
-                        <td>{{filteredsearchResult.indexOf(item)+1}}</td>
+                        <td [ngClass]="{'userStatus': true, 'ext': item.isExternal , 'int': !item.isExternal}">
+                            {{filteredsearchResult.indexOf(item)+1}}</td>
                         <!-- <td>{{item.userID}}</td> -->
                         <td>{{item.titleName}}</td>
                         <td>{{item.userName}}</td>
@@ -52,6 +53,20 @@
 </tr>
 </tbody>
 <tfoot>
+    <tr>
+        <td colspan="9">
+            <ul *ngIf="filteredsearchResult.length > 0">
+                <li>
+                    <div class="external"></div>
+                    <p>External User</p>
+                </li>
+                <li>
+                    <div class="internal"></div>
+                    <p>Internal User</p>
+                </li>
+            </ul>
+        </td>
+    </tr>
     <tr>
         <td colspan="5">
             <md2-pagination></md2-pagination>
