@@ -717,7 +717,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'createdBy': this.createdBy,
         'cityID': '1',
         'serviceProviderID': this.serviceProviderID,
-        'isExternal': this.objs[i].isExternal == false ? this.objs[i].isExternal : null
+        'isExternal': this.objs[i].isExternal
       }
       reqObject.push(tempObj);
     }
