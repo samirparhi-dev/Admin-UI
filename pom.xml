@@ -55,6 +55,8 @@
 		<port-dev>9990</port-dev>
 		<hostname-local>localhost</hostname-local>
 		<port-local>9990</port-local>
+		<hostname-test>10.208.122.32</hostname-test>
+		<port-test>9990</port-test>
 		<hostname-uat>deviemr.piramalswasthya.org</hostname-uat>
 		<port-uat>9990</port-uat>
 		<server-id>wildfly-${environment}</server-id>
