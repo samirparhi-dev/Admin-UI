@@ -254,7 +254,7 @@
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
         <md-select placeholder="Select State" [disabled]="isNational_edit" [style.width]="'100%'" [(ngModel)]="stateID_duringEdit"
-          name="state" (change)="refresh1();getAllDistricts(stateID_duringEdit);" required>
+          name="state" (change)="refresh1();getAllDistricts_duringEdit(stateID_duringEdit);" required>
           <md-option *ngFor="let item of states_array" [value]="item.stateID" (click)="set_currentPSM_ID_duringEdit(item.providerServiceMapID)">
             {{item.stateName}}
           </md-option>
