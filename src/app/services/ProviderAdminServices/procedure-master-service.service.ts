@@ -18,6 +18,7 @@ export class ProcedureMasterServiceService {
   _postProcedureURL: any;
   _updateProcedureURL: any;
   _toggleProcedureURL: any;
+  _iotProcedureURL:any;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -28,6 +29,7 @@ export class ProcedureMasterServiceService {
     this._getProcedureListURL = this.providerAdmin_Base_Url + 'labModule/fetchProcedureMaster/';
     this._toggleProcedureURL = this.providerAdmin_Base_Url + 'labModule/updateProcedureStatus';
     this._updateProcedureURL = this.providerAdmin_Base_Url + 'labModule/updateProcedureMaster';
+    this._iotProcedureURL = this.providerAdmin_Base_Url + 'iotController/getIOTProcedure';
   }
 
   getCurrentProcedures(providerServiceMapID) {
@@ -65,6 +67,12 @@ export class ProcedureMasterServiceService {
 
   handleError(error: Response | any) {
     return Observable.throw(error.json());
+  }
+
+  getIOTProcedure() {
+    return this.http.post(this._iotProcedureURL, {})
+    .map(this.handleSuccess)
+    .catch(this.handleError);
   }
 
 
