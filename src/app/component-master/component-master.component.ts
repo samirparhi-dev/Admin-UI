@@ -43,6 +43,7 @@ export class ComponentMasterComponent implements OnInit {
   tableMode: boolean = false;
   saveEditMode: boolean = false;
   alreadyExist: boolean = false;
+  iotComponentArray:any=[];
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
@@ -82,6 +83,7 @@ export class ComponentMasterComponent implements OnInit {
     //   }
     //   );
     this.getProviderServices();
+    this.getIOTComponent();
   }
   getProviderServices() {
     this.stateandservices.getServices(this.userID)
@@ -121,7 +123,8 @@ export class ComponentMasterComponent implements OnInit {
       compOpt: this.fb.array([
         this.initComp()
       ]),
-      deleted: null
+      deleted: null,
+      iotComponentID:null
     })
   }
 
@@ -605,5 +608,15 @@ console.log(obj)
       })
     }
   }
+
+
+  getIOTComponent() {
+
+    this.componentMasterServiceService.getIOTComponent().subscribe((res) => {
+        this.iotComponentArray =res;
+      });
+
+  }
+
 }
 
