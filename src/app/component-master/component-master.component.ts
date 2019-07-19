@@ -618,5 +618,25 @@ console.log(obj)
 
   }
 
+  mapInputType(value:any){
+  console.log("value--------",value);
+  if(value!=null && value.inputType=="TextBox")
+  {
+    this.componentForm.patchValue({
+      inputType:value.inputType,
+      isDecimal:value.isDecimal,
+      measurementUnit:value.componentUnit
+    });
+   
+  }
+  else{
+    this.componentForm.patchValue({
+      inputType:null,
+      isDecimal:false,
+      measurementUnit:null
+    });
+  }
+  
+  }
 }
 
