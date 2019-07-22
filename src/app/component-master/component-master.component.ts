@@ -295,6 +295,7 @@ export class ComponentMasterComponent implements OnInit {
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
 console.log(obj)
+      obj.iotComponentID=this.componentForm.value.iotComponentID?this.componentForm.value.iotComponentID.iotComponentID:null;
     if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType) {
       this.alertService.alert('Please fill all mandatory details');
       return false
@@ -453,10 +454,19 @@ console.log(obj)
 
 
   loadDataToEdit(res) {
-    console.log(JSON.stringify(res, null, 4), 'res');
+    console.log(JSON.stringify(res, null, 4), 'res',res);
     if (res) {
       this.editMode = res.testComponentID;
+      if(res.iotComponentID!=undefined){
+        this.iotComponentArray.forEach(ele => {
+          if(ele.iotComponentID==res.iotComponentID){
+            res.iotComponentID=ele;
+          }
+        })
+      }
+      debugger;
       this.componentForm.patchValue(res);
+      
       // const val = res.isDecimal === true ? 1 : 0;
       // this.componentForm.patchValue({isDecimal: val});
       if (res.inputType != 'TextBox') {
@@ -620,6 +630,7 @@ console.log(obj)
 
   mapInputType(value:any){
   console.log("value--------",value);
+  this.selected();
   if(value!=null && value.inputType=="TextBox")
   {
     this.componentForm.patchValue({
@@ -628,15 +639,40 @@ console.log(obj)
       measurementUnit:value.componentUnit
     });
    
-  }
-  else{
+  }else if(value!=null && (value.inputType=="DropDown") || value.inputType=="RadioButton" ){
     this.componentForm.patchValue({
-      inputType:null,
-      isDecimal:false,
-      measurementUnit:null
+      inputType:value.inputType
     });
+    this.callDropBinder(value);
   }
   
+   
+  
+  
+  }
+
+  callDropBinder(vall:any){
+    let call=[];
+debugger;
+    vall.options.forEach(element => {
+      call.push({name:element});
+    });
+
+    vall["compOpt"]=call;
+    
+    
+    
+    console.log('11111');
+    const options = vall.compOpt;
+    const val = <FormArray>this.componentForm.controls['compOpt'];
+    val.removeAt(0);
+    // this.componentForm.setControl('compOpt', new FormArray([]))
+    console.log(val);
+    options.forEach((element) => {
+      val.push(this.fb.group(element));
+      console.log(val);
+    })
+
   }
 }
 
