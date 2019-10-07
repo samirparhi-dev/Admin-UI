@@ -9,3 +9,25 @@
 [0317/131536:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
 [0317/131536:ERROR:node_debugger.cc(86)] Cannot start debugger server
 [0518/105717.730:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: The pipe has been ended. (0x6D)
+[0607/143750:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0607/143750:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0610/081152:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0610/081152:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0620/162246:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0620/162246:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0702/094854:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0702/094854:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0709/105054:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0709/105054:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0719/061316:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0719/061316:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0814/083353:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0814/083353:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0819/095331:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0819/095331:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0822/095052:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0822/095052:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0916/134750:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0916/134750:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[1004/094255:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[1004/094255:ERROR:node_debugger.cc(86)] Cannot start debugger server
