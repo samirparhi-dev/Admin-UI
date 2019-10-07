@@ -256,6 +256,8 @@ import { SwymedUserMappingComponent } from './swymed-user-mapping/swymed-user-ma
 import { SwymedUserConfigurationService } from './services/ProviderAdminServices/swymed-user-service';
 import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
 import { ViewVersionDetailsComponent } from './view-version-details/view-version-details.component';
+import { WrapupTimeConfigurationComponent } from './wrapup-time-configuration/wrapup-time-configuration.component';
+import { WrapupTimeConfigurationService } from './services/ProviderAdminServices/wrapup-time-configuration.service';
 
 @NgModule({
   declarations: [
@@ -322,7 +324,8 @@ import { ViewVersionDetailsComponent } from './view-version-details/view-version
     SpecialistMappingComponent,
     SwymedUserMappingComponent,
     MappedVansComponent,
-    ViewVersionDetailsComponent
+    ViewVersionDetailsComponent,
+    WrapupTimeConfigurationComponent
   ],
 
   imports: [
@@ -406,7 +409,7 @@ import { ViewVersionDetailsComponent } from './view-version-details/view-version
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
