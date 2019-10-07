@@ -79,6 +79,19 @@
                             maxlength="100"></textarea>
                     </md-input-container>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+                        <input mdInput style="display:none"> -->
+                    <md-select id="component-iot" [disabled]="editMode" placeholder="Component IOT" [style.width]="'100%'" (change)="mapInputType($event.value)" formControlName="iotComponentID">
+                        <md-option ng-value="undefined" >
+                            Not Applicable
+                        </md-option>
+                        <md-option *ngFor="let item of iotComponentArray;let i = index " [value]="item"  >
+                            {{item.componentName}}
+                        </md-option>
+                    </md-select>
+                    <!-- </md-input-container> -->
+                </div>
                 <div class="clearfix visible-md"></div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-20">
                     <!-- <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type"> -->
@@ -110,6 +123,8 @@
                         </li>
                     </ul>
                 </div>
+
+
             </div>
 
             <div id="validation">

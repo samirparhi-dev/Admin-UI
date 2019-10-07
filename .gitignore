@@ -48,3 +48,9 @@ config.json
 *.properties
 
 
+package-lock.json
+src/assets/git-version.json
+package-lock.json
+package-lock.json
+src/assets/git-version.json
+package-lock.json

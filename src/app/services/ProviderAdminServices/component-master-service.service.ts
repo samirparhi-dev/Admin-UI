@@ -19,6 +19,7 @@ export class ComponentMasterServiceService {
   _postComponentURL: any;
   _updateComponentURL: any;
   _toggleComponentURL: any;
+  _iotComponentURL:any;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -30,6 +31,7 @@ export class ComponentMasterServiceService {
     this._getComponentListURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentMaster/';
     this._getCurrentComponentURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentDetailsForComponentID/';
     this._toggleComponentURL = this.providerAdmin_Base_Url + 'labModule/updateComponentStatus';
+    this._iotComponentURL=this.providerAdmin_Base_Url+'iotController/getIOTComponent'
   }
 
   getCurrentComponents(providerServiceMapID) {
@@ -81,6 +83,10 @@ export class ComponentMasterServiceService {
     return Observable.throw(error.json());
   }
 
-
+  getIOTComponent() {
+    return this.http.post(this._iotComponentURL,{})
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }
 
 }

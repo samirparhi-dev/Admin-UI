@@ -39,6 +39,7 @@ export class ProcedureMasterComponent implements OnInit {
   userID: any;
   provider_states: any = [];
   searchStateID: any;
+  iotProcedurearray:any[];
 
   constructor(private commonDataService: dataService,
     public alertService: ConfirmationDialogsService,
@@ -55,6 +56,7 @@ export class ProcedureMasterComponent implements OnInit {
 
     this.initiateForm();
     console.log(this.procedureForm)
+    
   }
   /**
    * Initiate Form
@@ -75,6 +77,7 @@ export class ProcedureMasterComponent implements OnInit {
     // this.providerAdminRoleService.getStates(this.serviceProviderID)
     //   .subscribe(response => this.states = this.successhandeler(response));
     this.getProviderServices();
+    this.getIOTProcedure();
   }
   getProviderServices() {
     this.stateandservices.getServices(this.userID)
@@ -106,7 +109,8 @@ export class ProcedureMasterComponent implements OnInit {
       gender: null,
       male: null,
       female: null,
-      disable: null
+      disable: null,
+      iotProcedureID:null
     })
   }
 
@@ -181,6 +185,7 @@ export class ProcedureMasterComponent implements OnInit {
     return this.procedureForm.controls['name'].value;
   }
   saveProcedure() {
+    debugger;
     let apiObject = this.objectManipulate();
     let obj = Object.assign({}, this.procedureForm.value);
     let count = 0;
@@ -245,6 +250,7 @@ export class ProcedureMasterComponent implements OnInit {
    * Manipulate Form Object to as per API Need
   */
   objectManipulate() {
+    debugger;
     const obj = Object.assign({}, this.procedureForm.value);
 
     console.log('this.procedureForm.value', this.procedureForm.value, obj);
@@ -256,6 +262,7 @@ export class ProcedureMasterComponent implements OnInit {
       this.unfilled = false;
 
       let apiObject = {};
+      console.log(obj);
       apiObject = {
         procedureID: '',
         modifiedBy: this.commonDataService.uname,
@@ -264,7 +271,8 @@ export class ProcedureMasterComponent implements OnInit {
         procedureDesc: obj.description,
         createdBy: this.commonDataService.uname,
         providerServiceMapID: this.searchStateID.providerServiceMapID,
-        gender: obj.gender
+        gender: obj.gender,
+        iotProcedureID:obj.iotProcedureID
       };
 
       // console.log(obj.male, 'obj');
@@ -467,13 +475,22 @@ export class ProcedureMasterComponent implements OnInit {
       type: item.procedureType,
       description: item.procedureDesc,
       gender: item.gender,
-      disable: item.deleted
+      disable: item.deleted,
+      iotProcedureID:item.iotProcedureID
     })
 
 
 
   }
 
+
+  // This is called for IOT
+  getIOTProcedure(){
+this.procedureMasterServiceService.getIOTProcedure().subscribe(response => {
+  this.iotProcedurearray = response;
+}, err => {
+});
+  }
 
 
 }
