@@ -125,9 +125,6 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     this.activeRoles.map((obj) => {
       if (obj.roleID == role.roleID) {
         obj.disableInputField = false;
-        this.wrapupTimeForm.patchValue({
-          wrapUpTime: null
-        })
       }
     })
     this.createFormArray(this.activeRoles);
@@ -140,7 +137,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     }
     this.wrapupTimeConfigurationService.saveWrapUpTime(role).subscribe((response) => {
       console.log(response, "response");
-      this.dialogService.alert(`${this.alertMessage} Successfully`);
+      this.dialogService.alert(`${this.alertMessage} Successfully`, 'success');
       this.getActiveRoles(this.providerServiceMapID);
     })
   }
