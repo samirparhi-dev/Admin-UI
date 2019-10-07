@@ -11,9 +11,12 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 })
 export class WrapupTimeConfigurationComponent implements OnInit {
 
-  services: any;
+  service: any;
+  state: any;
+
+  services: any = [];
   userID: any;
-  states: any;
+  states: any = [];
   activeRoles: any;
   providerServiceMapID: any;
   roleIDList: any = [];
@@ -123,8 +126,8 @@ export class WrapupTimeConfigurationComponent implements OnInit {
       if (obj.roleID == role.roleID) {
         obj.disableInputField = false;
         this.wrapupTimeForm.patchValue({
-        wrapUpTime: null
-      })
+          wrapUpTime: null
+        })
       }
     })
     this.createFormArray(this.activeRoles);
