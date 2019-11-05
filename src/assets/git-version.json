@@ -1,15 +1,11 @@
 {
-<<<<<<< HEAD
   "version": "1.0.0",
-  "hash": "7f195e8f6e85de15d8e6340b756b92a5b0f381ae",
-  "shortHash": "7f195e8",
-  "commit": "7f195e8f6e85de15d8e6340b756b92a5b0f381ae",
-  "shortCommit": "7f195e8",
+  "hash": "8f114d8ce7c52fccea0738c80c14f6895367f3b2",
+  "shortHash": "8f114d8",
+  "commit": "8f114d8ce7c52fccea0738c80c14f6895367f3b2",
+  "shortCommit": "8f114d8",
   "author": "Janani Venkataraman (Digital)",
   "email": "JA354063@wipro.com",
-  "date": "Mon May 13 17:10:17 2019 +0530",
-  "message": "added test path"
-=======
-  "version": "1.0.0"
->>>>>>> a649e25a1d80d196b406e557c6e6756763279cfc
+  "date": "Mon Oct 7 18:17:23 2019 +0530",
+  "message": "minor changes"
 }

@@ -258,6 +258,7 @@ import { MappedVansComponent } from './mapped-vans/mapped-vans.component';
 import { ViewVersionDetailsComponent } from './view-version-details/view-version-details.component';
 import { WrapupTimeConfigurationComponent } from './wrapup-time-configuration/wrapup-time-configuration.component';
 import { WrapupTimeConfigurationService } from './services/ProviderAdminServices/wrapup-time-configuration.service';
+import { UserSignatureMappingComponent } from './user-signature-mapping/user-signature-mapping.component';
 
 @NgModule({
   declarations: [
@@ -325,7 +326,8 @@ import { WrapupTimeConfigurationService } from './services/ProviderAdminServices
     SwymedUserMappingComponent,
     MappedVansComponent,
     ViewVersionDetailsComponent,
-    WrapupTimeConfigurationComponent
+    WrapupTimeConfigurationComponent,
+    UserSignatureMappingComponent
   ],
 
   imports: [
