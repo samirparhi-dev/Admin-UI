@@ -108,8 +108,7 @@ export class SecurityInterceptedHttp extends Http {
     private onEnd(): void {
     }
     private onSuccess(response: any) {
-        if (response.json().data) {
-
+        if(response.json().data || response._body) {
             return response;
         } else if (response.json().statusCode === 5002) {
 

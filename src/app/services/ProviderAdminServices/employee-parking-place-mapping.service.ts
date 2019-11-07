@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -30,6 +30,12 @@ export class EmployeeParkingPlaceMappingService {
     getMappedVansListURL: any;
     removeMappedVanURL: any;
 
+    /* user signature upload service */
+    getUsernamesBasedDesigUrl: any;
+    checkUsersignExistUrl: any;
+    uploadSignUrl: any;
+    downloadSignUrl: any;
+
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
         public httpIntercept: InterceptedHttp) {
@@ -49,7 +55,13 @@ export class EmployeeParkingPlaceMappingService {
         this.userNameURL = "";
         this.getVansURL = this.providerAdmin_Base_Url + 'vanMaster/get/vanDetails';
         this.getMappedVansListURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/get/mappedvan/';
-        this.removeMappedVanURL = this.providerAdmin_Base_Url + '/parkingPlaceMaster/delete/mappedvan';
+        this.removeMappedVanURL = this.providerAdmin_Base_Url + 'parkingPlaceMaster/delete/mappedvan';
+
+        /* user signature upload service */
+        this.getUsernamesBasedDesigUrl = this.providerAdmin_Base_Url + 'm/getEmployeeByDesignation';
+        this.checkUsersignExistUrl = this.providerAdmin_Base_Url + 'signature1/signexist/';
+        this.uploadSignUrl = this.providerAdmin_Base_Url + 'signature1/upload';
+        this.downloadSignUrl = this.providerAdmin_Base_Url + 'signature1/';
     }
     getServices(userID) {
         return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
@@ -80,8 +92,8 @@ export class EmployeeParkingPlaceMappingService {
 
     DeleteEmpParkingMapping(requestObject) {
         return this.http.post(this.deleteEmployeesURL, requestObject)
-        .map(this.handleSuccessForActivationUser)
-        .catch(this.handleError);
+            .map(this.handleSuccessForActivationUser)
+            .catch(this.handleError);
     }
     getUsernames(userObj) {
         return this.http.post(this.getUsernamesURL, userObj)
@@ -164,4 +176,25 @@ export class EmployeeParkingPlaceMappingService {
         return Observable.throw(error.json());
     }
 
+    /* User signature upload services*/
+    getUserNameBasedOnDesig(reqObj) {
+        return this.http.post(this.getUsernamesBasedDesigUrl, reqObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+    }
+    checkUsersignatureExist(userID) {
+        return this.http.get(this.checkUsersignExistUrl + userID)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
+    }
+    uploadSignature(signObj) {
+        return this.http.post(this.uploadSignUrl, signObj)
+        .map(this.handleSuccess)
+        .catch(this.handleError);
+    }
+    downloadSign(userID) {
+        let option = new RequestOptions({ responseType: ResponseContentType.Blob});
+        return this.http.get(this.downloadSignUrl + userID, option).map((res) =>  <Blob>res.blob());
+    }
 }
