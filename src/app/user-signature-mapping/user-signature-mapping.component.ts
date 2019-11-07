@@ -111,13 +111,16 @@ export class UserSignatureMappingComponent implements OnInit {
     } else {
       this.imgURL = reader.result;
     }
-    this.checkDimensions();
+    this.checkDimensions(reader);
   }
-  checkDimensions() {
+  checkDimensions(reader) {
     let img = new Image();
-    img.onload = function () {
+    img.onload = () => {
       if (img.naturalWidth >= 280 && img.naturalHeight >= 70) {
-        alert("Preferred pixels should be less than 280*70");
+        this.alertMessage.alert("Preferred pixels should be less than 280*70 pixels");
+        this.imgURL = null;
+      } else {
+        this.imgURL = reader.result;
       }
     }
     img.src = this.imgURL;
