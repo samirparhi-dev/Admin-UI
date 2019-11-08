@@ -131,6 +131,7 @@ export class UserSignatureMappingComponent implements OnInit {
       this.signUploadForm.reset();
       this.imgURL = null;
       this.signExist = null;
+      this.enableDownloadButton = false;
     }, (err) => {
       console.log("err");
       this.alertMessage.alert(err.errorMessage, 'error');
