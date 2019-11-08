@@ -195,6 +195,6 @@ export class EmployeeParkingPlaceMappingService {
     }
     downloadSign(userID) {
         let option = new RequestOptions({ responseType: ResponseContentType.Blob});
-        return this.http.get(this.downloadSignUrl + userID, option).map((res) =>  <Blob>res.blob());
+        return this.http.get(this.downloadSignUrl + userID, option).map((res) =>  res);
     }
 }

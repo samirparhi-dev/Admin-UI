@@ -137,7 +137,8 @@ export class UserSignatureMappingComponent implements OnInit {
     });
   }
   downloadSign() {
-    this.employeeParkingPlaceMappingService.downloadSign(this.username.userID).subscribe((response) => {
+    this.employeeParkingPlaceMappingService.downloadSign(this.username.userID).subscribe((response1) => {
+      let response= <Blob>response1.blob();
       const blob = new Blob([response], { type: response.type });
       console.log(blob, "blob");
       const url = window.URL.createObjectURL(blob);
