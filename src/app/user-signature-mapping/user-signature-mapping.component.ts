@@ -144,7 +144,11 @@ export class UserSignatureMappingComponent implements OnInit {
       const url = window.URL.createObjectURL(blob);
       let a = document.createElement('a');
       a.href = url;
-      a.download = url;
+      let dd =  blob.type.split('/')[1];
+      console.log(dd, "a1.download");
+
+      a.download = url + "." + dd;
+      console.log(a.download, "a.download");
       document.body.appendChild(a);
       a.click();
     }, (err) => {
