@@ -138,18 +138,15 @@ export class UserSignatureMappingComponent implements OnInit {
     });
   }
   downloadSign() {
-    this.employeeParkingPlaceMappingService.downloadSign(this.username.userID).subscribe((response1) => {
-      let response= <Blob>response1.blob();
-      const blob = new Blob([response], { type: response.type });
+    this.employeeParkingPlaceMappingService.downloadSign(this.username.userID).subscribe((response) => {
+      let filename = response.headers.get('filename');
+      let blobResponse = <Blob>response.blob();
+      const blob = new Blob([blobResponse], { type: blobResponse.type });
       console.log(blob, "blob");
       const url = window.URL.createObjectURL(blob);
       let a = document.createElement('a');
       a.href = url;
-      let dd =  blob.type.split('/')[1];
-      console.log(dd, "a1.download");
-
-      a.download = url + "." + dd;
-      console.log(a.download, "a.download");
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
     }, (err) => {
