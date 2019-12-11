@@ -6,17 +6,15 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
 
-const IP = environment.IP;
-console.log("environment", environment.IP)
+const adminIP = environment.adminIP;
+const commonIP = environment.commonIP;
 
 @Injectable()
 export class ConfigService {
 
-    private _helpline1097BaseURL: String = `${IP}/1097api-v1.0/`;
-    private adminBaseUrl: String = `${IP}/adminapi-v1.0/`;
-    private superadminBaseURL: String = `${IP}/adminapi-v1.0/`;
-    private _commonBaseURL: String = `${IP}/commonapi-v1.0/`;
-
+    private adminBaseUrl: String = `${adminIP}/adminapi-v1.0/`;
+    private superadminBaseURL: String = `${adminIP}/adminapi-v1.0/`;
+    private _commonBaseURL: String = `${commonIP}/commonapi-v1.0/`;
 
     getCommonBaseURL() {
         return this._commonBaseURL;
@@ -26,8 +24,5 @@ export class ConfigService {
     }
     getSuperAdminBaseUrl() {
         return this.superadminBaseURL;
-    }
-    get1097BaseURL() {
-        return this._helpline1097BaseURL;
     }
 };
