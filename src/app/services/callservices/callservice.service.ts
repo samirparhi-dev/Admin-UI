@@ -10,8 +10,6 @@ import { SecurityInterceptedHttp } from '../../http.securityinterceptor';
 @Injectable()
 export class CallServices {
 
-
-  _baseUrl = this._config.get1097BaseURL();
   _commoUrl = this._config.getCommonBaseURL();
   providerAdmin_Base_Url = this._config.getAdminBaseUrl();
   _closecallurl = 'services/closeCall/';
@@ -27,17 +25,6 @@ export class CallServices {
     private _httpInterceptor: InterceptedHttp
   ) { }
 
-  closeCall(values: any) {
-
-    console.log('data to be updated in service is', values)
-    return this._http.post(this._baseUrl + this._closecallurl, values).map(this.extractData).catch(this.handleError);
-  }
-
-  getCallSummary(values: any) {
-
-    console.log('Call summary to be retreived for ', values)
-    return this._http.post(this._baseUrl + this._callsummaryurl, values).map(this.extractData).catch(this.handleError);
-  }
   getAllMappedServicelinesAndStates(serviceProviderID) {
     console.log("Mappedservice",serviceProviderID);
     

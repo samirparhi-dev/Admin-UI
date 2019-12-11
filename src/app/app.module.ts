@@ -105,7 +105,6 @@ import { ScreenService } from './services/adminServices/AdminScreen/screen.servi
 import { HttpServices } from './services/http-services/http_services.service';
 import { UserBeneficiaryData } from './services/common/userbeneficiarydata.service'
 import { LocationService } from './services/common/location.service';
-import { FeedbackTypes } from './services/common/feedbacktypes.service';
 import { CallServices } from './services/callservices/callservice.service';
 import { ConfigService } from './services/config/config.service';
 import { SuperAdmin_ServiceProvider_Service } from './services/adminServices/AdminServiceProvider/superadmin_serviceprovider.service';
@@ -391,7 +390,7 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
 
   providers: [
     loginService, dataService, DashboardHttpServices, RoleService, ServicemasterService,
-    ScreenService, HttpServices, UserBeneficiaryData, LocationService, FeedbackTypes,
+    ScreenService, HttpServices, UserBeneficiaryData, LocationService,
     CallServices, ConfigService, SuperAdmin_ServiceProvider_Service,
     ProviderAdminRoleService, LocationServicelineMapping, EmployeeMasterService,
     CallTypeSubtypeService, BlockProvider, FeedbackTypeService,
