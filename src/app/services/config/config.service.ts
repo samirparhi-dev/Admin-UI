@@ -12,9 +12,9 @@ const commonIP = environment.commonIP;
 @Injectable()
 export class ConfigService {
 
-    private adminBaseUrl: String = `${adminIP}/adminapi-v1.0/`;
-    private superadminBaseURL: String = `${adminIP}/adminapi-v1.0/`;
-    private _commonBaseURL: String = `${commonIP}/commonapi-v1.0/`;
+    private adminBaseUrl: String = `${adminIP}adminapi-v1.0/`;
+    private superadminBaseURL: String = `${adminIP}adminapi-v1.0/`;
+    private _commonBaseURL: String = `${commonIP}commonapi-v1.0/`;
 
     getCommonBaseURL() {
         return this._commonBaseURL;
