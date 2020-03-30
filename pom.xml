@@ -8,6 +8,7 @@
 	<artifactId>admin-ui</artifactId>
 	<version>1.0</version>
 	<name>admin-ui</name>
+	<description>Piramal - admin: Module ui</description>
 	<packaging>war</packaging>
 	<profiles>
 		<profile>
@@ -51,6 +52,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final-name>adminui-v1.0</final-name>
+		<build.timestamp>2020-03-25 17:17:22.990128</build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<hostname-dev>10.208.122.38</hostname-dev>
 		<port-dev>9990</port-dev>
 		<hostname-local>localhost</hostname-local>
@@ -215,6 +218,18 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/packaging/</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>
