@@ -169,6 +169,7 @@
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
 							<directory>dist</directory>
+							<directory>src/packaging/</directory>
 						</resource>
 					</webResources>
 				</configuration>
