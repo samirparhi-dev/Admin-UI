@@ -170,7 +170,8 @@
 							<!-- this is relative to the pom.xml directory -->
 							<directory>dist</directory>							
 						</resource>
-						<resource>							
+						<resource>		
+							<filtering>true</filtering>					
 							<directory>src/packaging/</directory>							
 						</resource>
 					</webResources>
