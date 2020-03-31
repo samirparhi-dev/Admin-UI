@@ -52,7 +52,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final-name>adminui-v1.0</final-name>
-		<build.timestamp>2020-03-25 17:17:22.990128</build.timestamp>
+		<build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<hostname-dev>10.208.122.38</hostname-dev>
 		<port-dev>9990</port-dev>
@@ -169,6 +169,9 @@
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
 							<directory>dist</directory>							
+						</resource>
+						<resource>							
+							<directory>src/packaging/</directory>							
 						</resource>
 					</webResources>
 				</configuration>
