@@ -5,7 +5,9 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
-
+import { InstituteTypeMasterService } from 'app/services/ProviderAdminServices/institute-type-master-service.service';
+import { Subscription, Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'app-hospital-master',
@@ -13,6 +15,27 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./hospital-master.component.css']
 })
 export class HospitalMasterComponent implements OnInit {
+    enableUPload:Boolean=true;
+    dataString:any;
+    
+    value: any;
+   timerSubscription: Subscription;
+    refresh: boolean = true;
+    status : any;
+    modDate: any;
+    fileRes: any;
+    createdBy: any;
+    fileSizeIsMoreThanRequired = true;
+    error1: boolean = false;
+    error2: boolean = false;
+    fileContent: any;
+    invalid_file_flag = false;
+    valid_file_extensions = ['msg', 'pdf', 'png', 'jpeg', 'jpg', 'doc', 'docx', 'xlsx', 'xls', 'csv', 'txt'];
+    file:any;
+    fileList: FileList;
+    maxFileSize: number = 5.0;
+    institutionType:any;
+    InstitutionTypes: any=[];
     filteredsearchResultArray: any = [];
     userID: any;
     /*ngModels*/
@@ -44,7 +67,6 @@ export class HospitalMasterComponent implements OnInit {
     services: any = [];
     districts: any = [];
     taluks: any = [];
-
     searchResultArray: any = [];
 
     /*flags*/
@@ -53,6 +75,7 @@ export class HospitalMasterComponent implements OnInit {
     showFormFlag: boolean = false;
     disableSecFields: boolean = false;
     disableTertiaryFields: boolean = false;
+    
 
     /*regEx*/
     website_expression: any = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
@@ -63,8 +86,13 @@ export class HospitalMasterComponent implements OnInit {
 
 
     @ViewChild('institutionForm1') institutionForm1: NgForm;
-
+    @ViewChild('uploadForm') uploadForm: NgForm;
+    enableUPloadButton: boolean=true;
+    jsonData: any;
+    serviceproviderid: string;
+    
     constructor(public HospitalMasterService: HospitalMasterService,
+        public _instituteTypeMasterService: InstituteTypeMasterService,
         public commonDataService: dataService,
         public dialog: MdDialog,
         public alertService: ConfirmationDialogsService) {
@@ -75,6 +103,220 @@ export class HospitalMasterComponent implements OnInit {
         this.userID = this.commonDataService.uid;
         this.getServices(this.userID);
     }
+
+   
+
+    onFileUpload(ev) {
+     
+        this.fileList = ev.target.files;
+        this.file = ev.target.files[0];
+
+        let workBook = null;
+    this.jsonData = null;
+    const reader = new FileReader();
+    
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary' });
+      this.jsonData = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+     // this.dataString = JSON.stringify(jsonData.Sheet1);
+     
+    }
+    this.enableUPloadButton=false;
+    reader.readAsBinaryString(this.file);
+    
+        const validFormat = this.checkExtension(this.file);
+        if (validFormat) {
+          this.invalid_file_flag = false;
+        } else {
+          this.invalid_file_flag = true;
+        }
+    
+        if (this.file
+          && ((this.file.size / 1024) / 1024) <= this.maxFileSize
+          && ((this.file.size / 1024) / 1024) > 0) {
+          const myReader: FileReader = new FileReader();
+          myReader.onloadend = this.onLoadFileCallback.bind(this)
+          myReader.readAsDataURL(this.file);
+        }
+        else if (this.fileList.length > 0 && this.fileList[0].size / 1024 / 1024 <= this.maxFileSize) {
+          console.log(this.fileList[0].size / 1024 / 1024, "FILE SIZE1");
+          this.error1 = false;
+          this.error2 = false;
+        }
+        else if (this.fileList[0].size / 1024 / 1024 === 0) {
+          console.log(this.fileList[0].size / 1024 / 1024, "FILE SIZE1");
+          this.error1 = false;
+          this.error2 = true
+        }
+        else if (this.fileList[0].size / 1024 / 1024 > this.maxFileSize) {
+          console.log(this.fileList[0].size / 1024 / 1024, "FILE SIZE1");
+          this.error1 = true;
+          this.error2 = false;
+        }
+    
+        if (((this.file.size / 1024) / 1024) > this.maxFileSize) {
+          this.fileSizeIsMoreThanRequired = true;
+        } else {
+          this.fileSizeIsMoreThanRequired = false;
+        }
+      }
+
+      checkExtension(file) {
+        let count = 0;
+        console.log('FILE DETAILS', file);
+        if (file) {
+          let array_after_split = file.name.split('.');
+          let file_extension = array_after_split[array_after_split.length - 1];
+          for (let i = 0; i < this.valid_file_extensions.length; i++) {
+            if (file_extension.toUpperCase() === this.valid_file_extensions[i].toUpperCase()) {
+              count = count + 1;
+            }
+          }
+          if (count > 0) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+        else {
+          return true;
+        }
+      }
+      onLoadFileCallback = (event) => {
+        this.fileContent = event.currentTarget.result;
+      }
+
+      onSubmit() {
+      
+        console.log(this.fileList[0]);
+       
+        let file: File = this.fileList[0];
+        // let formData:FormData = new FormData();
+       /* let requestData = {
+          'userID': this.userID,
+          'createdBy': this.createdBy,
+          'fileName': (this.file !== undefined) ? this.file.name : '',
+          'fileExtension': (this.file !== undefined) ? '.' + this.file.name.split('.')[1] : '',
+          'fileContent': (this.fileContent !== undefined) ? this.fileContent.split(',')[1] : ''
+        };*/
+        // formData.append('file', file, file.name);
+        // formData.append('request', JSON.stringify(requestData));
+
+     let requestData = {
+         //'InstitutionDetails' : this.dataString,
+         'InstitutionDetails' : this.jsonData.Sheet1,
+         'userID': this.userID,
+         'serviceProviderID': this.serviceProviderID,
+         'createdBy': this.commonDataService.uname
+     };
+        this.HospitalMasterService.postFormData(requestData)
+          .subscribe(
+          (response) => {
+            //this.autoRefresh(true);
+            // loaderDialog.close();
+            //console.log(response.json());
+            //console.log(response.json().statusCode == 5000);
+            //console.log(response.json().errorMessage.indexOf('The process cannot access the file because it is being used by another process') != -1);
+            /*if (response.json().statusCode == 5000 && response.json().errorMessage.indexOf('The process cannot access the file because it is being used by another process') != -1) {
+              this.alertService.confirm('File is used in another process.Please close and try again', 'error')
+                .subscribe(() => {
+                  this.uploadForm.resetForm();
+                })
+            }
+            else */
+           console.log("Response", response)
+            if (response.json().statusCode == 5000 && response.json().errorMessage) {
+                console.log("Hello");
+                this.alertService.alertConfirm(response.json().data, 'error')
+                .subscribe(() => {
+                  this.uploadForm.resetForm();
+                })
+            }
+            else {
+                  this.uploadForm.resetForm();
+                  this.file = undefined;
+                  this.alertService.alertConfirm(response.json().data.response, 'info')
+                  //this.alertService.alert("Saved Success")
+                /*  if(response.json().data.response != "FileID"){
+                    this.alertService.confirm(response.json().data.response, 'info')
+    
+                  }*/
+             
+            }
+          },
+          (error) => {
+            
+            // loaderDialog.close();
+            console.log(error);
+            this.alertService.alertConfirm('Error while uploading excel file', 'error')
+              .subscribe(() => {
+                this.uploadForm.resetForm();
+                this.file = undefined;
+              })
+          }
+          );
+          this.enableUPloadButton=true;
+      }
+
+     /* autoRefresh(val) {
+        this.refresh = val;
+        if (val) {
+          this.uploadStatus();
+          const timer = Observable.interval(5 * 1000);
+          this.timerSubscription = timer.subscribe(() => {
+            this.uploadStatus();
+          });
+        }
+        else {
+          this.timerSubscription.unsubscribe();
+        }
+      }*/
+      /*uploadStatus() {
+        this.HospitalMasterService.getUploadStatus(this.providerServiceMapID).subscribe(res => {
+    
+          if(!res.hasOwnProperty('fileStatus')){
+            if (this.timerSubscription)
+            this.timerSubscription.unsubscribe();
+    
+            this.alertService.alert("No file uploaded");
+          }
+          else if(res.fileStatus.fileStatus == 'New') {
+            this.value = 1;
+            this.status = res.fileStatus.fileStatus;
+            this.modDate = res.createdDate;
+            this.fileRes = res;
+          }
+          else if(res.fileStatus.fileStatus == 'InProgress'){
+            this.calculateValue(res);      
+            this.status = res.fileStatus.fileStatus;
+            this.modDate = res.createdDate;
+            this.fileRes = res;
+          }
+          else if(res.fileStatus.fileStatus == "Completed" || res.fileStatus.fileStatus == "Failed"){
+            this.timerSubscription.unsubscribe();
+            this.status = res.fileStatus.fileStatus;
+            this.modDate = res.createdDate;
+            this.fileRes = res;
+          }
+        },
+          (err) => {
+          //     this.status =  { "fileID": "578", "fileName": "Mother Data Assam Trial One v1.xlsx", "fileStatusID": "3", "userID": "679", "validRecordCount": "21024", "erroredRecordCount": "0", "validRecordUpload": "21024", "erroredRecordUpload": "0", "isMother": true, "providerServiceMapID": "1252", "md5CheckSum": "f6e4dce6c8a94cd40816999cf4358e5d", "statusReason": "21024 valid and 0 invalid records.", "deleted": false, "createdBy": "manta", "createdDate": "2018-09-03T00:00:00.000Z", "modifiedBy": "manta", "fileStatus": { "fileStatusID": "3", "fileStatus": "Completed", "deleted": false, "createdBy": "Admin", "createdDate": "2018-09-03T00:00:00.000Z", "lastModDate": "2018-09-03T00:00:00.000Z" } };
+    
+            this.alertService.alert(err.status,"error");
+            if (this.timerSubscription)
+            this.timerSubscription.unsubscribe();
+          });
+      }
+      calculateValue(res){
+        this.value = ((parseInt(res.validRecordUpload) + parseInt(res.erroredRecordUpload))*100/(parseInt(res.validRecordCount) + parseInt(res.erroredRecordCount))).toFixed(2);
+    
+      }*/
 
     getStates(serviceID, isNational) {
         this.HospitalMasterService.getStates(this.userID, serviceID, isNational)
@@ -87,7 +329,6 @@ export class HospitalMasterComponent implements OnInit {
         this.service = "";
         this.district = "";
         this.taluk = "";
-
         this.searchResultArray = [];
         this.filteredsearchResultArray = [];
 
@@ -95,6 +336,7 @@ export class HospitalMasterComponent implements OnInit {
     }
 
     showForm() {
+        this.enableUPload = false;
         this.disabled_flag = true;
         this.showTableFlag = false;
         this.showFormFlag = true;
@@ -105,10 +347,13 @@ export class HospitalMasterComponent implements OnInit {
     back() {
         this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
             if (res) {
+                this.enableUPload=true;
+               
+                this.file=undefined;
+                this.enableUPloadButton=true;
                 this.disabled_flag = false;
                 this.showTableFlag = true;
                 this.showFormFlag = false;
-
                 this.institutionName = "";
                 this.address = "";
                 this.website = "";
@@ -203,14 +448,26 @@ export class HospitalMasterComponent implements OnInit {
             this.taluks = response;
         }
     }
-
+   
+   /* setProviderServiceMapID(providerServiceMapID) {
+        this.district = "";
+        this.taluk = "";
+        this.providerServiceMapID = providerServiceMapID;
+    }*/
     setProviderServiceMapID(providerServiceMapID) {
         this.district = "";
         this.taluk = "";
         this.providerServiceMapID = providerServiceMapID;
+        this._instituteTypeMasterService.getInstitutesType(providerServiceMapID)
+        .subscribe(response => this.instituteSuccessHandeler(response), err => {
+          console.log("Error", err);
+          // this.alertService.alert(err, 'error');
+        })
     }
-
-
+    instituteSuccessHandeler(response)
+    {
+        this.InstitutionTypes=response;
+    }
     /*CRUD OPERATIONS */
 
     /*GET institution*/
@@ -247,7 +504,7 @@ export class HospitalMasterComponent implements OnInit {
             this.showTableFlag = true;
             this.searchResultArray = response;
             this.filteredsearchResultArray = response;
-        }
+        }  
     }
 
     /*activate/deactivate an institution*/
@@ -300,12 +557,13 @@ export class HospitalMasterComponent implements OnInit {
     createInstitution() {
         let checkTalukValue: any;
         let request_Array = [];
+        
         if (this.taluk != undefined || this.taluk != null) {
             checkTalukValue = this.taluk
         }
-        let request_obj = {
-
+         let request_obj = {
             "institutionName": this.institutionName,
+            "instituteTypeId":this.institutionType.institutionTypeID,
             "stateID": this.state,
             "districtID": this.district,
             "blockID": checkTalukValue,
@@ -324,9 +582,8 @@ export class HospitalMasterComponent implements OnInit {
             "createdBy": this.commonDataService.uname
 
         }
-
+    
         request_Array.push(request_obj);
-
         this.HospitalMasterService.saveInstitution(request_Array).subscribe(response => this.saveInstitutionSuccessHandeler(response),
             (err) => {
                 console.log("Error", err);
@@ -339,6 +596,7 @@ export class HospitalMasterComponent implements OnInit {
         console.log(response, "SAVE INSTITUTION SUCCESS HANDELER");
         if (response) {
             this.alertService.alert("Saved successfully", 'success');
+            this.enableUPload=true;
             this.disabled_flag = false;
             this.showTableFlag = true;
             this.showFormFlag = false;
@@ -414,6 +672,7 @@ export class HospitalMasterComponent implements OnInit {
 export class EditHospitalModal {
 
     /*ngModels*/
+   
     institutionName: any;
     address: any;
     website: any;

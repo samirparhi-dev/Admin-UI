@@ -23,11 +23,13 @@ export class HospitalMasterService {
   get_Service_Url: any;
   get_District_Url: any;
   get_Taluk_Url: any;
+  get_Village_Url: any;
 
   get_Institution_Url: any;
   create_Institution_Url: any;
   edit_Institution_Url: any;
   delete_Institution_Url: any;
+  file_upload_url: string;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -39,15 +41,43 @@ export class HospitalMasterService {
     this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
     this.get_District_Url = this.common_Base_Url + 'location/districts/';
     this.get_Taluk_Url = this.common_Base_Url + 'location/taluks/';
+    this.get_Village_Url = this.common_Base_Url + 'location/village/';
 
     this.get_Institution_Url = this.admin_Base_Url + 'm/getInstution';
-    this.create_Institution_Url = this.admin_Base_Url + 'm/createInstution';
+   // this.get_Institution_Url = this.admin_Base_Url + 'm/getInstutionByVillage';
+    //this.create_Institution_Url = this.admin_Base_Url + 'm/createInstution';
+    this.create_Institution_Url = this.admin_Base_Url + 'm/createInstutionByVillage';
     this.edit_Institution_Url = this.admin_Base_Url + 'm/editInstution';
     this.delete_Institution_Url = this.admin_Base_Url + 'm/deleteInstution';
+    this.file_upload_url=this.admin_Base_Url + 'm/createInstitutionByFile';
   };
 
 
+ postFormData(formData) {
 
+ /*return this.httpIntercept.post(this.get_Service_Url, {
+    'userID': 655
+  });*/
+  return this.httpIntercept.post(this.file_upload_url, formData)
+  .map(this.onSuccess)
+  .catch(this.handleError);
+ /*return this.httpIntercept.post(this.file_upload_url, formData)
+  .map(this.handleSuccess)
+  .catch(this.handleError);*/
+ 
+   /* return this.httpIntercept.post(this.file_upload_url, formData).catch(this.onCatch).do((res: Response) => {
+      this.onSuccess(res);
+    }, (error: any) => {
+      this.onError(error);
+    })
+      .finally(() => {
+        this.onEnd();
+      });*/
+  }
+  /*getUploadStatus(psmID) {
+    /*let url = this.configService.getMctsBaseURL() + 'mctsDataHandlerController/mcts/data/upload/status';
+    return this._http.post(url,{'providerServiceMapID':psmID}).map(this.extractData).catch(this.handleError);
+  }*/
   getServices(userID) {
     return this.httpIntercept.post(this.get_Service_Url, {
       'userID': userID
@@ -80,7 +110,11 @@ export class HospitalMasterService {
 
   }
 
-
+  getVillages(blockID){
+    return this.httpIntercept.get(this.get_Village_Url + blockID)
+    .map(this.handleSuccess)
+    .catch(this.handleError);
+  }
   getInstitutions(data) {
     return this.httpIntercept.post(this.get_Institution_Url, data)
       .map(this.handleSuccess)
@@ -128,7 +162,11 @@ export class HospitalMasterService {
     return Observable.throw(error.json());
 
   }
-
+   onSuccess(response: any) {
+    if (response.json().data) {
+      return response;
+    }
+  }
 
 
 
