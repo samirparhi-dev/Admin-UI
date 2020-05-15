@@ -26,6 +26,7 @@ export class InstituteTypeMasterService {
   save_InstituteType_Url: any;
   edit_InstituteType_Url: any;
   delete_InstituteType_Url: any;
+  get_InstitutesType_Url: any;
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -35,8 +36,10 @@ export class InstituteTypeMasterService {
     this.get_State_Url = this.admin_Base_Url + 'm/role/stateNew';
     this.get_Service_Url = this.admin_Base_Url + 'm/role/serviceNew';
 
-    this.get_InstituteType_Url = this.admin_Base_Url + 'm/getInstituteType';
-    this.save_InstituteType_Url = this.admin_Base_Url + 'm/createInstituteType';
+   this.get_InstitutesType_Url = this.admin_Base_Url + 'm/getInstituteType';
+  //this.get_InstituteType_Url = this.admin_Base_Url + 'm/getInstituteTypeByDist';
+   this.save_InstituteType_Url = this.admin_Base_Url + 'm/createInstituteType';
+   //this.save_InstituteType_Url = this.admin_Base_Url + '/m/createInstituteTypeByDist';
     this.edit_InstituteType_Url = this.admin_Base_Url + 'm/editInstituteType';
     this.delete_InstituteType_Url = this.admin_Base_Url + 'm/deleteInstituteType';
 
@@ -60,11 +63,16 @@ export class InstituteTypeMasterService {
 
 
 
-  getInstituteType(providerServiceMapID) {
-    return this.httpIntercept.post(this.get_InstituteType_Url, { 'providerServiceMapID': providerServiceMapID })
+  getInstitutesType(providerServiceMapID) {
+    return this.httpIntercept.post(this.get_InstitutesType_Url, { 'providerServiceMapID': providerServiceMapID })
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
+ /* getInstituteType(data) {
+    return this.httpIntercept.post(this.get_InstituteType_Url, data)
+      .map(this.handleSuccess)
+      .catch(this.handleError);
+  }*/
 
   toggle_activate_InstituteType(data) {
     return this.httpIntercept.post(this.delete_InstituteType_Url, data)

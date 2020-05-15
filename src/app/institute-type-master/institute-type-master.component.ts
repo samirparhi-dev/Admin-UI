@@ -105,7 +105,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
 
   search(providerServiceMapID) {
-    this._instituteTypeMasterService.getInstituteType(providerServiceMapID)
+    this._instituteTypeMasterService.getInstitutesType(providerServiceMapID)
       .subscribe(response => this.searchSuccessHandeler(response), err => {
         console.log("Error", err);
         // this.alertService.alert(err, 'error');

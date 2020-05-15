@@ -1,229 +1,275 @@
 <!-- <md-card> -->
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showFormFlag">
-    <h4 class="pull-left">Institution Master</h4>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showFormFlag">
+      <h4 class="pull-left">Institution Master</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showFormFlag">
+        <h4 class="pull-left">Create Institution</h4>
+      </div>
+    <form #hospital="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="Serviceline" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
+          <md-option *ngFor="let item of services" [value]="item.serviceID" (click)="getStates(item.serviceID,item.isNational)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="State" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state"
+          (change)="getDistrict(state)">
+          <md-option *ngFor="let item of states" [value]="item.stateID" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+      <div clear-fix></div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="District" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district"
+          (change)="getInstitutions();getTaluk(district)">
+          <md-option *ngFor="let item of districts" [value]="item.districtID">
+            {{item.districtName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="Taluk" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
+          <md-option *ngFor="let item of taluks" [value]="item.blockID">
+            {{item.blockName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+    </form>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showFormFlag">
-      <h4 class="pull-left">Create Institution</h4>
+  <div *ngIf="searchResultArray.length!==0 && showTableFlag">
+    <div class="pull-right">
+      <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+      </md-input-container>
     </div>
-  <form #hospital="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none"> -->
-      <md-select placeholder="Serviceline" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="service" name="service">
-        <md-option *ngFor="let item of services" [value]="item.serviceID" (click)="getStates(item.serviceID,item.isNational)">
-          {{item.serviceName}}
-        </md-option>
-      </md-select>
-      <!-- </md-input-container> -->
+  </div>
+  <div class="row" *ngIf="showTableFlag">
+    <div class="col-xs-12 col-sm-12 m-t-5">
+      <div class="table-responsive">
+        <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th width="5%">S.No.</th>
+              <th width="15%">Institution Name</th>
+              <th width="15%">Address</th>
+              <th width="15%">Website</th>
+              <th width="15%">Contact Person</th>
+              <th width="15%">Contact Number</th>
+              <th width="15%">Email ID</th>
+              <th width="10%">Edit</th>
+              <th width="10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="md2.data.length == 0">
+              <td colspan="9" class="record-not-found">No records found</td>
+            </tr>
+            <tr *ngFor="let item of md2.data">
+              <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
+              <td>{{item.institutionName}}</td>
+              <td>{{item.address}}</td>
+              <td>{{item.website}}</td>
+              <td>{{item.contactPerson1}}</td>
+              <td>{{item.contactNo1}}</td>
+              <td>{{item.contactPerson1_Email}}</td>
+              <td>
+                <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="openEditModal(item)">edit</md-icon>
+              </td>
+              <td>
+                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item.institutionID,false)">Activate</button>
+                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td colspan="6" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" [disabled]="!taluk" (click)="showForm()">Add Hospital</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none"> -->
-      <md-select placeholder="State" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="state" name="state"
-        (change)="getDistrict(state)">
-        <md-option *ngFor="let item of states" [value]="item.stateID" (click)="setProviderServiceMapID(item.providerServiceMapID)">
-          {{item.stateName}}
-        </md-option>
-      </md-select>
-      <!-- </md-input-container> -->
+  </div>
+  
+  
+  <!--File Upload-->
+  <br>
+  <h4 class="m-t-10" *ngIf="enableUPload">
+  Add Hospital</h4>
+  <form (ngSubmit)="onSubmit()" #uploadForm="ngForm" *ngIf="enableUPload">
+    <div class=" m-t-25">
+      <!--<md-radio-group name="choice" ngModel required>
+        <md-radio-button  class="m-r-10" nam [value]="Add Hospital" color="primary">
+          Add Hospital
+        </md-radio-button>
+      </md-radio-group>-->
     </div>
-    <div clear-fix></div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none"> -->
-      <md-select placeholder="District" required disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="district" name="district"
-        (change)="getInstitutions();getTaluk(district)">
-        <md-option *ngFor="let item of districts" [value]="item.districtID">
-          {{item.districtName}}
-        </md-option>
-      </md-select>
-      <!-- </md-input-container> -->
+    <div class=" m-t-20">
+      <label for="upload-file" *ngIf="file!=undefined">Upload File(Size :{{((file.size / 1024) / 1024)}}/{{maxFileSize}}MB)</label>
+      <label for="upload-file" *ngIf="file==undefined">Upload File(Size :0/{{maxFileSize}}MB)</label>
+      <input class="m-t-10" type="file" accept=".xls, .xlsx, .xlsm, .xlsb" size="100" placeholder="Upload file" id="upload-file"
+        (change)="onFileUpload($event)" name="fileList" ngModel #uploadfile="ngModel">
+      <!-- <span class="help-block m-t-5" *ngIf="error1">Please choose a file for upload</span> -->
+      <span class="help-block m-t-5" *ngIf="file!=undefined && fileSizeIsMoreThanRequired">File Size should not exceed {{maxFileSize}} MB</span>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-        <input mdInput style="display:none"> -->
-      <md-select placeholder="Taluk" disabled={{disabled_flag}} [style.width]="'100%'" [(ngModel)]="taluk" name="taluk" (change)="getInstitutions()">
-        <md-option *ngFor="let item of taluks" [value]="item.blockID">
-          {{item.blockName}}
-        </md-option>
-      </md-select>
-      <!-- </md-input-container> -->
+    <div class="m-t-20">
+      <button md-raised-button class="pull-left" color="accent" type="submit" [disabled]="!(uploadForm.valid) || fileSizeIsMoreThanRequired || enableUPloadButton">Upload</button>
     </div>
+    <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
   </form>
-</div>
-<div *ngIf="searchResultArray.length!==0 && showTableFlag">
-  <div class="pull-right">
-    <md-input-container id="filterbox">
-      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
-      <md-icon mdSuffix>search</md-icon>
-    </md-input-container>
-  </div>
-</div>
-<div class="row" *ngIf="showTableFlag">
-  <div class="col-xs-12 col-sm-12 m-t-5">
-    <div class="table-responsive">
-      <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" class="table table-hover table-striped" [rowsPerPage]="4">
-        <thead>
-          <tr>
-            <th width="5%">S.No.</th>
-            <th width="15%">Institution Name</th>
-            <th width="15%">Address</th>
-            <th width="15%">Website</th>
-            <th width="15%">Contact Person</th>
-            <th width="15%">Contact Number</th>
-            <th width="15%">Email ID</th>
-            <th width="10%">Edit</th>
-            <th width="10%">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngIf="md2.data.length == 0">
-            <td colspan="9" class="record-not-found">No records found</td>
-          </tr>
-          <tr *ngFor="let item of md2.data">
-            <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
-            <td>{{item.institutionName}}</td>
-            <td>{{item.address}}</td>
-            <td>{{item.website}}</td>
-            <td>{{item.contactPerson1}}</td>
-            <td>{{item.contactNo1}}</td>
-            <td>{{item.contactPerson1_Email}}</td>
-            <td>
-              <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
-                (click)="openEditModal(item)">edit</md-icon>
-            </td>
-            <td>
-              <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item.institutionID,false)">Activate</button>
-              <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleActivate(item.institutionID,true)">Deactivate</button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3">
-              <md2-pagination></md2-pagination>
-            </td>
-            <td colspan="6" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" [disabled]="!taluk" (click)="showForm()">Add Hospital</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+  
+  <!--END-File Upload-->
+  <div class="row" *ngIf="showFormFlag">
+    <form #institutionForm1="ngForm" autocomplete="off">
+  
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+            <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+              <input mdInput style="display:none"> -->
+            <md-select placeholder="Institution Type" required  [style.width]="'100%'" [(ngModel)]="institutionType" name="institutionType">
+              <md-option *ngFor="let inst of InstitutionTypes" [value]="inst">
+                {{inst.institutionType}}
+              </md-option>
+            </md-select>
+            <!-- </md-input-container> -->
+          </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100"
+            required #validInstitutionName="ngModel" myName2>
+          <md-hint *ngIf="validInstitutionName.touched">
+            <span class="errorText" [hidden]="!validInstitutionName.errors">Enter atleast 3 characters</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myAddress>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Address" maxlength="300" [(ngModel)]="address" name="address" required>
+        </md-input-container>
+      </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput [pattern]="website_expression" placeholder="Website" [(ngModel)]="website" name="website" #valid_website="ngModel">
+          <md-hint class="errorText" [hidden]="!valid_website.hasError('pattern')">Enter valid Website
+          </md-hint>
+        </md-input-container>
+      </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Primary Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" minlength="2"
+            maxlength="50" #valid_contactname="ngModel" required>
+          <md-hint>
+            <span class="errorText" *ngIf="valid_contactname.errors && valid_contactname.touched">Enter atleast 2 characters</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Primary Contact Number" minlength="10" maxlength="10" [(ngModel)]="contact_number" name="contact_number"
+            #validMobileNumber="ngModel" [pattern]="mobileNoPattern" required>
+          <md-hint>
+            <span class="errorText" [hidden]="!validMobileNumber.hasError('pattern')">Required 10 digit valid mobile number</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput type="email" placeholder="Primary Email ID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression"
+            #validEmail="ngModel">
+          <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
+          </md-hint>
+        </md-input-container>
+      </div>
+  
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Secondary Contact Person" [(ngModel)]="secondary_contact_person_name" (keyup)="enableSecNumberAndEmailFields()"
+            name="secondary_contact_person_name" minlength="2" maxlength="50" #validContactname1="ngModel">
+          <!-- <md-hint class="errorText" *ngIf="valid_contactname1.errors && valid_contactname1.touched">Enter atleast 2 characters
+            </md-hint> -->
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Secondary Contact Number" minlength="10" maxlength="10" [(ngModel)]="secondary_contact_number"
+            disabled={{disableSecFields}} name="secondary_contact_number" #validMobileNumber1="ngModel" [pattern]="mobileNoPattern">
+          <!-- <md-hint class="errorText" *ngIf="validMobileNumber1.errors && validMobileNumber1.touched">Enter 10 digit mobile number
+            </md-hint> -->
+        </md-input-container>
+      </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput type="email" placeholder="Secondary Email ID" [(ngModel)]="secondary_emailID" name="secondary_emailID" [pattern]="email_expression"
+            #validEmail1="ngModel" disabled={{disableSecFields}}>
+          <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Valid Email ID is required
+          </md-hint>
+        </md-input-container>
+      </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Tertiary Contact Person" [(ngModel)]="tertiary_contact_person_name" (keyup)="enableTertiaryNumberAndEmailFields()"
+            name="tertiary_contact_person_name" minlength="2" maxlength="50" #validContactname2="ngModel">
+          <!-- <md-hint class="errorText" *ngIf="valid_contactname2.errors && valid_contactname2.touched">Enter atleast 2 characters
+            </md-hint> -->
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Tertiary Contact Number" minlength="10" maxlength="10" [(ngModel)]="tertiary_contact_number"
+            disabled={{disableTertiaryFields}} name="tertiary_contact_number" #validMobileNumber2="ngModel" [pattern]="mobileNoPattern">
+          <!-- <md-hint class="errorText" *ngIf="validMobileNumber2.errors && validMobileNumber2.touched">Enter 10 digit mobile number
+            </md-hint> -->
+        </md-input-container>
+      </div>
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput type="email" placeholder="Tertiary Email ID" [(ngModel)]="tertiary_emailID" disabled={{disableTertiaryFields}}
+            name="tertiary_emailID" [pattern]="email_expression" #validEmail2="ngModel">
+          <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Valid Email ID is required
+          </md-hint>
+  
+        </md-input-container>
+      </div>
+    </form>
+  
+    <div class="col-xs-12 col-sm-12  m-t-15">
+      <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+      <button md-raised-button color="accent" [disabled]="!institutionForm1.valid" class="pull-right" (click)="createInstitution()">Save</button>
     </div>
   </div>
-</div>
-
-<div class="row" *ngIf="showFormFlag">
-  <form #institutionForm1="ngForm" autocomplete="off">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Institution Name" [(ngModel)]="institutionName" name="institutionName" minlength="3" maxlength="100"
-          required #validInstitutionName="ngModel" myName2>
-        <md-hint *ngIf="validInstitutionName.touched">
-          <span class="errorText" [hidden]="!validInstitutionName.errors">Enter atleast 3 characters</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myAddress>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Address" maxlength="300" [(ngModel)]="address" name="address" required>
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-      <md-input-container style="width: 100%">
-        <input mdInput [pattern]="website_expression" placeholder="Website" [(ngModel)]="website" name="website" #valid_website="ngModel">
-        <md-hint class="errorText" [hidden]="!valid_website.hasError('pattern')">Enter valid Website
-        </md-hint>
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Primary Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" minlength="2"
-          maxlength="50" #valid_contactname="ngModel" required>
-        <md-hint>
-          <span class="errorText" *ngIf="valid_contactname.errors && valid_contactname.touched">Enter atleast 2 characters</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Primary Contact Number" minlength="10" maxlength="10" [(ngModel)]="contact_number" name="contact_number"
-          #validMobileNumber="ngModel" [pattern]="mobileNoPattern" required>
-        <md-hint>
-          <span class="errorText" [hidden]="!validMobileNumber.hasError('pattern')">Required 10 digit valid mobile number</span>
-        </md-hint>
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-      <md-input-container style="width: 100%">
-        <input mdInput type="email" placeholder="Primary Email ID" [(ngModel)]="emailID" name="emailID" [pattern]="email_expression"
-          #validEmail="ngModel">
-        <md-hint class="errorText" [hidden]="!validEmail.hasError('pattern')">Valid Email ID is required
-        </md-hint>
-      </md-input-container>
-    </div>
-
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Secondary Contact Person" [(ngModel)]="secondary_contact_person_name" (keyup)="enableSecNumberAndEmailFields()"
-          name="secondary_contact_person_name" minlength="2" maxlength="50" #validContactname1="ngModel">
-        <!-- <md-hint class="errorText" *ngIf="valid_contactname1.errors && valid_contactname1.touched">Enter atleast 2 characters
-          </md-hint> -->
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Secondary Contact Number" minlength="10" maxlength="10" [(ngModel)]="secondary_contact_number"
-          disabled={{disableSecFields}} name="secondary_contact_number" #validMobileNumber1="ngModel" [pattern]="mobileNoPattern">
-        <!-- <md-hint class="errorText" *ngIf="validMobileNumber1.errors && validMobileNumber1.touched">Enter 10 digit mobile number
-          </md-hint> -->
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-      <md-input-container style="width: 100%">
-        <input mdInput type="email" placeholder="Secondary Email ID" [(ngModel)]="secondary_emailID" name="secondary_emailID" [pattern]="email_expression"
-          #validEmail1="ngModel" disabled={{disableSecFields}}>
-        <md-hint class="errorText" [hidden]="!validEmail1.hasError('pattern')">Valid Email ID is required
-        </md-hint>
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Tertiary Contact Person" [(ngModel)]="tertiary_contact_person_name" (keyup)="enableTertiaryNumberAndEmailFields()"
-          name="tertiary_contact_person_name" minlength="2" maxlength="50" #validContactname2="ngModel">
-        <!-- <md-hint class="errorText" *ngIf="valid_contactname2.errors && valid_contactname2.touched">Enter atleast 2 characters
-          </md-hint> -->
-      </md-input-container>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
-      <md-input-container style="width: 100%">
-        <input mdInput placeholder="Tertiary Contact Number" minlength="10" maxlength="10" [(ngModel)]="tertiary_contact_number"
-          disabled={{disableTertiaryFields}} name="tertiary_contact_number" #validMobileNumber2="ngModel" [pattern]="mobileNoPattern">
-        <!-- <md-hint class="errorText" *ngIf="validMobileNumber2.errors && validMobileNumber2.touched">Enter 10 digit mobile number
-          </md-hint> -->
-      </md-input-container>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-      <md-input-container style="width: 100%">
-        <input mdInput type="email" placeholder="Tertiary Email ID" [(ngModel)]="tertiary_emailID" disabled={{disableTertiaryFields}}
-          name="tertiary_emailID" [pattern]="email_expression" #validEmail2="ngModel">
-        <md-hint class="errorText" [hidden]="!validEmail2.hasError('pattern')">Valid Email ID is required
-        </md-hint>
-
-      </md-input-container>
-    </div>
-  </form>
-
-  <div class="col-xs-12 col-sm-12  m-t-15">
-    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" [disabled]="!institutionForm1.valid" class="pull-right" (click)="createInstitution()">Save</button>
-  </div>
-</div>
-<!-- </md-card> -->
+  <!-- </md-card> -->
