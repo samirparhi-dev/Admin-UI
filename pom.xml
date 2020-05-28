@@ -8,6 +8,7 @@
 	<artifactId>admin-ui</artifactId>
 	<version>1.0</version>
 	<name>admin-ui</name>
+	<description>Piramal - admin: Module ui</description>
 	<packaging>war</packaging>
 	<profiles>
 		<profile>
@@ -165,7 +166,11 @@
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>dist</directory>
+							<directory>dist</directory>							
+						</resource>
+						<resource>		
+							<filtering>true</filtering>					
+							<directory>src/packaging/</directory>							
 						</resource>
 					</webResources>
 				</configuration>
@@ -214,7 +219,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>			
 		</plugins>
 	</build>
 </project>
