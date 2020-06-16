@@ -31,7 +31,7 @@ export class ItemMasterComponent implements OnInit {
   disableSelection: boolean = false;
   tableMode: boolean = true;
   create_filterTerm: string;
-
+  
   /*Arrays*/
   services: any = [];
   states: any = [];
@@ -68,12 +68,14 @@ export class ItemMasterComponent implements OnInit {
   edit_Route: any;
   edit_Description: any;
   itemID: any;
-
+  drugTypeList: any=["Non-EDL","EDL"];
   drugType = false;
-
-
+  drugName: any="Non-EDL";
+  isEDL :boolean=false;
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
+  EDL: any=[];
+  editDrug: string;
   constructor(public commonDataService: dataService,
     public itemService: ItemService,
     public commonServices: CommonServices,
@@ -106,7 +108,13 @@ export class ItemMasterComponent implements OnInit {
     //   console.log('item', item);
     // })
   }
-
+  drugTypeChange(item)
+  {
+     if(item=="EDL")
+     this.isEDL=true;
+     else
+     this.isEDL=false;
+  }
   setProviderServiceMapID(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
@@ -144,13 +152,20 @@ export class ItemMasterComponent implements OnInit {
   }
 
   itemsSuccessHandler(itemListResponse) {
-    debugger;
+    
     console.log("All items", itemListResponse);
     this.itemsList = itemListResponse;
     this.filteredItemList = itemListResponse;
     this.showTableFlag = true;
+    //this.disableEDL=true;
     for (let availableItemCode of this.itemsList) {
+      console.log("edl");
+      console.log(availableItemCode);
       this.availableItemCodeInList.push(availableItemCode.itemCode);
+      if(availableItemCode.isEDL ==true)
+      this.EDL.push("yes")
+      else
+      this.EDL.push("No")
     }
   }
   showForm() {
@@ -357,7 +372,8 @@ export class ItemMasterComponent implements OnInit {
       'routeID': formValue.route.routeID,
       'createdBy': this.createdBy,
       'providerServiceMapID': this.providerServiceMapID,
-      'status': 'active'
+      'status': 'active',
+      'isEDL' : this.isEDL
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
@@ -419,7 +435,7 @@ export class ItemMasterComponent implements OnInit {
     })
   }
   editItem(itemlist) {
-    debugger;
+    
     console.log("Existing Data", itemlist);
     this.itemID = itemlist.itemID;
     this.edit_serviceline = this.service;
@@ -437,6 +453,10 @@ export class ItemMasterComponent implements OnInit {
     this.edit_Composition = itemlist.composition;
     this.edit_Route = itemlist.routeID;
     this.edit_Description = itemlist.itemDesc;
+    if(itemlist.isEDL == true)
+    this.editDrug="EDL";
+    else
+    this.editDrug="Non-EDL";
     this.showEditForm();
   }
   showEditForm() {
@@ -618,7 +638,6 @@ export class EditItemMasterModal {
     console.log("routes", this.routes);
   }
   edit() {
-    debugger;
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
     this.name = this.data.itemName;
