@@ -26,6 +26,8 @@
         </md-select>
       </md-input-container>
     </div>
+    
+   
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemsList?.length > 0 && showTableFlag">
       <div class="row" class="pull-right">
         <md-input-container id="filterbox">
@@ -46,6 +48,7 @@
             <th width="20%">Item Code</th>
             <th width="20%" md2SortBy="itemName">Item Name</th>
             <th width="20%">Item Category Name</th>
+            <th width="8%">Is EDL</th>
             <th width="10%">Edit</th>
             <th width="15%">Discontinued</th>
             <th width="15%">Action</th>
@@ -62,6 +65,7 @@
             <td>{{item.itemCode}}</td>
             <td>{{item.itemName}}</td>
             <td>{{item.itemCategory.itemCategoryName}}</td>
+            <td>{{EDL[i]}}</td>
             <td>
               <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                 (click)="editItem(item)">edit</md-icon>
@@ -81,7 +85,7 @@
             <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0">
+            <td colspan="6" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Item</button>
             </td>
           </tr>
@@ -119,11 +123,32 @@
         </md-select>
       </md-input-container>
     </div>
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug Type" class="width100" [(ngModel)]="drugName" name="drugName" [disabled]="disableEDL" required>
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div> -->
+   
   </form>
 
   <div class="clearfix visible-md visible-lg"></div>
 
   <form #itemCreationForm='ngForm' autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug Type" class="width100" [(ngModel)]="drugName" name="drugName" >
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
       <label class="f-s-n-b">Item Type<em>*</em></label>
       <md-radio-group [(ngModel)]="itemType" name="itemType" required>
@@ -131,6 +156,7 @@
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Medical</md-radio-button>
       </md-radio-group>
     </div>
+    
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="15" (change)="checkCodeExistance(code)"
@@ -321,6 +347,16 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-md visible-lg"></div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug Type" class="width100" [(ngModel)]="editDrug" disabled="true" name="drugName" >
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
       <label class="f-s-n-b">Item Type</label>
       <md-radio-group [(ngModel)]="edit_ItemType" name="itemType">
