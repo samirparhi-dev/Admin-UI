@@ -92,6 +92,7 @@ export class ItemMasterComponent implements OnInit {
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
     this.getAllServices();
+    this.drugName = "Non-EDL";
 
   }
   getAllServices() {
@@ -350,6 +351,25 @@ export class ItemMasterComponent implements OnInit {
   resetAllForms() {
     this.searchForm.resetForm();
     this.itemCreationForm.resetForm();
+    this.drugName = "Non-EDL";
+  }
+  resetItemCreationForm() {
+    this.itemCreationForm.controls.description.reset();
+    this.itemCreationForm.controls.itemType.reset();
+    this.itemCreationForm.controls.code.reset();
+    this.itemCreationForm.controls.name.reset();
+    this.itemCreationForm.controls.strength.reset();
+    this.itemCreationForm.controls.uom.reset();
+    this.itemCreationForm.controls.category.reset();
+    this.itemCreationForm.controls.dose.reset();
+    this.itemCreationForm.controls.pharmacology.reset();
+    this.itemCreationForm.controls.manufacturer.reset();
+    this.itemCreationForm.controls.drugType.reset();
+    this.itemCreationForm.controls.composition.reset();
+    this.itemCreationForm.controls.route.reset();
+    this.itemCreationForm.controls.description.reset();
+    this.drugType = false;
+    this.drugName = "Non-EDL";
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
@@ -377,7 +397,11 @@ export class ItemMasterComponent implements OnInit {
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
-    this.itemCreationForm.resetForm();
+    this.resetItemCreationForm();
+    formValue.drugName = "Non-EDL";
+    formValue.drugType = false;
+    this.drugName = "Non-EDL";
+    this.drugType = false;
   }
   checkDuplicates(multipleItem) {
     let duplicateStatus = 0
@@ -409,12 +433,13 @@ export class ItemMasterComponent implements OnInit {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
       if (response) {
         console.log(response, 'item created');
-        this.itemCreationForm.resetForm();
+        this.resetItemCreationForm();
         this.itemArrayObj = [];
         this.dialogService.alert('Saved Successfully', 'success');
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);
+        this.drugName = "Non-EDL";
       }
     }, err => {
       console.log(err, 'ERROR');
