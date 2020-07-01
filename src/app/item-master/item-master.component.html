@@ -314,9 +314,9 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-    <button md-raised-button color="primary" class="pull-left" (click)="back();itemCreationForm.reset();">Back</button>
-    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem();itemCreationForm.reset()">Save</button>
-    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="itemCreationForm.reset()">Clear</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back();resetItemCreationForm();">Back</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem();resetItemCreationForm();">Save</button>
+    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetItemCreationForm();">Clear</button>
   </div>
 </div>
 <div class="row" *ngIf="editMode">
