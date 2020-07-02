@@ -109,12 +109,15 @@ export class ItemMasterComponent implements OnInit {
     //   console.log('item', item);
     // })
   }
-  drugTypeChange(item)
-  {
-     if(item=="EDL")
-     this.isEDL=true;
-     else
-     this.isEDL=false;
+  drugTypeChange(item) {
+    if (item == "EDL") {
+      this.isEDL = true;
+      this.drugName = "EDL";
+    }
+    else {
+      this.isEDL = false;
+      this.drugName = "Non-EDL";
+    }
   }
   setProviderServiceMapID(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
@@ -393,7 +396,7 @@ export class ItemMasterComponent implements OnInit {
       'createdBy': this.createdBy,
       'providerServiceMapID': this.providerServiceMapID,
       'status': 'active',
-      'isEDL' : this.isEDL
+      'isEDL': formValue.drugName == "Non-EDL" ? false : true
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
