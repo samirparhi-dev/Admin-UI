@@ -70,7 +70,7 @@ export class ItemMasterComponent implements OnInit {
   itemID: any;
   drugTypeList: any=["Non-EDL","EDL"];
   drugType = false;
-  drugName: any="Non-EDL";
+  drugName: any="EDL";
   isEDL :boolean=false;
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
@@ -92,7 +92,7 @@ export class ItemMasterComponent implements OnInit {
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
     this.getAllServices();
-    this.drugName = "Non-EDL";
+    this.drugName = "EDL";
 
   }
   getAllServices() {
@@ -166,10 +166,6 @@ export class ItemMasterComponent implements OnInit {
       console.log("edl");
       console.log(availableItemCode);
       this.availableItemCodeInList.push(availableItemCode.itemCode);
-      if(availableItemCode.isEDL ==true)
-      this.EDL.push("yes")
-      else
-      this.EDL.push("No")
     }
   }
   showForm() {
@@ -354,7 +350,7 @@ export class ItemMasterComponent implements OnInit {
   resetAllForms() {
     this.searchForm.resetForm();
     this.itemCreationForm.resetForm();
-    this.drugName = "Non-EDL";
+    this.drugName = "EDL";
   }
   resetItemCreationForm() {
     this.itemCreationForm.controls.description.reset();
@@ -372,7 +368,7 @@ export class ItemMasterComponent implements OnInit {
     this.itemCreationForm.controls.route.reset();
     this.itemCreationForm.controls.description.reset();
     this.drugType = false;
-    this.drugName = "Non-EDL";
+    this.drugName = "EDL";
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
@@ -401,9 +397,9 @@ export class ItemMasterComponent implements OnInit {
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
     this.resetItemCreationForm();
-    formValue.drugName = "Non-EDL";
+    formValue.drugName = "EDL";
     formValue.drugType = false;
-    this.drugName = "Non-EDL";
+    this.drugName = "EDL";
     this.drugType = false;
   }
   checkDuplicates(multipleItem) {
@@ -442,7 +438,7 @@ export class ItemMasterComponent implements OnInit {
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);
-        this.drugName = "Non-EDL";
+        this.drugName = "EDL";
       }
     }, err => {
       console.log(err, 'ERROR');
