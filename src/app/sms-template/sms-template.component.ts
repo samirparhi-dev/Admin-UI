@@ -4,7 +4,7 @@ import { dataService } from '../services/dataService/data.service';
 import { NgForm } from '@angular/forms';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 import { SmsTemplateService } from 'app/services/adminServices/SMSMaster/sms-template-service.service';
-
+import { CommonServices } from '../services/inventory-services/commonServices';
 @Component({
   selector: 'app-sms-template',
   templateUrl: './sms-template.component.html',
@@ -15,8 +15,9 @@ export class SmsTemplateComponent implements OnInit {
   providerServiceMapID: any;
   serviceID: any;
   existing_templates: Array<any> = [];
-
-  showTableFlag = true;
+  userID:any;
+  service:any;
+  showTableFlag :boolean;
   // new
   viewTemplate = false;
   viewSMSparameterTable:Array<any> = [];
@@ -29,7 +30,7 @@ export class SmsTemplateComponent implements OnInit {
 
   Parameters:Array<any> = [];
   Parameters_count;
-
+  services:any=[];
   smsParameters:Array<any> = [];
   selectedParameterType;
   selectedParameterValues:Array<any> = [];
@@ -38,18 +39,61 @@ export class SmsTemplateComponent implements OnInit {
 
   @ViewChild('smsForm') Smsform1: NgForm;
   @ViewChild('smsViewForm') smsViewForm: NgForm;
+  states: any;
+  createForm: boolean;
 
 
   constructor(public commonData: dataService,
     public sms_service: SmsTemplateService,
+    public commonServices: CommonServices,
+    public commonDataService: dataService,
     public commonDialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
     // this.providerServiceMapID = this.commonData.current_service.serviceID; // check for each module
     // this.serviceID = this.commonData.current_serviceID; // check for each module
-    this.providerServiceMapID = 1247; 
-    this.serviceID = 3; 
+    //this.providerServiceMapID = 1247; 
+    //this.serviceID = 3; 
+    //this.getSMStemplates(this.providerServiceMapID);
+    // this.createdBy = this.commonDataService.uname;
+    // console.log("this.createdBy", this.createdBy);
+
+    this.userID = this.commonDataService.uid;
+    console.log('userID', this.userID);
+    this.getAllServices();
+  }
+  getAllServices() {
+    this.commonServices.getServiceLines(this.userID).subscribe((response) => {
+      console.log("serviceline", response);
+      this.servicesSuccesshandler(response),
+        (err) => console.log("ERROR in fetching serviceline")
+    });
+  }
+  servicesSuccesshandler(res) {
+    console.log("serviceres",res);
+    this.services = res;
+    // this.services = res.filter((item) => {
+    //   console.log('item', item);
+    // })
+  }
+  getStates(service) {
+    this.serviceID=service.serviceID;
+    this.commonServices.getStatesOnServices(this.userID, service.serviceID, false).
+      subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
+        console.log("error in fetching states")
+      });
+
+
+  }
+  setProviderServiceMapID(providerServiceMapID) {
+    console.log("providerServiceMapID", providerServiceMapID);
+    this.providerServiceMapID = providerServiceMapID;
+    console.log('psmid', this.providerServiceMapID);
     this.getSMStemplates(this.providerServiceMapID);
+  }
+
+  getStatesSuccessHandeler(response, service) {
+    this.states = response;
   }
 
   getSMStemplates(providerServiceMapID) {
@@ -60,6 +104,8 @@ export class SmsTemplateComponent implements OnInit {
 
           // code to extract(IDs) all those non deleted SMS-Types
           this.smsType_ID_array = [];
+          this.showTableFlag=true;
+          this.createForm=false;
           for (let i = 0; i < this.existing_templates.length; i++) {
             if (this.existing_templates[i].deleted === false) {
               this.smsType_ID_array.push(this.existing_templates[i].smsType.smsTypeID);
@@ -73,6 +119,7 @@ export class SmsTemplateComponent implements OnInit {
 
   showForm() {
     this.showTableFlag = false;
+    this.createForm=true;
     this.getSMStypes(this.serviceID);
   }
 
@@ -100,6 +147,7 @@ export class SmsTemplateComponent implements OnInit {
 
   showTable() {
     this.showTableFlag = true;
+    this.createForm=false;
     this.viewTemplate = false;
     this.cancel();
     this.getSMStemplates(this.providerServiceMapID);
@@ -166,7 +214,7 @@ export class SmsTemplateComponent implements OnInit {
   getSMSparameters() {
     this.smsParameters = [];
     this.selectedParameterValues = [];
-    this.sms_service.getSMSparameters()
+    this.sms_service.getSMSparameters(this.serviceID)
       .subscribe(response => {
         this.smsParameters = response;
       }, err => {
@@ -255,7 +303,6 @@ export class SmsTemplateComponent implements OnInit {
         this.viewSMSparameterTable = response.smsParameterMaps;
         this.viewTemplate = true;
         this.showTableFlag = false;
-
         this.smsViewForm.form.patchValue({
           'templateName': response.smsTemplateName,
           'smsType': response.smsType.smsType,

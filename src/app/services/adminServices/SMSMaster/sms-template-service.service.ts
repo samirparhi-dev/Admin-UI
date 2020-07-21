@@ -73,9 +73,9 @@ export class SmsTemplateService {
             .catch(this.handleError);
     }
 
-    getSMSparameters() {
+    getSMSparameters(serviceID) {
         return this.httpIntercept.post(this.getSMSparameters_url,
-            { 'serviceID': this.dataService.current_serviceID })
+            { 'serviceID': serviceID })
             .map(this.handleSuccess)
             .catch(this.handleError);
     }
