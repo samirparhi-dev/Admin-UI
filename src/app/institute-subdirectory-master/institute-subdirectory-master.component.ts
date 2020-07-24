@@ -71,9 +71,9 @@ export class InstituteSubdirectoryMasterComponent implements OnInit {
 
 	successhandeler(res) {
 		this.services = res.filter(function (item) {
-			if (item.serviceID != 6) {
+			
 				return item;
-			}
+			
 		})
 	}
 	// getServices(stateID) {

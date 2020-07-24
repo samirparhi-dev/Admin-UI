@@ -94,7 +94,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
   }
   successhandeler(res) {
     this.serviceLines = res.filter(function (item) {
-      if (item.serviceID === 3 || item.serviceID === 1) {
+      if (item.serviceID === 3 || item.serviceID === 1 || item.serviceID === 6) {
         return item;
       }
     });
