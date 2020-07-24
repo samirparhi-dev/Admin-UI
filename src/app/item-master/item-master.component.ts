@@ -70,7 +70,7 @@ export class ItemMasterComponent implements OnInit {
   itemID: any;
   drugTypeList: any=["Non-EDL","EDL"];
   drugType = false;
-  drugName: any="Non-EDL";
+  drugName: any="EDL";
   isEDL :boolean=false;
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
@@ -92,6 +92,7 @@ export class ItemMasterComponent implements OnInit {
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
     this.getAllServices();
+    this.drugName = "EDL";
 
   }
   getAllServices() {
@@ -108,12 +109,15 @@ export class ItemMasterComponent implements OnInit {
     //   console.log('item', item);
     // })
   }
-  drugTypeChange(item)
-  {
-     if(item=="EDL")
-     this.isEDL=true;
-     else
-     this.isEDL=false;
+  drugTypeChange(item) {
+    if (item == "EDL") {
+      this.isEDL = true;
+      this.drugName = "EDL";
+    }
+    else {
+      this.isEDL = false;
+      this.drugName = "Non-EDL";
+    }
   }
   setProviderServiceMapID(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
@@ -162,10 +166,6 @@ export class ItemMasterComponent implements OnInit {
       console.log("edl");
       console.log(availableItemCode);
       this.availableItemCodeInList.push(availableItemCode.itemCode);
-      if(availableItemCode.isEDL ==true)
-      this.EDL.push("yes")
-      else
-      this.EDL.push("No")
     }
   }
   showForm() {
@@ -350,6 +350,25 @@ export class ItemMasterComponent implements OnInit {
   resetAllForms() {
     this.searchForm.resetForm();
     this.itemCreationForm.resetForm();
+    this.drugName = "EDL";
+  }
+  resetItemCreationForm() {
+    this.itemCreationForm.controls.description.reset();
+    this.itemCreationForm.controls.itemType.reset();
+    this.itemCreationForm.controls.code.reset();
+    this.itemCreationForm.controls.name.reset();
+    this.itemCreationForm.controls.strength.reset();
+    this.itemCreationForm.controls.uom.reset();
+    this.itemCreationForm.controls.category.reset();
+    this.itemCreationForm.controls.dose.reset();
+    this.itemCreationForm.controls.pharmacology.reset();
+    this.itemCreationForm.controls.manufacturer.reset();
+    this.itemCreationForm.controls.drugType.reset();
+    this.itemCreationForm.controls.composition.reset();
+    this.itemCreationForm.controls.route.reset();
+    this.itemCreationForm.controls.description.reset();
+    this.drugType = false;
+    this.drugName = "EDL";
   }
   addMultipleItemArray(formValue) {
     console.log("formValue", formValue);
@@ -373,11 +392,15 @@ export class ItemMasterComponent implements OnInit {
       'createdBy': this.createdBy,
       'providerServiceMapID': this.providerServiceMapID,
       'status': 'active',
-      'isEDL' : this.isEDL
+      'isEDL': formValue.drugName == "Non-EDL" ? false : true
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
-    this.itemCreationForm.resetForm();
+    this.resetItemCreationForm();
+    formValue.drugName = "EDL";
+    formValue.drugType = false;
+    this.drugName = "EDL";
+    this.drugType = false;
   }
   checkDuplicates(multipleItem) {
     let duplicateStatus = 0
@@ -409,12 +432,13 @@ export class ItemMasterComponent implements OnInit {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
       if (response) {
         console.log(response, 'item created');
-        this.itemCreationForm.resetForm();
+        this.resetItemCreationForm();
         this.itemArrayObj = [];
         this.dialogService.alert('Saved Successfully', 'success');
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);
+        this.drugName = "EDL";
       }
     }, err => {
       console.log(err, 'ERROR');

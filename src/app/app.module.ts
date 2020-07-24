@@ -258,6 +258,9 @@ import { ViewVersionDetailsComponent } from './view-version-details/view-version
 import { WrapupTimeConfigurationComponent } from './wrapup-time-configuration/wrapup-time-configuration.component';
 import { WrapupTimeConfigurationService } from './services/ProviderAdminServices/wrapup-time-configuration.service';
 import { UserSignatureMappingComponent } from './user-signature-mapping/user-signature-mapping.component';
+import { SmsTemplateComponent } from './sms-template/sms-template.component';
+import { SmsTemplateService } from './services/adminServices/SMSMaster/sms-template-service.service';
+import { adminDataService } from './services/adminServices/SMSMaster/data.service';
 
 @NgModule({
   declarations: [
@@ -326,7 +329,8 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     MappedVansComponent,
     ViewVersionDetailsComponent,
     WrapupTimeConfigurationComponent,
-    UserSignatureMappingComponent
+    UserSignatureMappingComponent,
+    SmsTemplateComponent
   ],
 
   imports: [
@@ -410,7 +414,7 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService, WrapupTimeConfigurationService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
