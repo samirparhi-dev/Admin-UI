@@ -187,6 +187,9 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("63")'>
+                                    <a>SMS Templates</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -317,6 +320,7 @@
                             <app-swymed-user-mapping *ngSwitchCase="60"></app-swymed-user-mapping>
                             <app-wrapup-time-configuration *ngSwitchCase="61"></app-wrapup-time-configuration>
                             <app-user-signature-mapping *ngSwitchCase="62"></app-user-signature-mapping>
+                            <app-sms-template *ngSwitchCase="63"></app-sms-template>
                         </div>
                     </div>
                 </div>

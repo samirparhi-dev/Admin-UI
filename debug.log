@@ -39,3 +39,4 @@
 [1016/181349:ERROR:node_debugger.cc(86)] Cannot start debugger server
 [1105/135814:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
 [1105/135815:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0724/184759.794:ERROR:registration_protocol_win.cc(131)] TransactNamedPipe: The pipe has been ended. (0x6D)

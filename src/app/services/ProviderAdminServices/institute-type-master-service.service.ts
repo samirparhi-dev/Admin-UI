@@ -97,7 +97,7 @@ export class InstituteTypeMasterService {
     console.log(response.json().data, 'role service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.serviceID === 3 || item.serviceID === 1) {
+      if (item.serviceID === 3 || item.serviceID === 1 || item.serviceID === 6) {
         return item;
       }
     });

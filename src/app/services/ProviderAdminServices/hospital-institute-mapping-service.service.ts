@@ -133,7 +133,7 @@ export class HospitalInstituteMappingService {
     console.log(response.json().data, 'HOSPITAL-MASTER-SERVICE success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.serviceID === 1 || item.serviceID === 3) {
+      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6) {
         return item;
       }
     });
