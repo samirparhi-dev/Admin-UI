@@ -41,7 +41,7 @@ export class SmsTemplateComponent implements OnInit {
   @ViewChild('smsViewForm') smsViewForm: NgForm;
   states: any;
   createForm: boolean;
-
+state:any;
 
   constructor(public commonData: dataService,
     public sms_service: SmsTemplateService,
