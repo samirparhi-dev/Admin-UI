@@ -261,6 +261,11 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
 import { SmsTemplateComponent } from './sms-template/sms-template.component';
 import { SmsTemplateService } from './services/adminServices/SMSMaster/sms-template-service.service';
 import { adminDataService } from './services/adminServices/SMSMaster/data.service';
+import { AddQuestionnaireComponent } from './add-questionnaire/add-questionnaire.component';
+import { EditQuestionnaireComponent } from './edit-questionnaire/edit-questionnaire.component';
+import { QuestionnaireServiceService } from './services/questionnaire-service.service';
+
+
 
 @NgModule({
   declarations: [
@@ -330,7 +335,10 @@ import { adminDataService } from './services/adminServices/SMSMaster/data.servic
     ViewVersionDetailsComponent,
     WrapupTimeConfigurationComponent,
     UserSignatureMappingComponent,
-    SmsTemplateComponent
+    SmsTemplateComponent,
+    AddQuestionnaireComponent,
+    EditQuestionnaireComponent,
+ 
   ],
 
   imports: [
@@ -357,6 +365,7 @@ import { adminDataService } from './services/adminServices/SMSMaster/data.servic
     MdSliderModule,
     MdAutocompleteModule,
     RouterModule.forRoot([
+     
       {
         path: 'resetPassword',
         component: ResetComponent
@@ -414,7 +423,7 @@ import { adminDataService } from './services/adminServices/SMSMaster/data.servic
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -448,7 +457,9 @@ import { adminDataService } from './services/adminServices/SMSMaster/data.servic
     EditItemMasterModal,
     EditItemCategoryComponent,
     MappedVansComponent,
-    ViewVersionDetailsComponent
+    ViewVersionDetailsComponent,
+    EditQuestionnaireComponent,
+   
   ],
 
   bootstrap: [AppComponent]

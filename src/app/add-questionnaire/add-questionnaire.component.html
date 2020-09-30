@@ -1,0 +1,221 @@
+<div class="m-t-10">
+  <h4>Questionnaire Configuration</h4>
+  
+  
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="service" name="service" [disabled]="showAdd" required>
+          <md-option *ngFor="let item of services" value="{{item.serviceName}}" (click)="getStates(item.serviceID,item.isNational)">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="State" [style.width]="'100%'" [disabled]="showAdd" [(ngModel)]="state" name="state" required>
+          <md-option *ngFor="let item of states" value="{{item.stateID}}" (click)="setProviderServiceMapID(item.providerServiceMapID)">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+        <!-- </md-input-container> -->
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15"  *ngIf="showtype">
+       
+          <input mdInput style="display:none">
+        <md-select placeholder="Question Type" name="questionType" [disabled]="showAdd" [style.width]="'100%'" [(ngModel)]='questionnaireType'
+          required>
+          <md-option *ngFor="let questions of questionTypeArray" value="{{questions.questionType}}">{{questions.questionType}}</md-option>
+        </md-select>
+      
+      </div>
+      <div class='col-xs-12 col-sm-6 col-md- col-lg-12' *ngIf="!showAdd">
+        <div class="m-t-20 col-xs-12 col-sm-12 col-md-3 col-lg-2 pull-right">
+        <button md-raised-button color="primary"  (click)="setQuestionType(questionnaireType)" type="submit">Submit</button>
+      </div>
+      </div>
+       <!-- <div  *ngIf="!showAdd && !disabledFlag" class="col-xs-8 col-sm-4 pull-right" style="margin-top: 1%;">
+        <div class="sw">
+          <input type="search" class="search" autocomplete="off" placeholder="In Table Search" name="filterTerm"
+            [(ngModel)]="filterTerm" (keyup)="filterQuestionList(filterTerm)" />
+          <button class="go" (click)="filterQuestionList(filterTerm)">
+            <i class="material-icons">search</i>
+          </button>
+          </div>
+        </div> -->
+    </div>
+
+    <div class="pull-right m-t-15" *ngIf="!showAdd && !disabledFlag">
+      <md-input-container id="filterbox">
+        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterQuestionList(filterTerm.value)">
+        <md-icon mdSuffix>search</md-icon>
+      </md-input-container>
+    </div>
+
+<!--Questionnaire List-->
+<div class="row">
+  <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="!showAdd && !disabledFlag">
+<div class="table-responsive">
+  <table [md2Data]="questionrows" #md2="md2DataTable"  class="table table-striped table-hover" [rowsPerPage]="5">
+    <thead>
+      <tr>
+        <th width="5%">S.No</th>
+        <th width="30%">Question</th>
+        <th width="10%">Question Weightage</th>
+        <th width="10%">Answer Type</th>
+     
+        <th width="10%">Edit</th>
+        <th width="10%">Delete</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="questionrows?.length == 0">
+        <td colspan="9" class="record-not-found">No record found</td>
+      </tr>
+      <tr *ngFor="let row of md2.data ; let i =index ">
+        <td>{{row.questionRank}}</td>
+        <td>{{row.question}}</td>
+        <td>{{row.questionWeightage}}</td>
+        <td>{{row.answerType}}</td>
+      
+        <td>
+          <span (click)="onEditClick(row)">
+            <md-icon class="cursorPointer">mode_edit</md-icon>
+          </span>
+        </td>
+        <td>
+          <span (click)="onDeleteClick(row,$event)">
+            <md-icon class="cursorPointer">delete</md-icon>
+          </span>
+        </td>
+        
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="16">
+          <md2-pagination></md2-pagination>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="16" class="p-r-0">
+        
+          <div class="pull-right" *ngIf="!showAdd">
+          <button md-raised-button  color="primary"  [disabled]="disabledFlag" (click)="showAddForm()">Add Questions</button>
+  </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+</div>
+</div>
+</div>
+<!--END -Questionnaire List-->
+
+
+  
+
+<div class="row rowadd" *ngIf="showAdd">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4 class="f-s-b m-t-20 m-b-20">Create Questionnaire</h4>
+  </div>
+
+  <form  [formGroup]="questionnaireForm"  autocomplete="off" autofocus autocomplete="off">
+    <div formArrayName="newQuestions">
+      <div class="enclosingDiv b-b-c clearfix" *ngFor="let newQuestion of questionnaireForm.controls.newQuestions['controls'] ;let i= index; let isLast = last ">
+
+        <div [formGroupName]="i">
+  <div class="col-xs-12 col-sm-6">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput required placeholder="Question" formControlName="questionName" minlength="5" maxlength="100">
+     
+      </md-input-container>
+    </div> 
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="Rank"  (change)="rankInput(i)" required formControlName="questionRank" minlength="1"  myMobileNumber>
+       
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput placeholder="Weightage" required formControlName="questionWeight" (keyup)="weightageInput(i)" minlength="1" maxlength="3" myMobileNumber>
+       
+      </md-input-container>
+    </div>
+   
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-select placeholder="Answer Type" formControlName="answerType" [style.width]="'100%'" 
+      required>
+      <md-option *ngFor="let answers of answerTypes" [value]="answers">{{answers}}</md-option>
+    </md-select>
+    </div>
+    <br>
+  
+  <div class="col-xs-12 col-sm-12 m-t-15" formArrayName="answerOptions">
+    <div class="col-xs-12 col-sm-12 m-t-15"  *ngFor="let options of newQuestion.controls.answerOptions.controls; index as idx;">
+      <div [formGroupName]="idx">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <md-input-container [style.width]="'100%'">
+        <input mdInput required placeholder="Option" formControlName="option" maxlength="100">
+      
+      </md-input-container>
+    </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <md-input-container [style.width]="'100%'">
+          <input mdInput placeholder="Weightage" required allowText="number" formControlName="optionWeightage" (keyup)="optionweightage(idx,i)" [min]="minwght" [max]="maxwght"  minlength="1" maxlength="3" myMobileNumber>
+         
+        </md-input-container>
+      </div> 
+        <button md-mini-fab color="primary" mdTooltip="add option"  (click)="addOptionField(i)">
+          <md-icon class="md-18"  >add</md-icon>
+        </button>
+  <button md-mini-fab color="warn" mdTooltip="remove option" (click)="deleteOptionField(i,idx)">
+  <md-icon class="md-18">close</md-icon>
+</button>
+
+      </div>
+    </div>
+  </div>
+
+
+
+    <div class="pull-right">
+      <div class="row">
+      <div class="col-xs-3 col-sm-3">
+    
+        <button md-mini-fab class="m-t-10 " color="primary" mdTooltip="add question" *ngIf="isLast" (click)="onAddRow()">
+          <md-icon  mdSuffix class="mat-icon material-icons" >add</md-icon>
+        </button>
+      </div>&nbsp;&nbsp;&nbsp;
+
+      <div class="col-xs-3 col-sm-3 m-r-20">
+        <button md-mini-fab  class="m-t-10" color="warn" mdTooltip="remove question" (click)="onDeleteRow(i)">
+          <md-icon mdSuffix class="mat-icon material-icons" style="cursor: pointer">close</md-icon>
+        </button>
+      </div>
+</div>
+    </div>
+  
+ 
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+  <button md-raised-button color="primary" type="button" (click)="navigateToPrev()" class="pull-left m-r-10" >Back</button>      
+  <button md-raised-button color="primary" type="button" (click)="onFormSubmit()" [disabled]="questionnaireForm.invalid || weightFlag || optionweightFlag || rankFlag" class="pull-right" >Submit</button>      
+</div>
+  </form>
+
+ 
+</div>
