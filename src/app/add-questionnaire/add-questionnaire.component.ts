@@ -9,6 +9,7 @@ import { EditQuestionnaireComponent } from 'app/edit-questionnaire/edit-question
 import { QuestionnaireServiceService } from 'app/services/questionnaire-service.service';
 
 
+
 @Component({
   selector: 'app-add-questionnaire',
   templateUrl: './add-questionnaire.component.html',
@@ -41,6 +42,7 @@ export class AddQuestionnaireComponent implements OnInit {
   questionTypeArray: any=[];
   questiontypeID: number;
   questionnaireType: string;
+  service:string;
   
  
   constructor(private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,
