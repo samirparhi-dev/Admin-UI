@@ -32,21 +32,21 @@
         <div [formGroupName]="idx">
           <div class="col-xs-6 col-sm-6 m-t-15">
            
-        <md-input-container [style.width]="'100%'">
+        <md-input-container [style.width]="'100%'" *ngIf="this.deleteArray[idx]!=idx">
           <input mdInput required placeholder="Option" formControlName="option" maxlength="100">
         
         </md-input-container>
       </div>
         <div class="col-xs-6 col-sm-6 m-t-15">
-          <md-input-container [style.width]="'100%'">
+          <md-input-container [style.width]="'100%'" *ngIf="this.deleteArray[idx]!=idx">
             <input mdInput placeholder="Weightage" required allowText="number" formControlName="optionWeightage" (keyup)="optionweightage(idx)"   minlength="1" maxlength="3" myMobileNumber>
            
           </md-input-container>
         </div> 
-          <button md-mini-fab color="primary"  (click)="addOptionField(i)">
+          <button md-mini-fab color="primary"  (click)="addOptionField(i,idx)" *ngIf="this.deleteArray[idx]!=idx">
             <md-icon class="md-18">add</md-icon>
           </button>
-    <button md-mini-fab color="warn"  (click)="deleteOptionField(i,idx)">
+    <button md-mini-fab color="warn"  (click)="deleteOptionField(i,idx)" *ngIf="this.deleteArray[idx]!=idx">
     <md-icon class="md-18">close</md-icon>
   </button>
   
