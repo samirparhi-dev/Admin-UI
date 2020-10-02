@@ -10,6 +10,7 @@ import { QuestionnaireServiceService } from 'app/services/questionnaire-service.
 
 
 
+
 @Component({
   selector: 'app-add-questionnaire',
   templateUrl: './add-questionnaire.component.html',
@@ -43,8 +44,9 @@ export class AddQuestionnaireComponent implements OnInit {
   questiontypeID: number;
   questionnaireType: string;
   service:string;
-  
- 
+  qindex:number=0
+  sum: number=0;
+ delVar:boolean=false;
   constructor(private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,
     public questionnaire_service: QuestionnaireServiceService,public data_service: dataService,public _getproviderService: AgentListCreationService,
     public dialog: MdDialog) { }
@@ -146,7 +148,7 @@ createQuestionnaireForm()
         
         option: new FormControl(''),
         optionWeightage: new FormControl(''),
-        deleted: false
+        deleted: this.delVar
   
       });
     }
@@ -180,7 +182,7 @@ createQuestionnaireForm()
     return this.formBuilder.group({
       option: null,
       optionWeightage: null,
-      deleted: false
+      deleted: this.delVar
     })
   }
   deleteOptionField(i,idx) {
@@ -208,6 +210,29 @@ createQuestionnaireForm()
   this.questionlistValue = this.questionnaireForm.value;
  
     postQuestionList = this.iterateArray(this.questionlistValue);
+//apply for edit also
+   for(let j=0;j<this.questionlistValue.newQuestions.length;j++) {
+      this.sum=0;
+      this.qindex++;
+            for(let k=0;k<this.questionlistValue.newQuestions[j].answerOptions.length;k++)
+            {
+              console.log("Weightage",this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
+
+               this.sum =  this.sum + parseInt(this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
+            }
+            if(this.sum!=100)
+            {
+              this.commonDialogService.alert("Sum of option  weightage of Question"+this.qindex+" should be 100", 'error');
+             break;
+                 
+            }
+           
+          }
+          
+          this.qindex=0;
+console.log("Sum",this.sum)
+if(this.sum==100)
+{
 this.questionnaire_service.saveQuestionnaire(postQuestionList)
     .subscribe((resp) => {
       if (resp.statusCode == 200) {
@@ -224,14 +249,28 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
       // this.successhandler();
     });
 
-  
+  } 
+  this.sum=0; 
   }
   iterateArray(questionlistValue) {
     console.log("QuestionTypeID",this.questiontypeID);
     let postQuestionList = [];
     let reqObj={};
    
+    
+    
     questionlistValue.newQuestions.forEach((question) => {
+
+      // question.answerOptions.deleted.patchValue({"deleted": false });
+      // this.answerOptions[0].patchValue({"deleted": false });
+      for (let i = 0; i < question.answerOptions.length; i++) {
+
+       
+     
+        // question.answerOptions[i].patchValue({"deleted": false});
+        question.answerOptions[i].deleted=false;
+       
+      }
       const questionObj = {
        
         "questionnaireDetail": {
@@ -249,9 +288,11 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
         }
       };
       postQuestionList.push(questionObj);
+    
     })
    
     return postQuestionList
+  
   }
 
   successhandler()

@@ -20,6 +20,7 @@ export class EditQuestionnaireComponent implements OnInit {
   optionweightFlag: any = false;
   questionlistValue: any[];
   providerServiceMapID: any;
+  deleteArray: any=[];
   constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialogRef: MdDialogRef<EditQuestionnaireComponent>,
   private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,public data_service: dataService,
   public questionnaire_service: QuestionnaireServiceService,) { }
@@ -41,7 +42,7 @@ export class EditQuestionnaireComponent implements OnInit {
     this.editQuestionnaireForm.controls['answerType'].setValue(this.data.selectedQuestion.answerType)
 
     for (let i = 0; i < this.data.selectedQuestion.qvalues.length; i++) {
-      this.addOptionField(i);
+      this.addOptField(i);
       // console.log("questionOptions",this.data.selectedQuestion.questionnaireDetail.questionOptions[i])
       // this.editQuestionnaireForm.controls.answerOptions.setValue([
       //   this.data.selectedQuestion.questionnaireDetail.questionOptions[i]
@@ -52,7 +53,7 @@ export class EditQuestionnaireComponent implements OnInit {
 
       // console.log(this.answerOptions.at(i).value);
       // this.answerOptions.at(i).patchValue(this.data.selectedQuestion.questionnaireDetail.questionOptions[i]);
-      this.answerOptions.at(i).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage});
+      this.answerOptions.at(i).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage,"deleted":this.data.selectedQuestion.qvalues[i].deleted });
       console.log("NewOptions",this.answerOptions.at(i).value);
     }
     
@@ -81,7 +82,7 @@ export class EditQuestionnaireComponent implements OnInit {
       questionValuesID: null,
       option: new FormControl(''),
       optionWeightage: new FormControl(''),
-
+      deleted: new FormControl(''),
     });
   }
   
@@ -117,7 +118,7 @@ export class EditQuestionnaireComponent implements OnInit {
     
    }
  }
- addOptionField(i) {
+ addOptField(i) {
   this.questionOptionList = [];
 
   console.log("Ind",i)
@@ -128,7 +129,25 @@ export class EditQuestionnaireComponent implements OnInit {
 
   questionList.push(this.createQuestionsOptions());
   this.questionArrayList = questionList;
+ 
+  console.log("FormValues",this.editQuestionnaireForm.value)
+ 
 
+
+}
+
+ addOptionField(i,idx) {
+  this.questionOptionList = [];
+
+  console.log("Ind",i)
+   let questionList = <FormArray>this.editQuestionnaireForm.controls['answerOptions'];
+  
+  
+  
+
+  questionList.push(this.createQuestionsOptions());
+  this.questionArrayList = questionList;
+  this.answerOptions.at(idx+1).patchValue({"deleted": false });
   console.log("FormValues",this.editQuestionnaireForm.value)
  
 
@@ -137,10 +156,12 @@ export class EditQuestionnaireComponent implements OnInit {
 deleteOptionField(i,idx) {
     let questList = <FormArray>this.editQuestionnaireForm.controls['answerOptions'];
  
+    
    if (questList.length !== 1) 
    {
-   
-    questList.removeAt(idx);
+    this.deleteArray[idx]=idx;
+    this.answerOptions.at(idx).patchValue({"optionWeightage": "0","deleted": true });
+    // questList.removeAt(idx);
   }
  
 
@@ -152,13 +173,27 @@ deleteOptionField(i,idx) {
   onSubmit()
   {
      
-    //   this.questionlistValue=[];
-    //   let postQuestionList=[];
-    //   console.log("FormValue",this.editQuestionnaireForm.value);
-  
-    // this.questionlistValue = this.editQuestionnaireForm.value;
-   
-    //   postQuestionList = this.iterateArray(this.questionlistValue);
+    this.questionlistValue = this.editQuestionnaireForm.value;
+ 
+
+   let sum=0;
+     
+            for(let k=0;k<this.editQuestionnaireForm.value.answerOptions.length;k++)
+            {
+             
+
+               sum =  sum + parseInt(this.editQuestionnaireForm.value.answerOptions[k].optionWeightage);
+            }
+            if(sum!=100)
+            {
+              this.commonDialogService.alert("Sum of option weightage should be 100", 'error');
+             
+                 
+            }
+           
+          
+     if(sum==100)
+     {     
       const questionObj = {
       
         "questionnaireDetail": {
@@ -177,6 +212,9 @@ deleteOptionField(i,idx) {
         
         }
       };
+
+console.log("QuestionListValue",questionObj)
+
       this.questionnaire_service.editQuestionnaire(questionObj)
       .subscribe((resp) => {
         if (resp.statusCode == 200) {
@@ -196,5 +234,5 @@ deleteOptionField(i,idx) {
     
     
   }
- 
+}
 }
