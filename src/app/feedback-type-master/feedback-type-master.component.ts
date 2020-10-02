@@ -380,6 +380,9 @@ export class EditFeedbackModal {
     else if (this.feedbackName == "Foodsafety Complaints") {
       tempObj['FeedbackTypeCode'] = 'FC';
     }
+    else if (this.feedbackName == "Bal Vivah Complaints") {
+      tempObj['FeedbackTypeCode'] = 'BV';
+    }
 
     this.FeedbackTypeService.editFeedback(tempObj)
       .subscribe((res) => {
