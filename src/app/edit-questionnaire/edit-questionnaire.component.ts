@@ -41,21 +41,30 @@ export class EditQuestionnaireComponent implements OnInit {
     this.editQuestionnaireForm.controls['questionWeight'].setValue(this.data.selectedQuestion.questionWeightage)
     this.editQuestionnaireForm.controls['answerType'].setValue(this.data.selectedQuestion.answerType)
 
-    for (let i = 0; i < this.data.selectedQuestion.qvalues.length; i++) {
-      this.addOptField(i);
+    let j=0;
+    for (let i = 0; i < this.data.selectedQuestion.qvalues.length;i++) {
+      if(this.data.selectedQuestion.qvalues[i].deleted == false)
+      {
+      this.addOptField(j);
+      this.answerOptions.at(j).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage,"deleted":this.data.selectedQuestion.qvalues[i].deleted });
+      j++;
+    
+      }
       // console.log("questionOptions",this.data.selectedQuestion.questionnaireDetail.questionOptions[i])
       // this.editQuestionnaireForm.controls.answerOptions.setValue([
       //   this.data.selectedQuestion.questionnaireDetail.questionOptions[i]
         
       // ]);
     }
-    for (let i = 0; i < this.answerOptions.length; i++) {
+    // for (let i = 0; i < this.answerOptions.length;i++) {
 
-      // console.log(this.answerOptions.at(i).value);
-      // this.answerOptions.at(i).patchValue(this.data.selectedQuestion.questionnaireDetail.questionOptions[i]);
-      this.answerOptions.at(i).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage,"deleted":this.data.selectedQuestion.qvalues[i].deleted });
-      console.log("NewOptions",this.answerOptions.at(i).value);
-    }
+    //   if(this.data.selectedQuestion.qvalues[i].deleted == false)
+    //   {
+    //   this.answerOptions.at(i).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage,"deleted":this.data.selectedQuestion.qvalues[i].deleted });
+    //   console.log("NewOptions",this.answerOptions.at(i).value);
+     
+    //   }
+    // }
     
    
 
@@ -176,24 +185,24 @@ deleteOptionField(i,idx) {
     this.questionlistValue = this.editQuestionnaireForm.value;
  
 
-   let sum=0;
+  //  let sum=0;
      
-            for(let k=0;k<this.editQuestionnaireForm.value.answerOptions.length;k++)
-            {
+  //           for(let k=0;k<this.editQuestionnaireForm.value.answerOptions.length;k++)
+  //           {
              
 
-               sum =  sum + parseInt(this.editQuestionnaireForm.value.answerOptions[k].optionWeightage);
-            }
-            if(sum!=100)
-            {
-              this.commonDialogService.alert("Sum of option weightage should be 100", 'error');
+  //              sum =  sum + parseInt(this.editQuestionnaireForm.value.answerOptions[k].optionWeightage);
+  //           }
+            // if(sum!=100)
+            // {
+            //   this.commonDialogService.alert("Sum of option weightage should be 100", 'error');
              
                  
-            }
+            // }
            
           
-     if(sum==100)
-     {     
+    //  if(sum==100)
+    //  {     
       const questionObj = {
       
         "questionnaireDetail": {
@@ -234,5 +243,5 @@ console.log("QuestionListValue",questionObj)
     
     
   }
-}
+// }
 }

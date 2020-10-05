@@ -44,8 +44,8 @@ export class AddQuestionnaireComponent implements OnInit {
   questiontypeID: number;
   questionnaireType: string;
   service:string;
-  qindex:number=0
-  sum: number=0;
+  // qindex:number=0
+  // sum: number=0;
  delVar:boolean=false;
   constructor(private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,
     public questionnaire_service: QuestionnaireServiceService,public data_service: dataService,public _getproviderService: AgentListCreationService,
@@ -210,29 +210,29 @@ createQuestionnaireForm()
   this.questionlistValue = this.questionnaireForm.value;
  
     postQuestionList = this.iterateArray(this.questionlistValue);
-//apply for edit also
-   for(let j=0;j<this.questionlistValue.newQuestions.length;j++) {
-      this.sum=0;
-      this.qindex++;
-            for(let k=0;k<this.questionlistValue.newQuestions[j].answerOptions.length;k++)
-            {
-              console.log("Weightage",this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
 
-               this.sum =  this.sum + parseInt(this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
-            }
-            if(this.sum!=100)
-            {
-              this.commonDialogService.alert("Sum of option  weightage of Question"+this.qindex+" should be 100", 'error');
-             break;
+//    for(let j=0;j<this.questionlistValue.newQuestions.length;j++) {
+//       this.sum=0;
+//       this.qindex++;
+//             for(let k=0;k<this.questionlistValue.newQuestions[j].answerOptions.length;k++)
+//             {
+//               console.log("Weightage",this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
+
+//                this.sum =  this.sum + parseInt(this.questionlistValue.newQuestions[j].answerOptions[k].optionWeightage);
+//             }
+//             if(this.sum!=100)
+//             {
+//               this.commonDialogService.alert("Sum of option  weightage of Question"+this.qindex+" should be 100", 'error');
+//              break;
                  
-            }
+//             }
            
-          }
+//           }
           
-          this.qindex=0;
-console.log("Sum",this.sum)
-if(this.sum==100)
-{
+//           this.qindex=0;
+// console.log("Sum",this.sum)
+// if(this.sum==100)
+// {
 this.questionnaire_service.saveQuestionnaire(postQuestionList)
     .subscribe((resp) => {
       if (resp.statusCode == 200) {
@@ -250,8 +250,8 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
     });
 
   } 
-  this.sum=0; 
-  }
+  // this.sum=0; 
+  // }
   iterateArray(questionlistValue) {
     console.log("QuestionTypeID",this.questiontypeID);
     let postQuestionList = [];
