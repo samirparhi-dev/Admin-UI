@@ -13,7 +13,7 @@ import { QuestionnaireServiceService } from 'app/services/questionnaire-service.
 export class EditQuestionnaireComponent implements OnInit {
   selectedQuestion: any;  
   editQuestionnaireForm:  FormGroup;
-  answerTypes:any=["Radio","Dropdown"];
+  answerTypes:any=["Radio","Dropdown","Free Text"];
   questionOptionList: any[];
   questionArrayList: FormArray;
   weightFlag: any = false;
@@ -21,6 +21,9 @@ export class EditQuestionnaireComponent implements OnInit {
   questionlistValue: any[];
   providerServiceMapID: any;
   deleteArray: any=[];
+  enableUpdate: boolean=true;
+  disableWeightage: boolean=false;
+  enableOptionArray: boolean;
   constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialogRef: MdDialogRef<EditQuestionnaireComponent>,
   private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,public data_service: dataService,
   public questionnaire_service: QuestionnaireServiceService,) { }
@@ -38,13 +41,22 @@ export class EditQuestionnaireComponent implements OnInit {
     this.editQuestionnaireForm.controls['questionType'].setValue(this.data.selectedQuestion.questionType)
     this.editQuestionnaireForm.controls['questionName'].setValue(this.data.selectedQuestion.question)
     this.editQuestionnaireForm.controls['questionRank'].setValue(this.data.selectedQuestion.questionRank)
-    this.editQuestionnaireForm.controls['questionWeight'].setValue(this.data.selectedQuestion.questionWeightage)
     this.editQuestionnaireForm.controls['answerType'].setValue(this.data.selectedQuestion.answerType)
 
+if(this.data.selectedQuestion.answerType == "Free Text"){
+  this.editQuestionnaireForm.controls['questionWeight'].setValue(" ");
+  this.disableWeightage=false;
+  this.enableOptionArray=false;
+}
+else{
+  this.disableWeightage=true;
+  this.enableOptionArray=true;
+    this.editQuestionnaireForm.controls['questionWeight'].setValue(this.data.selectedQuestion.questionWeightage)
     let j=0;
     for (let i = 0; i < this.data.selectedQuestion.qvalues.length;i++) {
       if(this.data.selectedQuestion.qvalues[i].deleted == false)
       {
+
       this.addOptField(j);
       this.answerOptions.at(j).patchValue({"questionValuesID":this.data.selectedQuestion.qvalues[i].questionValuesID ,"option": this.data.selectedQuestion.qvalues[i].option, "optionWeightage": this.data.selectedQuestion.qvalues[i].optionWeightage,"deleted":this.data.selectedQuestion.qvalues[i].deleted });
       j++;
@@ -66,7 +78,7 @@ export class EditQuestionnaireComponent implements OnInit {
     //   }
     // }
     
-   
+  }
 
   }
   get answerOptions(): FormArray {
@@ -156,7 +168,9 @@ export class EditQuestionnaireComponent implements OnInit {
 
   questionList.push(this.createQuestionsOptions());
   this.questionArrayList = questionList;
+  if(this.answerOptions.at(idx+1).value.deleted != true){
   this.answerOptions.at(idx+1).patchValue({"deleted": false });
+  }
   console.log("FormValues",this.editQuestionnaireForm.value)
  
 
@@ -164,25 +178,108 @@ export class EditQuestionnaireComponent implements OnInit {
 }
 deleteOptionField(i,idx) {
     let questList = <FormArray>this.editQuestionnaireForm.controls['answerOptions'];
- 
-    
-   if (questList.length !== 1) 
+   console.log("questionWeight1",this.answerOptions.at(idx).value.option);
+   console.log("questionWeight2",this.answerOptions.at(idx).value.optionWeightage);
+  //  this.answerOptions.at(idx).patchValue({"option":"","optionWeightage": "" });
+
+  // for (let i = 0; i < this.data.selectedQuestion.qvalues.length;i++) {
+   
+
+  //     if(this.answerOptions.at(idx).value.option===this.data.selectedQuestion.qvalues[i].option || this.answerOptions.at(idx).value.optionWeightage===this.data.selectedQuestion.qvalues[i].optionWeightage)
+  //     {
+
+  
+  //   j++;
+  //     }
+  
+  //   }
+
+
+
+    if(this.answerOptions.at(idx).value.questionValuesID===null|| this.answerOptions.at(idx).value.option==="" || this.answerOptions.at(idx).value.optionWeightage==="")
+    {
+      questList.removeAt(idx);
+    }
+  else{ 
+   if (idx === 0) 
    {
+    // this.answerOptions.at(idx).value.questionValuesID
+     let count=0;
+    for (let i = 0; i < this.answerOptions.length;i++) {
+      if(this.answerOptions.at(i).value.deleted === false)
+      {
+        count++;
+     
+     
+    
+      }
+    }
+    console.log("Count1",count)
+    if(count>1){
+
     this.deleteArray[idx]=idx;
+    this.enableUpdate=false;
     this.answerOptions.at(idx).patchValue({"optionWeightage": "0","deleted": true });
-    // questList.removeAt(idx);
+    }
   }
- 
+  else{
+
+    let count=0;
+    for (let i = 0; i < this.answerOptions.length;i++) {
+      if(this.answerOptions.at(i).value.deleted === false)
+      {
+        count++;
+     
+     
+    
+      }
+    }
+
+if(count>1)
+{
+    this.deleteArray[idx]=idx;
+    this.enableUpdate=false;
+    this.answerOptions.at(idx).patchValue({"optionWeightage": "0","deleted": true });
+}
+  }
+}
 
   
 
-  
+console.log("FormValues1",this.editQuestionnaireForm.value)
     
   }
   onSubmit()
   {
      
     this.questionlistValue = this.editQuestionnaireForm.value;
+
+
+    if(this.editQuestionnaireForm.value.questionWeight===" ")
+    {
+      this.editQuestionnaireForm.value.questionWeight=null;
+      for (let i = 0; i < this.editQuestionnaireForm.value.answerOptions.length; i++) {
+
+      
+       
+      
+        this.editQuestionnaireForm.value.answerOptions[i].deleted=true;
+       
+      }
+    
+    }
+    else
+    {
+      for (let i = 0; i < this.editQuestionnaireForm.value.answerOptions.length; i++) {
+
+      
+       if(this.editQuestionnaireForm.value.answerOptions[i].deleted=="")
+      
+        this.editQuestionnaireForm.value.answerOptions[i].deleted=false;
+       
+      }
+    }
+
  
 
   //  let sum=0;
@@ -244,4 +341,61 @@ console.log("QuestionListValue",questionObj)
     
   }
 // }
+
+enableUpdateButton()
+{
+  this.enableUpdate=false;
+}
+enableoptionField()
+{
+
+  
+
+
+
+   this.editQuestionnaireForm.controls['questionWeight'].setValue(" ");
+
+
+
+
+
+  if(this.editQuestionnaireForm.value.answerType=="Radio" || this.editQuestionnaireForm.value.answerType=="Dropdown")
+  {
+
+
+
+    let questList = <FormArray>this.editQuestionnaireForm.controls['answerOptions'];
+
+    for(let j=0;j<questList.length;j++)
+     {
+    
+     
+      questList.removeAt(j);
+     }
+     questList.removeAt(questList.length-1);
+
+
+    this.weightFlag=true;
+    this.optionweightFlag=true;
+    this.addOptField(0);
+    this.disableWeightage=true;
+  this.enableOptionArray=true;
+ 
+  }
+else
+{
+
+
+ 
+
+
+  this.weightFlag=false;
+   this.optionweightFlag=false;
+  //  this.addOptField(0);
+
+   this.disableWeightage=false;
+  this.enableOptionArray=false;
+}
+}
+
 }

@@ -269,6 +269,8 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent, loginContentClass, ResetComponent, myPassword, MultiRoleScreenComponent,
@@ -340,6 +342,8 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
     SmsTemplateComponent,
     AddQuestionnaireComponent,
     EditQuestionnaireComponent,
+   
+  
     
   
  
@@ -463,6 +467,7 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
     MappedVansComponent,
     ViewVersionDetailsComponent,
     EditQuestionnaireComponent,
+  
    
   ],
 
