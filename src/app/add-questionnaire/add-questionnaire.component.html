@@ -143,22 +143,27 @@
        
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-input-container [style.width]="'100%'">
-        <input mdInput placeholder="Weightage" required formControlName="questionWeight" (keyup)="weightageInput(i)" minlength="1" maxlength="3" myMobileNumber>
-       
-      </md-input-container>
-    </div>
+  
    
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <md-select placeholder="Answer Type" formControlName="answerType" [style.width]="'100%'" 
+      <md-select placeholder="Answer Type" formControlName="answerType" [style.width]="'100%'"  (change)="enableoptionField(i)"
       required>
       <md-option *ngFor="let answers of answerTypes" [value]="answers">{{answers}}</md-option>
     </md-select>
     </div>
-    <br>
-  
-  <div class="col-xs-12 col-sm-12 m-t-15" formArrayName="answerOptions">
+
+    <div class="col-xs-12 col-sm-12 m-t-15" *ngIf="enableOptionArray[i]">
+      <md-input-container [style.width]="'25%'">
+        <input mdInput placeholder="Weightage" required formControlName="questionWeight" (keyup)="weightageInput(i)" minlength="1" maxlength="3" myMobileNumber>
+       
+      </md-input-container>
+    </div>
+
+   <br>
+
+ 
+    <!-- <br> -->
+  <div class="col-xs-12 col-sm-12 m-t-15" formArrayName="answerOptions" *ngIf="enableOptionArray[i]">
     <div class="col-xs-12 col-sm-12 m-t-15"  *ngFor="let options of newQuestion.controls.answerOptions.controls; index as idx;">
       <div [formGroupName]="idx">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

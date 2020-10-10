@@ -11,6 +11,8 @@ import { QuestionnaireServiceService } from 'app/services/questionnaire-service.
 
 
 
+
+
 @Component({
   selector: 'app-add-questionnaire',
   templateUrl: './add-questionnaire.component.html',
@@ -19,7 +21,7 @@ import { QuestionnaireServiceService } from 'app/services/questionnaire-service.
 export class AddQuestionnaireComponent implements OnInit {
   showAdd: boolean=false;
   // questionTypes:any=["Qualitative","Utility","Quantitative"];
-  answerTypes:any=["Radio","Dropdown"];
+  answerTypes:any=["Radio","Dropdown","Free Text"];
   questionnaireForm: FormGroup;
   questionArrayList:any;
   questionOptionList: any[];
@@ -47,6 +49,7 @@ export class AddQuestionnaireComponent implements OnInit {
   // qindex:number=0
   // sum: number=0;
  delVar:boolean=false;
+  enableOptionArray: any=[]
   constructor(private formBuilder: FormBuilder,public commonDialogService: ConfirmationDialogsService,
     public questionnaire_service: QuestionnaireServiceService,public data_service: dataService,public _getproviderService: AgentListCreationService,
     public dialog: MdDialog) { }
@@ -263,10 +266,20 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
 
       // question.answerOptions.deleted.patchValue({"deleted": false });
       // this.answerOptions[0].patchValue({"deleted": false });
+     if(question.questionWeight==" ")
+     {
+      question.questionWeight=null;
+      console.log("question.answerOptions",question.answerOptions)
+      // this.addOptionField(0);
+      
+      // answerList.push(this.createItem());
+      console.log("question.answerOptions1",question.answerOptions)
+      // question.answerOptions[0].patchValue({"option": null, "optionWeightage": null,"deleted": false });
+     }
       for (let i = 0; i < question.answerOptions.length; i++) {
 
+      
        
-     
         // question.answerOptions[i].patchValue({"deleted": false});
         question.answerOptions[i].deleted=false;
        
@@ -405,6 +418,11 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
 navigateToPrev()
 {
   this.questionnaireForm.reset();
+  const control = <FormArray>this.questionnaireForm.get(['newQuestions',0,'answerOptions']);
+  for(let u=0;u<control.length-1;u++){
+  control.removeAt(0); }
+  control.removeAt(control.length-1);
+console.log("formValue",this.questionnaireForm.value)
   this.questionnaire_service.fetchQuestionnaire({
     "providerServiceMapID":  this.providerServiceMapID
   }).subscribe((respon) => {
@@ -427,7 +445,7 @@ onEditClick(row) {
   console.log(row);
   let editDialog = this.dialog.open(EditQuestionnaireComponent, {
     disableClose: true,
-    // width: '700px',
+    width: '700px',
     height: '500px',
     data: {
       "selectedQuestion": row
@@ -627,5 +645,46 @@ rankInput(index) {
 				}
 			});
 		}
-	}
+  }
+  enableoptionField(i)
+  {
+
+    
+
+
+let questList = <FormArray>this.questionnaireForm.controls['newQuestions'];
+questList.at(i).patchValue({"questionWeight":" "});
+
+
+let questionList = <FormArray>questList.controls[i].get('answerOptions');
+
+
+for(let j=0;j<questionList.length;j++)
+ {
+
+ 
+  questionList.removeAt(j);
+ }
+ questionList.removeAt(questionList.length-1);
+ console.log("controlList",questionList)
+ 
+    let answerTypeValue= this.newQuestions.at(i).value.answerType;
+    console.log("answerTypeValue",answerTypeValue)
+    if(answerTypeValue=="Radio" || answerTypeValue=="Dropdown")
+    {
+
+      this.weightFlag=true;
+      this.optionweightFlag=true;
+      this.addOptionField(i);
+    this.enableOptionArray[i]=true;
+   
+    }
+  else
+  {
+    this.weightFlag=false;
+     this.optionweightFlag=false;
+    //  this.addOptionField(i);
+    this.enableOptionArray[i]=false;
+  }
+  }
 }
