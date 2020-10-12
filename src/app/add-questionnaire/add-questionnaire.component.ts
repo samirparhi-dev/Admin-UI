@@ -332,6 +332,8 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
     
       this.weightFlag = true;
         this.commonDialogService.alert("Enter valid Weightage (between 0 and 100)", 'error');
+        let questList = <FormArray>this.questionnaireForm.controls['newQuestions'];
+        questList.at(index).patchValue({"questionWeight":null});
     }
   }
    optionweightFlag: any = true;
@@ -350,13 +352,14 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
     else {
       this.optionweightFlag = true;
          this.commonDialogService.alert("Enter valid Weightage (between 0 and 100)", 'error');
-     
+         let questList = <FormArray>this.questionnaireForm.controls['newQuestions'];
+         questList.at(index).patchValue({"questionWeight":null});
     }
   }
   setQuestionType(value)
   {
-    
-    console.log("questionrows",this.questionlists)
+    this.questionlists = this.questionlists.sort((a, b) => (a.questionRank < b.questionRank ? -1 : 1));
+    console.log("questionrows",this.questionlists);
     console.log("questiontyepvalue",value)
    this.questionrows=[];
     this.questionrowsfilter=[];
@@ -591,6 +594,8 @@ rankInput(index) {
           }
           else{
             // this.newQuestions.at(i).patchValue({ "questionRank": ""});
+            let questList = <FormArray>this.questionnaireForm.controls['newQuestions'];
+            questList.at(index).patchValue({"questionRank":null});
             this.rankFlag=true;
           }
         
