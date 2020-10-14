@@ -112,14 +112,14 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>running ng build --${environment}</id>
+						<id>running ng build --prod</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
 							<tasks>
-								<echo>running ng build --${environment} ---> ${build.timestamp}</echo>
+								<echo>running ng build --prod ---> ${build.timestamp}</echo>
 								<echo>exec-dir: ${project.build.directory}</echo>
 								<echo>dist-dir: ${project.build.outputDirectory}</echo>
 							</tasks>
