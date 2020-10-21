@@ -61,7 +61,7 @@ export class InstituteTypeMasterComponent implements OnInit {
 
 
   getServices(userID) {
-    this._instituteTypeMasterService.getServices(userID)
+    this._instituteTypeMasterService.getServicesForInstTypeMaster(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response), err => {
         console.log("Error", err);
         // this.alertService.alert(err, 'error');
