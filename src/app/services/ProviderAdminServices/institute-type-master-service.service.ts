@@ -51,6 +51,12 @@ export class InstituteTypeMasterService {
       .catch(this.handleError);
   }
 
+  getServicesForInstTypeMaster(userID) {
+    return this.httpIntercept.post(this.get_Service_Url, { 'userID': userID })
+      .map(this.handleState_t_ServiceSuccess)
+      .catch(this.handleError);
+  }
+
   getStates(userID, serviceID, isNationalFlag) {
     return this.httpIntercept.post(this.get_State_Url, {
       'userID': userID,
@@ -98,6 +104,18 @@ export class InstituteTypeMasterService {
     let result = [];
     result = response.json().data.filter(function (item) {
       if (item.serviceID === 3 || item.serviceID === 1 || item.serviceID === 6) {
+        return item;
+      }
+    });
+    return result;
+  }
+
+  handleState_t_ServiceSuccess(response: Response) {
+
+    console.log(response.json().data, 'role service file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+      if (item.serviceID === 3 || item.serviceID === 1 || item.serviceID === 6 || item.serviceID === 2 || item.serviceID === 4) {
         return item;
       }
     });
