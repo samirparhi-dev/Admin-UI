@@ -264,6 +264,8 @@ import { adminDataService } from './services/adminServices/SMSMaster/data.servic
 import { AddQuestionnaireComponent } from './add-questionnaire/add-questionnaire.component';
 import { EditQuestionnaireComponent } from './edit-questionnaire/edit-questionnaire.component';
 import { QuestionnaireServiceService } from './services/questionnaire-service.service';
+import { ComponentNameSearchComponent } from './component-name-search/component-name-search.component';
+
 
 
 
@@ -342,6 +344,7 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
     SmsTemplateComponent,
     AddQuestionnaireComponent,
     EditQuestionnaireComponent,
+    ComponentNameSearchComponent,
    
   
     
@@ -467,7 +470,7 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
     MappedVansComponent,
     ViewVersionDetailsComponent,
     EditQuestionnaireComponent,
-  
+    ComponentNameSearchComponent
    
   ],
 
