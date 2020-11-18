@@ -20,6 +20,9 @@ export class ComponentMasterServiceService {
   _updateComponentURL: any;
   _toggleComponentURL: any;
   _iotComponentURL:any;
+  getLOINCRecord: any;
+  // diagnosisSnomedCTRecordUrl: string;
+
 
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
@@ -31,7 +34,9 @@ export class ComponentMasterServiceService {
     this._getComponentListURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentMaster/';
     this._getCurrentComponentURL = this.providerAdmin_Base_Url + 'labModule/fetchComponentDetailsForComponentID/';
     this._toggleComponentURL = this.providerAdmin_Base_Url + 'labModule/updateComponentStatus';
-    this._iotComponentURL=this.providerAdmin_Base_Url+'iotController/getIOTComponent'
+    this._iotComponentURL=this.providerAdmin_Base_Url+'iotController/getIOTComponent';
+    this.getLOINCRecord=this.common_Base_Url+'lonic/getlonicRecordList'
+    // this.diagnosisSnomedCTRecordUrl = `http://10.208.122.38:8080/tmapi-v1.0/snomed/getSnomedCTRecordList`;
   }
 
   getCurrentComponents(providerServiceMapID) {
@@ -89,4 +94,13 @@ export class ComponentMasterServiceService {
       .catch(this.handleError);
   }
 
+  searchComponent(searchTerm, pageNo) {
+    const body = {
+      "term": searchTerm,
+      "pageNo":pageNo
+    }
+   
+    return this.http.post(this.getLOINCRecord, body)
+      .map(res => res.json());
+  }
 }

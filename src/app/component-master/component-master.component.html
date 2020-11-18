@@ -60,9 +60,7 @@
         <div style="display:block;" class="m-t-10" [formGroup]='componentForm'>
             <div class="row" *ngIf="saveEditMode">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                    <!-- <md-form-field [style.width]=" '100%' ">
-                            <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
-                        </md-form-field> -->
+                    
                     <md-input-container style="width: 100% ">
                         <input id="component-name" required mdInput placeholder="Component Name" [style.width]="'100%'" formControlName="testComponentName"
                             (change)="componentUnique()" maxlength="50">
@@ -73,6 +71,9 @@
                                 </md-hint>
                     </md-input-container>
                 </div>
+
+              
+
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                     <md-input-container [style.width]="'100%'" myProviderName>
                         <textarea mdInput mdTextareaAutosize required [style.width]="'100%'" formControlName="testComponentDesc" placeholder="Description"
@@ -92,6 +93,23 @@
                     </md-select>
                     <!-- </md-input-container> -->
                 </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+                    <md-form-field class="input-full-width">
+                      <input autocomplete="off"  maxlength="100" mdInput placeholder="LOINC Code " [style.width]="'100%'" formControlName="testLoincCode"  [(ngModel)]="searchTerm"  (keyup)="enableDelete(searchTerm)" (keyup.enter)="searchComponents(searchTerm,0)" >
+                    </md-form-field>
+                  
+                 
+                    <!-- <button class="search-btn" md-raised-button color="accent" type="button" (click)="searchComponents(searchTerm, 0)">search</button> -->
+                    <span>
+                    <md-icon class="search-btn cursorPointer"  mdSuffix (click)="searchComponents(searchTerm, 0)" [class.toolbar-icon-disabled]="componentFlag"
+                   >search</md-icon>
+                    </span>
+                   <span (click)="onDeleteClick()">
+                      <md-icon class="cursorPointer" [class.toolbar-icon-disabled]="deleteFlag">delete</md-icon>
+                    </span>
+                </div> 
+
                 <div class="clearfix visible-md"></div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-20">
                     <!-- <label class="mat-input-placeholder ng-tns-c7-0 mat-float" for="component-type"> -->

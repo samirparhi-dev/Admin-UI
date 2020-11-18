@@ -5,6 +5,8 @@ import { ComponentMasterServiceService } from './../services/ProviderAdminServic
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { ServicePointMasterService } from '../services/ProviderAdminServices/service-point-master-services.service';
+import { ComponentNameSearchComponent } from 'app/component-name-search/component-name-search.component';
+import { MdDialog } from '@angular/material';
 
 @Component({
   selector: 'app-component-master',
@@ -44,13 +46,30 @@ export class ComponentMasterComponent implements OnInit {
   saveEditMode: boolean = false;
   alreadyExist: boolean = false;
   iotComponentArray:any=[];
+  components=[];
+  pageCount: any;
+  pager: any = {
+    totalItems: 0,
+    currentPage: 0,
+    totalPages: 0,
+    startPage: 0,
+    endPage: 0,
+    pages: 0
+  };
+  loincNo: any=null;
+  componentFlag: boolean=false;
+  // enableSave: boolean=true;
+  // enableUpdate: boolean=false;
+  enableAlert: boolean=true;
+  deleteFlag: boolean=true;
+  
 
   constructor(private commonDataService: dataService,
     private fb: FormBuilder,
     private alertService: ConfirmationDialogsService,
     public providerAdminRoleService: ProviderAdminRoleService,
     private componentMasterServiceService: ComponentMasterServiceService,
-    public stateandservices: ServicePointMasterService) {
+    public stateandservices: ServicePointMasterService,public dialog: MdDialog) {
     this.states = [];
     this.services = [];
 
@@ -110,6 +129,7 @@ export class ComponentMasterComponent implements OnInit {
       testComponentID: null,
       testComponentName: [null, Validators.required],
       testComponentDesc: null,
+      testLoincCode: null,
       isDecimal: null,
       inputType: null,
       range_max: null,
@@ -235,33 +255,74 @@ export class ComponentMasterComponent implements OnInit {
     this.tableMode = false;
     this.saveEditMode = true;
     this.disableSelection = true;
+
+   
+    
   }
   saveComponent() {
+
+    if(this.enableAlert == true)
+    {
+
+      this.alertService.confirm('Confirm',"No LOINC Code selected for the component name, Do you want to proceed?").subscribe(response=>{
+        if(response)
+        {
+          this.saveComponentDet();
+        }
+      }); 
+      
+    }
+else{
+   this.saveComponentDet();
+  }
+  }
+
+  saveComponentDet()
+  {
     const apiObject = this.objectManipulate();
     delete apiObject.modifiedBy;
-    delete apiObject.deleted;
-
-    console.log(JSON.stringify(apiObject, null, 4), 'apiObject');
-    if (apiObject) {
-      apiObject.createdBy = this.commonDataService.uname;
-
-      this.componentMasterServiceService.postComponentData(apiObject)
-        .subscribe((res) => {
-          console.log(res, 'resonse here');
-          this.componentList.unshift(res);
-          this.resetForm();
-          this.showTable();
-          this.alertService.alert('Saved successfully', 'success');
-          // this.showTable();
-        })
-
-    }
+     delete apiObject.deleted;
+ 
+     console.log(JSON.stringify(apiObject, null, 4), 'apiObject');
+     if (apiObject) {
+       apiObject.createdBy = this.commonDataService.uname;
+ 
+       this.componentMasterServiceService.postComponentData(apiObject)
+         .subscribe((res) => {
+           console.log(res, 'resonse here');
+           this.componentList.unshift(res);
+           this.resetForm();
+           this.showTable();
+           this.alertService.alert('Saved successfully', 'success');
+           // this.showTable();
+         })
+ 
+     }
   }
 
   /**
    * Update Changes for The Component
   */
-  updateComponent() {
+
+ updateComponent() {
+
+  if(this.enableAlert == true)
+  {
+
+    this.alertService.confirm('Confirm',"No LOINC Code selected for the component name, Do you want to proceed?").subscribe(response=>{
+      if(response)
+      {
+        this.updateComponentDet();
+      }
+    }); 
+    
+  }
+else{
+ this.updateComponentDet();
+}
+}
+
+  updateComponentDet() {
     const apiObject = this.objectManipulate();
     delete apiObject.createdBy;
 
@@ -284,6 +345,14 @@ export class ComponentMasterComponent implements OnInit {
 
 
   resetForm() {
+  this.enableAlert=true;
+  this.loincNo=null;
+  // this.enableSave=true;
+  // this.enableUpdate=false;
+  this.componentFlag=false;
+  this.componentForm.controls['testLoincCode'].enable();
+  this.componentForm.controls['testLoincCode'].setValue(null);
+    
     this.componentForm.reset();
     this.editMode = false;
     this.componentForm.setControl('compOpt', new FormArray([this.initComp()]))
@@ -294,6 +363,8 @@ export class ComponentMasterComponent implements OnInit {
 
   objectManipulate() {
     const obj = Object.assign({}, this.componentForm.value);
+   
+    obj.lionicNum=this.loincNo;
 console.log(obj)
       obj.iotComponentID=this.componentForm.value.iotComponentID?this.componentForm.value.iotComponentID.iotComponentID:null;
     if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType) {
@@ -378,6 +449,7 @@ console.log(obj)
 
 
   filterComponentList(searchTerm?: string) {
+    this.enableAlert=false;
     if (!searchTerm) {
       this.filteredComponentList = this.componentList;
     } else {
@@ -450,6 +522,7 @@ console.log(obj)
     console.log(JSON.stringify(item, null, 4), 'item to patch');
     console.log(this.componentForm, 'form here');
 
+    
   }
 
 
@@ -466,6 +539,24 @@ console.log(obj)
       }
       debugger;
       this.componentForm.patchValue(res);
+     
+      this.componentForm.controls['testLoincCode'].setValue(res.component);
+      this.loincNo=res.lionicNum;
+      
+
+      if(this.componentForm.controls['testLoincCode'].value == null || this.componentForm.controls['testLoincCode'].value == undefined || this.componentForm.controls['testLoincCode'].value == "")
+      {
+        this.deleteFlag=false;
+        this.componentForm.controls['testLoincCode'].enable();
+        this.componentFlag=false;
+        this.enableAlert=true;
+      }
+      else{
+        this.componentForm.controls['testLoincCode'].disable();
+        this.deleteFlag=true;
+        this.enableAlert=false;
+        this.componentFlag=true;
+      }
       
       // const val = res.isDecimal === true ? 1 : 0;
       // this.componentForm.patchValue({isDecimal: val});
@@ -674,5 +765,77 @@ debugger;
     })
 
   }
+
+  searchComponents(term: string, pageNo): void {
+     
+    let searchTerm = term;
+    if (searchTerm.length > 2) {
+        let dialogRef = this.dialog.open(ComponentNameSearchComponent,
+          {data: { searchTerm: searchTerm}});
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('result', result)
+            if (result) {
+              this.componentForm.controls['testLoincCode'].setValue(result.component);
+              this.loincNo=result.componentNo;
+              this.componentFlag=true;
+              // console.log("componentFlag",this.componentFlag)
+              this.componentForm.controls['testLoincCode'].disable();
+              // this.enableSave=false;
+              // this.enableUpdate=false;
+              this.enableAlert=false;
+            
+               
+            }
+            else
+            {
+              this.enableAlert=true;
+              this.componentForm.controls['testLoincCode'].setValue(null);
+              this.deleteFlag=true;
+            }
+
+        })
+    }
+}
+
+onDeleteClick()
+{
+
+  this.alertService.confirm('Confirm',"Are you sure you want to delete?").subscribe(response=>{
+    if(response)
+    {
+      this.enableAlert=true;
+  // this.enableUpdate=true;
+  this.loincNo=null;
+  // this.enableSave=true;
+  this.componentFlag=false;
+  this.componentForm.controls['testLoincCode'].enable();
+  this.componentForm.controls['testLoincCode'].setValue(null);
+  this.deleteFlag=true;
+
+    }
+    
+  }); 
+  
+ 
+}
+
+enableDelete(searchTerm){
+  console.log("searchTerm",searchTerm)
+  if(searchTerm)
+  {
+  this.deleteFlag=false;
+  }
+  else{
+    this.deleteFlag=true;
+  }
+}
+
+
+
+
+
+
+  
 }
 

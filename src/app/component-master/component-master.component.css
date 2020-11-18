@@ -9,3 +9,5 @@
 .radio-button {
     margin: 5px;
 }
+
+.toolbar-icon-disabled {pointer-events: none;}
