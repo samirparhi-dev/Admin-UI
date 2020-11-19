@@ -32,6 +32,8 @@ export class ComponentNameSearchComponent implements OnInit {
   
   selectedComponent: any=null;
   selectedComponentNo: any;
+  message: string="";
+  selectedItem: any;
   
 
  
@@ -58,7 +60,7 @@ export class ComponentNameSearchComponent implements OnInit {
       this.selectedComponentNo=item;
       this.selectedComponent=component;
       console.log("selectedComponent",this.selectedComponent)
-      
+      this.selectedItem = item;
     
     
   }
@@ -82,7 +84,7 @@ export class ComponentNameSearchComponent implements OnInit {
   showProgressBar: Boolean = false;
   search(term: string, pageNo): void {
     
-    this.selectedComponent=null;
+    // this.selectedComponent=null;
     if (term.length > 2) {
       this.showProgressBar = true;
       this.componentMasterServiceService.searchComponent(term, pageNo).subscribe((res) => {
@@ -91,13 +93,23 @@ export class ComponentNameSearchComponent implements OnInit {
           if (res.data && res.data.lonicMaster.length > 0) {
             this.showProgressBar = true;
             this.components = res.data.lonicMaster;
+
+           
+
+            
             if (pageNo == 0) {
               this.pageCount = res.data.pageCount;
             }
             this.pager = this.getPager(pageNo);
             this.showProgressBar = false;
           }
+          else{
+            this.message="No Record Found";
+          }
         } else {
+          
+            
+            
           this.resetData();
           this.showProgressBar = false;
         }
