@@ -61,7 +61,7 @@ export class ComponentMasterComponent implements OnInit {
   // enableSave: boolean=true;
   // enableUpdate: boolean=false;
   enableAlert: boolean=true;
-  deleteFlag: boolean=true;
+  // deleteFlag: boolean=true;
   
 
   constructor(private commonDataService: dataService,
@@ -76,9 +76,10 @@ export class ComponentMasterComponent implements OnInit {
   }
 
   ngOnInit() {
-
+   
     this.initiateForm();
     console.log(this.componentForm)
+    this.componentForm.controls['testLoincComponent'].disable();
   }
   /**
    * Initiate Form
@@ -130,6 +131,7 @@ export class ComponentMasterComponent implements OnInit {
       testComponentName: [null, Validators.required],
       testComponentDesc: null,
       testLoincCode: null,
+      testLoincComponent: null,
       isDecimal: null,
       inputType: null,
       range_max: null,
@@ -352,6 +354,7 @@ else{
   this.componentFlag=false;
   this.componentForm.controls['testLoincCode'].enable();
   this.componentForm.controls['testLoincCode'].setValue(null);
+  this.componentForm.controls['testLoincComponent'].setValue(null);
     
     this.componentForm.reset();
     this.editMode = false;
@@ -540,20 +543,20 @@ console.log(obj)
       debugger;
       this.componentForm.patchValue(res);
      
-      this.componentForm.controls['testLoincCode'].setValue(res.component);
+      this.componentForm.controls['testLoincCode'].setValue(res.lionicNum);
       this.loincNo=res.lionicNum;
-      
+      this.componentForm.controls['testLoincComponent'].setValue(res.component);
 
       if(this.componentForm.controls['testLoincCode'].value == null || this.componentForm.controls['testLoincCode'].value == undefined || this.componentForm.controls['testLoincCode'].value == "")
       {
-        this.deleteFlag=false;
+        // this.deleteFlag=false;
         this.componentForm.controls['testLoincCode'].enable();
         this.componentFlag=false;
         this.enableAlert=true;
       }
       else{
         this.componentForm.controls['testLoincCode'].disable();
-        this.deleteFlag=true;
+        // this.deleteFlag=true;
         this.enableAlert=false;
         this.componentFlag=true;
       }
@@ -776,7 +779,8 @@ debugger;
         dialogRef.afterClosed().subscribe(result => {
             console.log('result', result)
             if (result) {
-              this.componentForm.controls['testLoincCode'].setValue(result.component);
+              this.componentForm.controls['testLoincCode'].setValue(result.componentNo);
+              this.componentForm.controls['testLoincComponent'].setValue(result.component);
               this.loincNo=result.componentNo;
               this.componentFlag=true;
               // console.log("componentFlag",this.componentFlag)
@@ -791,7 +795,8 @@ debugger;
             {
               this.enableAlert=true;
               this.componentForm.controls['testLoincCode'].setValue(null);
-              this.deleteFlag=true;
+              this.componentForm.controls['testLoincComponent'].setValue(null);
+              // this.deleteFlag=true;
             }
 
         })
@@ -811,7 +816,8 @@ onDeleteClick()
   this.componentFlag=false;
   this.componentForm.controls['testLoincCode'].enable();
   this.componentForm.controls['testLoincCode'].setValue(null);
-  this.deleteFlag=true;
+  this.componentForm.controls['testLoincComponent'].setValue(null);
+  // this.deleteFlag=true;
 
     }
     
@@ -820,16 +826,16 @@ onDeleteClick()
  
 }
 
-enableDelete(searchTerm){
-  console.log("searchTerm",searchTerm)
-  if(searchTerm)
-  {
-  this.deleteFlag=false;
-  }
-  else{
-    this.deleteFlag=true;
-  }
-}
+// enableDelete(searchTerm){
+//   console.log("searchTerm",searchTerm)
+//   if(searchTerm)
+//   {
+//   this.deleteFlag=false;
+//   }
+//   else{
+//     this.deleteFlag=true;
+//   }
+// }
 
 
 
