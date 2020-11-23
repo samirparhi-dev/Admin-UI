@@ -40,9 +40,9 @@
           <tr *ngFor="let item of md2.data">
             <td data-title="Concept ID">{{ item?.loinc_Num}} </td>
             <td data-title="Term">{{ item?.component}} </td>
-            <td data-title="Concept ID">{{ item?.system}} </td>
-            <td data-title="Term">{{ item?.class1}} </td>
-            <td data-title="Concept ID">{{ item?.long_common_name}} </td>
+            <td data-title="System">{{ item?.system}} </td>
+            <td data-title="Class">{{ item?.class1}} </td>
+            <td data-title="LongCommonName">{{ item?.long_common_name}} </td>
             <td class="text-center">
               <md-radio-group name="componentValue"  (change)="selectComponentName(item?.loinc_Num,item?.component)">
                 <md-radio-button [checked]="item?.loinc_Num == selectedItem" color="primary" value="Yes">
