@@ -267,6 +267,7 @@ import { QuestionnaireServiceService } from './services/questionnaire-service.se
 import { ComponentNameSearchComponent } from './component-name-search/component-name-search.component';
 import { SnomedCodeSearchComponent } from './snomed-code-search/snomed-code-search.component';
 import { SnomedMasterService } from './services/ProviderAdminServices/snomed-master.service';
+import { MapSnommedCTCodeComponent } from './map-snommed-ctcode/map-snommed-ctcode.component';
 
 
 
@@ -350,6 +351,7 @@ import { SnomedMasterService } from './services/ProviderAdminServices/snomed-mas
     EditQuestionnaireComponent,
     ComponentNameSearchComponent,
     SnomedCodeSearchComponent,
+    MapSnommedCTCodeComponent,
  
   
    

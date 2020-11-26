@@ -16,9 +16,10 @@ export class SnomedMasterService {
 
  
   getSnomedRecord: any;
-  // diagnosisSnomedCTRecordUrl: string;
-
-
+  getmasterList:any;
+  saveMappingList:any;
+  editMappingList:any;
+  updateBlockStatus: any;
   constructor(private http: SecurityInterceptedHttp,
     public basepaths: ConfigService,
     private httpIntercept: InterceptedHttp) {
@@ -26,7 +27,10 @@ export class SnomedMasterService {
     this.common_Base_Url = this.basepaths.getCommonBaseURL();
    
     this.getSnomedRecord=this.common_Base_Url+'snomed/getSnomedCTRecordList'
-    // this.diagnosisSnomedCTRecordUrl = `http://10.208.122.38:8080/tmapi-v1.0/snomed/getSnomedCTRecordList`;
+    this.getmasterList=this.providerAdmin_Base_Url+'snomed/fetchSnomedWorklist'
+    this.saveMappingList=this.providerAdmin_Base_Url+'snomed/saveSnomedMappingData'
+    this.editMappingList=this.providerAdmin_Base_Url+'snomed/editSnomedMappingData'
+    this.updateBlockStatus=this.providerAdmin_Base_Url+'snomed/updateStatus'
   }
 
   
@@ -40,7 +44,28 @@ export class SnomedMasterService {
       .map(res => res.json());
   }
 
+  getMasterList(masterType){
+    const body = {
+      "masterType": masterType
+    }  
+    return this.http.post(this.getmasterList, body)
+      .map(res => res.json());
+  }
+
+  saveSctMapping(mapping){     
+    return this.http.post(this.saveMappingList, mapping)
+      .map(res => res.json());
+  }
+  
+  editSctMapping(mapping){     
+    return this.http.post(this.editMappingList, mapping)
+      .map(res => res.json());
+  }
  
+  updateBlock(status){
+    return this.http.post(this.updateBlockStatus, status)
+    .map(res => res.json());
+  }
  
 
   
