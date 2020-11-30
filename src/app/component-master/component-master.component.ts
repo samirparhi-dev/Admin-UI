@@ -61,6 +61,7 @@ export class ComponentMasterComponent implements OnInit {
   // enableSave: boolean=true;
   // enableUpdate: boolean=false;
   enableAlert: boolean=true;
+  loincTerm: any;
   // deleteFlag: boolean=true;
   
 
@@ -349,6 +350,7 @@ else{
   resetForm() {
   this.enableAlert=true;
   this.loincNo=null;
+  this.loincTerm=null;
   // this.enableSave=true;
   // this.enableUpdate=false;
   this.componentFlag=false;
@@ -368,7 +370,8 @@ else{
     const obj = Object.assign({}, this.componentForm.value);
    
     obj.lionicNum=this.loincNo;
-console.log(obj)
+    obj.lionicTerm=this.loincTerm;
+     console.log(obj)
       obj.iotComponentID=this.componentForm.value.iotComponentID?this.componentForm.value.iotComponentID.iotComponentID:null;
     if (!obj.testComponentName || !obj.testComponentDesc || !obj.inputType) {
       this.alertService.alert('Please fill all mandatory details');
@@ -545,6 +548,7 @@ console.log(obj)
      
       this.componentForm.controls['testLoincCode'].setValue(res.lionicNum);
       this.loincNo=res.lionicNum;
+      this.loincTerm=res.component;
       this.componentForm.controls['testLoincComponent'].setValue(res.component);
 
       if(this.componentForm.controls['testLoincCode'].value == null || this.componentForm.controls['testLoincCode'].value == undefined || this.componentForm.controls['testLoincCode'].value == "")
@@ -782,6 +786,7 @@ debugger;
               this.componentForm.controls['testLoincCode'].setValue(result.componentNo);
               this.componentForm.controls['testLoincComponent'].setValue(result.component);
               this.loincNo=result.componentNo;
+              this.loincTerm=result.component;
               this.componentFlag=true;
               // console.log("componentFlag",this.componentFlag)
               this.componentForm.controls['testLoincCode'].disable();

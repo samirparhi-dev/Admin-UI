@@ -265,6 +265,11 @@ import { AddQuestionnaireComponent } from './add-questionnaire/add-questionnaire
 import { EditQuestionnaireComponent } from './edit-questionnaire/edit-questionnaire.component';
 import { QuestionnaireServiceService } from './services/questionnaire-service.service';
 import { ComponentNameSearchComponent } from './component-name-search/component-name-search.component';
+import { SnomedCodeSearchComponent } from './snomed-code-search/snomed-code-search.component';
+import { SnomedMasterService } from './services/ProviderAdminServices/snomed-master.service';
+import { MapSnommedCTCodeComponent } from './map-snommed-ctcode/map-snommed-ctcode.component';
+
+
 
 
 
@@ -345,6 +350,10 @@ import { ComponentNameSearchComponent } from './component-name-search/component-
     AddQuestionnaireComponent,
     EditQuestionnaireComponent,
     ComponentNameSearchComponent,
+    SnomedCodeSearchComponent,
+    MapSnommedCTCodeComponent,
+ 
+  
    
   
     
@@ -434,7 +443,7 @@ import { ComponentNameSearchComponent } from './component-name-search/component-
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,SnomedMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -470,7 +479,8 @@ import { ComponentNameSearchComponent } from './component-name-search/component-
     MappedVansComponent,
     ViewVersionDetailsComponent,
     EditQuestionnaireComponent,
-    ComponentNameSearchComponent
+    ComponentNameSearchComponent,
+    SnomedCodeSearchComponent
    
   ],
 

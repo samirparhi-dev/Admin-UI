@@ -193,6 +193,9 @@
                                 <li style="cursor: pointer" (click)='show("64")'>
                                     <a>CDI Questionnaire</a>
                                 </li>
+                                <li style="cursor:pointer" (click)='show("65")'>
+                                    <a>Mapping Snommed CT Code</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -325,6 +328,7 @@
                             <app-user-signature-mapping *ngSwitchCase="62"></app-user-signature-mapping>
                             <app-sms-template *ngSwitchCase="63"></app-sms-template>
                             <app-add-questionnaire *ngSwitchCase="64"></app-add-questionnaire>
+                            <app-map-snommed-ctcode *ngSwitchCase="65"></app-map-snommed-ctcode>
                         </div>
                     </div>
                 </div>
