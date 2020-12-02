@@ -207,9 +207,11 @@ export class MapSnommedCTCodeComponent implements OnInit {
       "masterName":formValue.masterName.masterName,
       "sctCode":this.testsnomedCode,
       "sctTerm":this.testSnomedName,
-      "createdBy":this.createdBy,
+      "modifiedBy":this.createdBy,
       "deleted":false,
-      "processed":"N"
+      "processed":"N",
+      "vaccinationTime":formValue.masterName.vaccinationTime,
+      "createdBy":formValue.masterName.createdBy
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
@@ -226,9 +228,11 @@ export class MapSnommedCTCodeComponent implements OnInit {
       "masterName":formValue.masterName.masterName,
       "sctCode":this.testsnomedCode,
       "sctTerm":this.testSnomedName,
-      "createdBy":this.createdBy,
+      "modifiedBy":this.createdBy,
       "deleted":false,
-      "processed":"N"
+      "processed":"N",
+      "vaccinationTime":formValue.masterName.vaccinationTime,
+      "createdBy":formValue.masterName.createdBy
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
