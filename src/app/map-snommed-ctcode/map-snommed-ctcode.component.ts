@@ -35,7 +35,7 @@ export class MapSnommedCTCodeComponent implements OnInit {
   create_filterTerm: string;
   readFlag: boolean = false;
   editflag: boolean = true;
-  updateFlag: boolean = true;
+  //updateFlag: boolean = true;
   /*Arrays*/
   services: any = [];
   states: any = [];
@@ -92,6 +92,7 @@ export class MapSnommedCTCodeComponent implements OnInit {
   masterName: any;
   categoryWiseList: any;
   allItems: any;
+  itemCodeExistEdit: boolean=true;
   constructor(public commonDataService: dataService,
     public itemService: ItemService,
     public commonServices: CommonServices,
@@ -104,6 +105,8 @@ export class MapSnommedCTCodeComponent implements OnInit {
   ngOnInit() {
     this.createdBy = this.commonDataService.uname;
     console.log("this.createdBy", this.createdBy);
+    this.itemCodeExist=false;
+    this.itemCodeExistEdit=true;
   }
 
   fetchWorklist(type: any){
@@ -122,9 +125,12 @@ export class MapSnommedCTCodeComponent implements OnInit {
   }
   itemsSuccessHandler(itemListResponse) {   
     console.log("All items", itemListResponse);
-    this.allItems=itemListResponse.data;//for use in add mapping
-    this.itemsList = itemListResponse.data;    
-    console.log("values",this.itemsList);
+    // if(itemListResponse!=undefined)
+    // {
+      this.allItems=itemListResponse.data;//for use in add mapping
+      this.itemsList = itemListResponse.data;    
+      console.log("values",this.itemsList);
+    //}
     if(this.itemsList!=undefined){
     this.itemsList = this.itemsList.filter(
       master => master.sctCode != null
@@ -139,7 +145,9 @@ export class MapSnommedCTCodeComponent implements OnInit {
     this.showTableFlag = false;
     this.showFormFlag = true;
     this.readFlag= false;
-    this.snomedFlag=false
+    this.snomedFlag=false;
+    //this.itemCodeExist=false;
+    //this.itemCodeExistEdit=false;
     this.categoryWiseList = this.allItems;
     this.masterNames=this.categoryWiseList.filter(
       master => master.sctCode == null
@@ -184,6 +192,8 @@ export class MapSnommedCTCodeComponent implements OnInit {
     this.snomedFlag=false;
     this.readFlag=false;
     this.snomedFlag=false;
+    this.itemCodeExist=false;
+    this.itemCodeExistEdit=true;
   }
   
   showTable() {
@@ -196,28 +206,30 @@ export class MapSnommedCTCodeComponent implements OnInit {
   addMultipleItemArray(formValue) {
     if(this.enableAlert == true)
     {
-      this.dialogService.confirm('Confirm',"No SNOMED CT Code selected for the Master, Do you want to proceed?").subscribe(response=>{
-        if(response)
-        {
-          this.testsnomedCode=null;
-         this.testSnomedName=null;
-          console.log("formValue", formValue);
-    const multipleItem = {
-      "masterID":formValue.masterName.masterID,
-      "masterName":formValue.masterName.masterName,
-      "sctCode":this.testsnomedCode,
-      "sctTerm":this.testSnomedName,
-      "modifiedBy":this.createdBy,
-      "deleted":false,
-      "processed":"N",
-      "vaccinationTime":formValue.masterName.vaccinationTime,
-      "createdBy":formValue.masterName.createdBy
-    }
-    console.log('multipleItem', multipleItem);
-    this.checkDuplicates(multipleItem);
-    this.resetItemCreationForm();
-        }
-      }); 
+      this.dialogService.alert("No SNOMED CT Code selected for the Master");
+
+    //   this.dialogService.confirm('Confirm',"No SNOMED CT Code selected for the Master, Do you want to proceed?").subscribe(response=>{
+    //     if(response)
+    //     {
+    //       this.testsnomedCode=null;
+    //      this.testSnomedName=null;
+    //       console.log("formValue", formValue);
+    // const multipleItem = {
+    //   "masterID":formValue.masterName.masterID,
+    //   "masterName":formValue.masterName.masterName,
+    //   "sctCode":this.testsnomedCode,
+    //   "sctTerm":this.testSnomedName,
+    //   "modifiedBy":this.createdBy,
+    //   "deleted":false,
+    //   "processed":"N",
+    //   "vaccinationTime":formValue.masterName.vaccinationTime,
+    //   "createdBy":formValue.masterName.createdBy
+    // }
+    // console.log('multipleItem', multipleItem);
+    // this.checkDuplicates(multipleItem);
+    // this.resetItemCreationForm();
+    //     }
+    //   }); 
       
     }
     else
@@ -239,7 +251,20 @@ export class MapSnommedCTCodeComponent implements OnInit {
     this.resetItemCreationForm();
   }
 }
-
+checkAlreadySelectedMaster()
+{
+  let flag=false;
+  for(var i=0;i<this.itemArrayObj.length;i++)
+  {
+    if(this.itemArrayObj[i].masterName===this.masterName.masterName && this.itemArrayObj[i].masterID===this.masterName.masterID)
+    flag=true;
+  }
+  if(flag)
+  {
+  this.dialogService.alert("Master Name already selected");
+  this.resetItemCreationForm();
+  }
+}
 checkDuplicates(multipleItem) {
   let duplicateStatus = 0
   if (this.itemArrayObj.length === 0) {
@@ -281,6 +306,7 @@ removeRow(index) {
   back() {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
+        this.resetItemCreationForm();
         this.itemArrayObj = [];
         this.tableMode = true;
         this.editMode = false;
@@ -291,15 +317,35 @@ removeRow(index) {
         this.snomedFlag=false;
         this.editflag=true;
         this.snomedEditFlag=true;
-        this.updateFlag=true;
-        this.getAllItemsList(this.providerServiceMapID);
+        //this.updateFlag=true;
+        this.getAllItemsList(this.masterType);
         this.create_filterTerm = '';
+       
       }
     })
   }
-
+  backEdit() {
+    this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
+      if (res) {
+        //this.resetItemCreationForm();
+        this.itemArrayObj = [];
+        this.tableMode = true;
+        this.editMode = false;
+        this.showTableFlag = true;
+        this.showFormFlag = false;
+        //this.disableSelection = false;
+        this.readFlag= false;
+        this.snomedFlag=false;
+        this.editflag=true;
+        this.snomedEditFlag=true;
+        //this.updateFlag=true;
+        this.create_filterTerm = '';
+        this.getAllItemsList(this.masterType);
+      }
+    })
+  }
   editItem(itemlist) {
-    
+    this.itemCodeExistEdit=true;
     console.log("Existing Data", itemlist);
     this.masterID = itemlist.masterID;
     this.edit_serviceline = this.service;
@@ -322,10 +368,10 @@ removeRow(index) {
     this.showEditForm();
   }
   showEditForm() {
-    debugger;
     this.tableMode = false;
     this.showFormFlag = false;
     this.editMode = true;
+    //this.itemCodeExistEdit=false;
   }
   onDeleteClickEdit()
   {  
@@ -337,7 +383,8 @@ removeRow(index) {
        this.editSnomedName=null; 
        this.editflag=false;
        this.snomedEditFlag=true;
-       this.updateFlag=false;
+       //this.updateFlag=false;
+       this.itemCodeExistEdit=true;
      }     
    }); 
 
@@ -346,7 +393,7 @@ updateItem(editItemCreationForm)
 {
   if(this.enableAlert == true)
   {
-
+    
     this.dialogService.confirm('Confirm',"No SNOMED CT Code selected for the Master, Do you want to proceed?").subscribe(response=>{
       if(response)
       {
@@ -397,6 +444,7 @@ else{
              this.enableAlert=false;          
               this.editflag=true;
               this.snomedEditFlag=false;
+              this.itemCodeExistEdit=false;
            }
            else
            {
@@ -405,6 +453,7 @@ else{
              this.editSnomedName=null;
              this.editflag=false;
              this.snomedEditFlag=true;
+             this.itemCodeExistEdit=true;
            }
 
        })
@@ -456,6 +505,7 @@ else{
               this.enableAlert=false;  
               this.readFlag=true;
               this.snomedFlag=true; 
+              this.itemCodeExist=true;
             }
             else
             {
@@ -464,6 +514,7 @@ else{
               this.testSnomedName=null;   
               this.readFlag=false;  
               this.snomedFlag=false;
+              this.itemCodeExist=false;
             }
 
          })
@@ -483,6 +534,7 @@ onDeleteClick()
       this.testSnomedName=null;
       this.readFlag=false;
       this.snomedFlag=false;
+      this.itemCodeExist=false;
     }
     
   }); 

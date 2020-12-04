@@ -101,7 +101,7 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
-        <md-select placeholder="Master Name" class="width100" [(ngModel)]="masterName" name="masterName"
+        <md-select placeholder="Master Name" class="width100" [(ngModel)]="masterName" name="masterName" (change)="checkAlreadySelectedMaster()"
           required>
           <md-option *ngFor="let snomedName of masterNames" [value]="snomedName">
             {{snomedName.masterName}}
@@ -111,11 +111,11 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <md-form-field class="width80">
-        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code" [style.width]="'100%'" name="testsnomedCode"  [(ngModel)]="testsnomedCode" (keyup.enter)="searchSnomed(testsnomedCode)" [disabled]="readFlag" required>
+        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="testSnomedName" (keyup.enter)="searchSnomed(testSnomedName)" [disabled]="readFlag" required>
       </md-form-field>
     
       <span *ngIf="!snomedFlag">
-      <md-icon class="search-btn cursorPointer"  mdSuffix (click)="searchSnomed(testsnomedCode)"
+      <md-icon class="search-btn cursorPointer"  mdSuffix (click)="searchSnomed(testSnomedName)"
      >search</md-icon>
       </span>
      <span *ngIf="snomedFlag==true" (click)="onDeleteClick()">
@@ -124,11 +124,11 @@
   </div> 
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-25">
       <md-form-field class="width100">
-        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="testSnomedName" disabled>
+        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code" [style.width]="'100%'" name="testsnomedCode"  [(ngModel)]="testsnomedCode"  disabled>
       </md-form-field>
   </div>
   <div style="padding-top: 2%;">
-    <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf=" itemCreationForm.valid && !itemCodeExist"
+    <button md-mini-fab class="xs-pull-right sm-pull-right md-pull-left lg-pull-left" *ngIf=" itemCreationForm.valid && itemCodeExist"
       color="primary" (click)="addMultipleItemArray(itemCreationForm.value)">
       <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
     </button>
@@ -169,7 +169,7 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-    <button md-raised-button color="primary" class="pull-left" (click)="back();resetItemCreationForm();">Back</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back();">Back</button>
     <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem();resetItemCreationForm();">Save</button>
     <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetItemCreationForm();">Clear</button>
   </div>
@@ -207,26 +207,25 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <md-form-field class="width80">
-        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code " [style.width]="'100%'" name="editSnomedCode"  [(ngModel)]="editSnomedCode" (keyup.enter)="searchSnomedEdit(editSnomedCode)" [disabled]="editflag" 
-        >
+        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="editSnomedName" (keyup.enter)="searchSnomedEdit(editSnomedName)" [disabled]="editflag" required>
       </md-form-field>
-    
       <span *ngIf="snomedEditFlag">
-      <md-icon class="search-btn cursorPointer" mdSuffix (click)="searchSnomedEdit(editSnomedCode)"
+      <md-icon class="search-btn cursorPointer" mdSuffix (click)="searchSnomedEdit(editSnomedName)"
      >search</md-icon>
       </span>
      <span *ngIf="snomedEditFlag!=true" (click)="onDeleteClickEdit()">
         <md-icon class="cursorPointer" >delete</md-icon>
       </span>
-  </div> 
+  </div>
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <md-form-field class="width100">
-        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="editSnomedName" disabled>
+        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code " [style.width]="'100%'" name="editSnomedCode"  [(ngModel)]="editSnomedCode" 
+        disabled>
       </md-form-field>
   </div>
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" class="pull-right" (click)="updateItem(editItemCreationForm.value)" [disabled]="updateFlag">Update</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="backEdit()">Back</button>
+    <button md-raised-button color="accent" class="pull-right" (click)="updateItem(editItemCreationForm.value)" [disabled]="itemCodeExistEdit">Update</button>
   </div>
 </div>
