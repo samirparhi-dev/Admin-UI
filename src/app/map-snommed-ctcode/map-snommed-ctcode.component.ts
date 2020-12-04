@@ -478,7 +478,7 @@ else{
         this.sctService.updateBlock(status)
           .subscribe((res) => {
             console.log('Activation or deactivation response', res);
-            this.dialogService.alert(this.confirmMessage + "ed successfully", 'success');
+            this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllItemsList(this.masterType);
             this.create_filterTerm = '';
           }, (err) => this.dialogService.alert(err, 'error'))
