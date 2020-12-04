@@ -2,7 +2,7 @@
 <div class="row" *ngIf="tableMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
-      <strong>Mapping Snommed CT Code</strong>
+      <strong>Mapping Snomed CT Code</strong>
     </h4>
   </div>
   <form #searchForm='ngForm' autocomplete="off">
@@ -36,8 +36,8 @@
           <tr>
             <th width="5%">S.No.</th>
             <th width="20%">Master Name</th>
-            <th width="20%">Snommed CT Code</th>
-            <th width="20%">Snommed CT Term</th>
+            <th width="20%">Snomed CT Code</th>
+            <th width="20%">Snomed CT Term</th>
             <th width="10%">Edit</th>
             <th width="15%">Action</th>
           </tr>
@@ -67,7 +67,7 @@
               <md2-pagination></md2-pagination>
             </td>
             <td colspan="6" class="p-r-0">
-              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Map SnommedCT Code</button>
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Map Snomed CT Code</button>
             </td>
           </tr>
         </tfoot>
@@ -79,7 +79,7 @@
 <div class="row" *ngIf="showFormFlag">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
-      <strong>Add Mapping Snommed CT Code</strong>
+      <strong>Add Mapping Snomed CT Code</strong>
     </h4>
   </div>
   <form id="addform" #itemCreationForm1="ngForm" autocomplete="off">
@@ -177,7 +177,7 @@
 <div class="row" *ngIf="editMode">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>
-      <strong>Edit Mapping Snommed CT Code</strong>
+      <strong>Edit Mapping Snomed CT Code</strong>
     </h4>
   </div>
   <form #editItemCreationForm='ngForm' autocomplete="off">
