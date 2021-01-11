@@ -165,8 +165,14 @@ export class EmailConfigurationComponent implements OnInit {
 		});
 	}
 	mailConfigSuccessHandler(mailConfigResponse) {
+		let configArray=mailConfigResponse;
 		this.mailConfig = mailConfigResponse;
-		this.filteredMailConfig = mailConfigResponse;
+		this.filteredMailConfig= configArray.filter((Response) => {
+			if (Response.mobileNo == null) {  
+			  return Response;
+			}
+		  });
+		// this.filteredMailConfig = mailConfigResponse;
 		console.log("mailConfigResponse", mailConfigResponse);
 	}
 	showForm() {

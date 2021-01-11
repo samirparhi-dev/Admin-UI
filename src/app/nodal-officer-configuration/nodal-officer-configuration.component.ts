@@ -6,6 +6,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 import { NgForm } from '@angular/forms';
 import { log } from 'util';
 import { NodalOfficerConfigurationService } from 'app/services/ProviderAdminServices/nodal-officer-configuration.service';
+import { Console } from '@angular/core/src/console';
 
 @Component({
   selector: 'app-nodal-officer-configuration',
@@ -165,7 +166,7 @@ export class NodalOfficerConfigurationComponent implements OnInit {
 			"districtID": checkDistrictValue,
 			"blockID": checkTalukValue
 		}
-
+        
 		this.nodalOfficerConfigurationService.getNodalConfig(object).subscribe((mailConfigResponse) => {
 			this.mailConfigSuccessHandler(mailConfigResponse),
 				(err) => {
@@ -176,9 +177,9 @@ export class NodalOfficerConfigurationComponent implements OnInit {
 	mailConfigSuccessHandler(mailConfigResponse) {
 		// this.mailConfig = mailConfigResponse;
     // this.filteredMailConfig = mailConfigResponse;
-    let configArray=mailConfigResponse;
+	let configArray=mailConfigResponse;
    this.filteredMailConfig= configArray.filter((Response) => {
-      if (Response.designation.designationName.toLowerCase() == this.designationVar.toLowerCase() ) {  
+      if (Response.designation.designationName.toLowerCase() == this.designationVar.toLowerCase() && Response.mobileNo != null) {  
         // this.filteredMailConfig[0]=Response;
         // this.mailConfig[0]=Response;
         return Response;
@@ -416,7 +417,7 @@ export class NodalOfficerConfigurationComponent implements OnInit {
             }
             else{
            
-            if (key == 'contactNo') {
+            if (key == 'mobileNo') {
               let value=item[key];
               console.log("Contact1",item[key])
               console.log("Contact2",searchTerm)
