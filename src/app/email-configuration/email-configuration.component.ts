@@ -40,6 +40,7 @@ export class EmailConfigurationComponent implements OnInit {
 	taluks: any = [];
 	emailConfigList: any = [];
 	filteredMailConfig: any = [];
+	
 
 	disableSelection: boolean = false;
 	showListOfEmailconfig: any = true;
@@ -166,13 +167,14 @@ export class EmailConfigurationComponent implements OnInit {
 	}
 	mailConfigSuccessHandler(mailConfigResponse) {
 		let configArray=mailConfigResponse;
-		this.mailConfig = mailConfigResponse;
+		// this.mailConfig = mailConfigResponse;
 		this.filteredMailConfig= configArray.filter((Response) => {
 			if (Response.mobileNo == null) {  
 			  return Response;
 			}
 		  });
 		// this.filteredMailConfig = mailConfigResponse;
+		this.mailConfig = this.filteredMailConfig;
 		console.log("mailConfigResponse", mailConfigResponse);
 	}
 	showForm() {
