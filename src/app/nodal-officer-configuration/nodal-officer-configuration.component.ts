@@ -1,20 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailConfigurationService } from '../services/ProviderAdminServices/email-configuration-services.service';
 import { dataService } from '../services/dataService/data.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
 import { log } from 'util';
+import { NodalOfficerConfigurationService } from 'app/services/ProviderAdminServices/nodal-officer-configuration.service';
+import { Console } from '@angular/core/src/console';
 
 @Component({
-	selector: 'app-email-configuration',
-	templateUrl: './email-configuration.component.html',
-	styleUrls: ['./email-configuration.component.css']
+  selector: 'app-nodal-officer-configuration',
+  templateUrl: './nodal-officer-configuration.component.html',
+  styleUrls: ['./nodal-officer-configuration.component.css']
 })
-export class EmailConfigurationComponent implements OnInit {
+export class NodalOfficerConfigurationComponent implements OnInit {
 
-	userID: any;
+  userID: any;
 	Serviceline: any;
 	state: any;
 	districtID: any;
@@ -23,7 +24,7 @@ export class EmailConfigurationComponent implements OnInit {
 	designation: any;
 	authorityName: any;
 	emailID: any;
-	contactNo: any;
+	// contactNo: any;
 	nationalFlag: any;
 	providerServiceMapID: any;
 	mailConfigObject: any;
@@ -36,7 +37,7 @@ export class EmailConfigurationComponent implements OnInit {
 	services: any = [];
 	states: any = [];
 	districts: any = [];
-	designations: any = [];
+	designations=[];
 	taluks: any = [];
 	emailConfigList: any = [];
 	filteredMailConfig: any = [];
@@ -46,14 +47,15 @@ export class EmailConfigurationComponent implements OnInit {
 	showListOfEmails: any = true;
 	editable: any = false;
 	showTableFlag: boolean = false;
-
+  designationVar="Nodal Officer";
 	emailPattern = /^[0-9a-zA-Z_.]+@[a-zA-Z_]+?\.\b(org|com|COM|IN|in|co.in)\b$/;
 	// mobileNoPattern=/^[1-9][0-9]{9}/;
 
 	@ViewChild('searchForm') searchForm: NgForm;
 	@ViewChild('mailConfigForm') mailConfigForm: NgForm;
+  mobileNo: any;
 
-	constructor(public EmailConfigurationService: EmailConfigurationService,
+	constructor(public nodalOfficerConfigurationService: NodalOfficerConfigurationService,
 		public commonDataService: dataService,
 		public dialog: MdDialog,
 		public alertService: ConfirmationDialogsService) {
@@ -68,7 +70,7 @@ export class EmailConfigurationComponent implements OnInit {
 
 	getAllServicelines() {
 		console.log("user id", this.userID);
-		this.EmailConfigurationService.getServiceLines(this.userID).subscribe((serviceResponse) => {
+		this.nodalOfficerConfigurationService.getServiceLines(this.userID).subscribe((serviceResponse) => {
 			this.serviceSuccessHandler(serviceResponse),
 				(err) => {
 					console.log("ERROR in fetching serviceline", err);
@@ -92,7 +94,7 @@ export class EmailConfigurationComponent implements OnInit {
 			'serviceID': serviceline.serviceID,
 			'isNational': serviceline.isNational
 		}
-		this.EmailConfigurationService.getStates(obj).subscribe(statesResponse => {
+		this.nodalOfficerConfigurationService.getStates(obj).subscribe(statesResponse => {
 			this.getStatesSuccessHandeler(statesResponse, serviceline),
 				(err) => {
 					console.log("error in fetching states", err);
@@ -108,13 +110,14 @@ export class EmailConfigurationComponent implements OnInit {
 		this.searchForm.controls.taluk.reset();
 		console.log("providerServiceMapID", state.providerServiceMapID);
 		this.providerServiceMapID = state.providerServiceMapID;
-		this.getAllMailConfig();
+    // this.getAllMailConfig();
+    this.setMailConfig();
 		this.getDistricts(state);
 	}
 	getDistricts(state) {
 		this.mailConfig = [];
 		this.filteredMailConfig = [];
-		this.EmailConfigurationService.getDistricts(state.stateID).subscribe(response => {
+		this.nodalOfficerConfigurationService.getDistricts(state.stateID).subscribe(response => {
 			this.getDistrictsSuccessHandeler(response);
 		});
 
@@ -124,7 +127,7 @@ export class EmailConfigurationComponent implements OnInit {
 	}
 	getTaluk(districtID) {
 		this.taluk = null;
-		this.EmailConfigurationService.getTaluks(districtID.districtID).subscribe(response => this.getTalukSuccessHandeler(response),
+		this.nodalOfficerConfigurationService.getTaluks(districtID.districtID).subscribe(response => this.getTalukSuccessHandeler(response),
 			(err) => {
 				console.log("Error", err);
 			});
@@ -136,8 +139,15 @@ export class EmailConfigurationComponent implements OnInit {
 			console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
 			this.taluks = response;
 		}
-		this.getAllMailConfig();
-	}
+    // this.getAllMailConfig();
+    this.setMailConfig();
+  }
+  
+  setMailConfig()
+  {
+    	this.mailConfig = [];
+    this.filteredMailConfig = [];
+  }
 
 	getAllMailConfig() {
 		let checkDistrictValue: any;
@@ -156,8 +166,8 @@ export class EmailConfigurationComponent implements OnInit {
 			"districtID": checkDistrictValue,
 			"blockID": checkTalukValue
 		}
-
-		this.EmailConfigurationService.getMailConfig(object).subscribe((mailConfigResponse) => {
+        
+		this.nodalOfficerConfigurationService.getNodalConfig(object).subscribe((mailConfigResponse) => {
 			this.mailConfigSuccessHandler(mailConfigResponse),
 				(err) => {
 					console.log("ERROR in fetching mail config", err);
@@ -165,14 +175,17 @@ export class EmailConfigurationComponent implements OnInit {
 		});
 	}
 	mailConfigSuccessHandler(mailConfigResponse) {
-		let configArray=mailConfigResponse;
-		this.mailConfig = mailConfigResponse;
-		this.filteredMailConfig= configArray.filter((Response) => {
-			if (Response.mobileNo == null) {  
-			  return Response;
-			}
-		  });
-		// this.filteredMailConfig = mailConfigResponse;
+		// this.mailConfig = mailConfigResponse;
+    // this.filteredMailConfig = mailConfigResponse;
+	let configArray=mailConfigResponse;
+   this.filteredMailConfig= configArray.filter((Response) => {
+      if (Response.designation.designationName.toLowerCase() == this.designationVar.toLowerCase() && Response.mobileNo != null) {  
+        // this.filteredMailConfig[0]=Response;
+        // this.mailConfig[0]=Response;
+        return Response;
+      }
+    });
+    this.mailConfig=this.filteredMailConfig
 		console.log("mailConfigResponse", mailConfigResponse);
 	}
 	showForm() {
@@ -183,16 +196,28 @@ export class EmailConfigurationComponent implements OnInit {
 		this.showListOfEmailconfig = false;
 	}
 	getAllDesignations() {
-		this.EmailConfigurationService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res),
+		this.nodalOfficerConfigurationService.getAllDesignations().subscribe(res => this.getAllDesignationsSuccessHandler(res),
 			(err) => console.log('error', err));
 	}
 	getAllDesignationsSuccessHandler(response) {
 		console.log("Display All Designations", response);
-		this.designations = response;
+    this.designations = [];
+    let designationArray = response;
+
+  designationArray.filter((designationResponse) => {
+      if (designationResponse.designationName.toLowerCase() == this.designationVar.toLowerCase() ) {  
+       this.designations[0]=designationResponse;
+      }
+    });
+   
+
+   console.log("editAuthorityMailConfig", this.editAuthorityMailConfig)
+
+
 		if (this.editAuthorityMailConfig != undefined) {
-			if (this.designations) {
-				let auth_designation = this.designations.filter((designationResponse) => {
-					if (this.editAuthorityMailConfig.designationID == designationResponse.designationID) {
+			if (designationArray) {
+				let auth_designation = designationArray.filter((designationResponse) => {
+					if (this.editAuthorityMailConfig.designationID == designationResponse.designationID && this.editAuthorityMailConfig.designation.designationName.toLowerCase() == this.designationVar.toLowerCase() ) {
 						return designationResponse;
 					}
 				})[0];
@@ -220,11 +245,11 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": values.designation.designationID,
 			"authorityName": values.authorityName,
 			"emailID": values.emailID,
-			// "contactNo": values.contactNo,
+			"mobileNo": parseInt(values.mobileNo),
 			"createdBy": this.commonDataService.uname
 		}
 		// this.emailConfigList.push(this.mailConfigObject);
-		console.log("emailConfigList", this.emailConfigList);
+		console.log("emailConfigList", this.mailConfigObject);
 
 		this.checkDuplicates(this.mailConfigObject);
 	}
@@ -240,7 +265,8 @@ export class EmailConfigurationComponent implements OnInit {
 					&& this.emailConfigList[a].stateID === this.mailConfigObject.stateID
 					&& this.emailConfigList[a].districtID === this.mailConfigObject.districtID
 					&& this.emailConfigList[a].designationID === this.mailConfigObject.designationID
-					&& this.emailConfigList[a].emailID === this.mailConfigObject.emailID) {
+          && this.emailConfigList[a].emailID === this.mailConfigObject.emailID
+          && this.emailConfigList[a].mobileNo === this.mailConfigObject.mobileNo) {
 					this.bufferCount = this.bufferCount + 1;
 					console.log('Duplicate Combo Exists', this.bufferCount);
 				}
@@ -261,7 +287,7 @@ export class EmailConfigurationComponent implements OnInit {
 		this.emailConfigList.splice(index, 1);
 	}
 	save() {
-		this.EmailConfigurationService.saveMailConfig(this.emailConfigList).subscribe(response => this.saveSuccessHandeler(response),
+		this.nodalOfficerConfigurationService.saveNodalConfig(this.emailConfigList).subscribe(response => this.saveSuccessHandeler(response),
 			(err) => {
 				console.log("Error", err);
 			});
@@ -279,8 +305,9 @@ export class EmailConfigurationComponent implements OnInit {
 		this.alertService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
 			if (res) {
 				this.mailConfigForm.resetForm();
-				this.emailConfigList = [];
-				this.showList();
+        this.emailConfigList = [];
+        this.editAuthorityMailConfig = null;
+        this.showList();
 			}
 		})
 	}
@@ -300,7 +327,7 @@ export class EmailConfigurationComponent implements OnInit {
 		this.getAllDesignations();
 		this.authorityName = mailConfigvalues.authorityName;
 		this.emailID = mailConfigvalues.emailID;
-		this.contactNo = mailConfigvalues.contactNo;
+		this.mobileNo = mailConfigvalues.mobileNo;
 	}
 
 	update() {
@@ -313,13 +340,13 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": this.designation.designationID,
 			"authorityName": this.authorityName,
 			"emailID": this.emailID,
-			// "contactNo": this.contactNo,
+			"mobileNo": parseInt(this.mobileNo),
 			"authorityEmailID": this.editAuthorityMailConfig.authorityEmailID,
 			"modifiedBy": this.commonDataService.uname
 		}
 		console.log("updateMailConfigObject", this.updateMailConfigObject);
 
-		this.EmailConfigurationService.updateMailConfig(this.updateMailConfigObject).subscribe(response => this.updateHandler(response));
+		this.nodalOfficerConfigurationService.updateNodalConfig(this.updateMailConfigObject).subscribe(response => this.updateHandler(response));
 	}
 
 	updateHandler(response) {
@@ -327,7 +354,7 @@ export class EmailConfigurationComponent implements OnInit {
 			this.alertService.alert("Updated successfully", 'success');
 			this.mailConfigForm.resetForm();
 			this.showList();
-			this.editAuthorityMailConfig = null;
+      this.editAuthorityMailConfig = null;
 		}
 	}
 	toggleMailConfigActivationAndDeactivation(mailconfigObject, flag) {
@@ -339,7 +366,8 @@ export class EmailConfigurationComponent implements OnInit {
 			"designationID": mailconfigObject.designationID,
 			"authorityName": mailconfigObject.authorityName,
 			"emailID": mailconfigObject.emailID,
-			// "contactNo": mailconfigObject.contactNo,
+      // "contactNo": mailconfigObject.contactNo,
+      "mobileNo": parseInt(mailconfigObject.mobileNo),
 			"modifiedBy": this.commonDataService.uname,
 			"authorityEmailID": mailconfigObject.authorityEmailID,
 			"deleted": flag
@@ -352,7 +380,7 @@ export class EmailConfigurationComponent implements OnInit {
 		this.alertService.confirm('Confirm', "Are you sure you want to " + this.confirmMessage + "?").subscribe((res) => {
 			if (res) {
 				console.log("Deactivating or activating Obj", obj);
-				this.EmailConfigurationService.emailActivationDeactivation(obj)
+				this.nodalOfficerConfigurationService.nodalActivationDeactivation(obj)
 					.subscribe((res) => {
 						console.log('Activation or deactivation response', res);
 						this.alertService.alert(this.confirmMessage + "d successfully", 'success');
@@ -369,9 +397,12 @@ export class EmailConfigurationComponent implements OnInit {
 		if (!searchTerm) {
 			this.filteredMailConfig = this.mailConfig;
 		} else {
-			this.filteredMailConfig = [];
+      this.filteredMailConfig = [];
+      console.log("mailConfig1",this.mailConfig)
 			this.mailConfig.forEach((item) => {
+        console.log("item",item)
 				for (let key in item) {
+          console.log("Key",key)
 					if (key == 'authorityName' || key == 'emailID') {
 						let value: string = '' + item[key];
 						if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
@@ -383,12 +414,23 @@ export class EmailConfigurationComponent implements OnInit {
 							if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
 								this.filteredMailConfig.push(item); break;
 							}
+            }
+            else{
+           
+            if (key == 'mobileNo') {
+              let value=item[key];
+              console.log("Contact1",item[key])
+              console.log("Contact2",searchTerm)
+							if (value.indexOf(searchTerm) >= 0) {
+								this.filteredMailConfig.push(item); break;
+							}
 						}
-					}
+          }
+        }
 				}
 			});
 		}
 
 	}
-}
 
+}
