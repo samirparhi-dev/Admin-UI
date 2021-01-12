@@ -40,6 +40,7 @@ export class EmailConfigurationComponent implements OnInit {
 	taluks: any = [];
 	emailConfigList: any = [];
 	filteredMailConfig: any = [];
+	
 
 	disableSelection: boolean = false;
 	showListOfEmailconfig: any = true;
