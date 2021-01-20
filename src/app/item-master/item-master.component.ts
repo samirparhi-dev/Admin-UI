@@ -6,6 +6,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { SnomedCodeSearchComponent } from 'app/snomed-code-search/snomed-code-search.component';
 
 @Component({
   selector: 'app-item-master',
@@ -31,7 +32,7 @@ export class ItemMasterComponent implements OnInit {
   disableSelection: boolean = false;
   tableMode: boolean = true;
   create_filterTerm: string;
-
+  
   /*Arrays*/
   services: any = [];
   states: any = [];
@@ -68,12 +69,22 @@ export class ItemMasterComponent implements OnInit {
   edit_Route: any;
   edit_Description: any;
   itemID: any;
-
+  drugTypeList: any=["Non-EDL","EDL"];
   drugType = false;
-
-
+  drugName: any="EDL";
+  isEDL :boolean=false;
   @ViewChild('searchForm') searchForm: NgForm;
   @ViewChild('itemCreationForm') itemCreationForm: NgForm;
+  EDL: any=[];
+  editDrug: string;
+  testsnomedCode: any;
+  snomedFlag: boolean=false;
+  enableAlert: boolean=true;
+  testSnomedName: any;
+  editSnomedCode: any;
+  editSnomedName: any;
+  snomedEditFlag: boolean=false;
+  disableSnomedCode: boolean=false;
   constructor(public commonDataService: dataService,
     public itemService: ItemService,
     public commonServices: CommonServices,
@@ -83,17 +94,18 @@ export class ItemMasterComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     this.createdBy = this.commonDataService.uname;
     console.log("this.createdBy", this.createdBy);
 
     this.userID = this.commonDataService.uid;
     console.log('userID', this.userID);
     this.getAllServices();
+    this.drugName = "EDL";
 
   }
   getAllServices() {
-    debugger;
+    // debugger;
     this.commonServices.getServiceLines(this.userID).subscribe((response) => {
       console.log("serviceline", response);
       this.servicesSuccesshandler(response),
@@ -106,7 +118,16 @@ export class ItemMasterComponent implements OnInit {
     //   console.log('item', item);
     // })
   }
-
+  drugTypeChange(item) {
+    if (item == "EDL") {
+      this.isEDL = true;
+      this.drugName = "EDL";
+    }
+    else {
+      this.isEDL = false;
+      this.drugName = "Non-EDL";
+    }
+  }
   setProviderServiceMapID(providerServiceMapID) {
     console.log("providerServiceMapID", providerServiceMapID);
     this.providerServiceMapID = providerServiceMapID;
@@ -121,7 +142,7 @@ export class ItemMasterComponent implements OnInit {
   }
 
   getStates(service) {
-    debugger;
+    // debugger;
     console.log("value", service);
     this.commonServices.getStatesOnServices(this.userID, service.serviceID, false).
       subscribe(response => this.getStatesSuccessHandeler(response, service), (err) => {
@@ -144,12 +165,15 @@ export class ItemMasterComponent implements OnInit {
   }
 
   itemsSuccessHandler(itemListResponse) {
-    debugger;
+    
     console.log("All items", itemListResponse);
     this.itemsList = itemListResponse;
     this.filteredItemList = itemListResponse;
     this.showTableFlag = true;
+    //this.disableEDL=true;
     for (let availableItemCode of this.itemsList) {
+      console.log("edl");
+      console.log(availableItemCode);
       this.availableItemCodeInList.push(availableItemCode.itemCode);
     }
   }
@@ -160,7 +184,7 @@ export class ItemMasterComponent implements OnInit {
     this.disableSelection = true;
   }
   filterItemFromList(searchTerm?: string) {
-    debugger;
+    // debugger;
     if (!searchTerm) {
       this.filteredItemList = this.itemsList;
     }
@@ -188,7 +212,7 @@ export class ItemMasterComponent implements OnInit {
   }
 
   setDiscontinue(itemID, discontinue) {
-    debugger;
+    // debugger;
     if (discontinue) {
       this.discontinueMessage = 'Item discontinued';
     } else {
@@ -276,7 +300,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
   pharmacologySuccesshandler(pharmacologyResponse) {
-    debugger;
+    // debugger;
     this.edit_pharmacologies = pharmacologyResponse;
     this.pharmacologies = pharmacologyResponse.filter(
       pharmacology => pharmacology.deleted != true
@@ -301,7 +325,7 @@ export class ItemMasterComponent implements OnInit {
     console.log("manufacturers", this.manufacturers);
   }
   unitOfMeasuresList(providerServiceMapID) {
-    debugger;
+    // debugger;
     console.log('check inside Uom');
     this.itemService.getAllUoms(this.providerServiceMapID).subscribe((uomResponse) => {
       console.log("uomResponse", uomResponse);
@@ -335,16 +359,55 @@ export class ItemMasterComponent implements OnInit {
   resetAllForms() {
     this.searchForm.resetForm();
     this.itemCreationForm.resetForm();
+    this.drugName = "EDL";
+  }
+  resetItemCreationForm() {
+    this.itemCreationForm.controls.description.reset();
+    this.itemCreationForm.controls.itemType.reset();
+    this.itemCreationForm.controls.code.reset();
+    this.itemCreationForm.controls.name.reset();
+    this.itemCreationForm.controls.testsnomedCode.reset();
+    this.itemCreationForm.controls.testSnomedName.reset();
+    this.itemCreationForm.controls.strength.reset();
+    this.itemCreationForm.controls.uom.reset();
+    this.itemCreationForm.controls.category.reset();
+    this.itemCreationForm.controls.dose.reset();
+    this.itemCreationForm.controls.pharmacology.reset();
+    this.itemCreationForm.controls.manufacturer.reset();
+    this.itemCreationForm.controls.drugType.reset();
+    this.itemCreationForm.controls.composition.reset();
+    this.itemCreationForm.controls.route.reset();
+    this.itemCreationForm.controls.description.reset();
+    this.drugType = false;
+    this.drugName = "EDL";
+
+    this.enableAlert=true;
+    this.snomedFlag=false;
+    this.itemCreationForm.controls.testsnomedCode.enable();
+    this.testsnomedCode=null;
+    this.testSnomedName=null;
   }
   addMultipleItemArray(formValue) {
-    console.log("formValue", formValue);
-    debugger;
+
+    if(this.enableAlert == true)
+    {
+
+      this.dialogService.confirm('Confirm',"No SNOMED CT Code selected for the Item, Do you want to proceed?").subscribe(response=>{
+        if(response)
+        {
+          this.testsnomedCode=null;
+         this.testSnomedName=null;
+          console.log("formValue", formValue);
+   
+    // debugger;
     const multipleItem = {
       // "serviceName": this.service.serviceName,
       // "stateName": this.state.stateName,
       'isMedical': formValue.itemType,
       'itemCode': formValue.code,
       'itemName': formValue.name,
+      'sctCode' : this.testsnomedCode,
+      'sctTerm' : this.testSnomedName,
       'itemDesc': formValue.description,
       'itemCategoryID': formValue.category.itemCategoryID,
       'itemFormID': formValue.dose.itemFormID,
@@ -357,12 +420,60 @@ export class ItemMasterComponent implements OnInit {
       'routeID': formValue.route.routeID,
       'createdBy': this.createdBy,
       'providerServiceMapID': this.providerServiceMapID,
-      'status': 'active'
+      'status': 'active',
+      'isEDL': formValue.drugName == "Non-EDL" ? false : true
     }
     console.log('multipleItem', multipleItem);
     this.checkDuplicates(multipleItem);
-    this.itemCreationForm.resetForm();
+    this.resetItemCreationForm();
+    formValue.drugName = "EDL";
+    formValue.drugType = false;
+    this.drugName = "EDL";
+    this.drugType = false;
+        }
+      }); 
+      
+    }
+    else
+    {
+
+    
+    console.log("formValue", formValue);
+   
+    // debugger;
+    const multipleItem = {
+      // "serviceName": this.service.serviceName,
+      // "stateName": this.state.stateName,
+      'isMedical': formValue.itemType,
+      'itemCode': formValue.code,
+      'itemName': formValue.name,
+      'sctCode' : this.testsnomedCode,
+      'sctTerm' : this.testSnomedName,
+      'itemDesc': formValue.description,
+      'itemCategoryID': formValue.category.itemCategoryID,
+      'itemFormID': formValue.dose.itemFormID,
+      'pharmacologyCategoryID': formValue.pharmacology!=null?formValue.pharmacology.pharmacologyCategoryID:null,
+      'manufacturerID': formValue.manufacturer!=null?formValue.manufacturer.manufacturerID:null,
+      'strength': formValue.strength,
+      'uomID': formValue.uom.uOMID,
+      'isScheduledDrug': formValue.drugType,
+      'composition': formValue.composition,
+      'routeID': formValue.route.routeID,
+      'createdBy': this.createdBy,
+      'providerServiceMapID': this.providerServiceMapID,
+      'status': 'active',
+      'isEDL': formValue.drugName == "Non-EDL" ? false : true
+    }
+    console.log('multipleItem', multipleItem);
+    this.checkDuplicates(multipleItem);
+    this.resetItemCreationForm();
+    formValue.drugName = "EDL";
+    formValue.drugType = false;
+    this.drugName = "EDL";
+    this.drugType = false;
   }
+}
+
   checkDuplicates(multipleItem) {
     let duplicateStatus = 0
     if (this.itemArrayObj.length === 0) {
@@ -393,12 +504,13 @@ export class ItemMasterComponent implements OnInit {
     this.itemService.createItem(this.itemArrayObj).subscribe(response => {
       if (response) {
         console.log(response, 'item created');
-        this.itemCreationForm.resetForm();
+        this.resetItemCreationForm();
         this.itemArrayObj = [];
         this.dialogService.alert('Saved Successfully', 'success');
         this.showTable();
 
         this.getAllItemsList(this.providerServiceMapID);
+        this.drugName = "EDL";
       }
     }, err => {
       console.log(err, 'ERROR');
@@ -419,7 +531,7 @@ export class ItemMasterComponent implements OnInit {
     })
   }
   editItem(itemlist) {
-    debugger;
+    
     console.log("Existing Data", itemlist);
     this.itemID = itemlist.itemID;
     this.edit_serviceline = this.service;
@@ -427,6 +539,20 @@ export class ItemMasterComponent implements OnInit {
     this.edit_ItemType = itemlist.isMedical;
     this.edit_Code = itemlist.itemCode;
     this.edit_Name = itemlist.itemName;
+    this.editSnomedCode= itemlist.sctCode;
+    this.editSnomedName= itemlist.sctTerm;
+    if(itemlist.sctCode == null || itemlist.sctCode == undefined || itemlist.sctCode == "")
+    {
+      this.disableSnomedCode=false;
+      this.snomedEditFlag=false;
+      this.enableAlert=true;
+    }
+    else{
+      this.disableSnomedCode=true;
+      this.snomedEditFlag=true;
+      this.enableAlert=false;
+    }
+
     this.edit_Category = itemlist.itemCategoryID;
     this.edit_Dose = itemlist.itemFormID;
     this.edit_Pharmacology = itemlist.pharmacologyCategoryID;
@@ -437,6 +563,10 @@ export class ItemMasterComponent implements OnInit {
     this.edit_Composition = itemlist.composition;
     this.edit_Route = itemlist.routeID;
     this.edit_Description = itemlist.itemDesc;
+    if(itemlist.isEDL == true)
+    this.editDrug="EDL";
+    else
+    this.editDrug="Non-EDL";
     this.showEditForm();
   }
   showEditForm() {
@@ -446,8 +576,27 @@ export class ItemMasterComponent implements OnInit {
     this.editMode = true;
   }
 
+updateItem(editItemCreationForm)
+{
+  if(this.enableAlert == true)
+  {
+
+    this.dialogService.confirm('Confirm',"No SNOMED CT Code selected for the Item, Do you want to proceed?").subscribe(response=>{
+      if(response)
+      {
+        this.editSnomedCode=null;
+        this.editSnomedName=null;
+        this.update(editItemCreationForm);
+      }
+    }); 
+    
+  }
+else{
+  this.update(editItemCreationForm);
+}
+}
   update(editItemCreationForm) {
-    debugger;
+    // debugger;
     let updateItemObject = {
       "itemDesc": editItemCreationForm.description,
       'isMedical': editItemCreationForm.itemType,
@@ -457,15 +606,77 @@ export class ItemMasterComponent implements OnInit {
       'isScheduledDrug': editItemCreationForm.drugType,
       "providerServiceMapID": this.providerServiceMapID,
       'modifiedBy': this.createdBy,
-      "itemID": this.itemID
+      "itemID": this.itemID,
+      "sctCode":this.editSnomedCode,
+      "sctTerm":this.editSnomedName
+   
     }
     this.itemService.updateItem(updateItemObject).subscribe(response => {
       this.dialogService.alert('Updated successfully', 'success');
+      this.snomedEditFlag=false;
+      this.disableSnomedCode=false;
+      this.enableAlert=true;
       this.getAllItemsList(this.providerServiceMapID);
       this.showTable();
       console.log("Data to be update", response);
     })
   }
+
+  searchSnomedEdit(term){
+    console.log("Tern",term)
+   let searchTerm = term;
+   if (searchTerm.length > 2) {
+       let dialogRef = this.dialog.open(SnomedCodeSearchComponent,
+         {data: { searchTerm: searchTerm}});
+
+       dialogRef.afterClosed().subscribe(result => {
+           console.log('result', result)
+           if (result) {
+             this.editSnomedCode=result.snomedNo;
+             this.editSnomedName=result.snomedTerm;
+             
+             this.snomedEditFlag=true;
+             
+            this.disableSnomedCode=true;
+           
+             this.enableAlert=false;
+           
+              
+           }
+           else
+           {
+             this.enableAlert=true;
+             this.editSnomedCode=null;
+             this.editSnomedName=null;
+            
+           }
+
+       })
+   }
+}
+
+
+onDeleteClickEdit()
+{
+
+ this.dialogService.confirm('Confirm',"Are you sure you want to delete?").subscribe(response=>{
+   if(response)
+   {
+     this.enableAlert=true;
+
+ this.snomedEditFlag=false;
+ this.disableSnomedCode=false;
+ this.editSnomedCode=null;
+ this.editSnomedName=null;
+
+
+   }
+   
+ }); 
+ 
+
+}
+
   activateDeactivate(itemID, flag) {
     if (flag) {
       this.confirmMessage = 'Block';
@@ -488,6 +699,63 @@ export class ItemMasterComponent implements OnInit {
         console.log(err);
       })
   }
+
+  searchSnomed(term: string): void {
+     
+    let searchTerm = term;
+    if (searchTerm.length > 2) {
+        let dialogRef = this.dialog.open(SnomedCodeSearchComponent,
+          {data: { searchTerm: searchTerm}});
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('result', result)
+            if (result) {
+              this.testsnomedCode=result.snomedNo;
+              this.testSnomedName=result.snomedTerm;
+              
+              this.snomedFlag=true;
+              
+              this.itemCreationForm.controls.testsnomedCode.disable();
+            
+              this.enableAlert=false;
+            
+               
+            }
+            else
+            {
+              this.enableAlert=true;
+              this.testsnomedCode=null;
+              this.testSnomedName=null;
+             
+            }
+
+        })
+    }
+}
+
+
+onDeleteClick()
+{
+
+  this.dialogService.confirm('Confirm',"Are you sure you want to delete?").subscribe(response=>{
+    if(response)
+    {
+      this.enableAlert=true;
+ 
+  this.snomedFlag=false;
+  this.itemCreationForm.controls.testsnomedCode.enable();
+  this.testsnomedCode=null;
+  this.testSnomedName=null;
+ 
+
+    }
+    
+  }); 
+  
+ 
+}
+
+
 
 
 }
@@ -523,6 +791,8 @@ export class EditItemMasterModal {
   routes: any = [];
 
   @ViewChild('editItemCreationForm') editItemCreationForm: NgForm;
+ 
+
 
   constructor( @Inject(MD_DIALOG_DATA) public data, public dialog: MdDialog,
     public itemService: ItemService,
@@ -618,7 +888,6 @@ export class EditItemMasterModal {
     console.log("routes", this.routes);
   }
   edit() {
-    debugger;
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
     this.name = this.data.itemName;
@@ -634,6 +903,8 @@ export class EditItemMasterModal {
     this.description = this.data.itemDesc;
 
   }
+
+
   update() {
     let updateItemObject = {
       "isMedical": this.itemType,
@@ -661,5 +932,8 @@ export class EditItemMasterModal {
 
     })
   }
+
+ 
+ 
 }
 

@@ -61,7 +61,7 @@ export class InstituteTypeMasterComponent implements OnInit {
 
 
   getServices(userID) {
-    this._instituteTypeMasterService.getServices(userID)
+    this._instituteTypeMasterService.getServicesForInstTypeMaster(userID)
       .subscribe(response => this.getServicesSuccessHandeler(response), err => {
         console.log("Error", err);
         // this.alertService.alert(err, 'error');
@@ -71,9 +71,9 @@ export class InstituteTypeMasterComponent implements OnInit {
   getServicesSuccessHandeler(response) {
     console.log("SERVICES", response);
     this.services = response.filter(function (item) {
-      if (item.serviceID != 6) {
+     
         return item;
-      }
+      
     });
   }
 
@@ -105,7 +105,7 @@ export class InstituteTypeMasterComponent implements OnInit {
   }
 
   search(providerServiceMapID) {
-    this._instituteTypeMasterService.getInstituteType(providerServiceMapID)
+    this._instituteTypeMasterService.getInstitutesType(providerServiceMapID)
       .subscribe(response => this.searchSuccessHandeler(response), err => {
         console.log("Error", err);
         // this.alertService.alert(err, 'error');

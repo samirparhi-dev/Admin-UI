@@ -6,7 +6,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 @Injectable()
 export class ConfirmationDialogsService {
-
+    private isShown: boolean = false;
     constructor(private dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     }
 
@@ -59,4 +59,30 @@ export class ConfirmationDialogsService {
         dialogRef.componentInstance.alert = true;
         dialogRef.componentInstance.status = status;
     }
+
+
+    public alertConfirm(message: string, status: string = 'info', titleAlign: string = 'center',
+    messageAlign: string = 'center', btnOkText: string = 'Ok'): Observable<any> {
+    if (!this.isShown) {
+        let dialogRef: MdDialogRef<CommonDialogComponent>;
+        const config = new MdDialogConfig();
+        // config.viewContainerRef = viewContainerRef;
+        dialogRef = this.dialog.open(CommonDialogComponent, config);
+        dialogRef.componentInstance.message = message;
+        dialogRef.componentInstance.status = status;
+        dialogRef.componentInstance.btnOkText = btnOkText;
+        dialogRef.componentInstance.confirmAlert = false;
+        dialogRef.componentInstance.alert = true;
+        dialogRef.afterClosed().subscribe(res => {
+            this.isShown = false;
+        }
+        )
+        this.isShown = true;
+        return dialogRef.afterClosed();
+    }
+}
+
+
+
+
 }

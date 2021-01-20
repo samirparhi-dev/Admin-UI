@@ -64,12 +64,13 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li style="cursor: pointer" (click)='show("21")'>
-                                    <a>Institute Master</a>
-                                </li>
                                 <li style="cursor: pointer" (click)='show("25")'>
                                     <a>Institute Type Master</a>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("21")'>
+                                    <a>Institute Master</a>
+                                </li>
+                                
                                 <li style="cursor: pointer" (click)='show("12")'>
                                     <a>Severity Type</a>
                                 </li>
@@ -157,6 +158,9 @@
                                 <li style="cursor: pointer" (click)='show("53")'>
                                     <a>Email Configuration</a>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("66")'>
+                                    <a>Email and Contact Number Configuration</a>
+                                </li>
                                 <li style="cursor: pointer" (click)='show("55")'>
                                     <a>Reset User Password</a>
                                 </li>
@@ -185,6 +189,15 @@
                                             <a>Procedure Component Mapping</a>
                                         </li>
                                     </ul>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("63")'>
+                                    <a>SMS Templates</a>
+                                </li>
+                                <li style="cursor: pointer" (click)='show("64")'>
+                                    <a>CDI Questionnaire</a>
+                                </li>
+                                <li style="cursor:pointer" (click)='show("65")'>
+                                    <a>Mapping Snomed CT Code</a>
                                 </li>
                             </ul>
                         </li>
@@ -316,6 +329,10 @@
                             <app-swymed-user-mapping *ngSwitchCase="60"></app-swymed-user-mapping>
                             <app-wrapup-time-configuration *ngSwitchCase="61"></app-wrapup-time-configuration>
                             <app-user-signature-mapping *ngSwitchCase="62"></app-user-signature-mapping>
+                            <app-sms-template *ngSwitchCase="63"></app-sms-template>
+                            <app-add-questionnaire *ngSwitchCase="64"></app-add-questionnaire>
+                            <app-map-snommed-ctcode *ngSwitchCase="65"></app-map-snommed-ctcode>
+                            <app-nodal-officer-configuration *ngSwitchCase="66"></app-nodal-officer-configuration>
                         </div>
                     </div>
                 </div>

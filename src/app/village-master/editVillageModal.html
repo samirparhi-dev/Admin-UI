@@ -51,6 +51,13 @@
           myMobileNumber>
       </md-input-container>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
+      <label class="f-s-n-b"><strong>Village Type</strong></label>
+      <md-radio-group [(ngModel)]="isRural" name="isRural" class="width100" myMobileNumber>
+          <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Rural Area</md-radio-button>
+          <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Urban Area</md-radio-button>
+      </md-radio-group>
+  </div>
   </form>
 </div>
 <div class="m-t-10">

@@ -73,9 +73,9 @@ export class InstituteDirectoryMasterComponent implements OnInit {
 		this.services = res.filter(function (item) {
 			console.log("item", item);
 
-			if (item.serviceID != 6) {
+			
 				return item;
-			}
+			
 		})
 	}
 	// getServices(stateID)

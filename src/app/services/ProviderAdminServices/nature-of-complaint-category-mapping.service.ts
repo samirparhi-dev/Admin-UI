@@ -109,7 +109,7 @@ export class NatureOfCompaintCategoryMappingService {
         console.log(response.json().data, 'nature of complaint service file success response');
         let result = [];
         result = response.json().data.filter(function (item) {
-            if (item.serviceID === 3) {
+            if (item.serviceID === 3 || item.serviceID === 6) {
                 return item;
             }
         });

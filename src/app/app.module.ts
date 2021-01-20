@@ -258,6 +258,28 @@ import { ViewVersionDetailsComponent } from './view-version-details/view-version
 import { WrapupTimeConfigurationComponent } from './wrapup-time-configuration/wrapup-time-configuration.component';
 import { WrapupTimeConfigurationService } from './services/ProviderAdminServices/wrapup-time-configuration.service';
 import { UserSignatureMappingComponent } from './user-signature-mapping/user-signature-mapping.component';
+import { SmsTemplateComponent } from './sms-template/sms-template.component';
+import { SmsTemplateService } from './services/adminServices/SMSMaster/sms-template-service.service';
+import { adminDataService } from './services/adminServices/SMSMaster/data.service';
+import { AddQuestionnaireComponent } from './add-questionnaire/add-questionnaire.component';
+import { EditQuestionnaireComponent } from './edit-questionnaire/edit-questionnaire.component';
+import { QuestionnaireServiceService } from './services/questionnaire-service.service';
+import { ComponentNameSearchComponent } from './component-name-search/component-name-search.component';
+import { SnomedCodeSearchComponent } from './snomed-code-search/snomed-code-search.component';
+import { SnomedMasterService } from './services/ProviderAdminServices/snomed-master.service';
+import { MapSnommedCTCodeComponent } from './map-snommed-ctcode/map-snommed-ctcode.component';
+import { NodalOfficerConfigurationComponent } from './nodal-officer-configuration/nodal-officer-configuration.component';
+import { NodalOfficerConfigurationService } from './services/ProviderAdminServices/nodal-officer-configuration.service';
+
+
+
+
+
+
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -326,7 +348,21 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     MappedVansComponent,
     ViewVersionDetailsComponent,
     WrapupTimeConfigurationComponent,
-    UserSignatureMappingComponent
+    UserSignatureMappingComponent,
+    SmsTemplateComponent,
+    AddQuestionnaireComponent,
+    EditQuestionnaireComponent,
+    ComponentNameSearchComponent,
+    SnomedCodeSearchComponent,
+    MapSnommedCTCodeComponent,
+    NodalOfficerConfigurationComponent,
+ 
+  
+   
+  
+    
+  
+ 
   ],
 
   imports: [
@@ -353,6 +389,7 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     MdSliderModule,
     MdAutocompleteModule,
     RouterModule.forRoot([
+     
       {
         path: 'resetPassword',
         component: ResetComponent
@@ -410,7 +447,7 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService, WrapupTimeConfigurationService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,SnomedMasterService,NodalOfficerConfigurationService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
@@ -444,7 +481,11 @@ import { UserSignatureMappingComponent } from './user-signature-mapping/user-sig
     EditItemMasterModal,
     EditItemCategoryComponent,
     MappedVansComponent,
-    ViewVersionDetailsComponent
+    ViewVersionDetailsComponent,
+    EditQuestionnaireComponent,
+    ComponentNameSearchComponent,
+    SnomedCodeSearchComponent
+   
   ],
 
   bootstrap: [AppComponent]

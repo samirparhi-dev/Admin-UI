@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "hash": "8f114d8ce7c52fccea0738c80c14f6895367f3b2",
-  "shortHash": "8f114d8",
-  "commit": "8f114d8ce7c52fccea0738c80c14f6895367f3b2",
-  "shortCommit": "8f114d8",
-  "author": "Janani Venkataraman (Digital)",
-  "email": "JA354063@wipro.com",
-  "date": "Mon Oct 7 18:17:23 2019 +0530",
-  "message": "minor changes"
+  "hash": "690f483cc4d9def19f2e61c8b710081da1938187",
+  "shortHash": "690f483",
+  "commit": "690f483cc4d9def19f2e61c8b710081da1938187",
+  "shortCommit": "690f483",
+  "author": "Dumpa Bharat Kumar (Digital)",
+  "email": "DU20091017@wipro.com",
+  "date": "Wed Jun 24 20:27:19 2020 +0530",
+  "message": "item master change"
 }

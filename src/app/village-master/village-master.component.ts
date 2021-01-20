@@ -125,6 +125,7 @@ export class VillageMasterComponent implements OnInit {
         this.villageObj.pinCode = values.pinCode;
         this.villageObj.govVillageID = values.govVillageID;
         this.villageObj.govSubDistrictID = values.govSubDistrictID;
+        this.villageObj.isRural = values.isRural;
 
         this.villageObj.createdBy = this.createdBy;
         this.checkDuplicates(this.villageObj);
@@ -229,6 +230,7 @@ export class VillageMasterComponent implements OnInit {
     pinCode: any;
     govVillageID: any;
     govSubDistrictID: any;
+    isRural: Boolean;
 
     initializeObj() {
         this.districtBranchID = "";
@@ -239,6 +241,8 @@ export class VillageMasterComponent implements OnInit {
         this.pinCode = "";
         this.govVillageID = "";
         this.govSubDistrictID = "";
+        this.isRural = false;
+        
 
     }
     editVillageData(village) {
@@ -257,6 +261,12 @@ export class VillageMasterComponent implements OnInit {
         this.pinCode = village.pinCode;
         this.govVillageID = village.govVillageID;
         this.govSubDistrictID = village.govSubDistrictID;
+        this.isRural = village.isRural;
+        
+        
+        //   } else {
+        //      travelStatus: "false" ;
+        //   }
 
         this.getDistricts(village.stateID);
         this.GetTaluks(this.searchDistrictID);
@@ -277,6 +287,7 @@ export class VillageMasterComponent implements OnInit {
         this.dataObj.pinCode = village.pinCode;
         this.dataObj.govVillageID = village.govVillageID;
         this.dataObj.govSubDistrictID = village.govSubDistrictID;
+        this.dataObj.isRural = village.isRural;
 
         this.dataObj.modifiedBy = this.createdBy;
         this.villageMasterService.updateVillageData(this.dataObj).subscribe(response => this.updateHandler(response));
@@ -337,7 +348,7 @@ export class VillageMasterComponent implements OnInit {
             this.filteredavailableVillages = [];
             this.availableVillages.forEach((item) => {
                 for (let key in item) {
-                    if (key == 'villageName' || key == 'panchayatName' || key == 'govVillageID' || key == 'pinCode' || key == 'govSubDistrictID') {
+                    if (key == 'villageName' || key == 'panchayatName' || key == 'govVillageID' || key == 'pinCode' || key == 'govSubDistrictID' || key =='isRural') {
                         let value: string = '' + item[key];
                         if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
                             this.filteredavailableVillages.push(item); break;
@@ -368,6 +379,8 @@ export class EditVillageModal {
     pinCode: any;
     govVillageID: any;
     govSubDistrictID: any;
+    isRural: Boolean;
+   
 
     dataObj: any;
 
@@ -387,6 +400,8 @@ export class EditVillageModal {
         this.pinCode = this.data.edit_obj.pinCode;
         this.govVillageID = this.data.edit_obj.govVillageID;
         this.govSubDistrictID = this.data.edit_obj.govSubDistrictID;
+        this.isRural = this.data.edit_obj.isRural;
+      
         this.blockID = this.data.edit_obj.blockID;
 
         this.oldVillageName = this.data.edit_obj.villageName;
@@ -416,6 +431,7 @@ export class EditVillageModal {
         this.dataObj.pinCode = editedVillageData.pinCode;
         this.dataObj.govVillageID = editedVillageData.govVillageID;
         this.dataObj.govSubDistrictID = editedVillageData.govSubDistrictID;
+        this.dataObj.isRural = editedVillageData.isRural;
 
         this.dataObj.modifiedBy = this.commonDataService.uname;
         this.villageMasterService.updateVillageData(this.dataObj).subscribe(response => this.updateSuccessHandeler(response));

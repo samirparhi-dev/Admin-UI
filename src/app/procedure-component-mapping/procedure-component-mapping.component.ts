@@ -40,6 +40,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
   selectedProcedureDescription: any;
   selectedProcedureType: any;
   selectedComponentDescription: any;
+  selectedLoincCode: any;
 
   procedureList: any;
   componentList: any;
@@ -48,6 +49,7 @@ export class ProcedureComponentMappingComponent implements OnInit {
 
   mappedList = [];
   filteredMappedList = [];
+  selectedLoincComponent: any;
 
   constructor(private commonDataService: dataService,
     public providerAdminRoleService: ProviderAdminRoleService,
@@ -151,6 +153,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
     this.showForm();
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
+    this.selectedLoincCode = '';
+    this.selectedLoincComponent = '';
     console.log(item, 'here item')
     this.procedureComponentMappingServiceService.getSelectedProcedureMappings(item.procedureID)
       .subscribe((res) => {
@@ -362,8 +366,12 @@ export class ProcedureComponentMappingComponent implements OnInit {
   componentSelected() {
     if (this.selectedComponent) {
       this.selectedComponentDescription = this.selectedComponent.testComponentDesc;
+      this.selectedLoincCode = this.selectedComponent.lionicNum;
+      this.selectedLoincComponent = this.selectedComponent.component;
     } else {
       this.selectedComponentDescription = '';
+      this.selectedLoincCode = '';
+      this.selectedLoincComponent = '';
     }
   }
 
@@ -398,6 +406,8 @@ export class ProcedureComponentMappingComponent implements OnInit {
   clearComponentValue() {
     this.selectedComponent = '';
     this.selectedComponentDescription = '';
+    this.selectedLoincCode = '';
+    this.selectedLoincComponent = '';
   }
   clearSelectedComponentsList() {
     this.selectedComponentList = [];

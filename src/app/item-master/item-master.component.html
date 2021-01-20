@@ -26,6 +26,8 @@
         </md-select>
       </md-input-container>
     </div>
+    
+   
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6" *ngIf="itemsList?.length > 0 && showTableFlag">
       <div class="row" class="pull-right">
         <md-input-container id="filterbox">
@@ -46,6 +48,7 @@
             <th width="20%">Item Code</th>
             <th width="20%" md2SortBy="itemName">Item Name</th>
             <th width="20%">Item Category Name</th>
+            <th width="8%">Is EDL</th>
             <th width="10%">Edit</th>
             <th width="15%">Discontinued</th>
             <th width="15%">Action</th>
@@ -62,6 +65,7 @@
             <td>{{item.itemCode}}</td>
             <td>{{item.itemName}}</td>
             <td>{{item.itemCategory.itemCategoryName}}</td>
+            <td>{{item.isEDL? 'Yes':'No'}}</td>
             <td>
               <md-icon mdTooltip="Edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
                 (click)="editItem(item)">edit</md-icon>
@@ -81,7 +85,7 @@
             <td colspan="4">
               <md2-pagination></md2-pagination>
             </td>
-            <td colspan="4" class="p-r-0">
+            <td colspan="6" class="p-r-0">
               <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Item</button>
             </td>
           </tr>
@@ -119,11 +123,23 @@
         </md-select>
       </md-input-container>
     </div>
+    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug Type" class="width100" [(ngModel)]="drugName" name="drugName" [disabled]="disableEDL" required>
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div> -->
+   
   </form>
 
   <div class="clearfix visible-md visible-lg"></div>
 
   <form #itemCreationForm='ngForm' autocomplete="off">
+    
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
       <label class="f-s-n-b">Item Type<em>*</em></label>
       <md-radio-group [(ngModel)]="itemType" name="itemType" required>
@@ -131,6 +147,7 @@
         <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Non-Medical</md-radio-button>
       </md-radio-group>
     </div>
+    
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" PAN>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="15" (change)="checkCodeExistance(code)"
@@ -149,6 +166,26 @@
         </md-hint>
       </md-input-container>
     </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
+      <md-form-field class="width80">
+        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code " [style.width]="'100%'" name="testsnomedCode"  [(ngModel)]="testsnomedCode" (keyup.enter)="searchSnomed(testsnomedCode)" >
+      </md-form-field>
+    
+      <span>
+      <md-icon class="search-btn cursorPointer"  mdSuffix (click)="searchSnomed(testsnomedCode)" [class.toolbar-icon-disabled]="snomedFlag"
+     >search</md-icon>
+      </span>
+     <span *ngIf="snomedFlag==true" (click)="onDeleteClick()">
+        <md-icon class="cursorPointer" >delete</md-icon>
+      </span>
+  </div> 
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
+      <md-form-field class="width100">
+        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="testSnomedName" disabled>
+      </md-form-field>
+  </div>
+
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
       <md-input-container class="width100" myMobileNumber>
         <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
@@ -178,7 +215,17 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug List Type" class="width100" [(ngModel)]="drugName" name="drugName" required>
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Item Form" class="width100" [(ngModel)]="dose" name="dose" required>
@@ -188,7 +235,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="pharmacology" name="pharmacology">
@@ -198,7 +245,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="manufacturer" name="manufacturer">
@@ -256,10 +303,12 @@
         <thead>
           <tr>
             <th width="5%">S.No.</th>
-            <th width="20%">Item Code</th>
-            <th width="20%">Item Type </th>
-            <th width="30%">Item Name</th>
-            <th width="40%">Item Description</th>
+            <th width="10%">Item Code</th>
+            <th width="10%">Item Type </th>
+            <th width="10%">Item Name</th>
+            <th width="10%">Snomed CT Code</th>
+            <th width="10%">Snomed CT Item</th>
+            <th width="10%">Item Description</th>
             <th width="10%">Action</th>
           </tr>
         </thead>
@@ -270,6 +319,8 @@
             <td *ngIf="item.isMedical">Medical</td>
             <td *ngIf="!item.isMedical">Non-Medical</td>
             <td>{{item.itemName}}</td>
+            <td>{{item.sctCode}}</td>
+            <td>{{item.sctTerm}}</td>
             <td>{{item.itemDesc}}</td>
             <td>
               <md-icon class="cursorPointer" mdTooltip="Delete" (click)="removeRow(itemArrayObj.indexOf(item))">delete</md-icon>
@@ -287,9 +338,9 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-    <button md-raised-button color="primary" class="pull-left" (click)="back();itemCreationForm.reset();">Back</button>
-    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem();itemCreationForm.reset()">Save</button>
-    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="itemCreationForm.reset()">Clear</button>
+    <button md-raised-button color="primary" class="pull-left" (click)="back();resetItemCreationForm();">Back</button>
+    <button md-raised-button color="accent" class="pull-right" [disabled]="(itemArrayObj.length==0)" (click)="saveItem();resetItemCreationForm();">Save</button>
+    <button md-raised-button color="primary" class="pull-right m-r-5" (click)="resetItemCreationForm();">Clear</button>
   </div>
 </div>
 <div class="row" *ngIf="editMode">
@@ -321,6 +372,7 @@
       </md-input-container>
     </div>
     <div class="clearfix visible-md visible-lg"></div>
+    
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-20">
       <label class="f-s-n-b">Item Type</label>
       <md-radio-group [(ngModel)]="edit_ItemType" name="itemType">
@@ -334,12 +386,33 @@
           disabled="true" required>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100">
         <input mdInput placeholder="Item Name" [(ngModel)]="edit_Name" name="name" minlength="1" maxlength="100" #itemName="ngModel"
           disabled="true" required>
       </md-input-container>
     </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <md-form-field class="width80">
+        <input autocomplete="off"  maxlength="100" mdInput placeholder="Snomed CT Code " [style.width]="'100%'" name="editSnomedCode"  [(ngModel)]="editSnomedCode" (keyup.enter)="searchSnomedEdit(editSnomedCode)" 
+        [disabled]="disableSnomedCode">
+      </md-form-field>
+    
+      <span>
+      <md-icon class="search-btn cursorPointer"  mdSuffix   [class.toolbar-icon-disabled]="snomedEditFlag" (click)="searchSnomedEdit(editSnomedCode)"
+     >search</md-icon>
+      </span>
+     <span *ngIf="snomedEditFlag==true" (click)="onDeleteClickEdit()">
+        <md-icon class="cursorPointer" >delete</md-icon>
+      </span>
+  </div> 
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <md-form-field class="width100">
+        <input   maxlength="100" mdInput placeholder="Snomed CT Term" [style.width]="'100%'" name="testSnomedName" [(ngModel)]="editSnomedName" disabled>
+      </md-form-field>
+  </div>
+
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
       <md-input-container class="width100">
         <input mdInput placeholder="Strength" [(ngModel)]="edit_Strength" name="strength" disabled="true" #itemStrength="ngModel"
@@ -366,7 +439,17 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
+      <md-input-container class="hide_underline width100">
+        <input mdInput style="display:none">
+        <md-select placeholder="Drug List Type" class="width100" [(ngModel)]="editDrug" disabled="true" name="drugName" >
+          <md-option *ngFor="let item of drugTypeList" [value]="item" (click)="drugTypeChange(item)">
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Item Form" class="width100" [(ngModel)]="edit_Dose" name="dose" disabled="true" required>
@@ -376,7 +459,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Pharmacology Category" class="width100" [(ngModel)]="edit_Pharmacology" name="pharmacology">
@@ -386,7 +469,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 ">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
       <md-input-container class="hide_underline width100">
         <input mdInput style="display:none">
         <md-select placeholder="Manufacturer" class="width100" [(ngModel)]="edit_Manufacturer" name="manufacturer">
@@ -432,6 +515,6 @@
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
-    <button md-raised-button color="accent" class="pull-right" (click)="update(editItemCreationForm.value)">Update</button>
+    <button md-raised-button color="accent" class="pull-right" (click)="updateItem(editItemCreationForm.value)">Update</button>
   </div>
 </div>

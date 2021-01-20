@@ -151,6 +151,18 @@
         </md-hint>
       </md-input-container>
     </div>
+    
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-30">
+      <label class="f-s-n-b"><strong>Village Type</strong></label>
+      <md-radio-group [(ngModel)]="isRural" name="isRural" class="width100" myMobileNumber #type="ngModel">
+          <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="true">Rural Area</md-radio-button>
+          <md-radio-button color="primary" class="p-l-10 f-s-12" [value]="false">Urban Area</md-radio-button>
+          <md-hint [hidden]=type.valid>
+            <span class="error_text" *ngIf="!type.valid  && ( type.dirty || type.touched)">Please enter Village Type</span>
+          </md-hint>
+        </md-radio-group>
+  </div>
+
   </form>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
     <button *ngIf="villageForm.valid && !villageNameExist" md-mini-fab class="xs-pull-right sm-pull-right md-pull-right lg-pull-left"
