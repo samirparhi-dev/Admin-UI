@@ -3,32 +3,23 @@
         <h4 *ngIf="!editMode && !saveEditMode">Procedure Master</h4>
         <h4 *ngIf="saveEditMode && !editMode">Create Procedure</h4>
         <h4 *ngIf="editMode">Edit Procedure</h4>
-        <!-- <div *ngIf="unfilled" class="alert alert-danger" role="alert">
-            Please fill all mandatory fields
-        </div> -->
         <form #stateService="ngForm" autocomplete="off">
             <div class="row m-t-15">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
                     <md-select required name="Services" disabled={{disableSelection}} placeholder="Serviceline" [style.width]="'100%'" [(ngModel)]="serviceline"
                         (change)="getStates(serviceline.serviceID)">
                         <md-option *ngFor="let item of services_array" [value]="item">
                             {{item.serviceName}}
                         </md-option>
                     </md-select>
-                    <!-- </md-input-container> -->
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                    <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                        <input mdInput style="display:none"> -->
                     <md-select required disabled={{disableSelection}} placeholder="State" [style.width]="'100%'" [(ngModel)]="searchStateID"
                         name="searchStateID" (change)="setProviderServiceMapID();">
                         <md-option *ngFor="let state of provider_states" [value]="state">
                             {{state.stateName}}
                         </md-option>
                     </md-select>
-                    <!-- </md-input-container> -->
                 </div>
 
 
@@ -36,16 +27,9 @@
             <div style="display:block;" class="m-t-10" [formGroup]='procedureForm'>
                 <div class="row" *ngIf="saveEditMode">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <!-- <md-form-field [style.width]=" '100%' ">
-                            <input mdInput placeholder="Procedure/ Test Name" allowText="alphabet" formControlName="name">
-                        </md-form-field> -->
                         <md-input-container style="width: 100% ">
                             <input id="procedure-name" required mdInput placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
                                 (change)="procedureUnique()">
-
-                            <!-- <md-hint *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">
-                                <span class="error_text">Procedure Name is required</span>
-                                    </md-hint> -->
                             <md-hint >
                                 <span class="error_text" *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">Procedure Name is required</span>
                                     <span class="error_text" *ngIf="alreadyExist">Procedure name already exist</span>
@@ -56,8 +40,6 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                            <input mdInput style="display:none"> -->
                         <md-select id="procedure-type" required placeholder="Procedure Type" [style.width]="'100%'" [disabled]="editMode" formControlName="type">
                             <md-option value="Laboratory">
                                 Laboratory
@@ -66,7 +48,6 @@
                                 Radiology
                             </md-option>
                         </md-select>
-                        <!-- </md-input-container> -->
                     </div>
                     <div class="clearfix visible-sm"></div>
                     {{male}}
@@ -82,8 +63,7 @@
                     </div>
                     <div class="clearfix visible-md "></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-                        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
-                            <input mdInput style="display:none"> -->
+                            <input mdInput style="display:none">
                         <md-select id="procedure-iot"  placeholder="Procedure IOT" [style.width]="'100%'"  formControlName="iotProcedureID">
                             <md-option ng-value="undefined">
                                 Not Applicable
@@ -92,13 +72,16 @@
                                 {{item.procedureName}}
                             </md-option>
                         </md-select>
-                        <!-- </md-input-container> -->
                     </div>
+                    <div class="clearfix visible-sm visible-lg "></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <md-input-container [style.width]="'100%'" myProviderName>
                             <textarea mdInput required mdTextareaAutosize [style.width]="'100%'" formControlName="description" placeholder="Description"
                                 maxlength="99"></textarea>
                         </md-input-container>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-35">
+                        <md-checkbox formControlName ="isMandatory" id="isMandatory">Confirm Procedure</md-checkbox>
                     </div>
                 </div>
 

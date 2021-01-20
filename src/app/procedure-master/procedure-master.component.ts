@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcedureMasterServiceService } from '../services/ProviderAdminServices/procedure-master-service.service';
 import { dataService } from '../services/dataService/data.service';
 import { ProviderAdminRoleService } from '../services/ProviderAdminServices/state-serviceline-role.service';
@@ -110,7 +110,8 @@ export class ProcedureMasterComponent implements OnInit {
       male: null,
       female: null,
       disable: null,
-      iotProcedureID:null
+      iotProcedureID:null,
+      isMandatory: null
     })
   }
 
@@ -187,7 +188,6 @@ export class ProcedureMasterComponent implements OnInit {
   saveProcedure() {
     debugger;
     let apiObject = this.objectManipulate();
-    let obj = Object.assign({}, this.procedureForm.value);
     let count = 0;
     console.log('here to check available', apiObject);
     for (let a = 0; a < this.filteredprocedureList.length; a++) {
@@ -208,7 +208,8 @@ export class ProcedureMasterComponent implements OnInit {
           .subscribe((res) => {
             this.procedureList.unshift(res);
             this.procedureForm.reset();
-            this.alertService.alert('Saved successfully', 'success')
+            this.alertService.alert('Saved successfully', 'success');
+            this.getAvailableProcedures();
             this.showTable();
           })
 
@@ -233,7 +234,8 @@ export class ProcedureMasterComponent implements OnInit {
           this.updateList(res);
           this.procedureForm.reset();
           this.editMode = false;
-          this.alertService.alert('Updated successfully', 'success')
+          this.alertService.alert('Updated successfully', 'success');
+          this.getAvailableProcedures();
           this.showTable();
         })
 
@@ -272,7 +274,8 @@ export class ProcedureMasterComponent implements OnInit {
         createdBy: this.commonDataService.uname,
         providerServiceMapID: this.searchStateID.providerServiceMapID,
         gender: obj.gender,
-        iotProcedureID:obj.iotProcedureID
+        iotProcedureID:obj.iotProcedureID,
+        isMandatory: obj.isMandatory
       };
 
       // console.log(obj.male, 'obj');
@@ -476,7 +479,8 @@ export class ProcedureMasterComponent implements OnInit {
       description: item.procedureDesc,
       gender: item.gender,
       disable: item.deleted,
-      iotProcedureID:item.iotProcedureID
+      iotProcedureID:item.iotProcedureID,
+      isMandatory: item.isMandatory
     })
 
 
