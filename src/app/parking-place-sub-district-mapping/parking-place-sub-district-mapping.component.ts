@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { ParkingPlaceMasterService } from '../services/ProviderAdminServices/parking-place-master-services.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialog } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
 @Component({

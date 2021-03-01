@@ -408,7 +408,7 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
               }
               else if (count > 0) {
                 console.log('Duplicate Entry Already exists for ' + object.serviceProviderMapID1[i].serviceName);
-                this, this.dialogService.alert('Already exists');
+                this.dialogService.alert('Already exists');
                 this.resetForm();
               }
             }
@@ -507,8 +507,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
           };
 
           this.superadminService.activateProviderAdmin(object)
-            .subscribe(response => {
-              if (response) {
+            .subscribe(activatedresponse => {
+              if (activatedresponse) {
                 this.dialogService.alert('Activated successfully', 'success');
                 /* refresh table */
                 this.getAllMappedProviders();
@@ -528,8 +528,8 @@ export class MappingProviderAdminToProviderComponent implements OnInit {
         const object = { 'uSRMappingID': userID, 'deleted': true };
 
         this.superadminService.deactivateProviderAdmin(object)
-          .subscribe(response => {
-            if (response) {
+          .subscribe(deactivatedresponse => {
+            if (deactivatedresponse) {
               this.dialogService.alert('Deactivated successfully', 'success');
               /* refresh table */
               this.getAllMappedProviders();

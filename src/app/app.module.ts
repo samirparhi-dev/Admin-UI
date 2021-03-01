@@ -270,16 +270,8 @@ import { SnomedMasterService } from './services/ProviderAdminServices/snomed-mas
 import { MapSnommedCTCodeComponent } from './map-snommed-ctcode/map-snommed-ctcode.component';
 import { NodalOfficerConfigurationComponent } from './nodal-officer-configuration/nodal-officer-configuration.component';
 import { NodalOfficerConfigurationService } from './services/ProviderAdminServices/nodal-officer-configuration.service';
-
-
-
-
-
-
-
-
-
-
+import { VanSpokeMappingComponent } from './van-spoke-mapping/van-spoke-mapping.component';
+import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spoke-mapping.service';
 
 @NgModule({
   declarations: [
@@ -356,6 +348,7 @@ import { NodalOfficerConfigurationService } from './services/ProviderAdminServic
     SnomedCodeSearchComponent,
     MapSnommedCTCodeComponent,
     NodalOfficerConfigurationComponent,
+    VanSpokeMappingComponent,
  
   
    
@@ -447,7 +440,8 @@ import { NodalOfficerConfigurationService } from './services/ProviderAdminServic
     ItemFacilityMappingService, SpecialistMappingService, StoreSelfConsumptionServiceService,
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
-    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,SnomedMasterService,NodalOfficerConfigurationService,
+    SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
+    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,

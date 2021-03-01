@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "hash": "690f483cc4d9def19f2e61c8b710081da1938187",
-  "shortHash": "690f483",
-  "commit": "690f483cc4d9def19f2e61c8b710081da1938187",
-  "shortCommit": "690f483",
-  "author": "Dumpa Bharat Kumar (Digital)",
-  "email": "DU20091017@wipro.com",
-  "date": "Wed Jun 24 20:27:19 2020 +0530",
-  "message": "item master change"
+  "hash": "bb8fb10040dcdf6352fd9c7e6c117ca55ec62dcc",
+  "shortHash": "bb8fb10",
+  "commit": "bb8fb10040dcdf6352fd9c7e6c117ca55ec62dcc",
+  "shortCommit": "bb8fb10",
+  "author": "Janani Venkataraman (APMEA - iDEAS-Cloud Transformation)",
+  "email": "JA354063@wipro.com",
+  "date": "Wed Jan 20 14:10:26 2021 +0530",
+  "message": "conflicts removed"
 }

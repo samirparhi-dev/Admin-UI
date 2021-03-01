@@ -94,9 +94,6 @@
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1">Outreach Master</a>
                                     <ul class="dropdown-menu cu-admin-sub-nav-top">
-                                        <!-- <li style="cursor: pointer" (click)='show("7")'>
-                                            <a>Zone Master</a>
-                                        </li> -->
                                         <li class="dropdown-submenu">
                                             <a tabindex="-3">Zone Master</a>
                                             <ul class="dropdown-menu cu-admin-sub-nav-top">
@@ -188,6 +185,9 @@
                                         <li style="cursor: pointer" (click)='show("31")'>
                                             <a>Procedure Component Mapping</a>
                                         </li>
+                                        <li style="cursor: pointer" (click)='show("67")'>
+                                            <a>Van Spoke Mapping</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li style="cursor: pointer" (click)='show("63")'>
@@ -269,13 +269,11 @@
                         <div>
                             <app-location-serviceline-mapping *ngSwitchCase="1"></app-location-serviceline-mapping>
                             <app-provider-admin-role-master *ngSwitchCase="2"></app-provider-admin-role-master>
-                            <!-- <app-employee-master *ngSwitchCase="3"></app-employee-master> -->
                             <app-call-disposition-type-master *ngSwitchCase="4"></app-call-disposition-type-master>
                             <app-category-subcategory-provisioning *ngSwitchCase="5"></app-category-subcategory-provisioning>
                             <app-drug-master *ngSwitchCase="6"></app-drug-master>
                             <app-severity-type *ngSwitchCase="12"></app-severity-type>
                             <app-feedback-type *ngSwitchCase="13"></app-feedback-type>
-                            <!-- <app-zone-master *ngSwitchCase="7"></app-zone-master> -->
                             <app-parking-place *ngSwitchCase="8"></app-parking-place>
                             <app-service-point *ngSwitchCase="9"></app-service-point>
                             <app-van-master *ngSwitchCase="14"></app-van-master>
@@ -333,6 +331,7 @@
                             <app-add-questionnaire *ngSwitchCase="64"></app-add-questionnaire>
                             <app-map-snommed-ctcode *ngSwitchCase="65"></app-map-snommed-ctcode>
                             <app-nodal-officer-configuration *ngSwitchCase="66"></app-nodal-officer-configuration>
+                            <app-van-spoke-mapping *ngSwitchCase = "67"></app-van-spoke-mapping>
                         </div>
                     </div>
                 </div>
