@@ -1,0 +1,237 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Van Spoke Mapping</h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="enabletmSpokeDetailsForm">
+    <h4>From</h4>
+  </div>
+  <form [formGroup]="mmuVanDetailsForm">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Serviceline" class="width100" formControlName="mmu_serviceline" name="mmu_serviceline"
+        (change)="getProviderMappedStates(mmuVanDetailsForm.value.mmu_serviceline, false)" required>
+        <md-option *ngFor="let service of servicelines" [value]="service">
+          {{service.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="State" class="width100" formControlName="mmu_state" name="mmu_state"
+        (change)="getProviderMappedZones(mmuVanDetailsForm.value.mmu_state, false)" required>
+        <md-option *ngFor="let state of states" [value]="state">
+          {{state.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Zone" class="width100" formControlName="mmu_zone" name="mmu_zone"
+        (change)="getProviderMappedParkingPlace(mmuVanDetailsForm.value.mmu_zone, mmuVanDetailsForm.value.mmu_state, false)"
+        required>
+        <md-option *ngFor="let zone of zones" [value]="zone">
+          {{zone.zoneName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Parking Place" class="width100" formControlName="mmu_parkingPlace" name="mmu_parkingPlace"
+        (change)="getProviderMappedServicepoint(mmuVanDetailsForm.value.mmu_state, mmuVanDetailsForm.value.mmu_parkingPlace, false)"
+        required>
+        <md-option *ngFor="let parkingPlace of parkingPlaces" [value]="parkingPlace">
+          {{parkingPlace.parkingPlaceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Service Point" class="width100" formControlName="mmu_servicePoint" name="mmu_servicePoint"
+        (change)="getProviderMappedVanTypes(mmuVanDetailsForm.value.mmu_state, false)" required>
+        <md-option *ngFor="let servicepoint of servicepoints" [value]="servicepoint">
+          {{servicepoint.servicePointName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Van Type" class="width100" formControlName="mmu_vantype" name="mmu_vantype"
+        (change)="enableSpokeDetails(); getProviderMappedVansOrSpokes(mmuVanDetailsForm.value.mmu_state, mmuVanDetailsForm.value.mmu_parkingPlace, mmuVanDetailsForm.value.mmu_vantype, false)"
+        required>
+        <md-option *ngFor="let vantype of vantypes" [value]="vantype">
+          {{vantype.vanType}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+  <div class="pull-right m-r-15 m-t-15" *ngIf="listVanSpokeMapping.length > 0 && showListOfMapping">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterMappingList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-5" *ngIf="showListOfMapping">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" [md2Data]="filteredListVanSpokeMapping" #md2="md2DataTable"
+        [rowsPerPage]="3" aria-describedby="showMappedvanSpoke">
+        <thead>
+          <tr>
+            <th id="sno">S.No.</th>
+            <th id="parkingPlace">Parking Place</th>
+            <th id="van">Van</th>
+            <th id="Spoke">Spoke</th>
+            <th id="action">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0" class="record-not-found">
+            <td colspan="6" style="text-align:center">No records found</td>
+          </tr>
+          <tr *ngFor="let mappedVan of md2.data ;let i=index">
+            <td>{{listVanSpokeMapping.indexOf(mappedVan)+1}} </td>
+            <td>{{mappedVan.mmu_parkingPlaceName}}</td>
+            <td>{{mappedVan.mmu_vanName}}</td>
+            <td>{{mappedVan.tm_spokeName}}</td>
+            <td>
+              <button *ngIf="mappedVan.deleted || mappedVan.m_parkingPlaceMapped.deleted" md-raised-button
+                color="accent"
+                (click)="mappingStatus(mappedVan, mappedVan.m_parkingPlaceMapped.deleted)">Activate</button>
+              <button *ngIf="!mappedVan.deleted && !mappedVan.m_parkingPlaceMapped.deleted" md-raised-button
+                color="primary"
+                (click)="mappingStatus(mappedVan, mappedVan.m_parkingPlaceMapped.deleted)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="2" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Add Mapping</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="enabletmSpokeDetailsForm">
+    <h4>To</h4>
+  </div>
+  <form [formGroup]="tmSpokeDetailsForm" *ngIf="enabletmSpokeDetailsForm">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Serviceline" class="width100" formControlName="tm_serviceline" name="tm_serviceline"
+        [disabled]="disableServiceline"
+        (change)="getProviderMappedStates(tmSpokeDetailsForm.value.tm_serviceline, true)" required>
+        <md-option *ngFor="let service of tm_servicelines" [value]="service">
+          {{service.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="State" class="width100" formControlName="tm_state" name="tm_state"
+        (change)="getProviderMappedZones(tmSpokeDetailsForm.value.tm_state, true)" required>
+        <md-option *ngFor="let state of tm_states" [value]="state">
+          {{state.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Zone" class="width100" formControlName="tm_zone" name="tm_zone"
+        (change)="getProviderMappedParkingPlace(tmSpokeDetailsForm.value.tm_zone, tmSpokeDetailsForm.value.tm_state, true)"
+        required>
+        <md-option *ngFor="let zone of tm_zones" [value]="zone">
+          {{zone.zoneName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Parking Place" class="width100" formControlName="tm_hub" name="tm_hub"
+        (change)="getProviderMappedServicepoint(tmSpokeDetailsForm.value.tm_state, tmSpokeDetailsForm.value.tm_hub, true)"
+        required>
+        <md-option *ngFor="let hub of tm_hubs" [value]="hub">
+          {{hub.parkingPlaceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Service Point" class="width100" formControlName="tm_servicePoint" name="tm_servicePoint"
+        (change)="getProviderMappedVanTypes(tmSpokeDetailsForm.value.tm_state, true)" required>
+        <md-option *ngFor="let servicepoint of tm_servicepoints" [value]="servicepoint">
+          {{servicepoint.servicePointName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Spoke Type" class="width100" formControlName="tm_vantype" name="tm_vantype"
+        (change)="getProviderMappedVansOrSpokes(tmSpokeDetailsForm.value.tm_state, tmSpokeDetailsForm.value.tm_hub, tmSpokeDetailsForm.value.tm_vantype, true)"
+        required>
+        <md-option *ngFor="let vantype of tm_vantypes" [value]="vantype">
+          {{vantype.vanType}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="enableMappingForm">
+    <h4>Map Van and Spoke</h4>
+  </div>
+  <form [formGroup]="mappingForm" *ngIf="enableMappingForm">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Van" class="width100" multiple formControlName="mmu_van" name="mmu_van" required>
+        <md-option *ngFor="let van of availableVans" [value]="van">
+          {{van.vanName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Spoke" class="width100" formControlName="tm_spoke" name="tm_spoke" required>
+        <md-option *ngFor="let spoke of tm_spokes" [value]="spoke">
+          {{spoke.vanName}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 m-t-20"
+    *ngIf="mmuVanDetailsForm.valid && tmSpokeDetailsForm.valid && mappingForm.valid && enabletmSpokeDetailsForm">
+    <button md-mini-fab color="primary" class="xs-pull-right sm-pull-right md-pull-left lg-pull-right"
+      (click)="addVanSpokeMapping(mmuVanDetailsForm.value, tmSpokeDetailsForm.value, mappingForm.value)">
+      <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add
+      </md-icon>
+    </button>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-5" *ngIf="vanSpokeMappedData.length>0">
+    <div class="table-responsive">
+      <table [md2Data]="vanSpokeMappedData" #md2="md2DataTable" class="table table-striped table-hover"
+        [rowsPerPage]="3" aria-describedby="bufferData">
+        <thead>
+          <tr>
+            <th id="sno">S.No.</th>
+            <th id="state">State</th>
+            <th id="van">Van</th>
+            <th id="spoke">Spoke</th>
+            <th id="action">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let map of md2.data ; let i=index">
+            <td>{{vanSpokeMappedData.indexOf(map)+1}}</td>
+            <td>{{map.mmu_parkingPlaceName}}</td>
+            <td>{{map.mmu_vanName}}</td>
+            <td>{{map.tm_spokeName}}</td>
+            <td>
+              <md-icon class="cursorPointer" mdTooltip="delete"
+                (click)="remove_vanSpokeMappedData(vanSpokeMappedData.indexOf(map))">delete</md-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <md2-pagination></md2-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20 m-b-10">
+    <button md-raised-button color="primary" *ngIf="enabletmSpokeDetailsForm" class="pull-left"
+      (click)="resetAllFormsdata()">Back</button>
+    <button *ngIf="vanSpokeMappedData.length > 0" md-raised-button color="accent" class="pull-right m-t-10"
+      (click)="saveVanSpokeMapping()">Save</button>
+  </div>
+</div>
