@@ -188,7 +188,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myName2>
         <md-input-container style="width: 100%">
           <input mdInput placeholder="Primary Contact Person" [(ngModel)]="contact_person_name" name="contact_person_name" minlength="2"
-            maxlength="50" #valid_contactname="ngModel" required>
+            maxlength="50" #valid_contactname="ngModel" >
           <md-hint>
             <span class="errorText" *ngIf="valid_contactname.errors && valid_contactname.touched">Enter atleast 2 characters</span>
           </md-hint>
@@ -197,7 +197,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" myMobileNumber>
         <md-input-container style="width: 100%">
           <input mdInput placeholder="Primary Contact Number" minlength="10" maxlength="10" [(ngModel)]="contact_number" name="contact_number"
-            #validMobileNumber="ngModel" [pattern]="mobileNoPattern" required>
+            #validMobileNumber="ngModel" [pattern]="mobileNoPattern" >
           <md-hint>
             <span class="errorText" [hidden]="!validMobileNumber.hasError('pattern')">Required 10 digit valid mobile number</span>
           </md-hint>
