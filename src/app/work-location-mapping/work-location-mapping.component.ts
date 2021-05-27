@@ -811,8 +811,7 @@ export class WorkLocationMappingComponent implements OnInit {
     this.serviceID_duringEdit = this.edit_Details.serviceID;
     this.isInboundEdit=this.edit_Details.inbound;
     this.isOutboundEdit=this.edit_Details.outbound;
-    this.isInboundEdit=false;
-    this.isOutboundEdit=false;
+  
    
     if(this.edit_Details.serviceName === "1097" && !(this.edit_Details.roleName.toLowerCase() === "supervisor"))
     {
