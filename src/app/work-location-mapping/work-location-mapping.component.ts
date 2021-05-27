@@ -829,17 +829,75 @@ export class WorkLocationMappingComponent implements OnInit {
       this.set_currentPSM_ID_duringEdit(this.edit_Details.providerServiceMapID);
       this.stateID_duringEdit = '';
       this.district_duringEdit = null;
-      this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-      this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      this.getAllWorkLocations_duringEdit2(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit,this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      // this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
     }
     else {
-      this.getAllDistricts_duringEdit(this.edit_Details.stateID);
-      this.getAllWorkLocations_duringEdit(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
-      this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      this.getAllDistricts_duringEdit2(this.edit_Details.stateID,this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit,this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      // this.getAllWorkLocations_duringEdit2(this.stateID_duringEdit, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit,this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+      // this.getAllRoles_duringEdit(this.serviceID_duringEdit, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
     }
 
 
   }
+  getAllDistricts_duringEdit2(state: any,stateID: any, serviceID: any, isNational_edit, districtID,psmID, userID) {
+    this.worklocationmapping.getAllDistricts(state)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all districts success handeler');
+          this.districts_array = response;
+          this.getAllWorkLocations_duringEdit2(stateID, serviceID, isNational_edit, districtID,psmID, userID);
+          // this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
+        }
+      }, err => {
+        console.log(err, 'error');
+      });
+  }
+
+  getAllWorkLocations_duringEdit2(stateID: any, serviceID: any, isNational_edit, districtID,psmID, userID) {
+    this.worklocationmapping.getAllWorkLocations(this.serviceProviderID, stateID, serviceID, isNational_edit, districtID)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all work locations success handeler edit');
+          this.workLocationsList = response;
+          this.getAllRoles_duringEdit2(serviceID,psmID,userID);
+
+        }
+      }, err => {
+        console.log(err, 'error');
+
+      });
+  }
+
+
+  getAllRoles_duringEdit2(serviceID, psmID, userID) {
+    this.worklocationmapping.getAllRoles(psmID)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all roles success handeler');
+          this.RolesList = response;
+          this.checkExistance(serviceID, psmID, userID);
+        }
+        //on edit - populate roles
+        if (this.edit_Details != undefined) {
+          if (this.RolesList) {
+            let edit_role = this.RolesList.filter((mappedRole) => {
+              if (this.edit_Details.roleID == mappedRole.roleID) {
+                return mappedRole;
+              }
+            })[0];
+            if (edit_role) {
+              // this.roleID_duringEdit = edit_role;
+              this.availableRoles.push(edit_role);
+            }
+          }
+        }
+      }, err => {
+        console.log(err, 'error');
+
+      });
+  }
+
 
   checkService_forIsNational() {
     for (let i = 0; i < this.services_array.length; i++) {
@@ -981,7 +1039,7 @@ export class WorkLocationMappingComponent implements OnInit {
               }
             })[0];
             if (edit_role) {
-              this.roleID_duringEdit = edit_role;
+              // this.roleID_duringEdit = edit_role;
               this.availableRoles.push(edit_role);
             }
           }
@@ -994,7 +1052,12 @@ export class WorkLocationMappingComponent implements OnInit {
 
   updateWorkLocation(workLocations: any) {
     if (workLocations.serviceID === 1) {
-    if((this.isInboundEdit === false || this.isInboundEdit === null)  && (this.isOutboundEdit === false || this.isOutboundEdit === null) && !(workLocations.role.roleName.toLowerCase() === "supervisor"))
+      let updateRoleName = this.RolesList.filter((response) => {
+        if (workLocations.role == response.roleID) {
+          return response;
+        }
+      })[0];
+    if((this.isInboundEdit === false || this.isInboundEdit === null)  && (this.isOutboundEdit === false || this.isOutboundEdit === null) && !(updateRoleName.roleName.toLowerCase() === "supervisor"))
     {
     this.alertService.alert('Select checkbox Inbound/Outbound/Both');
     }
@@ -1002,7 +1065,7 @@ export class WorkLocationMappingComponent implements OnInit {
     {
      
       
-        this.updateData(workLocations);
+        this.updateData(workLocations,updateRoleName.roleName);
       
 
      
@@ -1016,9 +1079,7 @@ export class WorkLocationMappingComponent implements OnInit {
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
       'userID': this.userID_duringEdit,
-      'roleID': workLocations.role.roleID,
-      'inbound':null,
-      'outbound':null,
+      'roleID': workLocations.role,
       'providerServiceMapID': this.providerServiceMapID_duringEdit,
       'workingLocationID': workLocations.worklocation,
       'modifiedBy': this.createdBy
@@ -1036,14 +1097,14 @@ export class WorkLocationMappingComponent implements OnInit {
       });
     }
   }
-updateData(workLocations)
+updateData(workLocations,roleValue)
 {
   const langObj = {
     'uSRMappingID': this.uSRMappingID,
     'userID': this.userID_duringEdit,
-    'roleID': workLocations.role.roleID,
-    'inbound':workLocations.role.roleName.toLowerCase() === "supervisor"?false:this.isInboundEdit,
-    'outbound':workLocations.role.roleName.toLowerCase() === "supervisor"?false:this.isOutboundEdit,
+    'roleID': workLocations.role,
+    'inbound':roleValue.toLowerCase() === "supervisor"?false:this.isInboundEdit,
+    'outbound':roleValue.toLowerCase() === "supervisor"?false:this.isOutboundEdit,
     'providerServiceMapID': this.providerServiceMapID_duringEdit,
     'workingLocationID': workLocations.worklocation,
     'modifiedBy': this.createdBy
@@ -1130,16 +1191,16 @@ updateData(workLocations)
 
   showInboundOutboundEdit(value,role)
   {
-    // let editRoleName = this.RolesList.filter((response) => {
-    //   if (role == response.roleID) {
-    //     return response;
-    //   }
-    // })[0];
+    let editRoleName = this.RolesList.filter((response) => {
+      if (role == response.roleID) {
+        return response;
+      }
+    })[0];
     
   
     this.isInboundEdit=false;
     this.isOutboundEdit=false;
-    if(value === 1 && !(role.roleName.toLowerCase() === "supervisor"))
+    if(value === 1 && !(editRoleName.roleName.toLowerCase() === "supervisor"))
        this.showInOutBoundEdit=true;
     else
        this.showInOutBoundEdit=false;
