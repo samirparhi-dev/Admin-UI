@@ -53,6 +53,11 @@ export class WorkLocationMappingComponent implements OnInit {
 
   @ViewChild('workplaceform') eForm: NgForm;
   @ViewChild('workplaceeform') editWorkplaceForm: NgForm;
+  showInOutBound = false;
+  isInbound=false;
+  isOutbound=false;
+  showInOutBoundEdit=false;
+  
   constructor(private alertService: ConfirmationDialogsService,
     private saved_data: dataService,
     private worklocationmapping: WorkLocationMapping) { }
@@ -336,6 +341,9 @@ export class WorkLocationMappingComponent implements OnInit {
       this.editMode = false;
       this.bufferArray = [];
       this.editWorkplaceForm.resetForm();
+      this.showInOutBoundEdit=false;
+      this.isOutboundEdit = false;
+      this.isInboundEdit = false;
     }
     else {
 
@@ -348,6 +356,10 @@ export class WorkLocationMappingComponent implements OnInit {
         this.bufferArray = [];
         this.eForm.resetForm();
         this.isNational = false;
+        this.isInbound = false;
+        this.isOutbound = false;
+        this.showInOutBound=false;
+        
         //   }
         // });
       }
@@ -360,6 +372,10 @@ export class WorkLocationMappingComponent implements OnInit {
         this.bufferArray = [];
         this.eForm.resetForm();
         this.isNational = false;
+        this.isInbound = false;
+        this.isOutbound = false;
+        this.showInOutBound=false;
+     
         //   }
         // });
       }
@@ -379,6 +395,8 @@ export class WorkLocationMappingComponent implements OnInit {
     this.formMode = true;
     this.editMode = false;
     this.edit = false;
+    this.isInbound = false;
+    this.isOutbound = false;
     // this.getUserName(this.serviceProviderID);
   }
   showEditForm() {
@@ -386,6 +404,8 @@ export class WorkLocationMappingComponent implements OnInit {
     this.formMode = false;
     this.editMode = true;
     this.edit = true;
+    this.isInbound = false;
+    this.isOutbound = false;
     // this.getUserName(this.serviceProviderID);
   }
 
@@ -490,6 +510,141 @@ export class WorkLocationMappingComponent implements OnInit {
     let statesIDEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID;
     let districtEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.district.districtID : null;
     console.log(objectToBeAdded, "FORM VALUES");
+    if (objectToBeAdded.serviceline.serviceName === "1097") {
+      if((this.isInbound === false || this.isInbound === null)  && (this.isOutbound === false || this.isOutbound === null) && objectToBeAdded.role.some((item) => item.roleName.toLowerCase() !== "supervisor"))
+      {
+      this.alertService.alert('Select checkbox Inbound/Outbound/Both');
+      }
+      else
+      {
+        if(objectToBeAdded.role.some((item) => item.roleName.toLowerCase() === "supervisor") && (this.isOutbound == true || this.isInbound == true))
+        {
+          this.alertService.alert("Supervisor doesn't have the privilege for Inbound/Outbound");
+         
+        }
+
+     
+    
+        
+        if (objectToBeAdded.role.length > 0) {
+          if (objectToBeAdded.role.length == 1) {
+            for (let a = 0; a < objectToBeAdded.role.length; a++) {
+             
+              let obj = {
+                'roleID1': objectToBeAdded.role[a].roleID,
+                'roleName': objectToBeAdded.role[a].roleName,
+                'screenName': objectToBeAdded.role[a].screenName
+              }
+              // roleArray.push(obj);
+              if(objectToBeAdded.role[a].roleName.toLowerCase() === "supervisor" )
+                   this.setWorkLocationObject(objectToBeAdded,obj,false,false);
+              else
+              this.setWorkLocationObject(objectToBeAdded,obj,objectToBeAdded.Inbound,objectToBeAdded.Outbound); 
+              
+            }
+    
+          } else {
+            if (objectToBeAdded.role.length > 1) {
+              for (let i = 0; i < objectToBeAdded.role.length; i++) {
+                if (objectToBeAdded.role[i].screenName == 'TC Specialist' || objectToBeAdded.role[i].screenName == 'Supervisor') {
+                  this.Role = null;
+                  // roleArray = [];
+                  this.alertService.alert('Invaild role mapping');
+                  break;
+                } else {
+                  let obj = {
+                    'roleID1': objectToBeAdded.role[i].roleID,
+                    'roleName': objectToBeAdded.role[i].roleName,
+                    'screenName': objectToBeAdded.role[i].screenName
+                  }
+                  // roleArray.push(obj);
+                  if(objectToBeAdded.role[i].roleName.toLowerCase() === "supervisor" )
+                  this.setWorkLocationObject(objectToBeAdded,obj,false,false);
+                 else
+                    this.setWorkLocationObject(objectToBeAdded,obj,objectToBeAdded.Inbound,objectToBeAdded.Outbound); 
+                }
+    
+              }
+            }
+          }
+         
+            
+            this.resetAllArrays();
+            this.isNational = false;
+            
+    
+          
+    
+        }
+        if (this.bufferArray.length > 0) {
+          this.eForm.resetForm();
+        }
+        console.log("Result Array",this.bufferArray)
+      }
+    }
+  else
+  {
+   
+    if (objectToBeAdded.role.length > 0) {
+      if (objectToBeAdded.role.length == 1) {
+        for (let a = 0; a < objectToBeAdded.role.length; a++) {
+         
+          let obj = {
+            'roleID1': objectToBeAdded.role[a].roleID,
+            'roleName': objectToBeAdded.role[a].roleName,
+            'screenName': objectToBeAdded.role[a].screenName
+          }
+          // roleArray.push(obj);
+       
+               this.setWorkLocationObject(objectToBeAdded,obj,false,false);
+        
+          
+        }
+
+      } else {
+        if (objectToBeAdded.role.length > 1) {
+          for (let i = 0; i < objectToBeAdded.role.length; i++) {
+            if (objectToBeAdded.role[i].screenName == 'TC Specialist' || objectToBeAdded.role[i].screenName == 'Supervisor') {
+              this.Role = null;
+              // roleArray = [];
+              this.alertService.alert('Invaild role mapping');
+              break;
+            } else {
+              let obj = {
+                'roleID1': objectToBeAdded.role[i].roleID,
+                'roleName': objectToBeAdded.role[i].roleName,
+                'screenName': objectToBeAdded.role[i].screenName
+              }
+              // roleArray.push(obj);
+             
+              this.setWorkLocationObject(objectToBeAdded,obj,false,false);
+            
+            }
+
+          }
+        }
+      }
+     
+        
+        this.resetAllArrays();
+
+      
+
+    }
+    if (this.bufferArray.length > 0) {
+      this.eForm.resetForm();
+    }
+    console.log("Result Array",this.bufferArray)
+
+
+
+  }
+  }
+
+  setWorkLocationObject(objectToBeAdded,obj,InboundValue,OnboundValue)
+  {
+    let roleArr=[];
+    roleArr.push(obj);
     const workLocationObj = {
       'previleges': [],
       'userID': objectToBeAdded.user.userID,
@@ -499,7 +654,9 @@ export class WorkLocationMappingComponent implements OnInit {
       // 'stateName': objectToBeAdded.state ? objectToBeAdded.state.stateName : '-',
       // 'district': objectToBeAdded.district ? objectToBeAdded.district.districtName : '-',
       'workingLocation': objectToBeAdded.worklocation.locationName,
-      'roleID1': [],
+      'roleID1': roleArr,
+      'Inbound':objectToBeAdded.serviceline.serviceName === "1097"?InboundValue:"N/A",
+      'Outbound':objectToBeAdded.serviceline.serviceName === "1097"?OnboundValue:"N/A",
       // tslint:disable-next-line:max-line-length
       'providerServiceMapID': objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.state.providerServiceMapID : this.states_array[0].providerServiceMapID,
       'createdBy': this.createdBy,
@@ -521,55 +678,21 @@ export class WorkLocationMappingComponent implements OnInit {
       workLocationObj['district'] = null;
     }
 
-    let roleArray = [];
-    if (objectToBeAdded.role.length > 0) {
-      if (objectToBeAdded.role.length == 1) {
-        for (let a = 0; a < objectToBeAdded.role.length; a++) {
-          let obj = {
-            'roleID1': objectToBeAdded.role[a].roleID,
-            'roleName': objectToBeAdded.role[a].roleName,
-            'screenName': objectToBeAdded.role[a].screenName
-          }
-          roleArray.push(obj);
-        }
 
-      } else {
-        if (objectToBeAdded.role.length > 1) {
-          for (let i = 0; i < objectToBeAdded.role.length; i++) {
-            if (objectToBeAdded.role[i].screenName == 'TC Specialist' || objectToBeAdded.role[i].screenName == 'Supervisor') {
-              this.Role = null;
-              roleArray = [];
-              this.alertService.alert('Invaild role mapping');
-              break;
-            } else {
-              let obj = {
-                'roleID1': objectToBeAdded.role[i].roleID,
-                'roleName': objectToBeAdded.role[i].roleName,
-                'screenName': objectToBeAdded.role[i].screenName
-              }
-              roleArray.push(obj);
-            }
-
-          }
-        }
-      }
-      if (roleArray.length > 0) {
-        workLocationObj['roleID1'] = roleArray;
+   
+    
         this.bufferArray.push(workLocationObj);
-        this.resetAllArrays();
 
-      }
-
-    }
-    if (this.bufferArray.length > 0) {
-      this.eForm.resetForm();
-    }
-  }
+    
+    
+}
+  
   resetAllArrays() {
     this.states_array = [];
     this.districts_array = [];
     this.workLocationsList = [];
     this.availableRoles = [];
+    this.showInOutBound=false;
   }
   deleteRow(i, serviceID, providerServiceMapID, userID) {
     this.bufferArray.splice(i, 1);
@@ -591,7 +714,14 @@ export class WorkLocationMappingComponent implements OnInit {
     let workLocationObj = {
       'previleges': [
         {
-          'roleID': [],
+
+          'ID': [
+            {
+            'roleID': '',
+            'inbound': '',
+            'outbound': ''
+            }
+          ],
           'providerServiceMapID': '',
           'workingLocationID': ''
         }
@@ -601,17 +731,20 @@ export class WorkLocationMappingComponent implements OnInit {
       'serviceProviderID': this.serviceProviderID
     }
     for (let i = 0; i < this.bufferArray.length; i++) {
-      let roleArray = [];
-      if (this.bufferArray[i].roleID1.length > 0) {
-        for (let a = 0; a < this.bufferArray[i].roleID1.length; a++) {
-          roleArray.push(this.bufferArray[i].roleID1[a].roleID1);
-        }
+ 
         let workLocationObj = {
+          // "is1097": this.bufferArray[i].serviceName == "1097" ? true : false,
           'previleges': [
             {
-              'roleID': roleArray,
+              'ID': [
+                {
+                'roleID': this.bufferArray[i].roleID1[0].roleID1,
+                'inbound': this.bufferArray[i].serviceName == "1097"?this.bufferArray[i].Inbound:null,
+                'outbound': this.bufferArray[i].serviceName == "1097"?this.bufferArray[i].Outbound:null
+                }
+              ],
               'providerServiceMapID': this.bufferArray[i].providerServiceMapID,
-              'workingLocationID': this.bufferArray[i].workingLocationID
+               'workingLocationID': this.bufferArray[i].workingLocationID
             }
           ],
           'userID': this.bufferArray[i].userID,
@@ -620,8 +753,8 @@ export class WorkLocationMappingComponent implements OnInit {
         }
 
         requestArray.push(workLocationObj);
-        // roleArray = [];
-      }
+        
+      
     }
     console.log(requestArray, 'after modification array');
     this.bufferArray = [];
@@ -632,6 +765,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.getAllMappedWorkLocations();
         this.eForm.resetForm();
         this.showTable();
+        this.resetAllArrays();
         this.filteredStates = [];
         // this.services_array = [];
         this.bufferArray = [];
@@ -651,7 +785,8 @@ export class WorkLocationMappingComponent implements OnInit {
   workLocationID_duringEdit: any;
   roleID_duringEdit: any;
   serviceID_duringEdit: any;
-
+  isInboundEdit=false;
+  isOutboundEdit=false;
   isNational_edit = false;
 
   set_currentPSM_ID_duringEdit(psmID) {
@@ -674,8 +809,20 @@ export class WorkLocationMappingComponent implements OnInit {
     this.district_duringEdit = parseInt(this.edit_Details.workingDistrictID, 10);
     this.roleID_duringEdit = this.edit_Details.roleID;
     this.serviceID_duringEdit = this.edit_Details.serviceID;
-
-
+    this.isInboundEdit=this.edit_Details.inbound;
+    this.isOutboundEdit=this.edit_Details.outbound;
+    this.isInboundEdit=false;
+    this.isOutboundEdit=false;
+   
+    if(this.edit_Details.serviceName === "1097" && !(this.edit_Details.roleName.toLowerCase() === "supervisor"))
+    {
+        this.showInOutBoundEdit=true;
+        
+    }
+   else
+   {
+    this.showInOutBoundEdit=false;
+   }
     this.getProviderServices(this.userID);
     this.checkService_forIsNational();
     this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
@@ -742,6 +889,7 @@ export class WorkLocationMappingComponent implements OnInit {
       this.districts_array = [];
       this.workLocationsList = [];
       this.RolesList = []
+      this.availableRoles=[];
 
       if (isNational) {
         this.set_currentPSM_ID_duringEdit(this.states_array[0].providerServiceMapID);
@@ -846,10 +994,32 @@ export class WorkLocationMappingComponent implements OnInit {
   }
 
   updateWorkLocation(workLocations: any) {
+    if (workLocations.serviceID === 1) {
+    if((this.isInboundEdit === false || this.isInboundEdit === null)  && (this.isOutboundEdit === false || this.isOutboundEdit === null) && !(workLocations.role.roleName.toLowerCase() === "supervisor"))
+    {
+    this.alertService.alert('Select checkbox Inbound/Outbound/Both');
+    }
+    else
+    {
+     
+      
+        this.updateData(workLocations);
+      
+
+     
+
+    }
+   }
+    else
+    {
+
+    
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
       'userID': this.userID_duringEdit,
       'roleID': workLocations.role.roleID,
+      'inbound':null,
+      'outbound':null,
       'providerServiceMapID': this.providerServiceMapID_duringEdit,
       'workingLocationID': workLocations.worklocation,
       'modifiedBy': this.createdBy
@@ -865,7 +1035,35 @@ export class WorkLocationMappingComponent implements OnInit {
       }, err => {
         console.log(err, 'ERROR');
       });
+    }
   }
+updateData(workLocations)
+{
+  const langObj = {
+    'uSRMappingID': this.uSRMappingID,
+    'userID': this.userID_duringEdit,
+    'roleID': workLocations.role.roleID,
+    'inbound':workLocations.role.roleName.toLowerCase() === "supervisor"?false:this.isInboundEdit,
+    'outbound':workLocations.role.roleName.toLowerCase() === "supervisor"?false:this.isOutboundEdit,
+    'providerServiceMapID': this.providerServiceMapID_duringEdit,
+    'workingLocationID': workLocations.worklocation,
+    'modifiedBy': this.createdBy
+  };
+  console.log('edited request object to be sent to API', langObj);
+  this.worklocationmapping.UpdateWorkLocationMapping(langObj)
+    .subscribe(response => {
+      console.log(response, 'after successful mapping of work location to provider');
+      this.alertService.alert('Mapping updated successfully', 'success');
+      this.showTable();
+      this.getAllMappedWorkLocations();
+      this.bufferArray = [];
+    }, err => {
+      console.log(err, 'ERROR');
+    });
+}
+
+
+
   filterComponentList(searchTerm?: string) {
     if (!searchTerm) {
       this.filteredmappedWorkLocationsList = this.mappedWorkLocationsList;
@@ -900,4 +1098,52 @@ export class WorkLocationMappingComponent implements OnInit {
     this.Role = undefined;
     this.resetAllArrays();
   }
+
+  showInboundOutbound(value)
+  {
+    // this.isInbound=null;
+    // this.isOutbound=null;
+    this.isInbound=false;
+    this.isOutbound=false;
+    if(value == "1097")
+       this.showInOutBound=true;
+    else
+       this.showInOutBound=false;
+  }
+
+  setInbound(event) {
+   
+    if (!event.checked) {
+      this.isInbound=false;
+    }
+    else
+    this.isInbound=true;
+  }
+
+  setOutbound(event) {
+   
+    if (!event.checked) {
+      this.isOutbound=false;
+    }
+    else
+    this.isOutbound=true;
+  }
+
+  showInboundOutboundEdit(value,role)
+  {
+    // let editRoleName = this.RolesList.filter((response) => {
+    //   if (role == response.roleID) {
+    //     return response;
+    //   }
+    // })[0];
+    
+  
+    this.isInboundEdit=false;
+    this.isOutboundEdit=false;
+    if(value === 1 && !(role.roleName.toLowerCase() === "supervisor"))
+       this.showInOutBoundEdit=true;
+    else
+       this.showInOutBoundEdit=false;
+  }
+
 }
