@@ -511,7 +511,7 @@ export class WorkLocationMappingComponent implements OnInit {
     let districtEdit = objectToBeAdded.serviceline.isNational === false ? objectToBeAdded.district.districtID : null;
     console.log(objectToBeAdded, "FORM VALUES");
     if (objectToBeAdded.serviceline.serviceName === "1097") {
-      if((this.isInbound === false || this.isInbound === null)  && (this.isOutbound === false || this.isOutbound === null) && objectToBeAdded.role.some((item) => item.roleName.toLowerCase() !== "supervisor"))
+      if((this.isInbound === false || this.isInbound === null || this.isInbound == undefined)  && (this.isOutbound === false || this.isOutbound === null || this.isOutbound === undefined) && objectToBeAdded.role.some((item) => item.roleName.toLowerCase() !== "supervisor"))
       {
       this.alertService.alert('Select checkbox Inbound/Outbound/Both');
       }
@@ -1057,7 +1057,7 @@ export class WorkLocationMappingComponent implements OnInit {
           return response;
         }
       })[0];
-    if((this.isInboundEdit === false || this.isInboundEdit === null)  && (this.isOutboundEdit === false || this.isOutboundEdit === null) && !(updateRoleName.roleName.toLowerCase() === "supervisor"))
+    if((this.isInboundEdit === false || this.isInboundEdit === null || this.isInboundEdit === undefined)  && (this.isOutboundEdit === false || this.isOutboundEdit === null || this.isOutboundEdit === undefined) && !(updateRoleName.roleName.toLowerCase() === "supervisor"))
     {
     this.alertService.alert('Select checkbox Inbound/Outbound/Both');
     }
