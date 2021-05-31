@@ -50,6 +50,7 @@ export class WorkLocationMappingComponent implements OnInit {
   duplicatestatus_editPart: boolean = false;
 
   isNational = false;
+  searchTerm:any;
 
   @ViewChild('workplaceform') eForm: NgForm;
   @ViewChild('workplaceeform') editWorkplaceForm: NgForm;
@@ -344,6 +345,7 @@ export class WorkLocationMappingComponent implements OnInit {
       this.showInOutBoundEdit=false;
       this.isOutboundEdit = false;
       this.isInboundEdit = false;
+      this.searchTerm=null;
     }
     else {
 
@@ -359,6 +361,9 @@ export class WorkLocationMappingComponent implements OnInit {
         this.isInbound = false;
         this.isOutbound = false;
         this.showInOutBound=false;
+        this.availableRoles = [];
+        this.RolesList=[];
+        this.searchTerm=null;
         
         //   }
         // });
@@ -375,7 +380,9 @@ export class WorkLocationMappingComponent implements OnInit {
         this.isInbound = false;
         this.isOutbound = false;
         this.showInOutBound=false;
-     
+        this.availableRoles = [];
+        this.RolesList=[];
+        this.searchTerm=null;
         //   }
         // });
       }
@@ -386,6 +393,8 @@ export class WorkLocationMappingComponent implements OnInit {
     this.alertService.confirm('Confirm', "Do you really want to go back? Any unsaved data would be lost").subscribe(response => {
       if (response) {
         this.showTable();
+        this.getAllMappedWorkLocations();
+        
       }
     });
 
@@ -430,6 +439,7 @@ export class WorkLocationMappingComponent implements OnInit {
                 if (response) {
                   this.alertService.alert('Activated successfully', 'success');
                   /* refresh table */
+                  this.searchTerm=null;
                   this.getAllMappedWorkLocations();
                 }
               },
@@ -452,6 +462,7 @@ export class WorkLocationMappingComponent implements OnInit {
                 if (response) {
                   this.alertService.alert('Activated successfully', 'success');
                   /* refresh table */
+                  this.searchTerm=null;
                   this.getAllMappedWorkLocations();
                 }
               },
@@ -475,6 +486,7 @@ export class WorkLocationMappingComponent implements OnInit {
               if (res) {
                 this.alertService.alert('Deactivated successfully', 'success');
                 /* refresh table */
+                this.searchTerm=null;
                 this.getAllMappedWorkLocations();
               }
             },
@@ -495,6 +507,7 @@ export class WorkLocationMappingComponent implements OnInit {
               if (res) {
                 this.alertService.alert('Deactivated successfully', 'success');
                 /* refresh table */
+                this.searchTerm=null;
                 this.getAllMappedWorkLocations();
               }
             },
@@ -692,11 +705,14 @@ export class WorkLocationMappingComponent implements OnInit {
     this.districts_array = [];
     this.workLocationsList = [];
     this.availableRoles = [];
+    this.RolesList=[];
     this.showInOutBound=false;
   }
   deleteRow(i, serviceID, providerServiceMapID, userID) {
     this.bufferArray.splice(i, 1);
     this.getAllRoles(serviceID, providerServiceMapID, userID);
+    this.availableRoles = [];
+    this.RolesList=[];
 
   }
   removeRole(rowIndex, roleIndex) {

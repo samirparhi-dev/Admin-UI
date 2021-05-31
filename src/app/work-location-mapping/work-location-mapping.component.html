@@ -8,7 +8,7 @@
 
 <div class="pull-right m-t-15" *ngIf="mappedWorkLocationsList.length!==0 && tableMode">
   <md-input-container id="filterbox">
-    <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+    <input mdInput placeholder="In-Table Search" [(ngModel)]="searchTerm" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
     <md-icon mdSuffix>search</md-icon>
   </md-input-container>
 </div>
@@ -160,10 +160,10 @@
       </div>
       
       <div *ngIf="showInOutBound" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 m-t-35">
-        <md-checkbox color="primary" name="Inbound" [(ngModel)]="isInbound"  (change)="setInbound($event)">Inbound</md-checkbox>
+        <md-checkbox color="primary" name="Inbound" [checked]="isInbound" [(ngModel)]="isInbound"  (change)="setInbound($event)">Inbound</md-checkbox>
       </div>
       <div  *ngIf="showInOutBound" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 m-t-35 checkboxAlign">
-        <md-checkbox color="primary" name="Outbound" [(ngModel)]="isOutbound" (change)="setOutbound($event)">Outbound</md-checkbox>
+        <md-checkbox color="primary" name="Outbound" [checked]="isOutbound" [(ngModel)]="isOutbound" (change)="setOutbound($event)">Outbound</md-checkbox>
       </div>
 
     
@@ -321,10 +321,10 @@
       </div>
 
       <div *ngIf="showInOutBoundEdit" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 m-t-35">
-        <md-checkbox color="primary" name="Inbound" [(ngModel)]="isInboundEdit"  (change)="setInbound($event)">Inbound</md-checkbox>
+        <md-checkbox color="primary" name="Inbound" [checked]="isInboundEdit" [(ngModel)]="isInboundEdit"  (change)="setInbound($event)">Inbound</md-checkbox>
       </div>
       <div  *ngIf="showInOutBoundEdit" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 m-t-35 checkboxAlign">
-        <md-checkbox color="primary" name="Outbound" [(ngModel)]="isOutboundEdit" (change)="setOutbound($event)">Outbound</md-checkbox>
+        <md-checkbox color="primary" name="Outbound" [checked]="isOutboundEdit" [(ngModel)]="isOutboundEdit" (change)="setOutbound($event)">Outbound</md-checkbox>
       </div>
     </form>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
