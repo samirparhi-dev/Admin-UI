@@ -272,6 +272,8 @@ import { NodalOfficerConfigurationComponent } from './nodal-officer-configuratio
 import { NodalOfficerConfigurationService } from './services/ProviderAdminServices/nodal-officer-configuration.service';
 import { VanSpokeMappingComponent } from './van-spoke-mapping/van-spoke-mapping.component';
 import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spoke-mapping.service';
+import { ProviderAdminFetosenseTestMasterService } from './services/ProviderAdminServices/fetosense-test-master-service.service';
+import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-test-master.component';
 
 @NgModule({
   declarations: [
@@ -349,7 +351,7 @@ import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spo
     MapSnommedCTCodeComponent,
     NodalOfficerConfigurationComponent,
     VanSpokeMappingComponent,
- 
+    FetosenseTestMasterComponent
   
    
   
@@ -441,7 +443,7 @@ import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spo
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
-    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,
+    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,ProviderAdminFetosenseTestMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
