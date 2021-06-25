@@ -89,8 +89,9 @@ export class CalibrationMasterComponent implements OnInit {
     this.calibrationService.fetCalibrationMasters(obj).subscribe((response) => {
       console.log("stripdata", response);
       if (response) {
-        this.searchresultarray = response;
-        this.filteredsearchresultarray = response;
+        this.searchresultarray = response.calibrationData;
+        this.filteredsearchresultarray = response.calibrationData;
+        console.log("this.filteredsearchresultarray",  this.filteredsearchresultarray)
         this.tableMode = true;
       }
     }, err => {
@@ -168,24 +169,40 @@ export class CalibrationMasterComponent implements OnInit {
     if (saveType == 'save') {
       obj = {
         "stripCode": this.stripCode,
-        "expiryDate": this.expiryDate == null ? "" : new Date(this.expiryDate - 1 * this.expiryDate.getTimezoneOffset() * 60 * 1000),
+        "expiryDate": this.expiryDate == null ? null : new Date(this.expiryDate - 1 * this.expiryDate.getTimezoneOffset() * 60 * 1000),
         "providerServiceMapID": this.data_service.provider_serviceMapID,
         "createdBy": this.createdBy
       }
+      this.calibrationService.createCalibrationStrip(obj).subscribe((response) => {
+        if (response) {
+          this.edit_delete_save_SuccessHandeler('response', saveType);
+          this.redirectToMainPage();
+          this.getCalibrationStrips();
+        }
+      }, err => {
+        console.log(err, 'error');
+      });
+      console.log('request object', this.stripCode, this.expiryDate);
     }
     else {
       obj = {
         "stripCode": this.stripCode,
-        "expiryDate": this.expiryDate == null ? "" : new Date(this.expiryDate),
+        "expiryDate": this.expiryDate == null ? null : new Date(this.expiryDate),
         "providerServiceMapID": this.data_service.provider_serviceMapID,
         "createdBy": this.createdBy,
         "calibrationStripID": this.calibrationStripId,
         "deleted": false
       }
+      this.updateCalibrationData(obj);
     }
-    this.calibrationService.createUpdateCalibrationStrip(obj).subscribe((response) => {
+    
+  }
+
+  updateCalibrationData(obj)
+  {
+    this.calibrationService.updateCalibrationStrip(obj).subscribe((response) => {
       if (response) {
-        this.edit_delete_save_SuccessHandeler('response', saveType);
+        this.edit_delete_save_SuccessHandeler('response', "edit");
         this.redirectToMainPage();
         this.getCalibrationStrips();
       }
@@ -193,6 +210,7 @@ export class CalibrationMasterComponent implements OnInit {
       console.log(err, 'error');
     });
     console.log('request object', this.stripCode, this.expiryDate);
+   
   }
   //}
   activateDeactivate(calibrationStripID, flag) {
