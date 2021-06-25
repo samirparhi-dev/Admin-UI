@@ -62,7 +62,7 @@
                         </md-radio-group>
                     </div>
                     <div class="clearfix visible-md "></div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" >
                             <input mdInput style="display:none">
                         <md-select id="procedure-iot"  placeholder="Procedure IOT" [style.width]="'100%'"  formControlName="iotProcedureID">
                             <md-option ng-value="undefined">
@@ -82,6 +82,9 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-35">
                         <md-checkbox formControlName ="isMandatory" id="isMandatory">Confirm Procedure</md-checkbox>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-35" *ngIf="procedureForm.controls.iotProcedureID.value != null">
+                        <md-checkbox formControlName ="isCalibration" id="isCalibration">Confirm Calibration</md-checkbox>
                     </div>
                 </div>
 
@@ -122,6 +125,7 @@
                             <th width="25%">Description</th>
                             <th width="5%">Edit</th>
                             <th width="5%">Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
