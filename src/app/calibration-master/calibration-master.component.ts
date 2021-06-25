@@ -46,7 +46,12 @@ export class CalibrationMasterComponent implements OnInit {
   }
   getServiceLines() {
     this.provider_AdminRoleService.getServiceLinesNew(this.userID).subscribe((response) => {
+      if(response){
       this.services = this.successhandeler(response)
+      }
+      else{
+        this.alertService.alert(response.errorMessage);
+      }
     }, (err) => {
       console.log(err, 'error');
     });
@@ -61,7 +66,14 @@ export class CalibrationMasterComponent implements OnInit {
       'isNational': value.isNational
     }
     this.provider_AdminRoleService.getStatesNew(obj).
-      subscribe(response => this.statesSuccesshandeler(response, value), (err) => {
+      subscribe(response => {
+        if(response){
+        this.statesSuccesshandeler(response, value)
+        }
+        else{
+          this.alertService.alert(response.errorMessage);
+        }
+      }, (err) => {
         console.log(err, 'error');
       });
   }
@@ -88,10 +100,13 @@ export class CalibrationMasterComponent implements OnInit {
     }
     this.calibrationService.fetCalibrationMasters(obj).subscribe((response) => {
       console.log("stripdata", response);
-      if (response) {
-        this.searchresultarray = response;
-        this.filteredsearchresultarray = response;
+      if(response.statusCode == 200){
+        this.searchresultarray = response.data;
+        this.filteredsearchresultarray = response.data;
         this.tableMode = true;
+      }
+      else{
+        this.alertService.alert(response.errorMessage);
       }
     }, err => {
       console.log(err, 'error');
@@ -184,10 +199,16 @@ export class CalibrationMasterComponent implements OnInit {
       }
     }
     this.calibrationService.createUpdateCalibrationStrip(obj).subscribe((response) => {
-      if (response) {
+      if(response.statusCode == 200){
         this.edit_delete_save_SuccessHandeler('response', saveType);
         this.redirectToMainPage();
         this.getCalibrationStrips();
+      }
+      else if(response.errorMessage == 'Strip code already exists'){
+        this.alertService.alert('Strip code already exists');
+      }
+      else{
+        this.alertService.alert(response.errorMessage);
       }
     }, err => {
       console.log(err, 'error');
@@ -209,9 +230,14 @@ export class CalibrationMasterComponent implements OnInit {
       if (res) {
         console.log("obj", obj);
         this.calibrationService.deleteCalibrationStrip(obj).subscribe((response) => {
+          if(response.statusCode == 200){
           console.log('data', response);
           this.edit_delete_save_SuccessHandeler('response', 'delete');
           this.getCalibrationStrips();
+        }
+        else{
+          this.alertService.alert(response.errorMessage);
+        }
         }, err => {
           console.log(err, 'error');
         });
