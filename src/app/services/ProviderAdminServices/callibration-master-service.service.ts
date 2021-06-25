@@ -49,8 +49,8 @@ export class CallibrationMasterServiceService {
   handleSuccess(response: Response) {
     console.log(response.json().data, 'Calibration Strip save_update success response');
     let result = [];
-    if (response.json().data) {
-      return response.json().data;
+    if (response.json()) {
+      return response.json();
     } else {
       return Observable.throw(response.json());
     }  
