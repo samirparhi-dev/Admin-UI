@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showCalibrationCreationForm">
+    <h4 class="pull-left">Calibration Master</h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showCalibrationCreationForm && !editHeading">
+    <h4 class="pull-left">Create Calibration Master</h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="editHeading">
+    <h4 class="pull-left">Edit Calibration Master</h4>
+  </div>
+  <form #stateService="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="Serviceline" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="service"
+        name="service" #servicess="ngModel" required (change)="getStates(service)">
+        <md-option *ngFor="let ser of services" [value]="ser">
+          {{ser.serviceName}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select placeholder="State" [disabled]="disableSelection || nationalFlag" [style.width]="'100%'"
+        [(ngModel)]="state" name="state" #statess required
+        (change)="setProviderServiceMapID(state.providerServiceMapID)">
+        <md-option *ngFor="let stat of states" [value]="stat">
+          {{stat.stateName}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+</div>
+<div class="col-xs-12 col-sm-12">
+  <div class="pull-right m-t-10" *ngIf="tableMode">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
+</div>
+<div class="row" *ngIf="tableMode">
+  <div class="col-xs-12 col-sm-12 m-t-20">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" [md2Data]="filteredsearchresultarray" #md2="md2DataTable"
+        [rowsPerPage]="4">
+        <thead>
+          <tr>
+            <th width="10%">S.No.</th>
+            <th width="25%">Strip Code</th>
+            <th width="25%">Expiry Date</th>
+            <th width="10%">Edit</th>
+            <th width="15%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="md2.data.length == 0">
+            <td colspan="5" class="record-not-found">No records found</td>
+          </tr>
+          <tr *ngFor="let item of md2.data; let i= index">
+            <td>{{(md2.activePage-1)*4+i+1}}</td>
+            <td>{{item.stripCode}}</td>
+            <td>{{item.expiryDate}}</td>
+            <td>
+              <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true"
+                style="cursor:pointer" *ngIf="!item.deleted" (click)="editCalibrationStrip(item)">edit</md-icon>
+            </td>
+            <td>
+              <button *ngIf="item.deleted" md-raised-button color="accent"
+                (click)="activateDeactivate(item.calibrationStripID, false)">Activate</button>
+              <button *ngIf="!item.deleted" md-raised-button color="primary"
+                (click)="activateDeactivate(item.calibrationStripID, true)">Deactivate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <md2-pagination></md2-pagination>
+            </td>
+            <td colspan="2" class="p-r-0 m-t-10">
+              <button md-raised-button color="primary" class="pull-right" (click)="showForm(false)">Create Calibration</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row m-t-20" *ngIf="formMode">
+  <form #stripCodeForm="ngForm" autocomplete="off">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+      <md-input-container class="width100">
+        <input mdInput placeholder="Strip Code" [(ngModel)]="stripCode" name="stripCode" #stripCodeRef="ngModel"
+          minlength="1" maxlength="25" required>
+        <md-hint>
+          <span class="error_text" *ngIf="!stripCodeRef.errors && stripCodeExist">Strip Code already exists</span>
+        </md-hint>
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+      <md2-datepicker class="width100" placeholder="Expiry Date" [min]="today" [(ngModel)]="expiryDate"
+        name="expiry_Date" (keydown)="preventTyping($event)"></md2-datepicker>
+    </div>
+  </form>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-20">
+    <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+    <button md-raised-button color="accent" *ngIf="!editMode" [disabled]="stripCodeExist || stripCodeForm.invalid"
+      class="pull-right" (click)="save_UpdateStripCode('save')">Save</button>
+    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="stripCodeExist || stripCodeForm.invalid"
+      class="pull-right" (click)="save_UpdateStripCode('edit')">Update</button>
+  </div>
+</div>

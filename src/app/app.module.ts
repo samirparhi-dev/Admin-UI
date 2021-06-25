@@ -272,6 +272,8 @@ import { NodalOfficerConfigurationComponent } from './nodal-officer-configuratio
 import { NodalOfficerConfigurationService } from './services/ProviderAdminServices/nodal-officer-configuration.service';
 import { VanSpokeMappingComponent } from './van-spoke-mapping/van-spoke-mapping.component';
 import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spoke-mapping.service';
+import { CalibrationMasterComponent } from './calibration-master/calibration-master.component';
+import { CallibrationMasterServiceService } from './services/ProviderAdminServices/callibration-master-service.service';
 
 @NgModule({
   declarations: [
@@ -349,6 +351,7 @@ import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spo
     MapSnommedCTCodeComponent,
     NodalOfficerConfigurationComponent,
     VanSpokeMappingComponent,
+    CalibrationMasterComponent,
  
   
    
@@ -441,7 +444,7 @@ import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spo
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
-    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,
+    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,CallibrationMasterServiceService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
