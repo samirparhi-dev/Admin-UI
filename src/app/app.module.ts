@@ -272,8 +272,13 @@ import { NodalOfficerConfigurationComponent } from './nodal-officer-configuratio
 import { NodalOfficerConfigurationService } from './services/ProviderAdminServices/nodal-officer-configuration.service';
 import { VanSpokeMappingComponent } from './van-spoke-mapping/van-spoke-mapping.component';
 import { VanSpokeMappingService } from './services/ProviderAdminServices/van-spoke-mapping.service';
+<<<<<<< HEAD
 import { CalibrationMasterComponent } from './calibration-master/calibration-master.component';
 import { CallibrationMasterServiceService } from './services/ProviderAdminServices/callibration-master-service.service';
+=======
+import { ProviderAdminFetosenseTestMasterService } from './services/ProviderAdminServices/fetosense-test-master-service.service';
+import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-test-master.component';
+>>>>>>> 6045525989c8fb7b5adabb429e884e7d126f2d3b
 
 @NgModule({
   declarations: [
@@ -351,8 +356,12 @@ import { CallibrationMasterServiceService } from './services/ProviderAdminServic
     MapSnommedCTCodeComponent,
     NodalOfficerConfigurationComponent,
     VanSpokeMappingComponent,
+<<<<<<< HEAD
     CalibrationMasterComponent,
  
+=======
+    FetosenseTestMasterComponent
+>>>>>>> 6045525989c8fb7b5adabb429e884e7d126f2d3b
   
    
   
@@ -444,7 +453,11 @@ import { CallibrationMasterServiceService } from './services/ProviderAdminServic
     UomMasterService, ItemCategoryService, ItemFormService, RouteofAdminService, StoreMappingService, ExpiryAlertConfigurationService,
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
+<<<<<<< HEAD
     SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,CallibrationMasterServiceService,
+=======
+    SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,ProviderAdminFetosenseTestMasterService,
+>>>>>>> 6045525989c8fb7b5adabb429e884e7d126f2d3b
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
