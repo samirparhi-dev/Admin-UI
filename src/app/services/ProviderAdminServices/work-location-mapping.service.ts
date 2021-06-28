@@ -55,7 +55,7 @@ export class WorkLocationMapping {
         this.getAllRolesForTMUrl = this.admin_Base_Url + '/searchRoleTM';
         this.getAllMappedRolesForTmUrl = this.admin_Base_Url + '/getUserRoleTM';
 
-        this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMapping';
+        this.get_SaveWorkLocationMappedDetails_Url = this.admin_Base_Url + 'userRoleMappings';
         this.get_UpdateWorkLocationMappedDetails_Url = this.admin_Base_Url + 'updateUserRoleMapping';
         this.get_DeleteWorkLocationMappedDetails_Url = this.admin_Base_Url + 'deleteUserRoleMapping';
         this.get_DeleteWorkLocationMappedDetailsForTM_Url = this.admin_Base_Url + '/deleteUserRoleMappingTM';

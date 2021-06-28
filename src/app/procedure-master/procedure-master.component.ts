@@ -111,7 +111,8 @@ export class ProcedureMasterComponent implements OnInit {
       female: null,
       disable: null,
       iotProcedureID:null,
-      isMandatory: null
+      isMandatory: null,
+      isCalibration: null
     })
   }
 
@@ -275,7 +276,8 @@ export class ProcedureMasterComponent implements OnInit {
         providerServiceMapID: this.searchStateID.providerServiceMapID,
         gender: obj.gender,
         iotProcedureID:obj.iotProcedureID,
-        isMandatory: obj.isMandatory
+        isMandatory: obj.isMandatory,
+        isCalibration: obj.isCalibration
       };
 
       // console.log(obj.male, 'obj');
@@ -480,7 +482,8 @@ export class ProcedureMasterComponent implements OnInit {
       gender: item.gender,
       disable: item.deleted,
       iotProcedureID:item.iotProcedureID,
-      isMandatory: item.isMandatory
+      isMandatory: item.isMandatory,
+      isCalibration: item.isCalibration
     })
 
 
