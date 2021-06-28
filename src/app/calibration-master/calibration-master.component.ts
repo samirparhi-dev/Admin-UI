@@ -145,6 +145,7 @@ export class CalibrationMasterComponent implements OnInit {
   back() {
     this.alertService.confirm('Confirm', 'Do you really want to cancel? Any unsaved data would be lost').subscribe(res => {
       if (res) {
+        this.filteredsearchresultarray=this.searchresultarray;
         this.redirectToMainPage();
       }
     })

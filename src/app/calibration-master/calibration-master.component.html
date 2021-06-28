@@ -29,7 +29,7 @@
   </form>
 </div>
 <div class="col-xs-12 col-sm-12">
-  <div class="pull-right m-t-10" *ngIf="tableMode">
+  <div class="pull-right m-t-10" *ngIf="tableMode && searchresultarray.length!=0 ">
     <md-input-container id="filterbox">
       <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
       <md-icon mdSuffix>search</md-icon>
@@ -89,7 +89,7 @@
   <form #stripCodeForm="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
       <md-input-container class="width100">
-        <input mdInput allowText="number"  placeholder="Strip Code" disabled={{editMode}} [(ngModel)]="stripCode" name="stripCode" #stripCodeRef="ngModel"
+        <input mdInput alphanumeric placeholder="Strip Code" disabled={{editMode}} [(ngModel)]="stripCode" name="stripCode" #stripCodeRef="ngModel"
           minlength="1" maxlength="5" required>
         <md-hint>
           <span class="error_text" *ngIf="!stripCodeRef.errors && stripCodeExist">Strip Code already exists</span>

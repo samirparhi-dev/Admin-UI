@@ -79,7 +79,7 @@ export class ProviderAdminRoleService {
   }
   getServiceLinesNew(userID) {
     return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
-      .map(this.handleState_n_ServiceSuccess)
+      .map(this.handleState_n_ServiceSuccessCalibration)
       .catch(this.handleError);
   }
   getFeature(serviceID) {
@@ -148,6 +148,19 @@ export class ProviderAdminRoleService {
     });
     return result;
   }
+
+  handleState_n_ServiceSuccessCalibration(response: Response) {
+
+    console.log(response.json().data, 'service point file success response');
+    let result = [];
+    result = response.json().data.filter(function (item) {
+        if (item.serviceID == 2 || item.serviceID == 4) {
+            return item;
+        }
+    });
+    return result;
+}
+
   handleState_n_ServiceSuccess_role(response: Response) {
 
     console.log(response.json().data, 'role service file success response');
