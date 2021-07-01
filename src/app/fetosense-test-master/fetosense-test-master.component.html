@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showFetosenseTestMaster">
+    <h4 class="pull-left">Fetosense Test Master</h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="showTestCreation">
+    <h4 class="pull-left">Create Test</h4>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!showTestCreation && !showFetosenseTestMaster">
+    <h4 class="pull-left">Edit Test</h4>
+  </div>
+
+<form #stateService="ngForm" autocomplete="off">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+    <md-select placeholder="Serviceline" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="serviceLine" name="serviceLine"
+      #serviceLines="ngModel" required (change)="getStates(serviceLine)">
+      <md-option *ngFor="let service of services" [value]="service">
+        {{service.serviceName}}
+      </md-option>
+    </md-select>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+    <md-select placeholder="State" disabled={{disableSelection}} [style.width]="'100%'" [(ngModel)]="state" name="state"
+      #stateList required (change)="testWorklist(state)">
+      <md-option *ngFor="let state of states" [value]="state">
+        {{state.stateName}}
+      </md-option>
+    </md-select>
+  </div>
+</form>
+</div>
+
+<div class="pull-right" *ngIf="searchedFetosenseTests.length!==0 && showWorklist">
+<md-input-container id="filterbox">
+  <input mdInput placeholder="In-Table Search" #filterTerm [(ngModel)]="searchTest" name="searchTest" (keyup)="filterTestsList(filterTerm.value)">
+  <md-icon mdSuffix>search</md-icon>
+</md-input-container>
+</div>
+
+<div class="row" *ngIf="showWorklist">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
+  <div class="table-responsive">
+    <table [md2Data]="filteredFetosenseTests" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="4" aria-describedby="testsWorklist">
+      <thead>
+        <tr>
+          <th id="sno">S.No.</th>
+          <th id="testName">Test Name</th>
+          <th id="testDescription">Test Description</th>
+          <th id="edit">Edit</th>
+          <th id="action">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="filteredFetosenseTests.length == 0" class="record-not-found">
+          <td colspan="6">No records found</td>
+        </tr>
+        <tr *ngFor="let test of md2.data; let i= index">
+          <td>{{(md2.activePage-1)*4+i+1}}</td>
+          <td>{{test.testName}}</td>
+          <td>{{test.testDesc}}</td>
+          <td>
+            <md-icon mdTooltip="Edit" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer" *ngIf="!test.deleted"
+              (click)="editTest(test)">edit</md-icon>
+          </td>
+          <td>
+            <button  md-raised-button color="accent" *ngIf="test.deleted" (click)="deleteTest(test.fetosenseTestID, false)">Activate</button>
+            <button  md-raised-button color="primary" *ngIf="!test.deleted" (click)="deleteTest(test.fetosenseTestID, true)">Deactivate</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">
+            <md2-pagination></md2-pagination>
+          </td>
+          <td colspan="3" class="p-r-0">
+            <button md-raised-button color="primary" class="pull-right" [disabled]="stateService.invalid" (click)="createTest(true)">Create Test</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="row" *ngIf="showTestCreationForm">
+<form #addingTestsForm="ngForm" id="testsAddingForm" name="testsAddingForm" autocomplete="off">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+    <md-input-container style="width: 100%">
+      <input mdInput placeholder="Test Name" [(ngModel)]="test" minlength="1" maxlength="100" name="test" (keyup)="validateTest(test)"
+        required #tests="ngModel">
+      <md-hint *ngIf="tests.touched">
+        <span class="error_text" *ngIf="othersExist">Test already exists</span>
+        <span class="error_text" *ngIf="tests.invalid">Test is required</span>
+      </md-hint>
+    </md-input-container>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+    <md-input-container style="width: 100%">
+      <input mdInput placeholder="Test Description" [(ngModel)]="description" name="description" maxlength="100" #testDescription="ngModel">
+    </md-input-container>
+  </div>
+</form>
+
+<div class="col-xs-12 col-sm-6 col-md-12 col-lg-3 m-t-15" *ngIf="addingTestsForm.valid && !othersExist && addButton">
+  <button md-mini-fab color="primary" (click)="addTests(test,description);addingTestsForm.reset()" class="xs-pull-right sm-pull-left md-pull-right lg-pull-left">
+    <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+  </button>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15" *ngIf="saveTest">
+  <div class="table-responsive">
+    <table [md2Data]="addedFetosenseTests" #md2="md2DataTable" class="table table-striped table-hover" [rowsPerPage]="3" aria-describedby="testsSaveWorklist">
+      <thead>
+        <tr>
+          <th id="sno">S.No.</th>
+          <th id="testName">Test Name</th>
+          <th id="testDescription">Test Description</th>
+          <th id="action">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="addedFetosenseTests.length == 0" class="record-not-found">
+          <td colspan="5">No records found</td>
+        </tr>
+        <tr *ngFor="let fetosenseTest of md2.data; let i=index">
+          <td>{{addedFetosenseTests.indexOf(fetosenseTest)+1}}</td>
+          <td>{{fetosenseTest.testName}}</td>
+          <td>{{fetosenseTest.testDesc}}</td>
+          <td>
+            <md-icon class="cursorPointer" mdTooltip="delete" (click)="removeTest(addedFetosenseTests.indexOf(fetosenseTest))">delete</md-icon>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <md2-pagination></md2-pagination>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-15 m-b-10">
+  <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
+   <button md-raised-button color="accent" class="pull-right" *ngIf="saveTest" (click)="saveTests()">Save</button>
+   <button md-raised-button color="accent" class="pull-right" [disabled]="(tests.errors || othersExist || !addingTestsForm.dirty)" *ngIf="updateTest"
+    (click)="updateTestChanges()">Update</button>
+</div>
+</div>
