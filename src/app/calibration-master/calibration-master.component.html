@@ -105,7 +105,7 @@
     <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
     <button md-raised-button color="accent" *ngIf="!editMode" [disabled]="stripCodeExist || stripCodeForm.invalid"
       class="pull-right" (click)="save_UpdateStripCode('save')">Save</button>
-    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="stripCodeExist || stripCodeForm.invalid"
+    <button md-raised-button color="accent" *ngIf="editMode" [disabled]="stripCodeExist || stripCodeForm.invalid || !stripCodeForm.dirty"
       class="pull-right" (click)="save_UpdateStripCode('edit')">Update</button>
   </div>
 </div>
