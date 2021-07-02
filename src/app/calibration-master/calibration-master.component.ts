@@ -92,9 +92,9 @@ export class CalibrationMasterComponent implements OnInit {
   }
   setProviderServiceMapID(ProviderServiceMapID) {
     this.data_service.provider_serviceMapID = ProviderServiceMapID;
-    this.getCalibrationStrips();
+    this.getCalibrationStrips(null);
   }
-  getCalibrationStrips() {
+  getCalibrationStrips(stripCode) {
     let obj = {
       "providerServiceMapID": this.data_service.provider_serviceMapID
     }
@@ -105,6 +105,10 @@ export class CalibrationMasterComponent implements OnInit {
         this.filteredsearchresultarray = response.data.calibrationData;
         console.log("this.filteredsearchresultarray",  this.filteredsearchresultarray)
         this.tableMode = true;
+        if(stripCode != null && stripCode != undefined)
+        {
+           this.filterComponentList(stripCode);
+        }
       }
       else{
         this.alertService.alert(response.errorMessage);
@@ -193,7 +197,7 @@ export class CalibrationMasterComponent implements OnInit {
         if (response.statusCode == 200) {
           this.edit_delete_save_SuccessHandeler('response', "save");
           this.redirectToMainPage();
-          this.getCalibrationStrips();
+          this.getCalibrationStrips(null);
         }
         
         else{
@@ -226,7 +230,7 @@ export class CalibrationMasterComponent implements OnInit {
       if (response.statusCode == 200) {
         this.edit_delete_save_SuccessHandeler('response', "edit");
         this.redirectToMainPage();
-        this.getCalibrationStrips();
+        this.getCalibrationStrips(null);
       }
       
       else{
@@ -239,7 +243,7 @@ export class CalibrationMasterComponent implements OnInit {
    
   }
   //}
-  activateDeactivate(calibrationStripID, flag) {
+  activateDeactivate(calibrationStripID, flag, stripCode) {
     let obj = {
       "calibrationStripID": calibrationStripID,
       "deleted": flag
@@ -256,7 +260,7 @@ export class CalibrationMasterComponent implements OnInit {
           if(response.statusCode == 200){
           console.log('data', response);
           this.edit_delete_save_SuccessHandeler('response', 'delete');
-          this.getCalibrationStrips();
+          this.getCalibrationStrips(stripCode);
         }
         else{
           this.alertService.alert(response.errorMessage);

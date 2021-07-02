@@ -64,9 +64,9 @@
             </td>
             <td>
               <button *ngIf="item.deleted" md-raised-button color="accent"
-                (click)="activateDeactivate(item.calibrationStripID, false)">Activate</button>
+                (click)="activateDeactivate(item.calibrationStripID, false, item.stripCode)">Activate</button>
               <button *ngIf="!item.deleted" md-raised-button color="primary"
-                (click)="activateDeactivate(item.calibrationStripID, true)">Deactivate</button>
+                (click)="activateDeactivate(item.calibrationStripID, true, item.stripCode)">Deactivate</button>
             </td>
           </tr>
         </tbody>
