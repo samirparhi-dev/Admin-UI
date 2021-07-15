@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12" *ngIf="!showFormFlag && !editFormFlag">
+      <h4 class="pull-left">Device ID Master</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12" *ngIf="showFormFlag">
+        <h4 class="pull-left">Create Device ID</h4>
+      </div>
+      <div class="col-xs-12 col-sm-12" *ngIf="editFormFlag">
+        <h4 class="pull-left">Edit Device ID</h4>
+      </div>
+
+    <form #searchFields="ngForm" autocomplete="off">
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <md-select placeholder="Serviceline" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="service" name="service"
+          required (change)="getStates(service.serviceID,service.isNational);">
+          <md-option *ngFor="let item of services" [value]="item">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <md-select placeholder="State" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="state" name="state"
+          required (change)="setProviderServiceMapID(state.providerServiceMapID)">
+          <md-option *ngFor="let item of states" [value]="item">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+  </div>
+  
+  <br>
+  <div class="pull-right" *ngIf="searchResultArray.length!==0 && showTableFlag">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" [(ngModel)]="searchTerm" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
+  
+  <div class="row">
+    <div class="col-xs-12 col-sm-12" *ngIf="showTableFlag">
+      <div class=" table responsive">
+        <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" aria-describedby="deviceIDMasterList" class="table table-striped table-hover" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th id="sno">S.No.</th>
+              <th id="deviceId">Device ID</th>
+              <th id="deviceName">Device Name</th>
+              <th id="edit">Edit</th>
+              <th id="action" class="w-50">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="md2.data.length === 0">
+              <td colspan="5" class="record-not-found">No records found</td>
+            </tr>
+            <tr *ngFor="let item of md2.data; let i=index">
+              <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
+              <td>{{item.deviceID}}</td>
+              <td>{{item.deviceName}}</td>
+              <td>
+                <md-icon mdTooltip="edit" *ngIf="!item.deleted" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="openEditForm(item)">edit</md-icon>
+  
+              </td>
+              <td>
+                <button *ngIf="item.deleted" md-raised-button color="accent" (click)="toggleActivate(item,false)">Activate</button>
+                <button *ngIf="!item.deleted" md-raised-button color="primary" (click)="toggleDeactivate(item,true)">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td td colspan="3" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" (click)="showCreateForm()">Add Device ID</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showFormFlag">
+    <form #createDeviceIdForm="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%" VehicleNONew>
+          <input mdInput placeholder="Device ID" [(ngModel)]="deviceID"  name="deviceID"
+            minlength="3" maxlength="300" #device="ngModel" required>
+          <md-hint>
+            <span class="error_text" *ngIf="device.touched && device.errors && device!==null">Device Id is required</span>
+          </md-hint>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" minlength="3" maxlength="300" 
+          #deviceNames="ngModel">
+          
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 m-t-20">
+        <button md-mini-fab color="primary" *ngIf="createDeviceIdForm.valid" class="xs-pull-right sm-pull-right md-pull-left lg-pull-left"
+          (click)="addObj(deviceID,deviceName)">
+          <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+        </button>
+      </div>
+    </form>
+  
+    <div class="col-xs-12 col-sm-12 m-t-15">
+      <div class="table-responsive" *ngIf="bufferArray.length>0">
+        <table [md2Data]="bufferArray" #md2="md2DataTable" aria-describedby="bufferDeviceIdMasterList" class="table table-hover table-striped" [rowsPerPage]="3">
+          <thead>
+            <tr>
+              <th id="sno">S.No.</th>
+              <th id="deviceId">Device ID</th>
+              <th id="deviceName">Device Name</th>
+              <th id="action">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of md2.data; let k=index; ">
+              <td>{{bufferArray.indexOf(item)+1}}</td>
+              <td>{{item.deviceID}}</td>
+              <td>{{item.deviceName}}</td>
+              <td>
+                <md-icon class="cursorPointer" mdTooltip="delete" (click)="removeObj(bufferArray.indexOf(item))">delete</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+  
+    </div>
+    <div class="col-xs-12 col-sm-12  m-t-10 ">
+      <button md-raised-button [disabled]="bufferArray.length === 0" class="pull-right" color="accent" (click)="saveDeviceMasterDetails()">Save</button>
+    
+      <button md-raised-button class="pull-left" color="primary" (click)="navigateToPrev()">Back</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="editFormFlag">
+    <form #editDeviceIdForm="ngForm" autocomplete="off">
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%" VehicleNONew>
+          <input mdInput placeholder="Device ID" [(ngModel)]="deviceID" name="deviceID" minlength="3" maxlength="300" (keyup)="checkExistance(deviceID)"
+           #device=ngModel required >
+          
+           <md-hint>
+            <span class="error_text" *ngIf="device.touched && device.errors && device!==null">Device Id is required</span>
+            <span class="error_text" *ngIf="device.valid && deviceIdExist">Device ID already exists</span>
+       </md-hint>
+          </md-input-container>
+      </div>
+  
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+        <md-input-container style="width: 100%">
+          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" #deviceNames="ngModel" minlength="3" maxlength="300">
+          
+        </md-input-container>
+      </div>
+      
+      <div class="col-xs-12 col-sm-12  m-t-10 ">
+        <button md-raised-button color="accent" class="pull-right" [disabled]="!editDeviceIdForm.valid|| !editDeviceIdForm.dirty || deviceIdExist" (click)="updateDeviceMasterDetails(deviceID,deviceName)">
+          Update</button>
+      
+        <button md-raised-button class="pull-left" color="primary" (click)="navigateToPrev()">Back</button>
+      </div>
+
+    </form>
+  
+  </div>
+  

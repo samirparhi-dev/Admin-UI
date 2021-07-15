@@ -74,6 +74,20 @@
                                 <li style="cursor: pointer" (click)='show("12")'>
                                     <a>Severity Type</a>
                                 </li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-2">Fetosense Master</a>
+                                    <ul class="dropdown-menu cu-admin-sub-nav-top">
+                                        <li style="cursor: pointer" (click)='show("70")'>
+                                            <a>Device ID Master</a>
+                                        </li>
+                                        <li style="cursor:pointer" (click)='show("68")'>
+                                            <a>Fetosense Test Master</a>
+                                        </li>
+                                       
+                                       
+                                       
+                                    </ul>
+                                </li>
                                 
                                 <li class="dropdown-submenu">
                                     <a tabindex="-2">Drug Groups</a>
@@ -132,9 +146,7 @@
                                         <li style="cursor: pointer" (click)='show("30")'>
                                             <a>Component Master</a>
                                         </li>
-                                        <!-- <li style="cursor:pointer" (click)='show("68")'>
-                                            <a>Fetosense Test Master</a>
-                                        </li> -->
+                                       
                                         <li style="cursor: pointer" (click)='show("69")'>
                                             <a>Calibration Strip Master</a>
                                         </li>
@@ -196,6 +208,9 @@
                                         </li>
                                         <li style="cursor: pointer" (click)='show("67")'>
                                             <a>Van Spoke Mapping</a>
+                                        </li>
+                                        <li style="cursor: pointer" (click)='show("71")'>
+                                            <a>Spoke Device ID Mapping</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -342,7 +357,9 @@
                             <app-nodal-officer-configuration *ngSwitchCase="66"></app-nodal-officer-configuration>
                             <app-van-spoke-mapping *ngSwitchCase = "67"></app-van-spoke-mapping>
                             <app-calibration-master *ngSwitchCase = "69"></app-calibration-master>
-                            <!-- <app-fetosense-test-master *ngSwitchCase = "68"></app-fetosense-test-master> -->
+                            <app-fetosense-test-master *ngSwitchCase = "68"></app-fetosense-test-master>
+                            <app-device-id-master *ngSwitchCase = "70"></app-device-id-master>
+                            <app-van-device-id-mapping *ngSwitchCase = "71"></app-van-device-id-mapping>
                         </div>
                     </div>
                 </div>

@@ -114,7 +114,12 @@ export class InterceptedHttp extends Http {
             this.message.alert(response.json().errorMessage, 'error');
             this.authService.removeToken();
             return Observable.empty();
-        } else {
+        }
+         else if (response.json().statusCode === 5000)
+        {
+            throw response.json().errorMessage;
+        }
+        else {
             throw response;
         }
     }
