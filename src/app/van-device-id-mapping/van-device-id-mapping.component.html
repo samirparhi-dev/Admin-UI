@@ -1,0 +1,172 @@
+  <div class="row">
+    <div class="col-xs-12 col-sm-12" *ngIf="!showFormFlag && !editFormFlag">
+      <h4 class="pull-left">Spoke Device ID Mapping</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12" *ngIf="showFormFlag">
+        <h4 class="pull-left">Add Spoke Device ID Mapping</h4>
+      </div>
+      <div class="col-xs-12 col-sm-12" *ngIf="editFormFlag">
+        <h4 class="pull-left">Edit Spoke Device ID Mapping</h4>
+      </div>
+
+    <form #searchFields="ngForm" autocomplete="off">
+  
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <md-select placeholder="Serviceline" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="service" name="service"
+          required (change)="getStates(service.serviceID,service.isNational);">
+          <md-option *ngFor="let item of services" [value]="item">
+            {{item.serviceName}}
+          </md-option>
+        </md-select>
+      
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+       
+        <md-select placeholder="State" [disabled]='disableSelection' [style.width]="'100%'" [(ngModel)]="state" name="state"
+          required (change)="setProviderServiceMapID(state.providerServiceMapID)">
+          <md-option *ngFor="let item of states" [value]="item">
+            {{item.stateName}}
+          </md-option>
+        </md-select>
+       
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <md-select required placeholder="Zone" class="width100" [(ngModel)]="zoneID" name="zoneID" [disabled]="disableSelection"
+            #zoneG="ngModel" (change)="getParkingPlaces(zoneID.zoneID, state.providerServiceMapID)">
+            <md-option *ngFor="let zone of zones" [value]="zone">
+                {{zone.zoneName}}
+            </md-option>
+        </md-select>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <md-select  placeholder="Hub" class="width100" [(ngModel)]="parkingPlace" name="parkingPlace" (change)="getSpokeTypes()"  [disabled]="disableSelection"
+           required>
+          <md-option *ngFor="let parkingplace of parkingPlaces" [value]="parkingplace">
+              {{parkingplace.parkingPlaceName}}
+          </md-option>
+      </md-select>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+  
+    <md-select required placeholder="Spoke Type" class="width100" [(ngModel)]="spokeTypeID" name="spokeTypeID" #spokeTypes="ngModel"  [disabled]="disableSelection"
+        (change)="getSpokeIdAndDeviceId(state.providerServiceMapID, parkingPlace.parkingPlaceID, spokeTypeID.vanTypeID);getSpokeDeviceIdMappings(parkingPlace.parkingPlaceID,spokeTypeID.vanTypeID);">
+        <md-option *ngFor="let spoketype of filteredSpokeTypes" [value]="spoketype">
+            {{spoketype.vanType}}
+        </md-option>
+    </md-select>
+   
+</div>
+
+
+
+    </form>
+  </div>
+
+
+  
+  <div class="pull-right" *ngIf="searchResultArray.length!==0 && showTableFlag">
+    <md-input-container id="filterbox">
+      <input mdInput placeholder="In-Table Search" [(ngModel)]="searchTerm" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+      <md-icon mdSuffix>search</md-icon>
+    </md-input-container>
+  </div>
+  
+  <div class="row">
+    <div class="col-xs-12 col-sm-12" *ngIf="showTableFlag">
+      <div class=" table responsive">
+        <table [md2Data]="filteredsearchResultArray" #md2="md2DataTable" aria-describedby="spokeDeviceIdMappingList" class="table table-striped table-hover" [rowsPerPage]="4">
+          <thead>
+            <tr>
+              <th id="sno">S.No.</th>
+              <th id="SpokeName">Spoke</th>
+              <th id="deviceId">Device ID</th>
+              <th id="edit">Edit</th>
+              <th id="action" class="w-50">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="md2.data.length === 0">
+              <td colspan="5" class="record-not-found">No records found</td>
+            </tr>
+            <tr *ngFor="let item of md2.data; let i=index">
+              <td>{{filteredsearchResultArray.indexOf(item)+1}}</td>
+              <td>{{item.vanName}}</td>
+              <td>{{item.deviceID}}</td>
+              <td>
+                <md-icon mdTooltip="edit" *ngIf="!item.deactivated" class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer"
+                  (click)="openEditForm(item)">edit</md-icon>
+  
+              </td>
+              <td>
+                <button *ngIf="item.deactivated" md-raised-button color="accent" (click)="toggleActivate(item,false)">Activate</button>
+                <button *ngIf="!item.deactivated" md-raised-button color="primary" (click)="toggleDeactivate(item,true)">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <md2-pagination></md2-pagination>
+              </td>
+              <td td colspan="3" class="p-r-0">
+                <button md-raised-button color="primary" class="pull-right" (click)="showCreateForm()">Add Mapping</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showFormFlag || editFormFlag">
+    <form #spokeDeviceIdMappingForm="ngForm" autocomplete="off">
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+      
+ 
+        <md-select required  class="width100" [disabled]="editFormFlag" placeholder="Spoke" (change)="addSpokeName(spokeID)" [(ngModel)]="spokeID" name="spokeID" #spokeVal="ngModel" >
+            <md-option *ngFor="let spoke of availableSpokes" [value]="spoke.vanID" >
+                {{spoke.vanName}}
+            </md-option>
+        </md-select>
+        <md-hint>
+          <span class="error_text" *ngIf="spokeVal.touched && spokeVal.errors && spokeVal!==null">Spoke is required</span>
+         
+        </md-hint>
+       
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
+       
+        <md-select required  class="width100" placeholder="Device ID" [(ngModel)]="deviceID" name="deviceID" #deviceId="ngModel">
+            <md-option *ngFor="let device of deviceIdArray" [value]="device.deviceID">
+                {{device.deviceID}}
+            </md-option>
+        </md-select>
+        <md-hint>
+          <span class="error_text" *ngIf="deviceId.touched && deviceId.errors && deviceId!==null">Device ID is required</span>
+         
+        </md-hint>
+     
+      </div>
+
+   
+    
+  
+    
+    <div class="col-xs-12 col-sm-12  m-t-10 ">
+      
+      <button md-raised-button *ngIf="editFormFlag" color="accent" class="pull-right" [disabled]="!spokeDeviceIdMappingForm.valid || !spokeDeviceIdMappingForm.dirty" (click)="updateSpokeDeviceIdMapping()">
+        Update</button>
+      <button md-raised-button *ngIf="showFormFlag" [disabled]="!spokeDeviceIdMappingForm.valid" class="pull-right" color="accent" (click)="saveSpokeDeviceIdMapping()">Save</button>
+    
+      <button md-raised-button class="pull-left" color="primary" (click)="navigateToPrev()">Back</button>
+    </div>
+
+  </form>
+
+  </div>
+
+  
+  

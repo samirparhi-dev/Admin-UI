@@ -276,6 +276,9 @@ import { CalibrationMasterComponent } from './calibration-master/calibration-mas
 import { CallibrationMasterServiceService } from './services/ProviderAdminServices/callibration-master-service.service';
 import { ProviderAdminFetosenseTestMasterService } from './services/ProviderAdminServices/fetosense-test-master-service.service';
 import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-test-master.component';
+import { DeviceIdMasterComponent} from './device-id-master/device-id-master.component';
+import { FetosenseDeviceIdMasterService } from './services/ProviderAdminServices/fetosense-device-id-master-service.service';
+import { VanDeviceIdMappingComponent } from './van-device-id-mapping/van-device-id-mapping.component';
 
 @NgModule({
   declarations: [
@@ -354,7 +357,9 @@ import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-
     NodalOfficerConfigurationComponent,
     VanSpokeMappingComponent,
     CalibrationMasterComponent,
-    FetosenseTestMasterComponent
+    FetosenseTestMasterComponent,
+    DeviceIdMasterComponent,
+    VanDeviceIdMappingComponent
   
    
   
@@ -447,6 +452,7 @@ import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-
     EmailConfigurationService, ResetUserPasswordService, DrugStrengthService, NatureOfCompaintCategoryMappingService,
     SwymedUserConfigurationService, WrapupTimeConfigurationService,adminDataService,SmsTemplateService,QuestionnaireServiceService,
     SnomedMasterService,NodalOfficerConfigurationService,VanSpokeMappingService,CallibrationMasterServiceService,ProviderAdminFetosenseTestMasterService,
+    FetosenseDeviceIdMasterService,
     {
       provide: InterceptedHttp,
       useFactory: httpFactory,
