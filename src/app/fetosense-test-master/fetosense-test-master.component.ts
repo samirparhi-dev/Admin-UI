@@ -49,7 +49,7 @@ export class FetosenseTestMasterComponent implements OnInit {
     this.getProviderServices();
     }
     getProviderServices() {
-      this.providerAdminTestMasterService.getServices(this.userID)
+      this.providerAdminTestMasterService.getServicesForFetosense(this.userID)
         .subscribe(response => {
           if(response !== null && response !== undefined)
             this.services = response;

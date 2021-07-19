@@ -90,7 +90,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container style="width: 100%" VehicleNONew>
           <input mdInput placeholder="Device ID" [(ngModel)]="deviceID"  name="deviceID"
-            minlength="3" maxlength="300" #device="ngModel" required>
+            minlength="3" maxlength="100" #device="ngModel" required>
           <md-hint>
             <span class="error_text" *ngIf="device.touched && device.errors && device!==null">Device Id is required</span>
           </md-hint>
@@ -98,7 +98,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container style="width: 100%">
-          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" minlength="3" maxlength="300" 
+          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" minlength="3" maxlength="100" 
           #deviceNames="ngModel">
           
         </md-input-container>
@@ -155,7 +155,7 @@
 
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container style="width: 100%" VehicleNONew>
-          <input mdInput placeholder="Device ID" [(ngModel)]="deviceID" name="deviceID" minlength="3" maxlength="300" (keyup)="checkExistance(deviceID)"
+          <input mdInput placeholder="Device ID" [(ngModel)]="deviceID" name="deviceID" minlength="3" maxlength="100" (keyup)="checkExistance(deviceID)"
            #device=ngModel required >
           
            <md-hint>
@@ -167,7 +167,7 @@
   
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
         <md-input-container style="width: 100%">
-          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" #deviceNames="ngModel" minlength="3" maxlength="300">
+          <input mdInput placeholder="Device Name" [(ngModel)]="deviceName" name="deviceName" #deviceNames="ngModel" minlength="3" maxlength="100">
           
         </md-input-container>
       </div>
