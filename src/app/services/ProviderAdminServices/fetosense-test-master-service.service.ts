@@ -32,6 +32,12 @@ export class ProviderAdminFetosenseTestMasterService {
             .map(this.handleState_n_ServiceSuccess)
             .catch(this.handleError);
     }
+
+    getServicesForFetosense(userID) {
+        return this.httpIntercept.post(this._getServiceLineURL, { 'userID': userID })
+            .map(this.handleState_n_ServiceSuccessFetosense)
+            .catch(this.handleError);
+    }
     getStates(state) {
         return this.http.post(this._getStateListURL,
             {
@@ -47,6 +53,17 @@ export class ProviderAdminFetosenseTestMasterService {
         let result = [];
         result = response.json().data.filter(function (item) {
             if (item.serviceID == 2 || item.serviceID == 4) {
+                return item;
+            }
+        });
+        return result;
+    }
+    handleState_n_ServiceSuccessFetosense(response: Response) {
+
+        console.log(response.json().data, 'service point file success response');
+        let result = [];
+        result = response.json().data.filter(function (item) {
+            if (item.serviceID == 4) {
                 return item;
             }
         });
