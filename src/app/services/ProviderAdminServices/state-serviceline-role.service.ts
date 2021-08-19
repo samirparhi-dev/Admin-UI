@@ -79,9 +79,16 @@ export class ProviderAdminRoleService {
   }
   getServiceLinesNew(userID) {
     return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
-      .map(this.handleState_n_ServiceSuccessCalibration)
+      .map(this.handleState_n_ServiceSuccess)
       .catch(this.handleError);
   }
+
+  getServiceLinesCalibrationNew(userID){
+    return this.httpIntercept.post(this.getServiceLines_new_url, { 'userID': userID })
+    .map(this.handleState_n_ServiceSuccessCalibration)
+    .catch(this.handleError);
+  }
+
   getFeature(serviceID) {
     return this.httpIntercept.post(this.getFeaturesUrl, { 'serviceID': serviceID })
       .map(this.handleSuccess)

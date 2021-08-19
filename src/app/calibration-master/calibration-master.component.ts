@@ -45,7 +45,7 @@ export class CalibrationMasterComponent implements OnInit {
     this.today = new Date();
   }
   getServiceLines() {
-    this.provider_AdminRoleService.getServiceLinesNew(this.userID).subscribe((response) => {
+    this.provider_AdminRoleService.getServiceLinesCalibrationNew(this.userID).subscribe((response) => {
       if(response){
       this.services = this.successhandeler(response)
       }
