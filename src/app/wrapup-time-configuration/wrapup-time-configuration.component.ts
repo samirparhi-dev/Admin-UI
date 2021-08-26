@@ -44,7 +44,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
   * Service line
   */
   getServiceLines() {
-    this.wrapupTimeConfigurationService.getServiceLines(this.userID).subscribe((response) => {
+    this.wrapupTimeConfigurationService.getServiceLinesWrapup(this.userID).subscribe((response) => {
       this.services = response;
     }, (err) => {
       console.log("Error in fetching servicelines");

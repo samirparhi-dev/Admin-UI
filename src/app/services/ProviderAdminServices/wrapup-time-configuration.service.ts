@@ -61,6 +61,7 @@ export class WrapupTimeConfigurationService {
             return Observable.throw(response.json());
         }
     }
+    
     handleState_n_ServiceSuccess(response: Response) {
         console.log(response.json().data, 'role service file success response');
         let result = [];
@@ -73,7 +74,25 @@ export class WrapupTimeConfigurationService {
             return result;
         }
     }
-
+   //Shubham Shekhar,24-0802021,Wrapup configuaration to be enabled in MCTS and 1097
+   getServiceLinesWrapup(userID) {
+    return this.httpIntercept
+        .post(this.getServiceLines_new_url, { 'userID': userID })
+        .map(this.handleState_n_ServiceSuccessWrapup)
+        .catch(this.handleError);
+}
+   handleState_n_ServiceSuccessWrapup(response: Response) {
+    console.log(response.json().data, 'role service file success response');
+    let result = [];
+    if (response.json().data) {
+        result = response.json().data.filter(function (item) {
+            if (item.serviceID == 3 ||item.serviceID == 6 ||item.serviceID == 1) {
+                return item;
+            }
+        });
+        return result;
+    }
+}
     handleError(error: Response | any) {
         return Observable.throw(error);
     }
