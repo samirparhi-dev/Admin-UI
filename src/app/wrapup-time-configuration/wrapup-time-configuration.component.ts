@@ -115,23 +115,40 @@ export class WrapupTimeConfigurationComponent implements OnInit {
   }
 
   givePrivilegeForWrapupTime(event, role) {
+    let formArray = this.wrapupTimeForm.controls['timings'] as FormArray;
+    let index=null;
+    for(var i=0;i<formArray.length;i++)
+    {
+      const element=formArray.at(i);
+      if(element.value.roleID === role.roleID)
+      {
+         index=i;
+        break;
+      }
+    }
     if (event.checked) {
       role.isWrapUpTime = true;
       role.uncheck=false;
-      this.wrapupTimeForm.patchValue({
-        uncheck: false
-      })
+      // this.wrapupTimeForm.patchValue({
+      //   uncheck: false
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['uncheck'].setValue(false);
     } else {
       role.isWrapUpTime = false;
-      this.wrapupTimeForm.patchValue({
-        uncheck: true
-      })
+      // this.wrapupTimeForm.patchValue({
+      //   uncheck: true
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['uncheck'].setValue(true);
       role.uncheck=true;
       role.enableEdit = false;
       role.wrapUpTime = null;
-      this.wrapupTimeForm.patchValue({
-        wrapUpTime: null
-      })
+      // this.wrapupTimeForm.patchValue({
+      //   wrapUpTime: null
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['wrapUpTime'].setValue(null);
     }
   }
   editField(role) {
@@ -143,8 +160,8 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     this.createFormArray(this.activeRoles);
   }
   saveWrapupTime(role) {
-    if(role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
-      role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600)
+    if( (role.wrapUpTime !=undefined && role.wrapUpTime !=null && isNaN(role.wrapUpTime)) || ( role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
+      role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600))
     {
       this.dialogService.alert('Enter value inside range 1 to 600', 'info');
       this.wrapupTimeForm.patchValue({
