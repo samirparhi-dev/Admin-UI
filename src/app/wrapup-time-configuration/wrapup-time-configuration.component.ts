@@ -28,6 +28,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
 
   wrapupTimeForm: FormGroup;
   uncheck: boolean;
+  disableState: boolean;
 
   constructor(private dataService: dataService,
     private fb: FormBuilder,
@@ -55,6 +56,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
   }
 
   getStates(value) {
+   
     let obj = {
       'userID': this.userID,
       'serviceID': value.serviceID,
@@ -62,12 +64,24 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     }
     this.wrapupTimeConfigurationService.getStates(obj).
       subscribe(response => {
-        this.states = response;
+        this.getStatesSuccessHandeler(response,value.isNational);
       }, (err) => {
         console.log("Error in fetching states");
       });
   }
-
+  getStatesSuccessHandeler(response, isNational) {
+    
+    this.state = '';
+    if (response) {
+      console.log(response, 'Provider States');
+      this.states = response;
+      // this.services_array = [];
+      if (isNational) {
+        this.state = '';
+        this.getActiveRoles(this.states[0].providerServiceMapID);
+      }
+    }
+  }
   getActiveRoles(providerServiceMapID) {
     this.providerServiceMapID = providerServiceMapID;
     this.wrapupTimeConfigurationService.getActiveRoles(providerServiceMapID).subscribe((response) => {
@@ -159,7 +173,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     })
     this.createFormArray(this.activeRoles);
   }
-  saveWrapupTime(role) {
+  saveWrapupTime(role,value) {
     if( (role.wrapUpTime !=undefined && role.wrapUpTime !=null && isNaN(role.wrapUpTime)) || ( role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
       role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600))
     {
@@ -169,14 +183,28 @@ export class WrapupTimeConfigurationComponent implements OnInit {
       })
     }
     else{
-    if (role.enableEdit == true) {
-      this.alertMessage = "Updated"
-    } else {
-      this.alertMessage = "Saved"
-    }
+    // if (role.enableEdit == true) {
+    //   this.alertMessage = "Updated"
+    // } else {
+    //   this.alertMessage = "Saved"
+    // }
+    this.alertMessage = value;
     this.wrapupTimeConfigurationService.saveWrapUpTime(role).subscribe((response) => {
       console.log(response, "response");
       this.dialogService.alert(`${this.alertMessage} Successfully`, 'success');
+      let formArray = this.wrapupTimeForm.controls['timings'] as FormArray;
+    let index=null;
+    for(var i=0;i<formArray.length;i++)
+    {
+      const element=formArray.at(i);
+      if(element.value.roleID === role.roleID)
+      {
+         index=i;
+        break;
+      }
+    }
+    if(index !=null)
+    (<FormGroup>formArray.at(index)).controls['uncheck'].setValue(null);
       this.getActiveRoles(this.providerServiceMapID);
     })
   }
