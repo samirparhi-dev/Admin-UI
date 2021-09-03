@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { dataService } from '../services/dataService/data.service';
 import { WrapupTimeConfigurationService } from '../services/ProviderAdminServices/wrapup-time-configuration.service';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 
 @Component({
@@ -27,6 +27,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
   disableInputField: Boolean = false;
 
   wrapupTimeForm: FormGroup;
+  uncheck: boolean;
 
   constructor(private dataService: dataService,
     private fb: FormBuilder,
@@ -34,10 +35,12 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     private dialogService: ConfirmationDialogsService) { }
 
   ngOnInit() {
+    //this.uncheck=false;
     this.userID = this.dataService.uid;
     this.getServiceLines();
     this.wrapupTimeForm = this.fb.group({
-      timings: this.fb.array([]),
+      timings: this.fb.array([])
+     // wrapUpTime:[null,[Validators.min(1), Validators.max(600)]]
     })
   }
   /*
@@ -106,19 +109,46 @@ export class WrapupTimeConfigurationComponent implements OnInit {
       providerServiceMapID: obj.providerServiceMapID,
       modifiedBy: obj.createdBy,
       enableEdit: obj.enableEdit,
+      uncheck: null,
       disableInputField: obj.disableInputField
     })
   }
 
   givePrivilegeForWrapupTime(event, role) {
+    let formArray = this.wrapupTimeForm.controls['timings'] as FormArray;
+    let index=null;
+    for(var i=0;i<formArray.length;i++)
+    {
+      const element=formArray.at(i);
+      if(element.value.roleID === role.roleID)
+      {
+         index=i;
+        break;
+      }
+    }
     if (event.checked) {
       role.isWrapUpTime = true;
+      role.uncheck=false;
+      // this.wrapupTimeForm.patchValue({
+      //   uncheck: false
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['uncheck'].setValue(false);
     } else {
       role.isWrapUpTime = false;
+      // this.wrapupTimeForm.patchValue({
+      //   uncheck: true
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['uncheck'].setValue(true);
+      role.uncheck=true;
+      role.enableEdit = false;
       role.wrapUpTime = null;
-      this.wrapupTimeForm.patchValue({
-        wrapUpTime: null
-      })
+      // this.wrapupTimeForm.patchValue({
+      //   wrapUpTime: null
+      // })
+      if(index !=null)
+      (<FormGroup>formArray.at(index)).controls['wrapUpTime'].setValue(null);
     }
   }
   editField(role) {
@@ -130,6 +160,15 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     this.createFormArray(this.activeRoles);
   }
   saveWrapupTime(role) {
+    if( (role.wrapUpTime !=undefined && role.wrapUpTime !=null && isNaN(role.wrapUpTime)) || ( role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
+      role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600))
+    {
+      this.dialogService.alert('Enter value inside range 1 to 600', 'info');
+      this.wrapupTimeForm.patchValue({
+        wrapUpTime: null
+      })
+    }
+    else{
     if (role.enableEdit == true) {
       this.alertMessage = "Updated"
     } else {
@@ -140,6 +179,7 @@ export class WrapupTimeConfigurationComponent implements OnInit {
       this.dialogService.alert(`${this.alertMessage} Successfully`, 'success');
       this.getActiveRoles(this.providerServiceMapID);
     })
+  }
   }
   filterComponentList(searchTerm?: string) {
     let temp = this.wrapupTimeForm.controls['timings'] as FormArray;

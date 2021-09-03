@@ -41,25 +41,28 @@
           <tr *ngIf="md2.data.length == 0" class="record-not-found">
             <td colspan="4" align="center">No records found</td>
           </tr>
-          <ng-container *ngFor="let role of md2.data">
+          <ng-container *ngFor="let role of md2.data;let i=index">
             <tr [formGroupName]="this.wrapupTimeForm.get('timings').controls.indexOf(role)">
               <td>{{role.controls.roleName.value}}</td>
               <td>
-                <md-checkbox color="primary" formControlName=isWrapUpTime name="isWrapUpTime" (change)="givePrivilegeForWrapupTime($event, role.value)"></md-checkbox>
+                <md-checkbox color="primary" formControlName=isWrapUpTime name="isWrapUpTime" (change)="givePrivilegeForWrapupTime($event, role.value)" required></md-checkbox>
               </td>
               <td>
                 <md-form-field class="input-full-width" *ngIf="role.controls.isWrapUpTime.value == true && role.controls.disableInputField.value == false">
-                  <input mdInput formControlName="wrapUpTime" name="wrapUpTime" allowText="number" allowMax='600' minlength="1" maxlength="3">
+                  <input mdInput formControlName="wrapUpTime" name="wrapUpTime" allowText="number" allowMax='600' minlength="1" maxlength="3"
+                   [required]="role.controls.isWrapUpTime.value == true">
                 </md-form-field>
                 <md-form-field class="input-full-width" *ngIf="role.controls.isWrapUpTime.value == true && role.controls.disableInputField.value == true">
                   <input mdInput formControlName="wrapUpTime" name="wrapUpTime" readonly>
                 </md-form-field>
               </td>
               <td>
-                <md-icon mdTooltip="edit" class="mat-icon material-icons activeClass" role="img" aria-hidden="true" style="cursor:pointer" *ngIf = "role.controls.enableEdit.value == true" (click)="editField(role.value)">edit</md-icon>
+                <md-icon mdTooltip="edit" class="mat-icon material-icons activeClass" role="img" aria-hidden="true" style="cursor:pointer" *ngIf = "role.controls.isWrapUpTime.value == true && role.controls.enableEdit.value == true" (click)="editField(role.value)">edit</md-icon>
                   <button *ngIf="role.controls.enableEdit.value == false && role.controls.isWrapUpTime.value == true" [disabled]="!role.controls.wrapUpTime.value"
                     md-raised-button color="accent" (click)="saveWrapupTime(role.value)">Save</button>
-                  <button *ngIf="role.controls.enableEdit.value == true" style="margin-left: 30px" md-raised-button color="accent" (click)="saveWrapupTime(role.value)">Update</button>
+                  <button *ngIf="role.controls.enableEdit.value == true || role.controls.uncheck.value == true" style="margin-left: 30px" md-raised-button color="accent" (click)="saveWrapupTime(role.value)" 
+                  [disabled]="!wrapupTimeForm.controls['timings'].controls[i].dirty"
+                  >Update</button>
                   </td>
               </tr>
             </ng-container>
