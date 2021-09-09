@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { dataService } from 'app/services/dataService/data.service';
@@ -8,7 +9,8 @@ import { ProviderAdminRoleService } from '../services/ProviderAdminServices/stat
 @Component({
   selector: 'app-calibration-master',
   templateUrl: './calibration-master.component.html',
-  styleUrls: ['./calibration-master.component.css']
+  styleUrls: ['./calibration-master.component.css'],
+  providers: [DatePipe]
 })
 export class CalibrationMasterComponent implements OnInit {
   createdBy: any;
@@ -36,7 +38,8 @@ export class CalibrationMasterComponent implements OnInit {
   @ViewChild('stripCodeForm') stripCodeForm: NgForm;
   calibrationStripId: any;
   constructor(public provider_AdminRoleService: ProviderAdminRoleService, public data_service: dataService,
-    public alertService: ConfirmationDialogsService, public calibrationService: CallibrationMasterServiceService) { }
+    public alertService: ConfirmationDialogsService, public calibrationService: CallibrationMasterServiceService
+    ,public datePipe:DatePipe) { }
 
   ngOnInit() {
     this.createdBy = this.data_service.uname;
@@ -185,11 +188,18 @@ export class CalibrationMasterComponent implements OnInit {
   //end
   save_UpdateStripCode(saveType) {
     //if (this.validateRole(this.stripCode)) {
+      //new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)),
+      let newexpDate=null;
+      if(this.expiryDate !=undefined && this.expiryDate !=null)
+      {
+         newexpDate=new Date(this.datePipe.transform(this.expiryDate, 'yyyy-MM-dd'));
+      }
     let obj;
     if (saveType == 'save') {
       obj = {
         "stripCode": this.stripCode,
-        "expiryDate": this.expiryDate == null ? null : new Date(this.expiryDate - 1 * this.expiryDate.getTimezoneOffset() * 60 * 1000),
+        // "expiryDate": this.expiryDate == null ? null : new Date(this.expiryDate - 1 * this.expiryDate.getTimezoneOffset() * 60 * 1000),
+        "expiryDate": (this.expiryDate == undefined||this.expiryDate == null) ? null : newexpDate,
         "providerServiceMapID": this.data_service.provider_serviceMapID,
         "createdBy": this.createdBy
       }
@@ -213,7 +223,7 @@ export class CalibrationMasterComponent implements OnInit {
     else {
       obj = {
         "stripCode": this.stripCode,
-        "expiryDate": this.expiryDate == null ? null : new Date(this.expiryDate),
+        "expiryDate": (this.expiryDate == undefined||this.expiryDate == null) ? null : newexpDate,
         "providerServiceMapID": this.data_service.provider_serviceMapID,
         "createdBy": this.createdBy,
         "calibrationStripID": this.calibrationStripId,
