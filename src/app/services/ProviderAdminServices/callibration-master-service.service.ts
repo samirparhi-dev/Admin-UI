@@ -24,24 +24,24 @@ export class CallibrationMasterServiceService {
     this.update_Calibration_Url = this.basepaths.getAdminBaseUrl() + 'updateCalibrationStrip';
   }
   fetCalibrationMasters(obj) {
-    return this.httpIntercept.post(this.getCalibrationMaster_Url, obj)
+    return this.http.post(this.getCalibrationMaster_Url, obj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   deleteCalibrationStrip(obj) {
     console.log('service obj', obj);
-    return this.httpIntercept.post(this.delete_CalibrationStrip_Url, obj)
+    return this.http.post(this.delete_CalibrationStrip_Url, obj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
   createCalibrationStrip(calibrationObj) {
-    return this.httpIntercept.post(this.save_Calibration_Url, calibrationObj)
+    return this.http.post(this.save_Calibration_Url, calibrationObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
 
   updateCalibrationStrip(calibrationObj) {
-    return this.httpIntercept.post(this.update_Calibration_Url, calibrationObj)
+    return this.http.post(this.update_Calibration_Url, calibrationObj)
       .map(this.handleSuccess)
       .catch(this.handleError);
   }
