@@ -174,8 +174,9 @@ export class WrapupTimeConfigurationComponent implements OnInit {
     this.createFormArray(this.activeRoles);
   }
   saveWrapupTime(role,value) {
-    if( (role.wrapUpTime !=undefined && role.wrapUpTime !=null && isNaN(role.wrapUpTime)) || ( role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
-      role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600))
+
+    if(role.isWrapUpTime && ((role.wrapUpTime ==undefined|| role.wrapUpTime ==null)||(role.wrapUpTime !=undefined && role.wrapUpTime !=null && isNaN(role.wrapUpTime)) || ( role.isWrapUpTime !=undefined && role.isWrapUpTime !=null && role.isWrapUpTime ==true &&
+      role.wrapUpTime !=undefined && role.wrapUpTime !=null && Number(role.wrapUpTime) <=0 || Number(role.wrapUpTime) >600)))
     {
       this.dialogService.alert('Enter value inside range 1 to 600', 'info');
       this.wrapupTimeForm.patchValue({
