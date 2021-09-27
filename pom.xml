@@ -129,7 +129,7 @@
 							<executable>npm</executable>
 							<arguments>
 								<argument>run</argument>
-								<argument>build-prod</argument>
+								<argument>build-${environment}</argument>
 							</arguments>
 						</configuration>
 					</execution>
