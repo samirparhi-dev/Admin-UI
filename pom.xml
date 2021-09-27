@@ -84,6 +84,8 @@
 					</filesets>
 				</configuration>
 			</plugin>
+			<!-- use following incase resources from other dirs -->
+			<!--<plugin><artifactId>maven-resources-plugin</artifactId><version>2.6</version><executions><execution><id>copy-resources</id><phase>package</phase><goals><goal>copy-resources</goal></goals><configuration><outputDirectory>${basedir}/target/WEB-INF</outputDirectory><resources><resource><directory>dist</directory><filtering>true</filtering></resource></resources></configuration></execution></executions></plugin> -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -101,42 +103,37 @@
 								<echo>exec-dir: ${project.build.directory}</echo>
 							</tasks>
 							<executable>npm</executable>
-							<!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory> -->
 							<arguments>
 								<argument>install</argument>
 								<!-- use save-dev or save if you understand the consequences, else -->
 								<!-- please leave them alone & add appropriate npm dependencies in 
 									package.json -->
-								<!-- <argument></argument> -->
 							</arguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>running ng build --${environment}</id>
+						<id>running ng build --prod</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
 							<tasks>
-								<echo>running ng build --${environment} ---> ${build.timestamp}</echo>
+								<echo>running ng build --prod ---> ${build.timestamp}</echo>
 								<echo>exec-dir: ${project.build.directory}</echo>
 								<echo>dist-dir: ${project.build.outputDirectory}</echo>
 							</tasks>
 							<!-- incase working dir is different use below -->
-							<!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory> -->
-							<!--<executable>C:\Users\kmuser\AppData\Roaming\npm\ng.cmd</executable> -->
 							<executable>npm</executable>
 							<arguments>
 								<argument>run</argument>
-								<argument>build-${environment}</argument>
+								<argument>build-prod</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions> 
 			</plugin>
 			<!-- use following incase resources from other dirs -->
-			<!--<plugin><artifactId>maven-resources-plugin</artifactId><version>2.6</version><executions><execution><id>copy-resources</id><phase>package</phase><goals><goal>copy-resources</goal></goals><configuration><outputDirectory>${basedir}/target/WEB-INF</outputDirectory><resources><resource><directory>dist</directory><filtering>true</filtering></resource></resources></configuration></execution></executions></plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -166,7 +163,7 @@
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>dist</directory>							
+							<directory>dist</directory>
 						</resource>
 						<resource>		
 							<filtering>true</filtering>					
@@ -194,6 +191,9 @@
 									<fileset dir="${project.basedir}/dist"
 										includes="main.*.bundle.js" />
 								</replaceregexp>
+                                <replaceregexp match="${old-cti-url}" replace="${new-cti-url}" flags="ig">
+                                        <fileset dir="${project.basedir}/dist" includes="main.*.bundle.js"/>
+                                </replaceregexp>
 							</target>
 						</configuration>
 					</execution>
@@ -219,7 +219,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>	
 		</plugins>
 	</build>
 </project>
