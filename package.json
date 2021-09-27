@@ -11,8 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-dev": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod --aot",
-    "build-test": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build -e test --aot",
-    "build-prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build -e test --aot"
+    "build-test": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build -e test --aot"
   },
   "private": true,
   "dependencies": {
