@@ -16,7 +16,7 @@
     "electron-build": "ng build --prod && electron .",
     "build-dev": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod --aot",
     "war": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod --aot && grunt",
-    "build-test": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod"
+    "build-test": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build -e test --aot"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +78,10 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.3.0",
     "tslint": "~5.7.0",
-    "typescript": "2.4.0"
+    "typescript": "2.4.0",
+    "electron": "1.7.10",
+    "electron-packager": "10.1.0",
+    "grunt": "^1.0.3",
+    "grunt-war": "^0.5.1"
   }
 }
