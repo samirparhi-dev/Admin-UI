@@ -105,7 +105,7 @@ export class VillageMasterComponent implements OnInit {
 
     villageNameExist: any = false;
     checkExistance(blockID, villageName) {
-        this.villageNameExist = this.availableVillageNames.includes(blockID + "-" + villageName.trim().toUpperCase());
+        this.villageNameExist = this.availableVillageNames.includes(blockID + "-" + villageName.toUpperCase());
         console.log(this.villageNameExist);
     }
 
@@ -424,6 +424,9 @@ export class EditVillageModal {
         console.log(this.villageExist);
     }
     update(editedVillageData) {
+        if (editedVillageData.villageName.trim() === '')
+            this.alertMessage.alert('Please enter valid Village');
+        else{
         this.dataObj = {};
         this.dataObj.districtBranchID = this.districtBranchID;
         //  if(village.blockID!=undefined){
@@ -440,6 +443,7 @@ export class EditVillageModal {
 
         this.dataObj.modifiedBy = this.commonDataService.uname;
         this.villageMasterService.updateVillageData(this.dataObj).subscribe(response => this.updateSuccessHandeler(response));
+        }
     }
 
     updateSuccessHandeler(response) {
