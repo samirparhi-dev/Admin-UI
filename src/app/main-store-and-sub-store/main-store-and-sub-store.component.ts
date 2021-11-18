@@ -86,7 +86,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     })
   }
   getAllStores(providerServiceMapID) {
-    debugger;
     this.createButton = true;
     this.providerServiceMapID = providerServiceMapID;
     this.storeService.getAllStores(providerServiceMapID).subscribe(response => {
@@ -104,7 +103,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
   getFacilityType() {
     //this.providerServiceMapID = providerServiceMapID;
-    debugger;
     this.storeService.getAllActiveFacilities(this.providerServiceMapID).subscribe(response => {
       if (response) {
         console.log('All Facility Types services success', response);
@@ -115,7 +113,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
   getStoreType() {
     //this.providerServiceMapID = providerServiceMapID;
-    debugger;
     this.storeService.getStoreType(this.providerServiceMapID).subscribe(response => {
       if (response) {
         console.log('All Main stores services success', response);
@@ -167,7 +164,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.editMode = true;
   }
   activateDeactivate(facilityTypeID, flag) {
-    debugger;
     if (flag) {
       this.confirmMessage = 'Deactivate';
     } else {
@@ -200,7 +196,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
 
   add2bufferArray(formvalues) {
-    debugger;
     this.resetDropdowns();
     console.log("form values", formvalues);
     const obj = {
@@ -220,7 +215,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
       "createdBy": this.createdBy,
       "providerServiceMapID": this.providerServiceMapID
     }
-    debugger;
     this.checkDuplictes(obj);
   }
   checkDuplictes(object) {
@@ -245,7 +239,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     this.bufferArray.splice(index, 1);
   }
   saveStores() {
-    debugger;
     console.log("object before saving the store", this.bufferArray);
     this.storeService.saveStore(this.bufferArray).subscribe(response => {
       if (response) {
@@ -260,7 +253,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
     })
   }
   editFacility(editFormValues) {
-    debugger;
     this.edit_Serviceline = this.serviceline;
     this.edit_State = this.state;
     this.facilityID = editFormValues.facilityID;
@@ -298,7 +290,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
 
   updateFacilityType(editedFormValues) {
-    debugger;
     const editObj = {
       "facilityID": this.facilityID,
       "location": editedFormValues.createlocation,
@@ -337,7 +328,6 @@ export class MainStoreAndSubStoreComponent implements OnInit {
   }
   FacilityCodeExist: any = false;
   checkExistance(facilityCode) {
-    debugger;
     this.FacilityCodeExist = this.availableFacilityCode.includes(facilityCode);
     console.log(this.FacilityCodeExist);
   }
