@@ -105,13 +105,17 @@ export class VillageMasterComponent implements OnInit {
 
     villageNameExist: any = false;
     checkExistance(blockID, villageName) {
-        this.villageNameExist = this.availableVillageNames.includes(blockID + "-" + villageName.toUpperCase());
+        this.villageNameExist = this.availableVillageNames.includes(blockID + "-" + villageName.trim().toUpperCase());
         console.log(this.villageNameExist);
     }
 
     villageObj: any;
     villageList: any = [];
     addVillageToList(values) {
+
+        if (values.villageName.trim() === '')
+            this.alertMessage.alert('Please enter valid Village');
+        else{
         // for(let services of values.serviceID){
         this.villageObj = {};
 
@@ -120,7 +124,7 @@ export class VillageMasterComponent implements OnInit {
         // this.villageObj.blockName = values.blockID.split("-")[1];
         // }
         this.villageObj.panchayatName = values.panchayatName;
-        this.villageObj.villageName = values.villageName;
+        this.villageObj.villageName = values.villageName.trim();
         this.villageObj.habitat = values.habitat;
         this.villageObj.pinCode = values.pinCode;
         this.villageObj.govVillageID = values.govVillageID;
@@ -130,6 +134,7 @@ export class VillageMasterComponent implements OnInit {
         this.villageObj.createdBy = this.createdBy;
         this.checkDuplicates(this.villageObj);
         console.log("this.villageObj", this.villageObj);
+        }
 
     }
     checkDuplicates(object) {
@@ -139,7 +144,7 @@ export class VillageMasterComponent implements OnInit {
         }
         else {
             for (let i = 0; i < this.villageList.length; i++) {
-                if (this.villageList[i].villageName === object.villageName
+                if (this.villageList[i].villageName.toUpperCase() === object.villageName.toUpperCase()
                     && this.villageList[i].pinCode === object.pinCode) {
                     duplicateStatus = duplicateStatus + 1;
                     console.log("this.duplicateStatus", duplicateStatus);
@@ -410,7 +415,7 @@ export class EditVillageModal {
 
     checkExistance_edit(villageName) {
         if (villageName != this.oldVillageName) {
-            this.villageExist = this.village_names.includes(this.blockID + "-" + villageName.toUpperCase());
+            this.villageExist = this.village_names.includes(this.blockID + "-" + villageName.trim().toUpperCase());
 
         }
         else {
