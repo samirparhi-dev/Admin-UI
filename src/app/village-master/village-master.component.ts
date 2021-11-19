@@ -94,6 +94,10 @@ export class VillageMasterComponent implements OnInit {
             .subscribe(response => this.SetBranches(response));
     }
     SetBranches(response: any) {
+        this.availableVillageNames=[];
+        this.availableVillages = [];
+        this.filteredavailableVillages=[]
+        
         this.availableVillages = response;
         this.filteredavailableVillages = response;
         this.showTableFlag = true;
