@@ -97,7 +97,7 @@ export class VillageMasterComponent implements OnInit {
         this.availableVillageNames=[];
         this.availableVillages = [];
         this.filteredavailableVillages=[]
-        
+
         this.availableVillages = response;
         this.filteredavailableVillages = response;
         this.showTableFlag = true;
@@ -438,7 +438,7 @@ export class EditVillageModal {
         // this.dataObj.blockName = village.blockID.split("-")[1];
         // }
         this.dataObj.panchayatName = editedVillageData.panchayatName;
-        this.dataObj.villageName = editedVillageData.villageName;
+        this.dataObj.villageName = editedVillageData.villageName.trim();
         this.dataObj.habitat = editedVillageData.habitat;
         this.dataObj.pinCode = editedVillageData.pinCode;
         this.dataObj.govVillageID = editedVillageData.govVillageID;
