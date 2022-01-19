@@ -120,23 +120,17 @@ export class DrugListComponent implements OnInit {
   // };
 
   addDrugToList(values) {
-    // if (!this.drugFilterList(values)) {
+    if (values.drugName.trim() === "") {
+      this.alertMessage.alert("Please enter valid Drug Name");
+    } else {
     this.drugObj = {};
-    this.drugObj.drugName = values.drugName;
+    this.drugObj.drugName = values.drugName.trim();
     this.drugObj.drugDesc = values.drugDesc;
     this.drugObj.remarks = values.remarks;
-    //  for(let provider_service of this.provider_services){
-    //   if("104"==provider_service.serviceName){
-    //      this.drugObj.providerServiceMapID =  provider_service.providerServiceMapID;
-    //      this.drugObj.stateName = provider_service.stateName;
-    //   }
-    // } 
+    }
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.createdBy = this.createdBy;
     this.checkDuplicates(this.drugObj);
-
-    //  }
-
   }
   checkDuplicates(object) {
     let duplicateStatus = 0
@@ -230,18 +224,26 @@ export class DrugListComponent implements OnInit {
   }
 
   updateDrugData(drug) {
+    if (drug.drugName.trim() === "")
+      this.alertMessage.alert("Please enter valid Drug Name");
+    else {
     this.dataObj = {};
     this.dataObj.drugID = this.drugID;
-    this.dataObj.drugName = this.drugName;
+    this.dataObj.drugName = this.drugName.trim();
     this.dataObj.drugDesc = drug.drugDesc;
     this.dataObj.remarks = drug.remarks;
     this.dataObj.providerServiceMapID = drug.providerServiceMapID;
     this.dataObj.modifiedBy = this.createdBy;
-    this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => this.updateHandler(response), err => {
+    this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => {
+        if (response !== undefined && response !== null)
+          this.updateHandler(response)
+    },
+    err => {
       console.log("error", err);
       // this.alertMessage.alert(err, 'error');
     });
-
+    }
+    
   }
 
   updateHandler(response) {
