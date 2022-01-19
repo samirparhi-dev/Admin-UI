@@ -119,22 +119,18 @@ export class DrugGroupComponent implements OnInit {
   drugGroupList: any = [];
 
   addDrugGroupToList(values) {
-    // for(let provider_service of this.provider_services){
-    //   if("104"==provider_service.serviceName){
-    this.drugGroupObj = {};
-    this.drugGroupObj.drugGroup = values.drugGroup;
-    this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
+    if (values.drugGroup.trim() === "") {
+      this.alertMessage.alert("Please enter valid Drug Group Name");
+    } else {
 
-    this.drugGroupObj.serviceProviderID = this.service_provider_id;
-    //this.drugGroupObj.stateName = provider_service.stateName;
-    this.drugGroupObj.createdBy = this.createdBy;
-    this.checkDuplicates(this.drugGroupObj);
-    //this.drugGroupList.push(this.drugGroupObj);
-    //  }
-    // } 
-    // if(this.drugGroupList.length<=0){
-    //     this.alertMessage.alert("No Service available with the state selected");
-    // }
+      this.drugGroupObj = {};
+      this.drugGroupObj.drugGroup = values.drugGroup.trim();
+      this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
+
+      this.drugGroupObj.serviceProviderID = this.service_provider_id;
+      this.drugGroupObj.createdBy = this.createdBy;
+      this.checkDuplicates(this.drugGroupObj);
+    }
   }
   checkDuplicates(object) {
     let duplicateStatus = 0
@@ -225,17 +221,27 @@ export class DrugGroupComponent implements OnInit {
   }
 
   updateDrugGroup(drugGroup) {
-    this.dataObj = {};
-    this.dataObj.drugGroupID = this.drugGroupID;
-    this.dataObj.drugGroup = drugGroup.drugGroup;
-    this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc;
-    //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
-    this.dataObj.modifiedBy = this.createdBy;
-    this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => this.updateHandler(response),
-      (err) => {
-        console.log("error", err);
-        //this.alertMessage.alert(err, 'error')
-      });
+    if (drugGroup.drugGroup.trim() === "") {
+
+      this.alertMessage.alert("Please enter valid Drug Group Name");
+    }
+
+    else {
+      this.dataObj = {};
+      this.dataObj.drugGroupID = this.drugGroupID;
+      this.dataObj.drugGroup = drugGroup.drugGroup.trim();
+      this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc;
+      //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
+      this.dataObj.modifiedBy = this.createdBy;
+      this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => {
+        if (response !== undefined && response !== null)
+          this.updateHandler(response)
+      },
+        (err) => {
+          console.log("error", err);
+          //this.alertMessage.alert(err, 'error')
+        });
+    }
 
   }
 
