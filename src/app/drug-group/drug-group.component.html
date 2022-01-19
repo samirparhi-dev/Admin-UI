@@ -67,7 +67,7 @@
           <input mdInput required placeholder="Drug Group " [(ngModel)]="drugGroup" name="drugGroup" #drugG="ngModel" (keyup)="checkExistance(drugGroup)"
             minlength="1" maxlength="50" pattern="^([a-zA-Z]+\s?)*\s*$">
           <md-hint>
-            <span class="error_text" *ngIf="!drugG.valid  && ( drugG.dirty || drugG.touched)">Please enter Drug Group Name</span>
+            <span class="error_text" *ngIf="!drugG.valid  && ( drugG.dirty || drugG.touched) || inValidDrugGroup">Please enter Valid Drug Group Name</span>
             <span class="error_text" *ngIf="groupNameExist">Drug Group Already Exists</span>
           </md-hint>
         </md-input-container>
@@ -81,7 +81,7 @@
           </md-hint>
         </md-input-container>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid && drugD.valid && !groupNameExist">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" *ngIf="drugG.valid && drugD.valid && !groupNameExist && !inValidDrugGroup">
         <button md-mini-fab color="primary" *ngIf="!editable" class="xs-pull-right sm-pull-right md-pull-left" (click)="addDrugGroupToList(drugGroupForm.value);drugGroupForm.reset() ">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
@@ -125,7 +125,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10">
       <button md-raised-button color="primary" class="pull-left" (click)="back()">Back</button>
       <button [disabled]="drugGroupList.length == 0" *ngIf="!editable" md-raised-button color="accent" class="pull-right" (click)="storeDrugGroup()">Save</button>
-      <button *ngIf="editable" md-raised-button color="accent" [disabled]="drugGroupForm.invalid || groupNameExist" class="pull-right"
+      <button *ngIf="editable" md-raised-button color="accent" [disabled]="drugGroupForm.invalid || groupNameExist || inValidDrugGroup" class="pull-right"
         (click)="updateDrugGroup(drugGroupForm.value);drugGroupForm.reset() ">Update</button>
     </div>
   </div>
