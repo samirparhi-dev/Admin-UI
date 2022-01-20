@@ -25,6 +25,7 @@ export class DrugListComponent implements OnInit {
   serviceID104: any;
   createdBy: any;
   drugList: any = [];
+  invalidDrugDesc = false;
 
   @ViewChild('drugForm') drugForm: NgForm;
 
@@ -109,6 +110,8 @@ export class DrugListComponent implements OnInit {
 
   showForm() {
     this.showDrugs = false;
+    this.inValidDrugName = false;
+    this.invalidDrugDesc = false;
   }
 
   drugObj: any;
@@ -123,7 +126,7 @@ export class DrugListComponent implements OnInit {
 
     this.drugObj = {};
     this.drugObj.drugName = values.drugName.trim();
-    this.drugObj.drugDesc = values.drugDesc;
+    this.drugObj.drugDesc = values.drugDesc.trim();
     this.drugObj.remarks = values.remarks;
     
     this.drugObj.serviceProviderID = this.service_provider_id;
@@ -259,7 +262,9 @@ export class DrugListComponent implements OnInit {
       this.inValidDrugName = false;
       this.drugNameExist = this.availableDrugNames.includes(drugName.trim());
     }
-    else {this.inValidDrugName = true
+    else {
+      this.inValidDrugName = true;
+      this.drugNameExist = false;
     }
 
 
@@ -303,5 +308,13 @@ export class DrugListComponent implements OnInit {
         this.drugList = [];
       }
     })
+  }
+  checkForValidDrugDesc(drugDesc) {
+    if(drugDesc.trim() === "") {
+      this.invalidDrugDesc = true;
+    } else {
+      this.invalidDrugDesc = false;
+    }
+
   }
 }

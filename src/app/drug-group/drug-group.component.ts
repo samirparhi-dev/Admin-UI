@@ -25,7 +25,7 @@ export class DrugGroupComponent implements OnInit {
   serviceID104: any;
   createdBy: any;
   sno: any = 0;
-
+  invalidDrugDesc = false;
   @ViewChild('drugGroupForm') drugGroupForm: NgForm;
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
@@ -107,6 +107,8 @@ export class DrugGroupComponent implements OnInit {
 
   showForm() {
     this.showDrugGroups = false;
+    this.inValidDrugGroup = false;
+    this.invalidDrugDesc = false;
   }
 
   drugGroupObj: any;
@@ -122,7 +124,7 @@ export class DrugGroupComponent implements OnInit {
     
       this.drugGroupObj = {};
       this.drugGroupObj.drugGroup = values.drugGroup.trim();
-      this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
+      this.drugGroupObj.drugGroupDesc = values.drugGroupDesc.trim();
 
       this.drugGroupObj.serviceProviderID = this.service_provider_id;
       this.drugGroupObj.createdBy = this.createdBy;
@@ -257,6 +259,7 @@ export class DrugGroupComponent implements OnInit {
     }
     else{
       this.inValidDrugGroup = true;
+      this.groupNameExist = false;
     }
   }
   clearEdit() {
@@ -292,6 +295,13 @@ export class DrugGroupComponent implements OnInit {
       }
     })
   }
+  checkForValidDrugDesc(drugDesc) {
+    if(drugDesc.trim() === "") {
+      this.invalidDrugDesc = true;
+    } else {
+      this.invalidDrugDesc = false;
+    }
 
+  }
 
 }
