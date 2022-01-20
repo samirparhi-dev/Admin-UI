@@ -120,14 +120,12 @@ export class DrugListComponent implements OnInit {
   // };
 
   addDrugToList(values) {
-    if (values.drugName.trim() === "") {
-      this.alertMessage.alert("Please enter valid Drug Name");
-    } else {
+
     this.drugObj = {};
     this.drugObj.drugName = values.drugName.trim();
     this.drugObj.drugDesc = values.drugDesc;
     this.drugObj.remarks = values.remarks;
-    }
+    
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.createdBy = this.createdBy;
     this.checkDuplicates(this.drugObj);
@@ -225,7 +223,7 @@ export class DrugListComponent implements OnInit {
 
   updateDrugData(drug) {
     if (drug.drugName.trim() === "")
-      this.alertMessage.alert("Please enter valid Drug Name");
+      this.alertMessage.alert("Please enter valid Drug Name");  
     else {
     this.dataObj = {};
     this.dataObj.drugID = this.drugID;
@@ -254,10 +252,18 @@ export class DrugListComponent implements OnInit {
   }
 
   drugNameExist: any = false;
+  inValidDrugName = false;
   checkExistance(drugName) {
     console.log("drugName", drugName);
+    if (drugName.trim() !== ""){
+      this.inValidDrugName = false;
+      this.drugNameExist = this.availableDrugNames.includes(drugName.trim());
+    }
+    else {this.inValidDrugName = true
+    }
 
-    this.drugNameExist = this.availableDrugNames.includes(drugName);
+
+    
     console.log("drugNameExist", this.drugNameExist);
 
   }

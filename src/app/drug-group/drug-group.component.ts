@@ -119,10 +119,7 @@ export class DrugGroupComponent implements OnInit {
   drugGroupList: any = [];
 
   addDrugGroupToList(values) {
-    if (values.drugGroup.trim() === "") {
-      this.alertMessage.alert("Please enter valid Drug Group Name");
-    } else {
-
+    
       this.drugGroupObj = {};
       this.drugGroupObj.drugGroup = values.drugGroup.trim();
       this.drugGroupObj.drugGroupDesc = values.drugGroupDesc;
@@ -130,7 +127,6 @@ export class DrugGroupComponent implements OnInit {
       this.drugGroupObj.serviceProviderID = this.service_provider_id;
       this.drugGroupObj.createdBy = this.createdBy;
       this.checkDuplicates(this.drugGroupObj);
-    }
   }
   checkDuplicates(object) {
     let duplicateStatus = 0
@@ -253,8 +249,15 @@ export class DrugGroupComponent implements OnInit {
   }
 
   groupNameExist: any = false;
+  inValidDrugGroup = false;
   checkExistance(drugGroup) {
-    this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup);
+    if(drugGroup.trim() !== ""){
+      this.inValidDrugGroup = false;
+      this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup.trim());
+    }
+    else{
+      this.inValidDrugGroup = true;
+    }
   }
   clearEdit() {
     this.initializeObj();
