@@ -85,7 +85,7 @@
             <input mdInput required placeholder="Drug Description" [(ngModel)]="drugDesc" name="drugDesc" #drugD="ngModel" minlength="1"
               maxlength="100" (keyup)="checkForValidDrugDesc(drugDesc)">
             <md-hint>
-              <span class="error_text" *ngIf="!drugD.required  && ( drugD.dirty || drugD.touched) || invalidDrugDesc">Please enter drug Description</span>
+              <span class="error_text" *ngIf="(!drugD.valid  && ( drugD.dirty || drugD.touched)) || invalidDrugDesc">Please enter drug Description</span>
             </md-hint>
           </md-input-container>
         </div>

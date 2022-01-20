@@ -27,6 +27,8 @@ export class DrugGroupComponent implements OnInit {
   sno: any = 0;
   invalidDrugDesc = false;
   @ViewChild('drugGroupForm') drugGroupForm: NgForm;
+  drugGroupToEdit: any;
+
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
     public drugMasterService: DrugMasterService,
@@ -216,6 +218,7 @@ export class DrugGroupComponent implements OnInit {
     this.drugGroupDesc = drug.drugGroupDesc;
     //this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
+    this.drugGroupToEdit = drug.drugGroup;
   }
 
   updateDrugGroup(drugGroup) {
@@ -253,7 +256,19 @@ export class DrugGroupComponent implements OnInit {
   groupNameExist: any = false;
   inValidDrugGroup = false;
   checkExistance(drugGroup) {
-    if(drugGroup.trim() !== ""){
+    if (this.editable) {
+
+      if (drugGroup.trim() !== this.drugGroupToEdit) {
+        this.checkWithDrugmaster(drugGroup);
+      }
+
+    } else {
+     this.checkWithDrugmaster(drugGroup);
+    }
+
+  }
+checkWithDrugmaster(drugGroup) {
+  if (drugGroup.trim() !== "") {
       this.inValidDrugGroup = false;
       this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup.trim());
     }
