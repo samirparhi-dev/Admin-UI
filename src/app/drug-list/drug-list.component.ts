@@ -28,6 +28,7 @@ export class DrugListComponent implements OnInit {
   invalidDrugDesc = false;
 
   @ViewChild('drugForm') drugForm: NgForm;
+  drugNameToEdit: any;
 
   constructor(public providerAdminRoleService: ProviderAdminRoleService,
     public commonDataService: dataService,
@@ -128,7 +129,7 @@ export class DrugListComponent implements OnInit {
     this.drugObj.drugName = values.drugName.trim();
     this.drugObj.drugDesc = values.drugDesc.trim();
     this.drugObj.remarks = values.remarks;
-    
+
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.createdBy = this.createdBy;
     this.checkDuplicates(this.drugObj);
@@ -216,35 +217,38 @@ export class DrugListComponent implements OnInit {
     this.stateID = "";
   }
   editDrugData(drug) {
+
     this.drugID = drug.drugID;
     this.drugName = drug.drugName
     this.drugDesc = drug.drugDesc;
     this.remarks = drug.remarks;
     // this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
+    this.drugNameToEdit = drug.drugName;
+
   }
 
   updateDrugData(drug) {
     if (drug.drugName.trim() === "")
-      this.alertMessage.alert("Please enter valid Drug Name");  
+      this.alertMessage.alert("Please enter valid Drug Name");
     else {
-    this.dataObj = {};
-    this.dataObj.drugID = this.drugID;
-    this.dataObj.drugName = this.drugName.trim();
-    this.dataObj.drugDesc = drug.drugDesc;
-    this.dataObj.remarks = drug.remarks;
-    this.dataObj.providerServiceMapID = drug.providerServiceMapID;
-    this.dataObj.modifiedBy = this.createdBy;
-    this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => {
+      this.dataObj = {};
+      this.dataObj.drugID = this.drugID;
+      this.dataObj.drugName = this.drugName.trim();
+      this.dataObj.drugDesc = drug.drugDesc;
+      this.dataObj.remarks = drug.remarks;
+      this.dataObj.providerServiceMapID = drug.providerServiceMapID;
+      this.dataObj.modifiedBy = this.createdBy;
+      this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => {
         if (response !== undefined && response !== null)
           this.updateHandler(response)
-    },
-    err => {
-      console.log("error", err);
-      // this.alertMessage.alert(err, 'error');
-    });
+      },
+        err => {
+          console.log("error", err);
+          // this.alertMessage.alert(err, 'error');
+        });
     }
-    
+
   }
 
   updateHandler(response) {
@@ -258,21 +262,29 @@ export class DrugListComponent implements OnInit {
   inValidDrugName = false;
   checkExistance(drugName) {
     console.log("drugName", drugName);
-    if (drugName.trim() !== ""){
-      this.inValidDrugName = false;
-      this.drugNameExist = this.availableDrugNames.includes(drugName.trim());
-    }
-    else {
-      this.inValidDrugName = true;
-      this.drugNameExist = false;
-    }
+    if (this.editable) {
 
+      if (drugName.trim() !== this.drugNameToEdit) {
+        this.checkWithDrugmaster(drugName);
+      }
 
-    
+    } else {
+     this.checkWithDrugmaster(drugName);
+    }
     console.log("drugNameExist", this.drugNameExist);
 
   }
+checkWithDrugmaster(drugName) {
+  if (drugName.trim() !== "") {
+    this.inValidDrugName = false;
+    this.drugNameExist = this.availableDrugNames.includes(drugName.trim());
+  }
+  else {
+    this.inValidDrugName = true;
+    this.drugNameExist = false;
+  }
 
+}
   remove_obj(index) {
     this.drugList.splice(index, 1);
   }
@@ -310,7 +322,7 @@ export class DrugListComponent implements OnInit {
     })
   }
   checkForValidDrugDesc(drugDesc) {
-    if(drugDesc.trim() === "") {
+    if (drugDesc.trim() === "") {
       this.invalidDrugDesc = true;
     } else {
       this.invalidDrugDesc = false;
