@@ -5,6 +5,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { templateJitUrl } from '@angular/compiler';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   aadharNumber: any;
   panNumber: any;
   qualificationID: any;
+  healthProfessionalID: any;
   username: any;
   employee_ID: any;
   user_password: any;
@@ -53,8 +55,10 @@ export class EmployeeMasterNewComponent implements OnInit {
   username_dependent_flag: boolean;
   isExistAadhar: boolean = false;
   isExistPan: boolean = false;
+  isHPIdExist: boolean = false;
   errorMessageForAadhar: string;
   errorMessageForPan: string;
+  errorMessageForHPID: string;
   id: any;
   confirmMessage: any;
   panelOpenState: boolean = true;
@@ -63,6 +67,8 @@ export class EmployeeMasterNewComponent implements OnInit {
   setDoj: any;
   patchDojOnEdit: any;
   isExternal: any;
+  enablehealthProfessionalID: boolean = false;
+  errorValidationMsgForHPId: boolean= false;
 
   //Demographics ngModel
   fatherName: any;
@@ -96,6 +102,10 @@ export class EmployeeMasterNewComponent implements OnInit {
   communities: any = [];
   religions: any = [];
   objs: any = [];
+  searchTerm: any;
+  selfHealthProfessionalID: any;
+  selfAadharNo: any;
+  selfPanNo: any;
 
   //flags
   tableMode = true;
@@ -107,6 +117,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   // userNamePattern = /^[0-9a-zA-Z]+[0-9a-zA-Z-_.]+[0-9a-zA-Z]$/;
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
   mobileNoPattern = /^[1-9][0-9]{9}/;
+  healthIDPattern = /^[a-zA-Z][a-zA-Z0-9.]+$/;
 
   @ViewChild('userCreationForm') userCreationForm: NgForm;
   @ViewChild('demographicsDetailsForm') demographicsDetailsForm: NgForm;
@@ -206,12 +217,23 @@ export class EmployeeMasterNewComponent implements OnInit {
     this.dialogService.confirm('Confirm', "Do you really want to cancel? Any unsaved data would be lost").subscribe(res => {
       if (res) {
         this.objs = [];
+        this.searchTerm = null;
+        this.filteredsearchResult = this.searchResult;
         this.showTable();
+        this.resetAllFlags();
       }
     })
   }
   // encryptionFlag: boolean = true;
-
+ resetAllFlags(){
+  this.enablehealthProfessionalID = false;
+  this.errorValidationMsgForHPId = false;
+  this.isHPIdExist = false;
+  this.isExistPan = false;
+  this.isExistAadhar = false;
+  this.empIdshowHint = false;
+  this.username_dependent_flag = false;
+ }
   showPWD() {
     this.dynamictype = 'text';
   }
@@ -310,9 +332,42 @@ export class EmployeeMasterNewComponent implements OnInit {
     }
 
   }
-  /*
-  * dob
-  */
+ // to check the validations for health professional ID feild
+  isLetter(value) {
+    return value.length === 1 && value.match(/[a-z]/i);
+  }
+  is_numeric(value) {
+    return /^\d+$/.test(value);
+  }
+  validateHealthProfessionalId() {
+    let healthProfessinalIdValue = this.healthProfessionalID;
+    let count = 0;
+    let countFlag = false;
+    if (healthProfessinalIdValue != "" && healthProfessinalIdValue != undefined && healthProfessinalIdValue != null) {
+      let hprId = healthProfessinalIdValue;
+      if (hprId.charAt(hprId.length-1) == "."){
+        this.errorValidationMsgForHPId = true;
+      }
+      else{
+      for (let i = 0; i < hprId.length; i++) {
+        if (!this.is_numeric(hprId.charAt(i))) {
+          if (!this.isLetter(hprId.charAt(i))) {
+            if (hprId.charAt(i) == ".") count++;
+            else {
+              countFlag = true;
+              break;
+            }
+          }
+        }
+      }
+      if (count > 1 || countFlag)
+        this.errorValidationMsgForHPId = true;
+        else {
+          this.errorValidationMsgForHPId = false;
+        }
+    }
+    }
+  }
   preventTyping(e: any) {
     if (e.keyCode === 9) {
       return true;
@@ -377,15 +432,34 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Check Uniqueness in Aadhar
     */
   checkAadhar() {
+    this.isExistAadhar = false;
+    this.errorMessageForAadhar = '';
+    //to check the duplicates in buffertable
+    if (this.editMode !== true && this.aadharNumber !== undefined && this.aadharNumber !== null) {
+      this.validateAadharNo();
+    }
+
+    if (this.editMode == true && this.aadharNumber !== undefined && this.aadharNumber !== null && (this.selfAadharNo !== this.aadharNumber)) {
+      this.validateAadharNo();
+    }  
+  }
+  validateAadharNo(){
     console.log('aadharNumber', this.aadharNumber);
-    if (this.aadharNumber != undefined && this.aadharNumber != null) {
       if (this.aadharNumber.length == 12) {
         this.employeeMasterNewService.validateAadhar(this.aadharNumber).subscribe(
           (response: any) => {
+            if(response.response){
             this.checkAadharSuccessHandler(response);
-          }, (err) => console.log('error', err));
-      }
-    }
+          } else{
+            this.dialogService.alert(response.error.errorMessage, 'error');
+            this.aadharNumber = null;
+          }
+          }, (err) => {console.log('error', err)
+          this.dialogService.alert(err, 'error');
+          this.aadharNumber = null;
+          }
+          );
+        }
   }
   checkAadharSuccessHandler(response) {
     if (response.response == 'true') {
@@ -400,15 +474,34 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
-    if (this.panNumber != undefined && this.panNumber != null) {
+    this.isExistPan = false;
+    this.errorMessageForPan = '';
+    if (this.editMode !== true && this.panNumber !== undefined && this.panNumber !== null) {
+      this.validatePanNo();
+    }
+
+    if (this.editMode == true && this.panNumber !== undefined && this.panNumber !== null && (this.selfPanNo.toLowerCase() !== this.panNumber.toLowerCase())) {
+      this.validatePanNo();
+    }  
+    
+  }
+  validatePanNo(){
       if (this.panNumber.length == 10) {
         this.employeeMasterNewService.validatePan(this.panNumber).subscribe(
           response => {
+            if(response.response){
             console.log("pan response", response);
             this.checkPanSuccessHandler(response);
-          }, (err) => console.log('error', err));
+          } else{
+            this.dialogService.alert(response.error.errorMessage, 'error');
+            this.panNumber = null;
+          }
+          }, (err) => {console.log('error', err)
+          this.dialogService.alert(err, 'error');
+          this.panNumber = null;
+          }
+          );
       }
-    }
   }
   checkPanSuccessHandler(response) {
     if (response.response == 'true') {
@@ -417,6 +510,47 @@ export class EmployeeMasterNewComponent implements OnInit {
     } else {
       this.isExistPan = false;
       this.errorMessageForPan = '';
+    }
+  }
+  // to check existance of health professional ID
+  checkHealthProfessionalID() {
+      this.isHPIdExist = false;
+      this.errorMessageForHPID = '';
+    if (this.editMode !== true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null) {
+      this.validateHealthProfessionalID();
+    }
+
+    if (this.editMode == true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null && (this.selfHealthProfessionalID.toLowerCase() !== this.healthProfessionalID.toLowerCase())) {
+      this.validateHealthProfessionalID();
+    }
+  }
+  validateHealthProfessionalID(){
+    if (this.healthProfessionalID.length >= 4) {
+      let reqObject = this.healthProfessionalID + "@hpr.sbx"; 
+      this.employeeMasterNewService.validateHealthProfessionalID(reqObject).subscribe(
+        response => {
+          if(response.response){
+          console.log("HPID response", response);
+          this.checkHealthProfessionalIDSuccessHandler(response);
+        } else{
+          this.dialogService.alert(response.error.errorMessage, 'error');
+          this.healthProfessionalID = null;
+        }
+        }, (err) => {console.log('error', err)
+        this.dialogService.alert(err, 'error');
+        this.healthProfessionalID = null;
+        }
+        );
+      }
+
+  }
+  checkHealthProfessionalIDSuccessHandler(response){
+    if (response.response == 'true') {
+      this.isHPIdExist = true;
+      this.errorMessageForHPID = 'Health Professional ID Already Exists';
+    } else {
+      this.isHPIdExist = false;
+      this.errorMessageForHPID = '';
     }
   }
   /*
@@ -520,6 +654,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   * Method for addition of objects
   */
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
+    this.resetAllFlags();
 
     var tempObj = {
       'titleID': userFormValue.title_Id,
@@ -537,6 +672,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'aadharNumber': userFormValue.aadhar_number,
       'panNumber': userFormValue.pan_number,
       'qualificationID': userFormValue.edu_qualification,
+      'healthProfessionalID': userFormValue.healthProfessionalID,
       'emergency_contactNo': userFormValue.emergencyContactNo,
       'username': userFormValue.user_name,
       'employeeID': userFormValue.employeeID,
@@ -574,17 +710,18 @@ export class EmployeeMasterNewComponent implements OnInit {
     let duplicatePan = 0;
     let duplicateName = 0;
     let duplicateEmployeeID = 0;
+    let duplicateHealthProfessionalID = 0;
     if (this.objs.length === 0) {
       this.objs.push(tempObj);
     }
 
     else {
       for (let i = 0; i < this.objs.length; i++) {
-        if (this.objs[i].aadharNumber != undefined && this.objs[i].aadharNumber === tempObj.aadharNumber) {
+        if (this.objs[i].aadharNumber != undefined && tempObj.aadharNumber !== undefined && tempObj.aadharNumber !== null && this.objs[i].aadharNumber === tempObj.aadharNumber) {
           duplicateAadhar = duplicateAadhar + 1;
           console.log("duplicateAadhar", duplicateAadhar);
         }
-        if (this.objs[i].panNumber != undefined && this.objs[i].panNumber === tempObj.panNumber) {
+        if (this.objs[i].panNumber != undefined && tempObj.panNumber !== undefined && tempObj.panNumber !== null && this.objs[i].panNumber === tempObj.panNumber) {
           duplicatePan = duplicatePan + 1;
           console.log("duplicatePan", duplicatePan);
         }
@@ -596,12 +733,30 @@ export class EmployeeMasterNewComponent implements OnInit {
           duplicateEmployeeID = duplicateEmployeeID + 1;
           console.log("this.duplicateemployeeID", duplicateName);
         }
+        if (this.objs[i].healthProfessionalID != undefined && tempObj.healthProfessionalID !== undefined && tempObj.healthProfessionalID !== null && this.objs[i].healthProfessionalID.toLowerCase() === tempObj.healthProfessionalID.toLowerCase()) {
+          duplicateHealthProfessionalID = duplicateHealthProfessionalID + 1;
+        }
       }
-      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0 && duplicateEmployeeID === 0) {
+      if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0 && duplicateEmployeeID === 0 && duplicateHealthProfessionalID === 0) {
         this.objs.push(tempObj);
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0 && duplicateHealthProfessionalID > 0) {
+        this.dialogService.alert("EmployeeID, Username, Aadhar, Pan number and Health Professional ID already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicateHealthProfessionalID > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("EmployeeID, Username, Aadhar and Health Professional ID  already exist");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
         this.dialogService.alert("EmployeeID, Username, Aadhar and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateHealthProfessionalID > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("EmployeeID, Health Professional ID, Aadhar and Pan number already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("EmployeeID, Username, Health Professional and Pan number already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateAadhar > 0) {
+        this.dialogService.alert("Health Professional, Username, Aadhar and Pan number already exist");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
         this.dialogService.alert("Username, Aadhar and Pan number already exist");
@@ -612,11 +767,31 @@ export class EmployeeMasterNewComponent implements OnInit {
       else if (duplicateAadhar > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
         this.dialogService.alert("Aadhar number, Employee ID and Username already exist");
       }
+      else if (duplicatePan > 0 && duplicateHealthProfessionalID > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Health Professional ID, Employee ID and Pan number already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0 && duplicateName > 0 && duplicateAadhar > 0) {
+        this.dialogService.alert("Health Professional ID, Aadhar number and Username already exist");
+      }
+
+      else if (duplicateHealthProfessionalID > 0 && duplicateAadhar > 0 && duplicatePan > 0) {
+        this.dialogService.alert("Health Professional ID, Aadhar number and Pan number already exist");
+      }
+      else if (duplicateAadhar > 0 && duplicateHealthProfessionalID > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Health Professional ID, Aadhar number and Employee ID already exist");
+      }
+      else if (duplicateName > 0 && duplicateHealthProfessionalID > 0 && duplicatePan > 0) {
+        this.dialogService.alert("Health Professional ID, Aadhar number and Username already exist");
+      }
       else if (duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
         this.dialogService.alert("Pan number, Employee ID and Username already exist");
       }
+      else if (duplicateHealthProfessionalID > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
+        this.dialogService.alert("Health Professional ID, Employee ID and Username already exist");
+      }
+      
       else if (duplicateAadhar > 0 && duplicatePan > 0) {
-        this.dialogService.alert("Aadhar and Pan number already exist");
+        this.dialogService.alert("Aadhar number and Pan number already exist");
       }
       else if (duplicateAadhar > 0 && duplicateName > 0) {
         this.dialogService.alert("Aadhar number and Username already exist");
@@ -633,6 +808,18 @@ export class EmployeeMasterNewComponent implements OnInit {
       else if (duplicateEmployeeID > 0 && duplicateName > 0) {
         this.dialogService.alert("Employee ID and Username already exist");
       }
+      else if (duplicateHealthProfessionalID > 0 && duplicateName > 0) {
+        this.dialogService.alert("Health Professional ID and Username already exist");
+      }
+      else if (duplicateEmployeeID > 0 && duplicateHealthProfessionalID > 0) {
+        this.dialogService.alert("Employee ID and Health Professional ID already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0 && duplicateAadhar > 0) {
+        this.dialogService.alert("Health Professional ID and Aadhar number already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0 && duplicatePan > 0) {
+        this.dialogService.alert("Health Professional ID and Pan number already exist");
+      }
       else if (duplicateAadhar > 0) {
         this.dialogService.alert("Aadhar number already exist");
       }
@@ -641,6 +828,9 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
       else if (duplicateEmployeeID > 0) {
         this.dialogService.alert("Employee number already exist");
+      }
+      else if (duplicateHealthProfessionalID > 0) {
+        this.dialogService.alert("Health Professional ID already exist");
       }
       else {
         this.dialogService.alert("Already exist");
@@ -692,6 +882,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         'aadhaarNo': this.objs[i].aadharNumber,
         'pAN': this.objs[i].panNumber,
         'qualificationID': this.objs[i].qualificationID,
+        'healthProfessionalID': (this.objs[i].healthProfessionalID !== undefined && this.objs[i].healthProfessionalID !== null) ? (this.objs[i].healthProfessionalID + "@hpr.sbx") : this.objs[i].healthProfessionalID,
         'emergencyContactNo': this.objs[i].emergency_contactNo,
         'userName': this.objs[i].username,
         'employeeID': this.objs[i].employeeID ? this.objs[i].employeeID : null,
@@ -779,6 +970,10 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   edit(data) {
+    // assinging the variable to check the self existing data 
+    this.selfHealthProfessionalID = null;
+    this.selfAadharNo = null;
+    this.selfPanNo = null;
     console.log("data", data);
     this.isExternal = data.isExternal;
     if (data.stateID != null && data.stateID) {
@@ -812,6 +1007,12 @@ export class EmployeeMasterNewComponent implements OnInit {
     } else {
       this.manipulateEMpIDAndDOJ = true;
     }
+    if ((data.designationName !== undefined && data.designationName !== null) && (data.designationName.toLowerCase() === "doctor" || data.designationName.toLowerCase() === "tc specialist")) {
+      this.enablehealthProfessionalID = true;
+    }
+    else {
+      this.enablehealthProfessionalID = false;
+    }
     this.userCreationForm.form.patchValue({
       title_Id: data.titleID,
       user_firstname: data.firstName,
@@ -827,15 +1028,24 @@ export class EmployeeMasterNewComponent implements OnInit {
       aadhar_number: data.aadhaarNo,
       pan_number: data.pAN,
       edu_qualification: data.qualificationID,
-      doj: this.patchDojOnEdit
-    })
+      doj: this.patchDojOnEdit,
+    });
+    // to patch the value in edit model removing hardcoded variable
+    if (data.healthProfessionalID !==undefined && data.healthProfessionalID !==null){
+    let editHPIdvalue = data.healthProfessionalID.replace('@hpr.sbx','');
+    this.healthProfessionalID = editHPIdvalue;
+    this.selfHealthProfessionalID = editHPIdvalue;
+     }
+    // assigning duplicate varible to handle sellf existing data 
+    this.selfAadharNo = data.aadhaarNo;
+    this.selfPanNo = data.pAN;
+
     this.demographicsDetailsForm.form.patchValue({
       father_name: data.fathersName,
       mother_name: data.mothersName,
       community_id: data.communityID,
       religion_id: data.religionID
     })
-
     this.userId = data.userID;
     this.createdBy = data.createdBy;
     this.limitDateInEdit(data.dOB);
@@ -866,6 +1076,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
 
   update(userCreationFormValue, demographicsValue, communicationFormValue) {
+    this.searchTerm =null;
     let doj: any = "";
     let dob: any = "";
     let editDoj: any;
@@ -905,6 +1116,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       'aadhaarNo': userCreationFormValue.aadhar_number,
       'pAN': userCreationFormValue.pan_number,
       'qualificationID': userCreationFormValue.edu_qualification,
+      'healthProfessionalID': (userCreationFormValue.healthProfessionalID !== undefined && userCreationFormValue.healthProfessionalID !== null) ? (userCreationFormValue.healthProfessionalID + "@hpr.sbx") : userCreationFormValue.healthProfessionalID,
       'emergencyContactNo': userCreationFormValue.emergencyContactNo,
       'dOJ': editDoj,
       'fathersName': demographicsValue.father_name,
@@ -936,6 +1148,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       /* resetting form and ngModels used in editing */
       this.getAllUserDetails();
       this.showTable();
+      this.resetAllFlags();
 
     }, err => {
       console.log("error", err);
@@ -966,6 +1179,7 @@ export class EmployeeMasterNewComponent implements OnInit {
             console.log('Activation or deactivation response', res);
             this.dialogService.alert(this.confirmMessage + "d successfully", 'success');
             this.getAllUserDetails();
+            this.searchTerm = null;
           }, (err) => console.log('error', err))
       }
     },
@@ -989,15 +1203,22 @@ export class EmployeeMasterNewComponent implements OnInit {
         }
       });
     }
-
   }
+  // to enable health professional ID feild upon selecting designation
+  enableHPID(){
+    this.healthProfessionalID= null;
+    let designationNameValue = this.designations.filter(response => {
+      
+    if (this.designationID === response.designationID ){
+      return response;
+    }
+    });
+    if (designationNameValue !== undefined && designationNameValue !== null && (designationNameValue[0].designationName.toLowerCase() === "doctor" || designationNameValue[0].designationName.toLowerCase() === "tc specialist")) {
+      this.enablehealthProfessionalID = true;
+    }
+    else{
+      this.enablehealthProfessionalID = false;
+    }
+  }
+
 }
-
-
-
-
-
-
-
-
-

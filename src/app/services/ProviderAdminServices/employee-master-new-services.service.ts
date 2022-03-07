@@ -141,6 +141,12 @@ export class EmployeeMasterNewServices {
             .map(this.extractCustomData)
             .catch(this.handleError);
     }
+    validateHealthProfessionalID(idNumber: any) {
+        return this.httpSecurity
+            .post(this.checkID, { 'healthProfessionalID': idNumber })
+            .map(this.extractCustomData)
+            .catch(this.handleError);
+    }
     createNewUser(reqObject) {
         console.log("service", reqObject);
 
