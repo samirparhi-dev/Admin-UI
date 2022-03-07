@@ -753,10 +753,10 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.dialogService.alert("EmployeeID, Health Professional ID, Aadhar and Pan number already exist");
       }
       else if (duplicateHealthProfessionalID > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0) {
-        this.dialogService.alert("EmployeeID, Username, Health Professional and Pan number already exist");
+        this.dialogService.alert("EmployeeID, Username, Health Professional ID and Pan number already exist");
       }
       else if (duplicateHealthProfessionalID > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateAadhar > 0) {
-        this.dialogService.alert("Health Professional, Username, Aadhar and Pan number already exist");
+        this.dialogService.alert("Health Professional ID, Username, Aadhar and Pan number already exist");
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0) {
         this.dialogService.alert("Username, Aadhar and Pan number already exist");
