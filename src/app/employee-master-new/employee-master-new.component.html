@@ -6,7 +6,7 @@
 
 <div class="pull-right m-t-15" *ngIf="searchResult.length!==0 && tableMode">
     <md-input-container id="filterbox">
-        <input mdInput placeholder="In-Table Search" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
+        <input mdInput placeholder="In-Table Search" [(ngModel)]="searchTerm" #filterTerm (keyup)="filterComponentList(filterTerm.value)">
         <md-icon mdSuffix>search</md-icon>
     </md-input-container>
 </div>
@@ -160,10 +160,23 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none"> -->
-                        <md-select placeholder="Designation" class="width100" [(ngModel)]="designationID" name="designation" required>
+                        <md-select placeholder="Designation" class="width100" [(ngModel)]="designationID" name="designation" (change)="enableHPID()" required>
                             <md-option *ngFor="let item of designations" [value]="item.designationID">{{item.designationName}}</md-option>
                         </md-select>
                         <!-- </md-input-container> -->
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="enablehealthProfessionalID">
+                        <md-input-container class="width100">
+                            <input mdInput placeholder="Health Professional ID" 
+                            [(ngModel)]="healthProfessionalID" name="healthProfessionalID" [pattern]="healthIDPattern" minlength="4" maxlength="30" 
+                            #HPID="ngModel" (blur)="checkHealthProfessionalID()" (keyup)="validateHealthProfessionalId();"
+                            >
+                            <strong *ngIf="!disableGenerateOTP" mdSuffix>@hpr.sbx</strong>
+                            <md-hint *ngIf="HPID.touched">
+                                <span class="errorText" [hidden]="!HPID.errors && !errorValidationMsgForHPId">Enter valid Health professional ID. It should contain minimum 4 characters, begin with aplhabets and special chracters are not allowed except (.)</span>
+                                <span class="error_text" *ngIf="isHPIdExist && !HPID.errors">{{errorMessageForHPID}}</span>
+                            </md-hint>
+                        </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100" myMobileNumber>
@@ -174,8 +187,8 @@
                             </md-hint>
                         </md-input-container>
                     </div>
-                    <div class="clearfix visible-lg visible-sm"></div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <!-- <div class="clearfix visible-lg visible-sm"></div> -->
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md2-datepicker class="width100" placeholder="Date of Birth" [(ngModel)]="dob" name="user_dob" [min]="mindate" [max]="maxdate"
                             #dOB="ngModel" (keydown)="preventTyping($event)" (change)="calculateAge($event.value)" (change)='calculateDoj(dob); resetDoj()'
                             required></md2-datepicker>
@@ -197,6 +210,7 @@
                             </md-hint>
                         </md-input-container>
                     </div>
+                    <div class="clearfix visible-lg" *ngIf="enablehealthProfessionalID"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
                         <!-- <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none"> -->
@@ -205,7 +219,7 @@
                         </md-select>
                         <!-- </md-input-container> -->
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix" *ngIf="!enablehealthProfessionalID"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100" myMobileNumber>
                             <input mdInput placeholder="Aadhar No." ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
@@ -226,7 +240,7 @@
                             </md-hint>
                         </md-input-container>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <!-- <md-input-container class="hide_underline width100">
                             <input mdInput style="display:none"> -->
                         <md-select placeholder="Qualification" class="width100" [(ngModel)]="qualificationID" name="edu_qualification" required>
@@ -257,6 +271,7 @@
                             </md-hint>
                         </md-input-container>
                     </div>
+                    <div class="clearfix visible-lg" *ngIf="editMode && enablehealthProfessionalID"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" *ngIf="!manipulateEMpIDAndDOJ">
                         <md2-datepicker class="width100" name="doj" placeholder="Date of Joining " [(ngModel)]="doj" [min]='minDate_doj' [max]="today"
                             required="true" (keydown)="preventTyping($event)" #userDoj="ngModel"></md2-datepicker>
@@ -517,7 +532,7 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
-        <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint"
+        <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint && !isExistAadhar && !isExistPan && !isHPIdExist && !errorValidationMsgForHPId && !empIdshowHint && !username_dependent_flag"
             class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
 </button>
@@ -530,7 +545,7 @@
 
         <button *ngIf="!editMode && objs.length>0" md-raised-button color="accent" class="pull-right" [disabled]="!(objs.length!=0)"
             (click)="createUser()">Save</button>
-        <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan"
+        <button *ngIf="editMode" md-raised-button color="accent" class="pull-right" [disabled]="userCreationForm.invalid || demographicsDetailsForm.invalid || communicationDetailsForm.invalid || isExistAadhar || isExistPan || isHPIdExist || errorValidationMsgForHPId"
             (click)="update(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">Update</button>
     </div>
 </div>
