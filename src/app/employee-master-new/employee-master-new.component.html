@@ -72,7 +72,7 @@
             <md2-pagination></md2-pagination>
         </td>
         <td colspan="4" class="p-r-0 m-t-10">
-            <button md-raised-button color="primary" class="pull-right" (click)="showForm();panelOpenState=(panelOpenState==false)?true:true">Create New User</button>
+            <button md-raised-button color="primary" class="pull-right" (click)="showForm()">Create New User</button>
         </td>
     </tr>
 </tfoot>
@@ -84,7 +84,7 @@
 <!-- myName, myProviderName, myMobileNumber, PAN are custom directives -->
 <div [hidden]="!formMode" class="m-t-5">
     <md-accordion>
-        <md-expansion-panel [(expanded)]="panelOpenState">
+        <md-expansion-panel [(expanded)]="true">
             <md-expansion-panel-header>
                 <md-panel-title>
                     <h4 class="f-s-n-b" *ngIf="!editMode">
