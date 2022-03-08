@@ -221,7 +221,6 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.filteredsearchResult = this.searchResult;
         this.showTable();
         this.resetAllFlags();
-        this.panelOpenState = !this.panelOpenState;
       }
     })
   }
@@ -234,6 +233,7 @@ export class EmployeeMasterNewComponent implements OnInit {
   this.isExistAadhar = false;
   this.empIdshowHint = false;
   this.username_dependent_flag = false;
+  this.showHint = false;
  }
   showPWD() {
     this.dynamictype = 'text';
@@ -680,7 +680,6 @@ export class EmployeeMasterNewComponent implements OnInit {
   * Method for addition of objects
   */
   add_object(userFormValue, demographicsFormValue, communicationFormValue) {
-    this.resetAllFlags();
 
     var tempObj = {
       'titleID': userFormValue.title_Id,
@@ -726,7 +725,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     }
     console.log("add objects", tempObj);
     // this.objs.push(tempObj);
-    this.checkUserNameAvailability(name);
+    //this.checkUserNameAvailability(name);
     this.checkDuplicatesInBuffer(tempObj);
     // this.resetAllForms();
   }
@@ -739,6 +738,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     let duplicateHealthProfessionalID = 0;
     if (this.objs.length === 0) {
       this.objs.push(tempObj);
+      this.resetAllFlags();
       this.resetAllForms();
     }
 
@@ -766,6 +766,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
       if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0 && duplicateEmployeeID === 0 && duplicateHealthProfessionalID === 0) {
         this.objs.push(tempObj);
+        this.resetAllFlags();
         this.resetAllForms();
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0 && duplicateHealthProfessionalID > 0) {
