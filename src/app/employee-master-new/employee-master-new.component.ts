@@ -347,6 +347,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     if (healthProfessinalIdValue != "" && healthProfessinalIdValue != undefined && healthProfessinalIdValue != null) {
       let hprId = healthProfessinalIdValue;
       if (hprId.charAt(hprId.length-1) == "."){
+        this.errorMessageForHPID = null;
         this.errorValidationMsgForHPId = true;
       }
       else{
@@ -361,8 +362,10 @@ export class EmployeeMasterNewComponent implements OnInit {
           }
         }
       }
-      if (count > 1 || countFlag)
+      if (count > 1 || countFlag){
+        this.errorMessageForHPID = null;
         this.errorValidationMsgForHPId = true;
+      }
         else {
           this.errorValidationMsgForHPId = false;
         }
@@ -433,16 +436,24 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Check Uniqueness in Aadhar
     */
   checkAadhar() {
-    this.isExistAadhar = false;
-    this.errorMessageForAadhar = '';
+    // this.isExistAadhar = false;
+    // this.errorMessageForAadhar = '';
     //to check the duplicates in buffertable
     if (this.editMode !== true && this.aadharNumber !== undefined && this.aadharNumber !== null) {
       this.validateAadharNo();
     }
 
-    if (this.editMode == true && this.aadharNumber !== undefined && this.aadharNumber !== null && (this.selfAadharNo !== this.aadharNumber)) {
+    if (this.editMode == true && this.aadharNumber !== undefined && this.aadharNumber !== null && this.selfAadharNo !== undefined && this.selfAadharNo !== null && (this.selfAadharNo !== this.aadharNumber)) {
       this.validateAadharNo();
     }  
+    else 
+    if (this.editMode == true && this.aadharNumber !== undefined && this.aadharNumber !== null && (this.selfAadharNo === undefined || this.selfAadharNo === null)) {
+      this.validateAadharNo();
+    }
+    else {
+      this.isExistAadhar = false;
+      this.errorMessageForAadhar = '';
+    }
   }
   validateAadharNo(){
     console.log('aadharNumber', this.aadharNumber);
@@ -475,16 +486,22 @@ export class EmployeeMasterNewComponent implements OnInit {
     * Check Uniqueness in Pan
     */
   checkPan() {
-    this.isExistPan = false;
-    this.errorMessageForPan = '';
+    //this.isExistPan = false;
+    //this.errorMessageForPan = '';
     if (this.editMode !== true && this.panNumber !== undefined && this.panNumber !== null) {
       this.validatePanNo();
     }
-
-    if (this.editMode == true && this.panNumber !== undefined && this.panNumber !== null && (this.selfPanNo.toLowerCase() !== this.panNumber.toLowerCase())) {
+    if (this.editMode == true && this.panNumber !== undefined && this.panNumber !== null && this.selfPanNo !== undefined && this.selfPanNo !== null && (this.selfPanNo.toLowerCase() !== this.panNumber.toLowerCase())) {
       this.validatePanNo();
     }  
-    
+    else 
+    if (this.editMode == true && this.panNumber !== undefined && this.panNumber !== null && (this.selfPanNo === undefined || this.selfPanNo === null)) {
+      this.validatePanNo();
+    } 
+    else {
+      this.isExistPan = false;
+      this.errorMessageForPan = '';
+    }
   }
   validatePanNo(){
       if (this.panNumber.length == 10) {
@@ -515,14 +532,22 @@ export class EmployeeMasterNewComponent implements OnInit {
   }
   // to check existance of health professional ID
   checkHealthProfessionalID() {
-      this.isHPIdExist = false;
-      this.errorMessageForHPID = '';
+      //this.isHPIdExist = false;
+      //this.errorMessageForHPID = '';
     if (this.editMode !== true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null) {
       this.validateHealthProfessionalID();
     }
 
-    if (this.editMode == true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null && (this.selfHealthProfessionalID.toLowerCase() !== this.healthProfessionalID.toLowerCase())) {
+    if (this.editMode == true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null && this.selfHealthProfessionalID !== undefined && this.selfHealthProfessionalID !== null && (this.selfHealthProfessionalID.toLowerCase() !== this.healthProfessionalID.toLowerCase())) {
       this.validateHealthProfessionalID();
+    }
+    else 
+    if (this.editMode == true && this.healthProfessionalID !== undefined && this.healthProfessionalID !== null && (this.selfHealthProfessionalID === undefined || this.selfHealthProfessionalID === null)) {
+      this.validateHealthProfessionalID();
+    }
+    else {
+      this.isHPIdExist = false;
+      this.errorMessageForHPID = '';
     }
   }
   validateHealthProfessionalID(){
@@ -1152,7 +1177,6 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.getAllUserDetails();
       this.showTable();
       this.resetAllFlags();
-
     }, err => {
       console.log("error", err);
       //this.dialogService.alert('error', err);
