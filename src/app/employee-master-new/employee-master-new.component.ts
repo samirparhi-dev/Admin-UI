@@ -949,6 +949,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       this.objs = [];
       this.getAllUserDetails();
       this.showTable();
+      this.resetAllFlags();
     }), (err) => console.log('error', err);
 
   }
