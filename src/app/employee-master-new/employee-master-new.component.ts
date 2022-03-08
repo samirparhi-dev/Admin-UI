@@ -221,6 +221,7 @@ export class EmployeeMasterNewComponent implements OnInit {
         this.filteredsearchResult = this.searchResult;
         this.showTable();
         this.resetAllFlags();
+        this.panelOpenState = !this.panelOpenState;
       }
     })
   }
@@ -702,7 +703,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     // this.objs.push(tempObj);
     this.checkUserNameAvailability(name);
     this.checkDuplicatesInBuffer(tempObj);
-    this.resetAllForms();
+    // this.resetAllForms();
   }
 
   checkDuplicatesInBuffer(tempObj) {
@@ -713,6 +714,7 @@ export class EmployeeMasterNewComponent implements OnInit {
     let duplicateHealthProfessionalID = 0;
     if (this.objs.length === 0) {
       this.objs.push(tempObj);
+      this.resetAllForms();
     }
 
     else {
@@ -739,6 +741,7 @@ export class EmployeeMasterNewComponent implements OnInit {
       }
       if (duplicateAadhar === 0 && duplicatePan === 0 && duplicateName === 0 && duplicateEmployeeID === 0 && duplicateHealthProfessionalID === 0) {
         this.objs.push(tempObj);
+        this.resetAllForms();
       }
       else if (duplicateAadhar > 0 && duplicatePan > 0 && duplicateName > 0 && duplicateEmployeeID > 0 && duplicateHealthProfessionalID > 0) {
         this.dialogService.alert("EmployeeID, Username, Aadhar, Pan number and Health Professional ID already exist");

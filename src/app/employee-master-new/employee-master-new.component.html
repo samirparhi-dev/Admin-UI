@@ -84,7 +84,7 @@
 <!-- myName, myProviderName, myMobileNumber, PAN are custom directives -->
 <div [hidden]="!formMode" class="m-t-5">
     <md-accordion>
-        <md-expansion-panel (opened)="true">
+        <md-expansion-panel [expanded]="panelOpenState">
             <md-expansion-panel-header>
                 <md-panel-title>
                     <h4 class="f-s-n-b" *ngIf="!editMode">
@@ -491,6 +491,16 @@
             </div>
         </div> -->
 </md-accordion>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
+        <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint && !isExistAadhar && !isExistPan && !isHPIdExist && !errorValidationMsgForHPId && !empIdshowHint && !username_dependent_flag"
+            class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
+                <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
+</button>
+</div>
+</div>
+
 <div class="row" *ngIf="(objs.length!=0)">
     <div class="col-xs-12 col-sm-12" *ngIf="objs.length>0">
         <div class="table-responsive">
@@ -530,14 +540,14 @@
     </div>
 
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10">
         <button md-mini-fab color="primary" *ngIf="!editMode && userCreationForm.valid && communicationDetailsForm.valid && !empIdshowHint && !isExistAadhar && !isExistPan && !isHPIdExist && !errorValidationMsgForHPId && !empIdshowHint && !username_dependent_flag"
             class="pull-right" (click)="add_object(userCreationForm.value, demographicsDetailsForm.value, communicationDetailsForm.value)">
                 <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
 </button>
 </div>
-</div>
+</div> -->
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-t-10 m-b-10">
