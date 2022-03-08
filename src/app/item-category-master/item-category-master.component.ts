@@ -6,7 +6,7 @@ import { MdRadioChange } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { ItemService } from '../services/inventory-services/item.service';
 import { NgForm } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
+//import { map, startWith } from 'rxjs/operators';
 import { ItemCategoryService } from '../services/inventory-services/item-category.service';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
