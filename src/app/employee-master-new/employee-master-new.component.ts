@@ -371,6 +371,9 @@ export class EmployeeMasterNewComponent implements OnInit {
         }
     }
     }
+    else{
+      this.errorValidationMsgForHPId = false;
+    }
   }
   preventTyping(e: any) {
     if (e.keyCode === 9) {

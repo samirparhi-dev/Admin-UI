@@ -84,7 +84,7 @@
 <!-- myName, myProviderName, myMobileNumber, PAN are custom directives -->
 <div [hidden]="!formMode" class="m-t-5">
     <md-accordion>
-        <md-expansion-panel expanded="true">
+        <md-expansion-panel (opened)="true">
             <md-expansion-panel-header>
                 <md-panel-title>
                     <h4 class="f-s-n-b" *ngIf="!editMode">
