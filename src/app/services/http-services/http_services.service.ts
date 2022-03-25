@@ -41,7 +41,7 @@ export class HttpServices {
 
 	}
 
-	postData(url: string, data: any) {
+	securityData(url: string, data: any) {
 		return this.http.post(url, data)
 			.map(this.handleGetSuccess)
 			.catch(this.handleGetError);

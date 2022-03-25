@@ -18,12 +18,15 @@ export class loginService {
 
 	superadmin_auth_url = this._baseURL + 'user/superUserAuthenticate';
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
+	_validateSecurityQuestionAndAnswerURL = this._baseURL + "user/validateSecurityQuestionAndAnswer/"
+	_getTransactionIdForChangePasswordURL = this._baseURL + "user/getTransactionIdForChangePassword/"
 	_authorisedUser = this._baseURL + 'user/getLoginResponse';
 	admin_base_path: any;
 	// newlogin = "http://l-156100778.wipro.com:8080/CommonV1/user/userAuthenticate";
 	newlogin = this._baseURL + "user/userAuthenticate";
 	apiVersionUrl = this.adminUrl + "version";
 	getServiceProviderID_url: any;
+	transactionId:any;
 	
 	constructor(
 		private _http: SecurityInterceptedHttp,
@@ -63,6 +66,20 @@ export class loginService {
 			.catch(this.handleError);
 	};
 
+	validateSecurityQuestionAndAnswer(ans: any, uname: any): Observable<any> {
+
+		return this._http.post(this._validateSecurityQuestionAndAnswerURL, {'SecurityQuesAns':ans, 'userName': uname.toLowerCase() })
+			.map(this.extractData)
+			.catch(this.handleError);
+	};
+
+	getTransactionIdForChangePassword(uname: any): Observable<any> {
+
+		return this._http.post(this._getTransactionIdForChangePasswordURL, { 'userName': uname.toLowerCase() })
+			.map(this.extractDataForSecurity)
+			.catch(this.handleError);
+	};
+
 	getServiceProviderID(providerServiceMapID) {
 		return this._http.post(this.getServiceProviderID_url, { 'providerServiceMapID': providerServiceMapID })
 			.map(this.extractData)
@@ -84,6 +101,14 @@ export class loginService {
 			return Observable.throw(res.json());
 		}
 	};
+
+	private extractDataForSecurity(res: Response) {
+		if (res.json().data) {
+		return res.json();
+		} else {
+		return Observable.throw(res.json());
+		}
+		};
 
 	private handleError(error: Response | any) {
 		console.log("http error", error);

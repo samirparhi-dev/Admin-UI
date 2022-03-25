@@ -46,15 +46,19 @@ export class SetPasswordComponent implements OnInit {
 	}
 
 	updatePassword(new_pwd) {
+		let transactionId=this._loginService.transactionId;
 		if (new_pwd === this.confirmpwd) {
-			this.http_calls.postData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
-				{ 'userName': this.uname, 'password': new_pwd }
+			this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
+				{ 'userName': this.uname, 'password': new_pwd, 'transactionId': transactionId  }
 			).subscribe(
-				(response: any) => this.successCallback(response),
+				(response: any) => {if (response !== undefined && response !== null)
+					this.successCallback(response)
+				},
 				(error: any) => {
-					this.errorCallback(error);
-					console.log(error, 'error')
-				}
+					this.alertService.alert(error.errorMessage, 'error');
+					this.router.navigate(['/resetPassword']);
+				},
+				this._loginService.transactionId=undefined
 			);
 		}
 		else {

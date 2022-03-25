@@ -21,14 +21,16 @@ export class ResetComponent{
 	public error:any;
 	showQuestions: boolean = false;
 	hideOnGettingQuestions: boolean = true;
-	questionsAnswers: any;
+	securityQuestions: any;
 	answer: any=undefined;
 
 	dynamictype: any = 'password';
 
+	public questionId: any[] = [];
 	public questions: any[]=[];
-	public correctAnswers: any[]=[];
+	//public correctAnswers: any[]=[];
 	public userAnswers: any[]=[];
+	userFinalAnswers: any[] = [];
 
 	wrong_answer_msg:any="";
 	getQuestions(username:any)
@@ -36,34 +38,40 @@ export class ResetComponent{
 		this.getUserData.uname=username;
 
 		this.loginservice.getSecurityQuestions(username).
-		subscribe((response:any)=> this.handleSuccess(response),
-		          (error:any)=> this.error = <any>error
-		          );
+		subscribe((response: any) => {
+			if (response !== undefined && response !== null) 
+			if (response.error !== undefined && response.error !== null && response.error.statusCode === 5002){	
+				this.router.navigate(["/"]);
+				this.alertService.alert("User Not Found");
+			}
+				else{
+					this.handleSuccess(response)
+			
+		}
+			},
+			(error: any) => this.error = <any>error
+		);
+
 	}
 
 	handleSuccess(data:any)
 	{
 		console.log(data);
-		if (data.forgetPassword!="user Not Found")
+		if (data !== undefined && data !== null && data.forgetPassword!="user Not Found")
 		{
-			if(data.SecurityQuesAns.length>0)
+			if(data.SecurityQuesAns !== undefined && data.SecurityQuesAns !==null && data.SecurityQuesAns.length>0)
 			{
-				this.questionsAnswers = data.SecurityQuesAns;
+				this.securityQuestions = data.SecurityQuesAns;
 				this.showQuestions = true;
 				this.hideOnGettingQuestions = false;
 
-				this.getQuestionsandAnswers();
+				this.splitQuestionAndQuestionID();
 			}
 			else
 			{
 				this.router.navigate(["/"]);
 				this.alertService.alert("Questions are not set for this User");
 			}
-		}
-		else
-		{
-			this.router.navigate(["/"]);
-			this.alertService.alert("User Not Found");
 		}
 	}
 
@@ -77,21 +85,23 @@ export class ResetComponent{
 	}
 
 	
-	getQuestionsandAnswers() {
+	splitQuestionAndQuestionID() {
 		
-		console.log('Q n A',this.questionsAnswers);
-		for (var i = 0; i < this.questionsAnswers.length;i++)
-		{
-			this.questions.push(this.questionsAnswers[i].question);
-			this.correctAnswers.push(this.questionsAnswers[i].answer);
+		console.log('Q n A', this.securityQuestions);
+		for (var i = 0; i < this.securityQuestions.length; i++) {
+			this.questions.push(this.securityQuestions[i].question);
+			this.questionId.push(this.securityQuestions[i].questionId);
+
 		}
-		console.log('questions',this.questions);
-		console.log('answers',this.correctAnswers);
+		console.log('questions', this.questions);
+		console.log('questionID', this.questionId);
+
 		this.showMyQuestion();
 		
 	}
 
 
+	bufferQuestionId: any;
 	bufferQuestion: any;
 	counter: number = 0;
 
@@ -99,44 +109,63 @@ export class ResetComponent{
 	{
 		console.log('this is question' + (this.counter+1));
 		this.bufferQuestion = this.questions[this.counter];
+		this.bufferQuestionId = this.questionId[this.counter];
 	}
 
 	nextQuestion()
 	{
-		if(this.counter<=3)
-		{
-			var result=this.saveUserAnswers(this.answer);
-			if(result==='correct')
-			{
-				this.wrong_answer_msg="";
-				this.counter = this.counter + 1;
-				if (this.counter < 3) {
-					this.showMyQuestion();
-				}
-				else {
+		if (this.counter < 3) {
+			let reqObj = {
+				"questionId": this.questionId[this.counter],
+				"answer": this.answer,
+
+			}
+			this.userFinalAnswers.push(reqObj);
+			this.wrong_answer_msg = "";
+			this.counter = this.counter + 1;
+			if (this.counter < 3) {
+				this.showMyQuestion();
+				this.answer = undefined;
+			}
+			else {
+				this.checking();
+		}
+	}
+		console.log('user Final Answers are:', this.userFinalAnswers);
+	}
+
+	checking() {
+		this.loginservice.validateSecurityQuestionAndAnswer(this.userFinalAnswers, this.getUserData.uname).
+			subscribe((response: any) => {
+				if (response !==undefined && response !== null) {
+				if ( response.statusCode == 200) {
+					this.counter = 0;
 					this.router.navigate(['/setPassword']);
+					this.loginservice.transactionId = response.data.transactionId;
+				}
+
+				else {
+					if (response.error !==undefined && response.error !== null)
+					this.showQuestions = true;
+					this.counter = 0;
+					this.alertService.alert(response.error.errorMessage, 'error');
+					this.getQuestions(this.getUserData.uname);
+					this.router.navigate(['/resetPassword']);
+					this.splitQuestionAndQuestionID();
 				}
 			}
-			else{
-				console.log('incorrect answer, please try again');
-				this.wrong_answer_msg="Incorrect Answer, Please Try Again";
-			}
-		}
-	}
+			},
+				(error: any) => {
+					this.showQuestions = true;
+					this.counter = 0;
+					this.alertService.alert(error.errorMessage, 'error');
+					this.router.navigate(['/resetPassword']);
+					this.splitQuestionAndQuestionID();
+				}
+			);
 
+		this.answer = undefined;
+		this.userFinalAnswers = [];
 
-	saveUserAnswers(answer: any) {
-		this.userAnswers.push(answer);
-		console.log(this.userAnswers);
-		if(this.userAnswers[this.counter]===this.correctAnswers[this.counter])
-		{
-			this.answer = undefined;
-			return "correct";
 		}
-		else{
-			this.userAnswers.splice(this.counter, 1);
-			return "incorrect";
-		}
-		
-	}
 }
