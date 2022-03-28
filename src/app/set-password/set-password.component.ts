@@ -51,8 +51,12 @@ export class SetPasswordComponent implements OnInit {
 			this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
 				{ 'userName': this.uname, 'password': new_pwd, 'transactionId': transactionId  }
 			).subscribe(
-				(response: any) => {if (response !== undefined && response !== null)
+				(response: any) => {if (response !== undefined && response !== null && response.statusCode === 200)
 					this.successCallback(response)
+					else {
+						this.alertService.alert(response.errorMessage, 'error');			
+						this.router.navigate(['/resetPassword']);			
+					  }
 				},
 				(error: any) => {
 					this.alertService.alert(error.errorMessage, 'error');

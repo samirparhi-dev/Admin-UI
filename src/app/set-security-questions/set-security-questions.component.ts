@@ -241,7 +241,7 @@ export class SetSecurityQuestionsComponent implements OnInit {
     if(response && response.statusCode == 200 && response.data.transactionId !== undefined && response.data.transactionId !== null) {
     console.log('saved questions', response);
     this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
-      { 'userName': this.uname, 'password': new_pwd })
+      { 'userName': this.uname, 'password': new_pwd, 'transactionId': response.data.transactionId })
       .subscribe((response: any) => this.successCallback(response),
         (error: any) => {
           this.errorCallback(error)
