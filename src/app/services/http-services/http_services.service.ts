@@ -41,6 +41,15 @@ export class HttpServices {
 
 	}
 
+	handleGetSuccessForSecurity(response: Response) {    
+		if (response.json().data) {
+			return response.json();
+		  } else {
+			return response.json();
+		  }
+		}
+	  
+
 	securityData(url: string, data: any) {
 		return this.http.post(url, data)
 			.map(this.handleGetSuccess)

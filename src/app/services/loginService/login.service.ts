@@ -69,7 +69,7 @@ export class loginService {
 	validateSecurityQuestionAndAnswer(ans: any, uname: any): Observable<any> {
 
 		return this._http.post(this._validateSecurityQuestionAndAnswerURL, {'SecurityQuesAns':ans, 'userName': uname.toLowerCase() })
-			.map(this.extractData)
+			.map(this.extractDataForSecurity)
 			.catch(this.handleError);
 	};
 

@@ -39,7 +39,7 @@ export class ResetComponent{
 
 		this.loginservice.getSecurityQuestions(username).
 		subscribe((response: any) => {
-			if (response !== undefined && response !== null) 
+			if (response !== undefined && response !== null) {
 			if (response.error !== undefined && response.error !== null && response.error.statusCode === 5002){	
 				this.router.navigate(["/"]);
 				this.alertService.alert("User Not Found");
@@ -47,6 +47,7 @@ export class ResetComponent{
 				else{
 					this.handleSuccess(response)
 			
+			}
 		}
 			},
 			(error: any) => this.error = <any>error
@@ -137,15 +138,14 @@ export class ResetComponent{
 	checking() {
 		this.loginservice.validateSecurityQuestionAndAnswer(this.userFinalAnswers, this.getUserData.uname).
 			subscribe((response: any) => {
-				if (response !==undefined && response !== null) {
-				if ( response.statusCode == 200) {
+				if (response.statusCode === 200 && response.data.transactionId !== undefined && response.data.transactionId !== null) {
 					this.counter = 0;
 					this.router.navigate(['/setPassword']);
 					this.loginservice.transactionId = response.data.transactionId;
 				}
 
 				else {
-					if (response.error !==undefined && response.error !== null)
+					if (response.error !==undefined && response.error !== null){
 					this.showQuestions = true;
 					this.counter = 0;
 					this.alertService.alert(response.error.errorMessage, 'error');
@@ -153,6 +153,7 @@ export class ResetComponent{
 					this.router.navigate(['/resetPassword']);
 					this.splitQuestionAndQuestionID();
 				}
+			
 			}
 			},
 				(error: any) => {
