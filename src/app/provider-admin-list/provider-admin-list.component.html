@@ -254,7 +254,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-t-3 p-b-10">
       <md-input-container class="width100">
-        <input mdInput placeholder="Remarks" ngModel maxlength="100" name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
+        <input mdInput allowText="textAreaValidator" placeholder="Remarks" ngModel maxlength="100" name="remarks" [(ngModel)]="admin_remarks" #adminRemark="ngModel">
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" *ngIf="providerAdminCreationForm.valid && adminCredentialsForm.valid" [hidden]="isExistAadhar || isExistPan">
