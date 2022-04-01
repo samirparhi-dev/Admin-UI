@@ -134,7 +134,7 @@
         (change)="onFileUpload($event)" name="fileList" ngModel #uploadfile="ngModel">
         <span class="help-block" *ngIf="inValidFileName">Invalid file name</span>
         <span class="help-block" *ngIf="invalid_file_flag">Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</span>
-        <span class="help-block" *ngIf="error1">Please choose a file for upload</span>
+        <span class="file-upload" *ngIf="error1">*Please choose a file for upload</span>
         <span class="help-block" *ngIf="error2">File size should not exceed {{maxFileSize}}MB</span>
       <!-- <span class="help-block m-t-5" *ngIf="error1">Please choose a file for upload</span> -->
       <!-- <span class="help-block m-t-5" *ngIf="file!=undefined && fileSizeIsMoreThanRequired">File Size should not exceed {{maxFileSize}} MB</span> -->
