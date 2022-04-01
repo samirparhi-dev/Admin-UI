@@ -160,7 +160,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" >
-        <input mdInput placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
+        <input mdInput allowText="itemNameMasterValidator" placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty">
           <span class="errorText" [hidden]="!itemName.errors">Item Name is required</span>
         </md-hint>

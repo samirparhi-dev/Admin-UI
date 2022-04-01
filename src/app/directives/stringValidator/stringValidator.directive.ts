@@ -21,6 +21,16 @@ export class StringValidator {
   numberslash = /^[0-9/]+$/;
   address = /^[a-zA-Z0-9-./,# ]+$/;
 
+  inputFieldValidator = /^[a-zA-Z0-9 ]+$/;
+  textAreaValidator = /^[a-zA-Z0-9., ]+$/;
+  questionnaireValidator = /^[a-zA-Z0-9.,? ]+$/;
+  addressValidator = /^[a-zA-Z0-9.,/\-# ]+$/;
+  smsTemplateValidator = /^[a-zA-Z0-9.,$\-:;/() ]+$/;
+  itemNameSearchValidator = /^[a-zA-Z0-9% ]+$/;
+  itemNameMasterValidator = /^[a-zA-Z0-9%-.[\]\/() ]+$/;
+  answerValidator = /^[a-zA-Z0-9.,/\- ]+$/;
+  usernameValidator = /^[a-zA-Z0-9]+$/;
+
   lastValue = null;
   result: boolean;
 
@@ -63,6 +73,33 @@ export class StringValidator {
       case 'address':
         this.result = this.address.test(input);
         break;
+      case "inputFieldValidator":
+        this.result = this.inputFieldValidator.test(input);
+        break;
+      case "textAreaValidator":
+        this.result = this.textAreaValidator.test(input);
+        break;
+      case "questionnaireValidator":
+        this.result = this.questionnaireValidator.test(input);
+        break;
+      case "addressValidator":
+        this.result = this.addressValidator.test(input);
+        break;
+      case "smsTemplateValidator":
+        this.result = this.smsTemplateValidator.test(input);
+        break;
+      case "itemNameSearchValidator":
+        this.result = this.itemNameSearchValidator.test(input);
+        break;
+      case "itemNameMasterValidator":
+        this.result = this.itemNameMasterValidator.test(input);
+        break;
+      case "answerValidator":
+        this.result = this.answerValidator.test(input);
+        break;
+        case "usernameValidator":
+          this.result = this.usernameValidator.test(input);
+          break;
       default: this.result = false;
     }
     return this.result;
