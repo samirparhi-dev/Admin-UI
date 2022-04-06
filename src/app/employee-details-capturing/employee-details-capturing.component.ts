@@ -310,8 +310,8 @@ hide: boolean = true;
   disable_currentAddress_flag:boolean=false;
   addressCheck(value) {
     if (value.checked) {
-      this.currentAddressLine1 = this.permanentAddressLine1;
-      this.currentAddressLine2 = this.permanentAddressLine2;
+      this.currentAddressLine1 = this.permanentAddressLine1.trim();
+      this.currentAddressLine2 = this.permanentAddressLine2.trim();
       this.currentState = this.permanentState;
 
       this.districts_current=this.districts_permanent;
@@ -606,8 +606,8 @@ hide: boolean = true;
       // "createdDate": "2017-08-01T00:00:00.000Z",
       'fathersName': this.father_name,
       'mothersName': this.mother_name,
-      'addressLine1': this.permanentAddressLine1,
-      'addressLine2': this.permanentAddressLine2,
+      'addressLine1': this.permanentAddressLine1.trim(),
+      'addressLine2': this.permanentAddressLine2.trim(),
       // "addressLine3": "xzli",
       // "addressLine4": "abc1",
       // "addressLine5": "abc2",

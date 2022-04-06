@@ -128,7 +128,7 @@ export class DrugListComponent implements OnInit {
     this.drugObj = {};
     this.drugObj.drugName = values.drugName.trim();
     this.drugObj.drugDesc = values.drugDesc.trim();
-    this.drugObj.remarks = values.remarks;
+    this.drugObj.remarks = values.remarks.trim();
 
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.createdBy = this.createdBy;
@@ -218,10 +218,10 @@ export class DrugListComponent implements OnInit {
   }
   editDrugData(drug) {
 
-    this.drugID = drug.drugID;
-    this.drugName = drug.drugName
-    this.drugDesc = drug.drugDesc;
-    this.remarks = drug.remarks;
+    this.drugID = drug.drugID.trim();
+    this.drugName = drug.drugName.trim();
+    this.drugDesc = drug.drugDesc.trim();
+    this.remarks = drug.remarks.trim();
     // this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
     this.drugNameToEdit = drug.drugName;
@@ -233,10 +233,10 @@ export class DrugListComponent implements OnInit {
       this.alertMessage.alert("Please enter valid Drug Name");
     else {
       this.dataObj = {};
-      this.dataObj.drugID = this.drugID;
+      this.dataObj.drugID = this.drugID.trim();
       this.dataObj.drugName = this.drugName.trim();
-      this.dataObj.drugDesc = drug.drugDesc;
-      this.dataObj.remarks = drug.remarks;
+      this.dataObj.drugDesc = drug.drugDesc.trim();
+      this.dataObj.remarks = drug.remarks.trim();
       this.dataObj.providerServiceMapID = drug.providerServiceMapID;
       this.dataObj.modifiedBy = this.createdBy;
       this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => {

@@ -220,7 +220,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     if (response) {
       let obj = {
         "VfdID":  data.VfdID,
-        "deviceName":  data.deviceName,
+        "deviceName":  data.deviceName.trim(),
         "deviceID": data.deviceID,
         "vanID": data.vanID,
         "parkingPlaceID": data.parkingPlaceID,
@@ -259,7 +259,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
         if (response) {
           let obj =  {
             "VfdID":  data.VfdID,
-            "deviceName":  data.deviceName,
+            "deviceName":  data.deviceName.trim(),
             "deviceID": data.deviceID,
             "vanID": data.vanID,
             "parkingPlaceID": data.parkingPlaceID,
@@ -307,7 +307,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     let obj = {
 
       "deviceID": deviceId,
-      "deviceName": deviceName,
+      "deviceName": deviceName.trim(),
       "providerServiceMapID": this.providerServiceMapID,
       "createdBy": this.commonDataService.uname
     }
@@ -420,7 +420,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     this.disableSelection = true;
     
     this.deviceID = toBeEditedOBJ.deviceID;
-    this.deviceName = toBeEditedOBJ.deviceName;
+    this.deviceName = toBeEditedOBJ.deviceName.trim();
     this.editObject=toBeEditedOBJ;
    
   }
@@ -430,7 +430,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
 
     let obj = {
       "VfdID":  this.editObject.VfdID,
-      "deviceName":  editedDeviceName,
+      "deviceName":  editedDeviceName.trim(),
       "deviceID":  editedDeviceId,
       "vanID": this.editObject.vanID,
       "parkingPlaceID": this.editObject.parkingPlaceID,

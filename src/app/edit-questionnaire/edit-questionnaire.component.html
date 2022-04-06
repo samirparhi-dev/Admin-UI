@@ -10,7 +10,7 @@
   <form  [formGroup]="editQuestionnaireForm">
     <div class="col-xs-12">
       <md-input-container [style.width]="'100%'">
-        <input mdInput mdInput questionnaireValidator  required placeholder="Question" formControlName="questionName" minlength="5" maxlength="1000" (keyup)="enableUpdateButton()">
+        <input mdInput questionnaireValidator  required placeholder="Question" formControlName="questionName" minlength="5" maxlength="1000" (keyup)="enableUpdateButton()">
       </md-input-container>
     </div>
    

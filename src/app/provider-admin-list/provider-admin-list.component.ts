@@ -405,7 +405,7 @@ export class ProviderAdminListComponent implements OnInit {
       'emergencyMobileNumber': providerAdminData.em_contact_number,
       'username': adminCredentials.user_name,
       'password': adminCredentials.password,
-      'admin_remarks': adminCredentials.remarks,
+      'admin_remarks': adminCredentials.remarks.trim(),
 
     }
     console.log("add objects", tempObj);
@@ -501,7 +501,7 @@ export class ProviderAdminListComponent implements OnInit {
         'emergencyContactNo': this.objs[i].emergencyMobileNumber,
         'userName': this.objs[i].username,
         'password': this.objs[i].password,
-        'remarks': this.objs[i].admin_remarks,
+        'remarks': this.objs[i].admin_remarks.trim(),
         'createdBy': this.commonDataService.uname,
         'isProviderAdmin': "true",
         'statusID': "1"
@@ -682,7 +682,7 @@ export class EditProviderAdminModal {
     this.edu_qualification = this.data.qualificationID;
     this.emergency_cnt_person = this.data.emergencyContactPerson;
     this.emergencyMobileNumber = this.data.emergencyContactNo;
-    this.admin_remarks = this.data.remarks;
+    this.admin_remarks = this.data.remarks.trim();
     this.resetDob();
 
   }
@@ -834,7 +834,7 @@ export class EditProviderAdminModal {
       'qualificationID': this.edu_qualification,
       'emergencyContactPerson': this.emergency_cnt_person,
       'emergencyContactNo': this.emergencyMobileNumber,
-      'remarks': this.admin_remarks,
+      'remarks': this.admin_remarks.trim(),
       'userID': this.data.userID,
       'modifiedBy': this.data.createdBy
 

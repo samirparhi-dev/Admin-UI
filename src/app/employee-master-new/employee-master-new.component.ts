@@ -637,8 +637,8 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   addressCheck(value) {
     if (value.checked) {
-      this.permanentAddressLine1 = this.currentAddressLine1;
-      this.permanentAddressLine2 = this.currentAddressLine2;
+      this.permanentAddressLine1 = this.currentAddressLine1.trim();
+      this.permanentAddressLine2 = this.currentAddressLine2.trim();
       this.permanentState = this.currentState;
       this.permanentDistrict = this.currentDistrict;
       this.getPermanentDistricts(this.currentState);
@@ -712,13 +712,13 @@ export class EmployeeMasterNewComponent implements OnInit {
       'motherName': demographicsFormValue.mother_name,
       'communityID': demographicsFormValue.community_id,
       'religionID': demographicsFormValue.religion_id,
-      'currentAddressLine1': communicationFormValue.address.current_addressLine1,
-      'currentAddressLine2': communicationFormValue.address.current_addressLine2,
+      'currentAddressLine1': communicationFormValue.address.current_addressLine1.trim(),
+      'currentAddressLine2': communicationFormValue.address.current_addressLine2.trim(),
       'currentState': communicationFormValue.address.current_state,
       'currentDistrict': communicationFormValue.address.current_district,
       'currentPincode': communicationFormValue.address.current_pincode,
-      'permanentAddressLine1': communicationFormValue.permanent_addressLine1,
-      'permanentAddressLine2': communicationFormValue.permanent_addressLine2,
+      'permanentAddressLine1': communicationFormValue.permanent_addressLine1.trim(),
+      'permanentAddressLine2': communicationFormValue.permanent_addressLine2.trim(),
       'permanentState': communicationFormValue.permanent_state,
       'permanenttDistrict': communicationFormValue.permanent_district,
       'permanentPincode': communicationFormValue.permanent_pincode,
@@ -924,13 +924,13 @@ export class EmployeeMasterNewComponent implements OnInit {
         'mothersName': this.objs[i].motherName,
         'communityID': this.objs[i].communityID,
         'religionID': this.objs[i].religionID,
-        'addressLine1': this.objs[i].currentAddressLine1,
-        'addressLine2': this.objs[i].currentAddressLine2,
+        'addressLine1': this.objs[i].currentAddressLine1.trim(),
+        'addressLine2': this.objs[i].currentAddressLine2.trim(),
         'stateID': this.objs[i].currentState,
         'districtID': this.objs[i].currentDistrict,
         'pinCode': this.objs[i].currentPincode,
-        'permAddressLine1': this.objs[i].permanentAddressLine1,
-        'permAddressLine2': this.objs[i].permanentAddressLine2,
+        'permAddressLine1': this.objs[i].permanentAddressLine1.trim(),
+        'permAddressLine2': this.objs[i].permanentAddressLine2.trim(),
         'permStateID': this.objs[i].permanentState,
         'permDistrictID': this.objs[i].permanenttDistrict,
         'permPinCode': this.objs[i].permanentPincode,

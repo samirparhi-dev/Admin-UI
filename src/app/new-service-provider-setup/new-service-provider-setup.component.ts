@@ -260,7 +260,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
       this.request_object.primaryContactAddress =
-        this.address1 + ',' + this.address2;
+        this.address1.trim() + ',' + this.address2.trim();
     }
 
     if (val == 2 && action === 'back') {
@@ -441,7 +441,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['genderID'] = this.gender.toString();
     // provider_admin_details_obj['roleID'] = 11;
     this.dob;
-    this.address1;
+    this.address1.trim();
     provider_admin_details_obj['dob'] = new Date(
       this.dob - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)
     ).toJSON();

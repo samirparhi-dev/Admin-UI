@@ -303,8 +303,8 @@ export class SupplierMasterComponent implements OnInit {
     this.edit_drugLicense = editFormValues.drugLicenseNo;//facilityTypeID
     this.edit_cstNo = editFormValues.cST_GST_No;
     this.edit_tinNo = editFormValues.tIN_No;
-    this.edit_AddressLine1 = editFormValues.addressLine1;
-    this.edit_AddressLine2 = editFormValues.addressLine2;
+    this.edit_AddressLine1 = editFormValues.addressLine1.trim();
+    this.edit_AddressLine2 = editFormValues.addressLine2.trim();
     this.edit_state1 = editFormValues.stateID;
     this.edit_Pincode = editFormValues.pinCode;
     this.edit_contactNo = editFormValues.phoneNo1;

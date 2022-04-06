@@ -405,7 +405,7 @@ export class ItemMasterComponent implements OnInit {
       // "stateName": this.state.stateName,
       'isMedical': formValue.itemType,
       'itemCode': formValue.code,
-      'itemName': formValue.name,
+      'itemName': formValue.name.trim(),
       'sctCode' : this.testsnomedCode,
       'sctTerm' : this.testSnomedName,
       'itemDesc': formValue.description,
@@ -446,7 +446,7 @@ export class ItemMasterComponent implements OnInit {
       // "stateName": this.state.stateName,
       'isMedical': formValue.itemType,
       'itemCode': formValue.code,
-      'itemName': formValue.name,
+      'itemName': formValue.name.trim(),
       'sctCode' : this.testsnomedCode,
       'sctTerm' : this.testSnomedName,
       'itemDesc': formValue.description,
@@ -890,7 +890,7 @@ export class EditItemMasterModal {
   edit() {
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
-    this.name = this.data.itemName;
+    this.name = this.data.itemName.trim();
     this.category = this.data.itemCategoryID;
     this.dose = this.data.itemFormID;
     this.pharmacology = this.data.pharmCategoryID;
@@ -909,7 +909,7 @@ export class EditItemMasterModal {
     let updateItemObject = {
       "isMedical": this.itemType,
       "itemCode": this.code,
-      "itemName": this.name,
+      "itemName": this.name.trim(),
       "itemDesc": this.description,
       "itemCategoryID": this.category,
       "itemFormID": this.dose,

@@ -242,8 +242,8 @@ export class LocationServicelineMappingComponent implements OnInit {
       "serviceID": this.providerServiceMapIDs,
       // "providerServiceMapID": this.providerServiceMapID,
       "districtID": this.district,
-      "locationName": this.OfficeID,
-      "address": this.office_address1 + "," + this.office_address2,
+      "locationName": this.OfficeID.trim(),
+      "address": this.office_address1.trim() + "," + this.office_address2.trim(),
       "createdBy": this.commonDataService.uname
     }
 
@@ -258,8 +258,8 @@ export class LocationServicelineMappingComponent implements OnInit {
       // "serviceID": "6",
       "providerServiceMapID": this.providerServiceMapIDs,
       "districtID": this.district,
-      "locationName": this.OfficeID,
-      "address": this.office_address1 + "," + this.office_address2,
+      "locationName": this.OfficeID.trim(),
+      "address": this.office_address1.trim() + "," + this.office_address2.trim(),
       "createdBy": this.commonDataService.uname
     }
     let count = 0;
@@ -553,8 +553,8 @@ export class EditLocationModal {
 
         "pSAddMapID": this.data.toBeEditedOBJ.pSAddMapID,
         "providerServiceMapID": this.data.toBeEditedOBJ.providerServiceMapID,
-        "locationName": this.officeID,
-        "address": this.address,
+        "locationName": this.officeID.trim(),
+        "address": this.address.trim(),
         "districtID": this.data.toBeEditedOBJ.districtID,
         "createdBy": this.data.toBeEditedOBJ.CreatedBy
       }
