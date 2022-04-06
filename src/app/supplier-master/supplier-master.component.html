@@ -190,7 +190,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address Line 1" [(ngModel)]="AddressLine1" name="addressLine1" minlength="2" maxlength="100"
+          <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="AddressLine1" name="addressLine1" minlength="2" maxlength="100"
             #Address1="ngModel" required>
           <md-hint *ngIf="Address1.touched">
             <span class="errorText" [hidden]="!Address1.errors">Address is required</span>
@@ -199,7 +199,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-10">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address Line 2" [(ngModel)]="AddressLine2" name="addressLine2" minlength="2" maxlength="100"
+          <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="AddressLine2" name="addressLine2" minlength="2" maxlength="100"
             #Address2="ngModel">
           <md-hint *ngIf="Address2.touched">
             <span class="errorText" [hidden]="!Address2.errors">Address is required</span>
@@ -429,7 +429,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address Line 1" [(ngModel)]="edit_AddressLine1"  name="addressLine1" minlength="2"
+          <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="edit_AddressLine1"  name="addressLine1" minlength="2"
             maxlength="100" #Address1="ngModel" required>
           <md-hint *ngIf="Address1.touched">
             <span class="errorText" [hidden]="!Address1.errors">Address is required</span>
@@ -438,7 +438,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address Line 2" [(ngModel)]="edit_AddressLine2"  name="addressLine2" minlength="2"
+          <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="edit_AddressLine2"  name="addressLine2" minlength="2"
             maxlength="100" #Address2="ngModel">
         </md-input-container>
       </div>

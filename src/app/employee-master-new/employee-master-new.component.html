@@ -371,7 +371,7 @@
                     <div class="clearfix"></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput allowText="addressValidator" placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" maxlength="50"
+                            <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" maxlength="50"
                                 #currentAddress1="ngModel">
                             <md-hint *ngIf="currentAddress1.touched">
                                 <span class="errorText" [hidden]="!currentAddress1.errors">Address is required</span>
@@ -380,7 +380,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput allowText="addressValidator" placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" maxlength="50"
+                            <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" maxlength="50"
                                 #currentAddress2="ngModel">
                             <md-hint *ngIf="currentAddress2.touched">
                                 <span class="errorText" [hidden]="!currentAddress2.errors">Address is required</span>
@@ -433,7 +433,7 @@
                     <div class="clearfix"></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput allowText="addressValidator" placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1" maxlength="50"
+                            <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1" maxlength="50"
                                 #permanentAddress1="ngModel">
                             <md-hint *ngIf="permanentAddress1.touched">
                                 <span class="errorText" [hidden]="!permanentAddress1.errors">Address is required</span>
@@ -442,7 +442,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput allowText="addressValidator" placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2" maxlength="50"
+                            <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2" maxlength="50"
                                 #permanentAddress2="ngModel">
                             <md-hint *ngIf="permanentAddress2.touched">
                                 <span class="errorText" [hidden]="!permanentAddress2.errors">Address is required</span>

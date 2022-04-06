@@ -279,6 +279,13 @@ import { FetosenseTestMasterComponent } from './fetosense-test-master/fetosense-
 import { DeviceIdMasterComponent} from './device-id-master/device-id-master.component';
 import { FetosenseDeviceIdMasterService } from './services/ProviderAdminServices/fetosense-device-id-master-service.service';
 import { VanDeviceIdMappingComponent } from './van-device-id-mapping/van-device-id-mapping.component';
+import { userNameDirective } from './directives/userName/userName.directive';
+import { textareaDirective } from './directives/textarea/textArea.directive';
+import { SmsTemplateDirective } from './directives/smsTemplate/smsTemplate.directive';
+import { QuestionnaireDirective } from './directives/questionnaire/questionnaire.directive';
+import { itemNameMasterDirective } from './directives/itemNameMaster/itemNameMaster.directive';
+import { InputAreaDirective } from './directives/Inputfeild/inputFeild.directive';
+import { AnswerDirective } from './directives/answer/answer.directive';
 
 @NgModule({
   declarations: [
@@ -359,7 +366,14 @@ import { VanDeviceIdMappingComponent } from './van-device-id-mapping/van-device-
     CalibrationMasterComponent,
     FetosenseTestMasterComponent,
     DeviceIdMasterComponent,
-    VanDeviceIdMappingComponent
+    VanDeviceIdMappingComponent,
+    userNameDirective,
+    textareaDirective,
+    SmsTemplateDirective,
+    QuestionnaireDirective,
+    itemNameMasterDirective,
+    InputAreaDirective,
+    AnswerDirective   
   
    
   
