@@ -114,23 +114,7 @@ export class HospitalMasterComponent implements OnInit {
         this.fileList = ev.target.files;
         this.file = ev.target.files[0];
 
-        let workBook = null;
-    this.jsonData = null;
-    const reader = new FileReader();
-    
-    reader.onload = (event) => {
-      const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
-      this.jsonData = workBook.SheetNames.reduce((initial, name) => {
-        const sheet = workBook.Sheets[name];
-        initial[name] = XLSX.utils.sheet_to_json(sheet);
-        return initial;
-      }, {});
-     // this.dataString = JSON.stringify(jsonData.Sheet1);
-     
-    }
-    this.enableUPloadButton=false;
-    reader.readAsBinaryString(this.file);
+       
     
         //this.file = undefined;
         if (this.fileList.length == 0) {
@@ -161,6 +145,26 @@ export class HospitalMasterComponent implements OnInit {
                 this.error1 = false;
                 this.error2 = false;
                 this.invalid_file_flag = false;
+                this.inValidFileName = false;
+
+                let workBook = null;
+                this.jsonData = null;
+                const reader = new FileReader();
+                
+                reader.onload = (event) => {
+                  const data = reader.result;
+                  workBook = XLSX.read(data, { type: 'binary' });
+                  this.jsonData = workBook.SheetNames.reduce((initial, name) => {
+                    const sheet = workBook.Sheets[name];
+                    initial[name] = XLSX.utils.sheet_to_json(sheet);
+                    return initial;
+                  }, {});
+                 // this.dataString = JSON.stringify(jsonData.Sheet1);
+                 
+                }
+                this.enableUPloadButton=false;
+                reader.readAsBinaryString(this.file);
+                
                 const myReader: FileReader = new FileReader();
                 myReader.onloadend = this.onLoadFileCallback.bind(this)
                 myReader.readAsDataURL(this.file);
