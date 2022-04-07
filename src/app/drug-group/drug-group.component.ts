@@ -128,7 +128,7 @@ export class DrugGroupComponent implements OnInit {
       this.drugGroupObj.drugGroup = values.drugGroup.trim();
       this.drugGroupObj.drugGroupDesc = values.drugGroupDesc.trim();
 
-      this.drugGroupObj.serviceProviderID = this.service_provider_id;
+      this.drugGroupObj.serviceProviderID = this.service_provider_id.trim;
       this.drugGroupObj.createdBy = this.createdBy;
       this.checkDuplicates(this.drugGroupObj);
   }
@@ -213,9 +213,9 @@ export class DrugGroupComponent implements OnInit {
     this.stateID = "";
   }
   editDrugGroup(drug) {
-    this.drugGroupID = drug.drugGroupID;
-    this.drugGroup = drug.drugGroup
-    this.drugGroupDesc = drug.drugGroupDesc;
+    this.drugGroupID = drug.drugGroupID.trim();
+    this.drugGroup = drug.drugGroup.trim();
+    this.drugGroupDesc = drug.drugGroupDesc.trim();
     //this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
     this.drugGroupToEdit = drug.drugGroup;
@@ -229,9 +229,9 @@ export class DrugGroupComponent implements OnInit {
 
     else {
       this.dataObj = {};
-      this.dataObj.drugGroupID = this.drugGroupID;
+      this.dataObj.drugGroupID = this.drugGroupID.trim();
       this.dataObj.drugGroup = drugGroup.drugGroup.trim();
-      this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc;
+      this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc.trim();
       //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
       this.dataObj.modifiedBy = this.createdBy;
       this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => {

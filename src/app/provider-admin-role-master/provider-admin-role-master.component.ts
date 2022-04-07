@@ -309,7 +309,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     }
     let obj = {
       'roleName': role.trim(),
-      'roleDesc': desc,
+      'roleDesc': desc.trim(),
       'screenID': screenIDs,
       'screen_name': screenNames,
       'createdBy': this.commonDataService.uname,
@@ -402,8 +402,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   saveEditChanges() {
     let obj = {
       'roleID': this.toBeEditedRoleObj.roleID,
-      'roleName': this.role,
-      'roleDesc': this.description,
+      'roleName': this.role.trim(),
+      'roleDesc': this.description.trim(),
       // "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
       'sRSMappingID': this.sRSMappingID,
       'screenID': this.editedFeatureID,

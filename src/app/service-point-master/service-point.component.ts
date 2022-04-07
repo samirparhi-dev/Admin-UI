@@ -228,8 +228,8 @@ export class ServicePointComponent implements OnInit {
     servicePointList: any = [];
     addServicePointToList(values) {
         this.servicePointObj = {};
-        this.servicePointObj.servicePointName = values.servicePointName;
-        this.servicePointObj.servicePointDesc = values.servicePointDesc;
+        this.servicePointObj.servicePointName = values.servicePointName.trim();
+        this.servicePointObj.servicePointDesc = values.servicePointDesc.trim();
         this.servicePointObj.countryID = this.countryID;
 
         if (this.searchStateID != undefined) {
@@ -245,7 +245,7 @@ export class ServicePointComponent implements OnInit {
             this.servicePointObj.districtBlockID = values.talukID.districtBlockID;
             this.servicePointObj.districtBlockName = values.talukID.districtBlockName;
         }
-        this.servicePointObj.servicePointHQAddress = values.areaHQAddress;
+        this.servicePointObj.servicePointHQAddress = values.areaHQAddress.trim();
         if (this.parking_Place != undefined) {
             this.servicePointObj.parkingPlaceID = this.parking_Place.parkingPlaceID;
             this.servicePointObj.parkingPlaceName = this.parking_Place.parkingPlaceName
@@ -358,10 +358,10 @@ export class ServicePointComponent implements OnInit {
         this.editServicePointValue = spoint;
         this.providerServiceMapID = this.searchStateID.providerServiceMapID;
         this.servicePointID = spoint.servicePointID;
-        this.servicePointName = spoint.servicePointName;
-        this.servicePointDesc = spoint.servicePointDesc;
+        this.servicePointName = spoint.servicePointName.trim();
+        this.servicePointDesc = spoint.servicePointDesc.trim();
         this.parking_Place.parkingPlaceName = spoint.parkingPlaceName;
-        this.areaHQAddress = spoint.servicePointHQAddress;
+        this.areaHQAddress = spoint.servicePointHQAddress.trim();
         console.log("talukID", this.talukID);
         this.getDistricts(this.zoneID.zoneID);
         this.GetTaluks(spoint.parkingPlaceID, spoint.districtID);
@@ -369,11 +369,11 @@ export class ServicePointComponent implements OnInit {
     updateServicePoints(formValues) {
         let obj = {
             "servicePointID": this.servicePointID,
-            "servicePointName": formValues.servicePointName,
-            "servicePointDesc": formValues.servicePointDesc,
+            "servicePointName": formValues.servicePointName.trim(),
+            "servicePointDesc": formValues.servicePointDesc.trim(),
             "providerServiceMapID": this.searchStateID.providerServiceMapID,
             "districtID": formValues.district ? formValues.district.districtID : formValues.district,
-            "servicePointHQAddress": formValues.areaHQAddress,
+            "servicePointHQAddress": formValues.areaHQAddress.trim(),
             "districtBlockID": formValues.talukID ? formValues.talukID.districtBlockID : formValues.talukID,
             "modifiedBy": this.createdBy
         }

@@ -120,7 +120,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="!editMode">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address1" maxlength="100" ngModel minlength="3" name="address1" [(ngModel)]="address1" required
+          <input mdInput myAddress  placeholder="Address1" maxlength="100" ngModel minlength="3" name="address1" [(ngModel)]="address1" required
             #address="ngModel">
           <md-hint *ngIf="address.errors && address.touched">
             <span class="errorText">Enter minimum 3 characters</span>
@@ -129,12 +129,12 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="!editMode">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address2" maxlength="100" ngModel name="address2" [(ngModel)]="address2">
+          <input mdInput myAddress  placeholder="Address2" maxlength="100" ngModel name="address2" [(ngModel)]="address2">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-10" *ngIf="editMode">
         <md-input-container class="width100">
-          <input mdInput allowText="addressValidator" placeholder="Address" minlength="3" maxlength="100" ngModel name="address" [(ngModel)]="primaryAddress" #editAddress="ngModel">
+          <input mdInput myAddress  placeholder="Address" minlength="3" maxlength="100" ngModel name="address" [(ngModel)]="primaryAddress" #editAddress="ngModel">
           <md-hint class="errorText" *ngIf="editAddress.errors && editAddress.touched">Enter minimum 3 characters
           </md-hint>
         </md-input-container>

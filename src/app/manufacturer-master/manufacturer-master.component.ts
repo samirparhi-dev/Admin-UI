@@ -208,8 +208,8 @@ export class ManufacturerMasterComponent implements OnInit {
     this.edit_contactPerson = editformvalues.contactPerson;
     this.edit_status = editformvalues.status;
     this.edit_cstNo = editformvalues.cST_GST_No;
-    this.edit_AddressLine1 = editformvalues.addressLine1;
-    this.edit_AddressLine2 = editformvalues.addressLine2;
+    this.edit_AddressLine1 = editformvalues.addressLine1.trim();
+    this.edit_AddressLine2 = editformvalues.addressLine2.trim();
     this.edit_permanentstate = editformvalues.stateID;
     this.edit_Country = editformvalues.countryID;
     this.edit_District = editformvalues.districtID;

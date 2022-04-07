@@ -130,7 +130,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                 <md-input-container class="width100">
-                    <input required mdInput allowText="addressValidator" placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #parkingPlaceAddress="ngModel"
+                    <input required mdInput myAddress  placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #parkingPlaceAddress="ngModel"
                         minlength="2" maxlength="300">
                     <md-hint [hidden]=parkingPlaceAddress.valid>
                         <span class="error_text" *ngIf="!parkingPlaceAddress.required  && ( parkingPlaceAddress.dirty || parkingPlaceAddress.touched)">Address is required</span>

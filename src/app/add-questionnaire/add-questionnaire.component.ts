@@ -289,7 +289,7 @@ this.questionnaire_service.saveQuestionnaire(postQuestionList)
         "questionnaireDetail": {
           "questionTypeID":this.questiontypeID,
           "questionType": this.questiontype,
-          "question": question.questionName,
+          "question": question.questionName.trim(),
           "questionRank": question.questionRank,
           "questionWeightage": question.questionWeight,
           "answerType": question.answerType,

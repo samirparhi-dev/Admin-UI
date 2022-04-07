@@ -11,7 +11,7 @@ export class myAddress {
 
 
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!`@$%^&*()={};'"\\|<>?]*$/);
+		var regex = new RegExp(/^[~!`@$%^&*()={}_+;':"\\|<>?]*$/);
 		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
 		if (regex.test(key)) {
 			ev.preventDefault();
