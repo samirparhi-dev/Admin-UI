@@ -242,7 +242,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       "serviceID": this.providerServiceMapIDs,
       // "providerServiceMapID": this.providerServiceMapID,
       "districtID": this.district,
-      "locationName": this.OfficeID.trim(),
+      "locationName": this.OfficeID ? this.OfficeID.trim() : null, 
       "address": this.office_address1.trim() + "," + this.office_address2.trim(),
       "createdBy": this.commonDataService.uname
     }

@@ -17,6 +17,17 @@ export class myName {
 		}
 	}
 
+	 @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
 
@@ -36,7 +47,17 @@ export class myName2 {
 			ev.preventDefault();
 		}
 	}
+ @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    e.preventDefault();
+  }
 
+  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+    e.preventDefault();
+  }
+
+  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+    e.preventDefault();
+  }
 
 }
 
@@ -57,6 +78,18 @@ export class agentID_one {
 			ev.preventDefault();
 		}
 	}
+
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 }
 
 @Directive({
@@ -76,6 +109,17 @@ export class agentID_two {
 			ev.preventDefault();
 		}
 	}
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 }
 
 @Directive({
@@ -94,6 +138,17 @@ export class myProviderName {
 			ev.preventDefault();
 		}
 	}
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 
 }
@@ -114,6 +169,17 @@ export class PAN {
 			ev.preventDefault();
 		}
 	}
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 
 }
@@ -134,7 +200,17 @@ export class VehicleNO {
 			ev.preventDefault();
 		}
 	}
-
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
 @Directive({
@@ -154,7 +230,17 @@ export class VehicleNONew {
 			ev.preventDefault();
 		}
 	}
-
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
 @Directive({
@@ -174,7 +260,17 @@ export class measuringUnit {
 			ev.preventDefault();
 		}
 	}
-
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
 
@@ -195,7 +291,17 @@ export class DLNO {
 			ev.preventDefault();
 		}
 	}
-
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
 

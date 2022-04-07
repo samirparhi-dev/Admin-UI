@@ -641,7 +641,7 @@ export class HospitalMasterComponent implements OnInit {
             "stateID": this.state,
             "districtID": this.district,
             "blockID": checkTalukValue,
-            "address": this.address.trim(),
+            "address": this.address ? this.address.trim(): null,
             "contactPerson1": this.contact_person_name,
             "contactPerson1_Email": this.emailID,
             "contactNo1": this.contact_number,
@@ -798,7 +798,7 @@ export class EditHospitalModal {
         let edit_request_obj = {
             "institutionID": this.data.institutionID,
             "institutionName": this.institutionName,
-            "address": this.address.trim(),
+            "address": this.address ? this.address.trim(): null,
             "contactPerson1": this.contact_person_name,
             "contactPerson1_Email": this.emailID,
             "contactNo1": this.contact_number,
