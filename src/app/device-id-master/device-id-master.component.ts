@@ -220,7 +220,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     if (response) {
       let obj = {
         "VfdID":  data.VfdID,
-        "deviceName":  data.deviceName.trim(),
+        "deviceName": data.deviceName ? data.deviceName.trim() : null,
         "deviceID": data.deviceID,
         "vanID": data.vanID,
         "parkingPlaceID": data.parkingPlaceID,

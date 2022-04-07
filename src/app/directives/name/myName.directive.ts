@@ -17,7 +17,7 @@ export class myName {
 		}
 	}
 
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+	 @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
 		e.preventDefault();
 	  }
 	

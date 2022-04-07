@@ -169,8 +169,8 @@ export class FetosenseTestMasterComponent implements OnInit {
       });
     }
     editTest(roleObj) {
-      this.test= roleObj.testName.trim();
-      this.description = roleObj.testDesc.trim();
+      this.test= roleObj.testName;
+      this.description = roleObj.testDesc;
       this.saveTest = false;
       this.updateTest = true;
       this.addButton= false;
@@ -185,7 +185,7 @@ export class FetosenseTestMasterComponent implements OnInit {
       let fetosenseTest = {
         "fetosenseTestID": this.fetosenseTestID,
         'testName': this.test.trim(),
-        'testDesc': this.description.trim(),
+        'testDesc': this.description ? this.description.trim(): null,
         'createdBy': this.commonDataService.uname,
         'providerServiceMapID': this.providerServiceMapID
       }

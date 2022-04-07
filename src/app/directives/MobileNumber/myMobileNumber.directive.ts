@@ -56,8 +56,8 @@ export class myMobileNumber {
 			ev.preventDefault();
 		}
 	}
-	
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+
+	 @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
 		e.preventDefault();
 	  }
 	

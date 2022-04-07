@@ -139,7 +139,7 @@ export class ZoneComponent implements OnInit {
     this.zoneObj.stateID = this.state.stateID;
     this.zoneObj.stateName = this.state.stateName;
 
-    this.zoneObj.zoneHQAddress = values.zoneHQAddress.trim();
+    this.zoneObj.zoneHQAddress = values.zoneHQAddress;
     this.zoneObj.providerServiceMapID = this.providerServiceMapID;
     this.zoneObj.createdBy = this.createdBy;
     this.checkDuplicates(this.zoneObj);
@@ -239,7 +239,7 @@ export class ZoneComponent implements OnInit {
     this.zoneID = zone.zoneID;
     this.zoneName = zone.zoneName
     this.zoneDesc = zone.zoneDesc;
-    this.zoneHQAddress = zone.zoneHQAddress.trim();
+    this.zoneHQAddress = zone.zoneHQAddress;
 
   }
 
@@ -248,7 +248,7 @@ export class ZoneComponent implements OnInit {
     this.dataObj.zoneID = this.zoneID;
     this.dataObj.zoneName = this.zoneName;
     this.dataObj.zoneDesc = this.zoneDesc;
-    this.dataObj.zoneHQAddress = this.zoneHQAddress.trim();
+    this.dataObj.zoneHQAddress = this.zoneHQAddress;
     this.dataObj.serviceID = this.service.serviceID;
     this.dataObj.stateID = this.state.stateID;
     this.dataObj.modifiedBy = this.createdBy;
