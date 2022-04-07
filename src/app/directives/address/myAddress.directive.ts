@@ -11,13 +11,24 @@ export class myAddress {
 
 
 	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!`@$%^&*()={}_+;':"\\|<>?]*$/);
+		var regex = new RegExp(/^[~!@$%^&*()_+\=\[\]{};"`':'\\|<>\?]*$/);
 		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
 		if (regex.test(key)) {
 			ev.preventDefault();
 		}
 	}
 
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	@HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+	e.preventDefault();
+	}
+
+	@HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+	e.preventDefault();
+	}
 
 }
 @Directive({
@@ -37,6 +48,16 @@ export class myUserName {
 			ev.preventDefault();
 		}
 	}
-
+	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
+	
+	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+		e.preventDefault();
+	  }
 
 }
