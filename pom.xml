@@ -4,11 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<!-- @Author : Sunil K Sundaram @Date : 21-May-17 @Email : sunil.ks@gmail.com -->
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.iemr.adminui</groupId>
+<groupId>com.iemr.adminui</groupId>
 	<artifactId>admin-ui</artifactId>
 	<version>1.0</version>
 	<name>admin-ui</name>
 	<description>Piramal - admin: Module ui</description>
+	
 	<packaging>war</packaging>
 	<profiles>
 		<profile>
@@ -34,14 +35,14 @@
 			<id>local</id>
 			<properties>
 				<old-api-url>10.208.122.38</old-api-url>
-				<new-api-url>localhost</new-api-url>
+                <new-api-url>localhost</new-api-url>
 				<environment>local</environment>
 			</properties>
 		</profile>
 		<profile>
 			<id>test</id>
 			<properties>
-				<old-api-url>10.208.122.32</old-api-url>
+				<old-api-url>10.208.122.38</old-api-url>
 				<new-api-url>10.208.122.38</new-api-url>
 				<environment>test</environment>
 			</properties>
@@ -53,10 +54,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final-name>adminui-v1.0</final-name>
 		<hostname-dev>10.208.122.32</hostname-dev>
-		<port-dev>9990</port-dev>
+        <port-dev>9990</port-dev>
 		<hostname-local>localhost</hostname-local>
 		<port-local>9990</port-local>
-		<hostname-test>10.208.122.38</hostname-test>
+     	<hostname-test>10.208.122.38</hostname-test>
 		<port-test>9990</port-test>
 		<hostname-uat>deviemr.piramalswasthya.org</hostname-uat>
 		<port-uat>9990</port-uat>
@@ -101,42 +102,37 @@
 								<echo>exec-dir: ${project.build.directory}</echo>
 							</tasks>
 							<executable>npm</executable>
-							<!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory> -->
 							<arguments>
 								<argument>install</argument>
 								<!-- use save-dev or save if you understand the consequences, else -->
 								<!-- please leave them alone & add appropriate npm dependencies in 
 									package.json -->
-								<!-- <argument></argument> -->
 							</arguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>running ng build --${environment}</id>
+						<id>running ng build --prod</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
 							<tasks>
-								<echo>running ng build --${environment} ---> ${build.timestamp}</echo>
+								<echo>running ng build --prod ---> ${build.timestamp}</echo>
 								<echo>exec-dir: ${project.build.directory}</echo>
 								<echo>dist-dir: ${project.build.outputDirectory}</echo>
 							</tasks>
 							<!-- incase working dir is different use below -->
-							<!--<workingDirectory>${basedir}/${ui-base-dir}</workingDirectory> -->
-							<!--<executable>C:\Users\kmuser\AppData\Roaming\npm\ng.cmd</executable> -->
 							<executable>npm</executable>
 							<arguments>
 								<argument>run</argument>
-								<argument>build-${environment}</argument>
+								<argument>build-prod</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions> 
 			</plugin>
 			<!-- use following incase resources from other dirs -->
-			<!--<plugin><artifactId>maven-resources-plugin</artifactId><version>2.6</version><executions><execution><id>copy-resources</id><phase>package</phase><goals><goal>copy-resources</goal></goals><configuration><outputDirectory>${basedir}/target/WEB-INF</outputDirectory><resources><resource><directory>dist</directory><filtering>true</filtering></resource></resources></configuration></execution></executions></plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -166,7 +162,7 @@
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>dist</directory>							
+							<directory>dist</directory>
 						</resource>
 						<resource>		
 							<filtering>true</filtering>					
@@ -219,7 +215,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 </project>
