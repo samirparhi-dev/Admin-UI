@@ -4,6 +4,8 @@ import { dataService } from '../services/dataService/data.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogsService } from './../services/dialog/confirmation.service';
 import { HttpServices } from "../services/http-services/http_services.service";
+import { Subscription } from 'rxjs/Subscription';
+import { InterceptedHttp } from 'app/http.interceptor';
 
 @Component({
   selector: 'login-component',
@@ -22,14 +24,22 @@ export class loginContentClass implements OnInit {
   commitDetailsPath: any = "assets/git-version.json";
   version: any;
   commitDetails: any;
+  logoutUserFromPreviousSessionSubscription: Subscription;
 
   constructor(public loginservice: loginService,
     public router: Router,
     private alertMessage: ConfirmationDialogsService,
     public dataSettingService: dataService,
-    public HttpServices: HttpServices) { };
+    public HttpServices: HttpServices,
+    private httpService: InterceptedHttp) { };
 
   ngOnInit() {
+    this.httpService.dologoutUsrFromPreSession(false);
+    this.logoutUserFromPreviousSessionSubscription = this.httpService.logoutUserFromPreviousSessions$.subscribe((logoutUser) => {
+      if(logoutUser) {
+        this.login(this.userID, this.password, true);
+      }
+    })
     if (localStorage.getItem('authToken')) {
       this.loginservice.checkAuthorisedUser().subscribe((response) => this.gotLoginRes(response),
         (err) => console.log('Getting login response through auth token failed' + err));
@@ -46,9 +56,9 @@ export class loginContentClass implements OnInit {
       this.successCallback(res);
     }
   }
-  login(userId: any, password: any) {
+  login(userId: any, password: any, doLogout) {
     if (userId.toLowerCase() === 'SUPERADMIN'.toLowerCase()) {
-      this.loginservice.superAdminAuthenticate(userId, password)
+      this.loginservice.superAdminAuthenticate(userId, password, doLogout)
         .subscribe(response => {
           if (response.isAuthenticated) {
             if (response.previlegeObj.length === 0) {
@@ -71,7 +81,7 @@ export class loginContentClass implements OnInit {
         });
 
     } else {
-      this.loginservice.authenticateUser(userId, password).subscribe(
+      this.loginservice.authenticateUser(userId, password, doLogout).subscribe(
         (response: any) => {
           localStorage.setItem('authToken', response.key);
           this.successCallback(response);
@@ -162,5 +172,11 @@ export class loginContentClass implements OnInit {
   successhandeler1(response) {
     this.commitDetails = response;
     this.version = this.commitDetails['version']
+  }
+
+  ngOnDestroy() {
+    if (this.logoutUserFromPreviousSessionSubscription) {
+      this.logoutUserFromPreviousSessionSubscription.unsubscribe();
+    }
   }
 }
