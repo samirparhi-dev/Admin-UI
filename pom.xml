@@ -16,7 +16,7 @@
 			<id>dev</id>
 			<properties>
 				<old-api-url>10.208.122.38</old-api-url>
-				<new-api-url>10.208.122.32</new-api-url>
+				<new-api-url>10.208.122.38</new-api-url>
 				<environment>dev</environment>
 			</properties>
 			<activation>
@@ -53,7 +53,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final-name>adminui-v1.0</final-name>
-		<hostname-dev>10.208.122.32</hostname-dev>
+		<hostname-dev>10.208.122.38</hostname-dev>
         <port-dev>9990</port-dev>
 		<hostname-local>localhost</hostname-local>
 		<port-local>9990</port-local>
