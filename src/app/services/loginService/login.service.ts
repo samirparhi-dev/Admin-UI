@@ -37,8 +37,8 @@ export class loginService {
 		this.getServiceProviderID_url = this.admin_base_path + "getServiceProviderid";
 	}
 
-	public authenticateUser = function (uname: any, pwd: any) {
-		return this._httpInterceptor.post(this.newlogin, { 'userName': uname.toLowerCase(), 'password': pwd })
+	public authenticateUser = function (uname: any, pwd: any, doLogout: any) {
+		return this._httpInterceptor.post(this.newlogin, { 'userName': uname.toLowerCase(), 'password': pwd, 'doLogout': doLogout })
 			.map(this.extractData)
 			.catch(this.handleError);
 	};
@@ -47,8 +47,8 @@ export class loginService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
-	superAdminAuthenticate(uname, pwd) {
-		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd })
+	superAdminAuthenticate(uname, pwd, doLogout) {
+		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd, 'doLogout': doLogout })
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
