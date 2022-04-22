@@ -42,7 +42,7 @@
 		<profile>
 			<id>test</id>
 			<properties>
-				<old-api-url>10.208.122.32</old-api-url>
+				<old-api-url>10.208.122.38</old-api-url>
 				<new-api-url>10.208.122.38</new-api-url>
 				<environment>test</environment>
 			</properties>
