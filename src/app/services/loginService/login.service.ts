@@ -17,6 +17,7 @@ export class loginService {
 	redis_session_removal_url = this._baseURL + 'user/userLogout';
 
 	superadmin_auth_url = this._baseURL + 'user/superUserAuthenticate';
+	userLogoutPreviousSessionURL = this._baseURL + 'user/logOutUserFromConcurrentSession';
 	_forgotPasswordURL = this._baseURL + "user/forgetPassword/";
 	_validateSecurityQuestionAndAnswerURL = this._baseURL + "user/validateSecurityQuestionAndAnswer/"
 	_getTransactionIdForChangePasswordURL = this._baseURL + "user/getTransactionIdForChangePassword/"
@@ -49,6 +50,12 @@ export class loginService {
 	}
 	superAdminAuthenticate(uname, pwd, doLogout) {
 		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd, 'doLogout': doLogout })
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	userLogOutFromPreviousSession(uname) {
+		return this._httpInterceptor.post(this.userLogoutPreviousSessionURL, { 'userName': uname.toLowerCase() })
 			.map(this.extractData)
 			.catch(this.handleError);
 	}

@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     , private authService: AuthService) { }
 
   canActivate(route, state) {
-    const authkey = localStorage.getItem('authToken');
+    const authkey = sessionStorage.getItem('authToken');
 
     if (authkey) {
       return true;

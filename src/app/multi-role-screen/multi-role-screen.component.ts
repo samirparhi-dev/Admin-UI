@@ -96,7 +96,7 @@ export class MultiRoleScreenComponent implements OnInit {
       .subscribe(response => {
         if (response.response.toLowerCase() === 'success'.toLowerCase()) {
           console.log('successfully logged out from CRM and session ended both sides');
-          localStorage.removeItem('authToken');
+          sessionStorage.removeItem('authToken');
           this.router.navigate([""]);
         }
       }, err => {

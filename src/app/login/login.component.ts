@@ -37,10 +37,10 @@ export class loginContentClass implements OnInit {
     this.httpService.dologoutUsrFromPreSession(false);
     this.logoutUserFromPreviousSessionSubscription = this.httpService.logoutUserFromPreviousSessions$.subscribe((logoutUser) => {
       if(logoutUser) {
-        this.login(this.userID, this.password, true);
+        this.loginUser(true);
       }
     })
-    if (localStorage.getItem('authToken')) {
+    if (sessionStorage.getItem('authToken')) {
       this.loginservice.checkAuthorisedUser().subscribe((response) => this.gotLoginRes(response),
         (err) => console.log('Getting login response through auth token failed' + err));
     }
@@ -63,7 +63,7 @@ export class loginContentClass implements OnInit {
           if (response.isAuthenticated) {
             if (response.previlegeObj.length === 0) {
               console.log(response, 'SUPERADMIN VALIDATED');
-              localStorage.setItem('authToken', response.key);
+              sessionStorage.setItem('authToken', response.key);
               this.dataSettingService.Userdata = { 'userName': 'Super Admin' };
               this.dataSettingService.role = 'SUPERADMIN';
               this.dataSettingService.uname = 'Super Admin';
@@ -83,7 +83,7 @@ export class loginContentClass implements OnInit {
     } else {
       this.loginservice.authenticateUser(userId, password, doLogout).subscribe(
         (response: any) => {
-          localStorage.setItem('authToken', response.key);
+          sessionStorage.setItem('authToken', response.key);
           this.successCallback(response);
         },
         (error: any) => {
@@ -93,6 +93,55 @@ export class loginContentClass implements OnInit {
     }
 
   };
+
+  loginUser(doLogOut) {
+    this.loginservice
+    .userLogOutFromPreviousSession(this.userID)
+    .subscribe(
+      (userLogOutRes: any) => {
+      if(userLogOutRes && userLogOutRes.response) {
+        if (this.userID.toLowerCase() === 'SUPERADMIN'.toLowerCase()){
+          this.loginservice.superAdminAuthenticate(this.userID, this.password, doLogOut)
+          .subscribe(response => {
+            if (response.isAuthenticated) {
+              if (response.previlegeObj.length === 0) {
+                console.log(response, 'SUPERADMIN VALIDATED');
+                sessionStorage.setItem('authToken', response.key);
+                this.dataSettingService.Userdata = { 'userName': 'Super Admin' };
+                this.dataSettingService.role = 'SUPERADMIN';
+                this.dataSettingService.uname = 'Super Admin';
+                this.dataSettingService.uid = response.userID;
+                this.router.navigate(['/MultiRoleScreenComponent']);
+              } else {
+                this.alertMessage.alert('User is not super admin');
+              }
+  
+            }
+  
+          }, err => {
+            this.alertMessage.alert(err, 'error')
+            console.log(err, 'ERR while superadmin validation');
+          });  
+        }
+        else {
+
+        this.loginservice.authenticateUser(this.userID, this.password, doLogOut).subscribe(
+          (response: any) => {
+            sessionStorage.setItem('authToken', response.key);
+            this.successCallback(response);
+          },
+          (error: any) => {
+            this.errorCallback(error)
+            // this.alertMessage.alert(error, 'error');
+          });
+      }
+    }
+      else
+      {
+            this.alertMessage.alert(userLogOutRes.errorMessage, 'error');
+      }
+      });
+  }
 
   successCallback(response: any) {
     console.log(response);
@@ -130,7 +179,7 @@ export class loginContentClass implements OnInit {
     }
     if (response.isAuthenticated === true && response.Status === 'New') {
       this.status = 'new';
-      localStorage.setItem('authToken', response.key);
+      sessionStorage.setItem('authToken', response.key);
       this.router.navigate(['/setQuestions']);
     }
   };
