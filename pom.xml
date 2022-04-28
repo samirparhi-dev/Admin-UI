@@ -16,7 +16,7 @@
 			<id>dev</id>
 			<properties>
 				<old-api-url>10.208.122.38</old-api-url>
-				<new-api-url>10.208.122.32</new-api-url>
+				<new-api-url>10.208.122.38</new-api-url>
 				<environment>dev</environment>
 			</properties>
 			<activation>
@@ -53,7 +53,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final-name>adminui-v1.0</final-name>
-		<hostname-dev>10.208.122.32</hostname-dev>
+		<hostname-dev>10.208.122.38</hostname-dev>
         <port-dev>9990</port-dev>
 		<hostname-local>localhost</hostname-local>
 		<port-local>9990</port-local>
@@ -111,14 +111,14 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>running ng build --prod</id>
+						<id>running ng build --${environment}</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
 							<tasks>
-								<echo>running ng build --prod ---> ${build.timestamp}</echo>
+								<echo>running ng build --${environment} ---> ${build.timestamp}</echo>
 								<echo>exec-dir: ${project.build.directory}</echo>
 								<echo>dist-dir: ${project.build.outputDirectory}</echo>
 							</tasks>
@@ -126,7 +126,7 @@
 							<executable>npm</executable>
 							<arguments>
 								<argument>run</argument>
-								<argument>build-prod</argument>
+								<argument>build-${environment}</argument>
 							</arguments>
 						</configuration>
 					</execution>
