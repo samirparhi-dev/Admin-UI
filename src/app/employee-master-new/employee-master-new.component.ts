@@ -637,8 +637,8 @@ export class EmployeeMasterNewComponent implements OnInit {
 
   addressCheck(value) {
     if (value.checked) {
-      this.permanentAddressLine1 = this.currentAddressLine1.trim() ? this.currentAddressLine1.trim() : null;
-      this.permanentAddressLine2 = this.currentAddressLine2.trim() ? this.currentAddressLine2.trim() : null;
+      this.permanentAddressLine1 = this.currentAddressLine1;
+      this.permanentAddressLine2 = this.currentAddressLine2;
       this.permanentState = this.currentState;
       this.permanentDistrict = this.currentDistrict;
       this.getPermanentDistricts(this.currentState);

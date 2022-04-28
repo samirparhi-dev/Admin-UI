@@ -14,13 +14,13 @@ export class AuthService {
 
     public getToken(): string {
         let authToken = '';
-        if (localStorage.getItem('authToken')) {
-            authToken = localStorage.getItem('authToken');
+        if (sessionStorage.getItem('authToken')) {
+            authToken = sessionStorage.getItem('authToken');
         }
         return authToken;
     }
     public removeToken() {
-        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('authToken');
     }
     public isAuthenticated(): boolean {
         // get the token
