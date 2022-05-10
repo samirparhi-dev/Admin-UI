@@ -154,7 +154,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       'primaryContactName': form_value.contact_person,
       'primaryContactNo': form_value.contact_number,
       'primaryContactEmailID': form_value.email,
-      'primaryContactAddress': form_value.address1.trim() + (form_value.address2 === undefined ? "" : ',' + form_value.address2.trim()),
+      'primaryContactAddress': ((form_value.address1 !== undefined && form_value.address1 !== null) ? form_value.address1.trim() : "") + (form_value.address2 === undefined ? "" : ',' + form_value.address2.trim()),
       'statusID': '2',
       'validFrom': new Date(this.validFrom - 1 * (this.validFrom.getTimezoneOffset() * 60 * 1000)),
       'validTill': new Date(valid_till.valueOf() - 1 * (valid_till.getTimezoneOffset() * 60 * 1000)),
@@ -249,7 +249,7 @@ export class ServiceProviderMasterComponent implements OnInit {
     this.primaryName = row.primaryContactName;
     this.primaryNumber = row.primaryContactNo;
     this.primaryEmail = row.primaryContactEmailID;
-    this.primaryAddress = row.primaryContactAddress.trim();
+    this.primaryAddress = (row.primaryContactAddress !== undefined && row.primaryContactAddress !== null) ? row.primaryContactAddress.trim() : null;
 
     this.validFrom = new Date(row.validFrom);
     this.validTill = new Date(row.validTill);
@@ -263,7 +263,7 @@ export class ServiceProviderMasterComponent implements OnInit {
       'primaryContactName': form_value.contact_person,
       'primaryContactNo': form_value.contact_number,
       'primaryContactEmailID': form_value.email,
-      'primaryContactAddress': form_value.address.trim(),
+      'primaryContactAddress': (form_value.address !== undefined && form_value.address !== null) ? form_value.address.trim() : null,
       'validTill': new Date(form_value.valid_till - 1 * (form_value.valid_till.getTimezoneOffset() * 60 * 1000)),
       'modifiedBy': this.createdBy
     }

@@ -242,8 +242,9 @@ export class LocationServicelineMappingComponent implements OnInit {
       "serviceID": this.providerServiceMapIDs,
       // "providerServiceMapID": this.providerServiceMapID,
       "districtID": this.district,
-      "locationName": this.OfficeID ? this.OfficeID.trim() : null, 
-      "address": this.office_address1.trim() + "," + this.office_address2.trim(),
+      "locationName": (this.OfficeID !== undefined && this.OfficeID !== null) ? this.OfficeID.trim() : null, 
+      "address": ( (this.office_address1 !== undefined && this.office_address1 !== null) ? this.office_address1.trim() : this.office_address1) + "," + 
+                 ((this.office_address2 !== undefined && this.office_address2 !== null) ? this.office_address2.trim() : this.office_address2),
       "createdBy": this.commonDataService.uname
     }
 
@@ -258,8 +259,9 @@ export class LocationServicelineMappingComponent implements OnInit {
       // "serviceID": "6",
       "providerServiceMapID": this.providerServiceMapIDs,
       "districtID": this.district,
-      "locationName": this.OfficeID.trim(),
-      "address": this.office_address1.trim() + "," + this.office_address2.trim(),
+      "locationName": (this.OfficeID !== undefined && this.OfficeID !== null) ? this.OfficeID.trim() : null,
+      "address": ( (this.office_address1 !== undefined && this.office_address1 !== null) ? this.office_address1.trim() : this.office_address1) + "," + 
+      ((this.office_address2 !== undefined && this.office_address2 !== null) ? this.office_address2.trim() : this.office_address2),
       "createdBy": this.commonDataService.uname
     }
     let count = 0;
@@ -453,7 +455,7 @@ export class LocationServicelineMappingComponent implements OnInit {
     for (var i = 0; i < this.officeArray.length; i++) {
       let a = this.workLocations[i].locationName;
       console.log(value.trim(), "EDsdd");
-      if (a.trim().toLowerCase() == value.trim().toLowerCase()) {
+      if ( a !== undefined && a !== null && value !== undefined && value !== null && (a.trim().toLowerCase() == value.trim().toLowerCase())) {
         this.officeNameExist = true;
         this.msg = "Office name exists"
         break;
@@ -464,7 +466,7 @@ export class LocationServicelineMappingComponent implements OnInit {
       }
     }
 
-    if (value.trim().length == 0) {
+    if (value !== undefined && value !== null && (value.trim().length == 0)) {
       this.officeNameExist = true;
     }
   }
@@ -530,7 +532,8 @@ export class EditLocationModal {
     for (var i = 0; i < this.data.offices.length; i++) {
       let a = this.data.offices[i].locationName;
 
-      if (a.trim().toLowerCase() == value.trim().toLowerCase() && this.originalOfficeID.trim().toLowerCase() != a.trim().toLowerCase()) {
+      if ( a !== undefined && a !== null && value !== undefined && value !== null && this.originalOfficeID !== undefined && 
+        this.originalOfficeID !== null && (a.trim().toLowerCase() == value.trim().toLowerCase() && this.originalOfficeID.trim().toLowerCase() != a.trim().toLowerCase())) {
         this.officeNameExist = true;
         this.msg = "OfficeName exist for " + this.data.offices[i].serviceName;
         break;
@@ -541,7 +544,7 @@ export class EditLocationModal {
     }
 
 
-    if (value.trim().length == 0) {
+    if (value !== undefined && value !== null && value.trim().length == 0) {
       this.officeNameExist = true;
     }
   }
@@ -553,8 +556,8 @@ export class EditLocationModal {
 
         "pSAddMapID": this.data.toBeEditedOBJ.pSAddMapID,
         "providerServiceMapID": this.data.toBeEditedOBJ.providerServiceMapID,
-        "locationName": this.officeID.trim(),
-        "address": this.address.trim(),
+        "locationName": (this.officeID !== undefined && this.officeID !== null) ? this.officeID.trim() : null,
+        "address": (this.address !== undefined && this.address !== null) ? this.address.trim() : null,
         "districtID": this.data.toBeEditedOBJ.districtID,
         "createdBy": this.data.toBeEditedOBJ.CreatedBy
       }

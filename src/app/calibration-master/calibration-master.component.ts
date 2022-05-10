@@ -298,7 +298,7 @@ export class CalibrationMasterComponent implements OnInit {
   validateRole(stripcode) {
     var count = 0;
     for (let i = 0; i < this.searchresultarray.length; i++) {
-      if ((this.searchresultarray[i].stripCode).trim().toUpperCase() === stripcode.trim().toUpperCase()) {
+      if (this.searchresultarray[i].stripCode !== undefined && this.searchresultarray[i].stripCode !== null && stripcode !== undefined && stripcode !== null && ((this.searchresultarray[i].stripCode).trim().toUpperCase() === stripcode.trim().toUpperCase())) {
         count = count + 1;
       }
     }

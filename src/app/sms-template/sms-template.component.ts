@@ -278,7 +278,7 @@ state:any;
       'providerServiceMapID': this.providerServiceMapID,
       'smsParameterMaps': this.smsParameterMaps,
       'smsTemplate': form_values.smsTemplate,
-      'smsTemplateName': form_values.templateName.trim(),
+      'smsTemplateName': (form_values.templateName !== undefined && form_values.templateName !== null) ? form_values.templateName.trim() : null,
       'smsTypeID': form_values.smsType
     }
 

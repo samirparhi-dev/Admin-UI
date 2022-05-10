@@ -312,8 +312,8 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     obj['well_being'] = this.well_being;
     let count = 0;
     for (let a = 0; a < this.serviceList.length; a++) {
-      if (this.serviceList[a].categoryName.toLowerCase().trim() === obj['categoryName'].toLowerCase().trim()
-        && this.serviceList[a].subServiceID === obj['subServiceID']) {
+      if (this.serviceList[a].categoryName !== undefined && this.serviceList[a].categoryName !== null && this.serviceList[a].subServiceID !== undefined && this.serviceList[a].subServiceID !== null && obj['categoryName'] !== undefined && obj['categoryName'] !== null && (this.serviceList[a].categoryName.toLowerCase().trim() === obj['categoryName'].toLowerCase().trim()
+        && this.serviceList[a].subServiceID === obj['subServiceID'])) {
         count = count + 1;
       }
       // this.serviceList.push(obj);
@@ -364,9 +364,11 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
     // }
     let count = 0;
     for (let a = 0; a < this.serviceSubCatList.length; a++) {
-      if (this.serviceSubCatList[a].categoryID === obj['categoryID'] &&
+      if ( this.serviceSubCatList[a].subCategoryName !== undefined &&  this.serviceSubCatList[a].subCategoryName !== null && 
+        obj['subCategoryName'] !== undefined && obj['subCategoryName'] !== null && 
+        (this.serviceSubCatList[a].categoryID === obj['categoryID'] &&
         this.serviceSubCatList[a].subCategoryName.toLowerCase().trim() === obj['subCategoryName'].toLowerCase().trim()
-        && this.serviceSubCatList[a].subServiceID === obj['subServiceID']) {
+        && this.serviceSubCatList[a].subServiceID === obj['subServiceID'])) {
         count = count + 1;
       }
       // this.serviceList.push(obj);
@@ -813,7 +815,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
             if (subCategoriesExist != undefined && subCategoriesExist.length > 0) {
               this.subCategoryExist = true;
             }
-            else if (subCategoryName.trim().length == 0) {
+            else if (subCategoryName !== undefined && subCategoryName !== null && subCategoryName.trim().length == 0) {
               this.categoryExist = true;
             }
             else {

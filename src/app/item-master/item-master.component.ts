@@ -405,7 +405,7 @@ export class ItemMasterComponent implements OnInit {
       // "stateName": this.state.stateName,
       'isMedical': formValue.itemType,
       'itemCode': formValue.code,
-      'itemName': formValue.name.trim(),
+      'itemName': (formValue.name !== undefined && formValue.name !== null) ? formValue.name.trim() : null,
       'sctCode' : this.testsnomedCode,
       'sctTerm' : this.testSnomedName,
       'itemDesc': formValue.description,
@@ -446,7 +446,7 @@ export class ItemMasterComponent implements OnInit {
       // "stateName": this.state.stateName,
       'isMedical': formValue.itemType,
       'itemCode': formValue.code,
-      'itemName': formValue.name.trim(),
+      'itemName': ( formValue.name !== undefined &&  formValue.name !== null) ? formValue.name.trim() : null,
       'sctCode' : this.testsnomedCode,
       'sctTerm' : this.testSnomedName,
       'itemDesc': formValue.description,
@@ -890,7 +890,7 @@ export class EditItemMasterModal {
   edit() {
     this.itemType = this.data.isMedical;
     this.code = this.data.itemCode;
-    this.name = this.data.itemName.trim();
+    this.name = (this.data.itemName !== undefined && this.data.itemName !== null) ? this.data.itemName.trim() : null;
     this.category = this.data.itemCategoryID;
     this.dose = this.data.itemFormID;
     this.pharmacology = this.data.pharmCategoryID;
@@ -909,7 +909,7 @@ export class EditItemMasterModal {
     let updateItemObject = {
       "isMedical": this.itemType,
       "itemCode": this.code,
-      "itemName": this.name.trim(),
+      "itemName": (this.name !== undefined && this.name !== null) ? this.name.trim() : null,
       "itemDesc": this.description,
       "itemCategoryID": this.category,
       "itemFormID": this.dose,

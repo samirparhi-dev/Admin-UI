@@ -165,8 +165,8 @@ export class ManufacturerMasterComponent implements OnInit {
       "cST_GST_No": formvalues.cstNo,
       'providerServiceMapID': this.providerServiceMapID,
       'createdBy': this.createdBy,
-      "addressLine1": formvalues.addressLine1.trim(),
-      "addressLine2": formvalues.addressLine2 ? formvalues.addressLine2.trim() : null,
+      "addressLine1": (formvalues.addressLine1 !== undefined && formvalues.addressLine1 !== null) ? formvalues.addressLine1.trim() : null,
+      "addressLine2": (formvalues.addressLine2 !== undefined && formvalues.addressLine2 !== null) ? formvalues.addressLine2.trim() : null,
       "districtID": formvalues.district,
       "stateID": formvalues.state.stateID,
       "countryID": formvalues.country.countryID,
@@ -208,8 +208,8 @@ export class ManufacturerMasterComponent implements OnInit {
     this.edit_contactPerson = editformvalues.contactPerson;
     this.edit_status = editformvalues.status;
     this.edit_cstNo = editformvalues.cST_GST_No;
-    this.edit_AddressLine1 = editformvalues.addressLine1.trim();
-    this.edit_AddressLine2 = editformvalues.addressLine2 ? editformvalues.addressLine2.trim(): null,
+    this.edit_AddressLine1 = (editformvalues.addressLine1 !== undefined && editformvalues.addressLine1 !== null) ? editformvalues.addressLine1.trim() : null;
+    this.edit_AddressLine2 = (editformvalues.addressLine2 !== undefined && editformvalues.addressLine2 !== null) ? editformvalues.addressLine2.trim(): null,
     this.edit_permanentstate = editformvalues.stateID;
     this.edit_Country = editformvalues.countryID;
     this.edit_District = editformvalues.districtID;
@@ -222,8 +222,8 @@ export class ManufacturerMasterComponent implements OnInit {
       "manufacturerDesc": editformvalues.manufactureDesc,
       "modifiedBy": this.createdBy,
       "manufacturerID": this.manufactureId,
-      "addressLine1": editformvalues.addressLine1.trim(),
-      "addressLine2": editformvalues.addressLine2 ? editformvalues.addressLine2.trim() : null,
+      "addressLine1": (editformvalues.addressLine1 !== undefined && editformvalues.addressLine1 !== null) ? editformvalues.addressLine1.trim() : null,
+      "addressLine2": (editformvalues.addressLine2 !== undefined && editformvalues.addressLine2 !== null) ? editformvalues.addressLine2.trim() : null,
       "districtID": editformvalues.edit_District,
       "stateID": editformvalues.edit_permanentstate,
       "countryID": editformvalues.country,

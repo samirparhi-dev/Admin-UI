@@ -260,7 +260,8 @@ export class NewServiceProviderSetupComponent implements OnInit {
       this.request_object.primaryContactNo = this.contactNumber;
       this.request_object.primaryContactEmailID = this.emailID;
       this.request_object.primaryContactAddress =
-        this.address1.trim() + ',' + this.address2.trim();
+        ((this.address1 !== undefined && this.address1 !== null) ? this.address1.trim() : this.address1) + ',' + 
+        ((this.address2 !== undefined && this.address2 !== null) ? this.address2.trim() : this.address2);
     }
 
     if (val == 2 && action === 'back') {
@@ -441,7 +442,7 @@ export class NewServiceProviderSetupComponent implements OnInit {
     provider_admin_details_obj['genderID'] = this.gender.toString();
     // provider_admin_details_obj['roleID'] = 11;
     this.dob;
-    this.address1.trim();
+    (this.address1 !== undefined && this.address1 !== null) ? this.address1.trim() : this.address1;
     provider_admin_details_obj['dob'] = new Date(
       this.dob - 1 * (this.dob.getTimezoneOffset() * 60 * 1000)
     ).toJSON();
@@ -450,11 +451,11 @@ export class NewServiceProviderSetupComponent implements OnInit {
     ).toJSON();
     provider_admin_details_obj['maritalStatusID'] = '';
 
-    if (this.aadhaar_number && this.aadhaar_number.trim().length > 0) {
+    if (this.aadhaar_number !== undefined && this.aadhaar_number !== null && this.aadhaar_number.trim().length > 0) {
       provider_admin_details_obj['aadharNo'] = this.aadhaar_number;
     }
 
-    if (this.pan_number && this.pan_number.trim().length > 0) {
+    if (this.pan_number !== undefined && this.pan_number !== null && this.pan_number.trim().length > 0) {
       provider_admin_details_obj['panNo'] = this.pan_number;
     }
 

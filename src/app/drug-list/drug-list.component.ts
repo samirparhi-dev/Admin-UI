@@ -126,9 +126,9 @@ export class DrugListComponent implements OnInit {
   addDrugToList(values) {
 
     this.drugObj = {};
-    this.drugObj.drugName = values.drugName.trim();
-    this.drugObj.drugDesc = values.drugDesc ? values.drugDesc.trim() : null,
-    this.drugObj.remarks = values.remarks ? values.remarks.trim() : null,
+    this.drugObj.drugName = (values.drugName !== undefined && values.drugName !== null) ? values.drugName.trim() : null;
+    this.drugObj.drugDesc =(values.drugDesc !== undefined && values.drugDesc !== null) ? values.drugDesc.trim() : null,
+    this.drugObj.remarks =(values.remarks !== undefined && values.remarks !== null) ? values.remarks.trim() : null,
 
     this.drugObj.serviceProviderID = this.service_provider_id;
     this.drugObj.createdBy = this.createdBy;
@@ -229,14 +229,14 @@ export class DrugListComponent implements OnInit {
   }
 
   updateDrugData(drug) {
-    if (drug.drugName.trim() === "")
+    if (drug.drugName ! == undefined && drug.drugName !== null && (drug.drugName.trim() === ""))
       this.alertMessage.alert("Please enter valid Drug Name");
     else {
       this.dataObj = {};
       this.dataObj.drugID = this.drugID;
-      this.dataObj.drugName = this.drugName.trim();
-      this.dataObj.drugDesc = drug.drugDesc ? drug.drugDesc.trim() : null,
-      this.dataObj.remarks = drug.remarks ? drug.remarks.trim() : null,
+      this.dataObj.drugName = (this.drugName !== undefined && this.drugName !== null) ? this.drugName.trim() : null;
+      this.dataObj.drugDesc = (drug.drugDesc !== undefined && drug.drugDesc !== null) ? drug.drugDesc.trim() : null;
+      this.dataObj.remarks = (drug.remarks !== undefined && drug.remarks !== null) ? drug.remarks.trim() : null;
       this.dataObj.providerServiceMapID = drug.providerServiceMapID;
       this.dataObj.modifiedBy = this.createdBy;
       this.drugMasterService.updateDrugData(this.dataObj).subscribe(response => {
@@ -264,7 +264,7 @@ export class DrugListComponent implements OnInit {
     console.log("drugName", drugName);
     if (this.editable) {
 
-      if (drugName.trim() !== this.drugNameToEdit) {
+      if (drugName !== undefined && drugName !== null && (drugName.trim() !== this.drugNameToEdit)) {
         this.checkWithDrugmaster(drugName);
       }
 
@@ -275,7 +275,7 @@ export class DrugListComponent implements OnInit {
 
   }
 checkWithDrugmaster(drugName) {
-  if (drugName.trim() !== "") {
+  if (drugName !== undefined && drugName !== null && (drugName.trim() !== "")) {
     this.inValidDrugName = false;
     this.drugNameExist = this.availableDrugNames.includes(drugName.trim());
   }
@@ -322,7 +322,7 @@ checkWithDrugmaster(drugName) {
     })
   }
   checkForValidDrugDesc(drugDesc) {
-    if (drugDesc.trim() === "") {
+    if (drugDesc !== undefined && drugDesc !== null && (drugDesc.trim() === "")) {
       this.invalidDrugDesc = true;
     } else {
       this.invalidDrugDesc = false;

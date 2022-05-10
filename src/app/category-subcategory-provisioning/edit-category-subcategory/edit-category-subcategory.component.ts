@@ -102,7 +102,7 @@ export class EditCategorySubcategoryComponent implements OnInit {
     if (categoriesExist != undefined && categoriesExist.length > 0 && categoriesExist[0].categoryName != this.existing_category_name) {
       this.categoryExist = true;
     }
-    else if (categoryName.trim().length == 0) {
+    else if (categoryName !== undefined && categoryName !== null && categoryName.trim().length == 0) {
       this.categoryExist = true;
     }
     else {
@@ -112,7 +112,7 @@ export class EditCategorySubcategoryComponent implements OnInit {
   }
   checkSubCategory(subCategoryName: string) {
     let subCategoriesExist;
-    if (subCategoryName.trim().length > 0) {
+    if (subCategoryName !== undefined && subCategoryName !== null && subCategoryName.trim().length > 0) {
       //  console.log(response, "subcat response");
       subCategoriesExist = this.subcategories.filter((obj) => {
 
@@ -125,7 +125,7 @@ export class EditCategorySubcategoryComponent implements OnInit {
     if (subCategoriesExist != undefined && subCategoriesExist.length > 0 && subCategoriesExist[0].subCategoryName != this.existing_subcategory_name) {
       this.subCategoryExist = true;
     }
-    else if (subCategoryName.trim().length == 0) {
+    else if (subCategoryName !== undefined && subCategoryName !== null && subCategoryName.trim().length == 0) {
       this.subCategoryExist = true;
     }
     else {
