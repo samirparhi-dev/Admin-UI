@@ -173,7 +173,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceObj.zoneID = this.zoneID.zoneID;
         this.parkingPlaceObj.zoneName = this.zoneID.zoneName;
 
-        this.parkingPlaceObj.areaHQAddress = values.areaHQAddress.trim();
+        this.parkingPlaceObj.areaHQAddress = (values.areaHQAddress !== undefined && values.areaHQAddress !== null) ? values.areaHQAddress.trim() : null;
         this.parkingPlaceObj.providerServiceMapID = this.providerServiceMapID;
         this.parkingPlaceObj.createdBy = this.createdBy;
         this.checkDuplicates(this.parkingPlaceObj);
@@ -282,7 +282,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.parkingPlaceID = parkingPlace.parkingPlaceID;
         this.parkingPlaceName = parkingPlace.parkingPlaceName;
         this.parkingPlaceDesc = parkingPlace.parkingPlaceDesc;
-        this.areaHQAddress = parkingPlace.areaHQAddress.trim();
+        this.areaHQAddress = (parkingPlace.areaHQAddress !== undefined && parkingPlace.areaHQAddress !== null) ? parkingPlace.areaHQAddress.trim() : null;
     }
 
     updateParkingPlaceData() {
@@ -294,7 +294,7 @@ export class ParkingPlaceComponent implements OnInit {
         this.dataObj.zoneID = this.zoneID.zoneID;
         this.dataObj.parkingPlaceName = this.parkingPlaceName;
         this.dataObj.parkingPlaceDesc = this.parkingPlaceDesc;
-        this.dataObj.areaHQAddress = this.areaHQAddress.trim();
+        this.dataObj.areaHQAddress = (this.areaHQAddress !== undefined && this.areaHQAddress !== null) ? this.areaHQAddress.trim() : null;
         this.parkingPlaceMasterService.updateParkingPlaceDetails(this.dataObj).subscribe(response => this.updateHandler(response));
     }
 

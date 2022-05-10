@@ -117,7 +117,7 @@ export class VillageMasterComponent implements OnInit {
     villageList: any = [];
     addVillageToList(values) {
 
-        if (values.villageName.trim() === '')
+        if (values.villageName !== undefined && values.villageName !== null && (values.villageName.trim() === ''))
             this.alertMessage.alert('Please enter valid Village');
         else{
         // for(let services of values.serviceID){
@@ -128,7 +128,7 @@ export class VillageMasterComponent implements OnInit {
         // this.villageObj.blockName = values.blockID.split("-")[1];
         // }
         this.villageObj.panchayatName = values.panchayatName;
-        this.villageObj.villageName = values.villageName.trim();
+        this.villageObj.villageName = (values.villageName !== undefined && values.villageName !== null) ? values.villageName.trim() : null;
         this.villageObj.habitat = values.habitat;
         this.villageObj.pinCode = values.pinCode;
         this.villageObj.govVillageID = values.govVillageID;
@@ -428,7 +428,7 @@ export class EditVillageModal {
         console.log(this.villageExist);
     }
     update(editedVillageData) {
-        if (editedVillageData.villageName.trim() === '')
+        if (editedVillageData.villageName !== undefined && editedVillageData.villageName !== null && (editedVillageData.villageName.trim() === ''))
             this.alertMessage.alert('Please enter valid Village');
         else{
         this.dataObj = {};
@@ -438,7 +438,7 @@ export class EditVillageModal {
         // this.dataObj.blockName = village.blockID.split("-")[1];
         // }
         this.dataObj.panchayatName = editedVillageData.panchayatName;
-        this.dataObj.villageName = editedVillageData.villageName.trim();
+        this.dataObj.villageName = (editedVillageData.villageName !== undefined && editedVillageData.villageName !== null) ? editedVillageData.villageName.trim() : null;
         this.dataObj.habitat = editedVillageData.habitat;
         this.dataObj.pinCode = editedVillageData.pinCode;
         this.dataObj.govVillageID = editedVillageData.govVillageID;

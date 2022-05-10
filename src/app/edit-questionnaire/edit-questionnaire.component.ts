@@ -306,7 +306,7 @@ console.log("FormValues1",this.editQuestionnaireForm.value)
           "questionID": this.editQuestionnaireForm.value.questionID,
           "questionTypeID": this.editQuestionnaireForm.value.questionTypeID,
           "questionType": this.editQuestionnaireForm.value.questionType,
-          "question": this.editQuestionnaireForm.value.questionName.trim(),
+          "question": (this.editQuestionnaireForm.value.questionName !== undefined && this.editQuestionnaireForm.value.questionName !== null) ? this.editQuestionnaireForm.value.questionName.trim() : null,
           "questionRank": this.editQuestionnaireForm.value.questionRank,
           "questionWeightage": this.editQuestionnaireForm.value.questionWeight,
           "answerType": this.editQuestionnaireForm.value.answerType,

@@ -173,7 +173,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
       this.isOutbound = false;
     }
     else {
-      if (call_subtype.trim().length > 0) {
+      if (call_subtype !== undefined && call_subtype !== null && call_subtype.trim().length > 0) {
         let obj = {
           'callGroupType': callType,
           'callType': call_subtype,
@@ -338,7 +338,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
     let a: boolean = false;
     let b: boolean = false;
     for (var i = 0; i < this.tempCorrespondingSubCallType.length; i++) {
-      if (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+      if (value !== undefined && value !== null && (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase())) {
         this.subCallTypeExist = true;
         a = true;
         break;
@@ -588,7 +588,7 @@ export class EditCallType {
     let a: boolean = false;
     let b: boolean = false;
     for (var i = 0; i < this.tempCorrespondingSubCallType.length; i++) {
-      if (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase()) {
+      if (value !== undefined && value !== null && (value.trim().toLowerCase() == this.tempCorrespondingSubCallType[i].callType.toLowerCase())) {
         this.subCallTypeExist = true;
         a = true;
         break;
@@ -610,10 +610,10 @@ export class EditCallType {
     if (a == false) {
       this.subCallTypeExist = false;
     }
-    if (value.trim().length == 0) {
+    if (value !== undefined && value !== null && value.trim().length == 0) {
       this.subCallTypeExist = true;
     }
-    if (value.trim().toLowerCase() === this.existingName.toLowerCase()) {
+    if (value !== undefined && value !== null && (value.trim().toLowerCase() === this.existingName.toLowerCase())) {
       this.subCallTypeExist = false;
     }
   }

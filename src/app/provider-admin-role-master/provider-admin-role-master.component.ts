@@ -249,7 +249,7 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
     if (result) {
       if (this.objs.length < 1) {
         let obj = this.addtempRoleScreenMap(selected_features, role, desc);
-        if (obj.roleName.trim().length > 0) {
+        if (obj.roleName !== undefined && obj.roleName !== null &&  (obj.roleName.trim().length > 0)) {
           this.objs.push(obj);
           this.tempFilterScreens = this.tempFilterScreens.concat(obj.screen_name);
           this.getFeatures(this.service.serviceID);
@@ -257,13 +257,14 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       }
       else {
         for (let i = 0; i < this.objs.length; i++) {
-          if (this.objs[i].roleName.toLowerCase().trim() === role.toLowerCase().trim()) {
+          if (this.objs[i].roleName !== undefined && this.objs[i].roleName !== null && role !== undefined && 
+            role !== null && (this.objs[i].roleName.toLowerCase().trim() === role.toLowerCase().trim())) {
             this.alertService.alert("Role name already exists");
             return;
           }
         }
         let obj = this.addtempRoleScreenMap(selected_features, role, desc);
-        if (obj.roleName.trim().length > 0 && obj.roleName != undefined) {
+        if (obj.roleName.trim().length > 0 && obj.roleName !== undefined &&  obj.roleName !== null) {
           this.objs.push(obj);
           if (this.service.serviceID != 7) {
             this.tempFilterScreens = this.tempFilterScreens.concat(obj.screen_name);
@@ -278,14 +279,15 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   }
 
   validateRole(role) {
-    if (this.selectedRole != undefined && this.selectedRole.trim().toUpperCase() === role.trim().toUpperCase()) {
+    if (this.selectedRole != undefined && this.selectedRole != null && this.selectedRole.trim().toUpperCase() === role.trim().toUpperCase()) {
       this.othersExist = false;
     }
     else {
       var count = 0;
       for (let i = 0; i < this.searchresultarray.length; i++) {
         console.log((this.searchresultarray[i].roleName).toUpperCase());
-        if ((this.searchresultarray[i].roleName).trim().toUpperCase() === role.trim().toUpperCase()) {
+        if (this.searchresultarray[i].roleName !== undefined && this.searchresultarray[i].roleName !== null && role !== undefined && 
+          role !== null && ((this.searchresultarray[i].roleName).trim().toUpperCase() === role.trim().toUpperCase())) {
           count = count + 1;
         }
       }
@@ -308,8 +310,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
       screenNames.push(selected_features[z].screenName);
     }
     let obj = {
-      'roleName': role.trim(),
-      'roleDesc': desc.trim(),
+      'roleName': (role !== undefined && role !== null) ? role.trim() : null,
+      'roleDesc': (desc !== undefined && desc !== null) ?  desc.trim() : null,
       'screenID': screenIDs,
       'screen_name': screenNames,
       'createdBy': this.commonDataService.uname,
@@ -402,8 +404,8 @@ export class ProviderAdminRoleMasterComponent implements OnInit {
   saveEditChanges() {
     let obj = {
       'roleID': this.toBeEditedRoleObj.roleID,
-      'roleName': this.role.trim(),
-      'roleDesc': this.description.trim(),
+      'roleName': (this.role !== undefined && this.role !== null) ? this.role.trim() : null,
+      'roleDesc': (this.description !== undefined && this.description !== null) ? this.description.trim() : null,
       // "providerServiceMapID": this.toBeEditedRoleObj.providerServiceMapID,
       'sRSMappingID': this.sRSMappingID,
       'screenID': this.editedFeatureID,

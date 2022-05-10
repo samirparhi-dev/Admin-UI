@@ -142,15 +142,15 @@ export class FetosenseTestMasterComponent implements OnInit {
     validateAddedTest(test, desc){
       if (this.addedFetosenseTests.length < 1) {
         let fetosenseTest = this.addtempTestMap(test, desc);
-        if (fetosenseTest.testName.trim().length > 0) {
+        if (fetosenseTest.testName !== undefined && fetosenseTest.testName !== null && fetosenseTest.testName.trim().length > 0) {
           this.addedFetosenseTests.push(fetosenseTest);}}
       else {
         for(let addedTest of this.addedFetosenseTests){
-          if (addedTest.testName.toLowerCase().trim() === test.toLowerCase().trim()) {
+          if (addedTest.testName !== undefined && addedTest.testName !== null && test !== undefined && test !== null && (addedTest.testName.toLowerCase().trim() === test.toLowerCase().trim())) {
             this.alertService.alert("Test name already exists");
             return;}}
         let fetosenseTest = this.addtempTestMap(test, desc);
-        if (fetosenseTest.testName.trim().length > 0 && fetosenseTest.testName !== undefined) {
+        if (fetosenseTest.testName !== undefined && fetosenseTest.testName !== null && fetosenseTest.testName.trim().length > 0) {
           this.addedFetosenseTests.push(fetosenseTest);}}
     }
     addtempTestMap(test, desc) {
@@ -184,8 +184,8 @@ export class FetosenseTestMasterComponent implements OnInit {
     updateTestChanges(){
       let fetosenseTest = {
         "fetosenseTestID": this.fetosenseTestID,
-        'testName': this.test.trim(),
-        'testDesc': this.description ? this.description.trim(): null,
+        'testName': (this.test !== undefined && this.test !== null) ? this.test.trim() : null,
+        'testDesc': (this.description !== undefined && this.description !== null) ? this.description.trim(): null,
         'createdBy': this.commonDataService.uname,
         'providerServiceMapID': this.providerServiceMapID
       }
@@ -232,13 +232,13 @@ export class FetosenseTestMasterComponent implements OnInit {
       })
     }
     validateTest(test) {
-      if (this.selectedTest !== undefined && this.selectedTest.trim().toUpperCase() === test.trim().toUpperCase()) {
+      if (this.selectedTest !== undefined && this.selectedTest !== null && (this.selectedTest.trim().toUpperCase() === test.trim().toUpperCase())) {
         this.othersExist = false;
       }
       else {
         let count = 0;
         for(const filteredTest of this.searchedFetosenseTests){
-          if (filteredTest.testName.trim().toUpperCase() === test.trim().toUpperCase()) {
+          if ( filteredTest.testName !== undefined && filteredTest.testName !== null && test !== undefined && test !== null && (filteredTest.testName.trim().toUpperCase() === test.trim().toUpperCase())) {
             count = count + 1;
           }
         }

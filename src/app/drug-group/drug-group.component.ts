@@ -125,8 +125,8 @@ export class DrugGroupComponent implements OnInit {
   addDrugGroupToList(values) {
     
       this.drugGroupObj = {};
-      this.drugGroupObj.drugGroup = values.drugGroup.trim();
-      this.drugGroupObj.drugGroupDesc = values.drugGroupDesc.trim();
+      this.drugGroupObj.drugGroup = (values.drugGroup !== undefined && values.drugGroup !== null) ? values.drugGroup.trim() : null;
+      this.drugGroupObj.drugGroupDesc = (values.drugGroupDesc !== undefined && values.drugGroupDesc !== null) ? values.drugGroupDesc.trim() : null;
 
       this.drugGroupObj.serviceProviderID = this.service_provider_id.trim;
       this.drugGroupObj.createdBy = this.createdBy;
@@ -213,25 +213,25 @@ export class DrugGroupComponent implements OnInit {
     this.stateID = "";
   }
   editDrugGroup(drug) {
-    this.drugGroupID = drug.drugGroupID.trim();
-    this.drugGroup = drug.drugGroup.trim();
-    this.drugGroupDesc = drug.drugGroupDesc.trim();
+    this.drugGroupID = (drug.drugGroupID !== undefined && drug.drugGroupID !== null) ? drug.drugGroupID.trim() : null;
+    this.drugGroup = (drug.drugGroup !== undefined && drug.drugGroup !== null) ? drug.drugGroup.trim() : null;
+    this.drugGroupDesc = (drug.drugGroupDesc !== undefined && drug.drugGroupDesc !== null) ?  drug.drugGroupDesc.trim() : null;
     //this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
     this.drugGroupToEdit = drug.drugGroup;
   }
 
   updateDrugGroup(drugGroup) {
-    if (drugGroup.drugGroup.trim() === "") {
+    if (drugGroup.drugGroup !== undefined && drugGroup.drugGroup !== null && (drugGroup.drugGroup.trim() === "")) {
 
       this.alertMessage.alert("Please enter valid Drug Group Name");
     }
 
     else {
       this.dataObj = {};
-      this.dataObj.drugGroupID = this.drugGroupID.trim();
-      this.dataObj.drugGroup = drugGroup.drugGroup.trim();
-      this.dataObj.drugGroupDesc = drugGroup.drugGroupDesc.trim();
+      this.dataObj.drugGroupID = (this.drugGroupID !== undefined && this.drugGroupID !== null) ? this.drugGroupID.trim() : null;
+      this.dataObj.drugGroup = (drugGroup.drugGroup !== undefined && drugGroup.drugGroup !== null) ? drugGroup.drugGroup.trim() : null;
+      this.dataObj.drugGroupDesc = (drugGroup.drugGroupDesc !== undefined && drugGroup.drugGroupDesc !== null) ? drugGroup.drugGroupDesc.trim() : null;
       //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
       this.dataObj.modifiedBy = this.createdBy;
       this.drugMasterService.updateDrugGroup(this.dataObj).subscribe(response => {
@@ -258,7 +258,7 @@ export class DrugGroupComponent implements OnInit {
   checkExistance(drugGroup) {
     if (this.editable) {
 
-      if (drugGroup.trim() !== this.drugGroupToEdit) {
+      if (drugGroup !== undefined && drugGroup !== null && (drugGroup.trim() !== this.drugGroupToEdit)) {
         this.checkWithDrugmaster(drugGroup);
       }
 
@@ -268,7 +268,7 @@ export class DrugGroupComponent implements OnInit {
 
   }
 checkWithDrugmaster(drugGroup) {
-  if (drugGroup.trim() !== "") {
+  if (drugGroup !== undefined && drugGroup !== null && (drugGroup.trim() !== "")) {
       this.inValidDrugGroup = false;
       this.groupNameExist = this.availableDrugGroupNames.includes(drugGroup.trim());
     }
@@ -311,7 +311,7 @@ checkWithDrugmaster(drugGroup) {
     })
   }
   checkForValidDrugDesc(drugDesc) {
-    if(drugDesc.trim() === "") {
+    if(drugDesc !== undefined && drugDesc !== null && (drugDesc.trim() === "")) {
       this.invalidDrugDesc = true;
     } else {
       this.invalidDrugDesc = false;

@@ -269,7 +269,7 @@ export class ProcedureMasterComponent implements OnInit {
       apiObject = {
         procedureID: '',
         modifiedBy: this.commonDataService.uname,
-        procedureName: obj.name.trim(),
+        procedureName: (obj.name !== undefined && obj.name !== undefined) ? obj.name.trim() : null,
         procedureType: obj.type,
         procedureDesc: obj.description,
         createdBy: this.commonDataService.uname,
@@ -476,7 +476,7 @@ export class ProcedureMasterComponent implements OnInit {
     console.log(JSON.stringify(item, null, 4));
     this.procedureForm.patchValue({
       id: item.procedureID,
-      name: item.procedureName.trim(),
+      name: (item.procedureName !== undefined && item.procedureName !== null) ? item.procedureName.trim() : null,
       type: item.procedureType,
       description: item.procedureDesc,
       gender: item.gender,

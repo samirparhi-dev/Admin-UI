@@ -220,7 +220,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     if (response) {
       let obj = {
         "VfdID":  data.VfdID,
-        "deviceName": data.deviceName ? data.deviceName.trim() : null,
+        "deviceName": (data.deviceName !== undefined && data.deviceName !== null) ? data.deviceName.trim() : null,
         "deviceID": data.deviceID,
         "vanID": data.vanID,
         "parkingPlaceID": data.parkingPlaceID,
@@ -259,7 +259,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
         if (response) {
           let obj =  {
             "VfdID":  data.VfdID,
-            "deviceName":  data.deviceName.trim(),
+            "deviceName": (data.deviceName !== undefined && data.deviceName !== null) ? data.deviceName.trim() : null,
             "deviceID": data.deviceID,
             "vanID": data.vanID,
             "parkingPlaceID": data.parkingPlaceID,
@@ -307,7 +307,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     let obj = {
 
       "deviceID": deviceId,
-      "deviceName": deviceName.trim(),
+      "deviceName": (deviceName !== undefined && deviceName !== null) ? deviceName.trim() : null,
       "providerServiceMapID": this.providerServiceMapID,
       "createdBy": this.commonDataService.uname
     }
@@ -420,7 +420,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
     this.disableSelection = true;
     
     this.deviceID = toBeEditedOBJ.deviceID;
-    this.deviceName = toBeEditedOBJ.deviceName.trim();
+    this.deviceName = (toBeEditedOBJ.deviceName !== undefined && toBeEditedOBJ.deviceName !== null) ? toBeEditedOBJ.deviceName.trim() : null;
     this.editObject=toBeEditedOBJ;
    
   }
@@ -430,7 +430,7 @@ deactivateDeviceIdMaster(data, isDeleted) {
 
     let obj = {
       "VfdID":  this.editObject.VfdID,
-      "deviceName":  editedDeviceName.trim(),
+      "deviceName":  (editedDeviceName !== undefined && editedDeviceName !== null) ? editedDeviceName.trim() : null,
       "deviceID":  editedDeviceId,
       "vanID": this.editObject.vanID,
       "parkingPlaceID": this.editObject.parkingPlaceID,

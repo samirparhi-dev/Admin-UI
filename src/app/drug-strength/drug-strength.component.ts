@@ -65,8 +65,8 @@ export class DrugStrengthComponent implements OnInit {
   add_object(formValue) {
     console.log("form values", formValue);
     let tempDrugStrengthObj = {
-      'drugStrength': formValue.strength.trim(),
-      'drugStrengthDesc': formValue.strength_desc ? formValue.strength_desc.trim() : null,
+      'drugStrength': (formValue.strength !== undefined && formValue.strength !== null) ? formValue.strength.trim() : null,
+      'drugStrengthDesc': (formValue.strength_desc !== undefined && formValue.strength_desc !== null) ? formValue.strength_desc.trim() : null,
       'createdBy': this.createdBy,
       'serviceProviderID': this.data_service.service_providerID
     }
@@ -143,8 +143,8 @@ export class DrugStrengthComponent implements OnInit {
   updateDrugStrength() {
     let updateDrugStrengthObj = {
       'drugStrengthID': this.drugStrengthID,
-      'drugStrength': this.strength.trim(),
-      'drugStrengthDesc': this.strength_desc ? this.strength_desc.trim() : null,
+      'drugStrength':(this.strength !== undefined && this.strength !== null) ? this.strength.trim() : null,
+      'drugStrengthDesc': (this.strength_desc !== undefined && this.strength_desc !== null) ? this.strength_desc.trim() : null,
       'modifiedBy': this.createdBy,
       'serviceProviderID': this.data_service.service_providerID
     }

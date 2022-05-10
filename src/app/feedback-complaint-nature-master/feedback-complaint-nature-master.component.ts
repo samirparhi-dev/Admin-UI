@@ -222,8 +222,8 @@ export class FeedbackComplaintNatureMasterComponent implements OnInit {
     var tempArr = [];
     for (var i = 0; i < this.objs.length; i++) {
       var tempObj = {
-        'feedbackNature': this.objs[i].feedbackNature.trim(),
-        'feedbackNatureDesc': this.objs[i].feedbackNatureDesc ? this.objs[i].feedbackNatureDesc.trim(): null,
+        'feedbackNature': (this.objs[i].feedbackNature !== undefined && this.objs[i].feedbackNature !== null) ? this.objs[i].feedbackNature.trim() : null,
+        'feedbackNatureDesc': (this.objs[i].feedbackNatureDesc !== undefined && this.objs[i].feedbackNatureDesc !== null) ? this.objs[i].feedbackNatureDesc.trim(): null,
         'feedbackTypeID': this.feedbackTypeID,
         'createdBy': this.commonData.uname
       }
@@ -352,8 +352,8 @@ export class EditFeedbackNatureModal {
   update() {
     var tempObj = {
       "feedbackNatureID": this.data.feedbackObj.feedbackNatureID,
-      "feedbackNature": this.feedbackNature.trim(),
-      "feedbackNatureDesc": this.feedbackNatureDesc ? this.feedbackNatureDesc.trim(): null,
+      "feedbackNature": (this.feedbackNature !== undefined && this.feedbackNature !== null) ? this.feedbackNature.trim() : null,
+      "feedbackNatureDesc": (this.feedbackNatureDesc !== undefined && this.feedbackNatureDesc !== null) ? this.feedbackNatureDesc.trim(): null,
       "modifiedBy": this.data.feedbackObj.createdBy
     }
 
