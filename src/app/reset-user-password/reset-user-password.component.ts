@@ -63,7 +63,7 @@ export class ResetUserPasswordComponent implements OnInit {
     let resetObj = {
       "userName": userName,
       "password": password,
-      "statusID": 1
+      //"statusID": 1
     }
     console.log("resetObj", resetObj);
     this.resetUserPasswordService.resetUserPassword(resetObj)
