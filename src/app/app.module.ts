@@ -286,6 +286,12 @@ import { QuestionnaireDirective } from './directives/questionnaire/questionnaire
 import { itemNameMasterDirective } from './directives/itemNameMaster/itemNameMaster.directive';
 import { InputAreaDirective } from './directives/Inputfeild/inputFeild.directive';
 import { AnswerDirective } from './directives/answer/answer.directive';
+import { DrugStrengthWithCopyPaste } from './directives/drugStrength/drugStrengthWithCopyPaste.directive';
+import { MyNameWithCopyPaste, MyProviderNameWithCopyPaste, NameWithSpecialCharCopyPasteDirective, PanWithCopyPaste, VehicleNoWithCopyPaste, VehicleNoWithSpecialCharCopyPaste } from './directives/name/myNameWithCopyPaste.directive';
+import { ItemNameWithSpecialCharCopyPasteDirective } from './directives/itemNameMaster/itemNameWithSpecialCharCopyPaste.directive';
+import { MyAddressWithCopyPasteDirective } from './directives/address/myAddressWithCopyPaste.directive';
+import { TextAreaWithCopyPaste } from './directives/textarea/textAreaWithCopyPaste.directive';
+import { MyMobileNumberWithCopyPaste } from './directives/MobileNumber/myMobileNumberWithCopyPaste.directive';
 
 @NgModule({
   declarations: [
@@ -373,13 +379,18 @@ import { AnswerDirective } from './directives/answer/answer.directive';
     QuestionnaireDirective,
     itemNameMasterDirective,
     InputAreaDirective,
-    AnswerDirective   
-  
-   
-  
-    
-  
- 
+    AnswerDirective,
+    DrugStrengthWithCopyPaste,
+    NameWithSpecialCharCopyPasteDirective,
+    TextAreaWithCopyPaste,
+    MyAddressWithCopyPasteDirective,
+    ItemNameWithSpecialCharCopyPasteDirective,
+    VehicleNoWithCopyPaste,
+    VehicleNoWithSpecialCharCopyPaste,
+    PanWithCopyPaste,
+    MyNameWithCopyPaste,
+    MyMobileNumberWithCopyPaste,
+    MyProviderNameWithCopyPaste
   ],
 
   imports: [

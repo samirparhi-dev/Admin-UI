@@ -149,7 +149,7 @@
     </div>
     
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      <md-input-container class="width100" PAN>
+      <md-input-container class="width100" PanWithCopyPaste>
         <input mdInput placeholder="Item Code" [(ngModel)]="code" name="code" minlength="1" maxlength="15" (change)="checkCodeExistance(code)"
           #itemCode="ngModel" required>
         <md-hint *ngIf="itemCode.touched || itemCode.dirty ">
@@ -160,7 +160,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <md-input-container class="width100" >
-        <input mdInput itemNameMasterValidator  placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
+        <input mdInput itemNameWithSpecialCharCopyPaste placeholder="Item Name" [(ngModel)]="name" name="name" minlength="1" maxlength="100" #itemName="ngModel" required>
         <md-hint *ngIf="itemName.touched || itemName.dirty">
           <span class="errorText" [hidden]="!itemName.errors">Item Name is required</span>
         </md-hint>
@@ -187,7 +187,7 @@
   </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100" drugStrengthWithCopyPaste>
         <input mdInput placeholder="Strength" [(ngModel)]="strength" name="strength" #itemStrength="ngModel" minlength="1" maxlength="10"
           required>
         <md-hint *ngIf="itemStrength.touched || itemStrength.dirty">
@@ -266,7 +266,7 @@
     <div class="clearfix visible-sm"></div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-t-25">
-      <md-input-container class="width100" VehicleNO>
+      <md-input-container class="width100" vehicleNoCopyPaste>
         <input mdInput placeholder="Composition" [(ngModel)]="composition" name="composition" #itemComposition="ngModel" minlength="2"
           maxlength="300" required>
         <md-hint *ngIf="itemComposition.touched || itemComposition.dirty">
@@ -285,7 +285,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      <md-input-container class="width100" VehicleNO>
+      <md-input-container class="width100" vehicleNoSpecialCharWithCopyPaste>
         <input mdInput placeholder="Item Description" [(ngModel)]="description" name="description" minlength="2" maxlength="100">
       </md-input-container>
     </div>
@@ -507,7 +507,7 @@
         </md-select>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 " VehicleNO>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 " vehicleNoCopyPaste>
       <md-input-container class="width100">
         <input mdInput placeholder="Item Description" [(ngModel)]="edit_Description" name="description" minlength="2" maxlength="100">
       </md-input-container>

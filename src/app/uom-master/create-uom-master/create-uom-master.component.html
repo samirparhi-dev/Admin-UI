@@ -10,7 +10,7 @@
     <ng-container formGroupName="UOM">
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
-          <input mdInput placeholder="UOM Code" PAN name="uomCode" formControlName="uOMCode" required (blur)="checkForUniqueUOMCode()" maxlength="15">
+          <input mdInput placeholder="UOM Code" PanWithCopyPaste name="uomCode" formControlName="uOMCode" required (blur)="checkForUniqueUOMCode()" maxlength="15">
           <md-hint *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].invalid && (UOMMasterForm.controls['UOM']['controls']['uOMCode'].dirty || UOMMasterForm.controls['UOM']['controls']['uOMCode'].touched)">
             <span class="error_text" *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].hasError('required')">UOM Code is required</span>
             <span class="error_text" *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMCode'].hasError('unique')">UOM Code already exists</span>
@@ -20,7 +20,7 @@
 
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
-          <input mdInput placeholder="UOM Name" VehicleNO name="uOMName" formControlName="uOMName" required maxlength=100>
+          <input mdInput placeholder="UOM Name" vehicleNoSpecialCharWithCopyPaste name="uOMName" formControlName="uOMName" required maxlength=100>
           <md-hint  *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMName'].invalid && (UOMMasterForm.controls['UOM']['controls']['uOMName'].dirty || UOMMasterForm.controls['UOM']['controls']['uOMName'].touched)">
             <span class="errorText" *ngIf="UOMMasterForm.controls['UOM']['controls']['uOMName'].hasError('required')">UOM Name is required</span>
           </md-hint>
@@ -30,7 +30,7 @@
 
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
         <md-input-container class="input-full-width">
-          <input mdInput placeholder="UOM Description" VehicleNO name="description" formControlName="uOMDesc" maxlength=100>
+          <input mdInput placeholder="UOM Description" vehicleNoCopyPaste name="description" formControlName="uOMDesc" maxlength=100>
         </md-input-container>
       </div>
 

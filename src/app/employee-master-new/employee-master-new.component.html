@@ -81,7 +81,7 @@
 </div>
 </div>
 <!-- User Details-->
-<!-- myName, myProviderName, myMobileNumber, PAN are custom directives -->
+<!-- myNameWithCopyPaste, myNameWithCopyPaste, myMobileNumber, PAN are custom directives -->
 <div [hidden]="!formMode" class="m-t-5">
     <md-accordion>
         <md-expansion-panel (opened)="true">
@@ -109,7 +109,7 @@
                         <!-- </md-input-container> -->
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myName>
+                        <md-input-container class="width100" myNameWithCopyPaste>
                             <input mdInput placeholder="First Name" [(ngModel)]="firstname" name="user_firstname" minlength="1" maxlength="50" #fname="ngModel"
                                 required>
                             <md-hint *ngIf="fname.touched">
@@ -119,7 +119,7 @@
                     </div>
                     <div class="clearfix visible-sm"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myName>
+                        <md-input-container class="width100" myNameWithCopyPaste>
                             <input mdInput placeholder="Middle Name" [(ngModel)]="middlename" name="user_middlename" minlength="1" maxlength="50" #mName="ngModel">
                             <md-hint *ngIf="mName.touched">
                                 <span class="errorText" [hidden]="!mName.errors">Enter minimum 1 characters</span>
@@ -128,7 +128,7 @@
                     </div>
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myName>
+                        <md-input-container class="width100" myNameWithCopyPaste>
                             <input mdInput placeholder="Last Name" [(ngModel)]="lastname" name="user_lastname" minlength="1" maxlength="50" #lname="ngModel"
                                 required>
                             <md-hint>
@@ -148,7 +148,7 @@
                         <!-- </md-input-container> -->
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100" myMobileNumberWithCopyPaste>
                             <input mdInput placeholder="Contact No." [(ngModel)]="contactNo" name="primaryMobileNo" minlength="10" maxlength="10" #mobileNo="ngModel"
                                 [pattern]="mobileNoPattern" required>
                             <md-hint>
@@ -179,7 +179,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100" myMobileNumberWithCopyPaste>
                             <input mdInput placeholder="Emergency Contact No." [(ngModel)]="emergency_contactNo" name="emergencyContactNo" minlength="10"
                                 maxlength="10" #emergencyMobileNo="ngModel" [pattern]="mobileNoPattern" required>
                             <md-hint>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="clearfix" *ngIf="!enablehealthProfessionalID"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100" myMobileNumberWithCopyPaste>
                             <input mdInput placeholder="Aadhar No." ngModel name="aadhar_number" [(ngModel)]="aadharNumber" minlength="12" maxlength="12"
                                 (keyup)="checkAadhar()" #number="ngModel">
                             <md-hint *ngIf="number.touched">
@@ -231,7 +231,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                        <md-input-container class="width100" PAN>
+                        <md-input-container class="width100" PanWithCopyPaste>
                             <input mdInput placeholder="PAN Card No." ngModel name="pan_number" [(ngModel)]="panNumber" minlength="10" maxlength="10"
                                 #panNo="ngModel" (keyup)="checkPan()">
                             <md-hint *ngIf="panNo.touched">
@@ -262,7 +262,7 @@
                         </md-radio-group>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="!editMode">
-                        <md-input-container class="width100" PAN>
+                        <md-input-container class="width100" PanWithCopyPaste>
                             <input mdInput placeholder="User Name" ngModel name="user_name" [(ngModel)]="username" minlength="2" maxlength="20" #uname="ngModel"
                                 (keyup)="checkUserNameAvailability(username)" required>
                             <md-hint *ngIf="uname.touched">
@@ -281,7 +281,7 @@
                     </div>
                     <div class="clearfix visible-md"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20" *ngIf="!editMode && !manipulateEMpIDAndDOJ">
-                        <md-input-container class="width100" PAN>
+                        <md-input-container class="width100" PanWithCopyPaste>
                             <input mdInput placeholder="Employee ID" ngModel [(ngModel)]="employee_ID" name="employeeID" minlength="2" maxlength="20"
                                 #empID="ngModel" (keyup)="checkEmployeeIdAvailability(employee_ID)" required>
                             <md-hint *ngIf="empID.touched">
@@ -323,7 +323,7 @@
         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  -->
         <form #demographicsDetailsForm="ngForm" autocomplete="off">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                <md-input-container class="width100" myProviderName>
+                <md-input-container class="width100" myProviderNameWithCopyPaste>
                     <input mdInput placeholder="Father's Name" [(ngModel)]="fatherName" name="father_name" minlength="2" maxlength="30" #ftName="ngModel">
                     <md-hint *ngIf="ftName.touched">
                         <span class="errorText" [hidden]="!ftName.errors">Enter minimum 2 characters</span>
@@ -331,7 +331,7 @@
                 </md-input-container>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
-                <md-input-container class="width100" myProviderName>
+                <md-input-container class="width100" myProviderNameWithCopyPaste>
                     <input mdInput placeholder="Mother's Name" [(ngModel)]="motherName" name="mother_name" minlength="2" maxlength="30" #mtName="ngModel">
                     <md-hint *ngIf="mtName.touched">
                         <span class="errorText" [hidden]="!mtName.errors">Enter minimum 2 characters</span>
@@ -371,7 +371,7 @@
                     <div class="clearfix"></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" maxlength="50"
+                            <input mdInput myAddressWithCopyPaste  placeholder="Address Line 1" [(ngModel)]="currentAddressLine1" name="current_addressLine1" maxlength="50"
                                 #currentAddress1="ngModel">
                             <md-hint *ngIf="currentAddress1.touched">
                                 <span class="errorText" [hidden]="!currentAddress1.errors">Address is required</span>
@@ -380,7 +380,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" maxlength="50"
+                            <input mdInput myAddressWithCopyPaste  placeholder="Address Line 2" [(ngModel)]="currentAddressLine2" name="current_addressLine2" maxlength="50"
                                 #currentAddress2="ngModel">
                             <md-hint *ngIf="currentAddress2.touched">
                                 <span class="errorText" [hidden]="!currentAddress2.errors">Address is required</span>
@@ -408,7 +408,7 @@
                         <!-- </md-input-container> -->
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100" myMobileNumberWithCopyPaste>
                             <input mdInput placeholder="Pincode" [(ngModel)]="currentPincode" name="current_pincode" minlength="6" maxlength="6" #currentPin="ngModel">
                             <md-hint *ngIf="currentPin.touched">
                                 <span class="errorText" [hidden]="!currentPin.errors">Pincode is required</span>
@@ -433,7 +433,7 @@
                     <div class="clearfix"></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput myAddress  placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1" maxlength="50"
+                            <input mdInput myAddressWithCopyPaste  placeholder="Address Line 1" [(ngModel)]="permanentAddressLine1" name="permanent_addressLine1" maxlength="50"
                                 #permanentAddress1="ngModel">
                             <md-hint *ngIf="permanentAddress1.touched">
                                 <span class="errorText" [hidden]="!permanentAddress1.errors">Address is required</span>
@@ -442,7 +442,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
                         <md-input-container class="width100">
-                            <input mdInput myAddress  placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2" maxlength="50"
+                            <input mdInput myAddressWithCopyPaste  placeholder="Address Line 2" [(ngModel)]="permanentAddressLine2" name="permanent_addressLine2" maxlength="50"
                                 #permanentAddress2="ngModel">
                             <md-hint *ngIf="permanentAddress2.touched">
                                 <span class="errorText" [hidden]="!permanentAddress2.errors">Address is required</span>
@@ -469,7 +469,7 @@
                         <!-- </md-input-container> -->
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-t-20">
-                        <md-input-container class="width100" myMobileNumber>
+                        <md-input-container class="width100" myMobileNumberWithCopyPaste>
                             <input mdInput placeholder="Pincode" [(ngModel)]="permanentPincode" name="permanent_pincode" minlength="6" maxlength="6"
                                 #permanentPin="ngModel">
                             <md-hint *ngIf="permanentPin.touched">
