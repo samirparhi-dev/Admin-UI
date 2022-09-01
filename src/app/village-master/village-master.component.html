@@ -104,29 +104,29 @@
 <div class="row m-t-10" *ngIf="showFormFlag">
   <form id="villageForm" #villageForm="ngForm" autocomplete="off">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <md-input-container class="width100">
+      <md-input-container class="width100" >
         <input mdInput required placeholder="Village" [(ngModel)]="villageName" name="villageName" #VillageN="ngModel" minlength="2"
-          maxlength="30" (keyup)="checkExistance(searchTalukID,villageName)" pattern="^([a-zA-Z]+\s?)*\s*$">
+          maxlength="30" (keyup)="checkExistance(searchTalukID,villageName)" pattern="^([a-zA-Z+/%.-]+\s?)*\s*$">
         <md-hint>
           <span class="error_text" *ngIf="!VillageN.valid  && ( VillageN.dirty || VillageN.touched)">Please enter Village Name</span>
           <span class="error_text" *ngIf="VillageN.valid && villageNameExist">Village already exists</span>
         </md-hint>
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderNameWithCopyPaste>
       <md-input-container class="width100">
         <input mdInput placeholder="Panchayat" [(ngModel)]="panchayatName" name="panchayatName" #panchayat="ngModel" minlength="2"
           maxlength="30">
       </md-input-container>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderName>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15" myProviderNameWithCopyPaste>
       <md-input-container class="width100">
         <input mdInput placeholder="Habitat" [(ngModel)]="habitat" name="habitat" minlength="2" maxlength="30">
       </md-input-container>
     </div>
     <!-- <div class="clearfix"></div> -->
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100" myMobileNumberWithCopyPaste>
         <input mdInput placeholder="Pincode" [(ngModel)]="pinCode" name="pinCode" maxlength="6" minlength="6" #PINC="ngModel" required>
         <md-hint [hidden]=PINC.valid>
           <span class="error_text" *ngIf="!PINC.valid  && ( PINC.dirty || PINC.touched)">Please enter valid pincode</span>
@@ -134,7 +134,7 @@
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100" myMobileNumberWithCopyPaste>
         <input mdInput placeholder="Government Village ID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel">
         <md-hint>
           <span class="error_text" *ngIf="!villageID.valid  && ( villageID.dirty || villageID.touched)">Please enter valid village ID</span>
@@ -143,7 +143,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
-      <md-input-container class="width100" myMobileNumber>
+      <md-input-container class="width100" myMobileNumberWithCopyPaste>
         <input mdInput placeholder="Government Sub District ID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
           #districtID="ngModel">
         <md-hint [hidden]=districtID.valid>
