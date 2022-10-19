@@ -184,9 +184,9 @@
                         <!-- </md-input-container> -->
                     </div>
                     <div class="clearfix visible-md visible-sm"></div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 " VehicleNO>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 ">
                         <md-input-container class="width100">
-                            <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
+                            <input mdInput vehicleNoSpecialCharWithCopyPaste required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
                                 (keyup)="checkExistance(servicePointName)" minlength="2" maxlength="50">
                             <md-hint>
                                 <span class="error_text" *ngIf="!servicePointN.valid  && ( servicePointN.dirty || servicePointN.touched)">Please enter Service Point Name</span>
@@ -197,13 +197,13 @@
                     <!-- <div class="clearfix visible-md visible-sm"></div> -->
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 ">
                         <md-input-container class="width100">
-                            <input mdInput textAreaValidator  placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc" maxlength="100">
+                            <input mdInput textAreaWithCopyPaste  placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc" maxlength="100">
                         </md-input-container>
                     </div>
                     <div class="clearfix visible-lg"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100">
-                            <input required mdInput myAddress  placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel"
+                            <input required mdInput myAddressWithCopyPaste  placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel"
                                 maxlength="300">
                             <md-hint [hidden]=servicePointAddress.valid>
                                 <span class="error_text" *ngIf="!servicePointAddress.required  && ( servicePointAddress.dirty || servicePointAddress.touched)">Please enter address</span>
@@ -334,9 +334,9 @@
                         </md-select>
                         <!-- </md-input-container> -->
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 " VehicleNO>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 ">
                         <md-input-container class="width100">
-                            <input mdInput required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
+                            <input mdInput vehicleNoSpecialCharWithCopyPaste required placeholder="Service Point Name " [(ngModel)]="servicePointName" name="servicePointName" #servicePointN="ngModel"
                                 (keyup)="checkExistance(servicePointName)">
                             <md-hint>
                                 <span class="error_text" *ngIf="!servicePointN.valid  && ( servicePointN.dirty || servicePointN.touched)">Please enter Service Point Name</span>
@@ -346,13 +346,13 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20 ">
                         <md-input-container class="width100">
-                            <input mdInput textAreaValidator  placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
+                            <input mdInput textAreaWithCopyPaste  placeholder="Description" [(ngModel)]="servicePointDesc" name="servicePointDesc">
                         </md-input-container>
                     </div>
                     <div class="clearfix visible-lg"></div>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container class="width100">
-                            <input required mdInput myAddress  placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
+                            <input required mdInput myAddressWithCopyPaste  placeholder="Address" [(ngModel)]="areaHQAddress" name="areaHQAddress" #servicePointAddress="ngModel">
                             <md-hint [hidden]=servicePointAddress.valid>
                                 <span class="error_text" *ngIf="!servicePointAddress.required  && ( servicePointAddress.dirty || servicePointAddress.touched)">Please enter address</span>
                             </md-hint>
