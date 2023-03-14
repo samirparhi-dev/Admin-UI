@@ -97,13 +97,13 @@ export class AgentListCreationService {
   handleState_n_ServiceSuccess(response: Response) {
 
     console.log(response.json().data, 'AGENT LIST CREATION service file success response');
-    let result = [];
-    result = response.json().data.filter(function (item) {
-      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 ) {
-        return item;
-      }
-    });
-    return result;
+    // let result = [];
+    // result = response.json().data.filter(function (item) {
+    //   if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 ) {
+    //     return item;
+    //   }
+    // });
+    // return result;
   }
 
   handleError(error: Response | any) {
