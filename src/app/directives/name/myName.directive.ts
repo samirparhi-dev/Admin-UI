@@ -1,309 +1,151 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
-	selector: '[myName]'
+  selector: "[myName]",
 })
 export class myName {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9 ~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-
-	 @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[0-9 ~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 
 @Directive({
-	selector: '[myName2]'
+  selector: "[myName2]",
 })
 export class myName2 {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
- @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-    e.preventDefault();
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[0-9~!@#$%^&*`()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
   }
-
-  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-    e.preventDefault();
-  }
-
-  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-    e.preventDefault();
-  }
-
 }
 
 @Directive({
-	selector: '[agentID_one]'
+  selector: "[agentID_one]",
 })
 export class agentID_one {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\-=\[\]{};':"\\|.<>\/?]*$/);
-		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
-		//   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\-=\[\]{};':"\\|.<>\/?]*$/);
+    //   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
+    //   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 
 @Directive({
-	selector: '[agentID_two]'
+  selector: "[agentID_two]",
 })
 export class agentID_two {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\=\[\]{};':"\\|,.<>\/?]*$/);
-		//   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
-		//   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[a-zA-Z ~!@#$%^&*`()_+\=\[\]{};':"\\|,.<>\/?]*$/);
+    //   "^(\\s*\\d+\\s*\\-\\s*\\d+\\s*,?|\\s*\\d+\\s*,?)+$"
+    //   /^[a-zA-Z~!@#$%^&*`()_+\=\[\]{};':"\\|.<>\/?]*$/
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 
 @Directive({
-	selector: '[myProviderName]'
+  selector: "[myProviderName]",
 })
 export class myProviderName {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[0-9~!@#$%^&*()_+\-=\[\]{};'`:"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[0-9~!@#$%^&*()_+\-=\[\]{};'`:"\\|,.<>\/?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 @Directive({
-
-	selector: '[PAN]'
+  selector: "[PAN]",
 })
 export class PAN {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[~ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 @Directive({
-
-	selector: '[VehicleNO]'
+  selector: "[VehicleNO]",
 })
 export class VehicleNO {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 @Directive({
-
-	selector: '[VehicleNONew]'
+  selector: "[VehicleNONew]",
 })
 export class VehicleNONew {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 @Directive({
-
-	selector: '[measuringUnit]'
+  selector: "[measuringUnit]",
 })
 export class measuringUnit {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~!@#$&*()+={};':"<>?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[~!@#$&*()+={};':"<>?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
 
 @Directive({
-
-	selector: '[DLNO]'
+  selector: "[DLNO]",
 })
 export class DLNO {
-	constructor(element: ElementRef) {
+  constructor(element: ElementRef) {}
 
-	}
-
-
-	@HostListener('keypress', ['$event']) onKeyPress(ev: any) {
-		var regex = new RegExp(/^[~ !@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
-		var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
-		if (regex.test(key)) {
-			ev.preventDefault();
-		}
-	}
-	@HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-	
-	  @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
-		e.preventDefault();
-	  }
-
+  @HostListener("keypress", ["$event"]) onKeyPress(ev: any) {
+    var regex = new RegExp(/^[~ !@#$%^&*()_+\=\[\]{};':"\\|,.<>\?]*$/);
+    var key = String.fromCharCode(!ev.charCode ? ev.which : ev.charCode);
+    if (regex.test(key)) {
+      ev.preventDefault();
+    }
+  }
 }
-
-
-
