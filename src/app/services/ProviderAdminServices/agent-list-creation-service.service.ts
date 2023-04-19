@@ -96,10 +96,10 @@ export class AgentListCreationService {
 
   handleState_n_ServiceSuccess(response: Response) {
 
-    console.log(response.json().data, 'AGENT LIST CREATION service file success response');
+     console.log(response.json().data, 'AGENT LIST CREATION service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 ) {
+      if (item.serviceID === 1 || item.serviceID === 3 || item.serviceID === 6 || item.serviceID === 10) {
         return item;
       }
     });
