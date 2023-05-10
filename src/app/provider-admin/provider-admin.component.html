@@ -152,6 +152,9 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li style="cursor: pointer" (click)='show("72")'>
+                                    <a>Data Mapping Block to Subcenter</a>
+                                </li>
                                
                             </ul>
                         </li>
@@ -360,6 +363,7 @@
                             <app-fetosense-test-master *ngSwitchCase = "68"></app-fetosense-test-master>
                             <app-device-id-master *ngSwitchCase = "70"></app-device-id-master>
                             <app-van-device-id-mapping *ngSwitchCase = "71"></app-van-device-id-mapping>
+                            <app-data-mapping-block-subcenter *ngSwitchCase = "72"></app-data-mapping-block-subcenter>
                         </div>
                     </div>
                 </div>
