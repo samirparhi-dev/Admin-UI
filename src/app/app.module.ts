@@ -292,6 +292,8 @@ import { ItemNameWithSpecialCharCopyPasteDirective } from './directives/itemName
 import { MyAddressWithCopyPasteDirective } from './directives/address/myAddressWithCopyPaste.directive';
 import { TextAreaWithCopyPaste } from './directives/textarea/textAreaWithCopyPaste.directive';
 import { MyMobileNumberWithCopyPaste } from './directives/MobileNumber/myMobileNumberWithCopyPaste.directive';
+import { DataMappingBlockSubcenterComponent } from './data-mapping-block-subcenter/data-mapping-block-subcenter.component';
+import { BlockSubcenterMappingService } from './services/ProviderAdminServices/block-subcenter-mapping-service';
 
 @NgModule({
   declarations: [
@@ -390,7 +392,8 @@ import { MyMobileNumberWithCopyPaste } from './directives/MobileNumber/myMobileN
     PanWithCopyPaste,
     MyNameWithCopyPaste,
     MyMobileNumberWithCopyPaste,
-    MyProviderNameWithCopyPaste
+    MyProviderNameWithCopyPaste,
+    DataMappingBlockSubcenterComponent
   ],
 
   imports: [
@@ -464,7 +467,7 @@ import { MyMobileNumberWithCopyPaste } from './directives/MobileNumber/myMobileN
     LoaderService, SeverityTypeService, InstituteDirectoryMasterService,
     ServicePointVillageMapService, VanMasterService, VanTypeMasterService,
     VanServicePointMappingService, EmployeeParkingPlaceMappingService,
-    InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService,
+    InstituteDirectoryMasterService, FeedbackTypeService, HospitalMasterService, BlockSubcenterMappingService,
     InstituteSubDirectoryMasterService, HospitalInstituteMappingService,
     AgentListCreationService, VillageMasterService, InstituteTypeMasterService,
     UserRoleAgentID_MappingService, AuthService, ProcedureMasterServiceService,

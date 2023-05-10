@@ -182,6 +182,12 @@ export class loginContentClass implements OnInit {
       sessionStorage.setItem('authToken', response.key);
       this.router.navigate(['/setQuestions']);
     }
+
+    for (let i = 0; i < response.previlegeObj.length; i++) {
+      if (response.previlegeObj[i].serviceDesc.toLowerCase() === '104 helpline') {
+        this.dataSettingService.providerServiceMapID_104 = response.previlegeObj[i].providerServiceMapID;
+      }
+    }
   };
   errorCallback(error: any) {
     if (error.status) {
