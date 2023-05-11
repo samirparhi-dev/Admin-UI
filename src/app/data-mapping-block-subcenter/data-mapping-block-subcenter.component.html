@@ -12,7 +12,7 @@
 </div>
   <form *ngIf="showUpload">
   <div class=" m-t-25">
-    <label for="upload-file" *ngIf="file!=undefined">Upload File(Size :{{((file.size / 1024) / 1024)}}/{{maxFileSize}}MB)</label>
+    <label for="upload-file" *ngIf="file!=undefined">Upload File(Size :{{((file.size / 1024) / 1024 | number:'1.2-2')}}/{{maxFileSize}}MB)</label>
     <label for="upload-file" *ngIf="file==undefined">Upload File(Size :0/{{maxFileSize}}MB), Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</label>
     <input class="m-t-10" style="margin-left: 60px;" type="file" accept=".xls, .xlsx, .xlsm, .xlsb" size="100" placeholder="Upload file" id="upload-file"
       (change)="onFileUpload($event)" name="fileList" ngModel #uploadfile="ngModel">
