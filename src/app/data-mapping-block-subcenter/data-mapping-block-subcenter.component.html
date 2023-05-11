@@ -7,7 +7,10 @@
       <md-spinner></md-spinner>
     </div>
   </div>
-  <form>
+  <div class="m-t-15" *ngIf="!showUpload">
+    <span class="help-block">*This user doesn't have 104 serviceline previlage to upload data</span>
+</div>
+  <form *ngIf="showUpload">
   <div class=" m-t-25">
     <label for="upload-file" *ngIf="file!=undefined">Upload File(Size :{{((file.size / 1024) / 1024)}}/{{maxFileSize}}MB)</label>
     <label for="upload-file" *ngIf="file==undefined">Upload File(Size :0/{{maxFileSize}}MB), Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</label>
