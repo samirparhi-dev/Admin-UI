@@ -24,6 +24,7 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
   userID: any;
   showProgressBar: Boolean = false;
   disableUpload: Boolean = true;
+  showUpload: boolean;
 
   constructor(
     public dataService: dataService,
@@ -33,11 +34,20 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
 
   ngOnInit() {
     this.userID = this.dataService.uid;
+    let servicelines = this.dataService.userPriveliges;
+    for (let element of servicelines) {
+      if (element.serviceDesc.toLowerCase() === "104 helpline") {
+        this.showUpload = true;
+        return this.showUpload;
+      }
+    }
+    this.showUpload = false;
+    return this.showUpload;
   }
 
   onFileUpload(ev) {
+    this.showProgressBar = true;
     this.file = undefined;
-    this.fileContent = null;
  
     this.fileList = ev.target.files;
     this.file = ev.target.files[0];
@@ -49,6 +59,7 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
     this.invalid_file_flag = false;
     this.inValidFileName = false;
     this.disableUpload = false;
+    this.showProgressBar = false;
     }
     else {
     if (this.file) {
@@ -68,6 +79,7 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
             this.invalid_file_flag = false;
             this.inValidFileName = false;
             this.disableUpload = false;
+            this.showProgressBar = false;
             }
             else {
             this.error1 = false;
@@ -107,6 +119,7 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
             this.error1 = false;
             this.error2 = false;
             this.disableUpload = false;
+            this.showProgressBar = false;
         }
         }
         else{
@@ -116,11 +129,13 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
         this.error2 = false;
         this.error1 = false;
         this.disableUpload = false;
+        this.showProgressBar = false;
         }
         } else {
         
         this.invalid_file_flag = false;
         this.disableUpload = false;
+        this.showProgressBar = false;
         }
   }
 }
@@ -154,6 +169,7 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
   }
   onLoadFileCallback = (event) => {
     this.fileContent = event.currentTarget.result;
+    this.showProgressBar = false;
   }
 
   uploadFile(){
@@ -172,17 +188,23 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
     (response) => {
       if(response && response.statusCode == 200){
         this.showProgressBar = false;
-        this.alertService.alert('File Uploaded successfully', 'success');     
+        this.alertService.alert('File Uploaded successfully', 'success'); 
+        this.file = undefined;
+        this.fileContent = null;    
         this.disableUpload = true;
       } else {
         this.showProgressBar = false;
         this.alertService.alert(response.errorMessage, 'error');
-        this.disableUpload = false;
+        this.file = undefined;
+        this.fileContent = null;
+        this.disableUpload = true;
       }
     });(err) => {
       this.showProgressBar = false;
       this.alertService.alert(err, 'error');
-      this.disableUpload = false;
+      this.file = undefined;
+      this.fileContent = null;
+      this.disableUpload = true;
     }
 
   }
