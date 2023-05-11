@@ -173,8 +173,6 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
   }
 
   uploadFile(){
-    console.log("file", this.file);
-    console.log("fileContent",this.fileContent);
     let fileExtenstion = this.file.name.split('.');
     let reqObj = {
       "fileName": this.file.name,
@@ -189,12 +187,14 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
       if(response && response.statusCode == 200){
         this.showProgressBar = false;
         this.alertService.alert('File Uploaded successfully', 'success'); 
+        this.resetFileInput();
         this.file = undefined;
         this.fileContent = null;    
         this.disableUpload = true;
       } else {
         this.showProgressBar = false;
         this.alertService.alert(response.errorMessage, 'error');
+        this.resetFileInput();
         this.file = undefined;
         this.fileContent = null;
         this.disableUpload = true;
@@ -202,12 +202,19 @@ export class DataMappingBlockSubcenterComponent implements OnInit {
     });(err) => {
       this.showProgressBar = false;
       this.alertService.alert(err, 'error');
+      this.resetFileInput();
       this.file = undefined;
       this.fileContent = null;
       this.disableUpload = true;
     }
 
   }
+
+   resetFileInput() {
+    const fileInput = document.getElementById('upload-file') as HTMLInputElement;
+    fileInput.value = ''; 
+  }
+  
 
 
 }
