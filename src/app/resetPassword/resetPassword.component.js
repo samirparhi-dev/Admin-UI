@@ -80,10 +80,7 @@ var ResetComponent = (function () {
             this.counter = this.counter + 1;
             if (this.counter < 4) {
                 this.showMyQuestion();
-            }
-            else {
-                alert('will display result shortly');
-            }
+            }            
         }
     };
     ResetComponent.prototype.saveUserAnswers = function (answer) {
