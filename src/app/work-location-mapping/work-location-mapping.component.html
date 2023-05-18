@@ -102,7 +102,7 @@
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
-        <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getStates(Serviceline.serviceID,Serviceline.isNational);setIsNational(Serviceline.isNational);showInboundOutbound(Serviceline.serviceName);"
+        <md-select placeholder="Select Serviceline" [style.width]="'100%'" [(ngModel)]="Serviceline" name="serviceline" (change)="getStates(Serviceline.serviceID,Serviceline.isNational);setIsNational(Serviceline.isNational);showInboundOutbound(Serviceline.serviceName);allowSingleRoleOnlyForECD(Serviceline.serviceName)"
           required>
           <md-option *ngFor="let item of services_array" [value]="item">
             {{item.serviceName}}
@@ -148,7 +148,7 @@
         </md-select>
         <!-- </md-input-container> -->
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+      <div *ngIf="!singleSelectForEcd" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
         <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
           <input mdInput style="display:none"> -->
         <md-select placeholder="Select Role" [style.width]="'100%'" [multiple]="true" [(ngModel)]="Role" name="role" required>
@@ -156,6 +156,17 @@
             {{item.roleName}}
           </md-option>
         </md-select>
+        <!-- </md-input-container> -->
+      </div>
+      <div *ngIf="singleSelectForEcd" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
+        <!-- <md-input-container class="hide_underline" [style.width]="'100%'">
+          <input mdInput style="display:none"> -->
+        <md-select placeholder="Select Role" [style.width]="'100%'" [(ngModel)]="Role" name="role" [disabled]="disableSelectRoles" required>
+          <md-option *ngFor="let item of availableRoles" [value]="item">
+            {{item.roleName}}
+          </md-option>
+        </md-select>
+        <md-hint *ngIf="disableSelectRoles">One user can be mapped with one role only for ECD serviceLine</md-hint>
         <!-- </md-input-container> -->
       </div>
       
@@ -168,7 +179,7 @@
 
     
       <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3" style="margin-top: 50px;" class="pull-right">
-        <button md-mini-fab color="primary" style="margin-left:-200px;" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && !workplaceform.invalid"
+        <button md-mini-fab color="primary" style="margin-left:-200px;" class="xs-pull-right sm-pull-right md-pull-right lg-pull-left" *ngIf="!editMode && !workplaceform.invalid && !disableSelectRoles"
           (click)="addWorkLocation(workplaceform.value,Role)">
           <md-icon mdSuffix class="mat-icon material-icons" role="img" aria-hidden="true" style="cursor: pointer">add</md-icon>
         </button>
