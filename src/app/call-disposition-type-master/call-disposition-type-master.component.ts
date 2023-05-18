@@ -276,7 +276,7 @@ export class CallDispositionTypeMasterComponent implements OnInit {
   successhandeler(response) {
     this.service = "";
     this.provider_services = response.filter(function (obj) {
-      return obj.serviceID == 1 || obj.serviceID == 3 || obj.serviceID == 6;
+      return obj.serviceID == 1 || obj.serviceID == 3 || obj.serviceID == 6 || obj.serviceID == 10;
     });
 
     if (this.provider_services.length == 0) {

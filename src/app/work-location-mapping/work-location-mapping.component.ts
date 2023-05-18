@@ -58,6 +58,8 @@ export class WorkLocationMappingComponent implements OnInit {
   isInbound=false;
   isOutbound=false;
   showInOutBoundEdit=false;
+  singleSelectForEcd: boolean = false;
+  disableSelectRoles: boolean = false;
   
   constructor(private alertService: ConfirmationDialogsService,
     private saved_data: dataService,
@@ -159,6 +161,7 @@ export class WorkLocationMappingComponent implements OnInit {
       }, err => {
         console.log(err, 'error');
       });
+      this.disableSelectRoles = false; //For resetting the disbaled selected role field on change of states
   }
   showAlertsForMappedRoles(serviceID, userID, providerServiceMapID) {
     let reqObj = {
@@ -241,12 +244,19 @@ export class WorkLocationMappingComponent implements OnInit {
   checkExistance(serviceID, providerServiceMapID, userID) {
     this.existingRoles = [];
     this.bufferRoleIds = [];
+    this.disableSelectRoles = false;
     this.mappedWorkLocationsList.forEach((mappedWorkLocations) => {
-      if (mappedWorkLocations.providerServiceMapID != undefined && mappedWorkLocations.providerServiceMapID == providerServiceMapID && mappedWorkLocations.userID == userID) {
+      if(mappedWorkLocations.serviceName === "ECD" && mappedWorkLocations.providerServiceMapID != undefined && mappedWorkLocations.providerServiceMapID == providerServiceMapID && mappedWorkLocations.userID == userID){
+        if (!mappedWorkLocations.userServciceRoleDeleted) {
+          // this.existingRoles.push(mappedWorkLocations.roleID); // existing roles has roles which are already mapped.
+          // this.existingRoles = this.RolesList.slice();
+          this.disableSelectRoles = true;
+          return;
+        }
+      } else if (mappedWorkLocations.providerServiceMapID != undefined && mappedWorkLocations.providerServiceMapID == providerServiceMapID && mappedWorkLocations.userID == userID) {
         if (!mappedWorkLocations.userServciceRoleDeleted) {
           this.existingRoles.push(mappedWorkLocations.roleID); // existing roles has roles which are already mapped.
         }
-
       }
     });
     this.availableRoles = this.RolesList.slice();
@@ -296,7 +306,11 @@ export class WorkLocationMappingComponent implements OnInit {
 
     if (this.bufferArray.length > 0) {
       this.bufferArray.forEach((bufferArrayList) => {
-        if (bufferArrayList.userID == userID) {
+        if(bufferArrayList.serviceName === "ECD" && bufferArrayList.userID == userID && bufferArrayList.providerServiceMapID == providerServiceMapID ){
+          this.disableSelectRoles = true;
+          return;
+        }
+        else if (bufferArrayList.userID == userID) {
           this.bufferArrayTemp.push(bufferArrayList.roleID1);
         }
       });
@@ -334,6 +348,14 @@ export class WorkLocationMappingComponent implements OnInit {
     this.bufferSupAndSpecScreenNames = [];
     this.supAndSpecScreenNames = [];
   }
+  
+  allowSingleRoleOnlyForECD(serviceline){
+    if(serviceline === "ECD"){
+      this.singleSelectForEcd = true;
+    } else {
+      this.singleSelectForEcd = false;
+    }
+  }
 
   showTable() {
     if (this.editMode) {
@@ -346,6 +368,7 @@ export class WorkLocationMappingComponent implements OnInit {
       this.isOutboundEdit = false;
       this.isInboundEdit = false;
       this.searchTerm=null;
+      this.disableSelectRoles = false;
     }
     else {
 
@@ -364,7 +387,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.availableRoles = [];
         this.RolesList=[];
         this.searchTerm=null;
-        
+        this.disableSelectRoles = false;
         //   }
         // });
       }
@@ -383,6 +406,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.availableRoles = [];
         this.RolesList=[];
         this.searchTerm=null;
+        this.disableSelectRoles = false;
         //   }
         // });
       }
@@ -594,6 +618,29 @@ export class WorkLocationMappingComponent implements OnInit {
         }
         console.log("Result Array",this.bufferArray)
       }
+    } else if( objectToBeAdded.serviceline.serviceName === "ECD") {
+      // for (let a = 0; a < objectToBeAdded.role.length; a++) {
+      //   let obj = {
+      //     'roleID1': objectToBeAdded.role[a].roleID,
+      //     'roleName': objectToBeAdded.role[a].roleName,
+      //     'screenName': objectToBeAdded.role[a].screenName
+      //   }
+        // roleArray.push(obj);
+        let obj = {
+          'roleID1': objectToBeAdded.role.roleID,
+          'roleName': objectToBeAdded.role.roleName,
+          'screenName': objectToBeAdded.role.screenName
+        }
+        this.setWorkLocationObject(objectToBeAdded,obj,false,false);  
+        if (this.bufferArray.length > 0) {
+          this.eForm.resetForm();
+        }
+        console.log("Result Array",this.bufferArray);
+        if (this.bufferArray.length > 0) {
+          this.eForm.resetForm();
+        }
+      // }
+
     }
   else
   {
@@ -646,6 +693,7 @@ export class WorkLocationMappingComponent implements OnInit {
     }
     if (this.bufferArray.length > 0) {
       this.eForm.resetForm();
+      this.disableSelectRoles = false;
     }
     console.log("Result Array",this.bufferArray)
 
@@ -782,6 +830,7 @@ export class WorkLocationMappingComponent implements OnInit {
         this.eForm.resetForm();
         this.showTable();
         this.resetAllArrays();
+        this.disableSelectRoles = false;
         this.filteredStates = [];
         // this.services_array = [];
         this.bufferArray = [];
