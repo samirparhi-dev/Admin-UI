@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 m-t-15">
+      <h4>Data Mapping Block to Subcenter</h4>
+  </div>
+  <div class="overlay" *ngIf="showProgressBar">
+    <div class="overlay-content">
+      <md-spinner></md-spinner>
+    </div>
+  </div>
+  <div class="m-t-15" *ngIf="!showUpload">
+    <span class="help-block">*This user doesn't have 104 serviceline previlage to upload data</span>
+</div>
+  <form *ngIf="showUpload">
+  <div class=" m-t-25">
+    <label for="upload-file" *ngIf="file!=undefined">Upload File(Size :{{((file.size / 1024) / 1024 | number:'1.2-2')}}/{{maxFileSize}}MB)</label>
+    <label for="upload-file" *ngIf="file==undefined">Upload File(Size :0/{{maxFileSize}}MB), Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</label>
+    <input class="m-t-10" style="margin-left: 60px;"  id="upload-file" type="file" accept=".xls, .xlsx, .xlsm, .xlsb" size="100" placeholder="Upload file" id="upload-file"
+      (change)="onFileUpload($event)" name="fileList" ngModel #uploadfile="ngModel">
+      <span class="help-block" *ngIf="inValidFileName">Invalid file name</span>
+      <span class="help-block" *ngIf="invalid_file_flag">Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</span>
+      <span class="file-upload" *ngIf="error1">*Please choose a file for upload</span>
+      <span class="help-block" *ngIf="error2">File size should not exceed {{maxFileSize}}MB</span>
+  </div>
+  <div class="m-t-20" style="margin-left: 60px;">
+    <button md-raised-button class="pull-left" color="accent" type="submit" [disabled]="disableUpload || invalid_file_flag || enableUPloadButton || error2 || inValidFileName || error1" (click)="uploadFile()" >Upload</button>
+  </div>
+  </form>
+</div>
