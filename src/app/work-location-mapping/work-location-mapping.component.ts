@@ -1222,6 +1222,7 @@ updateData(workLocations,roleValue)
     this.WorkLocation = undefined;
     this.Role = undefined;
     this.resetAllArrays();
+    this.disableSelectRoles = false;
   }
 
   showInboundOutbound(value)
