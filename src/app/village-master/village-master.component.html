@@ -59,8 +59,8 @@
             <th width="15%">Panchayat Name</th>
             <th width="10%">Habitat</th>
             <th width="10%">Pincode</th>
-            <th width="20%">Government Village ID</th>
-            <th width="20%">Government Sub District ID</th>
+            <th width="20%">Village LGD Code</th>
+            <th width="20%">Sub District LGD Code</th>
             <th width="5%">Edit</th>
             <th width="15%">Action</th>
           </tr>
@@ -135,7 +135,7 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-input-container class="width100" myMobileNumberWithCopyPaste>
-        <input mdInput placeholder="Government Village ID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel">
+        <input mdInput placeholder="Village LGD Code" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel" required>
         <md-hint>
           <span class="error_text" *ngIf="!villageID.valid  && ( villageID.dirty || villageID.touched)">Please enter valid village ID</span>
         </md-hint>
@@ -144,7 +144,7 @@
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-15">
       <md-input-container class="width100" myMobileNumberWithCopyPaste>
-        <input mdInput placeholder="Government Sub District ID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
+        <input mdInput placeholder="Sub District LGD Code" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
           #districtID="ngModel">
         <md-hint [hidden]=districtID.valid>
           <span class="error_text" *ngIf="!districtID.valid  && ( districtID.dirty || districtID.touched)">Please enter valid subdistrict ID</span>
@@ -180,8 +180,8 @@
             <th width="15%">Panchayat Name</th>
             <th width="10%">Habitat</th>
             <th width="10%">Pincode</th>
-            <th width="15%">Government Village ID</th>
-            <th width="20%">Government Sub District ID</th>
+            <th width="15%">Village LGD Code</th>
+            <th width="20%">Sub District LGD Code</th>
             <th width="15%">Action</th>
           </tr>
         </thead>
