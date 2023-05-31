@@ -137,7 +137,7 @@
       <md-input-container class="width100" myMobileNumberWithCopyPaste>
         <input mdInput placeholder="Village LGD Code" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" #villageID="ngModel" required>
         <md-hint>
-          <span class="error_text" *ngIf="!villageID.valid  && ( villageID.dirty || villageID.touched)">Please enter valid village ID</span>
+          <span class="error_text" *ngIf="!villageID.valid  && ( villageID.dirty || villageID.touched)">Please enter valid Village LGD Code</span>
         </md-hint>
       </md-input-container>
     </div>
