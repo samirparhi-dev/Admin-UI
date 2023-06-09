@@ -48,8 +48,8 @@ export class loginService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
-	superAdminAuthenticate(uname, pwd, doLogout) {
-		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': pwd, 'doLogout': doLogout })
+	superAdminAuthenticate(uname, password, doLogout) {
+		return this._httpInterceptor.post(this.superadmin_auth_url, { 'userName': uname.toLowerCase(), 'password': password, 'doLogout': doLogout })
 			.map(this.extractData)
 			.catch(this.handleError);
 	}

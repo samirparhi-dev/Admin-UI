@@ -38,6 +38,7 @@ export class WorkLocationMapping {
     get_State_Url_new: any;
     get_Service_Url_new: any;
     districtID: any;
+    _getTalukListURL: any;
 
     constructor(private http: SecurityInterceptedHttp,
         public basepaths: ConfigService,
@@ -64,6 +65,8 @@ export class WorkLocationMapping {
         this.getProviderServicesInState_url = this.admin_Base_Url + 'm/role/service';
         this.get_State_Url_new = this.admin_Base_Url + 'm/role/stateNew';
         this.get_Service_Url_new = this.admin_Base_Url + 'm/role/serviceNew';
+        this._getTalukListURL = this.commonbaseurl + 'location/taluks/';
+
 
     };
 
@@ -202,6 +205,20 @@ export class WorkLocationMapping {
 
     handleError(error: Response | any) {
         return Observable.throw(error.json());
+
+    }
+
+    // getTaluks(districtId: number) {
+    //     return this.http.get(this._getTalukListURL + districtId)
+    //         .map(this.handleSuccess)
+    //         .catch(this.handleError);
+
+    // }
+
+    getTaluks(districtId: number) {
+        return this.http.get(this._getTalukListURL + districtId)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
 
     }
 

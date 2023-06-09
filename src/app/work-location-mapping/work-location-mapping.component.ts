@@ -3,6 +3,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
 import { WorkLocationMapping } from '../services/ProviderAdminServices/work-location-mapping.service';
+import { VillageMasterService } from 'app/services/adminServices/AdminVillage/village-master-service.service';
 
 @Component({
   selector: 'app-work-location-mapping',
@@ -24,6 +25,10 @@ export class WorkLocationMappingComponent implements OnInit {
   Serviceline: any;
   District: any;
   WorkLocation: any;
+  Serviceblock: any;
+  Servicevillage: any;
+  blockId: any;
+  
 
   // Arrays
   filteredRoles: any = '';
@@ -39,6 +44,11 @@ export class WorkLocationMappingComponent implements OnInit {
   edit_Details: any = [];
   previleges: any = [];
   workLocations: any = [];
+  blocks:any =[];
+  editblocks:any =[];
+  village: any =[];
+  editVillageArr: any =[];
+  villageEditNameArr: any =[];
 
   //  flag values
   formMode = false;
@@ -50,7 +60,13 @@ export class WorkLocationMappingComponent implements OnInit {
   duplicatestatus_editPart: boolean = false;
 
   isNational = false;
+  blockFlag: boolean = false;
+  villageFlag : boolean = false;
   searchTerm:any;
+  enableEditBlockFlag : boolean = false;
+  enableEditVillageFlag : boolean = false;
+  
+  
 
   @ViewChild('workplaceform') eForm: NgForm;
   @ViewChild('workplaceeform') editWorkplaceForm: NgForm;
@@ -60,17 +76,29 @@ export class WorkLocationMappingComponent implements OnInit {
   showInOutBoundEdit=false;
   singleSelectForEcd: boolean = false;
   disableSelectRoles: boolean = false;
+  ServiceEditblock: any;
+  villagename: any;
+  blockname: any;
+  blockid: any;
+  serviceEditvillage: any;
+  villageid: any;
+  villageIdValue: any;
+
   
   constructor(private alertService: ConfirmationDialogsService,
     private saved_data: dataService,
-    private worklocationmapping: WorkLocationMapping) { }
+    private worklocationmapping: WorkLocationMapping,
+    private villagemasterService: VillageMasterService) { }
 
   ngOnInit() {
     this.serviceProviderID = this.saved_data.service_providerID;
     this.userID = this.saved_data.uid;
     this.createdBy = this.saved_data.uname;
+    // this.District=this.worklocationmapping.districtID;
+    //  this.getBlockMaster();
 
     this.getProviderServices(this.userID);
+    // this.getBlockMaster(this.districtID);
     this.getAllMappedWorkLocations();
     this.getUserName(this.serviceProviderID);
     // this.getAllServicelines(this.serviceProviderID);
@@ -114,6 +142,10 @@ export class WorkLocationMappingComponent implements OnInit {
       }, err => {
         console.log(err, 'error');
       });
+
+      // if(this.services_array.serviceName=="1097"){
+      //   this.blockFlag=true;
+      // }
 
   }
   getAllMappedWorkLocations() {
@@ -700,12 +732,51 @@ export class WorkLocationMappingComponent implements OnInit {
 
 
   }
-  }
 
+  // if (objectToBeAdded.Servicevillage == 1) {
+  //   for (let a = 0; a < objectToBeAdded.Servicevillage; a++) {
+     
+  //     let villageObj = {
+  //       // 'roleID1': objectToBeAdded.role[a].roleID,
+  //       // 'roleName': objectToBeAdded.role[a].roleName,
+  //       // 'screenName': objectToBeAdded.role[a].screenName
+  //       'blockID': this.Servicevillage.blockID,
+  //       'blockName': this.Servicevillage.blockName,
+  //       'villageName': this.Servicevillage.villageName,
+  //     }
+  //     // roleArray.push(obj);
+   
+  //          this.setWorkLocationObject(objectToBeAdded,obj,false,false);
+    
+      
+  //   }
+
+  // } 
+  // }
+  }
   setWorkLocationObject(objectToBeAdded,obj,InboundValue,OnboundValue)
   {
+    let villageIDArr =[];
+    let villageNameArr =[];
+    // villageArr.push(villageObj);
     let roleArr=[];
     roleArr.push(obj);
+      if(objectToBeAdded.Serviceblock!=undefined){
+        objectToBeAdded.Servicevillage.filter(item =>{
+        villageNameArr.push(item.villageName);
+        villageIDArr.push(item.districtBranchID);
+      })
+    }
+
+    // for(let i=0;i<objectToBeAdded.length;i++){
+    //   villageNameArr = objectToBeAdded.Servicevillage.filter((item )=>{
+    //     if(villageNameArr == item.villageName){
+    //       villageNameArr.push(item.villageName);
+
+    //     }
+
+    //   })
+    // }
     const workLocationObj = {
       'previleges': [],
       'userID': objectToBeAdded.user.userID,
@@ -714,8 +785,14 @@ export class WorkLocationMappingComponent implements OnInit {
       'serviceName': objectToBeAdded.serviceline.serviceName,
       // 'stateName': objectToBeAdded.state ? objectToBeAdded.state.stateName : '-',
       // 'district': objectToBeAdded.district ? objectToBeAdded.district.districtName : '-',
+      'blockName': (objectToBeAdded.Serviceblock!=undefined && objectToBeAdded.Serviceblock.blockName!=undefined && objectToBeAdded.Serviceblock.blockName!="" && objectToBeAdded.Serviceblock.blockName!=null)?objectToBeAdded.Serviceblock.blockName:null,
+      'blockID': (objectToBeAdded.Serviceblock!=undefined && objectToBeAdded.Serviceblock.blockID!=undefined && objectToBeAdded.Serviceblock.blockID!=null)?objectToBeAdded.Serviceblock.blockID:null,
       'workingLocation': objectToBeAdded.worklocation.locationName,
       'roleID1': roleArr,
+      // 'villageID': villageNameArr,
+      'villageName':(villageNameArr!=undefined && villageNameArr.length>0)?villageNameArr:null,
+      // 'villageID' : (villageIDArr!=undefined && villageIDArr!=null)?villageIDArr:null ,
+      'villageID' : (villageIDArr!=undefined && villageIDArr.length>0)?villageIDArr:null ,
       'Inbound':objectToBeAdded.serviceline.serviceName === "1097"?InboundValue:"N/A",
       'Outbound':objectToBeAdded.serviceline.serviceName === "1097"?OnboundValue:"N/A",
       // tslint:disable-next-line:max-line-length
@@ -728,6 +805,11 @@ export class WorkLocationMappingComponent implements OnInit {
     if (objectToBeAdded.state) {
       workLocationObj['stateName'] = objectToBeAdded.state.stateName;
     }
+    // else if(objectToBeAdded.Serviceblock.blockName===null && villageNameArr===null){
+    //     this.blockTableFlag = true;
+    //     this.villageTableFlag = true;
+
+    // }
     else {
       workLocationObj['stateName'] = 'All States';
     }
@@ -787,7 +869,10 @@ export class WorkLocationMappingComponent implements OnInit {
             }
           ],
           'providerServiceMapID': '',
-          'workingLocationID': ''
+          'workingLocationID': '',
+          'blockID': '',
+          'blockName': '',
+          
         }
       ],
       'userID': '',
@@ -808,7 +893,13 @@ export class WorkLocationMappingComponent implements OnInit {
                 }
               ],
               'providerServiceMapID': this.bufferArray[i].providerServiceMapID,
-               'workingLocationID': this.bufferArray[i].workingLocationID
+               'workingLocationID': this.bufferArray[i].workingLocationID,
+               'blockID': this.bufferArray[i].blockID,
+               'blockName': this.bufferArray[i].blockName,
+               'villageID':
+                    this.bufferArray[i].villageID,
+               'villageName': 
+                    this.bufferArray[i].villageName,
             }
           ],
           'userID': this.bufferArray[i].userID,
@@ -883,13 +974,24 @@ export class WorkLocationMappingComponent implements OnInit {
         this.showInOutBoundEdit=true;
         
     }
+    // else if(this.edit_Details.serviceName === "FLW"){
+    //   this.ServiceEditblock = this.edit_Details.blockID;
+    //   // this.blockid =this.edit_Details.blockID;
+    //   this.blockname=this.edit_Details.blockName;
+    //   this.villagename = this.edit_Details.villageName;
+    //   this.enableEditBlockFlag = true;
+    //   this.enableEditVillageFlag = true;
+      
+
+    // }
    else
    {
     this.showInOutBoundEdit=false;
    }
     this.getProviderServices(this.userID);
     this.checkService_forIsNational();
-    this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
+    // this.getProviderStates_duringEdit(this.serviceID_duringEdit, this.isNational_edit);
+    this.getProviderStates_duringPatchEdit(this.serviceID_duringEdit, this.isNational_edit);
     if (this.edit_Details.stateID === undefined) {
       this.set_currentPSM_ID_duringEdit(this.edit_Details.providerServiceMapID);
       this.stateID_duringEdit = '';
@@ -998,12 +1100,18 @@ export class WorkLocationMappingComponent implements OnInit {
 
   getProviderStates_duringEdit(serviceID, isNational) {
     this.worklocationmapping.getStates(this.userID, serviceID, isNational).
-      subscribe(response => this.getStatesSuccessHandeler_duringEdit(serviceID, response, isNational), err => {
+      subscribe(response => this.getStatesSuccessHandeler_duringEdit(serviceID, response, isNational, true), err => {
+        console.log(err, 'error');
+      });
+  }
+  getProviderStates_duringPatchEdit(serviceID, isNational) {
+    this.worklocationmapping.getStates(this.userID, serviceID, isNational).
+      subscribe(response => this.getStatesSuccessHandeler_duringEdit(serviceID, response, isNational,false), err => {
         console.log(err, 'error');
       });
   }
 
-  getStatesSuccessHandeler_duringEdit(serviceID, response, isNational) {
+  getStatesSuccessHandeler_duringEdit(serviceID, response, isNational, blockVillageCheckFlag) {
     // this.stateID_duringEdit = '';
     if (response) {
       console.log(response, 'Provider States');
@@ -1019,9 +1127,17 @@ export class WorkLocationMappingComponent implements OnInit {
         this.district_duringEdit = null;
         this.getAllWorkLocations_duringEdit(this.states_array[0].stateID, this.serviceID_duringEdit, this.isNational_edit, this.district_duringEdit);
         this.getAllRoles_duringEdit(serviceID, this.providerServiceMapID_duringEdit, this.userID_duringEdit);
+        
+      }
+      if(blockVillageCheckFlag===true){
+        this.getAllDistricts_duringEdit(this.stateID_duringEdit);
+      }
+      else{
+        this.getAllDistricts_duringPatchEdit(this.stateID_duringEdit);
       }
       // this.getProviderServicesInState_duringEdit(this.stateID_duringEdit);
-      this.getAllDistricts_duringEdit(this.stateID_duringEdit);
+      
+      
     }
 
   }
@@ -1048,6 +1164,7 @@ export class WorkLocationMappingComponent implements OnInit {
     // refreshing ngModels of worklocation, roles
     this.workLocationID_duringEdit = undefined;
     this.roleID_duringEdit = undefined;
+    
   }
 
   refresh4() {
@@ -1063,6 +1180,37 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all districts success handeler');
           this.districts_array = response;
+          
+
+          // this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
+        }
+      }, err => {
+        console.log(err, 'error');
+      });
+  }
+
+  getAllDistricts_duringPatchEdit(state: any) {
+    this.worklocationmapping.getAllDistricts(state)
+      .subscribe(response => {
+        if (response) {
+          console.log(response, 'get all districts success handeler');
+          this.districts_array = response;
+          this.district_duringEdit = parseInt(this.edit_Details.workingDistrictID, 10);
+           if(this.edit_Details.serviceName === "FLW"){
+            this.getEditBlockPatchMaster(this.district_duringEdit);
+            // this.ServiceEditblock = this.edit_Details.blockID;
+            // this.getEditVillagePatchMaster(this.ServiceEditblock);
+            
+            // this.villagename = this.edit_Details.villageName;
+            
+            // this.enableEditVillageFlag = true;
+            
+      
+          }
+          
+          
+          
+          
 
           // this.getAllWorkLocations_duringEdit(this.userID_duringEdit, this.stateID_duringEdit, this.serviceID_duringEdit);
         }
@@ -1076,6 +1224,7 @@ export class WorkLocationMappingComponent implements OnInit {
         if (response) {
           console.log(response, 'get all work locations success handeler edit');
           this.workLocationsList = response;
+          //  this.getBlockMaster(districtID);
 
           // this.getAllRoles_duringEdit(this.providerServiceMapID_duringEdit);
 
@@ -1084,6 +1233,7 @@ export class WorkLocationMappingComponent implements OnInit {
         console.log(err, 'error');
 
       });
+     
   }
 
 
@@ -1139,15 +1289,40 @@ export class WorkLocationMappingComponent implements OnInit {
    }
     else
     {
-
+      let editVillageIdArray=[];
+      if(this.serviceEditvillage!=undefined && this.serviceEditvillage!=null && this.serviceEditvillage.length>0 ){
+      this.serviceEditvillage.filter(item => {
+          this.editVillageArr.filter(itemValue => {
+            if(item==itemValue.villageName){
+              editVillageIdArray.push(itemValue.districtBranchID);
+            }
+            
+          })
+      })
+    }
     
     const langObj = {
       'uSRMappingID': this.uSRMappingID,
       'userID': this.userID_duringEdit,
       'roleID': workLocations.role,
       'providerServiceMapID': this.providerServiceMapID_duringEdit,
+      'blockID':this.ServiceEditblock,
+      'blockName':this.blockname,
+      'villageID':editVillageIdArray,
+      // 'villageName':this.villagename,
+      'villageName':this.serviceEditvillage,
       'workingLocationID': workLocations.worklocation,
       'modifiedBy': this.createdBy
+      // 'uSRMappingID': this.uSRMappingID,
+      // 'userID': this.userID_duringEdit,
+      // 'roleID': workLocations.role,
+      // 'providerServiceMapID': this.providerServiceMapID_duringEdit,
+      // 'blockID':this.edit_Details.blockID,
+      // 'blockName':this.edit_Details.blockName,
+      // 'villageID':this.edit_Details.villageID,
+      // 'villageName':this.edit_Details.villageName,
+      // 'workingLocationID': workLocations.worklocation,
+      // 'modifiedBy': this.createdBy
     };
     console.log('edited request object to be sent to API', langObj);
     this.worklocationmapping.UpdateWorkLocationMapping(langObj)
@@ -1196,7 +1371,7 @@ updateData(workLocations,roleValue)
       this.filteredmappedWorkLocationsList = [];
       this.mappedWorkLocationsList.forEach((item) => {
         for (let key in item) {
-          if (key == 'userName' || key == 'serviceName' || key == 'stateName' || key == 'workingDistrictName' || key == 'locationName' || key == 'roleName') {
+          if (key == 'userName' || key == 'serviceName' || key == 'stateName' || key == 'workingDistrictName' || key == 'blockName' || key == 'villageName' || key == 'locationName' || key == 'roleName') {
             let value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
               this.filteredmappedWorkLocationsList.push(item); break;
@@ -1223,6 +1398,23 @@ updateData(workLocations,roleValue)
     this.Role = undefined;
     this.resetAllArrays();
     this.disableSelectRoles = false;
+    this.blockFlag = false;
+    this.villageFlag = false;
+    this.Serviceblock = undefined;
+    this.Servicevillage = undefined;
+  }
+  
+
+  resetBlockVillageFields(){
+    
+    this.Serviceblock = undefined;
+    this.Servicevillage = undefined;
+  }
+
+  resetEditBlockVillageFields(){
+    
+    this.ServiceEditblock = undefined;
+    this.serviceEditvillage = undefined;
   }
 
   showInboundOutbound(value)
@@ -1271,5 +1463,204 @@ updateData(workLocations,roleValue)
     else
        this.showInOutBoundEdit=false;
   }
+
+  showBlockDrop(serviceline){
+    
+    if(serviceline === "FLW"){
+      this.blockFlag = true;
+      this.villageFlag = true; 
+    }
+    else{
+      this.blockFlag = false;
+      this.villageFlag = false;
+    } 
+  }
+
+  showEditBlockDrop(serviceID_duringEdit){
+    
+    if(serviceID_duringEdit != "FLW"){
+      this.enableEditBlockFlag = false;
+      this.enableEditVillageFlag = false; 
+      this.ServiceEditblock=null;
+      this.blockname=null;
+      this.villageIdValue=null;
+      this.serviceEditvillage=null;
+
+
+
+
+    }
+    else{
+      this.enableEditBlockFlag = true;
+      this.enableEditVillageFlag = true;
+    } 
+  }
+  
+
+  getBlockMaster(District){
+    this.villagemasterService.getTaluks(District.districtID)
+    .subscribe((response)  => this.getTalukSuccessHandeler(response),
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  
+
+ 
+
+  getTalukSuccessHandeler(response) {
+		// console.log(response, "Taluk")
+		if (response) {
+      this.blockId = response[0].blockID;
+			// console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
+			this.blocks = response;
+		}
+  }
+
+  getVillageMaster(Serviceblock){
+    let requestObject={
+      "blockID": Serviceblock.blockID
+    };
+    this.villagemasterService.getVillage(requestObject)
+    .subscribe((response)  => this.getVillageSuccessHandeler(response),
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  getVillageSuccessHandeler(response) {
+		
+		if (response) {
+			this.village = response;
+		}
+  }
+
+  getEditBlockMaster(district_duringEdit){
+    // console.log("PARTH****"+district_duringEdit.districtID, this.district_duringEdit.districtID)
+    this.villagemasterService.getTaluks(district_duringEdit)
+    .subscribe((response)  =>{
+      if (response) {
+        // console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
+        this.editblocks = response;
+      }
+    } ,
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  getEditBlockPatchMaster(district_duringEdit){
+    // console.log("PARTH****"+district_duringEdit.districtID, this.district_duringEdit.districtID)
+    this.villagemasterService.getTaluks(district_duringEdit)
+    .subscribe((response)  =>{
+      if (response) {
+        // console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
+        this.editblocks = response;
+        this.ServiceEditblock = this.edit_Details.blockID;
+            // this.blockid =this.edit_Details.blockID;
+            this.blockname=this.edit_Details.blockName;
+            this.enableEditBlockFlag = true;
+            this.getEditVillagePatchMaster(this.ServiceEditblock);
+      }
+  // getEditBlockPatchMaster(district_duringEdit){
+  //   // console.log("PARTH****"+district_duringEdit.districtID, this.district_duringEdit.districtID)
+  //   this.villagemasterService.getTaluks(district_duringEdit)
+  //   .subscribe((response)  =>{
+  //     if (response) {
+  //       // console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
+  //       this.editblocks = response;
+  //       if(this.edit_Details.serviceName == "FLW"){
+  //       this.ServiceEditblock = this.edit_Details.blockID;
+  //           // this.blockid =this.edit_Details.blockID;
+  //           this.blockname=this.edit_Details.blockName;
+  //           this.enableEditBlockFlag = true;
+  //           this.getEditVillagePatchMaster(this.ServiceEditblock);
+  //       }
+  //       else{
+  //         this.enableEditBlockFlag = false;
+  //       }
+  //     }
+            
+      
+    } ,
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  // getEditTalukSuccessHandeler(response) {
+	// 	// console.log(response, "Taluk")
+	// 	if (response) {
+	// 		// console.log('this.searchForm', this.searchForm.valid, this.searchForm.value);
+	// 		this.editblocks = response;
+	// 	}
+  // }
+
+  getEditVillageMaster(ServiceEditblock){
+    let requestObject={
+      "blockID": ServiceEditblock
+    };
+    this.villagemasterService.getVillage(requestObject)
+    .subscribe((response)  => this.getEditVillageSuccessHandeler(response),
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  getEditVillageSuccessHandeler(response) {
+		
+		if (response) {
+			this.editVillageArr = response;
+		}
+  }
+
+  getEditVillagePatchMaster(ServiceEditblock){
+    let requestObject={
+      "blockID": ServiceEditblock
+    };
+    this.villagemasterService.getVillage(requestObject)
+    .subscribe((response)  => this.getEditPatchVillageSuccessHandeler(response),
+    (err) => {
+      console.log("Error", err);
+    }); 
+
+  }
+
+  getEditPatchVillageSuccessHandeler(response) {
+		
+		if (response) {
+			this.editVillageArr = response;
+      this.enableEditVillageFlag = true;
+      this.villageIdValue = this.edit_Details.villageID;
+      this.serviceEditvillage= this.edit_Details.villageName;
+      
+		}
+
+  }
+
+  setUpdatedBlockName(blockname){
+    this.blockname=blockname;
+    
+  }
+
+  // setUpdatedVillageName(villageID){
+  //   let villageEditIDArr =[];
+
+  // //   if(this.edit_Details.ServiceEditblock!=undefined && this.edit_Details.ServiceEditblock.districtBranchID!=villagename.districtBranchID){
+  // //     this.edit_Details.villagename.filter(item =>{
+  // //       this.villageEditNameArr.push(item.villagename);
+  // //   })
+  // // }
+  //    this.villageEditNameArr.push(villageID);
+  // }
+
+  
+
 
 }

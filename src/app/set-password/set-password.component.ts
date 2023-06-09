@@ -112,7 +112,7 @@ export class SetPasswordComponent implements OnInit {
 		this.encryptedConfirmPwd=this.encrypt(this.Key_IV, this.confirmpwd)
 		if (new_pwd === this.confirmpwd) {
 			this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
-				{ 'userName': this.uname, 'password': new_pwd, 'transactionId': transactionId  }
+				{ 'userName': this.uname, 'password': this.password, 'transactionId': transactionId  }
 			).subscribe(
 				(response: any) => {if (response !== undefined && response !== null && response.statusCode === 200)
 					this.successCallback(response)

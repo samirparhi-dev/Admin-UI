@@ -34,6 +34,7 @@ export class loginContentClass implements OnInit {
   _ivSize: any;
   _iterationCount: any;
   logoutUserFromPreviousSessionSubscription: Subscription;
+  encryptPassword: any;
 
   constructor(public loginservice: loginService,
     public router: Router,
@@ -117,9 +118,11 @@ export class loginContentClass implements OnInit {
   }
 
   login(userId: any, password: any, doLogout) {
-    this.password = this.encrypt(this.Key_IV, this.password)
+    this.encryptPassword = this.encrypt(this.Key_IV, password)
     if (userId.toLowerCase() === 'SUPERADMIN'.toLowerCase()) {
-      this.loginservice.superAdminAuthenticate(userId, password, doLogout)
+      
+      // this.loginservice.superAdminAuthenticate(userId, password, doLogout)
+      this.loginservice.superAdminAuthenticate(userId, this.encryptPassword, doLogout)
         .subscribe(response => {
           if (response.isAuthenticated) {
             if (response.previlegeObj.length === 0) {
@@ -142,7 +145,7 @@ export class loginContentClass implements OnInit {
         });
 
     } else {
-      this.loginservice.authenticateUser(userId, password, doLogout).subscribe(
+      this.loginservice.authenticateUser(userId, this.encryptPassword, doLogout).subscribe(
         (response: any) => {
           sessionStorage.setItem('authToken', response.key);
           this.successCallback(response);
@@ -162,7 +165,7 @@ export class loginContentClass implements OnInit {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.response) {
         if (this.userID.toLowerCase() === 'SUPERADMIN'.toLowerCase()){
-          this.loginservice.superAdminAuthenticate(this.userID, this.password, doLogOut)
+          this.loginservice.superAdminAuthenticate(this.userID, this.encryptPassword, doLogOut)
           .subscribe(response => {
             if (response.isAuthenticated) {
               if (response.previlegeObj.length === 0) {
@@ -186,7 +189,7 @@ export class loginContentClass implements OnInit {
         }
         else {
 
-        this.loginservice.authenticateUser(this.userID, this.password, doLogOut).subscribe(
+        this.loginservice.authenticateUser(this.userID, this.encryptPassword, doLogOut).subscribe(
           (response: any) => {
             sessionStorage.setItem('authToken', response.key);
             this.successCallback(response);
