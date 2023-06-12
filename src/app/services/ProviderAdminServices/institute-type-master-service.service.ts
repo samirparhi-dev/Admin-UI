@@ -115,7 +115,7 @@ export class InstituteTypeMasterService {
     console.log(response.json().data, 'role service file success response');
     let result = [];
     result = response.json().data.filter(function (item) {
-      if (item.serviceID === 3 || item.serviceID === 1 || item.serviceID === 6 || item.serviceID === 2 || item.serviceID === 4) {
+      if (item.serviceID === 3 || item.serviceID === 11 || item.serviceID === 1 || item.serviceID === 6 || item.serviceID === 2 || item.serviceID === 4) {
         return item;
       }
     });

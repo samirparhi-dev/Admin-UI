@@ -55,7 +55,7 @@ export class VillageMasterService {
             .catch(this.handleError);
 
     }
-    getTaluks(districtId: number) {
+    getTaluks(districtId) {
         return this._http.get(this._getTalukListURL + districtId)
             .map(this.handleSuccess)
             .catch(this.handleError);
@@ -97,6 +97,13 @@ export class VillageMasterService {
 
     handleError(error: Response | any) {
         return Observable.throw(error);
+    }
+
+    getVillage(requestObj) {
+        return this._http.post(this._getBranchListURL, requestObj)
+            .map(this.handleSuccess)
+            .catch(this.handleError);
+
     }
 
 }

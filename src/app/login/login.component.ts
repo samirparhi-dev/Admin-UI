@@ -6,6 +6,7 @@ import { ConfirmationDialogsService } from './../services/dialog/confirmation.se
 import { HttpServices } from "../services/http-services/http_services.service";
 import { Subscription } from 'rxjs/Subscription';
 import { InterceptedHttp } from 'app/http.interceptor';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'login-component',
@@ -24,14 +25,27 @@ export class loginContentClass implements OnInit {
   commitDetailsPath: any = "assets/git-version.json";
   version: any;
   commitDetails: any;
+  key: any;
+  iv: any;
+  SALT: string = "RandomInitVector";
+  Key_IV: string = "Piramal12Piramal";
+  encPassword: string;
+  _keySize: any;
+  _ivSize: any;
+  _iterationCount: any;
   logoutUserFromPreviousSessionSubscription: Subscription;
+  encryptPassword: any;
 
   constructor(public loginservice: loginService,
     public router: Router,
     private alertMessage: ConfirmationDialogsService,
     public dataSettingService: dataService,
     public HttpServices: HttpServices,
-    private httpService: InterceptedHttp) { };
+    private httpService: InterceptedHttp) {
+      this._keySize = 256;
+      this._ivSize = 128;
+      this._iterationCount = 1989;
+     };
 
   ngOnInit() {
     this.httpService.dologoutUsrFromPreSession(false);
@@ -56,9 +70,59 @@ export class loginContentClass implements OnInit {
       this.successCallback(res);
     }
   }
+
+  get keySize() {
+    return this._keySize;
+  }
+
+  set keySize(value) {
+    this._keySize = value;
+  }
+
+
+
+  get iterationCount() {
+    return this._iterationCount;
+  }
+
+
+
+  set iterationCount(value) {
+    this._iterationCount = value;
+  }
+
+
+
+  generateKey(salt, passPhrase) {
+    return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+      keySize: this.keySize / 32,
+      iterations: this._iterationCount
+    })
+  }
+
+
+
+  encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+    let key = this.generateKey(salt, passPhrase);
+    let encrypted = CryptoJS.AES.encrypt(plainText, key, {
+      iv: CryptoJS.enc.Hex.parse(iv)
+    });
+    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+  }
+
+  encrypt(passPhrase, plainText) {
+    let iv = CryptoJS.lib.WordArray.random(this._ivSize / 8).toString(CryptoJS.enc.Hex);
+    let salt = CryptoJS.lib.WordArray.random(this.keySize / 8).toString(CryptoJS.enc.Hex);
+    let ciphertext = this.encryptWithIvSalt(salt, iv, passPhrase, plainText);
+    return salt + iv + ciphertext;
+  }
+
   login(userId: any, password: any, doLogout) {
+    this.encryptPassword = this.encrypt(this.Key_IV, password)
     if (userId.toLowerCase() === 'SUPERADMIN'.toLowerCase()) {
-      this.loginservice.superAdminAuthenticate(userId, password, doLogout)
+      
+      // this.loginservice.superAdminAuthenticate(userId, password, doLogout)
+      this.loginservice.superAdminAuthenticate(userId, this.encryptPassword, doLogout)
         .subscribe(response => {
           if (response.isAuthenticated) {
             if (response.previlegeObj.length === 0) {
@@ -81,7 +145,7 @@ export class loginContentClass implements OnInit {
         });
 
     } else {
-      this.loginservice.authenticateUser(userId, password, doLogout).subscribe(
+      this.loginservice.authenticateUser(userId, this.encryptPassword, doLogout).subscribe(
         (response: any) => {
           sessionStorage.setItem('authToken', response.key);
           this.successCallback(response);
@@ -101,7 +165,7 @@ export class loginContentClass implements OnInit {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.response) {
         if (this.userID.toLowerCase() === 'SUPERADMIN'.toLowerCase()){
-          this.loginservice.superAdminAuthenticate(this.userID, this.password, doLogOut)
+          this.loginservice.superAdminAuthenticate(this.userID, this.encryptPassword, doLogOut)
           .subscribe(response => {
             if (response.isAuthenticated) {
               if (response.previlegeObj.length === 0) {
@@ -125,7 +189,7 @@ export class loginContentClass implements OnInit {
         }
         else {
 
-        this.loginservice.authenticateUser(this.userID, this.password, doLogOut).subscribe(
+        this.loginservice.authenticateUser(this.userID, this.encryptPassword, doLogOut).subscribe(
           (response: any) => {
             sessionStorage.setItem('authToken', response.key);
             this.successCallback(response);
