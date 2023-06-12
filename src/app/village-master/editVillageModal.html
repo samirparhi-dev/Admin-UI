@@ -42,12 +42,15 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container class="width100">
-        <input mdInput placeholder="Government VillageID" [(ngModel)]="govVillageID" name="govVillageID" maxlength="6" myMobileNumber>
+        <input mdInput placeholder="Village LGD Code" [(ngModel)]="govVillageID" name="govVillageID" #VillageLGD="ngModel" maxlength="6" myMobileNumber required>
+        <md-hint>
+          <span class="error_text" *ngIf="!VillageLGD.valid  && ( VillageLGD.dirty || VillageLGD.touched)">Please enter valid Village LGD Code</span>
+        </md-hint>
       </md-input-container>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 m-t-10">
       <md-input-container class="width100">
-        <input mdInput placeholder="Government Sub DistrictID" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
+        <input mdInput placeholder="Sub District LGD Code" [(ngModel)]="govSubDistrictID" name="govSubDistrictID" maxlength="6"
           myMobileNumber>
       </md-input-container>
     </div>
