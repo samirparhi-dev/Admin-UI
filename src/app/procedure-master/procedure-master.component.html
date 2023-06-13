@@ -28,7 +28,7 @@
                 <div class="row" *ngIf="saveEditMode">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-t-20">
                         <md-input-container style="width: 100% ">
-                            <input id="procedure-name" required mdInput usernameValidator  placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
+                            <input id="procedure-name" required mdInput usernameWithSpaceValidator  placeholder="Procedure Name" [style.width]="'100%'" formControlName="name" maxlength="99"
                                 (change)="procedureUnique()">
                             <md-hint >
                                 <span class="error_text" *ngIf="procedureForm.get('name').hasError('required') && procedureForm.get('name').touched">Procedure Name is required</span>

@@ -16,7 +16,7 @@ export class ConfigService {
     // private adminBaseUrl: String = `http://localhost:8082/`;
     private superadminBaseURL: String = `${adminIP}adminapi-v1.0/`;
     // private superadminBaseURL: String = `http://localhost:8082/`;
-    private _commonBaseURL: String = `${commonIP}commonapi-v1.0/`;
+    private _commonBaseURL: String = `${commonIP}commonapi-v1.2/`;
     // private _commonBaseURL: String = `http://localhost:8080/`;
 
     getCommonBaseURL() {

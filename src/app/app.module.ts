@@ -280,6 +280,7 @@ import { DeviceIdMasterComponent} from './device-id-master/device-id-master.comp
 import { FetosenseDeviceIdMasterService } from './services/ProviderAdminServices/fetosense-device-id-master-service.service';
 import { VanDeviceIdMappingComponent } from './van-device-id-mapping/van-device-id-mapping.component';
 import { userNameDirective } from './directives/userName/userName.directive';
+import { userNameWithSpaceDirective } from './directives/userName/userNameWithSpace.directive';
 import { textareaDirective } from './directives/textarea/textArea.directive';
 import { SmsTemplateDirective } from './directives/smsTemplate/smsTemplate.directive';
 import { QuestionnaireDirective } from './directives/questionnaire/questionnaire.directive';
@@ -376,6 +377,7 @@ import { BlockSubcenterMappingService } from './services/ProviderAdminServices/b
     DeviceIdMasterComponent,
     VanDeviceIdMappingComponent,
     userNameDirective,
+    userNameWithSpaceDirective,
     textareaDirective,
     SmsTemplateDirective,
     QuestionnaireDirective,
