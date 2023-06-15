@@ -31,7 +31,7 @@ jobs:
             npm install typescript@2.7.2 --save-dev
             npm install
             npm run build
-            mvn clean install
+            
             
             
             
