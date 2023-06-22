@@ -191,8 +191,7 @@ export class CategorySubcategoryProvisioningComponent implements OnInit {
         this.showWellBeingFlag = false;
         if (this.selected_service_id === 1) {
           this.subServices = response.filter(function (item) {
-            if (item.subServiceName.toUpperCase() === "Information Service".toUpperCase() ||
-              item.subServiceName.toUpperCase() === "Counselling Service".toUpperCase()) {
+            if (item.subServiceName!= null && item.subServiceName!= undefined) {
               return item;
             }
           });
