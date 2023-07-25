@@ -149,7 +149,7 @@ export class DrugGroupComponent implements OnInit {
       this.drugGroupObj.drugGroup = (values.drugGroup !== undefined && values.drugGroup !== null) ? values.drugGroup.trim() : null;
       this.drugGroupObj.drugGroupDesc = (values.drugGroupDesc !== undefined && values.drugGroupDesc !== null) ? values.drugGroupDesc.trim() : null;
 
-      this.drugGroupObj.serviceProviderID = this.service_provider_id.trim;
+      this.drugGroupObj.serviceProviderID = this.service_provider_id;
       this.drugGroupObj.createdBy = this.createdBy;
       this.checkDuplicates(this.drugGroupObj);
   }
@@ -234,13 +234,21 @@ export class DrugGroupComponent implements OnInit {
     this.stateID = "";
   }
   editDrugGroup(drug) {
-    this.drugGroupID = (drug.drugGroupID !== undefined && drug.drugGroupID !== null) ? drug.drugGroupID.trim() : null;
-    this.drugGroup = (drug.drugGroup !== undefined && drug.drugGroup !== null) ? drug.drugGroup.trim() : null;
-    this.drugGroupDesc = (drug.drugGroupDesc !== undefined && drug.drugGroupDesc !== null) ?  drug.drugGroupDesc.trim() : null;
+    this.drugGroupID = ( drug.drugGroupID !==null && drug.drugGroupID !==undefined) ? parseInt(drug.drugGroupID):null;
+    this.drugGroup = (typeof drug.drugGroup === 'string' && drug.drugGroup.trim() !== '') ? drug.drugGroup.trim() : null;
+    this.drugGroupDesc = (typeof drug.drugGroupDesc === 'string' && drug.drugGroupDesc.trim() !== '') ?  drug.drugGroupDesc.trim() : null;
     //this.stateID = drug.m_providerServiceMapping.state.stateID;
     this.editable = true;
     this.drugGroupToEdit = drug.drugGroup;
   }
+  // editDrugGroup(drug) {
+  //   this.drugGroupID = (drug.drugGroupID !== undefined && drug.drugGroupID !== null) ? drug.drugGroupID.trim() : null;
+  //   this.drugGroup = (drug.drugGroup !== undefined && drug.drugGroup !== null) ? drug.drugGroup.trim() : null;
+  //   this.drugGroupDesc = (drug.drugGroupDesc !== undefined && drug.drugGroupDesc !== null) ?  drug.drugGroupDesc.trim() : null;
+  //   //this.stateID = drug.m_providerServiceMapping.state.stateID;
+  //   this.editable = true;
+  //   this.drugGroupToEdit = drug.drugGroup;
+  // }
 
   updateDrugGroup(drugGroup) {
     if (drugGroup.drugGroup !== undefined && drugGroup.drugGroup !== null && (drugGroup.drugGroup.trim() === "")) {
@@ -250,7 +258,7 @@ export class DrugGroupComponent implements OnInit {
 
     else {
       this.dataObj = {};
-      this.dataObj.drugGroupID = (this.drugGroupID !== undefined && this.drugGroupID !== null) ? this.drugGroupID.trim() : null;
+      this.dataObj.drugGroupID = (this.drugGroupID !== undefined && this.drugGroupID !== null) ? this.drugGroupID : null;
       this.dataObj.drugGroup = (drugGroup.drugGroup !== undefined && drugGroup.drugGroup !== null) ? drugGroup.drugGroup.trim() : null;
       this.dataObj.drugGroupDesc = (drugGroup.drugGroupDesc !== undefined && drugGroup.drugGroupDesc !== null) ? drugGroup.drugGroupDesc.trim() : null;
       //this.dataObj.providerServiceMapID = drugGroup.providerServiceMapID;
