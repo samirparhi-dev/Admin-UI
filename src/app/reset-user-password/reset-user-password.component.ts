@@ -24,6 +24,7 @@ import { dataService } from '../services/dataService/data.service';
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { NgForm } from '@angular/forms';
 import { ResetUserPasswordService } from '../services/ProviderAdminServices/reset-user-password.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-reset-user-password',
@@ -43,12 +44,24 @@ export class ResetUserPasswordComponent implements OnInit {
 
   tableMode: Boolean = false;
 
+  SALT: string = "RandomInitVector";
+  Key_IV: string = "Piramal12Piramal";
+  encPassword: string;
+  _keySize: any;
+  _ivSize: any;
+  _iterationCount: any;
+  encryptPassword: any;
+
   /*Patter*/
   passwordPattern = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
   constructor(private alertService: ConfirmationDialogsService,
     private data_service: dataService,
-    private resetUserPasswordService: ResetUserPasswordService) { }
+    private resetUserPasswordService: ResetUserPasswordService) { 
+      this._keySize = 256;
+      this._ivSize = 128;
+      this._iterationCount = 1989;
+    }
 
   ngOnInit() {
     this.serviceProviderID = this.data_service.service_providerID;
@@ -79,11 +92,61 @@ export class ResetUserPasswordComponent implements OnInit {
 
   }
 
+  get keySize() {
+    return this._keySize;
+  }
+
+  set keySize(value) {
+    this._keySize = value;
+  }
+
+
+
+  get iterationCount() {
+    return this._iterationCount;
+  }
+
+
+
+  set iterationCount(value) {
+    this._iterationCount = value;
+  }
+
+
+
+  generateKey(salt, passPhrase) {
+    return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+    hasher: CryptoJS.algo.SHA512,
+      keySize: this.keySize / 32,
+      iterations: this._iterationCount
+    })
+  }
+
+
+
+  encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+    let key = this.generateKey(salt, passPhrase);
+    let encrypted = CryptoJS.AES.encrypt(plainText, key, {
+      iv: CryptoJS.enc.Hex.parse(iv)
+    });
+    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+  }
+
+  encrypt(passPhrase, plainText) {
+    let iv = CryptoJS.lib.WordArray.random(this._ivSize / 8).toString(CryptoJS.enc.Hex);
+    let salt = CryptoJS.lib.WordArray.random(this.keySize / 8).toString(CryptoJS.enc.Hex);
+    let ciphertext = this.encryptWithIvSalt(salt, iv, passPhrase, plainText);
+    return salt + iv + ciphertext;
+  }
+
+
   /*Reset Password*/
   resetPassword(userName, password) {
     let resetObj = {
       "userName": userName,
-      "password": password,
+      "password": this.encrypt(this.Key_IV, password),
+      // "password": password,
+      // this.encryptPassword = this.encrypt(this.Key_IV, password)
       //"statusID": 1
     }
     console.log("resetObj", resetObj);
