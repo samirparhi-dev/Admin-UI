@@ -27,6 +27,7 @@ import { ConfigService } from '../services/config/config.service';
 
 import { ConfirmationDialogsService } from '../services/dialog/confirmation.service';
 import { loginService } from '../services/loginService/login.service';
+import * as CryptoJS from 'crypto-js';
 
 declare let jQuery: any;
 
@@ -50,6 +51,9 @@ export class SetSecurityQuestionsComponent implements OnInit {
     private alertService: ConfirmationDialogsService,
     public _loginService: loginService
   ) {
+    this._keySize = 256;
+    this._ivSize = 128;
+    this._iterationCount = 1989;
 
   }
 
@@ -86,6 +90,16 @@ export class SetSecurityQuestionsComponent implements OnInit {
   passwordSection: boolean = false;
   questionsection: boolean = true;
   uname: any = this.getUserData.uname;
+  key: any;
+  iv: any;
+  SALT: string = "RandomInitVector";
+  Key_IV: string = "Piramal12Piramal";
+  _keySize: any;
+  _ivSize: any;
+  _iterationCount: any;
+  encryptedConfirmPwd : any;
+  password: any;
+
 
   switch() {
     this.passwordSection = true;
@@ -243,10 +257,60 @@ export class SetSecurityQuestionsComponent implements OnInit {
   newpwd: any;
   confirmpwd: any;
 
+  get keySize() {
+		return this._keySize;
+	  }
+	
+	  set keySize(value) {
+		this._keySize = value;
+	  }
+	
+	
+	
+	  get iterationCount() {
+		return this._iterationCount;
+	  }
+	
+	
+	
+	  set iterationCount(value) {
+		this._iterationCount = value;
+	  }
+	
+	
+	
+	  generateKey(salt, passPhrase) {
+		return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+		  hasher: CryptoJS.algo.SHA512,
+		  keySize: this.keySize / 32,
+		  iterations: this._iterationCount
+		})
+	  }
+	
+	
+	
+	  encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+		let key = this.generateKey(salt, passPhrase);
+		let encrypted = CryptoJS.AES.encrypt(plainText, key, {
+		  iv: CryptoJS.enc.Hex.parse(iv)
+		});
+		return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+	  }
+	
+	  encrypt(passPhrase, plainText) {
+		let iv = CryptoJS.lib.WordArray.random(this._ivSize / 8).toString(CryptoJS.enc.Hex);
+		let salt = CryptoJS.lib.WordArray.random(this.keySize / 8).toString(CryptoJS.enc.Hex);
+		let ciphertext = this.encryptWithIvSalt(salt, iv, passPhrase, plainText);
+		return salt + iv + ciphertext;
+	  }
+
+
   updatePassword(new_pwd) {
+    this.password = this.encrypt(this.Key_IV, new_pwd)
+		this.encryptedConfirmPwd=this.encrypt(this.Key_IV, this.confirmpwd)
     if (new_pwd === this.confirmpwd) {
       this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/saveUserSecurityQuesAns', this.dataArray)
-        .subscribe((response: any) => this.handleQuestionSaveSuccess(response, new_pwd),
+        .subscribe((response: any) => this.handleQuestionSaveSuccess(response, this.encryptedConfirmPwd),
           (error: any) => {
             this.handleQuestionSaveError(error);
             console.log(error, 'error');
@@ -258,11 +322,11 @@ export class SetSecurityQuestionsComponent implements OnInit {
   }
 
 
-  handleQuestionSaveSuccess(response, new_pwd) {
+  handleQuestionSaveSuccess(response, encryptedConfirmPwd) {
     if(response && response.statusCode == 200 && response.data.transactionId !== undefined && response.data.transactionId !== null) {
     console.log('saved questions', response);
     this.http_calls.securityData(this.configService.getCommonBaseURL() + 'user/setForgetPassword',
-      { 'userName': this.uname, 'password': new_pwd, 'transactionId': response.data.transactionId })
+      { 'userName': this.uname, 'password': this.password, 'transactionId': response.data.transactionId })
       .subscribe((response: any) => this.successCallback(response),
         (error: any) => {
           this.errorCallback(error)
